@@ -19,4 +19,4 @@ public class RecentlyView {
 	private String userId;
 	
 
-}
+} 

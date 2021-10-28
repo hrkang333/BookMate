@@ -11,4 +11,4 @@ public class FavWriterController {
 	@Autowired
 	private FaveWriterService faveWriterService;
 
-}
+} 

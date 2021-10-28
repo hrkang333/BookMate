@@ -26,6 +26,6 @@ public class FullRefund {
 	private int refundParcel; //환불배송비 
 	private int refundPoint;//환불포인트
 	private int refundMethod; //환불 수단 
-	
+	 
 
 }

@@ -15,3 +15,4 @@ public class RecentlyViewImpl implements RecentlyViewService {
 	@Autowired
 	private RecentlyViewDao recentlyViewDao;
 }
+ 

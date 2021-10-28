@@ -12,3 +12,4 @@ public class RecentlyViewController {
 	private RecentlyViewService recentlyViewService;
 
 }
+ 

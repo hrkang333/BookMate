@@ -12,7 +12,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class FavWriter {
-
+ 
 	private int writerNo;
 	private String bookIsbn;
 	private String userId;
