@@ -63,7 +63,7 @@
 	</tx:advice>
 	<aop:config>
 		<aop:pointcut
-			expression="execution(* com.kh.spring..*ServiceImpl*.*(..))"
+			expression="execution(* com.kh.bookmate..*ServiceImpl*.*(..))"
 			id="serviceMethod" />
 		<aop:advisor id="transactionAdvisor"
 			pointcut-ref="serviceMethod" advice-ref="txAdvice" />
