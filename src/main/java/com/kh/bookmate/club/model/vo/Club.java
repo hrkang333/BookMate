@@ -25,12 +25,19 @@ public class Club {
 	private int times;
 	private int onoffLine;
 	private int clubCapacity;
-	private Date startDate;
-	private Date endDate;
+	private Date clubStartDate;
+	private Date clubEndDate;
 	private String bkName;
 	private String bkWriter;
 	private String bkPublisher;
 	private Date createDate;
 	private int condition;
 	private String status;
+	//10.29 추가 (HOST, HOSTTIME 테이블 삭제)
+	private String hostName;
+	private String hostComment;
+	private String hstartDate;
+	private String hendDate;
+	private String hwhatTodo;
+	private String category;
 }

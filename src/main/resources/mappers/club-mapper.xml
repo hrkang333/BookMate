@@ -4,24 +4,53 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="clubMapper">
 
-<!-- 	<resultMap id="clubResultSet" type="Club">
-		<id column="club_no" property="boardNo"/>
-		<result column="board_title" property="boardTitle"/>
-		<result column="board_writer" property="boardWriter"/>
-		<result column="board_content" property="boardContent"/>
-		<result column="origin_name" property="originName"/>
-		<result column="change_name" property="changeName"/>
-		<result column="count" property="count"/>
-		<result column="create_date" property="createDate"/>
-		<result column="status" property="status"/>
-	</resultMap> -->
+  <resultMap id="clubResultSet" type="Club">
+		<id column="CLUB_NO" property="clubNo"/>
+		<result column="REF_PLACE_NO" property="placeNo"/>
+		<result column="USER_ID" property="userId"/>
+		<result column="CLUB_TITLE" property="clubTitle"/>
+		<result column="INTRO" property="intro"/>
+		<result column="ACTIVITY" property="activity"/>
+		<result column="WANT" property="want"/>
+		<result column="NOTWANT" property="notwant"/>
+		<result column="TIMES" property="times"/>
+		<result column="ONOFF_LINE" property="onoffLine"/>
+		<result column="CLUB_CAPACITY" property="clubCapacity"/>
+		<result column="CSTART_DATE" property="clubStartDate"/>
+		<result column="CEND_DATE" property="clubEndDate"/>
+		<result column="BK_NAME" property="bkName"/>
+		<result column="BK_WRITER" property="bkWriter"/>
+		<result column="BK_PUBLISHER" property="bkPublisher"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="CONDITION" property="condition"/>
+		<result column="STATUS" property="status"/>
+		<result column="HOST_COMMENT" property="hostName"/>
+		<result column="HOST_NAME" property="hostComment"/>
+		<result column="HSTART_DATE" property="hstartDate"/>
+		<result column="HEND_DATE" property="hendDate"/>
+		<result column="HWHAT_TODO" property="hwhatTodo"/>
+	</resultMap>
 	
 
 	<select id="checkHost" resultType="_int">
 		SELECT COUNT(*)
-		FROM CLUB_HOST
+		FROM CLUB
 		WHERE HOST_NAME = #{hostName}
 	</select>
+	
+	<insert id="saveStep1_1" parameterType="Club">
+		INSERT INTO
+		CLUB(CLUB_NO, USER_ID, HOST_NAME, HOST_COMMENT, HSTART_DATE, HEND_DATE, HWHAT_TODO)
+		VALUES(SEQ_CNO.NEXTVAL, #{userId}, #{hostName}, #{hostComment},#{hstartDate}, #{hendDate}, #{hwhatTodo})
+		<selectKey keyProperty="clubNo" resultType="_int" order="AFTER">
+			SELECT SEQ_CNO.CURRVAL FROM DUAL
+		</selectKey>
+	</insert>
+	
+	<insert id="saveStep1_2" parameterType="ClubAttachment">
+		INSERT INTO CLUB_ATTACHMENT
+		VALUES(SEQ_CANO.NEXTVAL, SEQ_CNO.CURRVAL, #{originalName}, #{changeName}, #{fileType})
+	</insert>
 
 
 </mapper>
