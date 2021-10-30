@@ -4,8 +4,13 @@
  * */
 package com.kh.bookmate.club.model.service;
 
+import com.kh.bookmate.club.model.vo.Club;
+import com.kh.bookmate.club.model.vo.ClubAttachment;
+
 public interface ClubService {
 
 	int checkHost(String hostName);
+
+	void saveStep1(Club c, ClubAttachment ca);
 
 }
