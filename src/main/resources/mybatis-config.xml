@@ -3,26 +3,36 @@
 <configuration>
 
 	<settings>
-		<setting name="jdbcTypeForNull" value="NULL"/>
+		<setting name="jdbcTypeForNull" value="NULL" />
 	</settings>
 
 	<typeAliases>
-		
-		<typeAlias type="com.kh.bookmate.book.model.vo.Book" alias="Book"/>
-		<typeAlias type="com.kh.bookmate.club.model.vo.Club" alias="Club"/>
-		<typeAlias type="com.kh.bookmate.club.model.vo.ClubAttachment" alias="ClubAttachment"/>
-		<typeAlias type="com.kh.bookmate.user.model.vo.User" alias="User"/>
-		
-	</typeAliases>
 
+		<typeAlias type="com.kh.bookmate.book.model.vo.Book"
+			alias="Book" />
+		<typeAlias type="com.kh.bookmate.club.model.vo.Club"
+			alias="Club" />
+		<typeAlias type="com.kh.bookmate.club.model.vo.ClubHost"
+			alias="ClubHost" />
+		<typeAlias type="com.kh.bookmate.club.model.vo.ClubHostTime"
+			alias="ClubHostTime" />
+		<typeAlias type="com.kh.bookmate.user.model.vo.User" alias="myPage"/>
+		<typeAlias type="com.kh.bookmate.user.model.vo.User" alias="User"/>
+	</typeAliases>
+	<typeHandlers>
+		<typeHandler
+			handler="org.apache.ibatis.type.LocalDateTypeHandler" />
+	</typeHandlers>
 
 	<mappers>
-		
-		<mapper resource="/mappers/book-mapper.xml"/>
-		<mapper resource="/mappers/club-mapper.xml"/>
+
+		<mapper resource="/mappers/book-mapper.xml" />
+		<mapper resource="/mappers/club-mapper.xml" />
+		<mapper resource="/mappers/myPage-mapper.xml"/>
 		<mapper resource="/mappers/user-mapper.xml"/>
-		
 	</mappers>
+
+
 
 
 </configuration>

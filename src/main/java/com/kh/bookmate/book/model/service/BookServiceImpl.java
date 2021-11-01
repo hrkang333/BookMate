@@ -30,4 +30,16 @@ public class BookServiceImpl implements BookService{
 		return book;
 	}
 
+	@Override
+	public void insertBook(Book book) {
+		
+		int reulst = bookDao.insertBook(sqlSession,book);
+		
+		if(reulst < 0 ) {
+			throw new RuntimeException("도서 입고 오류");
+						
+		}
+		
+	}
+
 }

@@ -12,6 +12,11 @@ public class BookDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("bookMapper.selectBook",bookISBN);
 	}
+
+	public int insertBook(SqlSession sqlSession, Book book) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("bookMapper.insertBook",book);
+	}
 	
 	
 	
