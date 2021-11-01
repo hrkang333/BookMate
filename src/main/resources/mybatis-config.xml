@@ -11,6 +11,7 @@
 		<typeAlias type="com.kh.bookmate.book.model.vo.Book" alias="Book"/>
 		<typeAlias type="com.kh.bookmate.club.model.vo.Club" alias="Club"/>
 		<typeAlias type="com.kh.bookmate.club.model.vo.ClubAttachment" alias="ClubAttachment"/>
+		<typeAlias type="com.kh.bookmate.user.model.vo.User" alias="myPage"/>
 	</typeAliases>
 
 
@@ -18,6 +19,8 @@
 		
 		<mapper resource="/mappers/book-mapper.xml"/>
 		<mapper resource="/mappers/club-mapper.xml"/>
+		<mapper resource="/mappers/myPage-mapper.xml"/>
+		
 	</mappers>
 
 
