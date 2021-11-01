@@ -7,15 +7,9 @@
 	</settings>
 
 	<typeAliases>
-
-		<typeAlias type="com.kh.bookmate.book.model.vo.Book"
-			alias="Book" />
-		<typeAlias type="com.kh.bookmate.club.model.vo.Club"
-			alias="Club" />
-		<typeAlias type="com.kh.bookmate.club.model.vo.ClubHost"
-			alias="ClubHost" />
-		<typeAlias type="com.kh.bookmate.club.model.vo.ClubHostTime"
-			alias="ClubHostTime" />
+		<typeAlias type="com.kh.bookmate.book.model.vo.Book" alias="Book" />
+		<typeAlias type="com.kh.bookmate.club.model.vo.Club" alias="Club" />
+		<typeAlias type="com.kh.bookmate.club.model.vo.ClubHost" alias="ClubHost" />
 		<typeAlias type="com.kh.bookmate.user.model.vo.User" alias="myPage"/>
 		<typeAlias type="com.kh.bookmate.user.model.vo.User" alias="User"/>
 	</typeAliases>
