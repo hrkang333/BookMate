@@ -1,6 +1,9 @@
 package com.kh.bookmate.book.model.vo;
 
+import java.time.LocalDate;
 import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class Book {
 	
@@ -14,14 +17,15 @@ public class Book {
 	private int bookCategory;
 	private int bookSubCategory;
 	private String bookPublisher;
-	private Date bookPublicheDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date bookPublisheDate;
 	private int bookPrice;
 	private String bookContents;
 	private String bookIntro;
 	private String bookDetailImg;
 	private int bookStock;
 	private int bookStatud;
-	private int bookRating;
+	private Double bookRating;
 	private int bookRatingCount;
 	private int bookReviewCount;
 	
@@ -32,8 +36,8 @@ public class Book {
 
 	public Book(String bookISBN, String bookMainImg, String bookTitle, String bookSubTitle, String bookWriter,
 			String bookTranslator, int bookCategory, int bookSubCategory, String bookPublisher,
-			Date bookPublicheDate, int bookPrice, String bookContents, String bookIntro, String bookDetailImg,
-			int bookStock, int bookStatud, int bookRating, int bookRatingCount, int bookReviewCount) {
+			Date bookPublisheDate, int bookPrice, String bookContents, String bookIntro, String bookDetailImg,
+			int bookStock, int bookStatud, Double bookRating, int bookRatingCount, int bookReviewCount) {
 		super();
 		this.bookISBN = bookISBN;
 		this.bookMainImg = bookMainImg;
@@ -44,7 +48,7 @@ public class Book {
 		this.bookCategory = bookCategory;
 		this.bookSubCategory = bookSubCategory;
 		this.bookPublisher = bookPublisher;
-		this.bookPublicheDate = bookPublicheDate;
+		this.bookPublisheDate = bookPublisheDate;
 		this.bookPrice = bookPrice;
 		this.bookContents = bookContents;
 		this.bookIntro = bookIntro;
@@ -61,7 +65,7 @@ public class Book {
 	
 	public Book(String bookISBN, String bookMainImg, String bookTitle, String bookSubTitle, String bookWriter,
 			String bookTranslator, int bookCategory, int bookSubCategory, String bookPublisher,
-			Date bookPublicheDate, int bookPrice, String bookContents, String bookIntro, String bookDetailImg,
+			Date bookPublisheDate, int bookPrice, String bookContents, String bookIntro, String bookDetailImg,
 			int bookStock) {
 		super();
 		this.bookISBN = bookISBN;
@@ -73,7 +77,7 @@ public class Book {
 		this.bookCategory = bookCategory;
 		this.bookSubCategory = bookSubCategory;
 		this.bookPublisher = bookPublisher;
-		this.bookPublicheDate = bookPublicheDate;
+		this.bookPublisheDate = bookPublisheDate;
 		this.bookPrice = bookPrice;
 		this.bookContents = bookContents;
 		this.bookIntro = bookIntro;
@@ -154,11 +158,11 @@ public class Book {
 	}
 
 	public Date getBookPublicheDate() {
-		return bookPublicheDate;
+		return bookPublisheDate;
 	}
 
-	public void setBookPublicheDate(Date bookPublicheDate) {
-		this.bookPublicheDate = bookPublicheDate;
+	public void setBookPublicheDate(Date bookPublisheDate) {
+		this.bookPublisheDate = bookPublisheDate;
 	}
 
 	public int getBookPrice() {
@@ -209,11 +213,11 @@ public class Book {
 		this.bookStatud = bookStatud;
 	}
 
-	public int getBookRating() {
+	public Double getBookRating() {
 		return bookRating;
 	}
 
-	public void setBookRating(int bookRating) {
+	public void setBookRating(Double bookRating) {
 		this.bookRating = bookRating;
 	}
 
@@ -238,7 +242,7 @@ public class Book {
 		return "BookVo [bookISBN=" + bookISBN + ", bookMainImg=" + bookMainImg + ", bookTitle=" + bookTitle
 				+ ", bookSubTitle=" + bookSubTitle + ", bookWriter=" + bookWriter + ", bookTranslator=" + bookTranslator
 				+ ", bookCategory=" + bookCategory + ", bookSubCategory=" + bookSubCategory + ", bookPublisher="
-				+ bookPublisher + ", bookPublicheDate=" + bookPublicheDate + ", bookPrice=" + bookPrice
+				+ bookPublisher + ", bookPublicheDate=" + bookPublisheDate + ", bookPrice=" + bookPrice
 				+ ", bookContents=" + bookContents + ", bookIntro=" + bookIntro + ", bookDetailImg=" + bookDetailImg
 				+ ", bookStock=" + bookStock + ", bookStatud=" + bookStatud + ", bookRating=" + bookRating
 				+ ", bookRatingCount=" + bookRatingCount + ", bookReviewCount=" + bookReviewCount + "]";
