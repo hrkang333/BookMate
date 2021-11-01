@@ -3,23 +3,32 @@
 <configuration>
 
 	<settings>
-		<setting name="jdbcTypeForNull" value="NULL"/>
+		<setting name="jdbcTypeForNull" value="NULL" />
 	</settings>
 
 	<typeAliases>
-		
-		<typeAlias type="com.kh.bookmate.book.model.vo.Book" alias="Book"/>
-		<typeAlias type="com.kh.bookmate.club.model.vo.Club" alias="Club"/>
-		<typeAlias type="com.kh.bookmate.club.model.vo.ClubHost" alias="ClubHost"/>
-		<typeAlias type="com.kh.bookmate.club.model.vo.ClubHostTime" alias="ClubHostTime"/>
-	</typeAliases>
 
+		<typeAlias type="com.kh.bookmate.book.model.vo.Book"
+			alias="Book" />
+		<typeAlias type="com.kh.bookmate.club.model.vo.Club"
+			alias="Club" />
+		<typeAlias type="com.kh.bookmate.club.model.vo.ClubHost"
+			alias="ClubHost" />
+		<typeAlias type="com.kh.bookmate.club.model.vo.ClubHostTime"
+			alias="ClubHostTime" />
+	</typeAliases>
+	<typeHandlers>
+		<typeHandler
+			handler="org.apache.ibatis.type.LocalDateTypeHandler" />
+	</typeHandlers>
 
 	<mappers>
-		
-		<mapper resource="/mappers/book-mapper.xml"/>
-		<mapper resource="/mappers/club-mapper.xml"/>
+
+		<mapper resource="/mappers/book-mapper.xml" />
+		<mapper resource="/mappers/club-mapper.xml" />
 	</mappers>
+
+
 
 
 </configuration>

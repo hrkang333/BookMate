@@ -7,4 +7,6 @@ public interface BookService {
 
 	Book selectBook(String bookISBN);
 
+	void insertBook(Book book);
+
 }
