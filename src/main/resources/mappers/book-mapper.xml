@@ -7,7 +7,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 <select id="selectBook" resultType="Book">
-SELECT * FROM BOOK WHRER BOOKISBN = #{bookISBN}
+SELECT * FROM BOOK WHERE BOOKISBN = #{bookISBN}
 </select>
 
+<insert id="insertBook" parameterType="Book">
+INSERT INTO BOOK VALUES (#{bookISBN},#{bookMainImg},#{bookTitle},#{bookSubTitle},#{bookWriter},#{bookTranslator}
+						,#{bookCategory},#{bookSubCategory},#{bookPublisher},#{bookPublicheDate},#{bookPrice}
+						,#{bookContents},#{bookIntro},#{bookDetailImg},#{bookStock},DEFAULT,#{bookRating},#{bookRatingCount},DEFAULT)
+
+</insert>
+
 </mapper>
+

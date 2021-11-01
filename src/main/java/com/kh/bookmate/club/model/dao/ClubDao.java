@@ -4,11 +4,14 @@
  * */
 package com.kh.bookmate.club.model.dao;
 
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.bookmate.club.model.vo.Club;
 import com.kh.bookmate.club.model.vo.ClubAttachment;
+import com.kh.bookmate.club.model.vo.ClubTime;
 
 @Repository
 public class ClubDao {
@@ -28,6 +31,31 @@ public class ClubDao {
 	public int saveStep1(SqlSessionTemplate sqlSession, ClubAttachment ca) {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("clubMapper.saveStep1_2", ca);
+	}
+
+	public int saveStep2(SqlSessionTemplate sqlSession, Club c) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("clubMapper.saveStep2_1", c);
+	}
+
+	public int saveStep2(SqlSessionTemplate sqlSession, ClubAttachment ca) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("clubMapper.saveStep2_2", ca);
+	}
+
+	public int saveStep3(SqlSessionTemplate sqlSession, Club c) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("clubMapper.saveStep3_1", c);
+	}
+
+	public int saveStep3(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("clubMapper.saveStep3_2", map);
+	}
+
+	public int insertClub(SqlSessionTemplate sqlSession, Club c) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("clubMapper.insertClub", c);
 	}
 
 }

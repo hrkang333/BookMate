@@ -1,16 +1,24 @@
 /* 파일 설명 : 컨트롤러(독서모임-개설신청,수정,삭제)
  * 담당자  : 황서연
- * 수정날짜 : 2021.10.30
+ * 수정날짜 : 2021.11.01
  * 수정사항 : 독서모임 개설신청 db 연동중
  * 수정필요사항 : loginUser 세션에 넣어줘야 함
  * 			  message로 상황 알려줘야 함
+ *            step2에서 정원 typemismatch 오류남 default=0으로해야겠다.
+ *            시간같은 정해진 갯수가 없는 값 -> 삭제 후 insert 다시하나?
+ *            오프라인 장소(club_place) 추가해줘야 함
+ *            clubTime 테이블 status 컬럼 삭제해도 되지 않을까?
  * */
 package com.kh.bookmate.club.controller;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,10 +34,13 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kh.bookmate.club.model.service.ClubService;
 import com.kh.bookmate.club.model.vo.Club;
 import com.kh.bookmate.club.model.vo.ClubAttachment;
-import com.kh.bookmate.user.model.vo.User;
+import com.kh.bookmate.club.model.vo.ClubTime;
 
 @Controller
 public class ClubController {
+	
+	
+	private int keyClubNo;  //insert할때 단계 건너뛸 때 clubNo전역변수로 저장해두고 쓰려고 만듦/currval은 한번만 쓰고
 
 	@Autowired
 	private ClubService clubService;
@@ -83,10 +94,10 @@ public class ClubController {
 		
 		ca = preSaveFile(ca, file, request, imageType);
 
-		clubService.saveStep1(c, ca);
+		keyClubNo = clubService.saveStep1(c, ca);  //1단계에서 insert한 clubNo
 		
 		//다중 매핑 (10.30) 후 url판별하여 분기처리
-		if(request.getServletPath().equals("saveStep1.cl")) {
+		if(request.getServletPath().equals("/saveStep1.cl")) {
 			return "index";
 		}else {
 			return "club/insertForm2";
@@ -134,40 +145,74 @@ public class ClubController {
 		}
 		return changeName;
 	}
-	
-	//2.5임시임시
-	@RequestMapping("insertForm2.cl")
-	public String insertClub() {
-		
-		return "club/insertForm2";
-	}
-	
+
 	//3. 개설신청 2단계 저장 후 다음단계로
 	@RequestMapping(value={"saveStep2.cl", "insertClub2.cl"}) 
 	public String saveStep2(HttpServletRequest request, @ModelAttribute Club c,
 							@RequestParam(name="coverPhoto", required=false) MultipartFile file) {
 		ClubAttachment ca = null;
-		int imageType = 2;
-		
+		int imageType = 2;	
 		ca = preSaveFile(ca, file, request, imageType);
 
-		//clubService.saveStep2(c, ca);
+		c.setClubNo(keyClubNo);  //앞 단계에서 넣은 ClubNo값 넣기
+		ca.setClubNo(keyClubNo);
+		
+		clubService.saveStep2(c, ca);
 
-		System.out.println("=========테스트===========");
-		System.out.println(c.getCategory());
-		System.out.println(c.getClubTitle());
-		System.out.println(c.getIntro());
-		System.out.println(c.getActivity());
-		System.out.println(c.getWant());
-		System.out.println(c.getNotwant());
-		System.out.println(c.getClubCapacity());
-
-		if(request.getServletPath().equals("saveStep2.cl")) {
+		if(request.getServletPath().equals("/saveStep2.cl")) {
 			return "index";
 		}else {
 			return "club/insertForm3";
 		}
 	}
 	
+	//4. 개설신청 2단계 저장 후 다음단계로
+	@RequestMapping(value={"saveStep3.cl", "insertClub3.cl"}) 
+	public String saveStep3(HttpServletRequest request, @ModelAttribute Club c, @ModelAttribute ClubTime ct,
+							@RequestParam(name="bookPhoto", required=false) MultipartFile file) { 
+		ClubAttachment ca = null;
+		int imageType = 3;	
+		ca = preSaveFile(ca, file, request, imageType);
+
+		c.setClubNo(keyClubNo);  //앞 단계에서 넣은 ClubNo값 넣기
+		ca.setClubNo(keyClubNo);
+		
+		String[] dates = ct.getClubDate().split(",");
+		String[] startTimes = ct.getStartTime().split(",");
+		String[] endTimes = ct.getEndTime().split(",");
+				
+		List<ClubTime> list = new ArrayList<ClubTime>();
+		
+		//clubTime 객체에 값들 set하고 list에 add하기 -> mapper에서 foreach로 insert하기
+		for(int i=0; i<dates.length; i++) {
+			ClubTime inputCt = new ClubTime();
+			inputCt.setClubNo(keyClubNo);
+			inputCt.setClubDate(dates[i]);
+			inputCt.setStartTime(startTimes[i]);
+			inputCt.setEndTime(endTimes[i]);
+			
+			list.add(inputCt);
+		}
+		
+		System.out.println(list.toString());
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+
+		if(request.getServletPath().equals("/saveStep3.cl")) {
+			clubService.saveStep3(c, ca, map);
+			return "index";  //msg 다르게 처리해야한다.
+		}else {
+			clubService.insertClub(c, ca, map);  //condition컬럼 값 2로 바꾼다.
+			return "index";  //msg 다르게 처리해야한다.
+		}
+	}
 	
+	//5. 조회하기
+	@RequestMapping("mypage3.cl")
+	public String manageMyClub() {
+		return "clubMypage/mypage3";
+	}
+		
+		
 }

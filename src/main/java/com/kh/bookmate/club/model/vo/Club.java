@@ -22,8 +22,8 @@ public class Club {
 	private String activity;
 	private String want;
 	private String notwant;
-	private int times;
-	private int onoffLine;
+	private String times;
+	private String onoffLine;
 	private int clubCapacity;
 	private Date clubStartDate;
 	private Date clubEndDate;

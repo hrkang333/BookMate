@@ -38,6 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE HOST_NAME = #{hostName}
 	</select>
 	
+	<!-- insert 후 key 값 가져온다. -->
 	<insert id="saveStep1_1" parameterType="Club">
 		INSERT INTO
 		CLUB(CLUB_NO, USER_ID, HOST_NAME, HOST_COMMENT, HSTART_DATE, HEND_DATE, HWHAT_TODO)
@@ -53,4 +54,83 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 
 
+	<update id="saveStep2_1" parameterType="Club">
+		UPDATE CLUB
+		SET CATEGORY=#{category}, CLUB_TITLE=#{clubTitle},
+			INTRO=#{intro}, ACTIVITY=#{activity}, WANT=#{want}, NOTWANT=#{notwant},
+			CLUB_CAPACITY=#{clubCapacity}
+		WHERE CLUB_NO=#{clubNo} AND STATUS='Y'
+	</update>
+	
+	<insert id="saveStep2_2" parameterType="ClubAttachment">
+		INSERT INTO CLUB_ATTACHMENT
+		VALUES(SEQ_CANO.NEXTVAL, #{clubNo}, #{originalName}, #{changeName}, #{fileType})
+	</insert>
+	
+	<update id="saveStep3_1" parameterType="Club">
+		UPDATE CLUB
+		SET ONOFF_LINE=#{onoffLine}, TIMES=#{times},
+			CSTART_DATE=#{clubStartDate}, CEND_DATE=#{clubEndDate}, 
+			BK_NAME=#{bkName}, BK_WRITER=#{bkWriter}, BK_PUBLISHER=#{bkPublisher}
+		WHERE CLUB_NO=#{clubNo} AND STATUS='Y'
+	</update>
+	
+	<!-- foreach 시도1 : oracle에서는 적용 안됨
+	<insert id="saveStep3_2" parameterType="java.util.Map">
+        INSERT INTO CLUB_TIME(CLUB_TIME_NO, REF_CLUB_NO, CLUB_DATE, START_TIME, END_TIME)
+        VALUES
+        <foreach collection="list" item="item" separator=" , ">
+            (SEQ_CTNO.NEXTVAL,#{item.clubNo},#{item.clubDate},#{item.startTime}, #{item.endTime})
+        </foreach>
+ 	</insert> -->
+
+	<!-- foreach 시도2 : sequence 적용 안됨
+	<insert id="saveStep3_2" parameterType="java.util.Map">
+		<foreach collection="list" item="item"
+			open="INSERT ALL" close="SELECT * FROM DUAL">
+			INTO CLUB_TIME(
+			
+			CLUB_TIME_NO,
+			REF_CLUB_NO,
+			CLUB_DATE,
+			START_TIME,
+			END_TIME
+			
+			)VALUES(
+			
+			SEQ_CTNO.NEXTVAL,
+			#{item.clubNo},
+			#{item.clubDate},
+			#{item.startTime},
+			#{item.endTime}
+			
+			)
+		</foreach>
+	</insert>  -->
+	
+	<!-- foreach 시도3 : 성공! -->
+	<insert id="saveStep3_2" parameterType="java.util.Map">
+		INSERT INTO CLUB_TIME(CLUB_TIME_NO,REF_CLUB_NO,CLUB_DATE,START_TIME,END_TIME)
+		SELECT SEQ_CTNO.NEXTVAL, A.* 
+		FROM(
+			<foreach item="item" collection="list" separator="UNION ALL ">
+				select 
+				#{item.clubNo} as REF_CLUB_NO,
+				#{item.clubDate} as CLUB_DATE,
+				#{item.startTime} as START_TIME,
+				#{item.endTime} as END_TIME
+				from dual
+			</foreach>) A
+	</insert>
+	
+	<update id="insertClub" parameterType="Club">
+		UPDATE CLUB
+		SET ONOFF_LINE=#{onoffLine}, TIMES=#{times},
+			CSTART_DATE=#{clubStartDate}, CEND_DATE=#{clubEndDate}, 
+			BK_NAME=#{bkName}, BK_WRITER=#{bkWriter}, BK_PUBLISHER=#{bkPublisher},
+			CONDITION=2
+		WHERE CLUB_NO=#{clubNo} AND STATUS='Y'
+	</update>
+	
+	
 </mapper>
