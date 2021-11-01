@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="userMapper">
+
+	<resultMap id="userResultSet" type="User">
+		<id property="userId" column="user_ID"/>
+		<result property="userName" column="user_NAME"/>
+		<result property="userPwd" column="user_PWD"/>
+		<result property="gender" column="GENDER"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="phone" column="PHONE"/>
+		<result property="email" column="EMAIL"/>
+		<result property="enroll" column="ENROLL"/>
+		<result property="point" column="POINT"/>		
+		<result property="status" column="STATUS"/>
+	</resultMap>
+
+	<select id="loginUser" parameterType="User" resultMap="userResultSet">
+		<!--   암호화 전 
+		select * from users where user_id=#{userId} and user_pwd=#{userPwd} and status='Y'-->
+		
+		<!--암호화 후 -->
+		select * from USERS
+		where user_id=#{userId} and status='Y' 
+		
+		
+	</select>
+	
+	<insert id="insertUser" parameterType="User">
+		insert into USERS
+		values(#{userId}, #{userName}, #{userPwd}, #{gender}, #{address}, #{phone}, #{email}, sysdate, default, default)
+		
+		
+	</insert>
+	
+
+	
+	<delete id="deleteUser" parameterType="string">
+		update USERS set status='N' where user_id=#{userId}
+	</delete>
+	<select id="selectUser" resultMap="userResultSet" parameterType="string">SELECT * FROM USERS WHERE USER_ID = #{userId} 
+	</select>
+	<update id="updatePwd">UPDATE USERS SET USER_PWD=#{userPwd} WHERE USER_ID=#{userId} </update>
+	
+	<select id="findId" parameterType="User" resultMap="userResultSet">
+	select user_Id from users where user_name=#{userName} and email=#{email}
+	</select>
+</mapper>

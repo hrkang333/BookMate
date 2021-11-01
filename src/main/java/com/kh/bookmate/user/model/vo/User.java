@@ -23,6 +23,7 @@ public class User {
 	private String phone;
 	private String email;
 	private String enroll;
+	private String status;
 	private int point;
 	
 

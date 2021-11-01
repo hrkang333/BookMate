@@ -1,5 +1,15 @@
 package com.kh.bookmate.user.model.service;
 
-public class UserService {
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.kh.bookmate.user.model.vo.User;
+
+public interface UserService {
+
+	void insertUser(User u);
+
+	User loginUser(BCryptPasswordEncoder bCryptPasswordEncoder, User u);
+
+	User findId(User u);
 
 }
