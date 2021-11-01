@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Setter
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString
 public class Seller {
 
@@ -26,4 +26,6 @@ public class Seller {
 	private Date seller_enrollDate;
 	private Date seller_modifyDate;
 	private String status;
+	
+	
 }
