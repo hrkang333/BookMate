@@ -1,5 +1,102 @@
 package com.kh.bookmate.user.controller;
 
-public class UserController {
+import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
+
+import com.kh.bookmate.user.model.service.UserService;
+import com.kh.bookmate.user.model.vo.User;
+
+@SessionAttributes("loginUser") 
+@Controller
+public class UserController {
+	@Autowired 
+	private UserService userService;
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	@RequestMapping(value="/")
+	public String home() {
+		return "index";
+	}
+	@RequestMapping(value="home.us")
+	public String logo() {
+		return "index";
+	}
+	
+	@RequestMapping(value="login.me")
+	public String login() {
+		return "user/login";
+	}
+	
+	@RequestMapping(value="register.me")
+	public String register() {
+		return "user/register";
+	}
+	@RequestMapping(value="findId.us")
+	public String findId() {
+		return "user/findId";
+	}
+	
+	@RequestMapping(value="insert.us")
+	public String insertMember(@ModelAttribute User u, @RequestParam("post") String post,
+														 @RequestParam("address1") String address1,
+														 @RequestParam("address2") String address2,
+														 			HttpSession session	){
+		u.setAddress(post+"/"+address1+"/"+address2); 
+		
+		System.out.println("암호화전 : " +u.getUserPwd());
+		String encPwd = bCryptPasswordEncoder.encode(u.getUserPwd());
+		System.out.println("암호화후 : " +encPwd);
+
+		u.setUserPwd(encPwd);
+		userService.insertUser(u);
+		
+		session.setAttribute("msg", "회원가입성공");
+		System.out.println(u);
+		return "redirect:/";
+	
+		
+	}
+	
+	@RequestMapping(value="login.us") 
+	public String loginMember(User u, Model model) {
+
+		
+	User loginUser;
+
+		loginUser = userService.loginUser(bCryptPasswordEncoder, u);
+		System.out.println(loginUser);
+		model.addAttribute("loginUser", loginUser);
+		return "redirect:/";
+
+
+	}
+	@RequestMapping(value="logout.us")
+	public String logoutMember(SessionStatus status) {
+		status.setComplete(); //현재 컨트롤러에 @SessionAttributes에 의해 저장된 오브젝트 제거
+		return "redirect:/";
+	}
+	@RequestMapping(value="findId.me")
+	public String findId(@ModelAttribute User u, Model model) {
+		
+	
+	User findId = userService.findId(u);
+	if (!findId.equals("")) {
+		model.addAttribute("findId", findId);
+		return "redirect:/";
+	} else {
+		model.addAttribute("msg", "실패!");
+		return "redirect:/";
+
+		}
+	}
 }
