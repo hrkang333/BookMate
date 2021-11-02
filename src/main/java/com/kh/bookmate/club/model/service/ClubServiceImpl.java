@@ -5,6 +5,7 @@
  * */
 package com.kh.bookmate.club.model.service;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -90,6 +91,14 @@ public class ClubServiceImpl implements ClubService {
 		if(result1 < 0 || result2 < 0 || result3 < 0) {
 			//오류처리
 		}		
+	}
+
+	@Override
+	public ArrayList<Club> selectList3(String userId) {
+
+		ArrayList<Club> list = clubDao.selectList3(sqlSession, userId);
+		
+		return list;
 	}
 
 	

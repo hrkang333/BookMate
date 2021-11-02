@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -112,82 +114,98 @@
     <section class="section-margin--small mb-5" style="margin-top: 50px;">
         <div class="container">
             <div class="row">
-                <div class="col-xl-3 col-lg-4 col-md-5"></div>
-                <div class="col-xl-9 col-lg-8 col-md-7" style="margin-bottom: 50px;">
-                    <h3 style="font-size: 30px; ">내 독서모임 관리</h3>
-                </div>
+                <h3 style="font-size: 30px; ">  내 독서모임 관리</h3>
             </div>
-            <div class="row">
-                <div class="col-xl-3 col-lg-4 col-md-5">
-                    <div class="sidebar-categories">
-                        <div class="head">마이페이지</div>
-                        <ul class="main-categories">
-                            <li class="common-filter">
-                                <!-- <form action="#"> -->
-                                <ul>
-                                    <li class="filter-list"><a class="menus" href="#">독서모임 신청 내역</a></li>
-                                    <li class="filter-list"><a class="menus" href="#">찜한 독서모임</a></li>
-                                    <li class="filter-list"><a class="menus" href="#">내 독서모임 관리</a></li>
-                                </ul>
-                                <!-- </form> -->
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-xl-9 col-lg-8 col-md-7">
-
-                    <!-- Start Filter Bar -->
-
-                    <!-- <div class="filter-bar d-flex flex-wrap align-items-center">
-                        <div class="sorting">
-                            <select>
-                              <option value="1">후기 작성 필요</option>
-                              <option value="1">종료된 모임</option>
-                              <option value="1">취소한 모임</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <div class="input-group filter-bar-search">
-                                <input type="text" placeholder="Search">
-                                <div class="input-group-append">
-                                    <button type="button"><i class="ti-search"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-
-                    <!-- End Filter Bar -->
-
+            <div class="row">  
+                <div class="col-xl-12 col-lg-12 col-md-12">
                     <!-- Start Best Seller -->
-                    <section class="lattest-product-area pb-40 category-list">
-
+                    <section>
+						<form id="mypageForm3" action="" method="post">
                         <div style="float: right;">
-                            <button class="button button-login" style="margin-bottom: 20px;">수정하기</button>
-                            <button class="button button-login" style="margin-bottom: 20px;">삭제하기</button>
+                            <button class="button button-login" style="margin-bottom: 20px;" onclick="updateClub()">수정하기</button>
+                            <button class="button button-login" style="margin-bottom: 20px;" onclick="deleteClub()">삭제하기</button>
                         </div>
+                        
+                        <script>
+                        	//선택한 독서모임 multiple 삭제하기
+                        	function deleteClub(){
+                        		if(confirm){
+                                	if($("input:checkBox[name=clubNo]:checked").length == 0){
+                                		alert("삭제할 독서모임을 선택해주세요!!");
+                                	}else{
+                                		$("#mypageForm3").attr("action", "deleteClub3.cl");
+                                	}
+                                }
+                        	}
+                            
+                        </script>
+                        
                         <table id="applyList" class="table table-hover" align="center">
                             <thead>
                                 <tr>
-                                    <th>선택</th>
-                                    <th>카테고리</th>
-                                    <th>독서모임명</th>
-                                    <th>온/오프라인</th>
-                                    <th>날짜</th>
-                                    <th>신청인원/정원</th>
-                                    <th>상태</th>
+                                    <th style="width:5%;">선택</th>
+                                    <th style="width:10%;">카테고리</th>
+                                    <td style="width:10%;">호스트명</td>
+                                    <th style="width:25%;">독서모임명</th>
+                                    <th style="width:10%;">온/오프라인</th>
+                                    <th style="width:17%;">날짜</th>
+                                    <!-- <th>신청인원/정원</th> -->
+                                    <th style="width:10%;">상태</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><input type="checkBox"></td>
-                                    <td>인문/과학/심리</td>
-                                    <td>데일리 전집 읽기-헤르만 헤세편</td>
-                                    <td>온라인</td>
-                                    <td>2021-10-21 20:00 - 22:00 <br>2021-11-05 20:00 - 22:00</td>
-                                    <td>0/5</td>
-                                    <td>임시저장</td>
-                                </tr>
+                            	<c:forEach items="${list}" var="c">
+	                                <tr>
+	                                    <td><input name="clubNo" type="checkBox" value="${c.clubNo}"></td>
+	                                    <td>${c.category}</td>
+	                                    <td>${c.hostName}</td>
+	                                    <td>${c.clubTitle}</td>
+	                                    <td>${c.onoffLine}</td>
+	                                    
+	                                    <td>
+		                                    <c:forEach items="${c.clubTimes}" var="ct">
+		                                    	<c:if test="${ !empty ct.clubDate}">
+		                                    		${fn:substring(ct.clubDate,0,11)} | ${ct.startTime} ~ ${ct.endTime}<br>
+		                                    	</c:if>
+		                                    	<c:if test="${ empty ct.clubDate}">
+		                                    		${ct.clubDate} | ${ct.startTime} ~ ${ct.endTime}<br>
+		                                    	</c:if>
+			                                </c:forEach>
+		                                </td>
+	                                    
+	                                    <c:choose>
+	                                    	<c:when test="${c.condition eq 1}">
+	                                    		<td>임시저장</td>
+	                                    	</c:when>
+	                                    	<c:when test="${c.condition eq 2}">
+	                                    		<td>검수 중</td>
+	                                    	</c:when>
+	                                    	<c:when test="${c.condition eq 3}">
+	                                    		<td>반려</td>
+	                                    	</c:when>
+	                                    	<c:when test="${c.condition eq 4}">
+	                                    		<td>모집 중</td>
+	                                    	</c:when>
+	                                    	<c:when test="${c.condition eq 5}">
+	                                    		<td>마감</td>
+	                                    	</c:when>
+	                                    	<c:when test="${c.condition eq 6}">
+	                                    		<td>모임종료</td>
+	                                    	</c:when>
+	                                    </c:choose>
+	                                </tr>
+                                </c:forEach>
+                                
+                                
+                                <!--<tr>
+	                               <td><input type="checkBox"></td>
+	                               <td>인문/과학/심리</td>
+	                               <td>데일리 전집 읽기-헤르만 헤세편</td>
+	                               <td>온라인</td>
+	                               <td>2021-10-21 20:00 - 22:00 <br>2021-11-05 20:00 - 22:00</td>
+	                               <td>0/5</td>  ==> 일단 지우기
+	                               <td>임시저장</td>
+	                            </tr> -->
                             </tbody>
                         </table>
 
@@ -217,8 +235,7 @@
 
                         </div>
 
-
-
+						</form>
                     </section>
                     <!-- End Best Seller -->
                 </div>

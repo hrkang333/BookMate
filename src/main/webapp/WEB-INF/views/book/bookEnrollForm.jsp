@@ -70,19 +70,35 @@ function submitCheck(){
 	}
 	
 	
-	if(confirm("도서 부제목과 역자가 없음인지 다시 한번 확인해주세요. 도서를 입고 하시겠습니까?")){
+	if(confirm("도서 부제목과 역자를 다시 한번 확인해주세요. 도서를 입고 하시겠습니까?")){
 		
 		$('#bookEnroll').submit();
 	}
 	
 }
 
-function textareaCheck(target,limit) {
-	var engNum = /^[a-zA-Z0-9]*$/;
-
-	console.log($('#'+target).val().length)
-	if($('#'+target).val().length >= limit){
-	alert(limit+"자 이내로 입력해주세요.")
+function checkText(obj) {
+	var checkText = $('#'+obj).val();
+	var tempText = "";
+	var limitByte = 3600;
+	var checkByte = 0;
+	
+	for(var i = 0 ; i < checkText.length ; i++){
+		var charOne = checkText.charAt(i);
+		if(escape(charOne).length > 4){
+			checkByte += 3;
+			console.log(checkByte)
+		}else{
+			checkByte += 1;
+			console.log(checkByte)
+		}
+		if(checkByte < limitByte){
+		tempText += charOne;
+		}else{
+			alert("한글 1200자(공백포함), 영어 3600자(공백포함) 으로 입력 해주세요");
+			$('#'+obj).val(tempText);
+			return false;
+		}
 	}
 }
 </script>
@@ -114,9 +130,9 @@ function textareaCheck(target,limit) {
 도서 출간일 : <input type="date" name="publicheDate" data-name = "도서 출간일"><br><br>
 도서 정가 : <input type="number" name="bookPrice" data-name = "도서 정가"><br><br>
 도서 목차 : <br>
-<textarea rows="30" cols="100" name="bookContents" id="bookContents" maxlength="2000" placeholder="2000자 내로 작성해 주세요" onkeyup="textareaCheck('bookContents',2000)" data-name = "도서 목차"></textarea><br><br>
+<textarea rows="30" cols="100" name="bookContents" id="bookContents" placeholder="한글 1200자(공백포함), 영어 3600자(공백포함) 내로 작성해 주세요" onkeyup="checkText('bookContents')" data-name = "도서 목차"></textarea><br><br>
 도서 소개 : <br>
-<textarea rows="30" cols="100" name="bookIntro" id="bookIntro" maxlength="3000" placeholder="3000자 내로 작성해 주세요" onkeyup="textareaCheck('bookIntro',3000)" data-name = "도서 소개"></textarea><br><br>
+<textarea rows="30" cols="100" name="bookIntro" id="bookIntro"  placeholder="한글 1200자(공백포함), 영어 3600자(공백포함) 내로 작성해 주세요" onkeyup="checkText('bookIntro')" data-name = "도서 소개"></textarea><br><br>
 도서 상세소개이미지(png와 jpg만 가능) : <input type="file" name="bookDetailImgFile" onchange="imgCheck(this,'bookDetailImg')" id="bookDetailImg" data-name = "도서 입고수"><br><br>
 도서 입고 수 : <input type="number" name="bookStock"><br><br>
 <input type="button" onclick="submitCheck()" value="도서 입고"> 
@@ -131,5 +147,11 @@ function textareaCheck(target,limit) {
 
 </form>
 <br><br><br><br><br><br><br><br>
+<form>
+<table>
+
+<tr><td><input type="hidden"></td></tr>
+</table>
+</form>
 </body>
 </html>

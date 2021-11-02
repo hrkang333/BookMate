@@ -22,6 +22,8 @@
                 $('#orderQuntity').val(quntity-1)
             }
         }
+        
+       
 
     </script>
 </head>
@@ -34,17 +36,21 @@
             <img src="${pageContext.servletContext.contextPath }/resources/images/book_img/${requestScope.book.bookMainImg}" alt="" style="width: 300px; height: auto;">
         </div>
         <div><br><c:set var="price" value="${requestScope.book.bookPrice}"/>
-            <span style="font-size: 30px; font-weight: bold;"><c:out value="${requestScope.book.bookTitle}"/></span><br><br><br>
+            <span style="font-size: 30px; font-weight: bold;"><c:out value="${requestScope.book.bookTitle}"/></span>
+            &nbsp;<c:if test="${requestScope.book.bookCategory==2}"><span style="color: red;">[eBook]</span></c:if><br>
+            <c:if test="${requestScope.book.bookSubTitle!='없음'}">
+            <span><c:out value="${requestScope.book.bookSubTitle}"/></span><br></c:if><br><br>
             <span>ISBN : <c:out value="${requestScope.book.bookISBN}"/></span><br><br>
-            <span><c:out value="${requestScope.book.bookWriter}"/> 지음 | 역자 <c:out value="${requestScope.book.bookTranslator}"/>  | <c:out value="${requestScope.book.bookPublisher}"/> 출판 | <fmt:formatDate value="${requestScope.book.bookPublicheDate}" pattern="yyyy년 MM월 dd일"/> 출간</span><br><br>
+            <span><c:out value="${requestScope.book.bookWriter}"/> 지음 | 
+            	<c:if test="${requestScope.book.bookTranslator!='없음'}">역자 <c:out value="${requestScope.book.bookTranslator}"/>  | </c:if><c:out value="${requestScope.book.bookPublisher}"/> 출판 | <fmt:formatDate value="${requestScope.book.bookPublicheDate}" pattern="yyyy년 MM월 dd일"/> 출간</span><br><br>
             <span>평점 : <c:out value="${requestScope.book.bookRating}"/>/10 (<c:out value="${requestScope.book.bookRatingCount}"/>명 참여) | 리뷰 <c:out value="${requestScope.book.bookReviewCount}"/>개</span><br><br>
             <span>국내 베스트 xx위 | 소설 베스트 xx위</span><br><br>
             <hr><br><br>
             <span>정가 : <fmt:formatNumber type="number" value="${price}"/> 원</span><br><br>
             <span>판매가 : <a style="font-size: 25px; color:crimson"><fmt:formatNumber type="number" value="${price*0.9}" /></a>원 [10%↓ <fmt:formatNumber type="number" value="${price*0.1}"/>원 할인]</span><br><br>
             <span>배송비 : 0 원</span>&nbsp;&nbsp;&nbsp;<button id="" >배송비 안내</button><br><br>
-            <span>혜택 : [기본혜택] <fmt:formatNumber type="number" value="${price*0.05}"/> pt(5% 기본적립)<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[리뷰작성] <fmt:formatNumber type="number" value="${price*0.02}"/> pt(2% 추가적립)</span><br><br>
+            <span>혜택 : [기본혜택] <fmt:formatNumber type="number" value="${price*0.05}"/>pt (5% 기본적립)<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[리뷰작성] <fmt:formatNumber type="number" value="${price*0.02}"/>pt (2% 추가적립)</span><br><br>
             
 
         </div>
@@ -62,7 +68,7 @@
         </div>
             <div>
                 <button>장바구니</button> <button>바로주문</button>
-
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="bookEnrollForm.book">도서 입고로 이동</a>
             </div>
         </div><br><br>
         <hr>
