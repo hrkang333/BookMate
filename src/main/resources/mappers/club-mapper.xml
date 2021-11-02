@@ -24,12 +24,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="CREATE_DATE" property="createDate"/>
 		<result column="CONDITION" property="condition"/>
 		<result column="STATUS" property="status"/>
-		<result column="HOST_COMMENT" property="hostName"/>
-		<result column="HOST_NAME" property="hostComment"/>
+		<result column="HOST_COMMENT" property="hostComment"/>
+		<result column="HOST_NAME" property="hostName"/>
 		<result column="HSTART_DATE" property="hstartDate"/>
 		<result column="HEND_DATE" property="hendDate"/>
 		<result column="HWHAT_TODO" property="hwhatTodo"/>
+		<result column="CATEGORY" property="category"/>
+		
+		<!-- mypage3 읽기용 -->
+		<!-- 속성들 1)property:필드명  2)ofType:필드의클래스위치   -->
+		<collection property="clubTimes" ofType="com.kh.bookmate.club.model.vo.ClubTime">
+			<id column="CLUB_TIME_NO" property="timeNo" jdbcType="INTEGER" />
+			<result column="CLUB_DATE" property="clubDate" jdbcType="DATE" />
+			<result column="START_TIME" property="startTime" jdbcType="VARCHAR" />
+			<result column="END_TIME" property="endTime" jdbcType="VARCHAR" />
+		</collection>
 	</resultMap>
+	
 	
 
 	<select id="checkHost" resultType="_int">
@@ -132,5 +143,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE CLUB_NO=#{clubNo} AND STATUS='Y'
 	</update>
 	
+	
+	<select id="selectList3" resultMap="clubResultSet">
+		SELECT HOST_NAME, CLUB_NO, CATEGORY, CLUB_TITLE, ONOFF_LINE, CLUB_CAPACITY, CONDITION, B.CLUB_TIME_NO, B.CLUB_DATE, B.START_TIME, B.END_TIME
+		FROM CLUB A
+		LEFT JOIN CLUB_TIME B
+		ON A.CLUB_NO = B.REF_CLUB_NO
+		WHERE USER_ID=#{userId}
+		ORDER BY CLUB_NO DESC	
+	</select>
 	
 </mapper>

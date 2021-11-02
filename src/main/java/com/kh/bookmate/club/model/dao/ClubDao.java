@@ -4,6 +4,7 @@
  * */
 package com.kh.bookmate.club.model.dao;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.bookmate.club.model.vo.Club;
 import com.kh.bookmate.club.model.vo.ClubAttachment;
-import com.kh.bookmate.club.model.vo.ClubTime;
 
 @Repository
 public class ClubDao {
@@ -56,6 +56,11 @@ public class ClubDao {
 	public int insertClub(SqlSessionTemplate sqlSession, Club c) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("clubMapper.insertClub", c);
+	}
+
+	public ArrayList<Club> selectList3(SqlSessionTemplate sqlSession, String userId) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("clubMapper.selectList3", userId);
 	}
 
 }
