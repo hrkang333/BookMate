@@ -105,11 +105,10 @@
 						<div class="sorting mr-auto">
 
 							<br>
-							<h2>현재 회원님의 잔여 포인트는</h2>
+							<h2>현재 <c:out value="${loginUser.userName}"/>님의 잔여 포인트는</h2>
 							<br>
-
 						</div>
-						<div> <c:out value="${loginUser.point}" point 입니다/></div>
+ 						<h4> <c:out value="${loginUser.point}"/>point 입니다</h4>
 					</div>
 
 

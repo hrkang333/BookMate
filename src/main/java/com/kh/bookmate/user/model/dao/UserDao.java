@@ -25,4 +25,19 @@ public class UserDao {
 		return sqlSession.selectOne("userMapper.findId", u);
 	}
 
+	public int updateUser(SqlSessionTemplate sqlSession, User user) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("userMapper.updateUser", user);
+	}
+
+	public User selectUserPoint(SqlSessionTemplate sqlSession, User user) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("userMapper.selectUserPoint", user);
+	}
+
+	public int deleteUser(SqlSessionTemplate sqlSession, String userId) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("userMapper.deleteUser", userId);
+	}
+
 }

@@ -51,7 +51,7 @@
                   <li class="common-filter">
                     <form action="#">
                       <ul>
-                        <li>내 정보 수정하기 </li>
+                        <li><a href="myPage.me">내 정보 수정하기 </a> </li>
                         <li>내 비밀번호 변경하기 </li>
                      </ul>
                     </form>
@@ -96,6 +96,7 @@
                         <li class="filter-list">  최근 조회한 상품 </li>
                         <li class="filter-list"> 나의 찜목록  </li>
                         <li class="filter-list"> 나의 리뷰 조회  </li>
+                        <li class="filter-list"> <a href="myPoint.me">나의 포인트 조회</a></li>
                     </ul>
                   </form>
                 </div>
