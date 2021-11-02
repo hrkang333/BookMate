@@ -56,7 +56,7 @@ public class BookController {
 
 	@RequestMapping("bookEnroll.book")
 	public String bookEnroll(Book book,@DateTimeFormat(pattern = "yyyy-MM-dd") Date publicheDate,
-			@RequestParam("bookMainImgFile") MultipartFile bookMainImgFile, MultipartFile bookDetailImgFile, HttpServletRequest request) {
+			@RequestParam("bookMainImgFile") MultipartFile bookMainImgFile, MultipartFile bookDetailImgFile, HttpServletRequest request, Model mo) {
 		
 		String bookMainImg = changeFileNameAndSave(request, bookMainImgFile);
 		String bookDetailImg = changeFileNameAndSave(request, bookDetailImgFile);
@@ -67,15 +67,23 @@ public class BookController {
 		book.setBookPublicheDate(publicheDate);
 	
 		bookService.insertBook(book);
+		
+		Book bookDetail = bookService.selectBook(book.getBookISBN());
+		
+		mo.addAttribute("book", bookDetail);
+		
+		
 
-		return "book/bookEnrollForm";
+		return "book/bookDetail";
+
+//		return "book/bookEnrollForm";
 
 	}
 
 	public String changeFileNameAndSave(HttpServletRequest request, MultipartFile file) {
 
 		String originName = file.getOriginalFilename();
-		String path = request.getSession().getServletContext().getRealPath("resources") + "\\images\\book_img\\";
+		String path = request.getSession().getServletContext().getRealPath("resources") + File.separator+"images"+File.separator+"book_img"+File.separator;
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 		String currentTime = sdf.format(new Date());
 
