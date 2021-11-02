@@ -37,4 +37,37 @@ public class UserServiceImpl implements UserService {
 		User findId = userDao.findId(sqlSession, u);
 		return findId;
 	}
+
+	// 회원정보 수정
+	@Override
+	public User updateUser(User user) throws Exception {
+		int result = userDao.updateUser(sqlSession, user);
+
+		if (result > 0) {
+			User loginUser = userDao.loginUser(sqlSession, user);
+			return loginUser;
+		} else {
+			throw new Exception("회원 수정 실패 ");
+		}
+	}
+
+	//회원 포인트 조회 
+	@Override
+	public User selectUserPoint(User user) {
+		User selectUserPoint = userDao.selectUserPoint(sqlSession, user);
+		return selectUserPoint;
+	}
+
+	//회원 탈퇴 
+	@Override
+	public void deleteUser(String userId){
+		
+		int result = userDao.deleteUser(sqlSession, userId);
+		
+//		if(result < 0) {
+//			throw new Exception("회원삭제 실패 ");
+//		}
+		
+		
+	}
 }

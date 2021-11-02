@@ -73,7 +73,7 @@
                 <!-- 로그인 후  -->
                 <c:if test="${ !empty sessionScope.loginUser }">
 	                <label>${ sessionScope.loginUser.userName }님 환영합니다</label> &nbsp;&nbsp;
-	                <a href="myPage.me">마이페이지</a>
+	                <a href="myPageOrderList.me">마이페이지</a>
 	                <a href="logout.us">로그아웃</a>
 	                
 	               	 <a data-toggle="modal" data-target="#updatePwdModal">비밀번호 변경</a> 

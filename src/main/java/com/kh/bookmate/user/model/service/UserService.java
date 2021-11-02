@@ -12,4 +12,10 @@ public interface UserService {
 
 	User findId(User u);
 
+	User updateUser(User user) throws Exception;
+
+	User selectUserPoint(User user);
+
+	void deleteUser(String userId) ;
+
 }
