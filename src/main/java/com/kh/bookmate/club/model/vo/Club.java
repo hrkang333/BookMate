@@ -1,6 +1,7 @@
 package com.kh.bookmate.club.model.vo;
 
 import java.sql.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,7 +32,7 @@ public class Club {
 	private String bkWriter;
 	private String bkPublisher;
 	private Date createDate;
-	private int condition;
+	private int condition; 
 	private String status;
 	//10.29 추가 (HOST, HOSTTIME 테이블 삭제)
 	private String hostName;
@@ -40,4 +41,6 @@ public class Club {
 	private String hendDate;
 	private String hwhatTodo;
 	private String category;
+	//11.02 추가(clubTime 테이블 )
+	private List<ClubTime> clubTimes;
 }
