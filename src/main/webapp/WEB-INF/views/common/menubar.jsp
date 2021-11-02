@@ -64,8 +64,11 @@
 	                <a href="register.me">회원가입</a> | 
 	                
 	                <br>
-	                <a href="login.me"">로그인</a> 
-	                <a href="findId.us">아이디찾기</a>
+	                <a href="login.me"">로그인</a>  |
+	                  <br>
+	                <a href="findId.us">아이디찾기</a> |
+	                  <br>
+	                <a href="findPwd.us">비밀번호찾기</a> |
 	                
 	                
                 </c:if>
@@ -76,8 +79,7 @@
 	                <a href="myPage.me">마이페이지</a>
 	                <a href="logout.us">로그아웃</a>
 	                
-	               	 <a data-toggle="modal" data-target="#updatePwdModal">비밀번호 변경</a> 
-	               
+ 	           
                 </c:if>  
             </ul>
 

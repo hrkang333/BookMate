@@ -45,6 +45,14 @@ public class UserController {
 	public String findId() {
 		return "user/findId";
 	}
+	@RequestMapping(value="findPwd.us")
+	public String findPwd() {
+		return "user/findPwd";
+	}
+	@RequestMapping(value="updatePwd.us")
+	public String updatePwd() {
+		return "user/updatePwd";
+	}
 	
 	@RequestMapping(value="insert.us")
 	public String insertMember(@ModelAttribute User u, @RequestParam("post") String post,
@@ -89,14 +97,37 @@ public class UserController {
 	public String findId(@ModelAttribute User u, Model model) {
 		
 	
-	User findId = userService.findId(u);
+	String findId = userService.findId(u);
 	if (!findId.equals("")) {
 		model.addAttribute("findId", findId);
-		return "redirect:/";
+		
+
+		return "user/findIdAction";
 	} else {
 		model.addAttribute("msg", "실패!");
 		return "redirect:/";
 
 		}
+	}
+	
+	@RequestMapping(value="findPwd.me")
+	public String findPwd(@ModelAttribute User u, Model model) {
+		
+	
+	String findPwd = userService.findPwd(u);
+
+	
+	if (!findPwd.equals("")) {
+		model.addAttribute("findPwd", findPwd);
+		
+		return "user/findPwdAction";
+
+	}else {
+		model.addAttribute("msg", "실패!");
+		return "redirect:/";
+
+	}
+	
+	
 	}
 }

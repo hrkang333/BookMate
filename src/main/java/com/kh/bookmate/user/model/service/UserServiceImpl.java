@@ -33,8 +33,16 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public User findId(User u) {
-		User findId = userDao.findId(sqlSession, u);
+	public String findId(User u) {
+		String findId = userDao.findId(sqlSession, u);
 		return findId;
 	}
+
+	@Override
+	public String findPwd(User u) {
+		String findPwd = userDao.findPwd(sqlSession, u);
+		return findPwd;
+	}
+
+	
 }

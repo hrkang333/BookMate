@@ -20,9 +20,14 @@ public class UserDao {
 
 
 
-	public User findId(SqlSessionTemplate sqlSession, User u) {
+	public String findId(SqlSessionTemplate sqlSession, User u) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("userMapper.findId", u);
+	}
+
+	public String findPwd(SqlSessionTemplate sqlSession, User u) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("userMapper.findPwd", u);
 	}
 
 }

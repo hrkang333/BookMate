@@ -10,6 +10,9 @@ public interface UserService {
 
 	User loginUser(BCryptPasswordEncoder bCryptPasswordEncoder, User u);
 
-	User findId(User u);
+	String findId(User u);
+
+	String findPwd(User u);
+
 
 }
