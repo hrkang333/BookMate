@@ -53,7 +53,7 @@
                   <li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
                 </ul>
                      </li>
-                     <li class="nav-item"><a class="nav-link" href="contact.html">중고장터</a></li>
+                     <li class="nav-item"><a class="nav-link" href="ubookMain.ub">중고장터</a></li>
                      
                      <li class="nav-item"><a class="nav-link" href="contact.html">독서모임</a></li>
                      <li class="nav-item submenu dropdown">

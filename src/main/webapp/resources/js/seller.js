@@ -29,9 +29,9 @@ function nextPrev(n) {
     x[currentTab].style.display = "none";
     currentTab = currentTab + n;
     if (currentTab >= x.length) {
-        // document.getElementById("sellerRegForm").submit();
+        document.getElementById("sellerRegForm").submit();
         // return false;
-        //alert("sdf");
+        alert("가입 성공");
         document.getElementById("nextprevious").style.display = "none";
         document.getElementById("all-steps").style.display = "none";
         document.getElementById("register").style.display = "none";

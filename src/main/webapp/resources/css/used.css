@@ -1204,3 +1204,57 @@ h1, h2, h3, h4{
 #sellerInfo{
     width: 98%;;
 }
+
+.bookImg{
+    float: left;
+    width: 25%;
+    height: 250px;
+}
+
+.ubookDetail{
+    margin-left: 3%;
+    width: 55%;
+    height: 250px;
+    padding-top: 0px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    margin-right: 2%;
+}
+.btns{
+    float: right !important;
+    width: 15%;
+}
+.book{
+    margin-right: 0px !important;
+    max-width: 100% !important;
+}
+.cart1{
+    width: 100% !important;
+    text-align: center;
+    height: 120px;
+    vertical-align: middle;
+    margin-bottom: 10px;
+}
+.cart2{
+    width: 100% !important;
+    text-align: center;
+    height: 120px;
+    vertical-align: middle;
+}
+
+/******************/
+.item-photo{
+    float: left;
+    max-width: 45%;
+    margin-right: 5%;
+    height: 300px;
+}
+
+.bookDetailImg{
+    max-width:100%;
+}
+
+.bookdetailInfo{
+    float: right;
+    width: 50%;
+}
