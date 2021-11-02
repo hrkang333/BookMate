@@ -15,4 +15,10 @@ public interface UserService {
 	String findPwd(User u);
 
 
+	User updateUser(User user) throws Exception;
+
+	User selectUserPoint(User user);
+
+	void deleteUser(String userId) ;
+
 }

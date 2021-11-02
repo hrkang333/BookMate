@@ -22,7 +22,11 @@
   
     <link rel="stylesheet" href="resources/css/style.css">
     
-    <style>
+    <!-- 제이쿼리 추가...-->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+
+       <style>
     	
     	.innerOuter{
     	
@@ -31,6 +35,8 @@
     	}
     
     </style>
+    
+ 
 </head>
 <body>
 
@@ -90,7 +96,7 @@
 									<li class="filter-list">최근 조회한 상품</li>
 									<li class="filter-list">나의 찜목록</li>
 									<li class="filter-list">나의 리뷰 조회</li>
-									<li class="filter-list">나의 포인트 조회</li>
+									<li class="filter-list"><a href="myPoint.me">나의 포인트 조회</a></li>
 								</ul>
 							</form>
 						</div>
@@ -121,7 +127,7 @@
                     <input type="text" class="form-control" name="userId" value="${ loginUser.userId }" readonly><br>
                     
                     <label>* PW :</label>
-                    <input type="text" class="form-control" name="userPwd" value="" placeholder="비밀번호 변경을 원하실경우 비밀번호를 입력하세요"><br>
+                    <input type="text" class="form-control" name="userPwd" value="" placeholder="비밀번호변경하기"><br>
                     
                     
                     <label for="userName">* Name :</label>
@@ -129,9 +135,6 @@
                     
                     <label for="email"> &nbsp; Email :</label>
                     <input type="email" class="form-control" id="email" name="email" value="${ loginUser.email }"><br>
-                    
-                    <label for="age"> &nbsp; Age :</label>
-                    <input type="number" class="form-control" id="age" name="age" value="${ loginUser.age }"><br>
                     
                     <label for="phone"> &nbsp; Phone :</label>
                     <input type="tel" class="form-control" id="phone" name="phone" value="${ loginUser.phone }"><br>
@@ -153,35 +156,63 @@
 						<c:set var="address2" value="${ addr }"/>
 					</c:if>
 				</c:forTokens>
+				
+				
+				<div class="col-md-12 form-group">
+				<input class="form-control" type="text" id="sample4_postcode" name="post" placeholder="우편번호"  value="${ post }"readonly>
+				</div>
+				<div class="col-md-12 form-group">
+				<input class="button button-tracking" type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기">
+				</div>
+				<div class="col-md-12 form-group">
+				<input class="form-control" type="text" id="sample4_roadAddress" name="address1"placeholder="도로명주소" value="${ address1 }" size="30" readonly>
+				</div>
+				<div class="col-md-12 form-group">
+				<input class="form-control" type="hidden" id="sample4_jibunAddress" placeholder="지번주소" size="30" disabled>
+				</div>
+				<div class="col-md-12 form-group">
+				<input class="form-control" id="guide" style="color:#999;display:none">
+				</div>
+				<div class="col-md-12 form-group">
+				<input class="form-control" type="text" id="sample4_detailAddress" name="address2" placeholder="상세주소" value="${ address2 }"  size="30">
+				</div>
+				<div class="col-md-12 form-group">
+				<input class="form-control" type="hidden" id="sample4_extraAddress" placeholder="참고항목"  size="30">
+				</div>
+				<div class="col-md-12 form-group">
+				<input class="form-control" type="hidden" id="sample4_engAddress" placeholder="영문주소"  size="30">
+				</div>
+
+				<%-- 
+					얘는 도대체 왜 안되는지.. ?
 					<div class="form-inline">
 					<label> &nbsp; 우편번호 : &nbsp;</label>
-					<input type="text"  name="post" class="form-control mr-2 postcodify_postcode5" value="${ post }" size="6">
-					<button type="button" class="btn btn-primary" id="postcodify_search_button">검색</button>
+					<input type="text"  name="post" class="form-control sample4_postcode" value="${ post }" size="6" readonly>
+					<button type="button" class="btn btn-primary" id="postcodify_search_button" onclick="sample4_execDaumPostcode()">검색</button>
 					</div>
 					<br>
 					<label> &nbsp; 도로명주소 : </label>
-					<input type="text" name="address1" class="form-control postcodify_address" value="${ address1 }" size="30">
+					<input type="text" name="address1" class="form-control sample4_roadAddress" value="${ address1 }" size="30">
 					<br>
 				    <label> &nbsp; 상세주소 : </label>
-					<input type="text" name="address2" class="form-control postcodify_extra_info" value="${ address2 }" size="30">
-				
-				
-				<!-- jQuery와 Postcodify를 로딩한다. -->
-				<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
-				<script>
-					// 검색 단추를 누르면 팝업 레이어가 열리도록 설정한다.
-					$(function(){
-						$("#postcodify_search_button").postcodifyPopUp();
-					});
-				</script>
-				<br><br>
-                    <label for=""> &nbsp; Gender : </label> &nbsp;&nbsp;
+					<input type="text" name="address2" class="form-control sample4_detailAddress" value="${ address2 }" size="30">
+				 	
+				 	<input class="form-control" type="hidden" id="sample4_jibunAddress" placeholder="지번주소" size="60" disabled>
+					<input class="form-control" type="hidden" id="sample4_extraAddress" placeholder="참고항목"  size="60">
+					<input class="form-control" type="hidden" id="sample4_engAddress" placeholder="영문주소"  size="60">
+   					<input class="form-control" id="guide" style="color:#999;display:none">
+
+			 --%>
+			 
+
+				<!-- 너 왜 못가져오는지..?  -->
+          	        <label > &nbsp; Gender : </label> &nbsp;&nbsp;
                     <input type="radio" name="gender" id="Male" value="M">
                     <label for="Male">남자</label> &nbsp;&nbsp;
                     <input type="radio" name="gender" id="Female" value="F">
                     <label for="Female">여자</label><br>
-                    
-                    <script>
+                  
+               	<script>
                     	$(function(){
                     		if("${loginUser.gender}" == "M"){
                     			$("#Male").attr("checked", true);
@@ -189,7 +220,11 @@
                     			$("#Female").attr("checked", true);
                     		}
                     	});
-                    </script>
+                    	
+                    	console.log("loginUser");
+                    </script> 
+                    
+                    
                     
                 </div>
                 <br>
@@ -201,25 +236,82 @@
             </form>
 
         </div>
-        <br><br>
     </div>
     
-    <form action="delete.me" method="post" id="postForm">
+		     <form action="delete.me" method="post" id="postForm">
     	<input type="hidden" name="userId" value="${ loginUser.userId }">
-    </form>
-				
+		    </form>
+	  	
 					
 				</div>
 			</div>
-			
-			
-			
-			
-
-
 		</div>
     
   </section>
+
+<!-- 다음 우편번호 api  -->
+	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+	<script>
+		function sample4_execDaumPostcode() {
+			new daum.Postcode(
+					{
+						oncomplete : function(data) {
+							// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+							// 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+							// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+							var roadAddr = data.roadAddress; // 도로명 주소 변수
+							var extraRoadAddr = ''; // 참고 항목 변수
+
+							// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+							// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+							if (data.bname !== ''
+									&& /[동|로|가]$/g.test(data.bname)) {
+								extraRoadAddr += data.bname;
+							}
+							// 건물명이 있고, 공동주택일 경우 추가한다.
+							if (data.buildingName !== ''
+									&& data.apartment === 'Y') {
+								extraRoadAddr += (extraRoadAddr !== '' ? ', '
+										+ data.buildingName : data.buildingName);
+							}
+							// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+							if (extraRoadAddr !== '') {
+								extraRoadAddr = ' (' + extraRoadAddr + ')';
+							}
+
+							// 우편번호와 주소 정보를 해당 필드에 넣는다.
+							document.getElementById('sample4_postcode').value = data.zonecode;
+							document.getElementById("sample4_roadAddress").value = roadAddr;
+							document.getElementById("sample4_jibunAddress").value = data.jibunAddress;
+
+							document.getElementById("sample4_engAddress").value = data.addressEnglish;
+
+							// 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
+							if (roadAddr !== '') {
+								document.getElementById("sample4_extraAddress").value = extraRoadAddr;
+							} else {
+								document.getElementById("sample4_extraAddress").value = '';
+							}
+
+							var guideTextBox = document.getElementById("guide");
+							// 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
+							if (data.autoRoadAddress) {
+								var expRoadAddr = data.autoRoadAddress
+										+ extraRoadAddr;
+								guideTextBox.innerHTML = '(예상 도로명 주소 : '
+										+ expRoadAddr + ')';
+								guideTextBox.style.display = 'block';
+
+							} else {
+								guideTextBox.innerHTML = '';
+								guideTextBox.style.display = 'none';
+							}
+						}
+					}).open();
+		}
+	</script>
+
 
 </body>
 </html>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="sellerMapper">
+
+ 	<resultMap id="sellerResultSet" type="Seller">
+		<id property="sellerNo" column="SELLER_NO"/>
+		<result property="sellerId" column="SELLER_ID"/>
+		<result property="sellerNickN" column="SELLER_NICKN"/>
+		<result property="sellerEmail" column="SELLER_EMAIL"/>
+		<result property="sellerPhone" column="SELLER_PHONE"/>
+		<result property="del" column="SELLER_DEL"/>
+		<result property="delPrice1" column="SELLER_DEL_PRICE1"/>
+		<result property="delPrice2" column="SELLER_DEL_PRICE2"/>
+		<result property="sellerAddress" column="SELLER_ADDRESS"/>		
+		<result property="enrollDate" column="ENROLL_DATE"/>		
+		<result property="modifyDate" column="MODIFY_DATE"/>		
+		<result property="status" column="STATUS"/>
+	</resultMap>
+
+	<select id="loginSeller" parameterType="Seller" resultMap="sellerResultSet">
+		SELECT * FROM SELLER
+		WHERE SELLER_ID=#{sellerId}
+		AND STATUS='Y'
+		
+	</select>
+	
+	<insert id="insertSeller" parameterType="Seller">
+		INSERT INTO SELLER VALUES (seq_sno.nextval, #{sellerId}, #{sellerNickN}, #{sellerEmail}, #{sellerPhone}, #{sellerDel}, #{sellerDelP1}, #{sellerDelP2}, #{sellerAddress}, sysdate, sysdate, default)
+	</insert>
+
+</mapper>

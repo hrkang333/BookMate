@@ -2,83 +2,31 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
+<head>
+    <title>[책장메이트] - 판매자 페이지</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<!------ 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script> ---------->
-
-<!------ Include the above in your HEAD tag ---------->
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-<head>
-    <title>[책장메이트] - 판매자 페이지</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/used.css">
-    <script type="text/javascript" src="js/seller_page.js"></script>
-    <script type="text/javascript" src="js/seller.js"></script>
-
-
-
-
+    <script type="text/javascript" src="resources/js/seller_page.js"></script>
+    <script type="text/javascript" src="resources/js/seller.js"></script>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 
 <body>
-    <!--================ 헤더(로고 + 검색 + 로그인 된 회원) =================-->
-    <header class="header_area">
-        <div class="main_menu">
-            <nav class="navbar navbar-expand-lg navbar-light">
-                <div class="container">
-                    <!--로고링크-->
-                    <a href="index copy.html" class="logo_link">
-                        <img src="img/logo1.png" class="logo1">
-                    </a>
-                    <a href="ubook_main.html" class="logo_link2">
-                        <img src="img/logo2.png" class="logo2">
-                    </a>
-                    <br />
-                    <!--검색-->
-                    <div class="row justify-content-center searchbar">
-                        <div class="col-12 col-md-10 col-lg-8 searchbar">
-                            <form class="card card-sm searchbar">
-                                <div class="card-body row no-gutters align-items-center">
-                                    <!--검색 input-->
-                                    <div class="col">
-                                        <input class="form-control form-control-lg form-control-borderless"
-                                            type="search" placeholder="도서명 혹은 저자를 입력하세요">
-                                    </div>
-                                    <!--검색버튼-->
-                                    <div class="col-auto">
-                                        <button class="btn btn-lg searchbtn" type="submit">Search</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <!--로그인 회원정보-->
-                    <a href="index copy.html" class="logo_link">
-                        <img src="img/logo1.png" class="logo1">
-                    </a>
-                    <br />
-                </div>
-            </nav>
-        </div>
-    </header>
-    <!--================ End 헤더 =================-->
+ 	<jsp:include page="../ubook/ubookMenu.jsp"/>
+
     <div class="container bootstrap snippet">
         <div class="row">
             <!--좌측 info-->
@@ -93,7 +41,7 @@
                             <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
                                 class="avatar img-circle img-thumbnail" alt="avatar">
                         </center>
-                        <h4>판매자 닉네임</h4>
+                        <h4>${ loginSeller.sellerNickN }</h4>
                         <center>
                             <input style="font-size: 17px; text-align: center;" type="file"
                                 class="text-center center-block file-upload">
@@ -127,30 +75,30 @@
                                                     <h4>아이디</h4>
                                                 </label>
                                                 <input type="text" class="form-control" name="sellerId" id="sellerId"
-                                                    placeholder="현재 로그인 된 아이디" readonly>
+                                                    value="${ loginUser.userId }" readonly>
                                             </div>
                                             <div class="col-xs-6">
                                                 <label>
                                                     <h4>닉네임</h4>
                                                 </label>
-                                                <input type="text" class="form-control" name="sellernickn"
-                                                    id="sellernickn" placeholder="현재 로그인한 회원의 판매자 닉네임" readonly>
+                                                <input type="text" class="form-control" name="sellerNickN"
+                                                    id="sellernickn" value="${ seller.sellerNickN }" readonly>
                                             </div>
                                             <div class="col-xs-6">
                                                 <br>
                                                 <label>
                                                     <h4>이메일</h4>
                                                 </label>
-                                                <input type="email" class="form-control" name="selleremail"
-                                                    id="selleremail" placeholder="you@email.com">
+                                                <input type="email" class="form-control" name="sellerEmail"
+                                                    id="selleremail" value="${ loginSeller.sellerEmail }">
                                             </div>
                                             <div class="col-xs-6">
                                                 <br>
                                                 <label>
                                                     <h4>핸드폰 번호</h4>
                                                 </label>
-                                                <input type="text" class="form-control" name="sellerphone"
-                                                    id="sellerphone" placeholder="010-0000-0000">
+                                                <input type="text" class="form-control" name="sellerPhone"
+                                                    id="sellerphone" placeholder="010-0000-0000" value="${ loginSeller.sellerPhone }">
                                             </div>
                                             <div class="col-xs-6">
                                                 <br>
@@ -1095,100 +1043,8 @@
     </div>
     <!--/row-->
 
-    <!--================ Start footer Area  =================-->
-    <footer class="footer">
-        <div class="footer-area">
-            <div class="container">
-                <div class="row section_gap">
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="single-footer-widget tp_widgets">
-                            <h4 class="footer_title large_title">Our Mission</h4>
-                            <p>
-                                So seed seed green that winged cattle in. Gathering thing made fly you're no
-                                divided deep moved us lan Gathering thing us land years living.
-                            </p>
-                            <p>
-                                So seed seed green that winged cattle in. Gathering thing made fly you're no divided
-                                deep moved
-                            </p>
-                        </div>
-                    </div>
-                    <div class="offset-lg-1 col-lg-2 col-md-6 col-sm-6">
-                        <div class="single-footer-widget tp_widgets">
-                            <h4 class="footer_title">Quick Links</h4>
-                            <ul class="list">
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Shop</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Product</a></li>
-                                <li><a href="#">Brand</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-6 col-sm-6">
-                        <div class="single-footer-widget instafeed">
-                            <h4 class="footer_title">Gallery</h4>
-                            <ul class="list instafeed d-flex flex-wrap">
-                                <li><img src="img/gallery/r1.jpg" alt=""></li>
-                                <li><img src="img/gallery/r2.jpg" alt=""></li>
-                                <li><img src="img/gallery/r3.jpg" alt=""></li>
-                                <li><img src="img/gallery/r5.jpg" alt=""></li>
-                                <li><img src="img/gallery/r7.jpg" alt=""></li>
-                                <li><img src="img/gallery/r8.jpg" alt=""></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="offset-lg-1 col-lg-3 col-md-6 col-sm-6">
-                        <div class="single-footer-widget tp_widgets">
-                            <h4 class="footer_title">Contact Us</h4>
-                            <div class="ml-40">
-                                <p class="sm-head">
-                                    <span class="fa fa-location-arrow"></span>
-                                    Head Office
-                                </p>
-                                <p>123, Main Street, Your City</p>
-
-                                <p class="sm-head">
-                                    <span class="fa fa-phone"></span>
-                                    Phone Number
-                                </p>
-                                <p>
-                                    +123 456 7890 <br>
-                                    +123 456 7890
-                                </p>
-
-                                <p class="sm-head">
-                                    <span class="fa fa-envelope"></span>
-                                    Email
-                                </p>
-                                <p>
-                                    free@infoexample.com <br>
-                                    www.infoexample.com
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <div class="container">
-                <div class="row d-flex">
-                    <p class="col-lg-12 footer-text text-center">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Copyright &copy;
-                        <script>document.write(new Date().getFullYear());</script> All rights reserved | This template
-                        is made with
-                        <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com"
-                            target="_blank">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </p>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!--================ End footer Area  =================-->
+   
+ 	<jsp:include page="../common/footer.jsp"/>
 </body>
 
 </html>

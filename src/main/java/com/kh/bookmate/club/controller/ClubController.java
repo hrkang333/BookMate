@@ -2,7 +2,7 @@
  * 담당자  : 황서연
  * 수정날짜 : 2021.11.01
  * 수정사항 : 독서모임 개설신청 db 연동중
- * 수정필요사항 : loginUser 세션에 넣어줘야 함
+ * 수정필요사항 : loginUser 세션에 넣어줘야 함 (V)
  * 			  message로 상황 알려줘야 함
  *            step2에서 정원 typemismatch 오류남 default=0으로해야겠다.
  *            시간같은 정해진 갯수가 없는 값 -> 삭제 후 insert 다시하나?
@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,6 +36,7 @@ import com.kh.bookmate.club.model.service.ClubService;
 import com.kh.bookmate.club.model.vo.Club;
 import com.kh.bookmate.club.model.vo.ClubAttachment;
 import com.kh.bookmate.club.model.vo.ClubTime;
+import com.kh.bookmate.user.model.vo.User;
 
 @Controller
 public class ClubController {
@@ -71,8 +73,9 @@ public class ClubController {
 							@RequestParam(name="hostPhoto", required=false) MultipartFile file,
 							@RequestParam(name="phwhatTodo", required=false) String[] phwhatTodo){
 		
-		//String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
-		String userId = "user02";  //로그인 기능없어서 임시로 만듦.
+		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
+		
+		//String userId = "user02";  //로그인 기능없어서 임시로 만듦.
 		c.setUserId(userId);
 		
 		System.out.println("=========테스트===========");
@@ -210,8 +213,26 @@ public class ClubController {
 	
 	//5. 조회하기
 	@RequestMapping("mypage3.cl")
-	public String manageMyClub() {
+	public String manageMyClub(HttpServletRequest request, Model model) {
+		
+		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
+		ArrayList<Club> list = clubService.selectList3(userId);		
+		
+		model.addAttribute("list", list);
+
 		return "clubMypage/mypage3";
+	}
+	
+	@RequestMapping("deleteClub3.cl")
+	public String deleteClub3(int[] clubNo) {
+		
+		System.out.println("clubNo 가 어떻게 넘어오나");
+		
+		for(int no : clubNo) {
+			System.out.println("clubNo : " + no);
+		}
+		
+		return "redirect:mypage3.cl";
 	}
 		
 		

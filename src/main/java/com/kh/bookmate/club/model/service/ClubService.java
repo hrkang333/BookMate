@@ -4,6 +4,7 @@
  * */
 package com.kh.bookmate.club.model.service;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import com.kh.bookmate.club.model.vo.Club;
@@ -20,6 +21,8 @@ public interface ClubService {
 
 	void saveStep3(Club c, ClubAttachment ca, Map<String, Object> map);
 
-	void insertClub(Club c, ClubAttachment ca, Map<String, Object> map);  
+	void insertClub(Club c, ClubAttachment ca, Map<String, Object> map);
+
+	ArrayList<Club> selectList3(String userId);  
 
 }

@@ -53,7 +53,7 @@
                   <li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
                 </ul>
                      </li>
-                     <li class="nav-item"><a class="nav-link" href="contact.html">중고장터</a></li>
+                     <li class="nav-item"><a class="nav-link" href="ubookMain.ub">중고장터</a></li>
                      
                      <li class="nav-item"><a class="nav-link" href="contact.html">독서모임</a></li>
                      <li class="nav-item submenu dropdown">
@@ -76,7 +76,7 @@
                 <!-- 로그인 후  -->
                 <c:if test="${ !empty sessionScope.loginUser }">
 	                <label>${ sessionScope.loginUser.userName }님 환영합니다</label> &nbsp;&nbsp;
-	                <a href="myPage.me">마이페이지</a>
+	                <a href="myPageOrderList.me">마이페이지</a>
 	                <a href="logout.us">로그아웃</a>
 	                
  	           
