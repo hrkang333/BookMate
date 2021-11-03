@@ -207,7 +207,7 @@
                                             <input type="text" class="form-control" id="phwhatTodo" name="phwhatTodo">
                                         </li>
                                         <li class="d">
-                                            <img src="img/delete.png " class="history" onclick="delHistory(this)">
+                                            <img src="resources/img/delete.png " class="history" onclick="delHistory(this)">
                                         </li>
                                     </ul>
                                 </div>
@@ -231,7 +231,7 @@
                                 //호스트 이력 갯수 정하기 위해서 전역변수 cnt, maxField 선언
                                 var cnt = 1;
                                 var maxField = 15;
-                                var add = '<div><ul class="history_total"><li class="s"><input type="date" class="form-control my-input history " id="hstartDate" name="hstartDate"></li><li class="s"><input type="date" class="form-control my-input history " id="hendDate " name="hendDate"></li><li class="w"><input type="text " class="form-control my-input1 history " id="phwhatTodo " name="phwhatTodo"></li><li class="d"><img src="img/delete.png " class="history my-input2 " onclick="delHistory(this)"></li></ul> </div>'
+                                var add = '<div><ul class="history_total"><li class="s"><input type="date" class="form-control my-input history " id="hstartDate" name="hstartDate"></li><li class="s"><input type="date" class="form-control my-input history " id="hendDate " name="hendDate"></li><li class="w"><input type="text " class="form-control my-input1 history " id="phwhatTodo " name="phwhatTodo"></li><li class="d"><img src="resources/img/delete.png " class="history my-input2 " onclick="delHistory(this)"></li></ul> </div>'
 
                                 //호스트 이력 추가하기 버튼
                                 function addHistory() {

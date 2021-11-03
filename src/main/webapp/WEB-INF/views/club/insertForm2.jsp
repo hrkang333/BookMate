@@ -172,7 +172,7 @@
                                 독서모임 정원*
                             </div>
                             <div class="col-md-9 form-group p_star">
-                                <input type="text" class="form-control must" name="clubCapacity" style="width: 200px;" placeholder="3명 ~ 20명까지 가능합니다">
+                                <input type="text" class="form-control must" name="capacity" style="width: 200px;" placeholder="3명 ~ 20명까지 가능합니다">
                             </div>
 
                             <div class="col-md-12 " style="text-align: center; ">
