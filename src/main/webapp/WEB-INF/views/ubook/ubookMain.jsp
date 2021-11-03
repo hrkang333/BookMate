@@ -16,7 +16,7 @@
  	<jsp:include page="../ubook/ubookMenu.jsp"/>
 
   <!--================ 바디 =================-->
-  <div class="mycontainer">
+  <div class="mycontainer" style="max-width: 1200px !important;">
     <div class="row">
 
       <!--================ 좌측 사이드바(도서 카테고리 선택) =================-->
@@ -1303,10 +1303,37 @@
 
           <!-- ================ 판매자 버튼 ================= -->
           <div class="row sellerbtn">
-          	<c:if test="${ empty sessionScope.loginSeller }">
+          
+          <!-- ================ 로그인 안했을 때 ================= -->
+              <c:if test="${ empty sessionScope.loginUser && empty s.sellerId }">
 	            <section class="goseller">
 	              <div class="container">
 	              
+	                <button class="gobtn text-center" type="button" onclick="loginChk();">
+	                  <h3 class="subscribe__title">아직 판매자가 아니라면?</h3>
+	                  <h4>로그인 먼저 진행 후 판매자 가입해주세요</h4>
+	                </button>
+	                <script type="text/javascript">
+	                	function loginChk() {
+								alert("책구메이트 로그인 혹은 회원가입을 우선 진행해주세요!");
+								document.location.href="login.me";
+						}
+					</script>
+	              </div>
+	            </section>
+	            <section class="goseller">
+	              <div class="container">
+	                <button class="gobtn text-center" onclick="loginChk();">
+	                  <h3 class="subscribe__title">안읽는 책을 팔고싶다면?</h3>
+	                  <h4>로그인 먼저 진행 후 판매자 가입해주세요</h4>
+	                </button>
+	              </div>
+	            </section>
+            </c:if>
+          <!-- ================ 판매자 가입 안했을 때 ================= -->
+              <c:if test="${ !empty sessionScope.loginUser && empty s.sellerId }">
+	            <section class="goseller">
+	              <div class="container">
 	                <button class="gobtn text-center" type="button" onclick="location.href='sellerInsertForm.se'">
 	                  <h3 class="subscribe__title">아직 판매자가 아니라면?</h3>
 	                  <h4>판매자 가입하기</h4>
@@ -1320,13 +1347,14 @@
 	                  <h4>도서 등록하기</h4>
 	                </button>
 	              </div>
-	            </section>
+	            </section>	            
             </c:if>
-            <c:if test="${ !empty sessionScope.loginSeller }">
+          <!-- ================ 로그인도하고 판매자 가입도 된 상태일 때 ================= -->
+              <c:if test="${ !empty s.sellerId }">
 	            <section class="goseller">
 	              <div class="container">
 	                <button class="gobtn text-center" type="button" onclick="location.href='sellerPage.se'">
-	                  <h3 class="subscribe__title">${ sessionScope.loginSeller.sellerNickN }님 환영합니다</h3>
+	                  <h3 class="subscribe__title">${ s.sellerNickN }님 환영합니다</h3>
 	                  <h4>판매자 페이지로 이동</h4>
 	                </button>
 	              </div>
@@ -1338,7 +1366,7 @@
 	                  <h4>도서 등록하기</h4>
 	                </button>
 	              </div>
-	            </section>
+	            </section>         
             </c:if>
           </div>
         </main>

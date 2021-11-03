@@ -41,7 +41,7 @@ function nextPrev(n) {
 }
 
 function validateForm() {
-    var x, y, i, valid = true;
+    var x, y, z, i, valid = true;
     x = document.getElementsByClassName("tab");
     y = x[currentTab].getElementsByTagName("input");
     z = x[currentTab].getElementsByClassName("chk");
@@ -54,7 +54,7 @@ function validateForm() {
     }
     for (i = 0; i < z.length; i++) {
         if (!z[i].checked) {
-            alert("체크 안됨");
+            alert("모든 약관에 동의해주세요.");
              z[i].className += " invalid"; valid = false; 
        }
    }

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,7 +43,7 @@
                             <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
                                 class="avatar img-circle img-thumbnail" alt="avatar">
                         </center>
-                        <h4>${ loginSeller.sellerNickN }</h4>
+                        <h3>${ loginUser.sellerNickN }</h3>
                         <center>
                             <input style="font-size: 17px; text-align: center;" type="file"
                                 class="text-center center-block file-upload">
@@ -75,14 +77,14 @@
                                                     <h4>아이디</h4>
                                                 </label>
                                                 <input type="text" class="form-control" name="sellerId" id="sellerId"
-                                                    value="${ loginUser.userId }" readonly>
+                                                    value="${ s.sellerId }" readonly>
                                             </div>
                                             <div class="col-xs-6">
                                                 <label>
                                                     <h4>닉네임</h4>
                                                 </label>
                                                 <input type="text" class="form-control" name="sellerNickN"
-                                                    id="sellernickn" value="${ seller.sellerNickN }" readonly>
+                                                    id="sellerNickN" value="${ s.sellerNickN }" readonly>
                                             </div>
                                             <div class="col-xs-6">
                                                 <br>
@@ -90,7 +92,7 @@
                                                     <h4>이메일</h4>
                                                 </label>
                                                 <input type="email" class="form-control" name="sellerEmail"
-                                                    id="selleremail" value="${ loginSeller.sellerEmail }">
+                                                    id="selleremail" value="${ s.sellerEmail }">
                                             </div>
                                             <div class="col-xs-6">
                                                 <br>
@@ -98,7 +100,7 @@
                                                     <h4>핸드폰 번호</h4>
                                                 </label>
                                                 <input type="text" class="form-control" name="sellerPhone"
-                                                    id="sellerphone" placeholder="010-0000-0000" value="${ loginSeller.sellerPhone }">
+                                                    id="sellerphone" placeholder="010-0000-0000" value="${ loginUser.phone }">
                                             </div>
                                             <div class="col-xs-6">
                                                 <br>
@@ -138,11 +140,14 @@
                                                         name="postnumber">
                                                     <button class="postBtn">우편번호 검색</button>
                                                     <br>
-                                                    <input id="datainput3" placeholder="상세 주소를 입력해주세요"
+                                                    <input id="datainput3" placeholder="상세 주소를 입력해주세요" value="${ s.sellerAddress }"
                                                         oninput="this.className = ''" name="detailaddress">
                                                 </div>
                                             </div>
 
+											<script type="text/javascript">
+console.log("loginUser");
+</script>
                                             <div class="col-xs-12">
                                                 <br>
                                                 <center>
@@ -395,6 +400,7 @@
                                             <div class="container2" id="sell_book">
                                                 <div class="row2">
                                                     <h2>도서 등록</h2>
+                                                    <form action="ubookEnroll.ub" method="post">
                                                     <table class="table table-bordered success">
                                                         <colgroup>
                                                             <col width="100px" />
@@ -403,23 +409,23 @@
                                                         <thead>
                                                             <tr>
                                                                 <th class="info">도서명</th>
-                                                                <td><input class="usedBookInfo" name="ubName"
+                                                                <td><input class="usedBookInfo" name="ubookName"
                                                                         placeholder="도서명을 입력해주세요"></td>
                                                             </tr>
                                                             <tr>
                                                                 <th class="info">저자(지은이)</th>
-                                                                <td><input class="usedBookInfo" name="ubWriter"
+                                                                <td><input class="usedBookInfo" name="ubookWriter"
                                                                         placeholder="저자를 입력해주세요"></td>
                                                             </tr>
                                                             <tr>
                                                                 <th class="info">ISBN</th>
-                                                                <td><input class="usedBookInfo" name="ubIsbn"
+                                                                <td><input class="usedBookInfo" name="ubookIsbn"
                                                                         placeholder="도서의 ISBN을 입력해주세요(- 없이)"></td>
                                                             </tr>
                                                             <tr>
                                                                 <th class="info">카테고리</th>
                                                                 <td>
-                                                                    <select id="bookCate" name="bookCate"
+                                                                    <select id="bookCate" name="ubCategory"
                                                                         class="form-control">
                                                                         <option value="" selected>== 카테고리 선택 ==</option>
                                                                         <option value="1">소설/시/에세이</option>
@@ -438,39 +444,39 @@
 
                                                             <tr>
                                                                 <th class="info">역자</th>
-                                                                <td><input class="usedBookInfo" name="ubTrans"
+                                                                <td><input class="usedBookInfo" name="ubookTrans"
                                                                         placeholder="역자를 입력해주세요"></td>
                                                             </tr>
                                                             <tr>
                                                                 <th class="info">출판사</th>
-                                                                <td><input class="usedBookInfo" name="ubPub"
+                                                                <td><input class="usedBookInfo" name="ubookPub"
                                                                         placeholder="출판사를 입력해주세요"></td>
                                                             </tr>
                                                             <tr>
                                                                 <th class="info">출판일</th>
-                                                                <td><input class="usedBookInfo" name="ubPubDate"
+                                                                <td><input class="usedBookInfo" name="ubookPubDate"
                                                                         placeholder="출판일을 입력해주세요"></td>
                                                             </tr>
                                                             <tr>
                                                                 <th valign="top" class="info">정가</th>
-                                                                <td><input class="usedBookInfo" name="ubOPrice"
+                                                                <td><input class="usedBookInfo" name="ubookOPrice"
                                                                         placeholder="정가를 입력해주세요"></td>
                                                             </tr>
                                                             <tr>
                                                                 <th class="info">판매가</th>
-                                                                <td><input class="usedBookInfo" name="ubPrice"
+                                                                <td><input class="usedBookInfo" name="ubookPrice"
                                                                         placeholder="판매가를 입력해주세요"></td>
                                                             </tr>
                                                             <tr>
                                                                 <th class="info">재고수량</th>
-                                                                <td><input class="usedBookInfo" name="ubStock"
+                                                                <td><input class="usedBookInfo" name="ubookStock"
                                                                         placeholder="재고수량을 입력해주세요"></td>
                                                             </tr>
 
                                                             <tr>
                                                                 <th class="info">도서 품질</th>
                                                                 <td>
-                                                                    <select id="bookQual" name="ubQual"
+                                                                    <select id="bookQual" name="ubookQual"
                                                                         class="form-control">
                                                                         <option value="" selected>== 도서 품질 선택 ==
                                                                         </option>
@@ -486,7 +492,7 @@
                                                             <tr>
                                                                 <th class="info">도서 상세</th>
                                                                 <td>
-                                                                    <textarea name="ubDetail" id="bookdetail" cols="54"
+                                                                    <textarea name="ubookDetail" id="bookdetail" cols="54"
                                                                         rows="10"
                                                                         placeholder="도서의 줄거리, 도서 품질 상세 정보 등을 입력해주세요"></textarea>
                                                                 </td>
@@ -494,7 +500,7 @@
                                                             <tr>
                                                                 <th class="info">도서 이미지</th>
                                                                 <td>
-                                                                    <input type="file"
+                                                                    <input name="ubookImg" type="file"
                                                                         class="text-center center-block file-upload">
                                                                 </td>
                                                             </tr>
@@ -506,7 +512,7 @@
                                                         <input type="button" id="approve_btn" class="btn btn-warning"
                                                             name="approve_btn" value="취소하기">
                                                     </center>
-                                                    <br><br>
+                                                    </form><br><br>
                                                 </div>
                                             </div>
                                         </div>
