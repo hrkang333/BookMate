@@ -20,10 +20,11 @@ public class UserDao {
 
 
 
-	public User findId(SqlSessionTemplate sqlSession, User u) {
+	public String findId(SqlSessionTemplate sqlSession, User u) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("userMapper.findId", u);
 	}
+
 
 	public int updateUser(SqlSessionTemplate sqlSession, User user) {
 		// TODO Auto-generated method stub
@@ -38,6 +39,10 @@ public class UserDao {
 	public int deleteUser(SqlSessionTemplate sqlSession, String userId) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("userMapper.deleteUser", userId);
-	}
 
+	}	
+	public String findPwd(SqlSessionTemplate sqlSession, User u) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("userMapper.findPwd", u);
+	}
 }

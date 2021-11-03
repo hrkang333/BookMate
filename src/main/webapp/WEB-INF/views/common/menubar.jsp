@@ -33,18 +33,10 @@
           </button>
           <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
             <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
-              <li class="nav-item active"><a class="nav-link" href="index.html">국내도서</a></li>
-              <li class="nav-item submenu dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">외국도서</a>
-                <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="category.html">Shop Category</a></li>
-                  <li class="nav-item"><a class="nav-link" href="single-product.html">Product Details</a></li>
-                  <li class="nav-item"><a class="nav-link" href="checkout.html">Product Checkout</a></li>
-                  <li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>
-                  <li class="nav-item"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
-                </ul>
-                     </li>
+             
+              <li class="nav-item active"><a class="nav-link" href="indexKor.book">국내도서</a></li>
+              
+              
               <li class="nav-item submenu dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false">Ebook</a>
@@ -64,8 +56,11 @@
 	                <a href="register.me">회원가입</a> | 
 	                
 	                <br>
-	                <a href="login.me"">로그인</a> 
-	                <a href="findId.us">아이디찾기</a>
+	                <a href="login.me"">로그인</a>  |
+	                  <br>
+	                <a href="findId.us">아이디찾기</a> |
+	                  <br>
+	                <a href="findPwd.us">비밀번호찾기</a> |
 	                
 	                
                 </c:if>
@@ -76,8 +71,7 @@
 	                <a href="myPageOrderList.me">마이페이지</a>
 	                <a href="logout.us">로그아웃</a>
 	                
-	               	 <a data-toggle="modal" data-target="#updatePwdModal">비밀번호 변경</a> 
-	               
+ 	           
                 </c:if>  
             </ul>
 
