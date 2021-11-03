@@ -1,5 +1,7 @@
 package com.kh.bookmate.myPage.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.kh.bookmate.payment.model.service.PaymentService;
+import com.kh.bookmate.payment.model.vo.Payment;
 import com.kh.bookmate.user.model.service.UserService;
 import com.kh.bookmate.user.model.vo.User;
 
@@ -20,6 +24,9 @@ public class myPageController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private PaymentService paymentService;
 	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -50,6 +57,8 @@ public class myPageController {
 
 	}
 	
+	
+	
 	//마이페이지 이동 
 	@RequestMapping("myPage.me")
 	public String updateUser() {
@@ -64,7 +73,6 @@ public class myPageController {
 														 @RequestParam("address2")String address2, 
 														 HttpSession session, Model model ) throws Exception  {
 					
-	
 		user.setAddress(post+"/"+address1+"/"+address2);
 		System.out.println("암호화전 : " + user.getUserPwd());
 		
@@ -75,7 +83,6 @@ public class myPageController {
 		
 		User userInfo = userService.updateUser(user);
 		model.addAttribute("loginUser", userInfo); 
-		System.out.println("====================user dao 로그인유저 gender 넘어오니? " +userInfo.getGender());
 
 
 		session.setAttribute("msg", "회원정보 수정 성공");
@@ -87,10 +94,30 @@ public class myPageController {
 	public String deleteUser (String userId) {
 		
 			userService.deleteUser(userId);
-			System.out.println(userId+ "==================userId Controller======");
 		return "redirect:logout.us";
 	}
 
+	
+	//주문리스트  조회
+	//주문번호, 주문금액, 상품정보, 수량, 주문상태 값 조회하기 
+	@RequestMapping("SelectMyOrderList.me")
+	public String SelectMyOrderList(@ModelAttribute User user,
+									@ModelAttribute Payment payment,
+														@RequestParam("paymentNo") String paymentNo,
+														@RequestParam("totalCost") int totalCost,
+														@RequestParam("bookMainImg") String bookMainImg,
+														@RequestParam("quantity") int quantity,
+														@RequestParam("deliveryStatus") int deliveryStatus,
+														HttpSession session, Model model ) { 
+		
+		User loginUser = (User) session.getAttribute("loginUser"); 
+		ArrayList <Payment> myOrderList = paymentService.SelectMyOrderList(loginUser);
+		
+		model.addAttribute("myOrderList",myOrderList);
+		
+		return "myPage/myPageOrderList";
+	}
+	
 
 	
 }

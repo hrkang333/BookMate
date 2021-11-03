@@ -74,8 +74,6 @@ public class ClubController {
 							@RequestParam(name="phwhatTodo", required=false) String[] phwhatTodo){
 		
 		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
-		
-		//String userId = "user02";  //로그인 기능없어서 임시로 만듦.
 		c.setUserId(userId);
 		
 		System.out.println("=========테스트===========");
@@ -126,7 +124,8 @@ public class ClubController {
 		String resources = request.getSession().getServletContext().getRealPath("resources"); 
 		System.out.println("resources : " + resources);
 		
-		String savePath = resources+"\\upload_files\\";
+		//String savePath = resources+"\\upload_files\\";  -> 맥에서는 적용이안되서 아래로 수정
+		String savePath = resources + File.separator+"upload_files"+File.separator+"club_img"+File.separator;
 		
 		System.out.println("savePath : " + savePath);
 		
@@ -152,11 +151,13 @@ public class ClubController {
 	//3. 개설신청 2단계 저장 후 다음단계로
 	@RequestMapping(value={"saveStep2.cl", "insertClub2.cl"}) 
 	public String saveStep2(HttpServletRequest request, @ModelAttribute Club c,
-							@RequestParam(name="coverPhoto", required=false) MultipartFile file) {
+							@RequestParam(name="coverPhoto", required=false) MultipartFile file,
+							@RequestParam(name="capacity", required=false, defaultValue="0") int capacity) {
 		ClubAttachment ca = null;
 		int imageType = 2;	
 		ca = preSaveFile(ca, file, request, imageType);
 
+		c.setClubCapacity(capacity); //typeMismatch 오류나서 따로 뺏음(11.03)
 		c.setClubNo(keyClubNo);  //앞 단계에서 넣은 ClubNo값 넣기
 		ca.setClubNo(keyClubNo);
 		
@@ -231,6 +232,8 @@ public class ClubController {
 		for(int no : clubNo) {
 			System.out.println("clubNo : " + no);
 		}
+		
+		//clubService.deleteClub3(clubNo); //1,4넘어오면?
 		
 		return "redirect:mypage3.cl";
 	}

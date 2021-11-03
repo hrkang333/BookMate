@@ -15,7 +15,8 @@
 		<typeAlias type="com.kh.bookmate.user.model.vo.User" alias="User"/>
 		<typeAlias type="com.kh.bookmate.seller.model.vo.Seller" alias="Seller"/>
 		<!-- <typeAlias type="com.kh.bookmate.seller.model.vo.Ubook" alias="Ubook"/> -->
-		
+		<typeAlias type="com.kh.bookmate.payment.model.vo.Payment" alias="Payment"/>
+	
 	</typeAliases>
 	<typeHandlers>
 		<typeHandler
@@ -30,7 +31,7 @@
 		<mapper resource="/mappers/user-mapper.xml"/>
 		<mapper resource="/mappers/seller-mapper.xml"/>
 		<!-- <mapper resource="/mappers/ubook-mapper.xml"/> -->
-		
+		<mapper resource="/mappers/payment-mapper.xml"/>
 	</mappers>
 
 

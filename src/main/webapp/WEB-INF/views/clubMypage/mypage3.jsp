@@ -145,7 +145,7 @@
                                 <tr>
                                     <th style="width:5%;">선택</th>
                                     <th style="width:10%;">카테고리</th>
-                                    <td style="width:10%;">호스트명</td>
+                                    <th style="width:10%;">호스트명</th>
                                     <th style="width:25%;">독서모임명</th>
                                     <th style="width:10%;">온/오프라인</th>
                                     <th style="width:17%;">날짜</th>
