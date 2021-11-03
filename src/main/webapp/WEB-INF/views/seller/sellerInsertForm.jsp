@@ -112,13 +112,14 @@
                   <br>
                 </div>
                 <!--================ 판매자 정보입력 =================-->
-                <form id="sellerRegForm" action="insertSeller.se">
+                <form id="sellerRegForm" action="insertSeller.se" method="post">
                   <div class="tab">
                     <h1 id="register">책장메이트 판매자 정보입력</h1>
                     <br>
                     <h3>판매자 정보 입력</h3><br>
+                    
                     <label>판매자 아이디</label>
-                    <input id="datainput" value="${ sessionScope.loginUser.userId }" readonly name="sellerId">
+                    <input id="datainput" value="${ loginUser.userId }" readonly name="sellerId">
                     <br><br>
                     <label>판매자 닉네임</label>
                     <input id="datainput" placeholder="사용하실 닉네임을 입력해주세요" oninput="this.className = ''" name="sellerNickN">

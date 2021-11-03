@@ -3,8 +3,89 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="sellerMapper">
-
  	<resultMap id="sellerResultSet" type="Seller">
+		<id property="sellerNo" column="SELLER_NO"/>
+		<result property="sellerId" column="SELLER_ID"/>
+		<result property="sellerNickN" column="SELLER_NICKN"/>
+		<result property="sellerEmail" column="SELLER_EMAIL"/>
+		<result property="sellerPhone" column="SELLER_PHONE"/>
+		<result property="sellerDel" column="SELLER_DEL"/>
+		<result property="sellerDelP1" column="SELLER_DEL_PRICE1"/>
+		<result property="sellerDelP2" column="SELLER_DEL_PRICE2"/>
+		<result property="sellerAddress" column="SELLER_ADDRESS"/>		
+		<result property="enrollDate" column="ENROLL_DATE"/>		
+		<result property="modifyDate" column="MODIFY_DATE"/>		
+		<result property="status" column="STATUS"/>
+	</resultMap>
+	<insert id="insertSeller" parameterType="Seller">
+		
+		INSERT INTO SELLER VALUES (seq_sno.nextval, #{sellerId}, #{sellerNickN}, #{sellerEmail}, #{sellerPhone}, #{sellerDel}, #{sellerDelP1}, #{sellerDelP2}, #{sellerAddress}, sysdate, sysdate, default)
+	</insert>
+	
+		<select id="loginSeller" parameterType="Seller" resultMap="sellerResultSet">
+		SELECT S.*
+		FROM SELLER S, USERS U
+		WHERE U.USER_ID = #{sellerId}
+		AND S.SELLER_ID = U.USER_ID
+		AND U.STATUS = 'Y'
+		AND S.STATUS = 'Y'
+		</select>
+	
+	
+	<!--
+	
+	SELECT S.*
+		FROM SELLER S, USERS U
+		WHERE S.SELLER_ID = #{userId}
+		AND U.STATUS = 'Y'
+		AND S.STATUS = 'Y'
+	
+	<resultMap id="userResultSet" type="Seller">
+		<id property="userId" column="user_ID"/>
+		<result property="userName" column="user_NAME"/>
+		<result property="userPwd" column="user_PWD"/>
+		<result property="gender" column="GENDER"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="phone" column="PHONE"/>
+		<result property="email" column="EMAIL"/>
+		<result property="enroll" column="ENROLL"/>
+		<result property="point" column="POINT"/>		
+		<result property="status" column="STATUS"/>
+		
+		<result property="sellerNickN" column="SELLER_NICKN"/>
+		<result property="sellerEmail" column="SELLER_EMAIL"/>
+		<result property="sellerPhone" column="SELLER_PHONE"/>
+		<result property="sellerDel" column="SELLER_DEL"/>
+		<result property="sellerDelP1" column="SELLER_DEL_PRICE1"/>
+		<result property="sellerDelP2" column="SELLER_DEL_PRICE2"/>
+		<result property="sellerAddress" column="SELLER_ADDRESS"/>		
+		<result property="sellerStatus" column="SELLER_STATUS"/>
+		<result property="sellerNo" column="SELLER_NO"/>
+	</resultMap>
+
+	<resultMap id="sellerResultSet" type="User">
+		<id property="userId" column="user_ID"/>
+		<result property="userName" column="user_NAME"/>
+		<result property="userPwd" column="user_PWD"/>
+		<result property="gender" column="GENDER"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="phone" column="PHONE"/>
+		<result property="email" column="EMAIL"/>
+		<result property="enroll" column="ENROLL"/>
+		<result property="point" column="POINT"/>		
+		<result property="status" column="STATUS"/>
+			
+		<result property="sellerNickN" column="SELLER_NICKN"/>
+		<result property="sellerEmail" column="SELLER_EMAIL"/>
+		<result property="sellerPhone" column="SELLER_PHONE"/>
+		<result property="sellerDel" column="SELLER_DEL"/>
+		<result property="sellerDelP1" column="SELLER_DEL_PRICE1"/>
+		<result property="sellerDelP2" column="SELLER_DEL_PRICE2"/>
+		<result property="sellerAddress" column="SELLER_ADDRESS"/>		
+		<result property="sellerStatus" column="SELLER_STATUS"/>
+		<result property="sellerNo" column="SELLER_NO"/>
+	</resultMap>
+ 	 <resultMap id="sellerResultSet" type="Seller">
 		<id property="sellerNo" column="SELLER_NO"/>
 		<result property="sellerId" column="SELLER_ID"/>
 		<result property="sellerNickN" column="SELLER_NICKN"/>
@@ -24,10 +105,30 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE SELLER_ID=#{sellerId}
 		AND STATUS='Y'
 		
+		SELECT S.SELLER_NO, S.SELLER_ID, S.SELLER_NICKN, S.SELLER_EMAIL, S.SELLER_PHONE, S.SELLER_DEL, S.SELLER_DEL_PRICE1, S.SELLER_DEL_PRICE2, S.SELLER_ADDRESS
+		FROM SELLER S, USERS U
+		WHERE U.USER_ID = #{sellerId}
+		AND U.USER_ID = S.SELLER_ID
+		AND U.STATUS = 'Y'
+		AND S.STATUS = 'Y'
+		
 	</select>
 	
+	<update id="insertSeller" parameterType="Seller">
+		UPDATE USERS
+		SET
+		SELLER_NICKN=#{sellerNickN},
+		SELLER_EMAIL=#{sellerEmail},
+		SELLER_PHONE=#{sellerPhone},
+		SELLER_DEL=#{sellerDel},
+		SELLER_DEL_PRICE1=#{sellerDelP1},
+		SELLER_DEL_PRICE2=#{sellerDelP2},
+		SELLER_ADDRESS=#{sellerAddress},
+		SELLER_STATUS='Y',
+		SELLER_NO=seq_sno.nextval
+		where user_id=#{userId}
+	</update>
 	<insert id="insertSeller" parameterType="Seller">
 		INSERT INTO SELLER VALUES (seq_sno.nextval, #{sellerId}, #{sellerNickN}, #{sellerEmail}, #{sellerPhone}, #{sellerDel}, #{sellerDelP1}, #{sellerDelP2}, #{sellerAddress}, sysdate, sysdate, default)
-	</insert>
-
+	</insert> -->
 </mapper>

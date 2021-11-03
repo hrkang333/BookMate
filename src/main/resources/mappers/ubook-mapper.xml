@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ubookMapper">
+ 	<resultMap id="ubookResultSet" type="Ubook">
+		<id property="ubookNo" column="UBOOK_NO"/>
+		<result property="bSellerNo" column="BSELLER_NO"/>
+		<result property="ubookName" column="UBOOK_NAME"/>
+		<result property="ubookWriter" column="UBOOK_WRITER"/>
+		<result property="ubookIsbn" column="UBOOK_ISBN"/>
+		<result property="ubCategory" column="UB_CATEGORY"/>
+		<result property="ubookTrans" column="UBOOK_TRANS"/>
+		<result property="ubookPub" column="UBOOK_PUB"/>
+		<result property="ubookPubDate" column="UBOOK_PUBDATE"/>		
+		<result property="ubookOPrice" column="UBOOK_O_PRICE"/>		
+		<result property="ubookPrice" column="UBOOK_PRICE"/>		
+		<result property="ubookStock" column="UBOOK_STOCK"/>
+		<result property="ubookQual" column="UBOOK_QUAL"/>		
+		<result property="ubookDetail" column="UBOOK_DETAIL"/>		
+		<result property="ubookImg" column="UBOOK_IMG"/>		
+		<result property="ubookStatus" column="UBOOK_STATUS"/>
+	</resultMap>
+
+	<select id="selectUbook" resultType="Ubook">
+		SELECT * FROM UBOOK WHERE UBOOK_NO = #{SEQ_UBNO}
+	</select>
+
+	<insert id="insertUbook" parameterType="Ubook">
+		INSERT INTO UBOOK VALUES (SEQ_UBNO.NEXTVAL,#{bSellerNo},#{ubookName},#{ubookWriter},#{ubookIsbn},#{ubCategory}
+								,#{ubookTrans},#{ubookPub},#{ubookPubDate},#{ubookOPrice},#{ubookPrice}
+								,#{ubookStock},#{ubookQual},#{ubookDetail},#{ubookImg},DEFAULT)
+		
+	</insert>
+
+</mapper>
