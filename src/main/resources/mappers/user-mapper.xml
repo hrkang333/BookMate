@@ -71,5 +71,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		
 	</select>
 	
+	<select id="findPwd" parameterType="String" resultType="String">
+	select user_Pwd from users where user_name=#{userName} and email=#{email} and user_id=#{userId}
+	</select>
 
 </mapper>

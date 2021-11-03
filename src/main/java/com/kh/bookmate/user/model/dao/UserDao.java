@@ -40,6 +40,9 @@ public class UserDao {
 		// TODO Auto-generated method stub
 		return sqlSession.update("userMapper.deleteUser", userId);
 
+	}	
+	public String findPwd(SqlSessionTemplate sqlSession, User u) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("userMapper.findPwd", u);
 	}
-
 }
