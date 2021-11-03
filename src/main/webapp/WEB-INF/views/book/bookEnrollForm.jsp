@@ -118,7 +118,7 @@ function checkText(obj) {
 도서 저자 : <input type="text" name="bookWriter" data-name = "도서 저자"><br><br>
 도서 역자 : <input type="text" name="bookTranslator" value="없음"><br><br>
 도서 메인 카테고리 : <input type="radio" id="bookCategory"  name="bookCategory" value="0" data-name = "도서 메인 카테고리"> 국내도서 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-<input type="radio" name="bookCategory" id="bookCategory"  value="1"> 외국도서 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<!-- <input type="radio" name="bookCategory" id="bookCategory"  value="1"> 외국도서 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  -->
 <input type="radio" name="bookCategory" id="bookCategory" value="2"> ebook <br><br>
 도서 서브 카테고리 : <br>
 <c:set var="array">소설/시/에세이, 경제/경영, 과학, 인문, 컴퓨터/IT, 자기계발, 정치/사회, 역사/문화, 취미, 가정/육아 </c:set>
