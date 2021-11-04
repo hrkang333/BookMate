@@ -28,6 +28,29 @@ public class SellerServiceImpl implements SellerService {
 	}
 
 
+	@Override
+	public int updateSeller(Seller s) {
+		int result = sellerDao.updateSeller(sqlSession, s);
+		return result;
+	}
+
+	@Override
+	public int deleteSeller(Seller s) {
+		int result = sellerDao.deleteSeller(sqlSession, s);
+		return result;
+	}
+
+/*	@Override
+	public void updateSeller(Seller s) {
+		int result = sellerDao.updateSeller(sqlSession, s);
+
+		if (result > 0) {
+			Seller loginSeller = sellerDao.loginSeller(sqlSession, s);
+			return loginSeller;
+		}
+	}
+
+
 	/*
 	 * @Override public void inserSeller(Seller s) { int result =
 	 * sellerDao.insertSeller(sqlSession, s);
