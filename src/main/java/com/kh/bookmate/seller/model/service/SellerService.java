@@ -11,5 +11,13 @@ public interface SellerService {
 	void insertSeller(Seller s);
 
 	Seller loginSeller(String userId);
+
+	//Seller updateSeller(String userId) throws Exception;
+	//void updateSeller(Seller s);
+
+	//void updateSeller(Seller s1) throws Exception;
+
+	int updateSeller(Seller s);
 	
+	int deleteSeller(Seller s);
 }

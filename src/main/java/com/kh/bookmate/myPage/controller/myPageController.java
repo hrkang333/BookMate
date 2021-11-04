@@ -1,7 +1,5 @@
 package com.kh.bookmate.myPage.controller;
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +30,7 @@ public class myPageController {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 
-	//주문리스트 화면 띄우기 
-	@RequestMapping("myPageOrderList.me")
-	public String myOrderList() {
-		return "myPage/myPageOrderList";
-	}
+
 
 	//나의 포인트 조회화면 띄우기  
 	@RequestMapping("myPoint.me")
@@ -98,23 +92,36 @@ public class myPageController {
 	}
 
 	
+	
+	
+	//주문리스트 화면 띄우기 
+	@RequestMapping("myPageOrderList.me")
+	public String myOrderList() {
+		return "myPage/myPageOrderList";
+	}
+	
+	
 	//주문리스트  조회
 	//주문번호, 주문금액, 상품정보, 수량, 주문상태 값 조회하기 
-	@RequestMapping("SelectMyOrderList.me")
-	public String SelectMyOrderList(@ModelAttribute User user,
+	@RequestMapping("selectMyOrderList.me")
+	public String selectMyOrderList(@ModelAttribute User user, 
 									@ModelAttribute Payment payment,
-														@RequestParam("paymentNo") String paymentNo,
-														@RequestParam("totalCost") int totalCost,
-														@RequestParam("bookMainImg") String bookMainImg,
-														@RequestParam("quantity") int quantity,
-														@RequestParam("deliveryStatus") int deliveryStatus,
+														@RequestParam(value="paymentNo", required = false, defaultValue="0") int paymentNo,
+														@RequestParam(value="totalCost",required = false ,defaultValue="0" ) int totalCost,
+//														@RequestParam("bookMainImg") String bookMainImg,
+//														@RequestParam("quantity") int quantity,
+//														@RequestParam("deliveryStatus") int deliveryStatus,
+													//	@RequestParam(value="currentPage",defaultValue="1")
 														HttpSession session, Model model ) { 
 		
 		User loginUser = (User) session.getAttribute("loginUser"); 
-		ArrayList <Payment> myOrderList = paymentService.SelectMyOrderList(loginUser);
+//		ArrayList <Payment> myOrderList = paymentService.selectMyOrderList(loginUser);
+		Payment myOrderList = paymentService.selectMyOrderList(loginUser, payment);
+		
+		//PageInfo pi = pagination.getPageInfo(myOrderList, currentPage, 5,5);
 		
 		model.addAttribute("myOrderList",myOrderList);
-		
+		System.out.println("=================주문리스트 값은 찍히는지 ========="+myOrderList);
 		return "myPage/myPageOrderList";
 	}
 	

@@ -20,7 +20,7 @@
 	<link rel="stylesheet" href="css/used.css">
 </head>
 
-<body>
+<body style="width: 1200px; margin: auto;">
  	<jsp:include page="../ubook/ubookMenu.jsp"/>
 
 	<!--================Blog Area =================-->
@@ -29,7 +29,7 @@
 			<div class="row">
 				<div class="col-lg-9 posts-list">
 					<!--================ 좌측 사이드바(도서 카테고리 선택) =================-->
-					<div class="col-xl-3 col-lg-4 col-md-5" style="float: left; margin-right: 5%;">
+					<div class="col-xl-2" style="float: left; margin-right: 5%;">
 						<div class="sidebar-categories">
 							<div class="head category">Browse Categories</div>
 							<div class="categorybody">Browse Categories</div>

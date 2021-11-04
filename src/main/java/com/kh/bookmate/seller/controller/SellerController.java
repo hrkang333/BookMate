@@ -29,44 +29,58 @@ public class SellerController {
 	private SellerService sellerService;
 	
 	@RequestMapping("ubookMain.ub")
-	public String ubookMain(HttpServletRequest request, Model model) {
-		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
-		Seller s = sellerService.loginSeller(userId);
-		model.addAttribute("s", s);
-		System.out.println(userId);
-		System.out.println("=======================s" + s);
-		return "ubook/ubookMain";
-	}
-	/*
-	@RequestMapping("ubookMain.ub")
-	public String ubookMain(HttpServletRequest request) {
-
+	public String ubookMain(HttpServletRequest request, Model model) {	
+		//11.4 - 해결... (원인 : .getUserId() 때문이였음 -> if문으로 비교할 때에는 .getUserId()없이 해야한다)
+		if((User)request.getSession().getAttribute("loginUser") != null) {
 			String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
-			sellerService.loginSeller(userId);
-			System.out.println(userId);
+			Seller s = sellerService.loginSeller(userId);
+			model.addAttribute("s", s);
+			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~" + s);
+		}
 		return "ubook/ubookMain";
 	}
-	
-	@RequestMapping("ubookMain.ub")
-	public String ubookMain(HttpServletRequest request, Model model) {
-		
-		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
-		Seller loginSeller = sellerService.loginSeller(userId);		
-		
-		model.addAttribute("loginSeller", loginSeller);
-
-		return "ubook/ubookMain";
-	}*/
 	
 	@RequestMapping("sellerPage.se")
 	public String sellerPage(HttpServletRequest request, Model model) {
+		//1. 판매자 정보 조회
 		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
 		Seller s = sellerService.loginSeller(userId);
 		model.addAttribute("s", s);
 		System.out.println(userId);
 		System.out.println("=======================s" + s);
+
 		return "seller/sellerPage";
 	}
+	
+
+	@RequestMapping(value="sellerUpdate.se")
+	public String updateSeller(@ModelAttribute Seller seller,
+								HttpServletRequest request,
+								@RequestParam("sellerEmail") String sellerEmail,
+								@RequestParam("sellerPhone") String sellerPhone,
+								@RequestParam("sellerDel") String sellerDel,
+								@RequestParam("post") String post,
+								 @RequestParam("address1") String address1,
+								 @RequestParam("address2") String address2,
+								 HttpSession session, Model model) {
+		Seller s = new Seller();
+		s.setSellerId(request.getParameter("sellerId"));
+		s.setSellerEmail(sellerEmail);
+		s.setSellerPhone(sellerPhone);
+		s.setSellerDel(sellerDel);
+		s.setSellerAddress(post+"/"+address1+"/"+address2); 
+		
+		int result = sellerService.updateSeller(s);
+		System.out.println("++++++++++++++++++" + s.getSellerId());
+		System.out.println("*****************************" + result);
+		System.out.println("===========test" + s);
+		System.out.println("===========test" + s.getSellerNickN());
+		
+		//return "seller/sellerPage";
+		return "redirect:/sellerPage.se";
+	}
+	
+	
 	@RequestMapping("sellerInsertForm.se")
 	public String sellerInsertForm() {
 		return "seller/sellerInsertForm";
@@ -74,21 +88,27 @@ public class SellerController {
 	
 	@RequestMapping(value="insertSeller.se")
 	public String insertSeller(@ModelAttribute Seller s,
-					 @RequestParam("detailaddress1") String detailaddress1,
-					 @RequestParam("detailaddress2") String detailaddress2,
+			@RequestParam("post") String post,
+			 @RequestParam("address1") String address1,
+			 @RequestParam("address2") String address2,
 					 			HttpSession session){
 		
-		s.setSellerAddress(detailaddress1+"/"+detailaddress2); 
+		s.setSellerAddress(post+"/"+address1+"/"+address2); 
 
 		sellerService.insertSeller(s);
 		
 		//model.addAttribute("loginSeller", sellerInfo); 
 		
 		
-		return "ubook/ubookMain";
+		//return "ubook/ubookMain";
+		return "redirect:/ubookMain.ub";
 	}
 	
-	
+	@RequestMapping(value="deleteSeller.se")
+	public String deleteSeller(Seller s) {
+		sellerService.deleteSeller(s);
+		return "redirect:/ubookMain.ub";
+	}
 	/*
 	@RequestMapping("insertSeller.se")
 	public String insertSeller(@ModelAttribute User u,

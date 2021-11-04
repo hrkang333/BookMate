@@ -31,7 +31,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND S.STATUS = 'Y'
 		</select>
 	
-	
+		<update id="updateSeller" parameterType="Seller">
+		UPDATE SELLER 
+		SET
+		SELLER_EMAIL=#{sellerEmail},
+		SELLER_PHONE=#{sellerPhone},
+		SELLER_DEL=#{sellerDel},
+		SELLER_ADDRESS=#{sellerAddress},
+		MODIFY_DATE=SYSDATE
+        WHERE SELLER_ID=#{sellerId}
+		AND STATUS='Y'
+		</update>
+		
+		<update id="deleteSeller" parameterType="Seller">
+			UPDATE SELLER SET STATUS='N' WHERE SELLER_ID=#{sellerId}
+		</update>
 	<!--
 	
 	SELECT S.*

@@ -7,7 +7,7 @@ import com.kh.bookmate.user.model.vo.User;
 
 public interface PaymentService {
 
-	ArrayList<Payment> SelectMyOrderList(User loginUser);
+	Payment selectMyOrderList(User loginUser, Payment payment);
 
 	
 }

@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="/resources/demos/style.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
  
     <link rel="stylesheet" href="resources/css/style.css">
 
@@ -149,11 +150,14 @@
 
                         <tbody style="text-align: center;">
                           <tr>
-                            <td><p>123-123-123</p></td>
-                            <td>10000 원</td>
+                            <td><p><c:out value="${myOrderList.paymentNo}"/></p></td>
+                            <td><c:out value="${myOrderList.totalCost}"/> 원</td>
                             <td> [국내도서] 패싱 </td>
                             <td> 1개  </td>
                             <th> 결제완료  </th>
+                  <%--        <td> <c:out value="${myOrderList.bookMainImg}"/></td>
+                            <td> <c:out value="${myOrderList.quantity}"/>개  </td>
+                            <th> <c:out value="${myOrderList.deliveryStatus}"/>  </th> --%>
                             <td> <a class="button button-hero" href="#">주문취소</a> </td>
                           </tr>
 

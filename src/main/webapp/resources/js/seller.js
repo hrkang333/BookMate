@@ -17,6 +17,7 @@ function showTab(n) {
     }
     if (n == (x.length - 1)) {
         document.getElementById("nextBtn").innerHTML = "Submit";
+        document.getElementById("nextBtn").style.display = "none";
     } else {
         document.getElementById("nextBtn").innerHTML = "Next";
     }
@@ -24,8 +25,9 @@ function showTab(n) {
 }
 
 function nextPrev(n) {
+//function sellerSubmit(){
     var x = document.getElementsByClassName("tab");
-    if (n == 1 && !validateForm()) return false;
+    if (!validateForm()) return false;
     x[currentTab].style.display = "none";
     currentTab = currentTab + n;
     if (currentTab >= x.length) {
@@ -49,7 +51,9 @@ function validateForm() {
 
     for (i = 0; i < y.length; i++) {
          if (y[i].value == "") {
-              y[i].className += " invalid"; valid = false; 
+        	 y[i].focus();
+        	 y[i].className += " invalid"; valid = false; 
+              
         }
     }
     for (i = 0; i < z.length; i++) {

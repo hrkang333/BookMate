@@ -29,6 +29,11 @@
            
        }
 
+		body{
+		 
+		width: 1200px;
+		
+		} 
      </style>
   
 </head>
@@ -129,7 +134,6 @@
 							</div>
 						</div>
 					</div>
-					
 				</div>
 			</div>
 			

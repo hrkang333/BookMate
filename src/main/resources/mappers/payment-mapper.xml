@@ -4,33 +4,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="paymentMapper">
 
-	<resultMap id ="paymentResultSet" type="payment">
-		<result column ="PAYMENTNO" property="paymentNo"/>
-		<result column ="USER_ID" property="userId"/>
-		<result column ="SHIPPINGNAME" property="shippingName"/>
-		<result column ="SHIPPINGADDRESS" property="shippingAddress"/>
-		<result column ="SHIPPINGPHONE" property="shippingPhone"/>
-		<result column ="DELIVERYREQUSER" property="deliveryRequest"/>
-		<result column ="SHIPDATE" property="shipDate"/>
-		<result column ="USEPOINT" property="userPoint"/>
-		<result column ="TOTALCOST" property="totalCost"/>
-		<result column ="PAYMENTMETHOD" property="paymentMethod"/>
-		<result column ="GETPOINT" property="getPoint"/>
-	</resultMap>
+	<resultMap id="paymentResultSet" type="Payment">
+		<id column="PAYMENTNO" property="paymentNo" />
+		<result column="USER_ID" property="user_Id" />
+		<result column="SHIPPINGNAME" property="shippingName" />
+		<result column="SHIPPINGADDRESS" property="shippingAddress" />
+		<result column="SHIPPINGPHONE" property="shippingPhone" />
+		<result column="DELIVERYREQUSER" property="deliveryRequest" />
+		<result column="SHIPDATE" property="shipDate" />
+		<result column="USEPOINT" property="usePoint" />
+		<result column="TOTALCOST" property="totalCost" />
+		<result column="PAYMENTMETHOD" property="paymentMethod" />
+		<result column="GETPOINT" property="getPoint" />
 
-	<resultMap id ="paymentDetailResultSet" type="com.kh.bookmate.payment.model.vo.PaymentDetail">
-		<result column ="PAYMENTDETAILNO" property="paymentDetailNo"/>
-		<result column ="PAYMENTNO" property="paymentNo"/>
-		<result column ="BOOKISBN" property="bookIsbn"/>
-		<result column ="BOOKMAINIMG" property="bookMainImg"/>
-		<result column ="BOOKTITLE" property="BookTitle"/>
-		<result column ="QUANTITY" property="quantity"/>
-		<result column ="BOOKPRICE" property="bookPrice"/>
-		<result column ="SALEPRICE" property="salePrice"/>
-		<result column ="GETPOINT" property="getPoint"/>
-		<result column ="DELIVERYDATE" property="deliveryDate"/>
-		<result column ="DELIVERYSTATUS" property="deliveryStatus"/>
-	
 	</resultMap>
+	
+	
+	<select id="selectMyOrderList" resultMap="paymentResultSet" parameterType="Payment">
+	
+		select *
+		from payment
+	
+	</select>
+	
 
 </mapper>
