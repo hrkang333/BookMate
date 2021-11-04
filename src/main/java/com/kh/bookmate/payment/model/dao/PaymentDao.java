@@ -11,10 +11,14 @@ import com.kh.bookmate.user.model.vo.User;
 @Repository
 public class PaymentDao {
 
-	public ArrayList<Payment> SelectMyOrderList(SqlSessionTemplate sqlSession, User loginUser) {
+	public Payment selectMyOrderList(SqlSessionTemplate sqlSession, User loginUser, Payment payment) {
 
-		return (ArrayList)sqlSession.selectList("paymentMapper.SelectMyOrderList", loginUser);
+		System.out.println("==================" +payment + loginUser );
+		
+		
+		return (Payment) sqlSession.selectOne("paymentMapper.selectMyOrderList", loginUser);
 	}
+
 
 
 }

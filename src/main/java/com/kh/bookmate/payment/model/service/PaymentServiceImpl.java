@@ -23,14 +23,20 @@ public class PaymentServiceImpl implements PaymentService {
 	@Autowired
 	private PaymentDao paymentDao;
 
-	//회원 주문 주회 
 	@Override
-	public ArrayList<Payment> SelectMyOrderList(User loginUser) {
-
-		ArrayList<Payment> list = paymentDao.SelectMyOrderList(sqlSession, loginUser);
+	public Payment selectMyOrderList(User loginUser, Payment payment) {
+		Payment list = paymentDao.selectMyOrderList(sqlSession, loginUser,payment);
 		
+		System.out.println("==================paymentImpl list" + list);
 		return list;
 	}
+
+	//회원 주문 주회 
+//	@Override
+//	public ArrayList<Payment> selectMyOrderList(User loginUser) {
+//		ArrayList<Payment> list = paymentDao.selectMyOrderList(sqlSession, loginUser);
+//		return list;
+//	}
 
 
 	
