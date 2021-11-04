@@ -71,7 +71,7 @@
     </style>
 </head>
 
-<body>
+<body style="width:1200px; margin:auto">
     <!--================ Start Header Menu Area =================-->
     <header class="header_area">
         <div class="main_menu">

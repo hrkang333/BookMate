@@ -6,6 +6,7 @@
 package com.kh.bookmate.club.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -16,6 +17,7 @@ import com.kh.bookmate.club.model.dao.ClubDao;
 import com.kh.bookmate.club.model.vo.Club;
 import com.kh.bookmate.club.model.vo.ClubAttachment;
 import com.kh.bookmate.club.model.vo.ClubTime;
+import com.kh.bookmate.common.PageInfo;
 
 @Service
 public class ClubServiceImpl implements ClubService {
@@ -94,11 +96,35 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	@Override
-	public ArrayList<Club> selectList3(String userId) {
+	public ArrayList<Club> selectList3(String userId, PageInfo pi) {
 
-		ArrayList<Club> list = clubDao.selectList3(sqlSession, userId);
+		ArrayList<Club> list = clubDao.selectList3(sqlSession, userId, pi);
 		
 		return list;
+	}
+
+	@Override
+	public ArrayList<ClubAttachment> selectPhotoList(List<Integer> clubNo) {
+		
+		ArrayList<ClubAttachment> plist = clubDao.selectPhotoList(sqlSession,clubNo);
+		
+		return plist;
+	}
+
+	@Override
+	public void deleteClub3(List<Integer> clubNo) {
+		
+		int result = clubDao.deleteClub3(sqlSession, clubNo);
+		if(result < 0) {
+			//오류처리
+		}
+		
+	}
+
+	@Override
+	public int selectListCount(String userId) {
+		// TODO Auto-generated method stub
+		return clubDao.selectListCount(sqlSession,userId);
 	}
 
 	
