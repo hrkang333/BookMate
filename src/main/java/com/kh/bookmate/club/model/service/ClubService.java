@@ -5,11 +5,13 @@
 package com.kh.bookmate.club.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.kh.bookmate.club.model.vo.Club;
 import com.kh.bookmate.club.model.vo.ClubAttachment;
 import com.kh.bookmate.club.model.vo.ClubTime;
+import com.kh.bookmate.common.PageInfo;
 
 public interface ClubService {
 
@@ -23,6 +25,12 @@ public interface ClubService {
 
 	void insertClub(Club c, ClubAttachment ca, Map<String, Object> map);
 
-	ArrayList<Club> selectList3(String userId);  
+	ArrayList<Club> selectList3(String userId, PageInfo pi);
+
+	ArrayList<ClubAttachment> selectPhotoList(List<Integer> clubNo);
+
+	void deleteClub3(List<Integer> clubNo);
+
+	int selectListCount(String userId);  
 
 }

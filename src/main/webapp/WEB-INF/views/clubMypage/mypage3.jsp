@@ -53,63 +53,10 @@
     </style>
 </head>
 
-<body>
-    <!--================ Start Header Menu Area =================-->
-    <header class="header_area">
-        <div class="main_menu">
-            <nav class="navbar navbar-expand-lg navbar-light">
-                <div class="container">
-                    <a class="navbar-brand logo_h" href="index.html"><img src="img/logo.png" alt=""></a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-                    <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
-                        <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
-                            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                            <li class="nav-item active submenu dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Shop</a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item"><a class="nav-link" href="category.html">Shop Category</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="single-product.html">Product Details</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="checkout.html">Product Checkout</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item submenu dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Blog</a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item submenu dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pages</a>
-                                <ul class="dropdown-menu">
-                                    <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="tracking-order.html">Tracking</a></li>
-                                </ul>
-                            </li>
-                            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-                        </ul>
+<body style="width:1200px; margin:auto">
 
-                        <ul class="nav-shop">
-                            <li class="nav-item"><button><i class="ti-search"></i></button></li>
-                            <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li>
-                            <li class="nav-item"><a class="button button-header" href="#">Buy Now</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </header>
-    <!--================ End Header Menu Area =================-->
-
-
-
+    <jsp:include page="../club/clubMenubar.jsp"/>
+    
     <!-- ================ category section start ================= -->
     <section class="section-margin--small mb-5" style="margin-top: 50px;">
         <div class="container">
@@ -129,7 +76,8 @@
                         <script>
                         	//선택한 독서모임 multiple 삭제하기
                         	function deleteClub(){
-                        		if(confirm){
+                        		var deleteC = confirm("독서모임을 삭제하시겠습니까?");
+                        		if(deleteC){
                                 	if($("input:checkBox[name=clubNo]:checked").length == 0){
                                 		alert("삭제할 독서모임을 선택해주세요!!");
                                 	}else{
@@ -137,7 +85,13 @@
                                 	}
                                 }
                         	}
-                            
+                        	
+                        	function newClub(){
+                        		var insertC = confirm("독서모임을 개설하시겠습니까?");
+                        		if(insertC){
+                        			$("#mypageForm3").attr("action","insertForm1.cl");
+                        		}
+                        	}
                         </script>
                         
                         <table id="applyList" class="table table-hover" align="center">
@@ -197,15 +151,6 @@
                                 </c:forEach>
                                 
                                 
-                                <!--<tr>
-	                               <td><input type="checkBox"></td>
-	                               <td>인문/과학/심리</td>
-	                               <td>데일리 전집 읽기-헤르만 헤세편</td>
-	                               <td>온라인</td>
-	                               <td>2021-10-21 20:00 - 22:00 <br>2021-11-05 20:00 - 22:00</td>
-	                               <td>0/5</td>  ==> 일단 지우기
-	                               <td>임시저장</td>
-	                            </tr> -->
                             </tbody>
                         </table>
 
@@ -230,12 +175,46 @@
                             </div>
 
                             <div class="bottom2">
-                                <button class="button button-login">독서모임 개설</button>
+                                <button class="button button-login" onclick="newClub()">독서모임 개설</button>
                             </div>
 
                         </div>
 
 						</form>
+						
+						<div id="pagingArea">
+			                <ul class="pagination">
+			                	<c:choose>
+			                		<c:when test="${ pi.currentPage ne 1 }">
+			                			<li class="page-item"><a class="page-link" href="list.bo?currentPage=${ pi.currentPage-1 }">Previous</a></li>
+			                		</c:when>
+			                		<c:otherwise>
+			                			<li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
+			                		</c:otherwise>
+			                	</c:choose>
+			                	
+			                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+			                    	<c:choose>
+				                		<c:when test="${ pi.currentPage ne p }">
+			                    			<li class="page-item"><a class="page-link" href="list.bo?currentPage=${ p }">${ p }</a></li>
+				                		</c:when>
+				                		<c:otherwise>
+				                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
+				                		</c:otherwise>
+				                	</c:choose>
+			                    </c:forEach>
+			                    
+			                    
+			                    <c:choose>
+			                		<c:when test="${ pi.currentPage ne pi.maxPage }">
+			                			<li class="page-item"><a class="page-link" href="list.bo?currentPage=${ pi.currentPage+1 }">Next</a></li>
+			                		</c:when>
+			                		<c:otherwise>
+			                			<li class="page-item disabled"><a class="page-link" href="list.bo?currentPage=${ pi.currentPage+1 }">Next</a></li>
+			                		</c:otherwise>
+			                	</c:choose>
+			                </ul>
+			            </div>
                     </section>
                     <!-- End Best Seller -->
                 </div>

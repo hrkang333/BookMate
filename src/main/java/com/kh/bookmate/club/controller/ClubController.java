@@ -3,11 +3,12 @@
  * 수정날짜 : 2021.11.01
  * 수정사항 : 독서모임 개설신청 db 연동중
  * 수정필요사항 : loginUser 세션에 넣어줘야 함 (V)
+ * 			  step2에서 정원 typemismatch 오류남 default=0으로해야겠다.(V)
  * 			  message로 상황 알려줘야 함
- *            step2에서 정원 typemismatch 오류남 default=0으로해야겠다.
- *            시간같은 정해진 갯수가 없는 값 -> 삭제 후 insert 다시하나?
  *            오프라인 장소(club_place) 추가해줘야 함
- *            clubTime 테이블 status 컬럼 삭제해도 되지 않을까?
+ *            <삭제> 1.club_time, club_attachment -> club삭제되면 해당 clubNo에 맞는 값 delete처리?
+ *            
+ *            
  * */
 package com.kh.bookmate.club.controller;
 
@@ -15,10 +16,12 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -36,6 +39,8 @@ import com.kh.bookmate.club.model.service.ClubService;
 import com.kh.bookmate.club.model.vo.Club;
 import com.kh.bookmate.club.model.vo.ClubAttachment;
 import com.kh.bookmate.club.model.vo.ClubTime;
+import com.kh.bookmate.common.PageInfo;
+import com.kh.bookmate.common.Pagination;
 import com.kh.bookmate.user.model.vo.User;
 
 @Controller
@@ -99,7 +104,7 @@ public class ClubController {
 		
 		//다중 매핑 (10.30) 후 url판별하여 분기처리
 		if(request.getServletPath().equals("/saveStep1.cl")) {
-			return "index";
+			return "redirect:mypage3.cl";
 		}else {
 			return "club/insertForm2";
 		}
@@ -159,12 +164,15 @@ public class ClubController {
 
 		c.setClubCapacity(capacity); //typeMismatch 오류나서 따로 뺏음(11.03)
 		c.setClubNo(keyClubNo);  //앞 단계에서 넣은 ClubNo값 넣기
-		ca.setClubNo(keyClubNo);
 		
+		if(ca != null) {
+			ca.setClubNo(keyClubNo);
+		}
+
 		clubService.saveStep2(c, ca);
 
 		if(request.getServletPath().equals("/saveStep2.cl")) {
-			return "index";
+			return "redirect:mypage3.cl";
 		}else {
 			return "club/insertForm3";
 		}
@@ -179,7 +187,10 @@ public class ClubController {
 		ca = preSaveFile(ca, file, request, imageType);
 
 		c.setClubNo(keyClubNo);  //앞 단계에서 넣은 ClubNo값 넣기
-		ca.setClubNo(keyClubNo);
+		
+		if(ca != null) {
+			ca.setClubNo(keyClubNo);
+		}
 		
 		String[] dates = ct.getClubDate().split(",");
 		String[] startTimes = ct.getStartTime().split(",");
@@ -205,7 +216,7 @@ public class ClubController {
 
 		if(request.getServletPath().equals("/saveStep3.cl")) {
 			clubService.saveStep3(c, ca, map);
-			return "index";  //msg 다르게 처리해야한다.
+			return "redirect:mypage3.cl";  //msg 다르게 처리해야한다.
 		}else {
 			clubService.insertClub(c, ca, map);  //condition컬럼 값 2로 바꾼다.
 			return "index";  //msg 다르게 처리해야한다.
@@ -214,28 +225,63 @@ public class ClubController {
 	
 	//5. 조회하기
 	@RequestMapping("mypage3.cl")
-	public String manageMyClub(HttpServletRequest request, Model model) {
+	public String selectListMypage3(@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage,
+											 HttpServletRequest request, Model model) {
 		
 		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
-		ArrayList<Club> list = clubService.selectList3(userId);		
+		
+		int listCount = clubService.selectListCount(userId);
+		System.out.println("listCount : " + listCount);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 7, 5);
+		
+		System.out.println("currentPage는 ? " + currentPage);
+		
+		ArrayList<Club> list = clubService.selectList3(userId, pi);		
 		
 		model.addAttribute("list", list);
 
 		return "clubMypage/mypage3";
 	}
 	
+	//6.마이페이지-내독서모임관리-독서모임 삭제
 	@RequestMapping("deleteClub3.cl")
-	public String deleteClub3(int[] clubNo) {
+	public String deleteClub3(int[] clubNo, HttpServletRequest request) {
+		//0.mybatis-foreach문에서 arraylist,list만취급해서 int[] 바꿨는데 다 쓸수있었다,,,
+		//참고: https://wook-dragon.tistory.com/8		
+		List<Integer> clubNos = Arrays.stream(clubNo).boxed().collect(Collectors.toList());
 		
-		System.out.println("clubNo 가 어떻게 넘어오나");
+		//1.조회
+		ArrayList<ClubAttachment> plist = new ArrayList<>();
+		plist = clubService.selectPhotoList(clubNos);
 		
-		for(int no : clubNo) {
-			System.out.println("clubNo : " + no);
+		//2.사진삭제(해당 clubNo에 사진있는 경우만)
+		if(plist != null) {
+			System.out.println("여기 탈텐데");
+			for(ClubAttachment ca : plist) {
+				deleteFile(ca.getChangeName(),request);
+			}
 		}
 		
-		//clubService.deleteClub3(clubNo); //1,4넘어오면?
+		//3.db 업데이트(status='n')
+		clubService.deleteClub3(clubNos);
 		
 		return "redirect:mypage3.cl";
+	}
+
+	private void deleteFile(String changeName, HttpServletRequest request) {
+		
+		String resources = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = resources + File.separator+"upload_files"+File.separator+"club_img"+File.separator;
+
+		File deleteFile = new File(savePath+changeName);
+		deleteFile.delete();
+	}
+	
+	//7.메인페이지
+	@RequestMapping("clubMain.cl")
+	public String clubMain() {
+		return "club/clubMain";
 	}
 		
 		

@@ -47,7 +47,7 @@
                      </li>
                      <li class="nav-item"><a class="nav-link" href="ubookMain.ub">중고장터</a></li>
                      
-                     <li class="nav-item"><a class="nav-link" href="contact.html">독서모임</a></li>
+                     <li class="nav-item"><a class="nav-link" href="clubMain.cl">독서모임</a></li>
                      <li class="nav-item submenu dropdown">
 
               </li>
