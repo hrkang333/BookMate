@@ -22,6 +22,15 @@ public class SellerDao {
 		return sqlSession.selectOne("sellerMapper.loginSeller", userId);
 	}
 
+	public int updateSeller(SqlSessionTemplate sqlSession, Seller s) {
+		return sqlSession.update("sellerMapper.updateSeller", s);
+	}
+
+	public int deleteSeller(SqlSessionTemplate sqlSession, Seller s) {
+		System.out.println("-------dao -----------s" + s);
+		return sqlSession.update("sellerMapper.deleteSeller", s);
+	}
+
 	/*
 	 * public int insertSeller(SqlSessionTemplate sqlSession, Seller s) { return
 	 * sqlSession.insert("sellerMapper.insertSeller", s); }

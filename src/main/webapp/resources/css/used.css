@@ -3,20 +3,24 @@
 }
 
 .logo_link{
-    width: 15%;
+    /* width: 15%; */
+    width : 85px;
 }
 
 .logo2{
-    width: 145%;
+    width: 100%;
 }
 
 .logo_link2{
-    width: 30%;
+    /* width: 30%; */
+    width: 250px;
+    margin-left: -27px;
 }
 
 .searchbar{
     min-width: 75%;
     border: none !important;
+    width : 500px;
 }
 
 .l{

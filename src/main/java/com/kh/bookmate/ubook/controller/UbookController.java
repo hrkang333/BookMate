@@ -1,4 +1,4 @@
-package com.kh.bookmate.ubook.model.controller;
+package com.kh.bookmate.ubook.controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +32,7 @@ public class UbookController {
 		return "ubook/ubookDetail";
 	}
 
-	@RequestMapping(value="ubookEnroll.ub")
+	@RequestMapping("ubookEnroll.ub")
 	public String ubookEnroll(Ubook ubook,
 								@DateTimeFormat(pattern = "yyyy-MM-dd") Date ubookPubDate,
 								@RequestParam("UbookMainImgFile") MultipartFile UbookMainImgFile,
@@ -51,7 +51,7 @@ public class UbookController {
 			
 			//model.addAttribute("ubook", ubookDetail);
 
-			return "seller/sellerPage";
+			return "seller/ubookEnrollForm";
 	}
 	
 	public String changeFileNameAndSave(HttpServletRequest request, MultipartFile file) {
