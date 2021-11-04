@@ -5,11 +5,16 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -34,14 +39,33 @@ public class BookController {
 	
 	@RequestMapping("selectBook.book")
 	public String selectBook(String bookISBN, Model mo) {
-
-		Book book = bookService.selectBook(bookISBN);
+		List<Book> bestBookList;
+		List<Book> newBookList;
+		List<Book> bestList;
+		Book book;
+		int allBestRank;
+		int categoryBestRank;
+		
+		
+		book = bookService.selectBook(bookISBN);
+		allBestRank = bookService.selectAllBestRank(bookISBN);
+		categoryBestRank = bookService.selectCategoryBestRank(book);
+		book.setAllBestRank(allBestRank);
+		book.setCategoryBestRank(categoryBestRank);
+		newBookList = bookService.selectNewBookList(book.getBookSubCategory());
+		bestBookList = bookService.selectBestBookList(book.getBookSubCategory());
+		bestList = new ArrayList<Book>(bestBookList.subList(0, 5));
+		
 
 //		book.setBookContents(book.getBookContents().replaceAll("<br>", "\r\n"));
 //		book.setBookIntro(book.getBookIntro().replaceAll("<br>", "\r\n"));
 		System.out.println(book);
-		
+
+		mo.addAttribute("newBookList", newBookList);
+		mo.addAttribute("bestList", bestList);
 		mo.addAttribute("book", book);
+		mo.addAttribute("categoryName", "취미");
+		mo.addAttribute("bestListIndex", 0);
 
 		return "book/bookDetail";
 
@@ -103,5 +127,62 @@ public class BookController {
 		}
 		return newFileName;
 	}
+	
+	@RequestMapping("tempBook.book")
+	public String tempBook() {
+		List<Book> bookList = new ArrayList<Book>();
+		
+		bookList = bookService.selectCategoryBookList(8);
+		
+		
+		System.out.println(bookList.size());
+		
+		bookService.sellDateInsert(bookList);
+		
+		
+		return "book/bookTemp";	
+		
+	}
 
+	@RequestMapping("bestListMove.book")
+	public void aaaa(HttpServletResponse response,int listIndex, int bookSubCategory,HttpServletRequest request) {
+		List<Book> bestBookList;
+		
+		List<Book> bestList;
+	
+		bestBookList = bookService.selectBestBookList(bookSubCategory);
+		if(listIndex<5) {
+			bestList = new ArrayList<Book>(bestBookList.subList(listIndex, listIndex+5));
+			System.out.println(bestList);
+		}else {
+			List<Book> joinBestList = new ArrayList<Book>();
+			joinBestList.addAll(bestBookList);
+			joinBestList.addAll(bestBookList);
+			bestList = new ArrayList<Book>(joinBestList.subList(listIndex, listIndex+5));
+			
+		}
+		request.setAttribute("bestListIndex", listIndex);
+		JSONArray jArr = new JSONArray();
+		JSONObject jBook =null;
+		
+		for(Book book : bestList) {
+			jBook =  new JSONObject();
+			jBook.put("bookISBN",book.getBookISBN());
+			jBook.put("bookMainImg",book.getBookMainImg());
+			jBook.put("bookTitle",book.getBookTitle());
+			jBook.put("bookPrice",book.getBookPrice());
+				
+			jArr.add(jBook);
+				
+			
+		}
+		
+		response.setContentType("application/json; charset=utf-8");
+		try {
+			response.getWriter().print(jArr);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
