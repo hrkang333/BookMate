@@ -1,5 +1,7 @@
 package com.kh.bookmate.book.model.service;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,5 +43,54 @@ public class BookServiceImpl implements BookService{
 		}
 		
 	}
+
+	
+
+	@Override
+	public List<Book> selectCategoryBookList(int i) {
+		
+		return bookDao.selectCategoryBookList(sqlSession,i);
+	}
+
+	@Override
+	public void sellDateInsert(List<Book> bookList) {
+		
+		
+		for(Book book : bookList) {
+			
+			int result = bookDao.sellDateInsert(sqlSession,book);
+			if(result < 0) {
+				throw new RuntimeException("판매부수 입력 오류"); 
+			}
+			
+		}
+		
+	}
+
+	@Override
+	public List<Book> selectBestBookList(int bookSubCategory) {
+		// TODO Auuto-generated method stub
+		return bookDao.selectBestBookList(sqlSession,bookSubCategory);
+	}
+
+	@Override
+	public List<Book> selectNewBookList(int bookSubCategory) {
+		// TODO Auto-generated method stub
+		return bookDao.selectNewBookList(sqlSession,bookSubCategory);
+	}
+
+	@Override
+	public int selectAllBestRank(String bookISBN) {
+		// TODO Auto-generated method stub
+		return bookDao.selectAllBestRank(sqlSession, bookISBN);
+	}
+
+	@Override
+	public int selectCategoryBestRank(Book book) {
+		// TODO Auto-generated method stub
+		return bookDao.selectCategoryBestRank(sqlSession, book);
+	}
+
+	
 
 }

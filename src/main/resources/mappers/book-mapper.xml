@@ -10,6 +10,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 SELECT * FROM BOOK WHERE BOOKISBN = #{bookISBN}
 </select>
 
+<select id="selectCategoryBookList" resultType="Book">
+SELECT * FROM BOOK WHERE BOOKSUBCATEGORY = #{num}
+</select>
+
+<select id="selectBestBookList" resultType="Book">
+SELECT * FROM(
+SELECT ROWNUM RNUM, QQ.* FROM(
+SELECT B.*,NVL(SELLSUM,0) SELL FROM BOOK B LEFT JOIN (
+SELECT BOOKISBN,SUM(SELLQUNTITY) SELLSUM FROM SELLDATE WHERE SELLDATE > SYSDATE-8 GROUP BY BOOKISBN) S  ON B.BOOKISBN=S.BOOKISBN ORDER BY SELL DESC, B.BOOKRATING DESC,B.BOOKRATINGCOUNT) QQ WHERE BOOKSUBCATEGORY = #{bookSubCategory} 
+)  WHERE <![CDATA[ RNUM < 11 ]]>
+
+</select>
+<select id="selectNewBookList" resultType="Book">
+SELECT * FROM
+(SELECT * FROM BOOK WHERE BOOKSUBCATEGORY = #{bookSubCategory} ORDER BY BOOKPUBLISHEDATE DESC) B WHERE  <![CDATA[ ROWNUM < 11 ]]>
+</select>
+<select id="selectAllBestRank" resultType="_int">
+SELECT RNUM FROM(
+SELECT ROWNUM RNUM, QQ.* FROM(
+SELECT B.*,NVL(SELLSUM,0) SELL FROM BOOK B LEFT JOIN (
+SELECT BOOKISBN,SUM(SELLQUNTITY) SELLSUM FROM SELLDATE WHERE SELLDATE > SYSDATE-8 GROUP BY BOOKISBN) S  ON B.BOOKISBN=S.BOOKISBN ORDER BY SELL DESC, B.BOOKRATING DESC, B.BOOKRATINGCOUNT) QQ
+) WHERE BOOKISBN = #{bookISBN}
+</select>
+<select id="selectCategoryBestRank" resultType="_int" parameterType="Book">
+SELECT RNUM FROM(
+SELECT ROWNUM RNUM, QQ.* FROM(
+SELECT B.*,NVL(SELLSUM,0) SELL FROM BOOK B LEFT JOIN (
+SELECT BOOKISBN,SUM(SELLQUNTITY) SELLSUM FROM SELLDATE WHERE SELLDATE > SYSDATE-8 GROUP BY BOOKISBN) S  ON B.BOOKISBN=S.BOOKISBN ORDER BY SELL DESC, B.BOOKRATING DESC,B.BOOKRATINGCOUNT) QQ WHERE BOOKSUBCATEGORY = #{bookSubCategory} 
+) WHERE BOOKISBN = #{bookISBN}
+</select>
 <insert id="insertBook" parameterType="Book">
 INSERT INTO BOOK VALUES (#{bookISBN},#{bookMainImg},#{bookTitle},#{bookSubTitle},#{bookWriter},#{bookTranslator}
 						,#{bookCategory},#{bookSubCategory},#{bookPublisher},#{bookPublicheDate},#{bookPrice}
@@ -17,5 +47,8 @@ INSERT INTO BOOK VALUES (#{bookISBN},#{bookMainImg},#{bookTitle},#{bookSubTitle}
 
 </insert>
 
+<insert id="sellDateInsert" parameterType="Book">
+INSERT INTO SELLDATE VALUES(#{bookISBN},#{bookRating}*10,SYSDATE)
+</insert>
 </mapper>
 
