@@ -40,6 +40,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<result column="END_TIME" property="endTime" jdbcType="VARCHAR" />
 		</collection>
 	</resultMap>
+
+	
+	<resultMap id="clubAttachmentResultSet" type="ClubAttachment">
+		<id column="FILE_NO" property="fileNo"/>
+		<result column="REF_CLUB_NO" property="clubNo"/>
+		<result column="ORIGINAL_NAME" property="originalName"/>
+		<result column="CHANGE_NAME" property="changeName"/>
+		<result column="FILE_TYPE" property="fileType"/>
+	</resultMap>
 	
 	
 
@@ -149,8 +158,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM CLUB A
 		LEFT JOIN CLUB_TIME B
 		ON A.CLUB_NO = B.REF_CLUB_NO
-		WHERE USER_ID=#{userId}
+		WHERE USER_ID=#{userId} AND A.STATUS='Y'
 		ORDER BY CLUB_NO DESC	
+	</select>
+	
+<!-- 독서모임개설관리(mypage3)-독서모임 삭제 -->
+	<select id="selectPhotoList" resultMap="clubAttachmentResultSet">
+		SELECT * FROM CLUB_ATTACHMENT
+		WHERE REF_CLUB_NO IN
+		<foreach item="item" collection="list" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</select>
+
+	<delete id="deleteClub3" parameterType="_int">
+		DELETE CLUB
+		WHERE STATUS='Y' AND CLUB_NO IN 
+		<foreach item="item" collection="list" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+	
+	
+	<select id="selectListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM CLUB
+		WHERE STATUS='Y'	
+		AND USER_ID = #{userId}	
 	</select>
 	
 </mapper>

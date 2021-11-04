@@ -5,13 +5,16 @@
 package com.kh.bookmate.club.model.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.bookmate.club.model.vo.Club;
 import com.kh.bookmate.club.model.vo.ClubAttachment;
+import com.kh.bookmate.common.PageInfo;
 
 @Repository
 public class ClubDao {
@@ -58,9 +61,28 @@ public class ClubDao {
 		return sqlSession.update("clubMapper.insertClub", c);
 	}
 
-	public ArrayList<Club> selectList3(SqlSessionTemplate sqlSession, String userId) {
+	public ArrayList<Club> selectList3(SqlSessionTemplate sqlSession, String userId, PageInfo pi) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("clubMapper.selectList3", userId);
+		
+		int offset = (pi.getCurrentPage()-1)*(pi.getBoardLimit());
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("clubMapper.selectList3", userId, rowBounds);
+	}
+
+	public ArrayList<ClubAttachment> selectPhotoList(SqlSessionTemplate sqlSession, List<Integer> clubNo) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("clubMapper.selectPhotoList", clubNo);
+	}
+
+	public int deleteClub3(SqlSessionTemplate sqlSession, List<Integer> clubNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("clubMapper.deleteClub3",clubNo);
+	}
+
+	public int selectListCount(SqlSessionTemplate sqlSession, String userId) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("clubMapper.selectListCount",userId);
 	}
 
 }

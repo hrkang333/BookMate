@@ -14,6 +14,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
 
+    	var listIndex = 0;
         function modiQuntity(num) {
             var quntity = parseInt($('#orderQuntity').val());
             if(num==1){
@@ -23,12 +24,51 @@
             }
         }
         
+        function bestListMove(checkIndex,bookSubCategory) {
+			if(checkIndex == 1){
+				listIndex += 1;
+			}else{
+				listIndex -= 1;
+			}
+			
+			if(listIndex < 0){
+				listIndex = 10;
+			}else if(listIndex > 10){
+				listIndex = 1;
+			}
+			$.ajax({
+					url : "bestListMove.book",
+					
+					data : {
+						listIndex : listIndex,
+						bookSubCategory : bookSubCategory
+					},
+					type : "post",
+					success : function(list) {
+							$.each(list,function(i){
+								$('#bestBookImg'+i).attr("src","${pageContext.servletContext.contextPath }/resources/images/book_img/"+list[i].bookMainImg);
+								$('#bestBookImg'+i).attr("onclick","detailbook('"+list[i].bookISBN+"')");	
+								$('#bestBookTitle'+i).text(list[i].bookTitle);	
+								$('#bestBookTitle'+i).attr("onclick","detailbook('"+list[i].bookISBN+"')");
+								$('#bestBookPrice'+i).text(list[i].bookPrice.toLocaleString('ko-KR')+"원");
+							})
+					},
+					error : function(e) {
+						
+					}
+				})
+		}
+        
+        function detailbook(bookISBN) {
+			$('#inputISBN').val(bookISBN);
+			$('#detailBookForm').submit();
+		}
        
 
     </script>
 </head>
 <body style="width: 1000px; margin: 0 auto;"> 
-    
+    	<main>
 
         <div style="display: flex;">
         
@@ -44,14 +84,13 @@
             <span><c:out value="${requestScope.book.bookWriter}"/> 지음 | 
             	<c:if test="${requestScope.book.bookTranslator!='없음'}">역자 <c:out value="${requestScope.book.bookTranslator}"/>  | </c:if><c:out value="${requestScope.book.bookPublisher}"/> 출판 | <fmt:formatDate value="${requestScope.book.bookPublicheDate}" pattern="yyyy년 MM월 dd일"/> 출간</span><br><br>
             <span>평점 : <c:out value="${requestScope.book.bookRating}"/>/10 (<c:out value="${requestScope.book.bookRatingCount}"/>명 참여) | 리뷰 <c:out value="${requestScope.book.bookReviewCount}"/>개</span><br><br>
-            <span>국내 베스트 xx위 | 소설 베스트 xx위</span><br><br>
+            <span>국내 베스트 <span style="color: red; font-weight: bold;">${requestScope.book.allBestRank}</span>위 | 소설 베스트 <span style="color: red; font-weight: bold;">${requestScope.book.categoryBestRank}</span>위</span><br><br>
             <hr><br><br>
             <span>정가 : <fmt:formatNumber type="number" value="${price}"/> 원</span><br><br>
             <span>판매가 : <a style="font-size: 25px; color:crimson"><fmt:formatNumber type="number" value="${price*0.9}" /></a>원 [10%↓ <fmt:formatNumber type="number" value="${price*0.1}"/>원 할인]</span><br><br>
             <span>배송비 : 0 원</span>&nbsp;&nbsp;&nbsp;<button id="" >배송비 안내</button><br><br>
             <span>혜택 : [기본혜택] <fmt:formatNumber type="number" value="${price*0.05}"/>pt (5% 기본적립)<br>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[리뷰작성] <fmt:formatNumber type="number" value="${price*0.02}"/>pt (2% 추가적립)</span><br><br>
-            
 
         </div>
         
@@ -73,9 +112,22 @@
         </div><br><br>
         <hr>
         <br>
-        xxx 분야 주간 베스트 도서
+        <span style="font-size: 20px; font-weight : bold; color: blue;">${categoryName}</span> 분야 주간 베스트 도서
+        
         <br><br>
-        <div style="height: 300px; background-color: darkgrey;"></div>
+        <div style = "display: flex;">
+        <div style="margin-top: 125px"><img alt="" src="${pageContext.servletContext.contextPath }/resources/img/btn_prev.gif" height="50px" style="margin-right: 15px; cursor: pointer;" onclick="bestListMove(0,${requestScope.book.bookSubCategory})"></div>
+        <c:forEach items="${requestScope.bestList}" var="list" varStatus="status">
+        <div style="width: 180px; text-align: center;">
+        <img alt="" src="${pageContext.servletContext.contextPath }/resources/images/book_img/${list.bookMainImg}" width="170px" height="250px" style="margin: 5px;cursor: pointer;" onclick="detailbook('${list.bookISBN}')" id="bestBookImg${status.index}"><br>
+        <span id="bestBookTitle${status.index}" style="cursor: pointer;" onclick="detailbook('${list.bookISBN}')"><c:out value="${list.bookTitle}"></c:out></span><br>
+        <span style="color: red;" id="bestBookPrice${status.index}"><fmt:formatNumber value="${list.bookPrice}"></fmt:formatNumber>원</span>
+        
+        </div>
+        
+        </c:forEach>
+        <div style="margin-top: 125px"><img alt="" src="${pageContext.servletContext.contextPath }/resources/img/btn_next.gif" height="50px"  style="margin-left: 15px; cursor: pointer;" onclick="bestListMove(1,${requestScope.book.bookSubCategory})"></div>
+        </div>
         <br><br>
         <hr>
         <br>
@@ -91,24 +143,32 @@
                 <c:out value="${requestScope.book.bookContents}" escapeXml="false"/>
             </span>    
         </div>
-        <div style="width: 300px; border-left: solid 1px black;">
-        <br><span style="font-weight: bold; margin-left: 15px;">xxx 분야 신간 도서</span><br><br>
+        <div style="width: 300px; ">
+        <div style="width: 280px; border: solid 1px black; margin: 10px">
+        <br><span style="font-size: 20px; font-weight : bold; color: blue; margin-left: 10px">${categoryName}</span>분야 신간 도서<br><br>
+        <hr><br>
+        <c:forEach items="${requestScope.newBookList}" var="list" varStatus="status">
         <div style="display: flex;">
-            <div><img src="http://image.kyobobook.co.kr/images/book/large/504/l9791160406504.jpg" alt="" style="width: 100px; height: 150px;"></div>
+        	
+            <div><img src="${pageContext.servletContext.contextPath }/resources/images/book_img/${list.bookMainImg}" alt="" style="width: 100px; height: 150px; margin: 10px; cursor: pointer;" onclick="detailbook('${list.bookISBN}')"></div>
             <div><br>
-                <span style="font-weight: bold;">방금 떠나온 세계</span><br><br>
-                <span>김초엽</span><br>
-                <span style="color: red; font-weight: bold;">13500원</span></div>
+                <span style="font-weight: bold;cursor: pointer;" onclick="detailbook('${list.bookISBN}')"><c:out value="${list.bookTitle}"/></span><br><br>
+                <span><c:out value="${list.bookWriter}"/></span><br>
+                <span style="color: red; font-weight: bold;"><fmt:formatNumber value="${list.bookPrice}"></fmt:formatNumber></span></div>
         </div>
 
-        
+        </c:forEach>
+         
         </div>
-        
+        </div>
         </div>
         <br><br><br>
         <hr>
         <br><br>
         asf
+        <form action="selectBook.book" method="post" id="detailBookForm">
+        <input type="hidden" name="bookISBN" id="inputISBN">
+        </form>
         </main>
         
         
