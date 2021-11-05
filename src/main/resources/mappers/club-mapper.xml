@@ -49,8 +49,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="CHANGE_NAME" property="changeName"/>
 		<result column="FILE_TYPE" property="fileType"/>
 	</resultMap>
-	
-	
+
+	<resultMap id="clubTimeResultSet" type="ClubTime">
+		<id column="CLUB_TIME_NO" property="timeNo"/>
+		<result column="REF_CLUB_NO" property="clubNo"/>
+		<result column="CLUB_DATE" property="clubDate"/>
+		<result column="START_TIME" property="startTime"/>
+		<result column="END_TIME" property="endTime"/>
+		<result column="STATUS" property="status"/>
+	</resultMap>
+
 
 	<select id="checkHost" resultType="_int">
 		SELECT COUNT(*)
@@ -94,40 +102,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			BK_NAME=#{bkName}, BK_WRITER=#{bkWriter}, BK_PUBLISHER=#{bkPublisher}
 		WHERE CLUB_NO=#{clubNo} AND STATUS='Y'
 	</update>
-	
-	<!-- foreach 시도1 : oracle에서는 적용 안됨
-	<insert id="saveStep3_2" parameterType="java.util.Map">
-        INSERT INTO CLUB_TIME(CLUB_TIME_NO, REF_CLUB_NO, CLUB_DATE, START_TIME, END_TIME)
-        VALUES
-        <foreach collection="list" item="item" separator=" , ">
-            (SEQ_CTNO.NEXTVAL,#{item.clubNo},#{item.clubDate},#{item.startTime}, #{item.endTime})
-        </foreach>
- 	</insert> -->
 
-	<!-- foreach 시도2 : sequence 적용 안됨
-	<insert id="saveStep3_2" parameterType="java.util.Map">
-		<foreach collection="list" item="item"
-			open="INSERT ALL" close="SELECT * FROM DUAL">
-			INTO CLUB_TIME(
-			
-			CLUB_TIME_NO,
-			REF_CLUB_NO,
-			CLUB_DATE,
-			START_TIME,
-			END_TIME
-			
-			)VALUES(
-			
-			SEQ_CTNO.NEXTVAL,
-			#{item.clubNo},
-			#{item.clubDate},
-			#{item.startTime},
-			#{item.endTime}
-			
-			)
-		</foreach>
-	</insert>  -->
-	
 	<!-- foreach 시도3 : 성공! -->
 	<insert id="saveStep3_2" parameterType="java.util.Map">
 		INSERT INTO CLUB_TIME(CLUB_TIME_NO,REF_CLUB_NO,CLUB_DATE,START_TIME,END_TIME)
@@ -152,17 +127,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE CLUB_NO=#{clubNo} AND STATUS='Y'
 	</update>
 	
-	
-	<select id="selectList3" resultMap="clubResultSet">
+	<!-- 페이징처리 안됨,,, https://okky.kr/article/1091369 -->
+	<!-- <select id="selectList3" resultMap="clubResultSet">
 		SELECT HOST_NAME, CLUB_NO, CATEGORY, CLUB_TITLE, ONOFF_LINE, CLUB_CAPACITY, CONDITION, B.CLUB_TIME_NO, B.CLUB_DATE, B.START_TIME, B.END_TIME
 		FROM CLUB A
 		LEFT JOIN CLUB_TIME B
 		ON A.CLUB_NO = B.REF_CLUB_NO
 		WHERE USER_ID=#{userId} AND A.STATUS='Y'
 		ORDER BY CLUB_NO DESC	
+	</select> -->
+	
+	<!-- 마이페이지조회1 : club테이블 페이징조회 -->
+	<select id="selectList_club" resultMap="clubResultSet">
+		SELECT HOST_NAME, CLUB_NO, CATEGORY, CLUB_TITLE, ONOFF_LINE, CLUB_CAPACITY, CONDITION, CSTART_DATE
+		FROM CLUB 
+		WHERE USER_ID=#{userId} AND STATUS='Y'
+		ORDER BY CLUB_NO DESC	
+	</select>
+
+	<!-- 마이페이지조회2 : club_time 테이블 위에서조회해온 clubNo로 조회-->
+	<select id="selectList_clubTime" resultMap="clubTimeResultSet">
+		SELECT REF_CLUB_NO, CLUB_DATE, START_TIME, END_TIME
+		FROM CLUB_TIME
+		WHERE REF_CLUB_NO IN
+		<foreach item="item" collection="list" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+		ORDER BY REF_CLUB_NO DESC	
 	</select>
 	
+	
+	
 <!-- 독서모임개설관리(mypage3)-독서모임 삭제 -->
+	<!--1.사진 삭제  -->
 	<select id="selectPhotoList" resultMap="clubAttachmentResultSet">
 		SELECT * FROM CLUB_ATTACHMENT
 		WHERE REF_CLUB_NO IN
@@ -171,6 +168,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</foreach>
 	</select>
 
+	<!-- 2.club에서 삭제 -->
 	<delete id="deleteClub3" parameterType="_int">
 		DELETE CLUB
 		WHERE STATUS='Y' AND CLUB_NO IN 
@@ -179,12 +177,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</foreach>
 	</delete>
 	
-	
+	<!-- listcount for 페이징처리용 -->
 	<select id="selectListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM CLUB
 		WHERE STATUS='Y'	
 		AND USER_ID = #{userId}	
+	</select>
+	
+	<!-- 메인페이지 - category클릭시 리스트 넘기기 -->
+	<select id="selectCateList" resultMap="clubResultSet">
+		<![CDATA[
+		SELECT * FROM CLUB
+		WHERE CONDITION=4 AND STATUS='Y'
+		AND CSTART_DATE <= TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		AND CATEGORY=#{category}
+		]]>
 	</select>
 	
 </mapper>

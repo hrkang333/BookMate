@@ -1,4 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page session="false" %>
@@ -19,6 +21,9 @@
     <link rel="stylesheet" href="resources/vendors/owl-carousel/owl.carousel.min.css">
 
     <link rel="stylesheet" href="resources/css/style.css">
+    
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <style>
         /* carousel 부트스트랩 슬라이드쇼 요소 -> 화살표(next) 색, 크기 바꾸기 */
@@ -316,87 +321,110 @@
                         <!-- 카테고리별 헤더 만들기 -->
                         <ul class="navbar" style="width: 80%;">
                             <li class="nav-item">
-                                <a class="nav-link" href="#">인문/과학/심리</a>
+                                <h5 class="clickCategory"><a style="cursor:pointer">인문/과학/심리</a></h5>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">문학/에세이</a>
+                                <h5 class="clickCategory"><a style="cursor:pointer">문학/에세이</a></h5>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">예술/음악</a>
+                                <h5 class="clickCategory"><a style="cursor:pointer">예술/음악</a></h5>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">경영/경제/마케팅</a>
-
+                                <h5 class="clickCategory"><a style="cursor:pointer">경영/경제/마케팅</a></h5>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">글쓰기</a>
+                                <h5 class="clickCategory"><a style="cursor:pointer">글쓰기</a></h5>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">강연</a>
+                                <h5 class="clickCategory"><a style="cursor:pointer">강연</a></h5>
                             </li>
                         </ul>
-                        <div class="row">
+                        
+                        <div class="row" id="categoryList">
                             <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
+                            	<input type="hidden" value="">
                                 <div class="card card-blog">
                                     <div class="card-blog__img">
-                                        <!--사진 이미지 클릭했을 때 detail view로-->
-                                        <a href="single-blog.html">
-                                            <img class="card-img rounded-0" src="img/blog/blog1.png" alt="">
-                                        </a>
+                                         <img class="card-img rounded-0" src="resources/img/blog/blog1.png" alt="">
                                     </div>
                                     <div class="card-body">
                                         <ul class="card-blog__info">
-                                            <!--제목 클릭했을 때 detail view로-->
-                                            <a href="single-blog.html">
-                                                <li>By Admin</li>
-                                                <li><i class="ti-comments-smiley"></i> 2 Comments</li>
-                                            </a>
-                                        </ul>
-                                        <h4 class="card-blog__title"><a href="single-blog.html">The Richland Center Shooping News and weekly shooper</a></h4>
-                                        <p>Let one fifth i bring fly to divided face for bearing divide unto seed. Winged divided light Forth.</p>
-                                        <!-- <a class="card-blog__link" href="#">Read More <i class="ti-arrow-right"></i></a> -->
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-                                <div class="card card-blog">
-                                    <div class="card-blog__img">
-                                        <a href="single-blog.html">
-                                            <img class="card-img rounded-0" src="img/blog/blog2.png" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="card-body">
-                                        <ul class="card-blog__info">
-                                            <li>By Admin</li>
+                                            <li>인문/과학/심리 &nbsp; [온라인]</li>
                                             <li><i class="ti-comments-smiley"></i> 2 Comments</li>
                                         </ul>
-                                        <h4 class="card-blog__title"><a href="single-blog.html">The Shopping News also offers top-quality printing services</a></h4>
-                                        <p>Let one fifth i bring fly to divided face for bearing divide unto seed. Winged divided light Forth.</p>
-                                        <!-- <a class="card-blog__link" href="#">Read More <i class="ti-arrow-right"></i></a> -->
+                                        <h4 class="card-blog__title"><a href="single-blog.html">독서모임 제목입니당</a></h4>
+                                        <p>
+                                        	<c:set var="temp" value="모집기간모집기간모집기간모집기간모집기간모집기간모집기간모집기간모집기간모집기간모집기간"/>
+                                        	<c:choose>
+	                                        	<c:when test="${fn:length(temp) gt 41}">
+	                                        		<c:out value="${fn:substring(temp,0,40)}"></c:out> ...
+	                                        	</c:when>
+	                                        	<c:otherwise>
+	                                        		<c:out value="${temp}"/>
+	                                        	</c:otherwise>
+                                        	</c:choose>
+                                        
+                                        </p>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-                                <div class="card card-blog">
-                                    <div class="card-blog__img">
-                                        <img class="card-img rounded-0" src="img/blog/blog3.png" alt="">
-                                    </div>
-                                    <div class="card-body">
-                                        <ul class="card-blog__info">
-                                            <li><a href="#">By Admin</a></li>
-                                            <li><a href="#"><i class="ti-comments-smiley"></i> 2 Comments</a></li>
-                                        </ul>
-                                        <h4 class="card-blog__title"><a href="single-blog.html">Professional design staff and efficient equipment you’ll find we offer</a></h4>
-                                        <p>Let one fifth i bring fly to divided face for bearing divide unto seed. Winged divided light Forth.</p>
-                                        <!-- <a class="card-blog__link" href="#">Read More <i class="ti-arrow-right"></i></a> -->
-                                    </div>
-                                </div>
-                            </div>
+                            </div> 
                         </div>
+                        
                     </div>
                 </section>
+                
+                <script>
+	                $(".clickCategory").click(function(){
+
+	    	        	var category = $(this).text();
+						$.ajax({
+							url:"categoryList.cl",
+							data:{category:category},
+							type : "get",
+							success:function(list){
+								console.log("ajax 통신성공")
+								putClubList(list);
+								
+							},error:function(){
+								console.log("ajax 통신실패")
+							}
+						})
+	                })
+	                
+	                /* function putClubList(list){
+		         		var result = '';
+		         		if(list.length == 0){
+		         			result += '<div class="col-lg-12 col-md-12"><h4>해당 카테고리에서 모집중인 독서모임이 없습니다.</h4></div>'
+		         		}else{
+		         			$.each(list, function(i){       
+
+		              			result += '<div class="col-md-6 col-lg-4 mb-4 mb-lg-0">'
+		                        + '<input type="hidden" value="'+list[i].clubNo+'" id="clubNo" name="clubNo">'
+		                        + '<div class="card card-blog">'
+		                        + '<div class="card-blog__img">'
+		                        + '<img class="card-img rounded-0" src="resources/img/blog/blog1.png" alt=""></div>'
+		                        + '<div class="card-body">'
+		                        + '<ul class="card-blog__info">'
+		                        + '<li>'+list[i].category+ '&nbsp; [' + list[i].onoffLine +']</li>'
+		                        + '<li><i class="ti-comments-smiley"></i> 2 Comments</li></ul>'
+		                        + '<h4 class="card-blog__title"><a href="single-blog.html">' + list[i].clubTitle +'</a></h4>'
+		                        + '<p><c:set var="intro" value="'+list[i].intro+'"/>'
+		                        + '<c:choose>'
+		                        + '<c:when test="'+${fn:length(intro) gt 41}+'">'
+		                        + '<c:out value="'+${fn:substring(intro,0,40)}+'"></c:out> ...'
+		                        + '</c:when><c:otherwise>'
+		                        + '<c:out value="'+${intro}+'"/></c:otherwise></c:choose></p>'
+		                        + '</div></div></div>';
+		    							
+		              		})
+		         		}
+		          		
+		          		$("#categoryList").html(result);
+			    	} */
+	    	        	
+                </script>
+                
+                
                 <!-- ================ trending product section end ================= -->
 
                 <!-- ================ 3. 마감임박 독서모임 ================= -->

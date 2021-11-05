@@ -127,6 +127,12 @@ public class ClubServiceImpl implements ClubService {
 		return clubDao.selectListCount(sqlSession,userId);
 	}
 
+	@Override
+	public ArrayList<Club> selectCateList(String category) {
+		// TODO Auto-generated method stub
+		return clubDao.selectCateList(sqlSession, category);
+	}
+
 	
 	
 	
