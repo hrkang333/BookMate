@@ -11,6 +11,7 @@
 		<typeAlias type="com.kh.bookmate.book.model.vo.Book" alias="Book" />
 		<typeAlias type="com.kh.bookmate.club.model.vo.Club" alias="Club" />
 		<typeAlias type="com.kh.bookmate.club.model.vo.ClubAttachment" alias="ClubAttachment"/>
+		<typeAlias type="com.kh.bookmate.club.model.vo.ClubTime" alias="ClubTime"/>
 		<typeAlias type="com.kh.bookmate.user.model.vo.User" alias="myPage"/>
 		<typeAlias type="com.kh.bookmate.user.model.vo.User" alias="User"/>
 		<typeAlias type="com.kh.bookmate.seller.model.vo.Seller" alias="Seller"/>

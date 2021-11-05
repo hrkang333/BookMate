@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -111,15 +112,16 @@
                             	<c:forEach items="${list}" var="c">
 	                                <tr>
 	                                    <td><input name="clubNo" type="checkBox" value="${c.clubNo}"></td>
-	                                    <td>${c.category}</td>
-	                                    <td>${c.hostName}</td>
-	                                    <td>${c.clubTitle}</td>
-	                                    <td>${c.onoffLine}</td>
+	                                    <td><c:out value="${c.category}"/></td>
+	                                    <td><c:out value="${c.hostName}"/></td>
+	                                    <td><c:out value="${c.clubTitle}"/></td>
+	                                    <td><c:out value="${c.onoffLine}"/></td>
 	                                    
 	                                    <td>
 		                                    <c:forEach items="${c.clubTimes}" var="ct">
 		                                    	<c:if test="${ !empty ct.clubDate}">
 		                                    		${fn:substring(ct.clubDate,0,11)} | ${ct.startTime} ~ ${ct.endTime}<br>
+		                                    		<%-- ${ct.clubDate} | ${ct.startTime} ~ ${ct.endTime}<br> --%>
 		                                    	</c:if>
 		                                    	<c:if test="${ empty ct.clubDate}">
 		                                    		${ct.clubDate} | ${ct.startTime} ~ ${ct.endTime}<br>
@@ -137,8 +139,24 @@
 	                                    	<c:when test="${c.condition eq 3}">
 	                                    		<td>반려</td>
 	                                    	</c:when>
-	                                    	<c:when test="${c.condition eq 4}">
-	                                    		<td>모집 중</td>
+	                                    	<c:when test="${c.condition eq 4}"> <!-- 날짜 따라서 "검수완료"/ "모집중" 으로 나눠야 함 -->
+	                                    		
+	                                    		<c:set var="now" value="<%=new java.util.Date()%>"/>
+	                                    		
+	                                    		<fmt:formatDate var="clubDate" value="${c.clubStartDate}" pattern="yyyy-MM-dd"/>
+	                                    		<fmt:formatDate var="today" value="${now}" pattern="yyyy-MM-dd"/>
+ 	                                    		
+	                                    		<%--  <c:out value="${clubDate}"/>
+	                                    		<c:out value="${today}"/>  --%>
+	                                    		 
+	                                    		<c:if test="${today>=clubDate}">  <!-- 현재날짜(11.05) >= 모집시작일(11.01)-->
+	                                    			<td>모집 중</td>
+	                                    		</c:if>
+	                                    		
+	                                    		<c:if test="${today<clubDate}">   <!-- 현재날짜(11.05) >= 모집시작일(11.22) : 모집중인 상태는 아니다-->
+	                                    			<td>검수완료</td>
+	                                    		</c:if>
+	                                
 	                                    	</c:when>
 	                                    	<c:when test="${c.condition eq 5}">
 	                                    		<td>마감</td>
@@ -182,21 +200,21 @@
 
 						</form>
 						
-						<div id="pagingArea">
+						<div id="pagingArea">						
 			                <ul class="pagination">
 			                	<c:choose>
 			                		<c:when test="${ pi.currentPage ne 1 }">
-			                			<li class="page-item"><a class="page-link" href="list.bo?currentPage=${ pi.currentPage-1 }">Previous</a></li>
+			                			<li class="page-item"><a class="page-link" href="mypage3.cl?currentPage=${ pi.currentPage-1 }">이전</a></li>
 			                		</c:when>
 			                		<c:otherwise>
-			                			<li class="page-item disabled"><a class="page-link" href="">Previous</a></li>
+			                			<li class="page-item disabled"><a class="page-link" href="">이전</a></li>
 			                		</c:otherwise>
 			                	</c:choose>
 			                	
 			                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 			                    	<c:choose>
 				                		<c:when test="${ pi.currentPage ne p }">
-			                    			<li class="page-item"><a class="page-link" href="list.bo?currentPage=${ p }">${ p }</a></li>
+			                    			<li class="page-item"><a class="page-link" href="mypage3.cl?currentPage=${ p }">${ p }</a></li>
 				                		</c:when>
 				                		<c:otherwise>
 				                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
@@ -204,13 +222,12 @@
 				                	</c:choose>
 			                    </c:forEach>
 			                    
-			                    
 			                    <c:choose>
 			                		<c:when test="${ pi.currentPage ne pi.maxPage }">
-			                			<li class="page-item"><a class="page-link" href="list.bo?currentPage=${ pi.currentPage+1 }">Next</a></li>
+			                			<li class="page-item"><a class="page-link" href="mypage3.cl?currentPage=${ pi.currentPage+1 }">다음</a></li>
 			                		</c:when>
 			                		<c:otherwise>
-			                			<li class="page-item disabled"><a class="page-link" href="list.bo?currentPage=${ pi.currentPage+1 }">Next</a></li>
+			                			<li class="page-item disabled"><a class="page-link" href="mypage3.cl?currentPage=${ pi.currentPage+1 }">다음</a></li>
 			                		</c:otherwise>
 			                	</c:choose>
 			                </ul>

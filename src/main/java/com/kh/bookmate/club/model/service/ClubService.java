@@ -31,6 +31,8 @@ public interface ClubService {
 
 	void deleteClub3(List<Integer> clubNo);
 
-	int selectListCount(String userId);  
+	int selectListCount(String userId);
+
+	ArrayList<Club> selectCateList(String category);  
 
 }

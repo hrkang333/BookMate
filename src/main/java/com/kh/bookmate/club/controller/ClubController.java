@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.GsonBuilder;
 import com.kh.bookmate.club.model.service.ClubService;
 import com.kh.bookmate.club.model.vo.Club;
 import com.kh.bookmate.club.model.vo.ClubAttachment;
@@ -226,7 +227,7 @@ public class ClubController {
 	//5. 조회하기
 	@RequestMapping("mypage3.cl")
 	public String selectListMypage3(@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage,
-											 HttpServletRequest request, Model model) {
+									HttpServletRequest request, Model model) {
 		
 		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
 		
@@ -235,11 +236,17 @@ public class ClubController {
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 7, 5);
 		
-		System.out.println("currentPage는 ? " + currentPage);
-		
 		ArrayList<Club> list = clubService.selectList3(userId, pi);		
 		
+		System.out.println("list크기 : " + list.size());
+		
+		for(Club c : list) {
+			System.out.println("list크기 : " + c.toString());
+		}
+		
+		
 		model.addAttribute("list", list);
+		model.addAttribute("pi",pi);
 
 		return "clubMypage/mypage3";
 	}
@@ -263,7 +270,7 @@ public class ClubController {
 			}
 		}
 		
-		//3.db 업데이트(status='n')
+		//3.db 업데이트(status='n'말고 다 지우기)
 		clubService.deleteClub3(clubNos);
 		
 		return "redirect:mypage3.cl";
@@ -282,6 +289,16 @@ public class ClubController {
 	@RequestMapping("clubMain.cl")
 	public String clubMain() {
 		return "club/clubMain";
+	}
+	
+	//8.메인페이지-카테고리 선택  -아래 더 공부하기!!
+	@ResponseBody
+	@RequestMapping(value="categoryList.cl", produces="application/json; charset=utf-8")
+	public String categoryList(String category) {
+		
+		ArrayList<Club> list = clubService.selectCateList(category);
+		
+		return new GsonBuilder().create().toJson(list);
 	}
 		
 		
