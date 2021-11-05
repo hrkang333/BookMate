@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.kh.bookmate.common.PageInfo;
+import com.kh.bookmate.common.Pagination;
 import com.kh.bookmate.payment.model.service.PaymentService;
 import com.kh.bookmate.payment.model.vo.Payment;
 import com.kh.bookmate.user.model.service.UserService;
@@ -92,8 +94,6 @@ public class myPageController {
 	}
 
 	
-	
-	
 	//주문리스트 화면 띄우기 
 	@RequestMapping("myPageOrderList.me")
 	public String myOrderList() {
@@ -106,9 +106,12 @@ public class myPageController {
 	@RequestMapping("selectMyOrderList.me")
 	public String selectMyOrderList(@ModelAttribute User user, 
 									@ModelAttribute Payment payment,
+													//	@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage,
 														@RequestParam(value="paymentNo", required = false, defaultValue="0") int paymentNo,
 														@RequestParam(value="totalCost",required = false ,defaultValue="0" ) int totalCost,
-//														@RequestParam("bookMainImg") String bookMainImg,
+//														@RequestParam(value="bookTitle",required = false ,defaultValue="0" ) String bookTitle,
+
+														//@RequestParam("bookMainImg") String bookMainImg,
 //														@RequestParam("quantity") int quantity,
 //														@RequestParam("deliveryStatus") int deliveryStatus,
 													//	@RequestParam(value="currentPage",defaultValue="1")
@@ -116,15 +119,14 @@ public class myPageController {
 		
 		User loginUser = (User) session.getAttribute("loginUser"); 
 //		ArrayList <Payment> myOrderList = paymentService.selectMyOrderList(loginUser);
-		Payment myOrderList = paymentService.selectMyOrderList(loginUser, payment);
+		Payment myOrderList = paymentService.selectMyOrderList(loginUser);
 		
-		//PageInfo pi = pagination.getPageInfo(myOrderList, currentPage, 5,5);
+		//PageInfo pi = Pagination.getPageInfo(myOrderList, currentPage, 5,5);
 		
 		model.addAttribute("myOrderList",myOrderList);
 		System.out.println("=================주문리스트 값은 찍히는지 ========="+myOrderList);
 		return "myPage/myPageOrderList";
-	}
 	
-
+	}
 	
 }

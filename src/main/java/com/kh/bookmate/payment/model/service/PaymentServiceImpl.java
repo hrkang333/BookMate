@@ -24,12 +24,18 @@ public class PaymentServiceImpl implements PaymentService {
 	private PaymentDao paymentDao;
 
 	@Override
-	public Payment selectMyOrderList(User loginUser, Payment payment) {
-		Payment list = paymentDao.selectMyOrderList(sqlSession, loginUser,payment);
-		
-		System.out.println("==================paymentImpl list" + list);
+	public Payment selectMyOrderList(User loginUser) {
+		Payment list = paymentDao.selectMyOrderList(sqlSession, loginUser);
 		return list;
 	}
+
+//	@Override
+//	public Payment selectMyOrderList(User loginUser, Payment payment) {
+//		Payment list = paymentDao.selectMyOrderList(sqlSession, loginUser,payment);
+//		
+//		System.out.println("==================paymentImpl list" + list);
+//		return list;
+//	}
 
 	//회원 주문 주회 
 //	@Override
