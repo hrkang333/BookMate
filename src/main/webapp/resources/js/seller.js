@@ -17,7 +17,7 @@ function showTab(n) {
     }
     if (n == (x.length - 1)) {
         document.getElementById("nextBtn").innerHTML = "Submit";
-        document.getElementById("nextBtn").style.display = "none";
+        document.getElementById("nextBtn").attr("type", "submit");
     } else {
         document.getElementById("nextBtn").innerHTML = "Next";
     }
@@ -25,15 +25,14 @@ function showTab(n) {
 }
 
 function nextPrev(n) {
-//function sellerSubmit(){
     var x = document.getElementsByClassName("tab");
-    if (!validateForm()) return false;
+    if (n == 1 && !validateForm()) return false;
     x[currentTab].style.display = "none";
     currentTab = currentTab + n;
     if (currentTab >= x.length) {
-        document.getElementById("sellerRegForm").submit();
         // return false;
         alert("가입 성공");
+        document.getElementById("sellerRegForm").submit();
         document.getElementById("nextprevious").style.display = "none";
         document.getElementById("all-steps").style.display = "none";
         document.getElementById("register").style.display = "none";
@@ -43,7 +42,7 @@ function nextPrev(n) {
 }
 
 function validateForm() {
-    var x, y, z, i, valid = true;
+    var x, y, i, valid = true;
     x = document.getElementsByClassName("tab");
     y = x[currentTab].getElementsByTagName("input");
     z = x[currentTab].getElementsByClassName("chk");
@@ -51,21 +50,21 @@ function validateForm() {
 
     for (i = 0; i < y.length; i++) {
          if (y[i].value == "") {
-        	 y[i].focus();
-        	 y[i].className += " invalid"; valid = false; 
-              
+              y[i].className += " invalid";
+              alert("모든 사항에 입력해주세요");
+              valid = false; 
         }
     }
     for (i = 0; i < z.length; i++) {
         if (!z[i].checked) {
-            alert("모든 약관에 동의해주세요.");
+            alert("체크 안됨");
              z[i].className += " invalid"; valid = false; 
        }
    }
     
    for (i = 0; i < aa.length; i++) {
         if (!aa[i].checked) {
-            alert("배송 체크 안됨");
+            alert("배송비 기본옵션에 체크해주세요.");
             aa[i].className += " invalid"; valid = false; 
         }
     }

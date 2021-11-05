@@ -17,6 +17,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="modifyDate" column="MODIFY_DATE"/>		
 		<result property="status" column="STATUS"/>
 	</resultMap>
+	
+	
+	<resultMap id="userResultSet" type="User">
+		<id property="userId" column="user_ID"/>
+		<result property="userName" column="user_NAME"/>
+		<result property="userPwd" column="user_PWD"/>
+		<result property="gender" column="GENDER"/>
+		<result property="address" column="ADDRESS"/>
+		<result property="phone" column="PHONE"/>
+		<result property="email" column="EMAIL"/>
+		<result property="enroll" column="ENROLL"/>
+		<result property="point" column="POINT"/>		
+		<result property="status" column="STATUS"/>
+	</resultMap>
+	
+		<update id="deleteSeller" parameterType="Seller">
+			UPDATE SELLER SET STATUS='N'
+			WHERE SELLER_ID = #{sellerId}
+		</update>
+	
 	<insert id="insertSeller" parameterType="Seller">
 		
 		INSERT INTO SELLER VALUES (seq_sno.nextval, #{sellerId}, #{sellerNickN}, #{sellerEmail}, #{sellerPhone}, #{sellerDel}, #{sellerDelP1}, #{sellerDelP2}, #{sellerAddress}, sysdate, sysdate, default)
@@ -43,11 +63,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND STATUS='Y'
 		</update>
 		
-		<update id="deleteSeller" parameterType="Seller">
-			UPDATE SELLER SET STATUS='N' WHERE SELLER_ID=#{sellerId}
-		</update>
 	<!--
+		
+		<update id="deleteSeller" parameterType="Seller">
+			UPDATE SELLER SET STATUS='N'
+			WHERE (SELECT U.USER_ID
+			        FROM USERS U
+			        WHERE U.USER_PWD=#{userPwd})=#{sellerId}			
+		</update>
 	
+	UPDATE SELLER SET STATUS='N'
+			WHERE SELLER_ID=#{sellerId}
+			AND USERS_ID = SELLER_ID
+			
 	SELECT S.*
 		FROM SELLER S, USERS U
 		WHERE S.SELLER_ID = #{userId}

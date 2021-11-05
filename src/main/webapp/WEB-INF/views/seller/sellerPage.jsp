@@ -253,7 +253,12 @@
                                                                     <i class="glyphicon glyphicon-remove"></i> 판매자 휴면 신청
                                                                 </button>
                                                             </center>
-                                                            <!-- 판매자 Modal -->
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <!-- 판매자 Modal -->
                                                             <div class="modal fade" id="dormancy" tabindex="-1"
                                                                 role="dialog" aria-labelledby="exampleModalLabel"
                                                                 aria-hidden="true">
@@ -276,15 +281,16 @@
                                                                                 <h4>비밀번호 입력</h4>
                                                                             </label> 
                                                                             <input type="password"
-                                                                                class="form-control" name="userId"
-                                                                                id="userId"
+                                                                                class="form-control" name="userPwd"
+                                                                                id="userPwd"
                                                                                 placeholder="현재 비밀번호를 입력해주세요">
                                                                                 
-                                                                                <input type="text" id="userId2" name="userId2" value="${ loginUser.userId }">
+                                                                                <input type="text" id="userPwd2" name="userPwd2" value="${ loginUser.userPwd }">
+                                                                                <input type="text" id="sellerId" name="sellerId" value="${ s.sellerId }">
                                                                             <script>
                                                                             	function PwdChk(){
-                                                                            		var inputPwd = document.getElementById("userId").value;
-                                                                            		var Pwd = document.getElementById("userId2").value;
+                                                                            		var inputPwd = document.getElementById("userPwd").value;
+                                                                            		var Pwd = document.getElementById("userPwd2").value;
                                                                             		if(inputPwd == Pwd){
                                                                             			alert("판매자 휴면 처리가 완료되었습니다.");
                                                                             			return true;
@@ -298,9 +304,8 @@
                                                                             </script>
                                                                             
                                                                             <h6>
-                                                                                ※ 비밀번호를 입력하면 판매자 계정이 휴면 상태로 전환됩니다. <br>
-                                                                                언제든 다시 판매자
-                                                                                계정을 복구할 수 있습니다.
+														                                                                                ※ 비밀번호를 입력하면 판매자 계정이 휴면 상태로 전환됩니다. <br>
+														                                            판매자 계정 활성화를 원하시면 문의를 해주세요.
                                                                             </h6>
 
                                                                         </div>
@@ -315,11 +320,6 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
                                     </div>
                                     <!-- 도서관리 -->
                                     <div class="tabContent">
@@ -335,7 +335,7 @@
                                                     <jsp:include page="ubookList.jsp"></jsp:include>
                                                     <!-- 도서 등록 -->
                                                     <jsp:include page="ubookEnrollForm.jsp"></jsp:include>
-
+													<!-- <jsp:include page="ubookEnroll.ub"></jsp:include>	 -->
                                                 </div>
 
                                             </div>
