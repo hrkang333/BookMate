@@ -2,12 +2,14 @@ package com.kh.bookmate.ubook.model.service;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.kh.bookmate.book.model.dao.BookDao;
 import com.kh.bookmate.book.model.vo.Book;
 import com.kh.bookmate.ubook.model.dao.UbookDao;
 import com.kh.bookmate.ubook.model.vo.Ubook;
 
+@Service
 public class UbookServiceImpl implements UbookService {
 	
 	@Autowired
@@ -27,13 +29,14 @@ public class UbookServiceImpl implements UbookService {
 	}
 
 	@Override
-	public void selectBook(int ubookNo) {
+	public int selectUbook(int ubookNo) {
 		
-		int ubook = ubookDao.selectBook(sqlSession,ubookNo);
+		int ubook = ubookDao.selectUbook(sqlSession,ubookNo);
 		
 		if(ubook < 0) {
 			throw new RuntimeException("도서 세부정보 불러오기 오류");
 		}
+		return ubook;
 	}
 
 }

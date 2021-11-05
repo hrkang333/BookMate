@@ -25,6 +25,15 @@ public class SellerDao {
 	public int updateSeller(SqlSessionTemplate sqlSession, Seller s) {
 		return sqlSession.update("sellerMapper.updateSeller", s);
 	}
+	/*
+	public int deleteSeller(SqlSessionTemplate sqlSession, Seller s, String userPwd) {
+		System.out.println("-------dao -----------s" + s);
+		System.out.println("-------dao -----------userPwd" + userPwd);
+		return sqlSession.update("sellerMapper.deleteSeller", s);
+	}*/
+	
+	
+	
 
 	public int deleteSeller(SqlSessionTemplate sqlSession, Seller s) {
 		System.out.println("-------dao -----------s" + s);

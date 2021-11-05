@@ -20,4 +20,6 @@ public interface SellerService {
 	int updateSeller(Seller s);
 	
 	int deleteSeller(Seller s);
+
+	//void deleteSeller(Seller s, String userPwd);
 }

@@ -35,7 +35,7 @@ public class SellerController {
 			String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
 			Seller s = sellerService.loginSeller(userId);
 			model.addAttribute("s", s);
-			System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~" + s);
+			/* System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~" + s); */
 		}
 		return "ubook/ubookMain";
 	}
@@ -46,8 +46,10 @@ public class SellerController {
 		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
 		Seller s = sellerService.loginSeller(userId);
 		model.addAttribute("s", s);
-		System.out.println(userId);
-		System.out.println("=======================s" + s);
+		/*
+		 * System.out.println(userId); System.out.println("=======================s" +
+		 * s);
+		 */
 
 		return "seller/sellerPage";
 	}
@@ -71,10 +73,12 @@ public class SellerController {
 		s.setSellerAddress(post+"/"+address1+"/"+address2); 
 		
 		int result = sellerService.updateSeller(s);
-		System.out.println("++++++++++++++++++" + s.getSellerId());
-		System.out.println("*****************************" + result);
-		System.out.println("===========test" + s);
-		System.out.println("===========test" + s.getSellerNickN());
+		/*
+		 * System.out.println("++++++++++++++++++" + s.getSellerId());
+		 * System.out.println("*****************************" + result);
+		 * System.out.println("===========test" + s);
+		 * System.out.println("===========test" + s.getSellerNickN());
+		 */
 		
 		//return "seller/sellerPage";
 		return "redirect:/sellerPage.se";
@@ -105,7 +109,8 @@ public class SellerController {
 	}
 	
 	@RequestMapping(value="deleteSeller.se")
-	public String deleteSeller(Seller s) {
+	public String deleteSeller(Seller s, HttpServletRequest request) {
+		//String userPwd = ((User)request.getSession().getAttribute("loginUser")).getUserPwd();
 		sellerService.deleteSeller(s);
 		return "redirect:/ubookMain.ub";
 	}

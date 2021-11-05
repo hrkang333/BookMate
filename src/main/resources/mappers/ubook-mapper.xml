@@ -17,7 +17,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="ubookPrice" column="UBOOK_PRICE"/>		
 		<result property="ubookStock" column="UBOOK_STOCK"/>
 		<result property="ubookQual" column="UBOOK_QUAL"/>		
-		<result property="ubookDetail" column="UBOOK_DETAIL"/>		
+		<result property="ubookDetail" column="UBOOK_DETAIL"/>	
+		<result property="ubookContent" column="UBOOK_CONTENT"/>		
 		<result property="ubookImg" column="UBOOK_IMG"/>		
 		<result property="ubookStatus" column="UBOOK_STATUS"/>
 	</resultMap>
@@ -29,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertUbook" parameterType="Ubook">
 		INSERT INTO UBOOK VALUES (SEQ_UBNO.NEXTVAL,#{bSellerNo},#{ubookName},#{ubookWriter},#{ubookIsbn},#{ubCategory}
 								,#{ubookTrans},#{ubookPub},#{ubookPubDate},#{ubookOPrice},#{ubookPrice}
-								,#{ubookStock},#{ubookQual},#{ubookDetail},#{ubookImg},DEFAULT)
+								,#{ubookStock},#{ubookQual},#{ubookDetail},#{ubookContent},#{ubookImg},DEFAULT)
 		
 	</insert>
 

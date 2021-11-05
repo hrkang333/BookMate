@@ -115,7 +115,6 @@
                                         <div class="all-steps" id="all-steps">
                                             <span class="step"></span>
                                             <span class="step"></span>
-                                            <!--  <span class="step"></span> -->
                                         </div>
 
                                         <!--================ 판매자 이용약관 동의 =================-->
@@ -180,7 +179,7 @@
                                                 <br><br>
                                                 <label>판매자 닉네임</label>
                                                 <input id="datainput" value="${ s.sellerNickN }"
-                                                    oninput="this.className = ''" name="sellerNickN">
+                                                    oninput="this.className = ''" name="sellerNickN"><button class="postBtn" onclick="chkNickN()">중복확인</button>
                                                 <br><br>
                                                 <label>판매자 이메일</label>
                                                 <input id="datainput" value="${ s.sellerEmail }"
@@ -216,55 +215,40 @@
                                                 </label>
                                                 <br><br>
                                                 <label class="inputlabel">출고지</label>
-
-                                                <button type="button" onclick="sample4_execDaumPostcode()">우편번호
-                                                    찾기</button>
-
+												<br><br>
+                               
                                                 <input type="text" id="sample4_postcode" name="post" placeholder="우편번호"
                                                     readonly>
+                 								<button type="button" class="postBtn" onclick="sample4_execDaumPostcode()">우편번호 찾기</button>
 
                                                 <input type="text" id="sample4_roadAddress" name="address1"
                                                     placeholder="도로명주소" size="60" readonly>
 
-                                                <input type="hidden" id="sample4_jibunAddress" placeholder="지번주소"
-                                                    size="60" disabled>
+                                                <textarea type="hidden" id="sample4_jibunAddress" placeholder="지번주소" style="display:none"
+                                                    size="60" disabled></textarea>
 
-                                                <input id="guide" style="color:#999;display:none">
+                                                <textarea id="guide" style="color:#999;display:none"></textarea>
 
                                                 <input type="text" id="sample4_detailAddress" name="address2"
                                                     placeholder="상세주소" size="60">
 
-                                                <input type="hidden" id="sample4_extraAddress" placeholder="참고항목"
-                                                    size="60">
+                                                <textarea type="hidden" id="sample4_extraAddress" placeholder="참고항목" style="display:none"
+                                                    size="60"></textarea>
 
-                                                <input type="hidden" id="sample4_engAddress" placeholder="영문주소"
-                                                    size="60">
+                                                <textarea type="hidden" id="sample4_engAddress" placeholder="영문주소" style="display:none"
+                                                    size="60"></textarea>
 
 
 
-                                                <button type="submit" onclick="nextPrev(1)">가입</button>
-                                                <!-- <input id="datainput2" placeholder=""
-                      oninput="this.className = ''" name="post"><button class="postBtn" onclick="sample4_execDaumPostcode()">우편번호 검색</button>
-                    <br><br>
-                    <input id="datainput3" placeholder="도로명 주소" oninput="this.className = ''"
-                      name="detailaddress1">
-                    <input id="datainput3" placeholder="상세 주소를 입력해주세요" oninput="this.className = ''"
-                      name="detailaddress2">
-                    <br><br> -->
+                                                
                                             </div>
-                                            <!-- <div class="thanks-message text-center" id="text-message"> <img src="https://i.imgur.com/O18mJ1K.png"
-                      width="100" class="mb-4">
-                    <h3>판매자 가입 성공!</h3>
-                    <br>
-                    <span>책장메이트에서 판매자로 활동을 시작해보세요</span>
-                  </div> -->
                                             <br><br>
                                             <div style="overflow:auto;" id="nextprevious">
                                                 <center>
                                                     <button type="button" id="prevBtn"
                                                         onclick="nextPrev(-1)">Previous</button>
                                                     <button type="button" id="nextBtn"
-                                                        onclick="nextPrev(1)">Next</button>
+                                                        onclick="nextPrev(1)">Previous</button>
                                                 </center>
                                             </div>
 
