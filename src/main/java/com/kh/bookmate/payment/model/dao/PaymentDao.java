@@ -11,14 +11,18 @@ import com.kh.bookmate.user.model.vo.User;
 @Repository
 public class PaymentDao {
 
-	public Payment selectMyOrderList(SqlSessionTemplate sqlSession, User loginUser, Payment payment) {
-
-		System.out.println("==================" +payment + loginUser );
-		
-		
-		return (Payment) sqlSession.selectOne("paymentMapper.selectMyOrderList", loginUser);
+	public Payment selectMyOrderList(SqlSessionTemplate sqlSession, User loginUser) {
+		// TODO Auto-generated method stub
+		return(Payment) sqlSession.selectOne("paymentMapper.selectMyOrderList", loginUser);
 	}
 
+//	public Payment selectMyOrderList(SqlSessionTemplate sqlSession, User loginUser, Payment payment) {
+//
+//		System.out.println("==================" +payment + loginUser );
+
+//		return (Payment) sqlSession.selectOne("paymentMapper.selectMyOrderList", loginUser,payment);
+//	}
+//
 
 
 }

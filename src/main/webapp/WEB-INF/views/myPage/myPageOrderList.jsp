@@ -65,9 +65,9 @@
                   <div class="head">일반상품</div>
                   <form action="#">
                     <ul>
-                        <li class="filter-list">  주문 리스트 조회 </li>
+                        <li class="filter-list"><a href="selectMyOrderList.me">나의 주문 조회</a> </li>
                         <li class="filter-list">  취소 리스트 조회 </li>
-                        <li class="filter-list">  주문 리스트 조회 </li>
+                        <li class="filter-list">  교환/반품 리스트 조회 </li>
                     </ul>
                   </form>
                 </div>
@@ -116,9 +116,9 @@
                   </select>
                 </div>
                 <div class="sorting mr-auto">
-                    날짜: <input type="text" id="datepicker1">
-                    ~
-                    날짜: <input type="text" id="datepicker2">
+                  <input type="date" name="publicheDate" data-name="날짜 조 ">
+                 ~
+                  <input type="date" name="publicheDate" data-name="도서 출간일">
                 </div>
                 <div>
                   <div class="input-group filter-bar-search">
@@ -135,6 +135,7 @@
               <div class="filter-bar d-flex flex-wrap align-items-center">
                 <div class="order_details_table">
                     <h2>주문 목록 리스트 </h2>
+                       배송전엔 사용자가 취소 가능함
                     <div class="table-responsive">
                       <table class="table" style="text-align: center;">
                         <thead style="text-align: center;">
@@ -142,7 +143,7 @@
                             <th scope="col">주문번호</th>
                             <th scope="col">주문금액</th>
                             <th scope="col">상품정보</th>
-                            <th scope="col">수량</th>
+                          <!--   <th scope="col">수량</th> -->
                             <th scope="col">상품상태</th>
                             <th scope="col">상태</th>
                           </tr>
@@ -152,16 +153,20 @@
                           <tr>
                             <td><p><c:out value="${myOrderList.paymentNo}"/></p></td>
                             <td><c:out value="${myOrderList.totalCost}"/> 원</td>
-                            <td> [국내도서] 패싱 </td>
-                            <td> 1개  </td>
-                            <th> 결제완료  </th>
-                  <%--        <td> <c:out value="${myOrderList.bookMainImg}"/></td>
+                             <td>여기다가 책제목 같은거  </td>
+                            <td>여기다가 배송상태 </td>
+                             <%-- <td><c:out value="${myOrderList.bookTitle}"/> </td> --%>
+                           <!-- 국내도서 부분을 누르면 상세페이지로 연결되게 하기..?  -->
+                           <!--  <td> 1개  </td> -->
+                          
+                  <%--       <td> <c:out value="${myOrderList.bookMainImg}"/></td>
                             <td> <c:out value="${myOrderList.quantity}"/>개  </td>
                             <th> <c:out value="${myOrderList.deliveryStatus}"/>  </th> --%>
-                            <td> <a class="button button-hero" href="#">주문취소</a> </td>
+                            <td> <input type="button" class="button button-hero" value="주문취소" onclick="orderCancle()"/> </td>
                           </tr>
+                       
 
-                          <tr>
+          <!--                 <tr>
                             <td><p>123-123-123</p></td>
                             <td>10000 원</td>
                             <td> [국내도서] 패싱 </td>
@@ -170,7 +175,7 @@
                             <td> <a class="button button-hero" href="#">주문취소</a> </td>
                           </tr>
 
-                          
+                           -->
                           
                         </tbody>
                       </table>
@@ -181,7 +186,7 @@
             <!-- 페이징 바  -->
             <nav class="blog-pagination justify-content-center d-flex">
                 <ul class="pagination">
-                    <li class="page-item">
+                   <li class="page-item">
                         <a href="#" class="page-link" aria-label="Previous">
                             <span aria-hidden="true">
                                 <span class="lnr lnr-chevron-left"></span>
@@ -209,17 +214,16 @@
                                 <span class="lnr lnr-chevron-right"></span>
                             </span>
                         </a>
-                    </li>
+                    </li> 
+                    
+                    
                 </ul>
             </nav>
-                
-              </div>
-              <!-- End Best Seller -->
-
-              
+   		</div>
+   		
             </div>
           </div>
-        </div>
+       
       </section>
 
 
@@ -227,7 +231,7 @@
       
 
     
-      <script>
+   <!--    <script>
         $.datepicker.setDefaults({
             dateFormat: 'yy-mm-dd',
             prevText: '이전 달',
@@ -249,7 +253,19 @@
             $("#datepicker2").datepicker();
         });
     
-    </script>
+    </script> -->
+    
+  	<script>
+ 
+		function orderCancle() {
+			if (confirm("정말 취소하시겠습니까? ") == true) { //확인
+				document.form.submit();
+			} else { //취소
+				return;
+			}
+		}
+		</script>
+    
     
 </body>
 </html>
