@@ -6,7 +6,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
+<body style="width: 1000px; margin: 0 auto;">
+	<jsp:include page="../common/menubar.jsp" />
+	<hr>
 
 
 <form action="selectBook.book" method="post">
