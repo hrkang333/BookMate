@@ -27,5 +27,5 @@ public class Seller {
 	private Date modifyDate;
 	private String status;
 	
-	
+	private String userPwd;
 }

@@ -7,5 +7,6 @@ public interface UbookService {
 
 	void insertUbook(Ubook ubook);
 
-	void selectBook(int ubookNo);
+
+	int selectUbook(int ubookNo);
 }

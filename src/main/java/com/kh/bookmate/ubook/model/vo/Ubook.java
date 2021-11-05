@@ -18,7 +18,7 @@ public class Ubook {
 	private int bSellerNo;
 	private String ubookName;
 	private String ubookWriter;
-	private int ubookIsbn;
+	private String ubookIsbn;
 	private int ubCategory;
 	private String ubookTrans;
 	private String ubookPub;
@@ -29,6 +29,7 @@ public class Ubook {
 	private int ubookStock;
 	private String ubookQual;
 	private String ubookDetail;
+	private String ubookContent;
 	private String ubookImg;
 	private String ubookStatus;
 	
