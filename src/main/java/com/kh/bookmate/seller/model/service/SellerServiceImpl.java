@@ -40,6 +40,12 @@ public class SellerServiceImpl implements SellerService {
 		return result;
 	}
 
+	/*@Override
+	public void deleteSeller(Seller s, String userPwd) {
+		int result = sellerDao.deleteSeller(sqlSession, s, userPwd);
+		
+	}*/
+
 /*	@Override
 	public void updateSeller(Seller s) {
 		int result = sellerDao.updateSeller(sqlSession, s);

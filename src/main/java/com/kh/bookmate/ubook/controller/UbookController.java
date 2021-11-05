@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kh.bookmate.ubook.model.service.UbookService;
 import com.kh.bookmate.ubook.model.vo.Ubook;
 
+@Controller
 public class UbookController {
 
 	@Autowired
@@ -32,26 +34,41 @@ public class UbookController {
 		return "ubook/ubookDetail";
 	}
 
+	@RequestMapping("ubookEnrollForm.ub")
+	public String ubookEnrollForm() {
+		return "seller/ubookEnrollForm";
+	}
+	
 	@RequestMapping("ubookEnroll.ub")
 	public String ubookEnroll(Ubook ubook,
 								@DateTimeFormat(pattern = "yyyy-MM-dd") Date ubookPubDate,
-								@RequestParam("UbookMainImgFile") MultipartFile UbookMainImgFile,
+								@RequestParam("UbookImgFile") MultipartFile UbookImgFile,
 								HttpServletRequest request,
 								Model model) {
 
 
 		ubook.setUbookPubDate(ubookPubDate);
 		ubook.setUbookDetail(ubook.getUbookDetail().replaceAll("\r\n", "<br>"));
-		String ubookImg = changeFileNameAndSave(request, UbookMainImgFile);
+		ubook.setUbookContent(ubook.getUbookContent().replaceAll("\r\n", "<br>"));
+		//안된다면 이 부분일듯
+		String ubookImg = changeFileNameAndSave(request, UbookImgFile);
+		System.out.println("ubookImg~~~~~~~~~~~~~~" + ubookImg);
 		ubook.setUbookImg(ubookImg);
 		
+		
 			ubookService.insertUbook(ubook);
+
+			System.out.println("ubook~~~~~~~~~~~~~~" + ubook);
+			System.out.println("getUbCategory~~~~~~~~~~~~~~" + ubook.getUbCategory());
 			
-			//int ubookDetail = ubookService.selectBook(ubook.getUbookNo());
+			//int ubookDetail = ubookService.selectUbook(ubook.getUbookNo());
 			
 			//model.addAttribute("ubook", ubookDetail);
-
-			return "seller/ubookEnrollForm";
+			
+			
+			//return "redirect:/sellerPage.se";
+			//return "seller/ubookEnroll";
+			return "redirect:/sellerPage.se";
 	}
 	
 	public String changeFileNameAndSave(HttpServletRequest request, MultipartFile file) {

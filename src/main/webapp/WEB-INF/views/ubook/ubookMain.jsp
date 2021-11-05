@@ -394,7 +394,7 @@
           <!-- ================ 판매자 버튼 ================= -->
           <div class="row sellerbtn">
           
-          <!-- ================ 로그인 안했을 때 ================= -->
+          <!-- ================ 로그인 안했을 때 -> alert로 로그인 진행하게끔 ================= -->
               <c:if test="${ empty sessionScope.loginUser && empty s.sellerId }">
 	            <section class="goseller">
 	              <div class="container">
