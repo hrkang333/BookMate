@@ -2,14 +2,13 @@ package com.kh.bookmate.book.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -21,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.bookmate.book.model.service.BookService;
@@ -144,16 +144,17 @@ public class BookController {
 		
 	}
 
-	@RequestMapping("bestListMove.book")
-	public void aaaa(HttpServletResponse response,int listIndex, int bookSubCategory,HttpServletRequest request) {
+	
+	@RequestMapping(value = "bestListMove")
+	@ResponseBody
+	public List<Book> bestListMove(int listIndex, int bookSubCategory) {
 		List<Book> bestBookList;
 		
 		List<Book> bestList;
 	
 		bestBookList = bookService.selectBestBookList(bookSubCategory);
 		if(listIndex<5) {
-			bestList = new ArrayList<Book>(bestBookList.subList(listIndex, listIndex+5));
-			System.out.println(bestList);
+			bestList = new ArrayList<Book>(bestBookList.subList(listIndex, listIndex+5));			
 		}else {
 			List<Book> joinBestList = new ArrayList<Book>();
 			joinBestList.addAll(bestBookList);
@@ -161,28 +162,9 @@ public class BookController {
 			bestList = new ArrayList<Book>(joinBestList.subList(listIndex, listIndex+5));
 			
 		}
-		request.setAttribute("bestListIndex", listIndex);
-		JSONArray jArr = new JSONArray();
-		JSONObject jBook =null;
 		
-		for(Book book : bestList) {
-			jBook =  new JSONObject();
-			jBook.put("bookISBN",book.getBookISBN());
-			jBook.put("bookMainImg",book.getBookMainImg());
-			jBook.put("bookTitle",book.getBookTitle());
-			jBook.put("bookPrice",book.getBookPrice());
-				
-			jArr.add(jBook);
-				
-			
-		}
-		
-		response.setContentType("application/json; charset=utf-8");
-		try {
-			response.getWriter().print(jArr);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    
+	        
+		return bestList;
 	}
 }

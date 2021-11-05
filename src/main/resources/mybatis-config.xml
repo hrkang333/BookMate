@@ -16,7 +16,7 @@
 		<typeAlias type="com.kh.bookmate.seller.model.vo.Seller" alias="Seller"/>
 		<!-- <typeAlias type="com.kh.bookmate.seller.model.vo.Ubook" alias="Ubook"/> -->
 		<typeAlias type="com.kh.bookmate.payment.model.vo.Payment" alias="Payment"/>
-	
+		<typeAlias type="com.kh.bookmate.shoppingbasket.model.vo.ShoppingBasket" alias="ShoppingBasket"/>
 	</typeAliases>
 	<typeHandlers>
 		<typeHandler
@@ -24,7 +24,7 @@
 	</typeHandlers>
 
 	<mappers>
-
+		<mapper resource="/mappers/basket-mapper.xml"/>
 		<mapper resource="/mappers/book-mapper.xml" />
 		<mapper resource="/mappers/club-mapper.xml" />
 		<mapper resource="/mappers/myPage-mapper.xml"/>
