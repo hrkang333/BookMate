@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-    
+    <!-- 그냥 따로 안하고 바로 나의 상세목록 주문으로 할란다..  -->
 <!DOCTYPE html>
 
 <html lang="en">
@@ -30,11 +30,14 @@
 
     
     <style>
-    
+      body{
+    width:1200px
+    }
+        
         .order_details_table{
            text-align: center;
-           padding-left: 100px;
-           padding-right: 70px;
+          /*  padding-left: 100px;
+           padding-right: 70px; */
         }
         
     </style>
@@ -141,41 +144,35 @@
                         <thead style="text-align: center;">
                           <tr>
                             <th scope="col">주문번호</th>
-                            <th scope="col">주문금액</th>
-                            <th scope="col">상품정보</th>
-                          <!--   <th scope="col">수량</th> -->
+                            <th scope="col">책 제목 </th>
+                            <th scope="col">상품수량</th>
+                            <!-- <th scope="col">수량</th>  -->
                             <th scope="col">상품상태</th>
-                            <th scope="col">상태</th>
+                            <th scope="col">배송상태</th>
+                            <th scope="col">주문취소여부</th>
                           </tr>
                         </thead>
 
                         <tbody style="text-align: center;">
-                          <tr>
+                         <tr>
                             <td><p><c:out value="${myOrderList.paymentNo}"/></p></td>
-                            <td><c:out value="${myOrderList.totalCost}"/> 원</td>
-                             <td>여기다가 책제목 같은거  </td>
-                            <td>여기다가 배송상태 </td>
-                             <%-- <td><c:out value="${myOrderList.bookTitle}"/> </td> --%>
+                            <%-- <td><c:out value="${myOrderList.totalCost}"/> 원</td> --%>
+                         
+                           <td><img
+							src="${pageContext.servletContext.contextPath }/resources/images/book_img/${requestScope.myOrderList.bookMainImg}"
+									alt="" style="width: 50px; height: auto;"><c:out value="${myOrderList.bookTitle}"/>
+                            </td> 
+                            <td> <c:out value="${myOrderList.quantity}"/>개  </td>
+                           
                            <!-- 국내도서 부분을 누르면 상세페이지로 연결되게 하기..?  -->
                            <!--  <td> 1개  </td> -->
-                          
-                  <%--       <td> <c:out value="${myOrderList.bookMainImg}"/></td>
-                            <td> <c:out value="${myOrderList.quantity}"/>개  </td>
-                            <th> <c:out value="${myOrderList.deliveryStatus}"/>  </th> --%>
-                            <td> <input type="button" class="button button-hero" value="주문취소" onclick="orderCancle()"/> </td>
-                          </tr>
-                       
 
-          <!--                 <tr>
-                            <td><p>123-123-123</p></td>
-                            <td>10000 원</td>
-                            <td> [국내도서] 패싱 </td>
-                            <td> 1개  </td>
-                            <th> 결제완료  </th>
-                            <td> <a class="button button-hero" href="#">주문취소</a> </td>
-                          </tr>
+                  	     <td> 여기다 상품상태를</td>
+                     	 <td> <c:out value="${myOrderList.deliveryStatus}"/></td>
+                          	<td> <input type="button" class="button button-hero" value="주문취소" onclick="orderCancle()"/> </td>
+                        </tr>
+                     
 
-                           -->
                           
                         </tbody>
                       </table>
@@ -267,5 +264,7 @@
 		</script>
     
     
+	   <jsp:include page="../common/footer.jsp" />
+		
 </body>
 </html>
