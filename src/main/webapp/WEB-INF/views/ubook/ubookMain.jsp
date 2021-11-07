@@ -366,6 +366,7 @@
               <div class="subscribe text-center">
                 <h3 class="subscribe__title">내가 보고싶은 그 책!</h3>
                 <p>지금 중고 매입가를 확인해보세요</p>
+                <button onclick="location.href='ubook/ubookDetailTest'">도서 상세 테스트 화면</button>
                 <center>
                 <!--검색-->
                 <div class="row justify-content-center searchbar">
