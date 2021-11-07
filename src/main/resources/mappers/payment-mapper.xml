@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="paymentMapper">
 
 	<resultMap id="paymentResultSet" type="Payment">
-		<id column="PAYMENTNO" property="paymentNo" />
+		<result column="PAYMENTNO" property="paymentNo" />
 		<result column="USER_ID" property="user_Id" />
 		<result column="SHIPPINGNAME" property="shippingName" />
 		<result column="SHIPPINGADDRESS" property="shippingAddress" />
@@ -16,15 +16,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="TOTALCOST" property="totalCost" />
 		<result column="PAYMENTMETHOD" property="paymentMethod" />
 		<result column="GETPOINT" property="getPoint" />
-
 	</resultMap>
 	
 	
-	<select id="selectMyOrderList" resultMap="paymentResultSet" parameterType="Payment">
+	<resultMap id="paymentDetailResultSet" type="PaymentDetail">
+		<result column="PAYMENTDETAILNO" property="paymentDetailNo" />
+		<result column="PAYMENTNO" property="paymentNo" />
+		<result column="BOOKISBN" property="bookISBN" />
+		<result column="BOOKMAINIMG" property="bookMainImg" />
+		<result column="BOOKTITLE" property="bookTitle" />
+		<result column="QUANTITY" property="quantity" />
+		<result column="BOOKPRICE" property="bookPrice" />
+		<result column="SALEPRICE" property="salePrice" />
+		<result column="GETPOINT" property="getPoint" />
+		<result column="DELIVERYDATE" property="deliveryDate" />
+		<result column="DELIVERYSTATUS" property="deliveryStatus" />
+	</resultMap>
 	
-		select *
-		from payment
-		
+	
+	
+	<select id="selectMyOrderList" resultMap="paymentDetailResultSet">
+	
+		SELECT * FROM PAYMENTDETAIL
+
 	</select>
 	
 
