@@ -124,5 +124,43 @@ public class ClubDao {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("clubMapper.selectCateList",category);
 	}
+	
+	//메인페이지 - 마감임박 리스트 뽑기
+	public ArrayList<Club> selectEndList(SqlSessionTemplate sqlSession) {
+		
+		ArrayList<Club> list1 = (ArrayList)sqlSession.selectList("clubMapper.selectEndList");
+		
+		//2. 위에서 뽑아온 clubNo를 list에 담는다.
+		List<Integer> clubNos = new ArrayList<>();
+		for(Club c : list1) {
+			clubNos.add(c.getClubNo());
+		}
+		
+		//3. 2에서 담은 list를 club_time테이블에 넘겨서 그 갯수만큼 club_time 조회해오기
+		ArrayList<ClubAttachment> list2 = (ArrayList)sqlSession.selectList("clubMapper.selectList_clubAttachment", clubNos); 
+
+		//4. 1에서 받아온 <club>리스트에 3에서 받아온 clubTime정보를 clubNo로 매칭시켜 set해주기
+		for(Club c : list1) {
+			List<ClubAttachment> temp = new ArrayList<>();
+			for(ClubAttachment ca : list2) {
+				if(c.getClubNo() == ca.getClubNo() && ca.getFileType()==2) {
+					temp.add(ca);
+				}
+			}
+			c.setClubAttachments(temp);
+		}
+		
+		for(Club c : list1) {
+			System.out.println("사진 나오게 하고싶은데 : " + c.toString());
+		}
+
+		return list1;
+		
+	}
+
+	public Club selectClub(SqlSessionTemplate sqlSession, int cno) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("clubMapper.selectClub", cno);
+	}
 
 }
