@@ -33,6 +33,10 @@ public interface ClubService {
 
 	int selectListCount(String userId);
 
-	ArrayList<Club> selectCateList(String category);  
+	ArrayList<Club> selectCateList(String category);
+
+	ArrayList<Club> selectEndList();
+
+	Club selectClub(int cno);  
 
 }

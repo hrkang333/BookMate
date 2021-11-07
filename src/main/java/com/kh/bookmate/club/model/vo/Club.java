@@ -43,4 +43,6 @@ public class Club {
 	private String category;
 	//11.02 추가(clubTime 테이블 )
 	private List<ClubTime> clubTimes;
+	//11.06 추가(clubTime 테이블 )
+	private List<ClubAttachment> clubAttachments;
 }

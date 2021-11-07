@@ -1,12 +1,12 @@
 /* 파일 설명 : 컨트롤러(독서모임-개설신청,수정,삭제)
  * 담당자  : 황서연
- * 수정날짜 : 2021.11.01
- * 수정사항 : 독서모임 개설신청 db 연동중
+ * 수정날짜 : 2021.11.07
+ * 수정사항 : 독서모임 상세페이지 db연동 거의 완료
  * 수정필요사항 : loginUser 세션에 넣어줘야 함 (V)
  * 			  step2에서 정원 typemismatch 오류남 default=0으로해야겠다.(V)
  * 			  message로 상황 알려줘야 함
  *            오프라인 장소(club_place) 추가해줘야 함
- *            <삭제> 1.club_time, club_attachment -> club삭제되면 해당 clubNo에 맞는 값 delete처리?
+ *            <삭제> 1.club_time, club_attachment -> club삭제되면 해당 clubNo에 맞는 값 delete처리? (V)
  *            
  *            
  * */
@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.GsonBuilder;
 import com.kh.bookmate.club.model.service.ClubService;
@@ -264,7 +265,6 @@ public class ClubController {
 		
 		//2.사진삭제(해당 clubNo에 사진있는 경우만)
 		if(plist != null) {
-			System.out.println("여기 탈텐데");
 			for(ClubAttachment ca : plist) {
 				deleteFile(ca.getChangeName(),request);
 			}
@@ -287,7 +287,10 @@ public class ClubController {
 	
 	//7.메인페이지
 	@RequestMapping("clubMain.cl")
-	public String clubMain() {
+	public String clubMain(Model model) {
+		
+		ArrayList<Club> endList = clubService.selectEndList();
+		model.addAttribute("endList",endList);
 		return "club/clubMain";
 	}
 	
@@ -296,9 +299,21 @@ public class ClubController {
 	@RequestMapping(value="categoryList.cl", produces="application/json; charset=utf-8")
 	public String categoryList(String category) {
 		
-		ArrayList<Club> list = clubService.selectCateList(category);
+		ArrayList<Club> catelist = clubService.selectCateList(category);
 		
-		return new GsonBuilder().create().toJson(list);
+		return new GsonBuilder().create().toJson(catelist);
+	}
+	
+	//9. 상세페이지
+	@RequestMapping("detail.cl")
+	public ModelAndView clubDetail(int cno, ModelAndView mv) {
+		
+		Club club = clubService.selectClub(cno);
+		
+		System.out.println("club 확인! : " + club.toString());
+		
+		mv.addObject("club",club).setViewName("club/clubDetail");
+		return mv;
 	}
 		
 		

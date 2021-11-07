@@ -133,6 +133,18 @@ public class ClubServiceImpl implements ClubService {
 		return clubDao.selectCateList(sqlSession, category);
 	}
 
+	@Override
+	public ArrayList<Club> selectEndList() {
+		// TODO Auto-generated method stub
+		return clubDao.selectEndList(sqlSession);
+	}
+
+	@Override
+	public Club selectClub(int cno) {
+		// TODO Auto-generated method stub
+		return clubDao.selectClub(sqlSession, cno);
+	}
+
 	
 	
 	
