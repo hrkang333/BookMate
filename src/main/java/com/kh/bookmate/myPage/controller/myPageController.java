@@ -1,6 +1,6 @@
 package com.kh.bookmate.myPage.controller;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bookmate.payment.model.service.PaymentService;
 import com.kh.bookmate.payment.model.vo.PaymentDetail;
@@ -106,13 +107,13 @@ public class myPageController {
 	@RequestMapping("selectMyOrderList.me")
 	public String selectMyOrderList(@ModelAttribute User user, 
 									@ModelAttribute PaymentDetail paymentDetail,
+														@RequestParam(value="msg",required=false) String msg,
 													//	@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage,
 														@RequestParam(value="paymentNo", required = false, defaultValue="0") int paymentNo,														
 														@RequestParam(value="bookTitle",required = false ,defaultValue="0" ) String bookTitle,
 														@RequestParam(value="bookMainImg",required=false, defaultValue="0") String bookMainImg,
 														@RequestParam(value="quantity",required=false,defaultValue="0" ) int quantity,
 														@RequestParam(value="deliveryStatus",required=false,defaultValue="0") int deliveryStatus,
-													//	@RequestParam(value="currentPage",defaultValue="1")
 														HttpSession session, Model model ) { 
 		
 		User loginUser = (User) session.getAttribute("loginUser"); 
@@ -121,7 +122,6 @@ public class myPageController {
 		//PageInfo pi = Pagination.getPageInfo(myOrderList, currentPage, 5,5);
 		
 		model.addAttribute("myOrderList",myOrderList);
-		System.out.println("=================주문리스트 값은 찍히는지 ========="+myOrderList + paymentDetail);
 		return "myPage/myPageOrderList";
 	
 	}
@@ -130,11 +130,28 @@ public class myPageController {
 	//주문내역 상세보기 
 	@RequestMapping("selectMyOrderList/selectOrderListDetail.me")
 	public String selectOrderListDetail() {
-		
 		return "myPage/myOderListDetail";
 	}
+
 	
-	//일주일 
+	//배송 전 주문 취소하기 
+	@RequestMapping("cancelMyOrder.me")
+	public String cancelMyOrder(@RequestParam User user,HttpSession session, Model model)	{
+		
+		
+		
+		User loginUser = (User) session.getAttribute("loginUser"); 
+		ModelAndView mv = new ModelAndView();
+		PaymentDetail myOrderList = paymentService.cancelMyOrder(loginUser);
+		
+		
+		return "redirect:myPage/myPageOrderList.me";
+	}
+	
+
+	
+	
+//일주일 
 //		private String getCurrentDate() {
 //			Date dateNow = (Date) Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST")).getTime();
 //	        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -158,6 +175,8 @@ public class myPageController {
 //	     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 //	     return formatter.format(monthago);
 //	}
+	
+	
 	
 
 }

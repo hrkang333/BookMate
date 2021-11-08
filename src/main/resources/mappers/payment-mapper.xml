@@ -36,9 +36,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<select id="selectMyOrderList" resultMap="paymentDetailResultSet">
-	
-		SELECT * FROM PAYMENTDETAIL
 
+		SELECT * FROM PAYMENTDETAIL
+		<!-- 
+		SELECT * FROM PAYMENTDETAIL
+		WHERE PAYMENTNO=#{paymentNo}
+		ORDER BY DELIVERYDATE DESC
+		 -->
 	</select>
 	
 

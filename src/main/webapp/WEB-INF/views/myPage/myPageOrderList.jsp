@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-    <!-- 그냥 따로 안하고 바로 나의 상세목록 주문으로 할란다..  -->
-<!DOCTYPE html>
+
+<%--  <c:set var="contextPath"  value="${pageContext.request.contextPath}"/> --%>
+ <!DOCTYPE html>
 
 <html lang="en">
 <head>
@@ -146,39 +147,104 @@
                             <th scope="col">주문번호</th>
                             <th scope="col">책 제목 </th>
                             <th scope="col">상품수량</th>
-                            <!-- <th scope="col">수량</th>  -->
                             <th scope="col">상품상태</th>
                             <th scope="col">배송상태</th>
                             <th scope="col">주문취소여부</th>
                           </tr>
                         </thead>
-
+              
+		<%-- 		<c:choose>
+				         <c:when test="${ empty myOrderList  }">
+						  <tr>
+						    <td colspan=5 class="fixed">
+								  <strong>주문한 상품이 없습니다.</strong>
+						    </td>
+						  </tr>
+				        </c:when>
+				        <c:otherwise>
+					      <c:forEach var="item" items="${myOrderList }"  varStatus="i">
+					       <c:choose> 
+				              <c:when test="${ pre_order_id != item.order_id}">
+				                <c:choose>
+					              <c:when test="${item.delivery_state=='delivery_prepared' }">
+					                <tr  bgcolor="lightgreen">    
+					              </c:when>
+					              <c:when test="${item.delivery_state=='finished_delivering' }">
+					                <tr  bgcolor="lightgray">    
+					              </c:when>
+					              <c:otherwise>
+					                <tr  bgcolor="orange">   
+					              </c:otherwise>
+					            </c:choose> 
+				            <tr>
+				             <td>
+						       <a href="${contextPath}/mypage/myOrderDetail.do?order_id=${item.order_id }"><span>${item.order_id }</span></a>
+						     </td>
+						    <td><span>${item.pay_order_time }</span></td>
+							<td align="left">
+							   <strong>
+							      <c:forEach var="item2" items="${myOrderList}" varStatus="j">
+							          <c:if  test="${item.order_id ==item2.order_id}" >
+							            <a href="${contextPath}/goods/goodsDetail.do?goods_id=${item2.goods_id }">${item2.goods_title }/${item.order_goods_qty }개</a><br>
+							         </c:if>   
+								 </c:forEach>
+								</strong></td>
+							<td>
+							  <c:choose>
+							    <c:when test="${item.delivery_state=='delivery_prepared' }">
+							       배송준비중
+							    </c:when>
+							    <c:when test="${item.delivery_state=='delivering' }">
+							       배송중
+							    </c:when>
+							    <c:when test="${item.delivery_state=='finished_delivering' }">
+							       배송완료
+							    </c:when>
+							    <c:when test="${item.delivery_state=='cancel_order' }">
+							       주문취소
+							    </c:when>
+							    <c:when test="${item.delivery_state=='returning_goods' }">
+							       반품완료
+							    </c:when>
+							  </c:choose>
+							</td>
+							<td>
+							  <c:choose>
+							   <c:when test="${item.delivery_state=='delivery_prepared'}">
+							       <input  type="button" onClick="fn_cancel_order('${item.order_id}')" value="주문취소"  />
+							   </c:when>
+							   <c:otherwise>
+							      <input  type="button" onClick="fn_cancel_order('${item.order_id}')" value="주문취소" disabled />
+							   </c:otherwise>
+							  </c:choose>
+							</td>
+							</tr>
+				          <c:set  var="pre_order_id" value="${item.order_id}" />
+				           </c:when>
+				      </c:choose>
+					   </c:forEach>
+					  </c:otherwise>
+				    </c:choose> 
+				    
+				    --%>
+				    	    
                         <tbody style="text-align: center;">
                          <tr>
-                            <td><p><c:out value="${myOrderList.paymentNo}"/></p></td>
-                            <%-- <td><c:out value="${myOrderList.totalCost}"/> 원</td> --%>
-                         
-                           <td><img
+                            <td><p><c:out value="${myOrderList.paymentNo}"/></p></td>                         
+                            <td><img
 							src="${pageContext.servletContext.contextPath }/resources/images/book_img/${requestScope.myOrderList.bookMainImg}"
-									alt="" style="width: 50px; height: auto;"><c:out value="${myOrderList.bookTitle}"/>
-                            </td> 
+									alt="" style="width: 50px; height: auto;"><c:out value="${myOrderList.bookTitle}"/> </td> 
                             <td> <c:out value="${myOrderList.quantity}"/>개  </td>
-                           
-                           <!-- 국내도서 부분을 누르면 상세페이지로 연결되게 하기..?  -->
-                           <!--  <td> 1개  </td> -->
-
-                  	     <td> 여기다 상품상태를</td>
-                     	 <td> <c:out value="${myOrderList.deliveryStatus}"/></td>
+                  	     	<td> 여기다 상품상태를</td>
+                     	 	<td> <c:out value="${myOrderList.deliveryStatus}"/></td>
                           	<td> <input type="button" class="button button-hero" value="주문취소" onclick="orderCancle()"/> </td>
                         </tr>
-                     
-
-                          
+                        
                         </tbody>
                       </table>
                     </div>
                 </div>
-             </div>
+             </div> 
         
             <!-- 페이징 바  -->
             <nav class="blog-pagination justify-content-center d-flex">
@@ -222,8 +288,40 @@
           </div>
        
       </section>
-
-
+      
+<%-- 		<c:if test="${msg=='cancel_order'}">
+			<script>
+			window.onload=function()
+			{
+			  init();
+			}
+			
+			function init(){
+				alert("주문을 취소했습니다.");
+			}
+			</script>
+			
+		</c:if>
+		
+		<script>
+		function fn_cancel_order(order_id){
+			var answer=confirm("주문을 취소하시겠습니까?");
+			if(answer==true){
+				var formObj=document.createElement("form");
+				var i_order_id = document.createElement("input"); 
+			    
+			    i_order_id.name="order_id";
+			    i_order_id.value=order_id;
+				
+			    formObj.appendChild(i_order_id);
+			    document.body.appendChild(formObj); 
+			    formObj.method="post";
+			    formObj.action="${contextPath}/mypage/cancelMyOrder.do";
+			    formObj.submit();	
+			}
+		}
+		</script> --%>
+		
 
       
 
