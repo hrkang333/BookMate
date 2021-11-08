@@ -22,16 +22,58 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="ubookImg" column="UBOOK_IMG"/>		
 		<result property="ubookStatus" column="UBOOK_STATUS"/>
 	</resultMap>
-
-	<select id="selectUbook" resultType="Ubook">
-		SELECT * FROM UBOOK WHERE UBOOK_NO = #{SEQ_UBNO}
+	
+	<select id="selectList" resultMap="ubookResultSet">
+		SELECT *
+		FROM UBOOK
+		WHERE UBOOK_STATUS = 'Y'
+		ORDER BY UBOOK_NO DESC
 	</select>
-
+	
+	<!-- 중고도서 등록 -->
 	<insert id="insertUbook" parameterType="Ubook">
 		INSERT INTO UBOOK VALUES (SEQ_UBNO.NEXTVAL,#{bSellerNo},#{ubookName},#{ubookWriter},#{ubookIsbn},#{ubCategory}
 								,#{ubookTrans},#{ubookPub},#{ubookPubDate},#{ubookOPrice},#{ubookPrice}
 								,#{ubookStock},#{ubookQual},#{ubookDetail},#{ubookContent},#{ubookImg},DEFAULT)
-		
 	</insert>
 
+	<!-- 도서 상세 -->
+	<select id="selectUbook" resultType="Ubook">
+		SELECT * FROM UBOOK WHERE UBOOK_NO = #{ubookNo}
+	</select>
+	
+	<!-- 도서 카테고리별 리스트 -->
+	<select id="selectUbookCateList" resultType="Ubook">
+		SELECT * FROM UBOOK UB_CATEGORY = #{ubCategory}
+	</select>
+
+	<!-- 도서 수정 -->
+	<update id="updateUbook" parameterType="Ubook">
+		UPDATE UBOOK
+		SET
+		UBOOK_NAME=#{ubookName},
+		UBOOK_WRITER=#{ubookWriter},
+		UBOOK_ISBN=#{ubookIsbn},
+		UB_CATEGORY=#{ubCategory},
+		UBOOK_TRANS=#{ubookTrans},
+		UBOOK_PUB=#{ubookPub},
+		UBOOK_PUBDATE=#{ubookPubDate},
+		UBOOK_O_PRICE=#{ubookOPrice},
+		UBOOK_PRICE=#{ubookPrice},
+		UBOOK_STOCK=#{ubookStock},
+		UBOOK_QUAL=#{ubookQual},
+		UBOOK_DETAIL=#{ubookDetail},
+		UBOOK_CONTENT=#{ubookContent},
+		UBOOK_IMG=#{ubookImg}
+		WHERE BSELLER_NO=#{bSellerNo}
+		AND UBOOK_STATUS='Y'
+	</update>
+
+	<!-- 도서 삭제 -->
+	<delete id="deleteUbook" parameterType="Ubook">
+		DELETE UBOOK
+		WHERE UBOOK_NO=#{SEQ_UBNO}
+		AND BSELLER_NO=#{bSellerNo}
+	</delete>
+	
 </mapper>

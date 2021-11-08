@@ -1,10 +1,9 @@
 package com.kh.bookmate.seller.model.service;
 
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import java.util.List;
 
 import com.kh.bookmate.seller.model.vo.Seller;
-import com.kh.bookmate.user.model.vo.User;
+import com.kh.bookmate.ubook.model.vo.Ubook;
 
 public interface SellerService {
 	
@@ -20,6 +19,8 @@ public interface SellerService {
 	int updateSeller(Seller s);
 	
 	int deleteSeller(Seller s);
+
+	//List<Ubook> selectMyUbook(String userId);
 
 	//void deleteSeller(Seller s, String userPwd);
 }

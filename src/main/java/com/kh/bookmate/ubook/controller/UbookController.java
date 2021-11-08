@@ -3,6 +3,7 @@ package com.kh.bookmate.ubook.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.bookmate.common.PageInfo;
+import com.kh.bookmate.common.Pagination;
 import com.kh.bookmate.ubook.model.service.UbookService;
 import com.kh.bookmate.ubook.model.vo.Ubook;
 
@@ -23,17 +26,34 @@ public class UbookController {
 
 	@Autowired
 	UbookService ubookService;
-	
+/*
 	@RequestMapping("ubookList.ub")
-	public String ubookList() {
+	public String showUbookList(Model model) {
+
+		ArrayList<Ubook> list = ubookService.selectbookListCount();
+		
+		model.addAttribute("list", list);
+		System.out.println(list);
+		
 		return "ubook/ubookList";
 	}
-
+	
+/*
 	@RequestMapping("ubookDetail.ub")
 	public String ubookDetail() {
 		return "ubook/ubookDetail";
 	}
-
+*/
+	@RequestMapping("ubookDetail.ub")
+	public String ubookDetail(@RequestParam("ubookNo") int ubookNo, Model model) {
+		Ubook ubook = ubookService.selectUbook(ubookNo);
+		System.out.println("ubook???????????????????????" + ubook);
+		
+		model.addAttribute("ubook", ubook);
+		
+		return "ubook/ubookDetailTest";
+	}
+	
 	@RequestMapping("ubookEnrollForm.ub")
 	public String ubookEnrollForm() {
 		return "seller/ubookEnrollForm";
@@ -61,7 +81,7 @@ public class UbookController {
 			System.out.println("ubook~~~~~~~~~~~~~~" + ubook);
 			System.out.println("getUbCategory~~~~~~~~~~~~~~" + ubook.getUbCategory());
 			
-			//int ubookDetail = ubookService.selectUbook(ubook.getUbookNo());
+			//Ubook ubookDetail = ubookService.selectUbook(ubook.getUbookNo());
 			
 			//model.addAttribute("ubook", ubookDetail);
 			
