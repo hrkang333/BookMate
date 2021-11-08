@@ -301,6 +301,13 @@ public class ClubController {
 		
 		ArrayList<Club> catelist = clubService.selectCateList(category);
 		
+		System.out.println("catelist뭐야? " + catelist);
+		
+		for(Club c : catelist) {
+			System.out.println("catelist확인 : "+c.toString());
+		}
+		
+		
 		return new GsonBuilder().create().toJson(catelist);
 	}
 	

@@ -89,15 +89,6 @@
                   4. carousel - id는 꼭 유일하게 해줘야함
                 -->
 
-                <script>
-                    // $(function() {
-                    //     $(".placeImg").click(function() {
-                    //         var planNo = $(this).siblings("#planNo").val();
-                    //         location.href = "contextPath/detailP.ps?planNo=" + planNo;
-                    //     })
-                    // })
-                </script>
-
                 <div id="carouselExampleIndicators1" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
                         <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -290,7 +281,7 @@
 
 
 
-                <!-- ================ trending product section 삭제 ================= -->
+                <!-- ================ 2. 분야별 독서모임 확인  ================= -->
                 <section class="section-margin calc-60px">
                     <div class="container">
                         <div class="section-intro pb-60px">
@@ -320,67 +311,44 @@
                             </li>
                         </ul>
                         
-                        <div class="row" id="categoryList" style="display:none;">
-                        	<c:forEach items="${catelist}" var="list" varStatus="status">
-                        		<div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-	                            	<input type="hidden" value="${list.clubNo}">
+                        <div class="row" id="categoryList1" style="display:none;">
+                        	해당 카테고리에 독서모임은 없습니다.
+                        </div>
+                        
+                        <div class="row" id="categoryList">
+                        	<c:forEach begin="0" end="5" varStatus="s">
+                        		<div id="c_clubTotal${s.index}" class="col-md-6 col-lg-4 mb-4 mb-lg-0  pointer" style="display:none;">
+	                            	<input id="c_clubNo${s.index}" type="hidden" value="22">
 	                                <div class="card card-blog">
 	                                    <div class="card-blog__img">
-	                                         <img class="card-img rounded-0" src="resources/img/blog/blog1.png" alt="">
+	                                         <img id="c_clubImg${s.index}" class="card-img rounded-0" src="resources/img/blog/blog1.png" alt="">
 	                                    </div>
 	                                    <div class="card-body">
 	                                        <ul class="card-blog__info">
-	                                            <li>${list.category} &nbsp; [ ${list.onoffLine} ]</li>
+	                                            <li><span id="c_category${s.index}">22</span> &nbsp; <span id="c_onoffLine${s.index}">[22]</span></li>
 	                                            <li><i class="ti-comments-smiley"></i> 2 Comments</li>
 	                                        </ul>
-	                                        <h4 class="card-blog__title">${list.clubTitle}</h4>
-	                                        <p>
-	                                        	<c:set var="temp" value="모집기간모집기간모집기간모집기간모집기간모집기간모집기간모집기간모집기간모집기간모집기간"/>
-	                                        	<c:choose>
-		                                        	<c:when test="${fn:length(temp) gt 41}">
-		                                        		<c:out value="${fn:substring(temp,0,40)}"></c:out> ...
-		                                        	</c:when>
-		                                        	<c:otherwise>
-		                                        		<c:out value="${temp}"/>
-		                                        	</c:otherwise>
-	                                        	</c:choose>
-	                                        
+	                                        <h4 id="c_title${s.index}" class="card-blog__title">독서모임 제목</h4>
+	                                        <p>	
+	                                        	<span id="c_intro${s.index}"> 독서모임 소개 독서모임 소개 독서모임 소개 독서모임 소개 독서모임 소개 독서모임 소개</span>
+		                                        	<%-- <c:set var="temp" value=""/>
+		                                        	<c:choose>
+			                                        	<c:when test="${fn:length(temp) gt 41}">
+			                                        		<c:out value="${fn:substring(temp,0,40)}"></c:out> ...
+			                                        	</c:when>
+			                                        	<c:otherwise>
+			                                        		<c:out value="${temp}"/>
+			                                        	</c:otherwise>
+		                                        	</c:choose> --%>
 	                                        </p>
 	                                    </div>
 	                                </div>
 	                            </div> 
-                        	</c:forEach> 
+                        	</c:forEach>
                         </div>
                         
                     </div>
-                </section>
-                
-                <script>
-	                $(".clickCategory").click(function(){
-
-	    	        	var category = $(this).text();
-						$.ajax({
-							url:"categoryList.cl",
-							data:{category:category},
-							type : "get",
-							success:function(list){
-								console.log("ajax 통신성공")
-								//putClubList(list);
-								var listView = document.getElementById("categoryList");
-								if(listView.style.display=='none'){
-									listView.style.display = 'block';
-								}
-								
-							},error:function(){
-								console.log("ajax 통신실패")
-							}
-						})
-	                })
-  	
-                </script>
-                
-                
-                <!-- ================ trending product section end ================= -->
+                </section>                
 
                 <!-- ================ 3. 마감임박 독서모임 ================= -->
                 <section class="section-margin calc-60px">
@@ -518,6 +486,58 @@
                             location.href="detail.cl?cno=" + $(this).children(":first").val();
                         });
                     })
+                    
+                    $(".clickCategory").click(function(){
+
+	    	        	var category = $(this).text();
+						$.ajax({
+							url:"categoryList.cl",
+							data:{category:category},
+							type : "get",
+							success:function(list){
+								console.log("ajax 통신성공")
+								
+								var listView = document.getElementById("categoryList");
+								var listView1 = document.getElementById("categoryList1");
+								var intro;
+								
+								if(list.length == 0){  //1.리스트 빈 경우
+									console.log("리스트 빈 값");
+									listView.style.display = 'none';
+									listView1.style.display = 'flex';
+								}else{				  //2. 리스트 값 있는 경우
+									$.each(list,function(i){
+										$('#c_clubImg'+i).attr("src","${pageContext.servletContext.contextPath }/resources/upload_files/club_img/"+list[i].clubAttachments[0].changeName);
+										$('#c_clubNo'+i).val(list[i].clubNo);	
+										$('#c_category'+i).text(list[i].category);	
+										$('#c_onoffLine'+i).text(list[i].onoffLine);
+										$('#c_title'+i).text(list[i].clubTitle);
+										
+										if(list[i].intro.length > 75){
+											console.log("여기 안도나?")
+											intro = (list[i].intro).substring(0,75)+'...';
+										}else{
+											intro = list[i].intro;
+										}
+										
+										$('#c_intro'+i).text(intro);
+										$('#c_clubTotal'+i).css('display','flex');  //none풀어주기
+										
+									})
+									
+									console.log("test")
+									listView1.style.display = 'none';
+									
+									if(listView.style.display == 'none'){  //리스트 없는 경우 none으로 되어있어서 clubTotal이 보이려면 풀어줘야 함
+										listView.style.display = 'flex';
+									}
+								}
+
+							},error:function(){
+								console.log("ajax 통신실패")
+							}
+						})
+	                })
                 </script>
 
                 <!-- ================ Best Selling item  carousel end ================= -->
