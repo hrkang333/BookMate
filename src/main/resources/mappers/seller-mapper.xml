@@ -17,31 +17,46 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="modifyDate" column="MODIFY_DATE"/>		
 		<result property="status" column="STATUS"/>
 	</resultMap>
-	
-	
-	<resultMap id="userResultSet" type="User">
-		<id property="userId" column="user_ID"/>
-		<result property="userName" column="user_NAME"/>
-		<result property="userPwd" column="user_PWD"/>
-		<result property="gender" column="GENDER"/>
-		<result property="address" column="ADDRESS"/>
-		<result property="phone" column="PHONE"/>
-		<result property="email" column="EMAIL"/>
-		<result property="enroll" column="ENROLL"/>
-		<result property="point" column="POINT"/>		
-		<result property="status" column="STATUS"/>
+	<resultMap id="ubookResultSet" type="Ubook">
+		<id property="ubookNo" column="UBOOK_NO"/>
+		<result property="bSellerNo" column="BSELLER_NO"/>
+		<result property="ubookName" column="UBOOK_NAME"/>
+		<result property="ubookWriter" column="UBOOK_WRITER"/>
+		<result property="ubookIsbn" column="UBOOK_ISBN"/>
+		<result property="ubCategory" column="UB_CATEGORY"/>
+		<result property="ubookTrans" column="UBOOK_TRANS"/>
+		<result property="ubookPub" column="UBOOK_PUB"/>
+		<result property="ubookPubDate" column="UBOOK_PUBDATE"/>		
+		<result property="ubookOPrice" column="UBOOK_O_PRICE"/>		
+		<result property="ubookPrice" column="UBOOK_PRICE"/>		
+		<result property="ubookStock" column="UBOOK_STOCK"/>
+		<result property="ubookQual" column="UBOOK_QUAL"/>		
+		<result property="ubookDetail" column="UBOOK_DETAIL"/>	
+		<result property="ubookContent" column="UBOOK_CONTENT"/>		
+		<result property="ubookImg" column="UBOOK_IMG"/>		
+		<result property="ubookStatus" column="UBOOK_STATUS"/>
 	</resultMap>
-	
+		<!--
+		<select id="selectMyUbook" parameterType="Ubook" resultMap="ubookResultSet">
+			SELECT U.UBOOK_NO, U.UBOOK_IMG, U.UBOOK_NAME
+			FROM UBOOK U, SELLER S
+			WHERE U.BSELLER_NO = #{sellerNo}
+			AND U.BSELLER_NO = S.SELLER_NO;
+		</select>-->
+		
+		<!-- 판매자 휴면 -->
 		<update id="deleteSeller" parameterType="Seller">
 			UPDATE SELLER SET STATUS='N'
 			WHERE SELLER_ID = #{sellerId}
 		</update>
 	
-	<insert id="insertSeller" parameterType="Seller">
-		
-		INSERT INTO SELLER VALUES (seq_sno.nextval, #{sellerId}, #{sellerNickN}, #{sellerEmail}, #{sellerPhone}, #{sellerDel}, #{sellerDelP1}, #{sellerDelP2}, #{sellerAddress}, sysdate, sysdate, default)
-	</insert>
+		<!-- 판매자 가입 -->
+		<insert id="insertSeller" parameterType="Seller">
+			INSERT INTO SELLER VALUES (seq_sno.nextval, #{sellerId}, #{sellerNickN}, #{sellerEmail}, #{sellerPhone}, #{sellerDel}, #{sellerDelP1}, #{sellerDelP2}, #{sellerAddress}, sysdate, sysdate, default)
+		</insert>
 	
+	
+		<!-- 판매자 로그인 -->
 		<select id="loginSeller" parameterType="Seller" resultMap="sellerResultSet">
 		SELECT S.*
 		FROM SELLER S, USERS U
@@ -51,6 +66,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND S.STATUS = 'Y'
 		</select>
 	
+	
+		<!-- 판매자 수정 -->
 		<update id="updateSeller" parameterType="Seller">
 		UPDATE SELLER 
 		SET
@@ -62,115 +79,5 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE SELLER_ID=#{sellerId}
 		AND STATUS='Y'
 		</update>
-		
-	<!--
-		
-		<update id="deleteSeller" parameterType="Seller">
-			UPDATE SELLER SET STATUS='N'
-			WHERE (SELECT U.USER_ID
-			        FROM USERS U
-			        WHERE U.USER_PWD=#{userPwd})=#{sellerId}			
-		</update>
-	
-	UPDATE SELLER SET STATUS='N'
-			WHERE SELLER_ID=#{sellerId}
-			AND USERS_ID = SELLER_ID
-			
-	SELECT S.*
-		FROM SELLER S, USERS U
-		WHERE S.SELLER_ID = #{userId}
-		AND U.STATUS = 'Y'
-		AND S.STATUS = 'Y'
-	
-	<resultMap id="userResultSet" type="Seller">
-		<id property="userId" column="user_ID"/>
-		<result property="userName" column="user_NAME"/>
-		<result property="userPwd" column="user_PWD"/>
-		<result property="gender" column="GENDER"/>
-		<result property="address" column="ADDRESS"/>
-		<result property="phone" column="PHONE"/>
-		<result property="email" column="EMAIL"/>
-		<result property="enroll" column="ENROLL"/>
-		<result property="point" column="POINT"/>		
-		<result property="status" column="STATUS"/>
-		
-		<result property="sellerNickN" column="SELLER_NICKN"/>
-		<result property="sellerEmail" column="SELLER_EMAIL"/>
-		<result property="sellerPhone" column="SELLER_PHONE"/>
-		<result property="sellerDel" column="SELLER_DEL"/>
-		<result property="sellerDelP1" column="SELLER_DEL_PRICE1"/>
-		<result property="sellerDelP2" column="SELLER_DEL_PRICE2"/>
-		<result property="sellerAddress" column="SELLER_ADDRESS"/>		
-		<result property="sellerStatus" column="SELLER_STATUS"/>
-		<result property="sellerNo" column="SELLER_NO"/>
-	</resultMap>
 
-	<resultMap id="sellerResultSet" type="User">
-		<id property="userId" column="user_ID"/>
-		<result property="userName" column="user_NAME"/>
-		<result property="userPwd" column="user_PWD"/>
-		<result property="gender" column="GENDER"/>
-		<result property="address" column="ADDRESS"/>
-		<result property="phone" column="PHONE"/>
-		<result property="email" column="EMAIL"/>
-		<result property="enroll" column="ENROLL"/>
-		<result property="point" column="POINT"/>		
-		<result property="status" column="STATUS"/>
-			
-		<result property="sellerNickN" column="SELLER_NICKN"/>
-		<result property="sellerEmail" column="SELLER_EMAIL"/>
-		<result property="sellerPhone" column="SELLER_PHONE"/>
-		<result property="sellerDel" column="SELLER_DEL"/>
-		<result property="sellerDelP1" column="SELLER_DEL_PRICE1"/>
-		<result property="sellerDelP2" column="SELLER_DEL_PRICE2"/>
-		<result property="sellerAddress" column="SELLER_ADDRESS"/>		
-		<result property="sellerStatus" column="SELLER_STATUS"/>
-		<result property="sellerNo" column="SELLER_NO"/>
-	</resultMap>
- 	 <resultMap id="sellerResultSet" type="Seller">
-		<id property="sellerNo" column="SELLER_NO"/>
-		<result property="sellerId" column="SELLER_ID"/>
-		<result property="sellerNickN" column="SELLER_NICKN"/>
-		<result property="sellerEmail" column="SELLER_EMAIL"/>
-		<result property="sellerPhone" column="SELLER_PHONE"/>
-		<result property="del" column="SELLER_DEL"/>
-		<result property="delPrice1" column="SELLER_DEL_PRICE1"/>
-		<result property="delPrice2" column="SELLER_DEL_PRICE2"/>
-		<result property="sellerAddress" column="SELLER_ADDRESS"/>		
-		<result property="enrollDate" column="ENROLL_DATE"/>		
-		<result property="modifyDate" column="MODIFY_DATE"/>		
-		<result property="status" column="STATUS"/>
-	</resultMap>
-
-	<select id="loginSeller" parameterType="Seller" resultMap="sellerResultSet">
-		SELECT * FROM SELLER
-		WHERE SELLER_ID=#{sellerId}
-		AND STATUS='Y'
-		
-		SELECT S.SELLER_NO, S.SELLER_ID, S.SELLER_NICKN, S.SELLER_EMAIL, S.SELLER_PHONE, S.SELLER_DEL, S.SELLER_DEL_PRICE1, S.SELLER_DEL_PRICE2, S.SELLER_ADDRESS
-		FROM SELLER S, USERS U
-		WHERE U.USER_ID = #{sellerId}
-		AND U.USER_ID = S.SELLER_ID
-		AND U.STATUS = 'Y'
-		AND S.STATUS = 'Y'
-		
-	</select>
-	
-	<update id="insertSeller" parameterType="Seller">
-		UPDATE USERS
-		SET
-		SELLER_NICKN=#{sellerNickN},
-		SELLER_EMAIL=#{sellerEmail},
-		SELLER_PHONE=#{sellerPhone},
-		SELLER_DEL=#{sellerDel},
-		SELLER_DEL_PRICE1=#{sellerDelP1},
-		SELLER_DEL_PRICE2=#{sellerDelP2},
-		SELLER_ADDRESS=#{sellerAddress},
-		SELLER_STATUS='Y',
-		SELLER_NO=seq_sno.nextval
-		where user_id=#{userId}
-	</update>
-	<insert id="insertSeller" parameterType="Seller">
-		INSERT INTO SELLER VALUES (seq_sno.nextval, #{sellerId}, #{sellerNickN}, #{sellerEmail}, #{sellerPhone}, #{sellerDel}, #{sellerDelP1}, #{sellerDelP2}, #{sellerAddress}, sysdate, sysdate, default)
-	</insert> -->
 </mapper>

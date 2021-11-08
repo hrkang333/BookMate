@@ -33,22 +33,20 @@ function imgCheck(img,inputId) {
 }
 
 function submitCheck(){
-	var bookName = $("input[name='ubookName']").val();
-	var ubookWriter = $("input[name='ubookWriter']").val();
-	var ubookIsbn = $("input[name='ubookIsbn']").val();
-	var ubCategory = $("select[name='ubCategory']").val();
-	var ubookTrans = $("input[name='ubookTrans']").val();
-	var ubookPub = $("input[name='ubookPub']").val();
-	var ubookPubDate = $("input[name='ubookPubDate']").val();
-	var ubookOPrice = $("input[name='ubookOPrice']").val();
-	var ubookPrice = $("input[name='ubookPrice']").val();
-	var ubookStock = $("input[name='ubookStock']").val();
-	var ubookQual = $("select[name='ubookQual']").val();
-	var ubookDetail = $("input[name='ubookDetail']").val();
-	var ubookContent = $("input[name='ubookContent']").val();
-	
-	var reg = /^[0-9]+/g;
-	
+	var bookName = $("input[name='ubookName']").value;
+	var ubookWriter = $("input[name='ubookWriter']").value;
+	var ubookIsbn = $("input[name='ubookIsbn']").value;
+	var ubCategory = $("select[name='ubCategory']").value;
+	var ubookTrans = $("input[name='ubookTrans']").value;
+	var ubookPub = $("input[name='ubookPub']").value;
+	var ubookPubDate = $("input[name='ubookPubDate']").value;
+	var ubookOPrice = $("input[name='ubookOPrice']").value;
+	var ubookPrice = $("input[name='ubookPrice']").value;
+	var ubookStock = $("input[name='ubookStock']").value;
+	var ubookQual = $("select[name='ubookQual']").value;
+	var ubookDetail = $("input[name='ubookDetail']").value;
+	var ubookContent = $("input[name='ubookContent']").value;
+		
 	if(bookName == ''){
 		alert('도서명을 입력해주세요');
 		bookName.focus();
@@ -64,9 +62,8 @@ function submitCheck(){
 		ubookIsbn.focus();
 		return false;
 	}
-	if(!reg.test(ubookIsbn)){
-		alert('ISBN은 숫자만 입력해주세요');
-		ubookIsbn.val('');
+	if(ubookIsbn.length != 13){
+		alert('ISBN 13자리를 입력해주세요.');
 		ubookIsbn.focus();
 		return false;
 	}
@@ -105,22 +102,21 @@ function submitCheck(){
 		ubookStock.focus();
 		return false;
 	}
-	if(!reg.test(ubookOPrice)){
-		alert('정가는 숫자만 입력해주세요');
-		ubookOPrice.val('');
+	if(ubookOPrice == ''){
+		alert('정가를 입력해주세요');
 		ubookOPrice.focus();
 		return false;
 	}
-	if(!reg.test(ubookPrice)){
-		alert('판매가는 숫자만 입력해주세요');
+	if(ubookPrice == ''){
+		alert('판매가를 입력해주세요');
 		ubookPrice.val('');
 		ubookPrice.focus();
 		return false;
 	}
-	if(!reg.test(ubookStock)){
-		alert('재고는 숫자만 입력해주세요');
-		ubookStock.val('');
-		ubookStock.focus();
+	if(ubookPrice > ubookOPrice){
+		alert('판매가는 정가보다 높을 수 없습니다. 다시 입력해주세요.');
+		ubookPrice.val('');
+		ubookPrice.focus();
 		return false;
 	}
 	if(ubookQual == ''){
@@ -138,42 +134,8 @@ function submitCheck(){
 		ubookContent.focus();
 		return false;
 	}
-	
-	/*
-	var check = true;
-	$('#ubookEnroll').find('input[type!=button]').each(function(){
-	    if(!$(this).val()) {
-	        alert($(this).data("name") +" 1항목을 작성하지 않으셨습니다.")
-	        $(this).focus();
-	        check = false;
-	        return false;
-	    }
-	 });
-	if(!check){
-        return false;
-	}
-	if($('#ubCategory:selected').val() == ''){
-    	alert($('#ubCategory').data("name") +"2도서 카테고리를 선택해주세요")
-    	$('#ubCategory:selected').val('');
-    	$('#ubCategory').focus();
-        return;
-    }
-	if(!$('#ubookDetail').val()){
-		alert($('#ubookDetail').data("name") +"3항목을 작성하지 않으셨습니다.")
-    	$('#ubookDetail').val('');
-    	$('#ubookDetail').focus();
-        return;
-	}
-	if(!$('#ubookContent').val()){
-		alert($('#ubookContent').data("name") +" 4항목을 작성하지 않으셨습니다.")
-    	$('#ubookContent').focus();
-        return;
-	}	*/
-	
-	if(confirm("모든 정보가 올바르게 입력되었는지 확인해주세요. 도서를 등록하시겠습니까?")){
 		alert("도서 등록 성공!");
 		$('#ubookEnroll').submit();
-	}
 	
 }
 
@@ -234,6 +196,7 @@ function checkText(obj) {
 							<tr>
 								<th class="info">ISBN-13</th>
 								<td><input class="usedBookInfo" name="ubookIsbn" required="required"
+									maxlength="13" type="number"
 									placeholder="도서의 ISBN을 입력해주세요(- 없이)" data-name = "도서 ISBN"></td>
 							</tr>
 							<tr>
@@ -267,21 +230,25 @@ function checkText(obj) {
 							<tr>
 								<th class="info">출판일</th>
 								<td><input class="usedBookInfo" name="ubookPubDate" required="required"
+									type="date"
 									placeholder="출판일을 입력해주세요" data-name = "도서 출판일"></td>
 							</tr>
 							<tr>
 								<th valign="top" class="info">정가</th>
 								<td><input class="usedBookInfo" name="ubookOPrice" required="required"
+									 type="number"
 									placeholder="정가를 입력해주세요" data-name = "도서 정가"></td>
 							</tr>
 							<tr>
 								<th class="info">판매가</th>
 								<td><input class="usedBookInfo" name="ubookPrice" required="required"
+									 type="number"
 									placeholder="판매가를 입력해주세요" data-name = "도서 판매가"></td>
 							</tr>
 							<tr>
 								<th class="info">재고수량</th>
 								<td><input class="usedBookInfo" name="ubookStock" required="required"
+									 type="number" min="1"
 									placeholder="재고수량을 입력해주세요" data-name = "재고 수량"></td>
 							</tr>
 

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,26 +11,21 @@
 <body>
 	<!-- s:html -->
 	<div id="wrap">
-
 		<div id="body">
 			<div class="global_top">
-				<h2><a href="http://used.kyobobook.co.kr/index.ink">중고장터</a></h2>
+				<h2><a href="">중고장터</a></h2>
 				<ul class="menu_1 menu_1_new">
-					<li><a href="http://used.kyobobook.co.kr/common/sellerCheckGoMain.ink?orderClick=PGB">판매자 페이지</a>
+					<li><a href="">판매자 페이지</a>
 					</li>
 				</ul>
 			</div>
 			<!-- product_detail -->
 			<div id="contents" class="product_detail">
-
 				<!-- page-location -->
 				<div class="page-location">
-
-
 					<ul class="page-location">
-						<li><a href="http://www.kyobobook.co.kr" class="home">홈</a></li>
-						<li><a href="http://used.kyobobook.co.kr">중고장터</a>
-						</li>
+						<li><a href="#" class="home">홈</a></li>
+						<li><a href="#">중고장터</a></li>
 						<li>
 							<a href="#">중고도서</a>
 							<div class="sub-layer">
@@ -37,28 +34,28 @@
 										<td>
 											<ul class="sub-cate">
 												<li>
-													<a href="/productList/viewProductList.ink?ctgrCode=0101">
+													<a href="#">
 														소설/시/에세이
 													</a>
 												</li>
 												<li>
-													<a href="/productList/viewProductList.ink?ctgrCode=0107">
-														가정/생활
+													<a href="#">
+														인문
 													</a>
 												</li>
 												<li>
-													<a href="/productList/viewProductList.ink?ctgrCode=0111">
-														취미/스포츠
+													<a href="#">
+														역사/문화
 													</a>
 												</li>
 												<li class="selected">
-													<a href="/productList/viewProductList.ink?ctgrCode=0142">
-														아동
+													<a href="#">
+														정치/사회
 													</a>
 												</li>
 												<li class="selected">
-													<a href="/productList/viewProductList.ink?ctgrCode=0142">
-														아동
+													<a href="#">
+														자기계발
 													</a>
 												</li>
 											</ul>
@@ -66,28 +63,28 @@
 										<td>
 											<ul class="sub-cate">
 												<li>
-													<a href="/productList/viewProductList.ink?ctgrCode=0129">
+													<a href="#">
 														과학
 													</a>
 												</li>
 												<li>
-													<a href="/productList/viewProductList.ink?ctgrCode=0113">
+													<a href="#">
+														컴퓨터/IT
+													</a>
+												</li>
+												<li>
+													<a href="#">
 														경제/경영
 													</a>
 												</li>
 												<li>
-													<a href="/productList/viewProductList.ink?ctgrCode=0115">
-														자기계발
+													<a href="#">
+														취미
 													</a>
 												</li>
 												<li>
-													<a href="/productList/viewProductList.ink?ctgrCode=0117">
-														정치/사회
-													</a>
-												</li>
-												<li>
-													<a href="/productList/viewProductList.ink?ctgrCode=0133">
-														컴퓨터/IT
+													<a href="#">
+														가정/육아
 													</a>
 												</li>
 											</ul>
@@ -121,23 +118,19 @@
 				<!-- detail_product  -->
 				<div class="detail_product">
 					<div class="detail_content type_2">
-						<!-- <div class="detail_content"> -->
 						<div class="inner">
 
 							<!-- product_image -->
 							<div class="product_image">
 								<div class="photo">
 									<div>
-										<img src=""
-											alt="자신만만 기초 수학" class="photo"
-											onerror="this.src='http://image.kyobobook.co.kr/new_ink/used/web/images/common/noimage_150_215.gif'" />
+										<img src="${ubook.ubookImg}" class="photo"/>
 									</div>
 								</div>
 
 								<!--<div class="seller_info">* 중고장터 판매상품은 판매자가 직접 등록/판매하는 상품으로 판매자가 해당상품과 내용에 모든 책임을 집니다. 우측의 제품상태와 하단의 상품상세를 꼭 확인하신 후 구입해주시기 바랍니다.</div>-->
 								<div class="summary_info">
-									<!-- 간편등록 상품일 경우 -->
-									ISBN-13 : 9788937857225
+									ISBN-13 : ${ ubook.ubookIsbn }
 								</div>
 							</div>
 							<!--// product_image -->
@@ -145,45 +138,36 @@
 							<!-- product_detail_info -->
 							<div class="product_detail_info">
 								<div class="subject">
-									<span class="title">자신만만 기초 수학</span>
+									<span class="title"><c:out value="${ ubook.ubookName }"/></span>
 									<span class="info">
-										[양장]
+										[중고]
 									</span>
-									<span class="img"><img
-											src="http://image.kyobobook.co.kr/new_ink/used/web/images/common/icon_secondhand.gif"
-											alt="중고" /></span>
 								</div>
 								<div class="issue">
-									저자
-									이혜옥
-									<!-- ISBN이 있는 상품 -->
-									<!-- ISBN이 없는 상품 -->
-									| 출판사 아이즐
+									저자 ${ ubook.ubookWriter }
+									|
+									출판사 ${ ubook.ubookPub }
 								</div>
 
 								<dl class="basic">
 									<dt class="fixed_price">정가</dt>
 									<dd class="fixed_price">
-										<del>9,500원</del>
+										<del>${ ubook.ubookOPrice }원</del>
 									</dd>
 									<dt class="sales_price">판매가</dt>
 									<dd class="sales_price">
-										<strong class="price">3,200원</strong>
-										<span>[<strong>66</strong>%↓, <strong>6,300</strong>원 할인]</span>
+										<strong class="price">${ ubook.ubookPrice }원</strong>
+										<span>[<strong>${ ubook.ubookOPrice - ubook.ubookPrice }</strong>원 할인]</span>
 									</dd>
 								</dl>
 
 								<dl class="delivery_gift">
 									<dt class="delivery-price">배송비</dt>
 									<dd class="delivery-price">
-										<strong>2,500</strong>원 (판매자 직접배송)<br />
-										<span>
-											30,000원 이상 결제 시 무료배송<br />
-										</span>
+										<strong>2,600</strong>원
+										<br />
 										<span class="delivery">
-											제주도 추가배송비 : 3,000원
-											<br />
-											도서산간지역 추가배송비 : 5,000원
+											도서산간지역 추가배송비 : 4,000원
 										</span>
 									</dd>
 								</dl>
@@ -198,15 +182,16 @@
 											<br />
 											토/일, 공휴일을 제외한 영업일 기준으로 배송이 진행됩니다.
 											단순변심으로 인한 구매취소 및 환불에 대한 배송비는 구매자 부담입니다.
-
 											<br />
 										</span>
 									</dd>
 								</dl>
 
 								<div class="release">
-									<!-- 출간일이 없으면 등록일이 출간일로 나오도록 수정 -->
-									<span class="release" style="color:#000;">2008년 4월 18일 출간</span><br />
+									<span class="release" style="color:#000;">
+										<fmt:formatDate value="${ubook.ubookPubDate}" pattern="yyyy년 MM월 dd일" />
+									</span>
+									<br />
 
 
 								</div>
@@ -215,37 +200,47 @@
 									<dl class="product_state">
 										<dt>제품상태</dt>
 										<dd>
-											상태
-											<img src="http://image.kyobobook.co.kr/new_ink/used/web/images/seller/icon_quality01.gif"
-												alt="최상" />
-											외형
-											<img src="http://image.kyobobook.co.kr/new_ink/used/web/images/seller/icon_quality01.gif"
-												alt="최상" />
-											내형
-											<img src="http://image.kyobobook.co.kr/new_ink/used/web/images/seller/icon_quality02.gif"
-												alt="상급" />
+											상태 :
+											<c:if test="${ ubook.ubookQual == 'S' }">
+												<c:out value="최상">최상</c:out>
+											</c:if>
+											<c:if test="${ ubook.ubookQual == 'A' }">
+												<c:out value="상급">상급</c:out>
+											</c:if>
+											<c:if test="${ ubook.ubookQual == 'B' }">
+												<c:out value="보통">보통</c:out>
+											</c:if>
+											<c:if test="${ ubook.ubookQual == 'C' }">
+												<c:out value="하급">하급</c:out>
+											</c:if>
+											<c:if test="${ ubook.ubookQual == 'D' }">
+												<c:out value="최하">최하</c:out>
+											</c:if>
 										</dd>
 									</dl>
 									<div id="lowest-price-detail" class="lowest_price_detail">
 										<ul>
 											<li>
-												<span class="price"><a
-														href="/product/viewBookDetail.ink?cmdtBrcd=7222444988871">3,200원</a></span>
-												
+												<span class="price">
+													<a href="#">${ ubook.ubookPrice }원</a>
+												</span>
 												<span class="quality">
 													상태
-													<img src="http://image.kyobobook.co.kr/new_ink/used/web/images/seller/icon_quality01.gif"
-														alt="최상" />
-												</span>
-												<span class="outward">
-													외형
-													<img src="http://image.kyobobook.co.kr/new_ink/used/web/images/seller/icon_quality01.gif"
-														alt="최상" />
-												</span>
-												<span class="inward">
-													내형
-													<img src="http://image.kyobobook.co.kr/new_ink/used/web/images/seller/icon_quality02.gif"
-														alt="상급" />
+													<c:if test="${ ubook.ubookQual == 'S' }">
+														<c:out value="최상">최상</c:out>
+													</c:if>
+													<c:if test="${ ubook.ubookQual == 'A' }">
+														<c:out value="상급">상급</c:out>
+													</c:if>
+													<c:if test="${ ubook.ubookQual == 'B' }">
+														<c:out value="보통">보통</c:out>
+													</c:if>
+													<c:if test="${ ubook.ubookQual == 'C' }">
+														<c:out value="하급">하급</c:out>
+													</c:if>
+													<c:if test="${ ubook.ubookQual == 'D' }">
+														<c:out value="최하">최하</c:out>
+													</c:if>
 												</span>
 											</li>
 										</ul>
@@ -253,8 +248,8 @@
 								</div><!-- end state-lowest-new -->
 
 								<div class="order_quantity">
-									<label for="order-quantity">주문수량</label>
-									<input type="text" id="order-quantity" value="1" maxlength="3"
+									<label for="order-quantity">주문가능수량</label>
+									<input type="text" id="order-quantity" value="${ ubook.ubookStock }" maxlength="3"
 										onkeydown="onlyNum(event, this)" title="주문수량입력" />
 									<span class="count-up-down">
 										<a href="#count-up"><img alt="수량추가"
@@ -274,13 +269,13 @@
 								</div>
 								<!-- s: 2020-08-26 -->
 								<div class="detail_information">
-									<p>중고장터에 등록된 판매상품과 제품의 상태는 개별 판매자들이 등록, 판매하는 것으로 중개시스템만을 제공하는 교보문고는 해당 상품과 내용에 대해 일체
+									<p>책장메이트에 등록된 판매상품과 제품의 상태는 개별 판매자들이 등록, 판매하는 것으로 중개시스템만을 제공하는 책구메이트는 해당 상품과 내용에 대해 일체
 										책임을 지지 않습니다. 상단 제품상태와 하단 상품 상세를 꼭 확인하신 후 구입해주시기 바랍니다. </p>
-									<p>교보문고 결제 시스템을 이용하지 않은 직거래로 인한 피해 발생 시 교보문고는 일체 책임을 지지 않습니다. </p>
+									<p>책구메이트 결제 시스템을 이용하지 않은 직거래로 인한 피해 발생 시 책구메이트는 일체 책임을 지지 않습니다. </p>
 
-									<p>중고장터에 등록된 판매 상품과 제품의 상태는 개별 오픈마켓 판매자들이 등록, 판매하는 것으로 중개 시스템만을 제공하는<br /> 인터넷
-										교보문고에서는 해당 상품과 내용에 대해 일체 책임을 지지 않습니다.</p>
-									<p>교보문고 결제시스템을 이용하지 않은 직거래로 인한 피해 발생시, 교보문고는 일체의 책임을 지지 않습니다.</p>
+									<p>책장메이트에 등록된 판매 상품과 제품의 상태는 개별 오픈마켓 판매자들이 등록, 판매하는 것으로 중개 시스템만을 제공하는<br /> 인터넷
+										책구메이트에서는 해당 상품과 내용에 대해 일체 책임을 지지 않습니다.</p>
+									<p>책구메이트 결제시스템을 이용하지 않은 직거래로 인한 피해 발생시, 책구메이트는 일체의 책임을 지지 않습니다.</p>
 								</div>
 								<!-- e: 2020-08-26 -->
 							</div>
@@ -400,21 +395,13 @@
 								<div>
 									※ 해당 상품은 교보문고에서 제공하는 정보를 활용하여 안내하는 상품으로제품 상태를 반드시 확인하신 후 구입하여주시기 바랍니다.
 								</div>
-
-								<!-- 어린이 안전 특별법 - 사용자 직접 등록 내부 DB X-->
-								<p class="txt">
-									<!--StartFragment-->
-								<p class="바탕글">양호한 상태로 간직 된 도서입니다</p>
-								<p class="바탕글">&nbsp;</p>
-								</p>
 							</div>
-
 
 							<div id="seller_delivery" class="seller_delivery">
 								<h3>판매자 배송 정책</h3>
 								<ul>
 									<li>토/일, 공휴일을 제외한 영업일 기준으로 배송이 진행됩니다.
-										단순변심으로 인한 구매취소 및 환불에 대한 배송비는 구매자 부담입니다.
+										판매자가 주문을 수락하기 전까지만 주문 취소가 가능하며 이후에는 취소가 불가능합니다.
 									</li>
 								</ul>
 							</div>
@@ -516,42 +503,27 @@
 							<div id="info_content02">
 								<h3>책 소개</h3>
 								<div class="book_info_content dot_line">
-									<!-- 어린이 안전 특별법 - 내부 DB 존재 -->
-									<!-- 간편등록상품(ISBN이 있는 상품의 교구정보, 전집정보가 하나라도 있으면 상품구성목록 테이블을 노출 -->
-									<table summary="상품구성 목록" width="100%">
+									<table summary="도서 줄거리 및 내용" style="width: 100%">
 										<caption>
-											상품구성 목록
+											도서 줄거리 및 내용
 										</caption>
 										<thead>
 											<tr>
-												<th scope="col">상품구성 목록</th>
+												<th scope="col">도서 줄거리 및 내용</th>
 											</tr>
 										</thead>
 										<tbody>
 										</tbody>
 									</table>
-
-									<!-- 전집의 책소개부분과 페이지가 맞지않아 해당태그가 들어가면 안들어가게 막고 해당상품 링크를 타도록 수정(2011. 3. 15 김수호) -->
-									<p class="txt">엄마들 사이에서, 최고로 인정받은 수학 그림책!
-
-										『자신만만』시리즈 제2권《자신만만 기초 수학》. 본 시리즈는 초등 입학을 앞두었거나, 이제 갓 초등학교에 입학한 아이를 위한 그림책으로, 만
-										6~7세 아이들에게 꼭 필요한 지식을 주제별로 담아냈습니다. 덕분에 아이들은 세상을 좀 더 '자신만만'하게 마주할 수 있는 용기를 배울 수
-										있습니다. 초등 저학년 핵심 수학 개념 14가지를 뽑아 엮은 수학 그림책입니다. 아이들은 재미있는 이야기를 따라 수학의 원리를 재미나게 이해할
-										수 있습니다. 특히 연산학습에 질린 아이들도 수학에 대한 흥미를 가질 수 있도록 구성되어 있습니다. <br /><br />이 책은 수학적
-										문제해결을 위해 기억이 필요한 개념의 경우에는 재미있게 개념을 익힌 후 활용할 수 있도록 정리 페이지를 마련했습니다. 또한 그림과 함께 개념
-										이해를 돕기 위한 장치(수식, 도식 등)가 있어 개념을 정확히 확인하며 볼 수 있습니다. 어린이의 눈높이에 맞춘 귀엽고 익살맞은 그림이
-										사랑스럽습니다. [양장본]</p>
+									<p class="txt">
+										${ ubook.ubookDetail }
+									</p>
 								</div>
 							</div>
 							<div id="info_content04">
 								<h3>목차</h3>
 								<div class="table_contents dot_line">
-									수 개념 - 거인 아저씨의 이사<br />가르기와 모으기 - 별 관리 로봇 열!<br />덧셈의 원리 - 아기 해마들의 봄 소풍<br />받아내림이
-									있는 뺄셈 - 달콤이네 사탕 가게<br />곱셈의 원리 - 쿵덕쿵 떡 할머니와 신기한 떡방아<br />분수의 기본 개념 - 똑같이 농장<br />사고력
-									키우기 - 수수께끼를 좋아하는 임금님<br />도형의 기초 - 건축가 비버와 아들 삼 형제<br />공간 개념 - 도배장이 원숭이<br />측정,
-									길이재기 - 뜨개질 하는 거미와 까마귀<br />시간, 시계 읽기 - 게으른 데이빗과 부지런한 생쥐<br />분류와 그래프 - 산타 할아버지의 선물
-									준비<br />규칙성, 패턴 찾기 - 규칙을 좋아하는 지저분 마녀<br />사고력 넓히기 - 이불 나라 여행<br />* 엄마와 함께 보는 자신만만
-									기초 수학<br />* 초등 수학 제대로 알고 준비하세요<br />* 초등 1, 2학년 단원별 지도 포인트
+										${ ubook.ubookContent }
 								</div>
 							</div>
 						</div>
@@ -562,52 +534,25 @@
 							<h3>교환/반품안내</h3>
 							<p class="info">※ 상품 설명에 반품/교환 관련한 안내가 있는 경우 그 내용을 우선으로 합니다. (업체 사정에 따라 달라질 수 있습니다.)</p>
 							<table
-								summary="교환/반품안내를 반품/교환방법, 반품/교환가능 기간, 반품/교환비용, 반품/교환 불가 사유, 소비자 피해보상 환불지연에 따른 배상을 보실수 있습니다.">
-								<caption>교환/반품안내</caption>
+								summary="교환/반품안내">
+								<caption>반품/교환 안내</caption>
 								<colgroup>
 									<col width="130px" />
 									<col width="*" />
 								</colgroup>
 								<tbody>
 									<tr>
-										<th scope="row"><span>반품/교환방법</span></th>
+										<th scope="row"><span>반품/교환 안내</span></th>
 										<td>
-											<p><strong>[판매자 페이지&gt;취소/반품관리&gt;반품요청] 접수<br />또는 <a
-														href="http://www.kyobobook.co.kr/cscenter/qnaForm.laf?questionType=940"
-														target="_blank">[1:1상담&gt;반품/교환/환불]</a>, 고객센터
-													(1544-1900)</strong></p>
-											<p>※ 중고도서의 경우 재고가 한정되어 있으므로 교환이 불가할 수 있으며, 해당 상품의 경우 상품에 대한 책임은 판매자에게 있으며
-												교환/반품 접수 전에 반드시 판매자와 사전 협의를 하여주시기 바랍니다.</p>
+											<p><strong>[중고도서 반품 및 교환 안내]</strong></p>
+											<p>
+												※ 중고도서의 경우 중고 상품 특성상 반품 및 교환이 불가능합니다.<br>
+												구매 시 주의하여 구매하시기 바랍니다.
+											</p>
 										</td>
 									</tr>
 									<tr>
-										<th scope="row"><span>반품/교환가능 기간</span></th>
-										<td>
-											<p>변심반품의 경우 수령 후 7일 이내, 상품의 결함 및 계약내용과 다를 경우 문제점 발견 후 30일 이내</p>
-											<p>※ 중고도서의 경우 판매자와 사전의 협의하여주신 후 교환/반품 접수가 가능합니다.</p>
-										</td>
-									</tr>
-									<tr>
-										<th scope="row"><span>반품/교환비용</span></th>
-										<td>변심 혹은 구매착오로 인한 반품/교환은 반송료 고객 부담</td>
-									</tr>
-									<tr>
-										<th scope="row"><span>반품/교환 불가 사유</span></th>
-										<td>
-											<p>소비자의 책임 있는 사유로 상품 등이 손실 또는 훼손된 경우(단지 확인을 위한 포장 훼손은 제외)</p>
-											<p>소비자의 사용, 포장 개봉에 의해 상품 등의 가치가 현저히 감소한 경우 예) 화장품, 식품, 가전제품 등</p>
-											<p>복제가 가능한 상품 등의 포장을 훼손한 경우 예) 음반/DVD/비디오, 소프트웨어, 만화책, 잡지, 영상 화보집</p>
-											<p>소비자의 요청에 따라 개별적으로 주문 제작되는 상품의 경우 ((1)해외주문도서)</p>
-											<p>디지털 컨텐츠인 eBook, 오디오북 등을 1회 이상 다운로드를 받았을 경우</p>
-											<p>시간의 경과에 의해 재판매가 곤란한 정도로 가치가 현저히 감소한 경우</p>
-											<p>전자상거래 등에서의 소비자보호에 관한 법률이 정하는 소비자 청약철회 제한 내용에 해당되는 경우</p>
-											<p>1) 해외주문도서 : 이용자의 요청에 의한 개인주문상품이므로 단순 변심 및 착오로 인한 취소/교환/반품 시 해외주문 반품/취소
-												수수료 고객 부담 (해외주문 반품/취소 수수료는 판매정가의 20%를 적용</p>
-											<p>2) 중고도서 : 반품/교환접수없이 반송하거나 우편으로 접수되어 상품 확인이 어려운 경우</p>
-										</td>
-									</tr>
-									<tr>
-										<th scope="row"><span>소비자 피해보상<br />환불지연에 따른 배상</span></th>
+										<th scope="row"><span>소비자 피해보상</span></th>
 										<td>
 											<p>- 상품의 불량에 의한 교환, A/S, 환불, 품질보증 및 피해보상 등에 관한 사항은 소비자분쟁해결 기준 (공정거래위원회 고시)에
 												준하여 처리됨</p>
@@ -632,7 +577,7 @@
 					<div class="seller_info type_2">
 						<dl>
 							<dt class="seller">판매자</dt>
-							<dd class="seller">이차우마</dd>
+							<dd class="seller"><!-- 여기에 이 도서의 판매자 번호와 일치하는 닉네임 값을 보여줄거임 --></dd>
 							<dt class="delivery_rank"><a
 									onclick="javascript:window.open('/popup/product/viewInformationOfSellerGrade.ink', '', 'width=630,height=599');"
 									href="#" title="새창열림">구매만족도</a></dt>
@@ -643,7 +588,6 @@
 						</dl>
 
 							<div class="button">
-								<!-- <a href="javascript:popupFvrtSllr('false', '62011163462');" class="btn_small registry">단골판매자 등록</a> -->
 								<a href="/sellerPage/product/viewSellerProductList.ink?mmbrNmbr=62011163462"
 									class="btn_small registry">판매자 전체 후기</a>
 								<a href="javascript:popupSllrInqr('false', '62011163462', '7222444988871', '');"
@@ -654,7 +598,7 @@
 
 
 					<div class="new_used_product">
-						<h2>이 분야의 <span>중고 신간</span></h2>
+						<h2><span>중고 신간</span></h2>
 						<ul>
 							<li>
 								<span class="select">

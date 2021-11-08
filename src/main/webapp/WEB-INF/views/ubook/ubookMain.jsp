@@ -366,16 +366,16 @@
               <div class="subscribe text-center">
                 <h3 class="subscribe__title">내가 보고싶은 그 책!</h3>
                 <p>지금 중고 매입가를 확인해보세요</p>
-                <button onclick="location.href='ubook/ubookDetailTest'">도서 상세 테스트 화면</button>
-                <center>
+                <%-- <center> --%>
                 <!--검색-->
                 <div class="row justify-content-center searchbar">
                   <div class="col-12 col-md-10 col-lg-8 searchbar">
-                    <form class="card card-sm searchbar">
+                    <form class="card card-sm searchbar" action="ubookDetail.ub" method="post">
                       <div class="card-body row no-gutters align-items-center">
                         <!--검색 input-->
                         <div class="col">
-                          <input class="form-control form-control-lg form-control-borderless" type="search"
+                          <input class="form-control form-control-lg form-control-borderless" type="text"
+                          	name="ubookNo" value="12"
                             placeholder="도서명 혹은 저자를 입력하세요">
                         </div>
                         <!--검색버튼-->
@@ -386,7 +386,7 @@
                     </form>
                   </div>
                 </div>
-                </center>
+               <%--  </center> --%>
               </div>
             </div>
           </section>

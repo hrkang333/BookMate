@@ -64,7 +64,7 @@
                             <c:if test="${ empty sessionScope.loginUser }">
                                 <a href="register.me">회원가입</a> |
                                 <br>
-                                <a href="login.me"">로그인</a> 
+                                <a href="login.me"">로그인</a> |
 		      					<a href=" findId.us">아이디찾기</a>
                             </c:if>
 

@@ -1,11 +1,14 @@
 package com.kh.bookmate.ubook.model.service;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.bookmate.book.model.dao.BookDao;
 import com.kh.bookmate.book.model.vo.Book;
+import com.kh.bookmate.common.PageInfo;
 import com.kh.bookmate.ubook.model.dao.UbookDao;
 import com.kh.bookmate.ubook.model.vo.Ubook;
 
@@ -29,14 +32,24 @@ public class UbookServiceImpl implements UbookService {
 	}
 
 	@Override
-	public int selectUbook(int ubookNo) {
+	public Ubook selectUbook(int ubookNo) {
+		Ubook ubook = null;
+		ubook = ubookDao.selectUbook(sqlSession,ubookNo);
 		
-		int ubook = ubookDao.selectUbook(sqlSession,ubookNo);
-		
-		if(ubook < 0) {
+		if(ubook ==null) {
 			throw new RuntimeException("도서 세부정보 불러오기 오류");
 		}
 		return ubook;
+	}
+
+	@Override
+	public int selectbookListCount() {
+		return ubookDao.selectbookListCount(sqlSession);
+	}
+	
+	@Override
+	public ArrayList<Ubook> selectbookListCount(PageInfo pi) {
+		return ubookDao.selectList(sqlSession, pi);
 	}
 
 }
