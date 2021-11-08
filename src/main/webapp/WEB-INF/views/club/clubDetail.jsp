@@ -70,14 +70,16 @@
         /*div 반으로 나누기*/
         
         .left_1 {
-            width: 40%;
+            width: 20%;
             float: left;
             box-sizing: border-box;
+            margin-left: 5%;
+    		margin-top: 3%;
         }
         
         .right_1 {
             width: 60%;
-            float: right;
+            padding-top: 4%;
             box-sizing: border-box;
         }
     </style>
@@ -125,7 +127,9 @@
                                 </p>
                             </div>
                             <div class="right">
-                                <input type="checkbox" class="applys">
+                            	<c:if test="${club.times eq '한 번 만나요'}">
+                            		<input type="checkbox" class="applys">
+                            	</c:if>
                             </div>
                         </div>
 						</c:forEach>

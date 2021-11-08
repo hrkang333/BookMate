@@ -203,10 +203,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 메인페이지 - category클릭시 리스트 넘기기 -->
 	<select id="selectCateList" resultMap="clubResultSet">
 		<![CDATA[
-		SELECT * FROM CLUB
-		WHERE CONDITION=4 AND STATUS='Y'
+		SELECT A.* , B.CHANGE_NAME 
+		FROM CLUB A
+		LEFT JOIN CLUB_ATTACHMENT B
+		ON A.CLUB_NO = B.REF_CLUB_NO
+		WHERE A.CONDITION=4 AND A.STATUS='Y'
 		AND CSTART_DATE <= TO_CHAR(SYSDATE, 'YYYY-MM-DD')
-		AND CATEGORY=#{category}
+		AND CEND_DATE > SYSDATE AND CATEGORY=#{category}
+		AND B.FILE_TYPE=2
 		]]>
 	</select>
 	
