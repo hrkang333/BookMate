@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt"%>
 <%--  <c:set var="contextPath"  value="${pageContext.request.contextPath}"/> --%>
  <!DOCTYPE html>
 
@@ -94,7 +94,7 @@
              <div class="sidebar-filter">
                 <div class="top-filter-head">관심작가 및 찜목록</div>
                 <div class="common-filter">
-                  <form action="myPageOrderList.me" method="post">
+                  <form action="myPageOrderList.me" method="post"> </form>
                     <ul>
                         <br>
                         <li class="filter-list">  관심작가 리스트 </li>
@@ -103,7 +103,7 @@
                         <li class="filter-list"> 나의 리뷰 조회  </li>
                         <li class="filter-list"> <a href="myPoint.me">나의 포인트 조회</a></li>
                     </ul>
-                  </form>
+                 
                 </div>
              </div>
 
@@ -145,10 +145,9 @@
                         <thead style="text-align: center;">
                           <tr>
                             <th scope="col">주문번호</th>
-                            <th scope="col">책 제목 </th>
-                            <th scope="col">상품수량</th>
-                            <th scope="col">상품상태</th>
-                            <th scope="col">배송상태</th>
+                            <th scope="col">주문일 </th>
+                            <th scope="col">주문내역 상세보기</th>
+                            <th scope="col">총 결제금액</th>
                             <th scope="col">주문취소여부</th>
                           </tr>
                         </thead>
@@ -229,27 +228,78 @@
 				    --%>
 				    	    
                         <tbody style="text-align: center;">
-                         <tr>
-                            <td><p><c:out value="${myOrderList.paymentNo}"/></p></td>                         
-                            <td><img
-							src="${pageContext.servletContext.contextPath }/resources/images/book_img/${requestScope.myOrderList.bookMainImg}"
-									alt="" style="width: 50px; height: auto;"><c:out value="${myOrderList.bookTitle}"/> </td> 
-                            <td> <c:out value="${myOrderList.quantity}"/>개  </td>
-                  	     	<td> 여기다 상품상태를</td>
-                     	 	<td> <c:out value="${myOrderList.deliveryStatus}"/></td>
+                      
+                         
+                         <c:forEach var="item" items="${myOrderList}">
+                         
+                        <tr>       
+						                
+                        	<td><p><c:out value="${item.paymentNo}"/></p></td>     
+                        	<td><fmt:formatDate value="${item.shipDate}" pattern ="yyyy-MM-dd"/></td> 
+                  	     	<td><a onclick="location.href='selectMyOrderListDetail.me'">주문내역 상세보기</a></td> 
+ 
+                  	     	<input type="hidden" name="paymentNo" value="${item.paymentNo}"/>  
+                  	     	
+                  	    
+                  	    
+                  	     	<td><c:out value="${item.totalCost}"/>원</td>               
+                  	     	
                           	<td> <input type="button" class="button button-hero" value="주문취소" onclick="orderCancle()"/> </td>
                         </tr>
-                        
+                            
+                         </c:forEach>
+                         
                         </tbody>
                       </table>
                     </div>
                 </div>
              </div> 
+        <script type="text/javascript">
         
+        
+        
+        </script>
             <!-- 페이징 바  -->
             <nav class="blog-pagination justify-content-center d-flex">
-                <ul class="pagination">
-                   <li class="page-item">
+               <ul class="pagination">
+
+				<c:choose>
+					<c:when test="${ pi.currentPage ne 1 }">
+						<li class="page-item"><a class="page-link"
+							href="selectMyOrderList.me?currentPage=${ pi.currentPage-1 }">Previous</a></li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item disabled"><a class="page-link"
+							href="">Previous</a></li>
+					</c:otherwise>
+				</c:choose>
+
+				<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }"
+					var="p">
+					<c:choose>
+						<c:when test="${ pi.currentPage ne p }">
+							<li class="page-item"><a class="page-link"
+								href="selectMyOrderList.me?currentPage=${ p }">${ p }</a></li>
+						</c:when>
+						<c:otherwise>
+							<li class="page-item disabled"><a class="page-link"
+								href="">${ p }</a></li>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+
+
+				<c:choose>
+					<c:when test="${ pi.currentPage ne pi.maxPage }">
+						<li class="page-item"><a class="page-link"
+							href="selectMyOrderList.me?currentPage=${ pi.currentPage+1 }">Next</a></li>
+					</c:when>
+					<c:otherwise>
+						<li class="page-item disabled"><a class="page-link"
+							href="selectMyOrderList.me?currentPage=${ pi.currentPage+1 }">Next</a></li>
+					</c:otherwise>
+				</c:choose>
+						<!-- <li class="page-item">
                         <a href="#" class="page-link" aria-label="Previous">
                             <span aria-hidden="true">
                                 <span class="lnr lnr-chevron-left"></span>
@@ -277,7 +327,7 @@
                                 <span class="lnr lnr-chevron-right"></span>
                             </span>
                         </a>
-                    </li> 
+                    </li>  -->
                     
                     
                 </ul>
