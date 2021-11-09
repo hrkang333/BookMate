@@ -91,6 +91,16 @@ public class BookServiceImpl implements BookService{
 		return bookDao.selectCategoryBestRank(sqlSession, book);
 	}
 
+	@Override
+	public Book selectCheckISBN(String bookISBN) {
+		Book book = null;
+		
+		book = bookDao.selectBook(sqlSession,bookISBN);
+		
+		
+		return book;
+	}
+
 	
 
 }

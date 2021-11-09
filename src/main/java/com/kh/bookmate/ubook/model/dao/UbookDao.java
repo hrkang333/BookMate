@@ -1,12 +1,11 @@
 package com.kh.bookmate.ubook.model.dao;
 
 import java.util.ArrayList;
-
-import org.apache.ibatis.session.RowBounds;
+import java.util.List;
 import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.kh.bookmate.common.PageInfo;
 import com.kh.bookmate.ubook.model.vo.Ubook;
 
 @Repository
@@ -19,18 +18,33 @@ public class UbookDao {
 	public Ubook selectUbook(SqlSession sqlSession, int ubookNo) {
 		return sqlSession.selectOne("ubookMapper.selectUbook",ubookNo);
 	}
-
-
-	public ArrayList<Ubook> selectList(SqlSession sqlSession, PageInfo pi) {
-		int offset = (pi.getCurrentPage()-1)*(pi.getBoardLimit());
-		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		System.out.println("dao-currentPage: "+ pi.getCurrentPage());
-		System.out.println("dao-getBoardLimit " + pi.getBoardLimit());
-		return (ArrayList)sqlSession.selectList("ubookMapper.selectList", null, rowBounds);
+/*
+	public List<Ubook> selectbookListCount(SqlSessionTemplate sqlSession) {
+		List list1 =  sqlSession.selectList("ubookMapper.selectbookListCount");
+		System.out.println("dao----" + list1);
+		return list1;
 	}
 
-	public int selectbookListCount(SqlSession sqlSession) {
-		return sqlSession.selectOne("ubookMapper.selectbookListCount");
+	public List<Ubook> selectbookList(SqlSession sqlSession) {
+		List list1 =  sqlSession.selectList("ubookMapper.selectbookList");
+		System.out.println("dao----" + list1);
+		return list1;
+	}*/
+/*
+	public List<Ubook> selectbookList(SqlSession sqlSession, String userId) {
+		List list1 =  sqlSession.selectList("ubookMapper.selectbookList", userId);
+		System.out.println("dao----" + list1);
+		return list1;
+	}*/
+
+	public List<Ubook> selectbookList(SqlSession sqlSession, int sellerNo) {
+		List list1 =  sqlSession.selectList("ubookMapper.selectbookList", sellerNo);
+		System.out.println("dao----" + list1);
+		return list1;
+	}
+
+	public int deleteMyUbook(SqlSession sqlSession, int ubookNo) {
+		return sqlSession.insert("ubookMapper.deleteMyUbook",ubookNo);
 	}
 
 }

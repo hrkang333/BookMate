@@ -335,9 +335,8 @@
                                                     <jsp:include page="ubookList.jsp"></jsp:include>
                                                     <!-- 도서 등록 -->
                                                     <jsp:include page="ubookEnrollForm.jsp"></jsp:include>
-													<!-- <jsp:include page="ubookEnroll.ub"></jsp:include>	 -->
+													<!-- <jsp:include page="ubookEnroll.ub"></jsp:include> -->
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
@@ -381,15 +380,52 @@
                                 $(".tab li").removeClass('active');
                                 $(this).addClass('active')
                             });
-
                             $(".tab1 li").click(function () {
                                 var num = $(".tab1 li").index(this);
                                 $(".tabContent3").removeClass('active');
-                                $(".tabContent3").eq(num).addClass('active');
+                               	if(num == 0){
+                                	//alert("등록 도서 조회");
+                                	$(".tabContent3").eq(num).addClass('active');
+
+                                	var table = document.getElementById('ubookListTb');
+                                	$.ajax({
+                                        type : "POST",
+                                        url : "ubookList.ub",
+                                        dataType : 'json',
+                                        //data : 도서리스트,
+                                        success : function(data) {
+                                        	//console.log(data);
+                                        	
+                                        	//안내 tr 지우기
+                                        	var trlength = $('#ubookListTb tr').length;
+                                	    	for(var t=trlength-1; t>0; t--){
+                                	    		table.deleteRow(t);
+                                	    	}
+                                        	
+                                          //데이터 뿌리기 
+                                        	for(var i=0; i < data.length; i++){
+                                        		$('#ubookListTb').append("<tr><td align='center'>" + (i+1) + "</td>" + "<td hidden='hidden'>"+data[i].ubookNo+"</td>" +
+                            										"<td align='center'><img src='${pageContext.servletContext.contextPath }/resources/images/Ubookimg/" + data[i].ubookImg + "' style='width: 145px; height: auto;'></td>" +
+                                        							"<td align='center'>" + data[i].ubookName + "</td>" +
+                                        							"<td align='center'>" + data[i].ubookWriter + "</td>" +
+                                        							"<td align='center'>" + data[i].ubookStock + "</td>" +
+                                        							"<td align='center'>"+
+                                        							"<button style='background-color: #5cb85c; color:#ffffff; border:none; width: 100%; margin-bottom:10px; border-radius: 0.3rem;' onclick='updateUbook()'>수정</button>"+
+                                        							"<button class='btn-danger' style='border:none;width: 100%; border-radius: 0.3rem;' onclick='deleteUbook()'>삭제</button></td></tr>");
+                                         	}
+
+                                        },
+                                        error : function() {
+                                        	alert("너는 뭔가 잘못하고 있따...");
+                                        }
+                                    });
+                               	}else{
+                                	//alert("도서 등록");
+                                	$(".tabContent3").eq(num).addClass('active');
+                               	}
                                 $(".tab1 li").removeClass('active');
                                 $(this).addClass('active')
                             });
-
                             $(".tab2 li").click(function () {
                                 var num = $(".tab2 li").index(this);
                                 $(".tabContent2").removeClass('active');

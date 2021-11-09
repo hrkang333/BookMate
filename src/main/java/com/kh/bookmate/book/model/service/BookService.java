@@ -24,4 +24,6 @@ public interface BookService {
 
 	int selectCategoryBestRank(Book book);
 
+	Book selectCheckISBN(String bookISBN);
+
 }

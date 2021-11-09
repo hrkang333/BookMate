@@ -16,7 +16,8 @@ import lombok.ToString;
 public class ClubTime {
 	private int timeNo;
 	private int clubNo;
-	private String clubDate;
+	//private String clubDate;
+	private Date clubDate;
 	private String startTime;
 	private String endTime;
 	private String status;
