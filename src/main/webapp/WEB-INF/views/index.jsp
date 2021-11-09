@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page session="false" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,6 +20,75 @@
   <link rel="stylesheet" href="resources/vendors/owl-carousel/owl.carousel.min.css">
 
   <link rel="stylesheet" href="resources/css/style.css">
+  <script>
+  var listIndex = 0;
+        function modiQuntity(num) {
+        	var quantity = parseInt($('#orderQuantity').val());
+            if(num==1){
+                $('#orderQuantity').val(quantity+1)
+            }else if(quantity>1){
+                $('#orderQuantity').val(quantity-1)
+            }
+        }
+        
+        function bestListMove(checkIndex,bookSubCategory) {
+			if(checkIndex == 1){
+				listIndex += 1;
+			}else{
+				listIndex -= 1;
+			}
+			
+			if(listIndex < 0){
+				listIndex = 10;
+			}else if(listIndex > 10){
+				listIndex = 1;
+			}
+			$.ajax({
+					url : "bestList",
+					
+					data : {
+						listIndex : listIndex,
+						bookSubCategory : bookSubCategory
+					},
+					type : "post",
+					success : function(list) {
+							$.each(list,function(i){
+								$('#bestBookImg'+i).attr("src","${pageContext.servletContext.contextPath }/resources/images/book_img/"+list[i].bookMainImg);
+								$('#bestBookImg'+i).attr("onclick","detailbook('"+list[i].bookISBN+"')");	
+								$('#bestBookTitle'+i).text(list[i].bookTitle);	
+								$('#bestBookTitle'+i).attr("onclick","detailbook('"+list[i].bookISBN+"')");
+								$('#bestBookPrice'+i).text(list[i].bookPrice.toLocaleString('ko-KR')+"원");
+							})
+					},
+					error : function (request, status, error){
+			               
+					    var errorMsg = "요청 도중 오류가 발생하였습니다. \n";
+					   
+					    if(request.status == 0){ //offline
+					        errorMsg += "네트워크 연결을 확인해주십시오.";
+					    }else if(request.status==401){//Unauthorized
+					        errorMsg += "권한이 없습니다. \n관리자에게 문의해주세요.";
+					    }else if(request.status==403){//Forbidden
+					        errorMsg += "접근이 거부되었습니다. \n관리자에게 문의해주세요.";
+					    }else if(request.status==404){//Not Found
+					        errorMsg += "요청한 페이지를 찾을 수 없습니다. \n관리자에게 문의해주세요.";
+					    }else if(request.status==500){ //Internel Server Error
+					        errorMsg += "서버 내 오류가 발생하였습니다. \n관리자에게 문의해주세요.";
+					    }else if(status=='parsererror'){ //Error.nParsing JSON Request failed.
+					        errorMsg += "응답 본문을 정상적으로 가져올 수 없습니다. \n관리자에게 문의해주세요.";
+					    }else if(status=='timeout'){ //Request Time out.
+					        errorMsg += "응답 제한 시간을 초과하였습니다. 다시 조회해주세요.";
+					    }else { //Unknow Error
+					        errorMsg += "\n관리자에게 문의해주세요.";
+					    }
+					   
+					    alert(errorMsg);
+					}
+
+				
+				})
+		}
+		 </script>
 </head>	
 <body>
  	<jsp:include page="common/menubar.jsp"/>
@@ -259,10 +329,44 @@
                 <li><button><i class="ti-heart"></i></button></li>
               </ul>
             </div>
+            
             <div class="card-body">
-              <p>Accessories</p>
-              <h4 class="card-product__title"><a href="single-product.html">Quartz Belt Watch</a></h4>
-              <p class="card-product__price">$150.00</p>
+            
+            <span
+			style="font-size: 20px; font-weight: bold; color: blue;">${categoryName}</span>
+		분야 주간 베스트 도서 <br>
+		<br>
+		<div style="display: flex;">
+			<div style="margin-top: 125px">
+				<img alt=""
+					src="${pageContext.servletContext.contextPath }/resources/img/btn_prev.gif"
+					height="50px" style="margin-right: 15px; cursor: pointer;"
+					onclick="bestListMove(0,${requestScope.book.bookSubCategory})">
+			</div>
+			<c:forEach items="${requestScope.bestList}" var="list"
+				varStatus="status">
+				<div style="width: 180px; text-align: center;">
+					<img alt=""
+						src="${pageContext.servletContext.contextPath }/resources/images/book_img/${list.bookMainImg}"
+						width="170px" height="250px" style="margin: 5px; cursor: pointer;"
+						onclick="detailbook('${list.bookISBN}')"
+						id="bestBookImg${status.index}"><br> <span
+						id="bestBookTitle${status.index}" style="cursor: pointer;"
+						onclick="detailbook('${list.bookISBN}')"><c:out
+							value="${list.bookTitle}"></c:out></span><br> <span
+						style="color: red;" id="bestBookPrice${status.index}"><fmt:formatNumber
+							value="${list.bookPrice}"></fmt:formatNumber>원</span>
+
+				</div>
+
+			</c:forEach>
+			<div style="margin-top: 125px">
+				<img alt=""
+					src="${pageContext.servletContext.contextPath }/resources/img/btn_next.gif"
+					height="50px" style="margin-left: 15px; cursor: pointer;"
+					onclick="bestListMove(1,${requestScope.book.bookSubCategory})">
+			</div>
+		</div>
             </div>
           </div>
 
@@ -478,6 +582,8 @@
 
  	<jsp:include page="common/footer.jsp"/> 	<jsp:include page="common/footer.jsp"/>
  	
-
+	<form action="/" method="post" id="detailBookForm">
+			<input type="hidden" name="bookISBN" id="inputISBN">
+		</form>
 </body>
 </html>
