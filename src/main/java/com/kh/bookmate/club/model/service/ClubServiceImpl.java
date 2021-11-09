@@ -144,6 +144,36 @@ public class ClubServiceImpl implements ClubService {
 		// TODO Auto-generated method stub
 		return clubDao.selectClub(sqlSession, cno);
 	}
+	
+	//update 스텝1 --> c:update, ca:update
+	@Override
+	public void updateStep1_1(Club c, ClubAttachment ca) {
+		int result = clubDao.updateStep1(sqlSession, c);
+		int result2 = clubDao.updateStep1_2(sqlSession, ca);
+		
+		if(result < 0 || result2 < 0) {
+			//오류처리
+		}
+	}
+
+	//update 스텝1 --> --> c:update, ca:insert
+	@Override
+	public void updateStep1_2(Club c, ClubAttachment ca) {
+		// TODO Auto-generated method stub
+		
+		int result = 0;
+		result = clubDao.updateStep1(sqlSession, c);  	 //1) Club테이블에 넣기
+		if(ca != null) {
+			result = clubDao.updateInsertAttach(sqlSession, ca);  //2) Club_attachment 테이블에 넣기
+		}
+		
+		if(result < 0) {
+			//오류처리
+		}
+		
+	}
+
+	
 
 	
 	

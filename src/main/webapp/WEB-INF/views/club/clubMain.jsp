@@ -483,7 +483,7 @@
                     $(function(){
                         $(".pointer").click(function(){
                             console.log($(this).children(":first").val());
-                            location.href="detail.cl?cno=" + $(this).children(":first").val();
+                            location.href="detail.cl?clubNo=" + $(this).children(":first").val();
                         });
                     })
                     

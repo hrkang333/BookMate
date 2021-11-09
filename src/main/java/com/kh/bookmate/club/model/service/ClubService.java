@@ -37,6 +37,10 @@ public interface ClubService {
 
 	ArrayList<Club> selectEndList();
 
-	Club selectClub(int cno);  
+	Club selectClub(int cno);
+
+	void updateStep1_2(Club c, ClubAttachment ca);
+
+	void updateStep1_1(Club c, ClubAttachment ca);  
 
 }

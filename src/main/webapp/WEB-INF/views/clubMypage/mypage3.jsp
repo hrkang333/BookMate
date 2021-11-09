@@ -58,6 +58,40 @@
 
     <jsp:include page="../club/clubMenubar.jsp"/>
     
+    <script>
+            //선택한 독서모임 multiple 삭제하기
+            function deleteClub(){
+            	var deleteC = confirm("독서모임을 삭제하시겠습니까?");
+                if(deleteC){
+                    if($("input:checkBox[name=clubNo]:checked").length == 0){
+                        alert("삭제할 독서모임을 선택해주세요!!");
+                    }else{
+                        $("#mypageForm3").attr("action", "deleteClub3.cl");
+                    }
+                }
+            }
+           	
+            //새로운 독서모임 개설하기
+            function newClub(){
+               var insertC = confirm("독서모임을 개설하시겠습니까?");
+               if(insertC){
+                   $("#mypageForm3").attr("action","insertForm1.cl");
+               }
+            }
+                        	
+            //독서모임 수정하기
+            function updateClub(){
+            	
+                if($("input:checkBox[name=clubNo]:checked").length == 0){
+                   alert("수정할 독서모임을 선택해주세요!!");
+                }else if($("input:checkBox[name=clubNo]:checked").length > 1){
+                	alert("수정할 독서모임은 한 개만 선택해 주세요")
+                }else{
+                	$("#mypageForm3").attr("action", "updateForm3_1.cl");
+                }
+            } 
+       </script>
+    
     <!-- ================ category section start ================= -->
     <section class="section-margin--small mb-5" style="margin-top: 50px;">
         <div class="container">
@@ -297,35 +331,6 @@
                 </div>
             </div>
         </div>
-        
-        <script>
-            //선택한 독서모임 multiple 삭제하기
-            function deleteClub(){
-               var deleteC = confirm("독서모임을 삭제하시겠습니까?");
-               if(deleteC){
-                   if($("input:checkBox[name=clubNo]:checked").length == 0){
-                       alert("삭제할 독서모임을 선택해주세요!!");
-                   }else{
-                       $("#mypageForm3").attr("action", "deleteClub3.cl");
-               }
-                
-            }
-                        	
-            //새로운 독서모임 개설하기
-            function newClub(){
-               var insertC = confirm("독서모임을 개설하시겠습니까?");
-               if(insertC){
-                   $("#mypageForm3").attr("action","insertForm1.cl");
-               }
-            }
-                        	
-            //독서모임 수정하기
-            function updateClub(){
-                if($("input:checkBox[name=clubNo]:checked").length == 0){
-                   alert("수정할 독서모임을 선택해주세요!!");
-                }
-            }
-       </script>
 
         <div class="footer-bottom">
             <div class="container">

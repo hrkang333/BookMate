@@ -22,8 +22,6 @@
 
     <link rel="stylesheet" href="resources/css/style.css">
 
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
-
     <style>
         .applicate_guide {
             margin-bottom: 30px;
