@@ -53,7 +53,10 @@ public class UserController {
 	public String updatePwd() {
 		return "user/updatePwd";
 	}
-	
+	@RequestMapping(value="cal.us")
+	public String calMain() {
+		return "calMain";
+	}
 	@RequestMapping(value="insert.us")
 	public String insertMember(@ModelAttribute User u, @RequestParam("post") String post,
 														 @RequestParam("address1") String address1,

@@ -38,7 +38,7 @@
 				listIndex = 1;
 			}
 			$.ajax({
-					url : "bestListMove",
+					url : "index",
 					
 					data : {
 						listIndex : listIndex,
