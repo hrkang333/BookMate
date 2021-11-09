@@ -1,8 +1,10 @@
 package com.kh.bookmate.ubook.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,14 +44,26 @@ public class UbookServiceImpl implements UbookService {
 		return ubook;
 	}
 
+	/*
+	 * @Override public List<Ubook> selectbookList() { return
+	 * ubookDao.selectbookList(sqlSession); }
+	 */
+
 	@Override
-	public int selectbookListCount() {
-		return ubookDao.selectbookListCount(sqlSession);
+	public List<Ubook> selectbookList(int sellerNo) {
+		return ubookDao.selectbookList(sqlSession, sellerNo);
 	}
+
+	@Override
+	public int deleteMyUbook(int ubookNo) {
+		return ubookDao.deleteMyUbook(sqlSession, ubookNo);
+		
+	}
+
+	/*@Override
+	public List<Ubook> selectbookList(String userId) {
+		return ubookDao.selectbookList(sqlSession,userId);
+	}*/
 	
-	@Override
-	public ArrayList<Ubook> selectbookListCount(PageInfo pi) {
-		return ubookDao.selectList(sqlSession, pi);
-	}
 
 }

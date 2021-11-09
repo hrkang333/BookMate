@@ -8,12 +8,27 @@
 <head>
 <meta charset="UTF-8">
 <title>등록 도서 조회</title>
+        <script>
+            //선택한 독서모임 multiple 삭제하기
+            function deleteUbook(){
+               var deleteUb = confirm("등록하신 도서를 삭제하시겠습니까?");
+               if(deleteUb){
+                  $("#myUbookListForm").attr("action", "deleteMyUbook.ub");
+               }
+                
+            }      	
+            //독서모임 수정하기
+            function updateUbook(){
+                $("#myUbookListForm").attr("action", "updateMyUbook.ub");
+            }
+       </script>
 </head>
 <body>
 	<!-- 등록 도서 조회 -->
 	<div class="tabContent3 active">
 		<section class="content">
 			<h2>등록 도서 조회</h2>
+			<input hidden="hidden" value="${ s.sellerNo }" name="sellerNo">
 			<div class="col-md-offset-2 qnaTable">
 				<div class="panel panel-default">
 					<div class="panel-body">
@@ -30,47 +45,25 @@
 							</div> 
 						</div>-->
 						<div class="table-container">
-							<table class="table table-filter">
-								<colgroup>
-									<col width="40px" />
-									<col width="40px" />
-									<col width="80px" />
-									<col width="40px" />
-									<col width="20px" />
-								</colgroup>
+						<form id="myUbookListForm" action="" method="post">
+							<table class="table table-filter" id="ubookListTb">
 								<thead>
                                 <tr>
-                                    <th>도서 번호</th>
-                                    <th>도서 표지</th>
-                                    <th>도서명</th>
-                                    <th>저자</th>
-                                    <th>도서 재고</th>
+                                    <th style="width:60px; text-align: center;">도서 번호</th>
+                                    <th style="text-align: center;">도서 표지</th>
+                                    <th style="text-align: center;">도서명</th>
+                                    <th style="text-align: center;">저자</th>
+                                    <th style="width:70px; text-align: center;">도서 재고</th>
+                                    <th style="width:120px; text-align: center;">수정/삭제</th>
                                 </tr>
-                            </thead>
+                            	</thead>
 								<tbody>
-									<c:forEach var="u" items="${ list }">
-										<tr data-status="pagado">
-											<td>
-												<div class="ubookNo">${u.ubookNo }</div>
-											</td>
-											<td>
-												<div class="ubookImg">
-													<img src="${u.ubookImg }" class="media-photo">
-												</div>
-											</td>
-											<td>
-												<div class="tbNo">${u.ubookName }</div>
-											</td>
-											<td>
-												<div class="tbNo">${u.ubookWriter }</div>
-											</td>
-											<td>
-												<div class="tbNo">${u.ubookStock }</div>
-											</td>
-										</tr>
-									</c:forEach>
+								<tr>
+									<td colspan="6" style="text-align: center;">도서 조회를 원하신다면 [등록 도서 조회] 탭을 클릭해주세요</td>
+								</tr>
 								</tbody>
 							</table>
+						</form>
 						</div>
 					</div>
 				</div>

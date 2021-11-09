@@ -23,13 +23,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="ubookStatus" column="UBOOK_STATUS"/>
 	</resultMap>
 	
-	<select id="selectList" resultMap="ubookResultSet">
+	<select id="selectbookList" resultMap="ubookResultSet">
+		SELECT U.*
+		FROM UBOOK U, SELLER S
+		WHERE U.BSELLER_NO = #{sellerNo}
+		AND U.BSELLER_NO = S.SELLER_NO
+	</select>
+	
+	
+ <!--	<select id="selectbookList" resultMap="ubookResultSet">
 		SELECT *
 		FROM UBOOK
 		WHERE UBOOK_STATUS = 'Y'
 		ORDER BY UBOOK_NO DESC
-	</select>
-	
+	</select> -->
 	<!-- 중고도서 등록 -->
 	<insert id="insertUbook" parameterType="Ubook">
 		INSERT INTO UBOOK VALUES (SEQ_UBNO.NEXTVAL,#{bSellerNo},#{ubookName},#{ubookWriter},#{ubookIsbn},#{ubCategory}
@@ -71,9 +78,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 도서 삭제 -->
 	<delete id="deleteUbook" parameterType="Ubook">
-		DELETE UBOOK
-		WHERE UBOOK_NO=#{SEQ_UBNO}
-		AND BSELLER_NO=#{bSellerNo}
+		DELETE FROM UBOOK
+		WHERE UBOOK_NO=#{ubookNo}
 	</delete>
 	
 </mapper>
