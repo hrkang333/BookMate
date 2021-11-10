@@ -1,8 +1,7 @@
 package com.kh.bookmate.ubook.model.service;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import com.kh.bookmate.common.PageInfo;
 import com.kh.bookmate.ubook.model.vo.Ubook;
 
 public interface UbookService {
@@ -11,6 +10,12 @@ public interface UbookService {
 	
 	Ubook selectUbook(int ubookNo);
 
-	int selectbookListCount();
-	ArrayList<Ubook> selectbookListCount(PageInfo pi);
+	//List<Ubook> selectbookList();
+
+	List<Ubook> selectbookList(int sellerNo);
+
+	int deleteMyUbook(int ubookNo);
+
+	//List<Ubook> selectbookList(String userId);
+
 }

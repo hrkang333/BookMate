@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.bookmate.club.model.vo.Club;
 import com.kh.bookmate.club.model.vo.ClubAttachment;
 import com.kh.bookmate.club.model.vo.ClubTime;
+import com.kh.bookmate.clubApply.model.vo.ClubApply;
 import com.kh.bookmate.common.PageInfo;
 
 @Repository
@@ -84,20 +85,22 @@ public class ClubDao {
 			clubNo1.add(c.getClubNo());
 		}
 		
-		//3. 2에서 담은 list를 club_time테이블에 넘겨서 그 갯수만큼 club_time갯수 조회해오기
-		ArrayList<ClubTime> list2 = (ArrayList)sqlSession.selectList("clubMapper.selectList_clubTime", clubNo1); 
+		if(clubNo1.size() != 0) {
+			//3. 2에서 담은 list를 club_time테이블에 넘겨서 그 갯수만큼 club_time갯수 조회해오기
+			ArrayList<ClubTime> list2 = (ArrayList)sqlSession.selectList("clubMapper.selectList_clubTime", clubNo1); 
 
-		//4. 1에서 받아온 <club>리스트에 3에서 받아온 clubTime정보를 clubNo로 매칭시켜 set해주기
-		for(Club c : list1) {
-			List<ClubTime> temp = new ArrayList<>();
-			for(ClubTime ct : list2) {
-				if(c.getClubNo() == ct.getClubNo()) {
-					temp.add(ct);
+			//4. 1에서 받아온 <club>리스트에 3에서 받아온 clubTime정보를 clubNo로 매칭시켜 set해주기
+			for(Club c : list1) {
+				List<ClubTime> temp = new ArrayList<>();
+				for(ClubTime ct : list2) {
+					if(c.getClubNo() == ct.getClubNo()) {
+						temp.add(ct);
+					}
 				}
+				c.setClubTimes(temp);
 			}
-			c.setClubTimes(temp);
 		}
-		
+
 		for(Club c : list1) {
 			System.out.println("club최종 : " + c.toString());
 		}
@@ -136,22 +139,22 @@ public class ClubDao {
 			clubNos.add(c.getClubNo());
 		}
 		
-		//3. 2에서 담은 list를 club_time테이블에 넘겨서 그 갯수만큼 club_time 조회해오기
-		ArrayList<ClubAttachment> list2 = (ArrayList)sqlSession.selectList("clubMapper.selectList_clubAttachment", clubNos); 
+		/*11.08 저장된 독서모임이 있는 경우만 attachment에서 가져오도록 해야한다.
+		  clubNo로 for each을 돌리는데 돌릴 clubNo가 없으면 오류가 나면서 메인페이지가 열리지 않았다.*/
+		if(clubNos.size() != 0) {
+			//3. 2에서 담은 list를 club_time테이블에 넘겨서 그 갯수만큼 club_time 조회해오기
+			ArrayList<ClubAttachment> list2 = (ArrayList)sqlSession.selectList("clubMapper.selectList_clubAttachment", clubNos); 
 
-		//4. 1에서 받아온 <club>리스트에 3에서 받아온 clubTime정보를 clubNo로 매칭시켜 set해주기
-		for(Club c : list1) {
-			List<ClubAttachment> temp = new ArrayList<>();
-			for(ClubAttachment ca : list2) {
-				if(c.getClubNo() == ca.getClubNo() && ca.getFileType()==2) {
-					temp.add(ca);
+			//4. 1에서 받아온 <club>리스트에 3에서 받아온 clubTime정보를 clubNo로 매칭시켜 set해주기
+			for(Club c : list1) {
+				List<ClubAttachment> temp = new ArrayList<>();
+				for(ClubAttachment ca : list2) {
+					if(c.getClubNo() == ca.getClubNo() && ca.getFileType()==2) {
+						temp.add(ca);
+					}
 				}
+				c.setClubAttachments(temp);
 			}
-			c.setClubAttachments(temp);
-		}
-		
-		for(Club c : list1) {
-			System.out.println("사진 나오게 하고싶은데 : " + c.toString());
 		}
 
 		return list1;
@@ -161,6 +164,26 @@ public class ClubDao {
 	public Club selectClub(SqlSessionTemplate sqlSession, int cno) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("clubMapper.selectClub", cno);
+	}
+
+	public int updateStep1(SqlSessionTemplate sqlSession, Club c) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("clubMapper.updateStep1", c);
+	}
+
+	public int updateStep1_2(SqlSessionTemplate sqlSession, ClubAttachment ca) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("clubMapper.updateStep_attach", ca);
+	}
+
+	public int updateInsertAttach(SqlSessionTemplate sqlSession, ClubAttachment ca) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("clubMapper.saveStep2_2", ca);
+	}
+
+	public ArrayList<Integer> selectApplyList(SqlSessionTemplate sqlSession, List<Integer> ctList) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("clubMapper.selectApplyList", ctList);
 	}
 
 }

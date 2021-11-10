@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
-
+var confirmISBN = 0;
 
 function imgCheck(img,inputId) {
 	
@@ -68,6 +68,11 @@ function submitCheck(){
     	$('#bookIntro').focus();
     	return;
 	}
+	if(confirmISBN == 0){
+		alert("ISBN 중복체크를 하지 않으셨습니다.")
+		$('#bookISBN').focus();
+		return;
+	}
 	
 	
 	if(confirm("도서 부제목과 역자를 다시 한번 확인해주세요. 도서를 입고 하시겠습니까?")){
@@ -101,6 +106,40 @@ function checkText(obj) {
 		}
 	}
 }
+
+function changeISBN() {
+	
+	confirmISBN=0;
+	alert(confirmISBN);
+	$('#checkedISBN').html("ISBN 중복확인을 해주십시오");
+}
+function checkISBN() {
+	
+	var bookISBN = $('#bookISBN').val();
+	
+	$.ajax({
+		
+		url:"checkISBN",
+		type : "post",
+		data : {
+			bookISBN : bookISBN
+		},
+		success : function(str) {
+			if(str=='pass'){
+				alert("입력하신 "+bookISBN+"은 사용 가능한 ISBN 입니다.")
+				confirmISBN = 1;
+				$('#checkedISBN').html("ISBN 중복확인 완료");
+			}else{
+				alert("입력하신 ISBN "+bookISBN+"은 '"+str+"'이라는 제목의 도서가 이미 사용중인 ISBN 입니다. 확인해주세요.")
+				$('#bookISBN').focus();
+			}
+			
+		}
+		
+		
+	})
+	
+}
 </script>
 
 </head>
@@ -109,7 +148,8 @@ function checkText(obj) {
 
 <br><br><br>
 <form action="bookEnroll.book" id="bookEnroll" class="bookEnroll" method="post" enctype="multipart/form-data">
-도서 ISBN : <input type="text" name="bookISBN" data-name = "도서 ISBN" ><br><br>
+도서 ISBN : <input type="text" name="bookISBN" data-name = "도서 ISBN" id="bookISBN" onchange="changeISBN()"> <button type="button" onclick="checkISBN()">ISBN 중복체크</button><br>
+<span style="color: red" id="checkedISBN">ISBN 중복확인을 해주십시오</span><br><br>
 도서 메인이미지(png와 jpg만 가능) : <input type="file" name="bookMainImgFile" id="bookMainImg" onchange="imgCheck(this,'bookMainImg')" data-name = "도서 메인이미지"><br>
 메인이미지 미리보기 :<br>
 <img alt="" src="" id="prebookMainImg" ><br><br>

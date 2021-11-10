@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,27 +15,46 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.kh.bookmate.common.PageInfo;
-import com.kh.bookmate.common.Pagination;
+import com.kh.bookmate.seller.model.service.SellerService;
+import com.kh.bookmate.seller.model.vo.Seller;
 import com.kh.bookmate.ubook.model.service.UbookService;
 import com.kh.bookmate.ubook.model.vo.Ubook;
+import com.kh.bookmate.user.model.vo.User;
 
 @Controller
 public class UbookController {
 
 	@Autowired
 	UbookService ubookService;
-/*
-	@RequestMapping("ubookList.ub")
-	public String showUbookList(Model model) {
 
-		ArrayList<Ubook> list = ubookService.selectbookListCount();
-		
+	@Autowired
+	private SellerService sellerService;
+	
+	@RequestMapping("ubookList.ub")
+	@ResponseBody
+	public List<Ubook> selectbookList(HttpServletRequest request, Model model) {
+		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
+		Seller s = sellerService.loginSeller(userId);
+		int sellerNo = s.getSellerNo();
+		List<Ubook> list = ubookService.selectbookList(sellerNo);
+		//System.out.println(list.size());
 		model.addAttribute("list", list);
-		System.out.println(list);
+		return list;
+	}
+	
+	@RequestMapping("deleteMyUbook.ub")
+	public String deleteMyUbook(int ubookNo) {
 		
+		ubookService.deleteMyUbook(ubookNo);
+		
+		return "redirect:/sellerPage.se";
+	}
+	
+	@RequestMapping("updateMyUbook.ub")
+	public String ubookDetail() {
 		return "ubook/ubookList";
 	}
 	

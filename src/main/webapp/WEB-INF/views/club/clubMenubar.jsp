@@ -17,6 +17,11 @@
   <link rel="stylesheet" href="resources/vendors/owl-carousel/owl.carousel.min.css">
 
   <link rel="stylesheet" href="resources/css/style.css">
+  
+  <!-- 11.09 추가 괜찮은가? -->
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  
 </head>
 <body>
   <!--================ Start Header Menu Area =================-->

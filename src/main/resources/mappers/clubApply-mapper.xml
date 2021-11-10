@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="clubApplyMapper">
+
+<!-- 담당자  : 황서연
+수정일자 : 2021.11.10
+수정사항 : apply 기능 중 -->
+
+  <resultMap id="clubApplyResultSet" type="ClubApply">
+		<id column="APPLY_NO" property="applyNo"/>
+		<result column="REF_TIME_NO" property="timeNo"/>
+		<result column="USER_ID" property="userId"/>
+		<result column="APPLY_CANCLE" property="applyCancle"/>
+		<result column="APPLY_ACCEPT" property="applyAccept"/>
+		<result column="APPLY_PARTI" property="applyParti"/>
+		<result column="STATUS" property="status"/>
+  </resultMap>
+
+	<!-- 디테일페이지 조회 -->
+	<!-- <select id="selectClub" parameterType="java.util.Map" resultMap="clubResultSet">
+		SELECT A.*, B.*, C.REF_CLUB_NO, C.ORIGINAL_NAME, C.CHANGE_NAME, C.FILE_TYPE
+		FROM CLUB A
+		LEFT JOIN CLUB_TIME B
+		ON A.CLUB_NO = B.REF_CLUB_NO
+		LEFT JOIN CLUB_ATTACHMENT C
+		ON A.CLUB_NO = C.REF_CLUB_NO
+		WHERE A.STATUS='Y'
+		AND A.CLUB_NO=#{cno}
+		ORDER BY B.CLUB_DATE	
+	</select> -->
+	
+	<select id="checkBeforeApply" parameterType="hashmap" resultType="_int">
+		SELECT COUNT(*)
+		FROM CLUB_APPLY
+		WHERE USER_ID = #{userId} AND
+		REF_TIME_NO IN
+		<foreach collection="times" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</select>
+	
+	<insert id="insertApply" parameterType="hashmap">
+		INSERT INTO CLUB_APPLY(APPLY_NO, USER_ID, REF_TIME_NO)
+        SELECT SEQ_CAPNO.NEXTVAL, #{userId}, A.* 
+		FROM(
+			<foreach item="item" collection="times" separator="UNION ALL ">
+				select 
+				#{item} as REF_TIME_NO
+				from dual
+			</foreach>) A
+	</insert>
+	
+	<update id="insertApplyTime">
+		update club_time
+		set APPLY_COUNT = APPLY_COUNT+1
+		where CLUB_TIME_NO IN
+		<foreach item="item" collection="list" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</update>
+
+	
+</mapper>

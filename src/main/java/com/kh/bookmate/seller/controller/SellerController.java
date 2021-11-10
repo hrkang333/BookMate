@@ -34,6 +34,7 @@ public class SellerController {
 		if((User)request.getSession().getAttribute("loginUser") != null) {
 			String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
 			Seller s = sellerService.loginSeller(userId);
+			System.out.println("셀러?" + s.getSellerNo());
 			model.addAttribute("s", s);
 		}
 		return "ubook/ubookMain";

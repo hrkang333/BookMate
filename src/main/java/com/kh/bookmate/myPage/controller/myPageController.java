@@ -2,6 +2,7 @@ package com.kh.bookmate.myPage.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.bookmate.common.PageInfo;
+import com.kh.bookmate.common.Pagination;
 import com.kh.bookmate.payment.model.service.PaymentService;
+import com.kh.bookmate.payment.model.vo.Payment;
 import com.kh.bookmate.payment.model.vo.PaymentDetail;
 import com.kh.bookmate.user.model.service.UserService;
 import com.kh.bookmate.user.model.vo.User;
@@ -43,9 +47,7 @@ public class myPageController {
 
 	//회원의 포인트 조회 
 	@RequestMapping("selectUserPoint.me")
-	public String selectUserPoint(@ModelAttribute User user, 
-								@RequestParam("point") int point,
-								HttpSession session, Model model ) throws Exception {
+	public String selectUserPoint(@ModelAttribute User user, HttpSession session, Model model ) throws Exception {
 		
 		User userPoint = userService.selectUserPoint(user);
 		model.addAttribute("loginUser", userPoint);
@@ -102,54 +104,87 @@ public class myPageController {
 	}
 	
 	
-	//주문리스트  조회
-	//주문번호, 주문금액, 상품정보, 수량, 주문상태 값 조회하기 
+	//주문리스트 조회 
 	@RequestMapping("selectMyOrderList.me")
-	public String selectMyOrderList(@ModelAttribute User user, 
-									@ModelAttribute PaymentDetail paymentDetail,
-														@RequestParam(value="msg",required=false) String msg,
-													//	@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage,
-														@RequestParam(value="paymentNo", required = false, defaultValue="0") int paymentNo,														
-														@RequestParam(value="bookTitle",required = false ,defaultValue="0" ) String bookTitle,
-														@RequestParam(value="bookMainImg",required=false, defaultValue="0") String bookMainImg,
-														@RequestParam(value="quantity",required=false,defaultValue="0" ) int quantity,
-														@RequestParam(value="deliveryStatus",required=false,defaultValue="0") int deliveryStatus,
-														HttpSession session, Model model ) { 
+	public String selectMyOrderList(Model model, HttpSession session,
+									@RequestParam (value="currentPage", required=false, defaultValue="1") int currentPage) { 
+					
+		//주문 내역보기 
+		String loginUser = ((User) session.getAttribute("loginUser")).getUserId(); 
+		List<Payment> myOrderList = paymentService.selectMyOrderList(loginUser);
+
+		//페이징 
+		int listCount = paymentService.selectListCount(loginUser);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5,5);
 		
-		User loginUser = (User) session.getAttribute("loginUser"); 
-		PaymentDetail myOrderList = paymentService.selectMyOrderList(loginUser);
-		
-		//PageInfo pi = Pagination.getPageInfo(myOrderList, currentPage, 5,5);
-		
+			
 		model.addAttribute("myOrderList",myOrderList);
+		model.addAttribute("pi",pi);
+		
+		
 		return "myPage/myPageOrderList";
 	
 	}
 	
 	
-	//주문내역 상세보기 
-	@RequestMapping("selectMyOrderList/selectOrderListDetail.me")
-	public String selectOrderListDetail() {
-		return "myPage/myOderListDetail";
-	}
+	//주문 리스트 내역 상세보기 
+	@RequestMapping("selectMyOrderListDetail.me")
+	public String selectMyOrderListDetail (Model model, HttpSession session, HttpServletRequest request) {	
+		//(@RequestParam("paymentNo") int paymentNo,
+		
+		int paymentNo = Integer.parseInt(request.getParameter("paymentNo"));
+		System.out.println(paymentNo+"===============ㅠㅠㅠ=========");
 
-	
-	//배송 전 주문 취소하기 
-	@RequestMapping("cancelMyOrder.me")
-	public String cancelMyOrder(@RequestParam User user,HttpSession session, Model model)	{
+		List<PaymentDetail> myOrderListDetail = paymentService.selectMyOrderListDetail(paymentNo);
+		model.addAttribute("myOrderListDetail",myOrderListDetail);
+
+		return "myPage/myOrderListDetail";
 		
-		
-		
-		User loginUser = (User) session.getAttribute("loginUser"); 
-		ModelAndView mv = new ModelAndView();
-		PaymentDetail myOrderList = paymentService.cancelMyOrder(loginUser);
-		
-		
-		return "redirect:myPage/myPageOrderList.me";
 	}
 	
+	//주문리스트에서 -> 주문내역리스트 상세로 넘어가는 조회..? 
+//	@RequestMapping("selectMyOrderListDetail.me")
+//	public ModelAndView selectMyOrderListDetail(int paymentNo, ModelAndView mv) {
+//		
+//		List<PaymentDetail> pa = paymentService.selectMyOrderListDetail(paymentNo);
+//		
+//		mv.addObject("pa",pa).setViewName("myPage/myOrderListDetail");
+//		
+//		return mv;
+//	}
+
+//	
+//	@RequestMapping("selectMyOrderListDetail.me")
+//	public List<PaymentDetail> selectMyOrderListDetail(int paymentNo, ModelAndView mv ){
+//		
+//	List<PaymentDetail> pa = paymentService.selectMyOrderListDetail(paymentNo);
+//
+//			
+//			mv.addObject("pa",pa).setViewName("myPage/myOrderListDetail");
+//
+//			System.out.println(pa+"===========================");
+//			
+//		return (List<PaymentDetail>) mv;
+//		
+//	}
 
 	
+//	
+//	//배송 전 주문 취소하기 
+//	@RequestMapping("cancelMyOrder.me")
+//	public String cancelMyOrder(@RequestParam User user,HttpSession session, Model model)	{
+//		
+//		
+//		String loginUser = ((User) session.getAttribute("loginUser")).getUserId(); 
+//		ModelAndView mv = new ModelAndView();
+//		PaymentDetail myOrderList = paymentService.cancelMyOrder(loginUser);
+//		
+//		
+//		return "redirect:myPage/myPageOrderList.me";
+//	}
+//	
+//
+//	
 	
 //일주일 
 //		private String getCurrentDate() {

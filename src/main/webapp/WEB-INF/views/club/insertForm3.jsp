@@ -113,7 +113,7 @@
                             <div class="col-md-9 form-group" id="dates">
                                 <ul class="history_total">
                                     <li class="s">
-                                        <input type="date" class="form-control must" id="date" name="clubDate">
+                                        <input type="date" class="form-control must" id="date" name="newClubDate">
                                     </li>
                                     <li class="w">
                                         <input type="text" class="form-control must" id="startTime" name="startTime">
@@ -135,7 +135,7 @@
                                 //호스트 이력 갯수 정하기 위해서 전역변수 cnt, maxField 선언
                                 var cnt = 1;
                                 var maxField = 15;
-                                var add = '<ul class="history_total"><li class="s"><input type="date" class="form-control must" id="date" name="clubDate"></li><li class="w"><input type="text " class="form-control must" id="startTime" name="startTime"></li><li class="w"><input type="text " class="form-control must" id="endTime" name="endTime"></li><li class="d"><img src="img/delete.png " onclick="delHistory(this)"></li></ul>'
+                                var add = '<ul class="history_total"><li class="s"><input type="date" class="form-control must" id="date" name="newClubDate"></li><li class="w"><input type="text " class="form-control must" id="startTime" name="startTime"></li><li class="w"><input type="text " class="form-control must" id="endTime" name="endTime"></li><li class="d"><img src="img/delete.png " onclick="delHistory(this)"></li></ul>'
 
                                 //호스트 이력 추가하기 버튼
                                 function addHistory() {
