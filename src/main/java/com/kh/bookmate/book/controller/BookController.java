@@ -167,8 +167,5 @@ public class BookController {
 	        
 		return bestList;
 	}
-	@RequestMapping("bookKor.book")
-	public String bookKor() {
-		return "book/bookKor";
-	}
+
 }

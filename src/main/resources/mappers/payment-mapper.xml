@@ -5,7 +5,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="paymentMapper">
 
 	<resultMap id="paymentResultSet" type="Payment">
-		<result column="PAYMENTNO" property="paymentNo" />
+		<id column="PAYMENTNO" property="paymentNo" />
 		<result column="USER_ID" property="user_Id" />
 		<result column="SHIPPINGNAME" property="shippingName" />
 		<result column="SHIPPINGADDRESS" property="shippingAddress" />
@@ -20,7 +20,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<resultMap id="paymentDetailResultSet" type="PaymentDetail">
-		<result column="PAYMENTDETAILNO" property="paymentDetailNo" />
+		<id column="PAYMENTDETAILNO" property="paymentDetailNo" />
 		<result column="PAYMENTNO" property="paymentNo" />
 		<result column="BOOKISBN" property="bookISBN" />
 		<result column="BOOKMAINIMG" property="bookMainImg" />
@@ -34,16 +34,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</resultMap>
 	
 	
+	<!-- 나의 주문목록 조회  -->
+	<select id="selectMyOrderList" resultMap="paymentResultSet">
+		 SELECT * FROM PAYMENT
+		 WHERE USER_ID =#{user_Id}
+	</select>
 	
-	<select id="selectMyOrderList" resultMap="paymentDetailResultSet">
-
-		SELECT * FROM PAYMENTDETAIL
-		<!-- 
+	<!-- payment list 페이징  -->
+	<select id="selectListCount"  resultType="_int">
+		SELECT COUNT(*) FROM PAYMENT
+		WHERE USER_ID =#{user_Id}
+		
+	</select>
+	
+	<!-- 나의 주문 목록 상세 조회  -->
+	<select id="selectMyOrderListDetail" resultMap="paymentDetailResultSet" parameterType="_int">
 		SELECT * FROM PAYMENTDETAIL
 		WHERE PAYMENTNO=#{paymentNo}
-		ORDER BY DELIVERYDATE DESC
-		 -->
+		ORDER BY DELIVERYDATE DESC 
 	</select>
+	
 	
 
 </mapper>

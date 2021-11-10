@@ -10,7 +10,7 @@ import java.util.Map;
 
 import com.kh.bookmate.club.model.vo.Club;
 import com.kh.bookmate.club.model.vo.ClubAttachment;
-import com.kh.bookmate.club.model.vo.ClubTime;
+import com.kh.bookmate.clubApply.model.vo.ClubApply;
 import com.kh.bookmate.common.PageInfo;
 
 public interface ClubService {
@@ -37,6 +37,20 @@ public interface ClubService {
 
 	ArrayList<Club> selectEndList();
 
-	Club selectClub(int cno);  
+	Club selectClub(int cno);
+
+	void updateStep1_2(Club c, ClubAttachment ca);
+
+	void updateStep1_1(Club c, ClubAttachment ca);
+
+	void updateStep2_1(Club c, ClubAttachment ca);
+
+	//c:update, ca:update	map:insert
+	void updateStep3_1(Club c, ClubAttachment ca, Map<String, Object> map);
+
+	//c:update, ca:insert	map:insert
+	void updateStep3_2(Club c, ClubAttachment ca, Map<String, Object> map);
+
+	List<Integer> selectApplyList(List<Integer> ctList);  
 
 }

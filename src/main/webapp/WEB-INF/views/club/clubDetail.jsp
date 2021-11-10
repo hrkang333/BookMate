@@ -89,9 +89,12 @@
     
     <jsp:include page="../club/clubMenubar.jsp"/>
     
+    
+    
     <!--================ 독서모임 디테일 =================-->
     <div class="product_image_area">
         <div class="container">
+
             <div class="row s_product_inner">
                 <div class="col-lg-5">
                     <div>
@@ -123,26 +126,30 @@
                                     <span>${ct.startTime} ~ ${ct.endTime}</span>
                                 </p>
                                 <p class="apply" style="display:flex">
-                                    <span style="margin-left: auto;">신청 2 / 정원 ${club.clubCapacity}</span>
+                                    <span style="margin-left: auto;">신청 ${ct.apply_count} / 정원 ${club.clubCapacity}</span>
                                 </p>
                             </div>
                             <div class="right">
                             	<c:if test="${club.times eq '한 번 만나요'}">
-                            		<input type="checkbox" class="applys">
+                            		<input type="checkbox" class="applys" value="${ct.timeNo}">
+                            	</c:if>
+                            	<c:if test="${club.times eq '여러 번 만나요'}">
+                            		<input type="hidden" class="applys" value="${ct.timeNo}">
                             	</c:if>
                             </div>
                         </div>
 						</c:forEach>
 
 
-                        <div class="product_count">
-                            <a class="button primary-btn" href="#">찜하기</a>
-                            <a class="button primary-btn" href="#">신청하기</a>
+                        <div class="">
+                            <button id="heartClub" class="button primary-btn">찜하기</button>
+                            <button id="applyClub" class="button primary-btn">신청하기</button>
                         </div>
 
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
     <!--================End Single Product Area =================-->
@@ -334,6 +341,64 @@
             </div>
         </div>
     </footer>
+    
+    <script>
+    	$("#applyClub").click(function(){
+    		
+    		var userId = '<c:out value="${ loginUser.userId }"/>';
+    		if(userId == ''){
+    			alert("독서모임 신청은 로그인 후 이용 부탁드립니다")
+    			return;
+    		}
+    		
+    		var c_times = '<c:out value="${club.times}"/>';
+    		var times = [];
+    		
+    		if(confirm("해당 독서모임에 참여신청하시겠습니까?")){
+    			if(c_times == '여러 번 만나요'){
+        			$("input[class='applys']").each(function(){
+        				var timeNo = $(this).val();
+        				times.push(timeNo);
+        			});
+        		}else{
+        			if($("input:checkBox[class='applys']:checked").length == 0){
+                        alert("참여할 독서모임을 선택해주세요");
+                    }else{
+                    	$("input:checkbox[class='applys']:checked").each(function(){
+            				var timeNo = $(this).val();
+            				times.push(timeNo);
+            			});
+                    }
+        		}
+    			
+    			if(times.length != 0){
+					console.log(times)
+    				$.ajax({
+    					url:"apply.cl",
+    					data:{
+    						times : times,
+    						userId : userId
+    					},
+    					type : "get",
+    					success:function(result){
+    						console.log("ajax 통신성공")
+    						
+    						if(result="fail"){
+    							alert("죄송합니다. 이미 신청하신 독서모임입니다.")
+    						}
+
+    					},error:function(){
+    						console.log("ajax 통신실패")
+    					}
+    				})
+    			}
+    		}
+    			
+    			
+    		
+    		
+    	})
+    </script>
     <!--================ End footer Area  =================-->
 
 

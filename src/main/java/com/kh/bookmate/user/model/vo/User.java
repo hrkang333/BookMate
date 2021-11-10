@@ -26,5 +26,7 @@ public class User {
 	private String status;
 	private int point;
 	
+	private int paymentNo;
+	
 
 }

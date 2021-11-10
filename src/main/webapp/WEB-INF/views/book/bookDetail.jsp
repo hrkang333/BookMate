@@ -108,7 +108,7 @@
         		type : "post" ,
         		success : function(str) {
 					if(confirm("상품을 장바구니에 담았습니다. 장바구니로 이동하시겠습니까?")){
-						alert("이동")
+						$('#moveCartForm').submit();
 					}
 					return false;
 				}
@@ -322,5 +322,11 @@
 		<form action="selectBook.book" method="post" id="detailBookForm">
 			<input type="hidden" name="bookISBN" id="inputISBN">
 		</form>
+		
+		<form action="shoppingCart.sc" method="post" id="moveCartForm">
+		
+		<input type="hidden" value="${sessionScope.loginUser.userId}" name="user_Id">
+
+	</form>
 	</main>
 </html>

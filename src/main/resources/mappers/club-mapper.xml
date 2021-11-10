@@ -40,15 +40,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<!-- 속성들 1)property:필드명  2)ofType:필드의클래스위치   -->
 		<collection property="clubTimes" ofType="com.kh.bookmate.club.model.vo.ClubTime">
 			<id column="CLUB_TIME_NO" property="timeNo" jdbcType="INTEGER" />
+			<result column="REF_CLUB_NO" property="clubNo" jdbcType="INTEGER" />  <!-- 되려나 -->
 			<result column="CLUB_DATE" property="clubDate" jdbcType="DATE" />
 			<result column="START_TIME" property="startTime" jdbcType="VARCHAR" />
 			<result column="END_TIME" property="endTime" jdbcType="VARCHAR" />
+			<result column="APPLY_COUNT" property="apply_count" jdbcType="INTEGER" />
 		</collection>
 		
 		<collection property="clubAttachments" ofType="com.kh.bookmate.club.model.vo.ClubAttachment">
 			<!-- <id column="FILE_NO" property="fileNo" jdbcType="INTEGER" /> 
 			https://stackoverflow.com/questions/51080884/how-to-use-multiple-collection-in-mybatis-resultmap
 			이 객체가 time의 갯수에따라 여러 개 생성되어서 참고해서 고치니 해결됐다.-->
+			<result column="REF_CLUB_NO" property="clubNo" jdbcType="INTEGER" />  <!-- 되려나 -->
 			<result column="ORIGINAL_NAME" property="originalName" jdbcType="DATE" />
 			<result column="CHANGE_NAME" property="changeName" jdbcType="VARCHAR" />
 			<result column="FILE_TYPE" property="fileType" jdbcType="VARCHAR" />
@@ -71,6 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="START_TIME" property="startTime"/>
 		<result column="END_TIME" property="endTime"/>
 		<result column="STATUS" property="status"/>
+		<result column="APPLY_COUNT" property="apply_count"></result>
 	</resultMap>
 
 
@@ -108,6 +112,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO CLUB_ATTACHMENT
 		VALUES(SEQ_CANO.NEXTVAL, #{clubNo}, #{originalName}, #{changeName}, #{fileType})
 	</insert>
+	
 	
 	<update id="saveStep3_1" parameterType="Club">
 		UPDATE CLUB
@@ -174,7 +179,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 <!-- 독서모임개설관리(mypage3)-독서모임 삭제 -->
-	<!--1.사진 삭제  -->
+	<!--1.for 사진 삭제(프로젝트 upload_files에서)  -->
 	<select id="selectPhotoList" resultMap="clubAttachmentResultSet">
 		SELECT * FROM CLUB_ATTACHMENT
 		WHERE REF_CLUB_NO IN
@@ -221,6 +226,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM(SELECT * 
 		     FROM CLUB
 		     WHERE STATUS='Y' AND 
+		     CONDITION = 4 AND
 		     CEND_DATE > SYSDATE AND 
      		 CSTART_DATE <= SYSDATE 
 		     ORDER BY CEND_DATE)
@@ -242,7 +248,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 디테일페이지 조회 -->
 	<select id="selectClub" parameterType="java.util.Map" resultMap="clubResultSet">
-		SELECT A.*, B.CLUB_TIME_NO, B.CLUB_DATE, B.START_TIME, B.END_TIME, C.CHANGE_NAME, C.FILE_TYPE
+		SELECT A.*, B.*, C.REF_CLUB_NO, C.ORIGINAL_NAME, C.CHANGE_NAME, C.FILE_TYPE
 		FROM CLUB A
 		LEFT JOIN CLUB_TIME B
 		ON A.CLUB_NO = B.REF_CLUB_NO
@@ -252,5 +258,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND A.CLUB_NO=#{cno}
 		ORDER BY B.CLUB_DATE	
 	</select>
+	
+	<!-- 독서모임 step1 수정 -->
+	<update id="updateStep1" parameterType="Club">
+		UPDATE CLUB
+		SET HOST_NAME=#{hostName}, HOST_COMMENT=#{hostComment},
+			HSTART_DATE=#{hstartDate}, HEND_DATE=#{hendDate}, HWHAT_TODO=#{hwhatTodo}
+		WHERE CLUB_NO=#{clubNo} AND STATUS='Y'
+	</update>
+	
+	<!-- 독서모임 사진 수정)update -->
+	<update id="updateStep_attach" parameterType="ClubAttachment">
+		UPDATE CLUB_ATTACHMENT
+		SET ORIGINAL_NAME=#{originalName},
+			CHANGE_NAME=#{changeName}
+		WHERE REF_CLUB_NO=#{clubNo} AND FILE_TYPE=#{fileType}
+	</update>
+
+	
+	<!-- <select id="selectApplyList" resultType="com.kh.bookmate.clubApply.model.vo.ClubApply">
+		SELECT COUNT(*)
+		FROM CLUB_APPLY
+		WHERE REF_TIME_NO IN
+		<foreach item="item" collection="list" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+		ORDER BY REF_TIME_NO DESC
+	</select> -->
 	
 </mapper>
