@@ -63,7 +63,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE U.USER_ID = #{sellerId}
 		AND S.SELLER_ID = U.USER_ID
 		AND U.STATUS = 'Y'
-		AND S.STATUS = 'Y'
 		</select>
 	
 	

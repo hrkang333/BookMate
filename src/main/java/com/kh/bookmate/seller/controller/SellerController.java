@@ -28,18 +28,24 @@ public class SellerController {
 	@Autowired
 	private UbookService ubookService;
 	
+	//책장메이트 메인 - 로그인 안함/로그인했지만 판매자 가입 안함/둘 다 함/판매자 휴면 비교 가능
 	@RequestMapping("ubookMain.ub")
 	public String ubookMain(HttpServletRequest request, Model model) {	
 		//11.4 - 해결... (원인 : .getUserId() 때문이였음 -> if문으로 비교할 때에는 .getUserId()없이 해야한다)
-		if((User)request.getSession().getAttribute("loginUser") != null) {
+		if((User)request.getSession().getAttribute("loginUser") == null) {
+			String userId = "dlatluserId";
+			Seller s = sellerService.loginSeller(userId);
+			model.addAttribute("s", s);
+		}else {
 			String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
 			Seller s = sellerService.loginSeller(userId);
-			System.out.println("셀러?" + s.getSellerNo());
+			//System.out.println("셀러?" + s.getSellerNo());
 			model.addAttribute("s", s);
 		}
 		return "ubook/ubookMain";
 	}
 	
+	//현재 로그인한 판매자 페이지 정보
 	@RequestMapping("sellerPage.se")
 	public String sellerPage(HttpServletRequest request, Model model) {
 		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
@@ -48,15 +54,8 @@ public class SellerController {
 
 		return "seller/sellerPage";
 	}
-	/*
-	@RequestMapping("ubookList.ub")
-	public String ubookList(HttpServletRequest request, Model model) {
-		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
-		List<Ubook> list = sellerService.selectMyUbook(userId);
-		model.addAttribute("list", list);
-		return "ubook/ubookList";
-	}
-*/
+	
+	//판매자 정보 수정
 	@RequestMapping(value="sellerUpdate.se")
 	public String updateSeller(@ModelAttribute Seller seller,
 								HttpServletRequest request,
@@ -79,12 +78,13 @@ public class SellerController {
 		return "redirect:/sellerPage.se";
 	}
 	
-	
+	//판매자 가입 화면
 	@RequestMapping("sellerInsertForm.se")
 	public String sellerInsertForm() {
 		return "seller/sellerInsertForm";
 	}
 	
+	//판매자 가입
 	@RequestMapping(value="insertSeller.se")
 	public String insertSeller(@ModelAttribute Seller s,
 			@RequestParam("post") String post,
@@ -99,6 +99,7 @@ public class SellerController {
 		return "redirect:/ubookMain.ub";
 	}
 	
+	//판매자 휴면 전환
 	@RequestMapping(value="deleteSeller.se")
 	public String deleteSeller(Seller s, HttpServletRequest request) {
 		sellerService.deleteSeller(s);

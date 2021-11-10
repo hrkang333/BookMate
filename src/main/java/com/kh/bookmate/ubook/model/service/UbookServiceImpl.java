@@ -18,10 +18,10 @@ import com.kh.bookmate.ubook.model.vo.Ubook;
 public class UbookServiceImpl implements UbookService {
 	
 	@Autowired
-	SqlSession sqlSession;
+	private SqlSessionTemplate sqlSession;
 	
 	@Autowired
-	UbookDao ubookDao;
+	private UbookDao ubookDao;
 	
 	@Override
 	public void insertUbook(Ubook ubook) {
@@ -34,14 +34,11 @@ public class UbookServiceImpl implements UbookService {
 	}
 
 	@Override
-	public Ubook selectUbook(int ubookNo) {
-		Ubook ubook = null;
-		ubook = ubookDao.selectUbook(sqlSession,ubookNo);
+	public Ubook selectUbook(int ubookNo) {		
+		Ubook u = null;
+		u = ubookDao.selectUbook(sqlSession, ubookNo);
+		return u;
 		
-		if(ubook ==null) {
-			throw new RuntimeException("도서 세부정보 불러오기 오류");
-		}
-		return ubook;
 	}
 
 	/*
@@ -59,7 +56,18 @@ public class UbookServiceImpl implements UbookService {
 		return ubookDao.deleteMyUbook(sqlSession, ubookNo);
 		
 	}
+/*
+	@Override
+	public List<Ubook> ubookCateList1() {
+		return ubookDao.ubookCateList1(sqlSession);
+	}*/
 
+	@Override
+	public List<Ubook> selectCategory(int ubCategory) {
+		return ubookDao.selectCategory(sqlSession, ubCategory);
+	}
+
+	
 	/*@Override
 	public List<Ubook> selectbookList(String userId) {
 		return ubookDao.selectbookList(sqlSession,userId);

@@ -15,7 +15,8 @@ public class UbookDao {
 		return sqlSession.insert("ubookMapper.insertUbook",ubook);
 	}
 
-	public Ubook selectUbook(SqlSession sqlSession, int ubookNo) {
+	public Ubook selectUbook(SqlSessionTemplate sqlSession, int ubookNo) {
+		System.out.println("dao----" + ubookNo);
 		return sqlSession.selectOne("ubookMapper.selectUbook",ubookNo);
 	}
 /*
@@ -39,12 +40,20 @@ public class UbookDao {
 
 	public List<Ubook> selectbookList(SqlSession sqlSession, int sellerNo) {
 		List list1 =  sqlSession.selectList("ubookMapper.selectbookList", sellerNo);
-		System.out.println("dao----" + list1);
 		return list1;
 	}
 
 	public int deleteMyUbook(SqlSession sqlSession, int ubookNo) {
-		return sqlSession.insert("ubookMapper.deleteMyUbook",ubookNo);
+		return sqlSession.delete("ubookMapper.deleteMyUbook",ubookNo);
+	}
+/*
+	public List<Ubook> ubookCateList1(SqlSession sqlSession) {
+		return sqlSession.selectList("ubookMapper.ubookCateList1");
+	}*/
+
+	public List<Ubook> selectCategory(SqlSessionTemplate sqlSession, int ubCategory) {
+		System.out.println("dao----" + ubCategory);
+		return sqlSession.selectList("ubookMapper.selectCategory",ubCategory);
 	}
 
 }
