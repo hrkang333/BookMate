@@ -404,14 +404,14 @@
                                         	
                                           //데이터 뿌리기 
                                         	for(var i=0; i < data.length; i++){
-                                        		$('#ubookListTb').append("<tr><td align='center'>" + (i+1) + "</td>" + "<td hidden='hidden'>"+data[i].ubookNo+"</td>" +
+                                        		$('#ubookListTb').append("<tr><td align='center'>" + (i+1) + "</td>" + "<td hidden='hidden' name='ubookNo'>"+data[i].ubookNo+"</td>" +
                             										"<td align='center'><img src='${pageContext.servletContext.contextPath }/resources/images/Ubookimg/" + data[i].ubookImg + "' style='width: 145px; height: auto;'></td>" +
-                                        							"<td align='center'>" + data[i].ubookName + "</td>" +
+                                        							"<td align='center'><a href='ubookDetailTest.ub?ubookNo="+data[i].ubookNo+"'>" + data[i].ubookName + "</a></td>" +
                                         							"<td align='center'>" + data[i].ubookWriter + "</td>" +
                                         							"<td align='center'>" + data[i].ubookStock + "</td>" +
                                         							"<td align='center'>"+
                                         							"<button style='background-color: #5cb85c; color:#ffffff; border:none; width: 100%; margin-bottom:10px; border-radius: 0.3rem;' onclick='updateUbook()'>수정</button>"+
-                                        							"<button class='btn-danger' style='border:none;width: 100%; border-radius: 0.3rem;' onclick='deleteUbook()'>삭제</button></td></tr>");
+                                        							"<button class='btn-danger' style='border:none;width: 100%; border-radius: 0.3rem;' onclick='deleteUbook("+data[i].ubookNo+")'>삭제</button></td></tr>");
                                          	}
 
                                         },

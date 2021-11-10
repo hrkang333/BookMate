@@ -23,6 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="ubookStatus" column="UBOOK_STATUS"/>
 	</resultMap>
 	
+	<!-- 도서 상세 -->
 	<select id="selectbookList" resultMap="ubookResultSet">
 		SELECT U.*
 		FROM UBOOK U, SELLER S
@@ -31,12 +32,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	
- <!--	<select id="selectbookList" resultMap="ubookResultSet">
-		SELECT *
-		FROM UBOOK
-		WHERE UBOOK_STATUS = 'Y'
-		ORDER BY UBOOK_NO DESC
-	</select> -->
 	<!-- 중고도서 등록 -->
 	<insert id="insertUbook" parameterType="Ubook">
 		INSERT INTO UBOOK VALUES (SEQ_UBNO.NEXTVAL,#{bSellerNo},#{ubookName},#{ubookWriter},#{ubookIsbn},#{ubCategory}
@@ -45,8 +40,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 
 	<!-- 도서 상세 -->
-	<select id="selectUbook" resultType="Ubook">
-		SELECT * FROM UBOOK WHERE UBOOK_NO = #{ubookNo}
+	<select id="selectUbook" parameterType="_int" resultMap="ubookResultSet">
+		SELECT *
+		FROM UBOOK
+		WHERE UBOOK_NO = #{ubookNo}
+		AND UBOOK_STATUS = 'Y'
 	</select>
 	
 	<!-- 도서 카테고리별 리스트 -->
@@ -77,9 +75,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 
 	<!-- 도서 삭제 -->
-	<delete id="deleteUbook" parameterType="Ubook">
+	<delete id="deleteMyUbook" parameterType="_int">
 		DELETE FROM UBOOK
 		WHERE UBOOK_NO=#{ubookNo}
 	</delete>
 	
+	<!-- 도서 목록 -->
+	<select id="ubookCateList1" resultMap="ubookResultSet">
+		SELECT *
+		FROM UBOOK
+		WHERE UBOOK_STATUS = 'Y'
+		AND UB_CATEGORY = #{ubCategory}
+		ORDER BY UBOOK_NO DESC
+	</select>
+		
+	<!--  카테고리 -->
+	<select id="selectCategory" parameterType="_int" resultMap="ubookResultSet">
+		SELECT * FROM UBOOK
+		WHERE UB_CATEGORY=#{ubCategory}
+	</select>
 </mapper>

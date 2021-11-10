@@ -4,7 +4,7 @@
 
 .logo_link{
     /* width: 15%; */
-    width : 85px;
+    width : 80px;
 }
 
 .logo2{
@@ -13,7 +13,7 @@
 
 .logo_link2{
     /* width: 30%; */
-    width: 250px;
+    width: 217px;
     margin-left: -27px;
 }
 
@@ -192,8 +192,28 @@
 .categorybody{
     background-color: #dcd3cc;
     height: 68px;
+    width: 175px;
 }
-
+.categorybody a{
+    font-size: 20px;
+    margin-top: 20px;
+    color: #212529;
+}
+.category a{
+    font-size: 20px;
+    margin-top: 10px;
+    color: white;
+}
+.category a:hover{
+    font-size: 20px;
+    margin-top: 10px;
+    color: white;
+    text-decoration: none;
+}
+.categorybody a:hover{
+    color: #915549;
+    text-decoration: none;
+}
 .maincon{
     background-color: #ececee;
 }
@@ -656,6 +676,11 @@ nav > .nav.nav-tabs{
 }
 .tbNo {
 	position: relative;
+}
+.tbNo1 {
+	position: relative;
+	font-size: 25px;
+	text-align: center;
 }
 .tbNo label {
 	-webkit-user-select: none;

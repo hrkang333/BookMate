@@ -31,9 +31,9 @@
         <body style="width: 1200px; margin: auto;">
             <!--================ 헤더(로고 + 검색 + 로그인 된 회원) =================-->
             <header class="header_area">
-                <div class="main_menu">
-                    <nav class="navbar navbar-expand-lg navbar-light">
-                        <div class="container">
+                <div class="main_menu" style="background-color: #f8f9fa !important;">
+                    <nav class="navbar navbar-expand-lg navbar-light" style="margin-bottom: 0px !important;">
+                        <div class="container" style="padding-right: 55px;">
                             <!--로고링크-->
                             <a href="home.us" class="logo_link">
                                 <img src="resources/img/logo1.png" class="logo1">
@@ -43,9 +43,7 @@
                             </a>
                             <br />
                             <!--검색-->
-                            <div>
-                                <div>
-                                    <form class="card card-sm searchbar">
+                                    <form class="card card-sm searchbar" style="background-color: #f8f9fa !important; width: 360px;">
                                         <div class="card-body row no-gutters align-items-center">
                                             <!--검색 input-->
                                             <div class="col">
@@ -58,8 +56,6 @@
                                             </div>
                                         </div>
                                     </form>
-                                </div>
-                            </div>
                             <!--로그인 회원정보-->
                             <c:if test="${ empty sessionScope.loginUser }">
                                 <a href="register.me">회원가입</a> |
@@ -71,6 +67,10 @@
                             <!-- 로그인 후  -->
                             <c:if test="${ !empty sessionScope.loginUser }">
                                 <label>${ sessionScope.loginUser.userName }님</label>
+                                <c:if test="${ !empty s.sellerId && s.status eq 'Y' }">
+                                |
+                                <a href="sellerPage.se">판매자 페이지</a>
+                                </c:if>
                                 |
                                 <a href="myPage.me">마이페이지</a>
                                 |

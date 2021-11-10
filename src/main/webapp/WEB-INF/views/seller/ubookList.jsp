@@ -10,10 +10,30 @@
 <title>등록 도서 조회</title>
         <script>
             //선택한 독서모임 multiple 삭제하기
-            function deleteUbook(){
-               var deleteUb = confirm("등록하신 도서를 삭제하시겠습니까?");
+            function deleteUbook(ubookNo){
+              var deleteUb = confirm("등록하신 도서를 삭제하시겠습니까?");
+              console.log(ubookNo);
                if(deleteUb){
-                  $("#myUbookListForm").attr("action", "deleteMyUbook.ub");
+               	$.ajax({
+                    type : "POST",
+                    url : "ubookList.ub",
+                    dataType : 'json',
+                    data : {ubookNo : ubookNo},
+                    success : function(data) {
+						if(data > 0){
+							alert("성공적으로 삭제되었습니다.");
+							
+							location.href=location.href;
+						}else{
+							console.log(data);
+							alert("실패");
+						}
+						
+                    },
+                    error : function() {
+                    	alert("통신실패");
+                    }
+                });
                }
                 
             }      	
