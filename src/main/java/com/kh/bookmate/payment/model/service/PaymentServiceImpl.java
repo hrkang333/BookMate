@@ -37,13 +37,22 @@ public class PaymentServiceImpl implements PaymentService {
 		return paymentDao.selectListCount(sqlSession,loginUser);
 	}
 
-	//주문 리스트 상세 조회 
 	@Override
 	public List<PaymentDetail> selectMyOrderListDetail(int paymentNo) {
 		List<PaymentDetail> list = paymentDao.selectMyOrderListDetail(sqlSession,paymentNo);
 		return list;
 	}
 
+
+
+//	//주문 리스트 상세 조회 
+//	@Override
+//	public List<PaymentDetail> selectMyOrderListDetail(int paymentNo) {
+//		List<PaymentDetail> list = paymentDao.selectMyOrderListDetail(sqlSession,paymentNo);
+//		return list;
+//	}
+
+	
 
 
 

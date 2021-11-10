@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bookmate.common.PageInfo;
 import com.kh.bookmate.common.Pagination;
@@ -120,6 +121,7 @@ public class myPageController {
 		model.addAttribute("myOrderList",myOrderList);
 		model.addAttribute("pi",pi);
 		
+		
 		return "myPage/myPageOrderList";
 	
 	}
@@ -127,38 +129,62 @@ public class myPageController {
 	
 	//주문 리스트 내역 상세보기 
 	@RequestMapping("selectMyOrderListDetail.me")
-	public String selectMyOrderListDetail(Model model, HttpSession session, HttpServletRequest request) {
-		
+	public String selectMyOrderListDetail (Model model, HttpSession session, HttpServletRequest request) {	
+		//(@RequestParam("paymentNo") int paymentNo,
 		
 		int paymentNo = Integer.parseInt(request.getParameter("paymentNo"));
-		
-		System.out.println(paymentNo + "=============이거 페이먼트 넘버 네임값으로 가져온거야 ");
-		
+		System.out.println(paymentNo+"===============ㅠㅠㅠ=========");
+
 		List<PaymentDetail> myOrderListDetail = paymentService.selectMyOrderListDetail(paymentNo);
-		System.out.println( paymentNo +"=============상세보기 페이먼트 넘버  ==========" + myOrderListDetail );
-		
 		model.addAttribute("myOrderListDetail",myOrderListDetail);
-		
+
 		return "myPage/myOrderListDetail";
+		
 	}
 	
+	//주문리스트에서 -> 주문내역리스트 상세로 넘어가는 조회..? 
+//	@RequestMapping("selectMyOrderListDetail.me")
+//	public ModelAndView selectMyOrderListDetail(int paymentNo, ModelAndView mv) {
+//		
+//		List<PaymentDetail> pa = paymentService.selectMyOrderListDetail(paymentNo);
+//		
+//		mv.addObject("pa",pa).setViewName("myPage/myOrderListDetail");
+//		
+//		return mv;
+//	}
+
+//	
+//	@RequestMapping("selectMyOrderListDetail.me")
+//	public List<PaymentDetail> selectMyOrderListDetail(int paymentNo, ModelAndView mv ){
+//		
+//	List<PaymentDetail> pa = paymentService.selectMyOrderListDetail(paymentNo);
+//
+//			
+//			mv.addObject("pa",pa).setViewName("myPage/myOrderListDetail");
+//
+//			System.out.println(pa+"===========================");
+//			
+//		return (List<PaymentDetail>) mv;
+//		
+//	}
+
 	
-	
-	//배송 전 주문 취소하기 
-	@RequestMapping("cancelMyOrder.me")
-	public String cancelMyOrder(@RequestParam User user,HttpSession session, Model model)	{
-		
-		
-		String loginUser = ((User) session.getAttribute("loginUser")).getUserId(); 
+//	
+//	//배송 전 주문 취소하기 
+//	@RequestMapping("cancelMyOrder.me")
+//	public String cancelMyOrder(@RequestParam User user,HttpSession session, Model model)	{
+//		
+//		
+//		String loginUser = ((User) session.getAttribute("loginUser")).getUserId(); 
 //		ModelAndView mv = new ModelAndView();
 //		PaymentDetail myOrderList = paymentService.cancelMyOrder(loginUser);
 //		
-		
-		return "redirect:myPage/myPageOrderList.me";
-	}
-	
-
-	
+//		
+//		return "redirect:myPage/myPageOrderList.me";
+//	}
+//	
+//
+//	
 	
 //일주일 
 //		private String getCurrentDate() {

@@ -1,11 +1,31 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+    <link rel="icon" href="img/Fevicon.png" type="image/png">
+    <link rel="stylesheet" href="resources/vendors/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="resources/vendors/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="resources/vendors/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="resources/vendors/linericon/style.css">
+    <link rel="stylesheet" href="resources/vendors/owl-carousel/owl.theme.default.min.css">
+    <link rel="stylesheet" href="resources/vendors/owl-carousel/owl.carousel.min.css">
+  
+     <!-- 제이쿼리피커  -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
+ 
+    <link rel="stylesheet" href="resources/css/style.css">
+    
 </head>
 <body>
 
@@ -118,67 +138,34 @@
 
                         <tbody style="text-align: center;">
                       
-                         
-                         <c:forEach var="item" items="${myOrderListDetail }">
+           		  <c:forEach var="item" items="${myOrderListDetail }">
                          	
                         <tr>                            
                         	<td><p><c:out value="${item.paymentDetailNo}"/></p></td>  
                         	
-                        	<td><c:out value="${item.bookTitle}"/></td>               
+                        	<td><c:out value="${item.bookImg}"/><c:out value="${item.bookTitle}"/></td>               
                   	     	<td><c:out value="${item.quantity}"/>개</td>   
                   	     	<td><c:out value="${item.bookPrice}"/></td>               
                   	     	<td><c:out value="${item.deliveryStatus}"/></td>   
                         </tr>
                             
-                         </c:forEach>
+                  </c:forEach> 
                          
+                   
                         </tbody>
                       </table>
                     </div>
                 </div>
              </div> 
         
-            <!-- 페이징 바  -->
-
-						<!-- <li class="page-item">
-                        <a href="#" class="page-link" aria-label="Previous">
-                            <span aria-hidden="true">
-                                <span class="lnr lnr-chevron-left"></span>
-                            </span>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a href="#" class="page-link">01</a>
-                    </li>
-                    <li class="page-item active">
-                        <a href="#" class="page-link">02</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="#" class="page-link">03</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="#" class="page-link">04</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="#" class="page-link">09</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="#" class="page-link" aria-label="Next">
-                            <span aria-hidden="true">
-                                <span class="lnr lnr-chevron-right"></span>
-                            </span>
-                        </a>
-                    </li>  -->
-                    
-                    
-             
+          
    		</div>
    		
             </div>
           </div>
        
       </section>
-      
+      <jsp:include page="../common/footer.jsp" />
 
 </body>
 </html>
