@@ -41,7 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- payment list 페이징  -->
-	<select id="selectListCount" resultType="_int">
+	<select id="selectListCount"  resultType="_int">
 		SELECT COUNT(*) FROM PAYMENT
 		WHERE USER_ID =#{user_Id}
 		
@@ -51,7 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectMyOrderListDetail" resultMap="paymentDetailResultSet" parameterType="_int">
 		SELECT * FROM PAYMENTDETAIL
 		WHERE PAYMENTNO=#{paymentNo}
-		ORDER BY DELIVERYDATE DESC
+		ORDER BY DELIVERYDATE DESC 
 	</select>
 	
 	
