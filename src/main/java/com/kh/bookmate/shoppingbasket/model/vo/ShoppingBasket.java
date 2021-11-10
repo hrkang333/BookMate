@@ -1,11 +1,15 @@
 package com.kh.bookmate.shoppingbasket.model.vo;
 
+import java.util.List;
+
 public class ShoppingBasket {
 	
 	private int basketNo;
 	private String bookISBN;
 	private String user_Id;
 	private int quantity;
+	
+	private List<ShoppingBasket> basketList;
 	
 	public ShoppingBasket() {
 		super();
@@ -57,6 +61,15 @@ public class ShoppingBasket {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
+	}
+
+	
+	public List<ShoppingBasket> getBasketList() {
+		return basketList;
+	}
+
+	public void setBasketList(List<ShoppingBasket> basketList) {
+		this.basketList = basketList;
 	}
 
 	@Override

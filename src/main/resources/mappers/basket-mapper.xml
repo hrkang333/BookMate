@@ -4,6 +4,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="basketMapper">
 
+<insert id="insertBasket" parameterType="ShoppingBasket">
+INSERT INTO SHOPPINGBASKET VALUES(SHOPPINGBASKET_SEQ.NEXTVAL,#{bookISBN},#{user_Id},#{quantity})
+</insert>
 
+<select id="selectCartList" resultType="ShoppingBasket">
+SELECT * FROM SHOPPINGBASKET WHERE USER_ID = #{user_Id}
+</select>
+<select id="selectBookList" parameterType="list" resultType="Book">
+SELECT * FROM BOOK WHERE BOOKISBN IN
+<foreach collection="list" item="ShoppingBasket" open="(" separator="," close=")">
+#{ShoppingBasket.bookISBN}
+</foreach>
+
+</select>
 
 </mapper>
