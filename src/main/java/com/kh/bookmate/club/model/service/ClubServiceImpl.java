@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import com.kh.bookmate.club.model.dao.ClubDao;
 import com.kh.bookmate.club.model.vo.Club;
 import com.kh.bookmate.club.model.vo.ClubAttachment;
-import com.kh.bookmate.club.model.vo.ClubTime;
+import com.kh.bookmate.clubApply.model.vo.ClubApply;
 import com.kh.bookmate.common.PageInfo;
 
 @Service
@@ -148,8 +148,8 @@ public class ClubServiceImpl implements ClubService {
 	//update 스텝1 --> c:update, ca:update
 	@Override
 	public void updateStep1_1(Club c, ClubAttachment ca) {
-		int result = clubDao.updateStep1(sqlSession, c);
-		int result2 = clubDao.updateStep1_2(sqlSession, ca);
+		int result = clubDao.updateStep1(sqlSession, c);  //update
+		int result2 = clubDao.updateStep1_2(sqlSession, ca);  //update
 		
 		if(result < 0 || result2 < 0) {
 			//오류처리
@@ -171,6 +171,36 @@ public class ClubServiceImpl implements ClubService {
 			//오류처리
 		}
 		
+	}
+
+	@Override
+	public void updateStep2_1(Club c, ClubAttachment ca) {
+		int result = clubDao.saveStep2(sqlSession, c);  //update
+		int result2 = clubDao.updateStep1_2(sqlSession, ca); //update
+		
+		if(result < 0 || result2 < 0) {
+			//오류처리
+		}
+	}
+
+	@Override
+	public void updateStep3_1(Club c, ClubAttachment ca, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateStep3_2(Club c, ClubAttachment ca, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Integer> selectApplyList(List<Integer> ctList) {
+		
+		ArrayList<Integer> applyList = clubDao.selectApplyList(sqlSession,ctList);
+		
+		return applyList;
 	}
 
 	

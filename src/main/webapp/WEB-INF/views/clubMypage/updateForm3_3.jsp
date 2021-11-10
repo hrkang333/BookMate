@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,21 +34,46 @@
         .my-input {
             display: inline-block;
             width: 20%;
-            margin-right: 20px;
+            margin-right: 15px;
         }
         
-        .my-input1 {
-            display: inline-block;
-            width: 54%;
+        .history_total {
+            display: flex;
+        }
+        
+        .history_total li.s {
+            width: 30%;
+            padding-right: 20px;
+            /* flex: 2; */
+        }
+        
+        .history_total li.w {
+            width: 20%;
+            padding-right: 20px;
+            position: relative;
+            /* flex: 5; */
+        }
+        
+        .history_total li.d {
+            width: 10%;
+            text-align: center;
+            position: relative;
+            /* flex: 1; */
+        }
+        
+        .history_total li img {
+            width: 40%;
+            position: absolute;
+            top: 4px;
+            left: 5px;
         }
     </style>
 </head>
 
 <body style="width:1200px; margin:auto">
+    <jsp:include page="../club/clubMenubar.jsp"/>
 
-	<jsp:include page="../club/clubMenubar.jsp"/>
-   
-    <!--================ step2 독서모임 정보 입력창 =================-->
+    <!--================ step3 독서모임 정보 입력창 =================-->
     <section class="checkout_area section-margin--small">
         <div class="container">
             <div class="billing_details">
@@ -58,47 +82,158 @@
                         <h3 style="font-size: 30px; ">독서모임 개설 신청서</h3>
                     </div>
                     <div class="col-lg-12">
-	
-                        <form id="club2Form" class="row contact_form" action="updateClub2.cl" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="clubNo" value="${club.clubNo}">
+
+                        <form id="club3Form" class="row contact_form" action="updateClub3.cl" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="clubNo" value="${club.clubNo}"/>
                             <div class="col-md-3 applicate_guide">
-                                독서모임 테마*
+                                온라인/오프라인*
                             </div>
                             <div class="col-md-9 form-group p_star">
-                                <select class="theme_select" name="category">
-                                    <option value="인문/과학/심리" <c:if test="${club.category eq '인문/과학/심리'}">selected</c:if> >인문/과학/심리</option>
-                                    <option value="문학/에세이" <c:if test="${club.category eq '문학/에세이'}">selected</c:if>>문학/에세이</option>
-                                    <option value="예술/음악" <c:if test="${club.category eq '예술/음악'}">selected</c:if> >예술/음악</option>
-                                    <option value="경영/경제/마케팅" <c:if test="${club.category eq '경영/경제/마케팅'}">selected</c:if> >경영/경제/마케팅</option>
-                                    <option value="글쓰기" <c:if test="${club.category eq '글쓰기'}">selected</c:if> >글쓰기</option>
-                                    <option value="강연" <c:if test="${club.category eq '강연'}">selected</c:if> >강연</option>
-                                </select>
+                                <label style="margin-right: 110px;">
+                                    <input class="must" type="radio" name="onoffLine" value="온라인"  <c:if test="${club.onoffLine eq '온라인'}">checked</c:if>  >온라인
+                                </label>
+                                <label>
+                                    <input class="must" type="radio" name="onoffLine" value="오프라인" <c:if test="${club.onoffLine eq '오프라인'}">checked</c:if>  >오프라인
+                                </label>
                             </div>
 
                             <div class="col-md-3 applicate_guide">
-                                독서모임 제목*
+                                모임 횟수*
+                            </div>
+                            <div class="col-md-9 form-group p_star">
+                                <label style="margin-right: 80px;">
+                                    <input type="radio" class="must" name="times" value="한 번 만나요" <c:if test="${club.times eq '한 번 만나요'}">checked</c:if> >한 번 만나요
+                                </label>
+                                <label>
+                                    <input type="radio" class="must" name="times" value="여러 번 만나요" <c:if test="${club.times eq '여러 번 만나요'}">checked</c:if> >여러 번 만나요
+                                </label>
+                            </div>
+
+                            <div class="col-md-3 applicate_guide ">
+                                모임 날짜*
+                            </div>
+                            <div class="col-md-9 form-group" id="dates">
+                            <c:set var="leng" value="${fn:length(club.clubTimes)}"/>
+                            	<c:choose>
+	                            		<c:when test="${leng eq 0}">
+	                            			<ul class="history_total">
+		                                    <li class="s">
+		                                        <input type="date" class="form-control must always" id="date" name="newClubDate" value="${ct.clubDate}" required>
+		                                    </li>
+		                                    <li class="w">
+		                                        <input type="text" class="form-control must always" id="startTime" name="startTime" value="${ct.startTime}" required>
+		                                    </li>
+		                                    <li class="w">
+		                                        <input type="text" class="form-control must always" id="endTime" name="endTime" value="${ct.endTime}" required>
+		                                    </li>
+		                                    <li class="d">
+		                                        <img src="resources/img/delete.png" onclick="delHistory(this)">
+		                                    </li>
+		                                </ul>
+	                            		</c:when>
+                            			<c:otherwise>
+                            				<c:forEach items="${club.clubTimes}" var="ct">
+				                                <ul class="history_total">
+				                                    <li class="s">
+				                                        <input type="date" class="form-control must" id="date" name="newClubDate" value="${ct.clubDate}">
+				                                    </li>
+				                                    <li class="w">
+				                                        <input type="text" class="form-control must" id="startTime" name="startTime" value="${ct.startTime}">
+				                                    </li>
+				                                    <li class="w">
+				                                        <input type="text" class="form-control must" id="endTime" name="endTime" value="${ct.endTime}">
+				                                    </li>
+				                                    <li class="d">
+				                                        <img src="resources/img/delete.png" onclick="delHistory(this)">
+				                                    </li>
+				                                </ul>
+			                                </c:forEach>
+                            			</c:otherwise>
+                            	</c:choose>
+
+                            	
+                            </div>
+                            <div class="col-md-3 form-group p_star "></div>
+                            <div class="col-md-9 form-group p_star ">
+                                <button type="button" class="button button-login check_button" onclick="addHistory()">추가하기</button>
+                            </div>
+
+                            <script>
+                                //호스트 이력 갯수 정하기 위해서 전역변수 cnt, maxField 선언
+                                var cnt = 1;
+                                var maxField = 15;
+                                var add = '<ul class="history_total"><li class="s"><input type="date" class="form-control must always" id="date" name="newClubDate"></li><li class="w"><input type="text " class="form-control must always" id="startTime" name="startTime"></li><li class="w"><input type="text " class="form-control must always" id="endTime" name="endTime"></li><li class="d"><img src="img/delete.png " onclick="delHistory(this)"></li></ul>'
+
+                                //호스트 이력 추가하기 버튼
+                                function addHistory() {
+                                    cnt++;
+
+                                    if (cnt <= maxField) {
+                                        $("#dates").append(add)
+                                        console.log(cnt + "개")
+
+                                    } else {
+                                        alert("호스트 이력은 최대 15개까지 입력가능합니다.")
+                                    }
+                                }
+
+                                //호스트 이력 삭제하기 버튼 
+                                //$(this).parent().remove() 는 안된다.
+                                function delHistory(obj) {
+                                    if (cnt > 1) {
+                                        cnt--;
+                                        $(obj).parent().parent().remove();
+                                    } else {
+                                        //전체 input 창 값 비게해주기
+                                    }
+                                }
+                            </script>
+
+                            <div class="col-md-3 applicate_guide ">
+                                모임 기간*
+                            </div>
+                            <div class="col-md-9 form-group ">
+                                <label class="my-input">모집 시작</label>
+                                <label class="my-input">모집 종료</label> <br>
+                                <input type="date" class="form-control my-input must always" id="startDate" name="clubStartDate" value="${club.clubStartDate}" required>
+                                <input type="date" class="form-control my-input must always" id="endDate " name="clubEndDate" value="${club.clubEndDate}" required>
+                            </div>
+
+
+
+                            <div class="col-md-3 applicate_guide">
+                                모임 책 제목*
                             </div>
                             <div class="col-md-6 form-group p_star">
-                                <input type="text" class="form-control must" name="clubTitle" value="${club.clubTitle}" required>
+                                <input type="text" class="form-control must" name="bkName" value="${club.bkName}">
                             </div>
                             <div class="col-md-3 form-group p_star"> </div>
 
                             <div class="col-md-3 applicate_guide">
-                                모임 소개*
+                                모임 책 저자*
                             </div>
-                            <div class="col-md-9 form-group">
-                                <textarea class="form-control must" name="intro" rows="1" placeholder="독서모임에 참여할 멤버들에게 comment를 남겨주세요!" style="margin-top: 0px;">${club.intro}</textarea>
+                            <div class="col-md-6 form-group p_star">
+                                <input type="text" class="form-control must" name="bkWriter" value="${club.bkWriter}">
                             </div>
+                            <div class="col-md-3 form-group p_star"> </div>
 
                             <div class="col-md-3 applicate_guide">
-                                커버 사진*
+                                모임 책 출판사*
+                            </div>
+                            <div class="col-md-6 form-group p_star">
+                                <input type="text" class="form-control must" name="bkPublisher" value="${club.bkPublisher}">
+                            </div>
+                            <div class="col-md-3 form-group p_star"> </div>
+
+                            <div class="col-md-3 applicate_guide">
+                                모임 책 사진*
                             </div>
                             <div class="col-md-9 form-group p_star">
-                                <input type="file" id="coverPhoto" name="coverPhoto" class="must" style="margin-bottom: 5px;" onchange="imgCheck(this,'coverPhoto')"> <br>
+                                <input type="file" class="must" name="bookPhoto">
                             </div>
                             
                             <div class="col-md-3 applicate_guide">
-                 <label for="coverPhoto">프로필 사진 미리보기</label>
+                                <label for="hostPhoto">책 사진 미리보기</label>
                             </div>
                             
                             <div class="col-md-9 form-group p_star">
@@ -108,96 +243,77 @@
                             	
                             	<!-- 1.호스트 사진 저장된 경우 -->
                                 <c:forEach items="${club.clubAttachments}" var="at">
-                                	<c:if test="${at.fileType eq 2}">
+                                	<c:if test="${at.fileType eq 3}">
                                 		현재 업로드된 파일 : ${at.originalName}
 	                                	<input type="hidden" name="old_changeName" id="old_changeName" value="${ at.changeName }">
 	                                	
 		                            	<br>
-	                            		<img alt="" src="${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${at.changeName}" id="precoverPhoto" style="width:260px; height:300px;" >
+	                            		<img alt="" src="${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${at.changeName}" id="prebookPhoto" style="width:260px; height:300px;" >
                                 	
                                 		<c:set var="s" value="${s+1}"/>
                                 	</c:if>
                                 </c:forEach>
                                 
-                                <!-- 2.호스트 사진 저장안되어있을 경우 -->
+                                <!-- 2.책 사진 저장안되어있을 경우 -->
                                 <c:if test="${s == 0}">
-                                	<img alt="" src="" id="precoverPhoto">
+                                	<img alt="" src="" id="prebookPhoto">
                                 </c:if>
                                                                
                             </div>
 
-                            <div class="col-md-3 applicate_guide">
-                                우리 모임에서 할 활동들*
-                            </div>
-                            <div class="col-md-9 form-group">
-                                <textarea class="form-control" name="activity" rows="1" placeholder="독서모임에 참여할 멤버들에게 comment를 남겨주세요!" style="margin-top: 0px;">${club.activity}</textarea>
-                            </div>
-
-                            <div class="col-md-3 applicate_guide">
-                                이런 멤버들을 만나고 싶어요*
-                            </div>
-                            <div class="col-md-9 form-group">
-                                <textarea class="form-control must" name="want" rows="1" placeholder="독서모임에 참여할 멤버들에게 comment를 남겨주세요!" style="margin-top: 0px;">${club.want}</textarea>
-                            </div>
-
-                            <div class="col-md-3 applicate_guide">
-                                이런 멤버는 만나고 싶지 않아요*
-                            </div>
-                            <div class="col-md-9 form-group">
-                                <textarea class="form-control must" name="notwant" rows="1" placeholder="독서모임에 참여할 멤버들에게 comment를 남겨주세요!" style="margin-top: 0px;">${club.notwant}</textarea>
-                            </div>
-
-                            <div class="col-md-3 applicate_guide">
-                                독서모임 정원*
-                            </div>
-                            <div class="col-md-9 form-group p_star">
-                                <input type="text" class="form-control must" name="capacity" style="width: 200px;" placeholder="3명 ~ 20명까지 가능합니다" value="${club.clubCapacity}">
-                            </div>
-
                             <div class="col-md-12 " style="text-align: center; ">
-                                <button class="button button-login ">이전 단계로</button>
-                                <button class="button button-login" onclick="saveStep2()">저장하기</button> 
-                                <button class="button button-login" onclick="goStep3()">저장 후 다음 단계로!</button> 
+                                <button class="button button-login">이전 단계로</button>
+                                <button class="button button-login" onclick="saveStep3()">저장하기</button> 
+                                <button class="button button-login" onclick="goStepFinal()">개설신청하기</button>
                             </div>
                             
-                            <script>
-	                          //2. 저장하기
-	                            function saveStep2(){
-	                            	if($('#club2Form').find('input[name="clubTitle"]').val()){
-	                            		$('#club2Form').submit();
-	                            	}else{
-	                            		alert("독서모임 제목은 입력해주세요~")
-	                            	}
-	                            }
-	                            
-	                            //저장후 3단계로 넘어가기
-	                            function goStep3(){
-	                            	var is_empty = false;
+							<script>
+                            	//2. 저장하기
+	                            function saveStep3(){
+									var is_empty = false;
 	                            	
-	                            	$('#club2Form').find('.must').each(function(){
+	                            	$('#club3Form').find('.always').each(function(){
 	                            		if(!$(this).val()){
 	                            			console.log($(this))
 	                            			is_empty = true;
 	                            		}
 	                            	})
-	
-	                            	
+
 	                            	//javascript에서는 빈값 그리고 null값을 NOT 연산자로 처리한다.
 	                            	if(is_empty){
 	                            		alert("모든 필수 입력창을 입력해주세요");
-	                            		$('#club2Form').attr('action','javascript://')  //submit 막기
+	                            		$('#club3Form').attr('action','javascript://')  //submit 막기
 	                            	}else{
-	                            		$('#club2Form').attr('action','updateClubNext2.cl').submit();
+	                            		$('#club3Form').submit();
 	                            	}
 	                            }
-                            
+	                            
+	                            //저장후 3단계로 넘어가기
+	                            function goStepFinal(){
+	                            	var is_empty = false;
+	                            	
+	                            	$('#club3Form').find('.must').each(function(){
+	                            		if(!$(this).val()){
+	                            			console.log($(this))
+	                            			is_empty = true;
+	                            		}
+	                            	})
+
+	                            	//javascript에서는 빈값 그리고 null값을 NOT 연산자로 처리한다.
+	                            	if(is_empty){
+	                            		alert("모든 필수 입력창을 입력해주세요");
+	                            		$('#club3Form').attr('action','javascript://')  //submit 막기
+	                            	}else{
+	                            		$('#club3Form').attr('action','updateClubNext3.cl').submit();
+	                            	}
+	                            }
+	                            
 	                            $(function(){
-	                            	//요소가 있는지 확인하고 val()값 뽑아야 한다.
 	                            	if(document.getElementById("old_changeName")){
 	                            		var old = document.getElementById("old_changeName").value;
 		                        		
 		                        		if(old != ""){
-		                        			$("#coverPhoto").attr('class','notMust');
+		                        			$("#bookPhoto").attr('class','notMust');
 		                        		}
 	                            	}
 	                        		
@@ -221,7 +337,7 @@
                                 		imgFile.onload = function(e) {
                                 			const previewMainImage = document.getElementById("pre"+inputId);
                                 			previewMainImage.src = e.target.result
-                                			if(inputId=='coverPhoto'){
+                                			if(inputId=='bookPhoto'){
                                 				$('#pre'+inputId).css({"width":"200px","height":"300px"})
                                 			}			
                                 		}		   
@@ -235,7 +351,7 @@
             </div>
         </div>
     </section>
-    <!--================End step2 독서모임 정보 입력창 =================-->
+    <!--================End step3 독서모임 정보 입력창 =================-->
 
 
 

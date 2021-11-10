@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.bookmate.club.model.vo.Club;
 import com.kh.bookmate.club.model.vo.ClubAttachment;
 import com.kh.bookmate.club.model.vo.ClubTime;
+import com.kh.bookmate.clubApply.model.vo.ClubApply;
 import com.kh.bookmate.common.PageInfo;
 
 @Repository
@@ -177,7 +178,12 @@ public class ClubDao {
 
 	public int updateInsertAttach(SqlSessionTemplate sqlSession, ClubAttachment ca) {
 		// TODO Auto-generated method stub
-		return sqlSession.update("clubMapper.updateInsert_attach", ca);
+		return sqlSession.update("clubMapper.saveStep2_2", ca);
+	}
+
+	public ArrayList<Integer> selectApplyList(SqlSessionTemplate sqlSession, List<Integer> ctList) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("clubMapper.selectApplyList", ctList);
 	}
 
 }
