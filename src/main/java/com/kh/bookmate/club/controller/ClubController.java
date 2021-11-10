@@ -1,7 +1,7 @@
 /* 파일 설명 : 컨트롤러(독서모임-개설신청,수정,삭제)
  * 담당자  : 황서연
- * 수정날짜 : 2021.11.07
- * 수정사항 : 독서모임 상세페이지 db연동 거의 완료
+ * 수정날짜 : 2021.11.10
+ * 수정사항 : 독서모임 수정3 - date[]에서 arrayindex오류난다. 고쳐줘야함
  * 수정필요사항 : loginUser 세션에 넣어줘야 함 (V)
  * 			  step2에서 정원 typemismatch 오류남 default=0으로해야겠다.(V)
  * 			  message로 상황 알려줘야 함
@@ -41,6 +41,7 @@ import com.kh.bookmate.club.model.service.ClubService;
 import com.kh.bookmate.club.model.vo.Club;
 import com.kh.bookmate.club.model.vo.ClubAttachment;
 import com.kh.bookmate.club.model.vo.ClubTime;
+import com.kh.bookmate.clubApply.model.vo.ClubApply;
 import com.kh.bookmate.common.PageInfo;
 import com.kh.bookmate.common.Pagination;
 import com.kh.bookmate.user.model.vo.User;
@@ -311,7 +312,7 @@ public class ClubController {
 		return "clubMypage/updateForm3_1";
 	}
 	
-	//6.5 마이페이지3_1 수정
+	//6.5 마이페이지3 - 독서모임 수정1
 	@RequestMapping(value={"updateClub1.cl", "updateClubNext1.cl"}) 
 	public String updateClub3_1(HttpServletRequest request, @ModelAttribute Club c, Model model,
 							@RequestParam(name="old_changeName", required=false, defaultValue="없음") String old_changeName,
@@ -368,10 +369,131 @@ public class ClubController {
 		}
 	}
 	
+	//6.6 마이페이지3 - 독서모임 수정2
+	@RequestMapping(value={"updateClub2.cl", "updateClubNext2.cl"})
+	public String updateClub3_2(HttpServletRequest request, @ModelAttribute Club c, Model model,
+								@RequestParam(name="old_changeName", required=false, defaultValue="없음") String old_changeName,
+								@RequestParam(name="coverPhoto", required=false) MultipartFile file,
+								@RequestParam(name = "capacity", required = false, defaultValue = "0") int capacity){
+		
+		c.setClubCapacity(capacity);
+		/* 파일첨부 확인
+		 * 1. 파일첨부 새로 한 경우
+		 *   0)club테이블 update
+		 *   1_1)club_attachment테이블 - 기존파일 첨부되어있는 경우 : update
+		 *   1_2)club_attachment테이블 - 기존파일 첨부 X 되어있는 경우 : insert
+		 * 2. 파일첨부 새로 하지 않은 경우 
+		 *   0)club테이블 update
+		 * */
+		ClubAttachment ca = null;
+		int imageType = 2;
+
+		if(!file.getOriginalFilename().equals("")) {  
+			
+			ca = preSaveFile(ca, file, request, imageType);
+			ca.setClubNo(c.getClubNo());
+			
+			if(!old_changeName.equals("없음")) { 
+
+				deleteFile(old_changeName, request);
+				
+				//UPDATE
+				clubService.updateStep2_1(c, ca);  //c:update, ca:update	
+			}else {
+				//INSERT
+				clubService.saveStep2(c,ca);  //c:update, ca:insert
+			}
+		}else {
+			ca = preSaveFile(ca, file, request, imageType);
+			clubService.saveStep2(c,ca);  //c:update (impl에서 ca null처리해줌)
+		}
+
+		//업데이트 후 club 다시 조회해와서 저장하고 화면 넘어가기
+		Club club = clubService.selectClub(c.getClubNo());
+		model.addAttribute("club", club);
+		
+		//다중 매핑 (11.09) 후 url 판별하여 분기처리
+		if(request.getServletPath().equals("/updateClub2.cl")) {
+			return "redirect:mypage3.cl";
+		}else {
+			return "clubMypage/updateForm3_3";
+		}
+	}
+	
+	
+	//6.7 마이페이지3 - 독서모임 수정3
+	@RequestMapping(value={"updateClub3.cl", "updateClubNext3.cl"})
+	public String updateClub3_3(HttpServletRequest request, @ModelAttribute Club c, @ModelAttribute ClubTime ct,
+								@RequestParam(name="old_changeName", required=false, defaultValue="없음") String old_changeName,
+								@RequestParam(name="bookPhoto", required=false) MultipartFile file,
+								@RequestParam(name="newClubDate", required=false) String[] newClubDate) {
+		
+		//clubTime객체에 넣을 clubDate, startTime, endTime필드 준비
+		java.sql.Date[] nDates = new java.sql.Date[newClubDate.length];
+		for(int i=0; i<newClubDate.length; i++) {
+			nDates[i] = java.sql.Date.valueOf(newClubDate[i]);
+		}
+		
+		System.out.println("수정3 - clubDate길이 : " + newClubDate.length);
+		
+		String[] startTimes = ct.getStartTime().split(",");
+		String[] endTimes = ct.getEndTime().split(",");
+		
+		System.out.println("수정3 - startTimes길이 : " + startTimes.length);
+		System.out.println("수정3 - endTimes길이 : " + endTimes.length);
+				
+		List<ClubTime> list = new ArrayList<ClubTime>();
+		
+		//clubTime 객체에 값들 set하고 list에 add하기 -> mapper에서 foreach로 insert하기
+		for(int i=0; i<startTimes.length; i++) {
+			ClubTime inputCt = new ClubTime();
+			inputCt.setClubNo(c.getClubNo());
+			inputCt.setClubDate(nDates[i]);
+			inputCt.setStartTime(startTimes[i]);
+			inputCt.setEndTime(endTimes[i]);
+			
+			list.add(inputCt);
+		}
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+
+		//사진 준비
+		ClubAttachment ca = null;
+		int imageType = 3;
+
+		//condition 은 update시키면 안된다!
+		if(!file.getOriginalFilename().equals("")) {  
+			
+			ca = preSaveFile(ca, file, request, imageType);
+			ca.setClubNo(c.getClubNo());
+			
+			if(!old_changeName.equals("없음")) { 
+
+				deleteFile(old_changeName, request);
+				
+				//UPDATE
+				clubService.updateStep3_1(c,ca,map);  //c:update, ca:update	map:insert
+			}else {
+				//INSERT
+				clubService.updateStep3_2(c,ca,map);  //c:update, ca:insert map:insert
+			}
+		}else {
+			ca = preSaveFile(ca, file, request, imageType);
+			clubService.updateStep3_2(c,ca,map);  //c:update (impl에서 ca null처리해줌)
+		}
+
+
+		return "redirect:mypage3.cl";
+	}
+
+
 	
 	
 	
 	
+	
+
 	//7.메인페이지
 	@RequestMapping("clubMain.cl")
 	public String clubMain(Model model) {

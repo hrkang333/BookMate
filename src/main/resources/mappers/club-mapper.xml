@@ -44,6 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<result column="CLUB_DATE" property="clubDate" jdbcType="DATE" />
 			<result column="START_TIME" property="startTime" jdbcType="VARCHAR" />
 			<result column="END_TIME" property="endTime" jdbcType="VARCHAR" />
+			<result column="APPLY_COUNT" property="apply_count" jdbcType="INTEGER" />
 		</collection>
 		
 		<collection property="clubAttachments" ofType="com.kh.bookmate.club.model.vo.ClubAttachment">
@@ -73,6 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="START_TIME" property="startTime"/>
 		<result column="END_TIME" property="endTime"/>
 		<result column="STATUS" property="status"/>
+		<result column="APPLY_COUNT" property="apply_count"></result>
 	</resultMap>
 
 
@@ -110,6 +112,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO CLUB_ATTACHMENT
 		VALUES(SEQ_CANO.NEXTVAL, #{clubNo}, #{originalName}, #{changeName}, #{fileType})
 	</insert>
+	
 	
 	<update id="saveStep3_1" parameterType="Club">
 		UPDATE CLUB
@@ -245,7 +248,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 디테일페이지 조회 -->
 	<select id="selectClub" parameterType="java.util.Map" resultMap="clubResultSet">
-		SELECT A.*, B.CLUB_TIME_NO, B.REF_CLUB_NO, B.CLUB_DATE, B.START_TIME, B.END_TIME, C.REF_CLUB_NO, C.ORIGINAL_NAME, C.CHANGE_NAME, C.FILE_TYPE
+		SELECT A.*, B.*, C.REF_CLUB_NO, C.ORIGINAL_NAME, C.CHANGE_NAME, C.FILE_TYPE
 		FROM CLUB A
 		LEFT JOIN CLUB_TIME B
 		ON A.CLUB_NO = B.REF_CLUB_NO
@@ -271,11 +274,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			CHANGE_NAME=#{changeName}
 		WHERE REF_CLUB_NO=#{clubNo} AND FILE_TYPE=#{fileType}
 	</update>
+
 	
-	<!-- 독서모임 사진 수정_insert -->
-	<insert id="updateInsert_attach" parameterType="ClubAttachment">
-		INSERT INTO CLUB_ATTACHMENT
-		VALUES(SEQ_CANO.NEXTVAL, #{clubNo}, #{originalName}, #{changeName}, #{fileType})
-	</insert>
+	<!-- <select id="selectApplyList" resultType="com.kh.bookmate.clubApply.model.vo.ClubApply">
+		SELECT COUNT(*)
+		FROM CLUB_APPLY
+		WHERE REF_TIME_NO IN
+		<foreach item="item" collection="list" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+		ORDER BY REF_TIME_NO DESC
+	</select> -->
 	
 </mapper>

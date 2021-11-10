@@ -141,9 +141,10 @@
                                 <input type="file" id="hostPhoto" name="hostPhoto" class="must" onchange="imgCheck(this,'hostPhoto')"> <br><br>
                             </div>
                             
-                             <div class="col-md-3 applicate_guide">
+                            <div class="col-md-3 applicate_guide">
                                 <label for="hostPhoto">프로필 사진 미리보기</label>
                             </div>
+                            
                             <div class="col-md-9 form-group p_star">
                             
                             	<!-- 0.호스트 사진 저장되었는지 확인하는 용도의 변수 -->
@@ -212,14 +213,15 @@
 
                             <script>
                             	$(function(){
-                            		var old = document.getElementById("old_changeName").value;
-                            		console.log("안되니?"+old);
-                            		console.log(!old)
-                            		
-                            		if(old != ""){
-                            			console.log("빈값아님");
-                            			$("#hostPhoto").attr('class','notMust');
+                            		if(document.getElementById("old_changeName")){
+                            			var old = document.getElementById("old_changeName").value;
+                                		
+                                		if(old != ""){
+                                			console.log("빈값아님");
+                                			$("#hostPhoto").attr('class','notMust');
+                                		}
                             		}
+                            		
                             	});
                             
                                 //호스트 이력 갯수 정하기 위해서 전역변수 cnt, maxField 선언

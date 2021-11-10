@@ -1,6 +1,4 @@
-package com.kh.bookmate.club.model.vo;
-
-import java.sql.Date;
+package com.kh.bookmate.clubApply.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,14 +11,13 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ClubTime {
+public class ClubApply {
+
+	private int applyNo;
 	private int timeNo;
-	private int clubNo;
-	//private String clubDate;
-	private Date clubDate;
-	private String startTime;
-	private String endTime;
+	private String userId;
+	private String applyCancle;
+	private String applyAccept;
+	private String applyParti;
 	private String status;
-	//apply수정
-	private int apply_count;
 }
