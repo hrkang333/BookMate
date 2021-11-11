@@ -109,10 +109,11 @@
                 </div>
                 <div class="col-lg-6 offset-lg-1">
                     <div class="s_product_text total" style="margin-top:0px">
+                    	<input type="hidden" id="clubNo" value="${club.clubNo}">
                         <h3 style="font-size: 37px;">${club.clubTitle}</h3>
                         <h2 style="font-size: 17px;">#${club.category} &nbsp; #${club.onoffLine} &nbsp; #${club.times} </h2>
 
-						<c:forEach var="ct" items="${club.clubTimes}">
+						<c:forEach var="ct" items="${club.clubTimes}" varStatus="status">
 							<div class="times">
                             <div class="left">
                                 <p class="time">
@@ -126,21 +127,20 @@
                                     <span>${ct.startTime} ~ ${ct.endTime}</span>
                                 </p>
                                 <p class="apply" style="display:flex">
-                                    <span style="margin-left: auto;">신청 ${ct.apply_count} / 정원 ${club.clubCapacity}</span>
+                                    <span style="margin-left: auto;">신청 <span id="applyCount${status.index}">${ct.apply_count}</span> / 정원 <span id="clubCapacity${status.index}">${club.clubCapacity}</span></span>
                                 </p>
                             </div>
                             <div class="right">
                             	<c:if test="${club.times eq '한 번 만나요'}">
-                            		<input type="checkbox" class="applys" value="${ct.timeNo}">
+                            		<input type="checkbox" class="applys" id="checkbox${status.index}" name="applys" value="${ct.timeNo}">
                             	</c:if>
                             	<c:if test="${club.times eq '여러 번 만나요'}">
-                            		<input type="hidden" class="applys" value="${ct.timeNo}">
+                            		<input type="hidden" class="applys" name="applys" value="${ct.timeNo}">
                             	</c:if>
                             </div>
                         </div>
 						</c:forEach>
-
-
+						
                         <div class="">
                             <button id="heartClub" class="button primary-btn">찜하기</button>
                             <button id="applyClub" class="button primary-btn">신청하기</button>
@@ -343,17 +343,109 @@
     </footer>
     
     <script>
-    	$("#applyClub").click(function(){
+    	$("#heartClub").click(function() {
+			var clubNo = $("#clubNo").val();
+			var userId = '<c:out value="${ loginUser.userId }"/>';
+			var c_host = '<c:out value="${club.userId}"/>';
+			
+			//1. 로그인 유저 확인
+    		if(userId == ''){
+    			alert("독서모임 찜기능은 로그인 후 이용 부탁드립니다")
+    			return;
+    		}
     		
+    		//1.5 로그인 유저 != 독서모임 작성자 유저
+    		if(userId == c_host){
+    			alert("독서모임 개설자는 찜할 수 없습니다.")
+    			return;
+    		}
+    		
+    		$.ajax({
+    			url:"heart.cl",
+				data:{
+					clubNo : clubNo,
+					userId : userId
+				},
+				type : "get",
+				success:function(result){
+					console.log("ajax통신성공");
+					
+					if(result == 'fail'){
+						alert("이전에 찜하기 하신 적 있는 독서모임입니다.");
+					}else{
+						alert("찜목록에 추가되었습니다. 마이페이지에서 확인가능합니다!")
+					}
+					
+				},error:function(){
+					console.log("ajax통신실패");
+				}
+    		})
+    		
+    		
+		})
+    
+    	$("#applyClub").click(function(){
+    		var chkApply = true;
+    		var indexs = [];  //한번만나요: 사용자가 체크한 status.index / 여러번만나요: 모든status.index -> 이거로 신청인원+1 해줌
+    		var times = [];   //한번만나요: 사용자가 체크한 timeNo / 여러번만나요: 모든 timeNo
+    		var c_times = '<c:out value="${club.times}"/>'; 
+    		var c_host = '<c:out value="${club.userId}"/>';
     		var userId = '<c:out value="${ loginUser.userId }"/>';
+    		
+    		//1. 로그인 유저 확인
     		if(userId == ''){
     			alert("독서모임 신청은 로그인 후 이용 부탁드립니다")
     			return;
     		}
     		
-    		var c_times = '<c:out value="${club.times}"/>';
-    		var times = [];
+    		//1.5 로그인 유저 != 독서모임 작성자 유저
+    		if(userId == c_host){
+    			alert("독서모임 개설자는 참여신청할 수 없습니다.")
+    			return;
+    		}
     		
+    		//2.신청인원 < 정원 확인
+    		//2-2.여러번 만나요일때 전체 체크
+    		if(c_times == '여러 번 만나요'){
+    			var apply = $('#applyCount0').text();
+        		var capacity = $('#clubCapacity0').text();
+        		
+        		if(apply >= capacity){
+    				chkApply = false;
+    			}else{
+    				var how = '<c:out value="${fn:length(club.clubTimes)}"/>'
+    	            console.log("how : " + how);
+    	        		
+    	        	for(var i=0; i<how; i++){
+    	        		indexs.push(i);
+    	        	}
+    	        		
+    	        	console.log("여러번 만나요 index : " + indexs)
+    			} 
+
+    		}else{
+    			//2-1.한번만나요 일때 사용자가 체크한 것만 정원 확인
+        		$("input:checkBox[class='applys']:checked").each(function(){
+        			var index = this.id.slice(-1);  //체크한 체크박스의 id에서 varStatus값만 추출
+        			var apply = $('#applyCount'+index).text();
+        			var capacity = $('#clubCapacity'+index).text();
+
+        			if(apply >= capacity){
+        				chkApply = false;
+        				return false;
+        			}else{
+        				indexs.push(index);
+            			console.log("한번만나요 index : " + indexs)
+        			}    			
+        		})
+    		}
+
+    		if(!chkApply){
+    			alert("정원을 초과하여 신청이 불가능합니다.");
+    			return;
+    		}
+    		
+			//3.참여신청 확인 메세지 yes후 진행
     		if(confirm("해당 독서모임에 참여신청하시겠습니까?")){
     			if(c_times == '여러 번 만나요'){
         			$("input[class='applys']").each(function(){
@@ -381,23 +473,31 @@
     					},
     					type : "get",
     					success:function(result){
-    						console.log("ajax 통신성공")
-    						
-    						if(result="fail"){
-    							alert("죄송합니다. 이미 신청하신 독서모임입니다.")
+    						console.log(result)
+    						if(result != "fail"){  //1.결과 fail아닐때
+    							console.log("ajax 통신성공")
+        						alert("감사합니다. 참여 신청완료되었습니다.")
+        						
+        						for(var i in indexs) {
+    								var i = indexs[i];
+    								var apply = $('#applyCount'+i).text();
+    							    
+    				    			$('#applyCount'+i).text(parseInt(apply)+1);
+    							} 
+    							
+    						}else{  //2.결과 fail일때 - 이미 신청한 모임인 경우
+    							alert("죄송합니다. 이미 신청하신 독서모임입니다.");
+    							chkApply = false;
     						}
 
     					},error:function(){
     						console.log("ajax 통신실패")
     					}
     				})
-    			}
-    		}
-    			
-    			
-    		
-    		
+    			} 
+    		}	
     	})
+
     </script>
     <!--================ End footer Area  =================-->
 

@@ -35,7 +35,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="HEND_DATE" property="hendDate"/>
 		<result column="HWHAT_TODO" property="hwhatTodo"/>
 		<result column="CATEGORY" property="category"/>
-		
+		<result column="HEART_COUNT" property="heartCount"/>
+	
 		<!-- detailClub용(11.07) -->
 		<!-- 속성들 1)property:필드명  2)ofType:필드의클래스위치   -->
 		<collection property="clubTimes" ofType="com.kh.bookmate.club.model.vo.ClubTime">

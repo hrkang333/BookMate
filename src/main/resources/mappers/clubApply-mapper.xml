@@ -5,8 +5,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="clubApplyMapper">
 
 <!-- 담당자  : 황서연
-수정일자 : 2021.11.10
-수정사항 : apply 기능 중 -->
+수정일자 : 2021.11.11
+수정사항 : wish완료, apply 기능 중 -->
 
   <resultMap id="clubApplyResultSet" type="ClubApply">
 		<id column="APPLY_NO" property="applyNo"/>
@@ -17,20 +17,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="APPLY_PARTI" property="applyParti"/>
 		<result column="STATUS" property="status"/>
   </resultMap>
-
-	<!-- 디테일페이지 조회 -->
-	<!-- <select id="selectClub" parameterType="java.util.Map" resultMap="clubResultSet">
-		SELECT A.*, B.*, C.REF_CLUB_NO, C.ORIGINAL_NAME, C.CHANGE_NAME, C.FILE_TYPE
-		FROM CLUB A
-		LEFT JOIN CLUB_TIME B
-		ON A.CLUB_NO = B.REF_CLUB_NO
-		LEFT JOIN CLUB_ATTACHMENT C
-		ON A.CLUB_NO = C.REF_CLUB_NO
-		WHERE A.STATUS='Y'
-		AND A.CLUB_NO=#{cno}
-		ORDER BY B.CLUB_DATE	
-	</select> -->
+  
+  <resultMap id="clubWishResultSet" type="ClubWish">
+  	<id column="WISH_NO" property="applyNo"/>
+	<result column="REF_TIME_NO" property="timeNo"/>
+	<result column="USER_ID" property="userId"/>
+  </resultMap>
 	
+	<!-- 1.이전에 신청한 적 있는지 판별 -->
 	<select id="checkBeforeApply" parameterType="hashmap" resultType="_int">
 		SELECT COUNT(*)
 		FROM CLUB_APPLY
@@ -41,6 +35,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</foreach>
 	</select>
 	
+	<!-- 2.신청 -->
 	<insert id="insertApply" parameterType="hashmap">
 		INSERT INTO CLUB_APPLY(APPLY_NO, USER_ID, REF_TIME_NO)
         SELECT SEQ_CAPNO.NEXTVAL, #{userId}, A.* 
@@ -52,6 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			</foreach>) A
 	</insert>
 	
+	<!-- 2-1.총 몇명 신청했는지 한 눈에 알 수 있게 여기도 넣음 -->
 	<update id="insertApplyTime">
 		update club_time
 		set APPLY_COUNT = APPLY_COUNT+1
@@ -60,6 +56,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{item}
 		</foreach>
 	</update>
-
+	
+	<!-- 3-1. 찜하기 전 이전에 찜되어있는지 확인 -->
+	<select id="selectCheckHeart" parameterType="hashmap" resultType="_int"> 
+		select count(*)
+		from club_wish
+		where ref_club_no=#{clubNo} 
+		and user_id = #{userId}
+	</select>
+	
+	<!-- 3-2. club_wish : insert -->
+	<insert id="insertHeart" parameterType="hashmap">
+		INSERT INTO CLUB_WISH(WISH_NO, REF_CLUB_NO, USER_ID)
+		VALUES(SEQ_CWNO.NEXTVAL, #{clubNo}, #{userId})
+	</insert>
+	
+	<!-- 3-3. club : heart_count +1 -->
+	<update id="updateHeartCount">
+		UPDATE CLUB 
+		SET HEART_COUNT = HEART_COUNT+1
+		WHERE CLUB_NO = #{clubNo}
+	</update>
 	
 </mapper>

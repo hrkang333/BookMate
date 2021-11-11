@@ -76,7 +76,7 @@
 		                  aria-expanded="false">마이페이지</a>
 		                <ul class="dropdown-menu">
 		                  <li class="nav-item"><a class="nav-link" href="#">독서모임 신청내역</a></li>
-		                  <li class="nav-item"><a class="nav-link" href="#">찜한 독서모임</a></li>
+		                  <li class="nav-item"><a class="nav-link" href="mypage2.cl">찜한 독서모임</a></li>
 		                  <li class="nav-item"><a class="nav-link" href="mypage3.cl">내 독서모임 관리</a></li>
 		                </ul>
 		              </li>

@@ -51,6 +51,10 @@ public interface ClubService {
 	//c:update, ca:insert	map:insert
 	void updateStep3_2(Club c, ClubAttachment ca, Map<String, Object> map);
 
-	List<Integer> selectApplyList(List<Integer> ctList);  
+	List<Integer> selectApplyList(List<Integer> ctList);
+
+	//마이페이지2
+	int selectListCount_mp2(String userId);
+	ArrayList<Club> selectList2(String userId, PageInfo pi);  
 
 }
