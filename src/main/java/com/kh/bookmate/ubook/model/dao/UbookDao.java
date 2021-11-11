@@ -44,8 +44,10 @@ public class UbookDao {
 	}
 
 	public int deleteMyUbook(SqlSession sqlSession, int ubookNo) {
+		System.out.println("dao의 결과: " + ubookNo);
 		return sqlSession.delete("ubookMapper.deleteMyUbook",ubookNo);
 	}
+	
 /*
 	public List<Ubook> ubookCateList1(SqlSession sqlSession) {
 		return sqlSession.selectList("ubookMapper.ubookCateList1");
@@ -54,6 +56,10 @@ public class UbookDao {
 	public List<Ubook> selectCategory(SqlSessionTemplate sqlSession, int ubCategory) {
 		System.out.println("dao----" + ubCategory);
 		return sqlSession.selectList("ubookMapper.selectCategory",ubCategory);
+	}
+
+	public int ubookUpdate(SqlSessionTemplate sqlSession, Ubook ubook) {
+	return sqlSession.update("ubookMapper.updateUbook", ubook);
 	}
 
 }

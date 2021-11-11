@@ -11,21 +11,52 @@
         <script>
             //선택한 독서모임 multiple 삭제하기
             function deleteUbook(ubookNo){
-              var deleteUb = confirm("등록하신 도서를 삭제하시겠습니까?");
               console.log(ubookNo);
-               if(deleteUb){
+               if(confirm("등록하신 도서를 삭제하시겠습니까?")){
                	$.ajax({
                     type : "POST",
-                    url : "ubookList.ub",
+                    url : "deleteMyUbook.ub",
                     dataType : 'json',
                     data : {ubookNo : ubookNo},
                     success : function(data) {
 						if(data > 0){
 							alert("성공적으로 삭제되었습니다.");
+							//location.reload();
+							//self.location.href=self.location;
+							var table = document.getElementById('ubookListTb');
 							
-							location.href=location.href;
+							$.ajax({
+                                type : "POST",
+                                url : "ubookList.ub",
+                                dataType : 'json',
+                                //data : 도서리스트,
+                                success : function(data) {
+                                	
+                                	//기존 tr 지우기
+                                	var trlength = $('#ubookListTb tr').length;
+                        	    	for(var t=trlength-1; t>0; t--){
+                        	    		table.deleteRow(t);
+                        	    	}
+                                	
+                                  	//데이터 뿌리기 
+                                	for(var i=0; i < data.length; i++){
+                                		$('#ubookListTb').append("<tr><td align='center'>" + (i+1) + "</td>" + "<td hidden='hidden' name='ubookNo'>"+data[i].ubookNo+"</td>" +
+                    										"<td align='center'><img src='${pageContext.servletContext.contextPath }/resources/images/Ubookimg/" + data[i].ubookImg + "' style='width: 145px; height: auto;'></td>" +
+                                							"<td align='center'><a href='ubookDetailTest.ub?ubookNo="+data[i].ubookNo+"'>" + data[i].ubookName + "</a></td>" +
+                                							"<td align='center'>" + data[i].ubookWriter + "</td>" +
+                                							"<td align='center'>" + data[i].ubookStock + "</td>" +
+                                							"<td align='center'>"+
+                                							"<button type='button' style='background-color: #5cb85c; color:#ffffff; border:none; width: 100%; margin-bottom:10px; border-radius: 0.3rem;' onclick='updateUbook()'>수정</button>"+
+                                							"<button class='btn-danger' type='button' style='border:none;width: 100%; border-radius: 0.3rem;' onclick='deleteUbook("+data[i].ubookNo+")'>삭제</button></td></tr>");
+                                 	}
+
+                                },
+                                error : function() {
+                                	alert("너는 뭔가 잘못하고 있따...");
+                                }
+                            });
 						}else{
-							console.log(data);
+							console.log(data);	//15개 전부가 나옴
 							alert("실패");
 						}
 						
@@ -65,7 +96,6 @@
 							</div> 
 						</div>-->
 						<div class="table-container">
-						<form id="myUbookListForm" action="" method="post">
 							<table class="table table-filter" id="ubookListTb">
 								<thead>
                                 <tr>
@@ -83,7 +113,6 @@
 								</tr>
 								</tbody>
 							</table>
-						</form>
 						</div>
 					</div>
 				</div>

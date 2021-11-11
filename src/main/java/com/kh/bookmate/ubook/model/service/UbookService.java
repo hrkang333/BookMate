@@ -16,6 +16,8 @@ public interface UbookService {
 	List<Ubook> selectbookList(int sellerNo);
 
 	int deleteMyUbook(int ubookNo);
+	
+	int ubookUpdate(Ubook ubook);
 
 	//List<Ubook> ubookCateList1();
 

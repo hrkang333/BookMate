@@ -70,7 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UBOOK_DETAIL=#{ubookDetail},
 		UBOOK_CONTENT=#{ubookContent},
 		UBOOK_IMG=#{ubookImg}
-		WHERE BSELLER_NO=#{bSellerNo}
+		WHERE UBOOK_NO=#{ubookNo}
 		AND UBOOK_STATUS='Y'
 	</update>
 

@@ -140,3 +140,40 @@ $(document).ready(function() {
         }
     });
 });
+
+function showModal(ubookNo) {
+	$.ajax({
+        type : "POST",
+        url : "ubookUpdateForm.ub",
+        dataType : 'json',
+        data : {ubookNo : ubookNo},
+        success : function(data) {
+        	console.log(data.ubCategory);
+        	$("input[name='ubookName']").val(data.ubookName);
+        	$("input[name='ubookWriter']").val(data.ubookWriter);
+        	$("input[name='ubookIsbn']").val(data.ubookIsbn);
+        	//$('#ubCategory').val(data.ubCategory).niceSelect('update');
+        	$("#ubCategory").val(data.ubCategory).attr("selected", true);
+        	$("input[name='ubookTrans']").val(data.ubookTrans);
+        	$("input[name='ubookPub']").val(data.ubookPub);
+        	var date = new Date(data.ubookPubDate);
+        	var year = date.getFullYear();
+        	var month = ('0' + (date.getMonth() + 1)).slice(-2);
+        	var day = ('0' + date.getDate()).slice(-2);
+        	$("input[name='ubookPubDate']").val(year+"-"+month+"-"+day);
+        	$("input[name='ubookOPrice']").val(data.ubookOPrice);
+        	$("input[name='ubookPrice']").val(data.ubookPrice);
+        	$("input[name='ubookStock']").val(data.ubookStock);
+        	$("select[name='ubookQual']").val(data.ubookQual).attr("selected", "true");//select
+        	$("textarea[name='ubookDetail']").val(data.ubookDetail);
+        	$("textarea[name='ubookContent']").val(data.ubookContent);
+        	$("input[name='ubookImg']").val(data.ubookImg);
+        	
+        	$("#exampleModal").modal('show');
+
+        },
+        error : function() {
+        	alert("너는 뭔가 잘못하고 있따...");
+        }
+    });
+}

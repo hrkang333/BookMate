@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="resources/vendors/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="resources/vendors/fontawesome/css/all.min.css">
    <link rel="stylesheet" href="resources/vendors/themify-icons/themify-icons.css">
-  <link rel="stylesheet" href="resources/vendors/nice-select/nice-select.css">
+  
   <link rel="stylesheet" href="resources/vendors/owl-carousel/owl.theme.default.min.css">
   <link rel="stylesheet" href="resources/vendors/owl-carousel/owl.carousel.min.css">
 

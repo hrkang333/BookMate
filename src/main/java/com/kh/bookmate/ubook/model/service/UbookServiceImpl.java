@@ -56,6 +56,11 @@ public class UbookServiceImpl implements UbookService {
 		return ubookDao.deleteMyUbook(sqlSession, ubookNo);
 		
 	}
+	
+	@Override
+	public int ubookUpdate(Ubook ubook) {
+		return ubookDao.ubookUpdate(sqlSession, ubook);
+	}
 /*
 	@Override
 	public List<Ubook> ubookCateList1() {
