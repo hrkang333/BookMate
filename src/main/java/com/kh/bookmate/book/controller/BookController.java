@@ -167,19 +167,5 @@ public class BookController {
 	        
 		return bestList;
 	}
-	
 
-	@RequestMapping(value = "checkISBN", produces = "application/text; charset=utf-8")
-	@ResponseBody
-	public String checkISBN(String bookISBN) {
-		
-		Book book = bookService.selectCheckISBN(bookISBN);
-		
-		if(book!=null) {
-			return book.getBookTitle();
-		}
-		
-		return "pass";
-		
-	}
 }
