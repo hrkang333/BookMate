@@ -1,6 +1,6 @@
 package com.kh.bookmate.addressBook.model.service;
 
-import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +11,10 @@ import com.kh.bookmate.addressBook.model.vo.AddressBook;
 public class AddressBookServiceImpl implements AddressBookService {
 	
 	@Autowired
-	SqlSession sqlSession;
+	private SqlSessionTemplate sqlSession;
 	
 	@Autowired
-	AddressBookDao addressBookDao;
+	private AddressBookDao addressBookDao;
 
 	@Override
 	public AddressBook selcetAddressBook(String userId) {

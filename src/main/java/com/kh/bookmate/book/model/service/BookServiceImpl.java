@@ -2,7 +2,7 @@ package com.kh.bookmate.book.model.service;
 
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +13,10 @@ import com.kh.bookmate.book.model.vo.Book;
 public class BookServiceImpl implements BookService{
 	
 	@Autowired
-	SqlSession sqlSession;
+	private SqlSessionTemplate sqlSession;
 	
 	@Autowired
-	BookDao bookDao;
+	private BookDao bookDao;
 
 	@Override
 	public Book selectBook(String bookISBN) {
