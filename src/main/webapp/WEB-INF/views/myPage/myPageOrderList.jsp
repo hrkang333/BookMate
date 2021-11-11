@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt"%>
-<%--  <c:set var="contextPath"  value="${pageContext.request.contextPath}"/> --%>
+	<c:set var="contextPath"  value="${pageContext.request.contextPath}"/>
  <!DOCTYPE html>
 
 <html lang="en">
@@ -44,6 +44,7 @@
     </style>
 </head>
 <body>
+ <jsp:include page="../common/menubar.jsp" />
 
 <!-- 왼쪽 사이드바  -->
     <section class="section-margin--small mb-5">
@@ -148,30 +149,39 @@
                             <th scope="col">주문일 </th>
                             <th scope="col">주문내역 상세보기</th>
                             <th scope="col">총 결제금액</th>
+                            <th scope="col">받으실 분 </th>
                             <th scope="col">주문취소여부</th>
                           </tr>
                         </thead>
               
-				    	    
+				    <!--받는사람 이름이랑 날짜로 조회하기 만들기 -->	    
                         <tbody style="text-align: center;">
                       
+					
+                   <c:forEach var="item" items="${myOrderList}" varStatus="status">
                          
-                         <c:forEach var="item" items="${myOrderList}">
-                        <tr class="OrderListTr">       
-                        	<td><input type="hidden" name="paymentNo" value="${item.paymentNo}"/>  
+                      <tr class="OrderListTr">       
+                       	<td>
+                    	<input type="hidden"  id="paymentNo${status.index}" value="${item.paymentNo }"/>
                         	<p><c:out value="${item.paymentNo}"/></p></td>     
                         	<td><fmt:formatDate value="${item.shipDate}" pattern ="yyyy-MM-dd"/></td> 
-                  	   		<td class="orderListDetail"><p style="cursor:pointer">주문내역 상세보기</p></td> 
-                  	     	<td><c:out value="${item.totalCost}"/>원</td>               
+                  	   		<td class="orderListDetail"><p style="cursor:pointer" onclick="OrderListDetailGo('${status.index}')">주문내역 상세보기</p></td> 
+                  	     	<td><c:out value="${item.totalCost}"/>원</td>                <!--  '' 스트링으로 가져온다 -->
+                  	     	<td><c:out value="${item.shippingName}"/>님</td>
                           	<td> <input type="button" class="button button-hero" value="주문취소" onclick="orderCancle()"/> </td>
-                        </tr>
+                      </tr>
                             
-                         </c:forEach>
+                   </c:forEach>
                          
                         </tbody>
                       </table>
                     </div>
                 </div>
+                <!--  히든으로 숨겨져있는애 -->
+					<form id="detailForm" action="selectMyOrderListDetail.me" method="post">
+					<input type="hidden" id="detailForm1" name="paymentNo" ></form> 
+                      
+                         
              </div> 
         <script type="text/javascript">
         
@@ -218,37 +228,7 @@
 							href="selectMyOrderList.me?currentPage=${ pi.currentPage+1 }">Next</a></li>
 					</c:otherwise>
 				</c:choose>
-						<!-- <li class="page-item">
-                        <a href="#" class="page-link" aria-label="Previous">
-                            <span aria-hidden="true">
-                                <span class="lnr lnr-chevron-left"></span>
-                            </span>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a href="#" class="page-link">01</a>
-                    </li>
-                    <li class="page-item active">
-                        <a href="#" class="page-link">02</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="#" class="page-link">03</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="#" class="page-link">04</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="#" class="page-link">09</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="#" class="page-link" aria-label="Next">
-                            <span aria-hidden="true">
-                                <span class="lnr lnr-chevron-right"></span>
-                            </span>
-                        </a>
-                    </li>  -->
-                    
-                    
+			
                 </ul>
             </nav>
    		</div>
@@ -262,13 +242,21 @@
 		<script type="text/javascript">
 		
 		// 주문리스트에서 상세보기 클릭시 해당 주문번호로 들어감 
-		 $(function(){
+		/*  $(function(){
              $("tr.OrderListTr td.orderListDetail").click(function(){
-                 console.log($(this).next().val());
-                 location.href="selectMyOrderListDetail.me?pno=" + $(this).next().val();
+                $("#paymentNoClick").submit();
              });
-         })
+         }) */
 	
+         
+         //히든 인풋으로 들고오는 애 
+		function OrderListDetailGo(num){
+			
+			var pay = $('#paymentNo'+num).val();
+			 $('#detailForm1').val(pay);
+			 $("#detailForm").submit();
+		}
+		
  		//주문 취소 버튼 
 		function orderCancle() {
 			if (confirm("정말 취소하시겠습니까? ") == true) { //확인
