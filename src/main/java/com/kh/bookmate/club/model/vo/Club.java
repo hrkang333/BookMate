@@ -45,4 +45,6 @@ public class Club {
 	private List<ClubTime> clubTimes;
 	//11.06 추가(clubTime 테이블 )
 	private List<ClubAttachment> clubAttachments;
+	//11.11 추가(HEART_COUNT - 찜기능)
+	private int heartCount;
 }

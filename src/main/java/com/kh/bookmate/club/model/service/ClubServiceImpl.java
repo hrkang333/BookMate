@@ -203,6 +203,18 @@ public class ClubServiceImpl implements ClubService {
 		return applyList;
 	}
 
+	@Override
+	public int selectListCount_mp2(String userId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public ArrayList<Club> selectList2(String userId, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 
 	

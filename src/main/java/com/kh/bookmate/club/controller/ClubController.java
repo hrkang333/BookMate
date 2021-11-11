@@ -238,7 +238,41 @@ public class ClubController {
 		return "redirect:mypage3.cl";
 	}
 	
-	//5. 조회하기
+	
+	
+	@RequestMapping("mypage2.cl")
+	public String selectListMypage2(@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage,
+									HttpServletRequest request, Model model) {
+		
+		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
+		
+		int listCount = clubService.selectListCount_mp2(userId);
+		System.out.println("listCount : " + listCount);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 7, 5);
+		
+		ArrayList<Club> list = clubService.selectList2(userId, pi);		
+		
+		System.out.println("list크기 : " + list.size());
+		
+		for(Club c : list) {
+			System.out.println("list크기 : " + c.toString());
+		}
+		
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pi",pi);
+
+		return "clubMypage/mypage3";
+	}
+	
+	
+	
+	
+	
+	
+	
+	//5. 마이페이지3 - 독서모임 개설 조회하기
 	@RequestMapping("mypage3.cl")
 	public String selectListMypage3(@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage,
 									HttpServletRequest request, Model model) {

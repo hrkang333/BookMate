@@ -27,7 +27,7 @@ public class ClubApplyServiceImpl implements ClubApplyService {
 	}
 
 	@Override
-	public void insertApply(List<Integer> times, String userId) {
+	public int insertApply(List<Integer> times, String userId) {
 		//2-1)club_apply : insert
 		//2-2)club_time : apply_count +1
 		int result1 = clubApplyDao.insertApply(sqlSession, times, userId);
@@ -37,6 +37,27 @@ public class ClubApplyServiceImpl implements ClubApplyService {
 			//예외처리
 		}
 		
+		return result1*result2;
+	}
+
+	@Override
+	public int selectCheckHeart(String userId, int clubNo) {
+		// TODO Auto-generated method stub
+		return clubApplyDao.selectCheckHeart(sqlSession, clubNo, userId);
+	}
+
+	@Override
+	public int insertHeart(String userId, int clubNo) {
+		//1)club_wish : insert
+		//2)club : heart_count +1
+		int result1 = clubApplyDao.insertHeart(sqlSession, userId, clubNo);
+		int result2 = clubApplyDao.updateHeartCount(sqlSession,clubNo);
+		
+		if(result1 < 0 || result2 < 0) {
+			//예외처리
+		}
+		
+		return result1*result2;
 	}
 
 }
