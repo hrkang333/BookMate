@@ -3,6 +3,7 @@ package com.kh.bookmate.myPage.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
@@ -129,11 +131,10 @@ public class myPageController {
 	
 	//주문 리스트 내역 상세보기 
 	@RequestMapping("selectMyOrderListDetail.me")
-	public String selectMyOrderListDetail (Model model, HttpSession session, HttpServletRequest request) {	
-		//(@RequestParam("paymentNo") int paymentNo,
+	public String selectMyOrderListDetail (Model model, int paymentNo ) {	
 		
-		int paymentNo = Integer.parseInt(request.getParameter("paymentNo"));
-		System.out.println(paymentNo+"===============ㅠㅠㅠ=========");
+//		int paymentNo = Integer.parseInt(request.getParameter("paymentNo"));
+//		System.out.println(paymentNo+"===============ㅠㅠㅠ=========");
 
 		List<PaymentDetail> myOrderListDetail = paymentService.selectMyOrderListDetail(paymentNo);
 		model.addAttribute("myOrderListDetail",myOrderListDetail);
@@ -142,49 +143,31 @@ public class myPageController {
 		
 	}
 	
-	//주문리스트에서 -> 주문내역리스트 상세로 넘어가는 조회..? 
-//	@RequestMapping("selectMyOrderListDetail.me")
-//	public ModelAndView selectMyOrderListDetail(int paymentNo, ModelAndView mv) {
-//		
-//		List<PaymentDetail> pa = paymentService.selectMyOrderListDetail(paymentNo);
-//		
-//		mv.addObject("pa",pa).setViewName("myPage/myOrderListDetail");
-//		
-//		return mv;
-//	}
 
-//	
-//	@RequestMapping("selectMyOrderListDetail.me")
-//	public List<PaymentDetail> selectMyOrderListDetail(int paymentNo, ModelAndView mv ){
-//		
-//	List<PaymentDetail> pa = paymentService.selectMyOrderListDetail(paymentNo);
-//
-//			
-//			mv.addObject("pa",pa).setViewName("myPage/myOrderListDetail");
-//
-//			System.out.println(pa+"===========================");
-//			
-//		return (List<PaymentDetail>) mv;
-//		
-//	}
-
+	//배송전 사용자가 주문 취소하기 
+	@RequestMapping("cancelMyOrder.me") 
+	public String cancelMyOrder(int paymentNo, int paymentDetailNo, Model model ){
+									
+		//업데이트인데 
+		 paymentService.cancelMyOrder(paymentDetailNo);
+		
+		//업데이트 후에 셀렉을 가져와야된다.... 
+		List<PaymentDetail> myOrderListDetail = paymentService.selectMyOrderListDetail(paymentNo);
+		model.addAttribute("myOrderListDetail",myOrderListDetail);
+		return "myPage/myOrderListDetail";
+	}
 	
-//	
-//	//배송 전 주문 취소하기 
-//	@RequestMapping("cancelMyOrder.me")
-//	public String cancelMyOrder(@RequestParam User user,HttpSession session, Model model)	{
-//		
-//		
-//		String loginUser = ((User) session.getAttribute("loginUser")).getUserId(); 
-//		ModelAndView mv = new ModelAndView();
-//		PaymentDetail myOrderList = paymentService.cancelMyOrder(loginUser);
-//		
-//		
-//		return "redirect:myPage/myPageOrderList.me";
-//	}
-//	
-//
-//	
+	
+	//주문리스트 검색하기 
+	@RequestMapping("searchMyOrderList.me")
+	public String searchMyOrderList (int paymentNo, int paymentDetailNo, Model model ) {
+		
+		
+		return "myPage/myOrderListDetail";
+	}
+	
+	
+	
 	
 //일주일 
 //		private String getCurrentDate() {

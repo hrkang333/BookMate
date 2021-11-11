@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt"%>
+<c:set var="contextPath"  value="${pageContext.request.contextPath}"/>
+
 
 <!DOCTYPE html>
 <html>
@@ -23,11 +25,57 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     
- 
     <link rel="stylesheet" href="resources/css/style.css">
     
+    <script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
 </head>
+
+ 
+ 			<%-- <c:if test="${msg== '4'}"> <!-- 만약 주문 취소일 때  -->
+			      <script type="text/javascript">
+						window.onload=function(){
+							init();
+						}
+						function init(){
+							alert("주문을 취소 했습니다.");
+						}
+					</script>
+				</c:if> --%>
+				
+				<script type="text/javascript">
+				
+				 function cancelOrder(paymentDetailNo,paymentNo){
+					var answer=confirm("주문을 취소하시겠습니까?");
+					
+					if(answer==true){
+						//https://ifuwanna.tistory.com/196 
+						var formObj=document.createElement("form");
+						var i_order_id = document.createElement("input"); 
+						var i_order_id2 = document.createElement("input"); 
+					    
+					    i_order_id.name = "paymentDetailNo";
+					    i_order_id.value = paymentDetailNo;
+	
+					    
+					    i_order_id2.name = "paymentNo";
+					    i_order_id2.value = paymentNo;
+						
+					    console.log( formObj );
+					    
+					    formObj.appendChild(i_order_id2);
+					    formObj.appendChild(i_order_id);
+					    document.body.appendChild(formObj); 
+					    formObj.method="post";
+					    formObj.action="${contextPath}/cancelMyOrder.me";
+					    formObj.submit();	
+					}
+				} 
+				</script>
 <body>
+ <jsp:include page="../common/menubar.jsp" />
+
 
 <!-- 왼쪽 사이드바  -->
     <section class="section-margin--small mb-5">
@@ -133,27 +181,73 @@
                             <th scope="col">주문 수량 </th>
                             <th scope="col">도서 가격 </th>
                             <th scope="col">주문상태</th>
+                            <th scope="col">취소여부</th>
                           </tr>
                         </thead>
 
                         <tbody style="text-align: center;">
+                        
+                        
                       
-           		  <c:forEach var="item" items="${myOrderListDetail }">
+           		  <c:forEach var="item" items="${myOrderListDetail}" varStatus="status">
                          	
                         <tr>                            
                         	<td><p><c:out value="${item.paymentDetailNo}"/></p></td>  
                         	
-                        	<td><c:out value="${item.bookImg}"/><c:out value="${item.bookTitle}"/></td>               
+                        	<td style="text-align: left"><img src="${pageContext.servletContext.contextPath }/resources/images/book_img/${item.bookMainImg}" style="width: 40px; height: auto;"/>
+                        	<c:out value="${item.bookTitle}"/></td>
+                        	
                   	     	<td><c:out value="${item.quantity}"/>개</td>   
-                  	     	<td><c:out value="${item.bookPrice}"/></td>               
-                  	     	<td><c:out value="${item.deliveryStatus}"/></td>   
-                        </tr>
+                  	     	<td><c:out value="${item.bookPrice}"/>원</td>               
+                  	     	<td id="deliveryStatus"><%-- <c:out value="${item.deliveryStatus}"/> --%>
+                  	     	<%-- <input type="hidden" id="paymentDetailNo${status.index }" value="${item.paymentDetailNo}"/> --%>
+                  	     	<c:choose>
+                  	     		<c:when test="${item.deliveryStatus =='1'}">배송준비중</c:when>
+                  	     		<c:when test="${item.deliveryStatus =='2'}">배송중</c:when>
+                  	     		<c:when test="${item.deliveryStatus =='3'}">배송완료</c:when>
+                  	     		
+                  	     		<c:when test="${item.deliveryStatus =='4'}">주문취소</c:when>
+                  	     	    <c:when test="${item.deliveryStatus =='5'}">반품완료</c:when>
+                  	     	    <c:when test="${item.deliveryStatus =='6'}">교환완료</c:when>
+                  	     	    <c:when test="${item.deliveryStatus =='7'}">반품/교환 진행중</c:when>  
+                  	     	    
+                  	       </c:choose>
+                  	     	
+                  	     	
+                  	     	</td>  
+                  	     	
+                          	<td> <!-- <input type="button" class="button button-hero" value="주문취소" onclick="orderCancle()"/> -->
+                          	 <c:choose>
+						   <c:when test="${item.deliveryStatus =='1'}"> <!--배송준비중일때 주문취소 버튼 활성화 -->
+						       <input  type="button" onclick="cancelOrder('${item.paymentDetailNo}','${item.paymentNo}')" value="주문취소"  />
+						   </c:when>
+						   <c:when test="${item.deliveryStatus =='4'}">
+						      <input  type="button" onclick="cancelOrder('${item.paymentDetailNo}')" value="주문취소" disabled />
+						   </c:when>
+						   <c:when test="${item.deliveryStatus =='7'}">
+						      <input  type="button" onclick="cancelOrder('${item.paymentDetailNo}','${item.paymentNo}')" value="진행중" disabled />
+						      <input  type="button" onclick="cancelOrder('${item.paymentDetailNo}','${item.paymentNo}')" value="진행중" disabled />
+						   </c:when>
+						   <c:otherwise>
+						   		 <input  type="button" onclick="cancelOrder('${item.paymentDetailNo}')" value="반품완료" disabled />
+						   </c:otherwise>
+					  </c:choose>
+                          	
+                          	 </td>
+                       </tr>
                             
                   </c:forEach> 
                          
-                   
                         </tbody>
                       </table>
+                      
+                      <!--  히든으로 숨겨진 상세주문 번호 -->
+                     	 <!-- <form id ="cancleForm" action="cancelMyOrder.me" method="post">
+                     	 <input type="hidden" id="cancelForm1" name="paymentDetailNo">
+                        </form> -->
+                        
+                        <!-- 교환/환불  구매확정하면(교환, 환불불가) -->
+                        
                     </div>
                 </div>
              </div> 
@@ -164,8 +258,11 @@
             </div>
           </div>
        
-      </section>
-      <jsp:include page="../common/footer.jsp" />
+ </section>
+ 
+ 
+
+	<jsp:include page="../common/footer.jsp" />
 
 </body>
 </html>

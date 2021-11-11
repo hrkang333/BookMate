@@ -36,21 +36,19 @@ public class PaymentServiceImpl implements PaymentService {
 		// TODO Auto-generated method stub
 		return paymentDao.selectListCount(sqlSession,loginUser);
 	}
-
+	
+	//주문리스트 상세조회 
 	@Override
 	public List<PaymentDetail> selectMyOrderListDetail(int paymentNo) {
 		List<PaymentDetail> list = paymentDao.selectMyOrderListDetail(sqlSession,paymentNo);
 		return list;
 	}
 
-
-
-//	//주문 리스트 상세 조회 
-//	@Override
-//	public List<PaymentDetail> selectMyOrderListDetail(int paymentNo) {
-//		List<PaymentDetail> list = paymentDao.selectMyOrderListDetail(sqlSession,paymentNo);
-//		return list;
-//	}
+	@Override
+	public int cancelMyOrder(int paymentDetailNo) {
+		int list = paymentDao.cancelMyOrder(sqlSession,paymentDetailNo);
+		return list;
+	}
 
 	
 
