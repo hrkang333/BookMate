@@ -11,6 +11,7 @@
 
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+				<script type="text/javascript" src="/sysaccount/js/jquery.dateFormat-1.0.js"></script>
 
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
                 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -20,10 +21,6 @@
                 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet"
                     id="bootstrap-css">
                 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-                <script type="text/javascript" src="resources/js/seller_page.js"></script>
-                <script type="text/javascript" src="resources/js/seller.js"></script>
-
                 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
             </head>
 
@@ -403,16 +400,16 @@
                                 	    	}
                                         	
                                           //데이터 뿌리기 
-                                        	for(var i=0; i < data.length; i++){
-                                        		$('#ubookListTb').append("<tr><td align='center'>" + (i+1) + "</td>" + "<td hidden='hidden' name='ubookNo'>"+data[i].ubookNo+"</td>" +
-                            										"<td align='center'><img src='${pageContext.servletContext.contextPath }/resources/images/Ubookimg/" + data[i].ubookImg + "' style='width: 145px; height: auto;'></td>" +
-                                        							"<td align='center'><a href='ubookDetailTest.ub?ubookNo="+data[i].ubookNo+"'>" + data[i].ubookName + "</a></td>" +
-                                        							"<td align='center'>" + data[i].ubookWriter + "</td>" +
-                                        							"<td align='center'>" + data[i].ubookStock + "</td>" +
-                                        							"<td align='center'>"+
-                                        							"<button style='background-color: #5cb85c; color:#ffffff; border:none; width: 100%; margin-bottom:10px; border-radius: 0.3rem;' onclick='updateUbook()'>수정</button>"+
-                                        							"<button class='btn-danger' style='border:none;width: 100%; border-radius: 0.3rem;' onclick='deleteUbook("+data[i].ubookNo+")'>삭제</button></td></tr>");
-                                         	}
+	                                       	for(var i=0; i < data.length; i++){
+	                                       		$('#ubookListTb').append("<tr><td align='center'>" + (i+1) + "</td>" + "<td hidden='hidden' name='ubookNo'>"+data[i].ubookNo+"</td>" +
+	                           										"<td align='center'><img src='${pageContext.servletContext.contextPath }/resources/images/Ubookimg/" + data[i].ubookImg + "' style='width: 145px; height: auto;'></td>" +
+	                                       							"<td align='center'><a href='ubookDetailTest.ub?ubookNo="+data[i].ubookNo+"'>" + data[i].ubookName + "</a></td>" +
+	                                       							"<td align='center'>" + data[i].ubookWriter + "</td>" +
+	                                       							"<td align='center'>" + data[i].ubookStock + "</td>" +
+	                                       							"<td align='center'>"+
+	                                       							"<button type='button' style='background-color: #5cb85c; color:#ffffff; border:none; width: 100%; margin-bottom:10px; border-radius: 0.3rem;' onclick='showModal(" +data[i].ubookNo+ ")'>수정</button>"+
+	                                       							"<button class='btn-danger' type='button' style='border:none;width: 100%; border-radius: 0.3rem;' onclick='deleteUbook("+data[i].ubookNo+")'>삭제</button></td></tr>");
+	                                        	}
 
                                         },
                                         error : function() {
@@ -434,7 +431,159 @@
                                 $(this).addClass('active')
                             });
                         </script>
+						<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document" style="max-width: none; width: 1000px; margin-top: 100px;">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">도서 수정</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">×</span>
+							</button>
+						</div>
 
+						<form class="form updateUbook" enctype='multipart/form-data' method="post" action="">
+							<div class="modal-body">
+					<table class="table table-bordered success">
+						<colgroup>
+							<col width="100px" />
+							<col width="400px" />
+						</colgroup>
+						<thead>
+							<tr>
+								<th class="info">판매자 번호</th>
+								<td><input class="usedBookInfo" name="bSellerNo"
+									value="${ s.sellerNo }" readonly="readonly"></td>
+							</tr>
+							<tr>
+								<th class="info">도서명</th>
+								<td><input class="usedBookInfo" name="ubookName" required="required"
+									placeholder="도서명을 입력해주세요" data-name = "도서명"></td>
+							</tr>
+							<tr>
+								<th class="info">저자(지은이)</th>
+								<td><input class="usedBookInfo" name="ubookWriter" required="required"
+									placeholder="저자를 입력해주세요" data-name = "도서 지은이"></td>
+							</tr>
+							<tr>
+								<th class="info">ISBN-13</th>
+								<td><input class="usedBookInfo" name="ubookIsbn" required="required"
+									maxlength="13" type="number"
+									placeholder="도서의 ISBN을 입력해주세요(- 없이)" data-name = "도서 ISBN"></td>
+							</tr>
+							<tr>
+								<th class="info">카테고리</th>
+								<td><select id="ubCategory" name="ubCategory" data-name = "도서 카테고리">
+										<option value="">== 카테고리 선택 ==</option>
+										<option value="1">소설/시/에세이</option>
+										<option value="2">경제/경영</option>
+										<option value="3">과학</option>
+										<option value="4">인문</option>
+										<option value="5">컴퓨터/IT</option>
+										<option value="6">자기계발</option>
+										<option value="7">정치/사회</option>
+										<option value="8">역사/문화</option>
+										<option value="9">취미</option>
+										<option value="10">가정/육아</option>
+								</select></td>
+							</tr>
+
+							<tr>
+								<th class="info">역자</th>
+								<td><input class="usedBookInfo" name="ubookTrans" required="required"
+									placeholder="역자를 입력해주세요" value="없음" data-name = "도서 역자"></td>
+							</tr>
+							<tr>
+								<th class="info">출판사</th>
+								<td><input class="usedBookInfo" name="ubookPub" required="required"
+									placeholder="출판사를 입력해주세요" data-name = "도서 출판사"></td>
+							</tr>
+							<tr>
+								<th class="info">출판일</th>
+								<td><input class="usedBookInfo" name="ubookPubDate" required="required"
+									type="date"
+									placeholder="출판일을 입력해주세요" data-name = "도서 출판일"></td>
+							</tr>
+							<tr>
+								<th valign="top" class="info">정가</th>
+								<td><input class="usedBookInfo" name="ubookOPrice" required="required"
+									 type="number"
+									placeholder="정가를 입력해주세요" data-name = "도서 정가"></td>
+							</tr>
+							<tr>
+								<th class="info">판매가</th>
+								<td><input class="usedBookInfo" name="ubookPrice" required="required"
+									 type="number"
+									placeholder="판매가를 입력해주세요" data-name = "도서 판매가"></td>
+							</tr>
+							<tr>
+								<th class="info">재고수량</th>
+								<td><input class="usedBookInfo" name="ubookStock" required="required"
+									 type="number" min="1"
+									placeholder="재고수량을 입력해주세요" data-name = "재고 수량"></td>
+							</tr>
+
+							<tr>
+								<th class="info">도서 품질<br> 기준표</th>
+								<td>
+									S : 최상. 낙서/얼룩/접힙/찢김/변색/제본불량 해당 없음<br> 
+									A : 상. 낙서/얼룩/접힙/찢김/변색/제본불량 일부 있음<br>
+									B : 보통. 낙서/얼룩/접힙/찢김/변색/제본불량 2가지 이상 있음<br>
+									C : 하. 낙서/얼룩/접힙/찢김/변색/제본불량 3가지 이상 있음<br>
+									D : 최하. 낙서/얼룩/접힙/찢김/변색/제본불량 다수 있음<br>
+								
+								</td>
+							</tr>
+							<tr>
+								<th class="info">도서 품질</th>
+								<td><select id="bookQual" name="ubookQual" required="required"
+									class="form-control" data-name = "도서 품질">
+										<option value="">== 도서 품질 선택 ==</option>
+										<option value="S">S</option>
+										<option value="A">A</option>
+										<option value="B">B</option>
+										<option value="C">C</option>
+										<option value="D">D</option>
+								</select></td>
+							</tr>
+
+							<tr>
+								<th class="info">도서 상세</th>
+								<td><textarea name="ubookDetail" id="ubookDetail" cols="54" required="required"
+										rows="10" placeholder="도서의 줄거리, 도서 품질 상세 정보 등을 입력해주세요" data-name = "도서 상세"></textarea>
+								</td>
+							</tr>
+							<tr>
+								<th class="info">도서 목차</th>
+								<td><textarea name="ubookContent" id="ubookContent" cols="54" required="required"
+										rows="10" placeholder="도서의 목차를 입력해주세요" data-name = "도서 목차"></textarea>
+								</td>
+							</tr>
+							<tr>
+								<th class="info">도서 이미지</th>
+								<td><input name="UbookImgFile" type="file" id="ubookImg"
+									onchange="imgCheck(this,'ubookImg')"
+									class="text-center center-block file-upload" data-name = "도서 이미지"></td>
+							</tr>
+							<tr>
+									<th class="info">도서 이미지 미리보기</th>
+								<td>
+									<img alt="" src="" id="preubookImg" >
+								</td>
+							</tr>
+						</thead>
+					</table>
+							</div>
+							<div class="modal-footer" style="justify-content: center;">
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">취소</button>
+								<button type="button" class="btn btn-primary" onclick="updateUbook();">등록</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
                     </div>
                     <!--/col-9-->
                 </div>
@@ -443,6 +592,49 @@
                 <!-- 다음 우편번호 api  -->
                 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
                 <script>
+                	function updateUbook() {
+                		var form = $('.updateUbook').serialize();
+                		form += ("&UbookImgFile=" + $("input[name=UbookImgFile]").val());
+                		if(confirm("해당 도서를 수정하시겠습니까?")) {
+                			$.ajax({
+                                type : "POST",
+                                enctype: 'multipart/form-data',
+                                url : "ubookUpdate.ub",
+                                processData: false,
+                                contentType: false,
+                                dataType : 'json',
+                                data : form,
+                                success : function(data) {
+                                	console.log(data);
+                                	if(data > 0) {
+                                		alert("성공적으로 수정");
+                                		//기존 tr 지우기
+                                    	var trlength = $('#ubookListTb tr').length;
+                            	    	for(var t=trlength-1; t>0; t--){
+                            	    		table.deleteRow(t);
+                            	    	}
+                                    	
+                                      	//데이터 뿌리기 
+                                    	for(var i=0; i < data.length; i++){
+                                    		$('#ubookListTb').append("<tr><td align='center'>" + (i+1) + "</td>" + "<td hidden='hidden' name='ubookNo'>"+data[i].ubookNo+"</td>" +
+                        										"<td align='center'><img src='${pageContext.servletContext.contextPath }/resources/images/Ubookimg/" + data[i].ubookImg + "' style='width: 145px; height: auto;'></td>" +
+                                    							"<td align='center'><a href='ubookDetailTest.ub?ubookNo="+data[i].ubookNo+"'>" + data[i].ubookName + "</a></td>" +
+                                    							"<td align='center'>" + data[i].ubookWriter + "</td>" +
+                                    							"<td align='center'>" + data[i].ubookStock + "</td>" +
+                                    							"<td align='center'>"+
+                                    							"<button type='button' style='background-color: #5cb85c; color:#ffffff; border:none; width: 100%; margin-bottom:10px; border-radius: 0.3rem;' onclick='updateUbook()'>수정</button>"+
+                                    							"<button class='btn-danger' type='button' style='border:none;width: 100%; border-radius: 0.3rem;' onclick='deleteUbook("+data[i].ubookNo+")'>삭제</button></td></tr>");
+                                     	}
+                                	}
+                                },
+                                error : function() {
+                                	alert("너는 뭔가 잘못하고 있따...");
+                                }
+                            });
+                		}
+                	}
+                	
+                	
                     function sample4_execDaumPostcode() {
                         new daum.Postcode(
                             {
@@ -507,5 +699,6 @@
 
                 <jsp:include page="../common/footer.jsp" />
             </body>
-
+			<script type="text/javascript" src="resources/js/seller_page.js"></script>
+            <script type="text/javascript" src="resources/js/seller.js"></script>
             </html>

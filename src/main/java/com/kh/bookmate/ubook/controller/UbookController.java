@@ -2,12 +2,15 @@ package com.kh.bookmate.ubook.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bookmate.seller.model.service.SellerService;
@@ -71,9 +75,10 @@ public class UbookController {
 	//판매자 페이지 - 내가 등록한 도서 삭제
 	@RequestMapping("deleteMyUbook.ub")
 	@ResponseBody
-	public int deleteMyUbook(int ubookNo) {
-		
-		return ubookService.deleteMyUbook(ubookNo);
+	public int deleteMyUbook(int ubookNo, HttpServletResponse response) throws IOException {
+		int result = ubookService.deleteMyUbook(ubookNo);
+		System.out.println("0000000000000000000:" + result);
+		return result;
 	}
 	
 	//판매자 페이지 - 내가 등록한 도서 수정
@@ -110,15 +115,31 @@ public class UbookController {
 	
 	//도서 상세
 	@RequestMapping("ubookDetailTest.ub")
-	public ModelAndView ubookDetail(@RequestParam("ubookNo") int ubookNo, ModelAndView mv) {
+	public String ubookDetail(@RequestParam("ubookNo") int ubookNo, ModelAndView mv, HttpServletRequest request, Model model) {
 
+		if((User)request.getSession().getAttribute("loginUser") != null) {
+			String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
+			Seller s = sellerService.loginSeller(userId);
+			//System.out.println("셀러?" + s.getSellerNo());
+			model.addAttribute("s", s);
+		}
 		Ubook ubook = ubookService.selectUbook(ubookNo);
-		mv.addObject("ubook", ubook).setViewName("ubook/ubookDetailTest");
-		return mv;
+		model.addAttribute("ubook", ubook);
+		return "ubook/ubookDetailTest";
 		/*
 		System.out.println("도서야~~ 나와줘~~~~~" + ubook.getUbookName());
 		model.addAttribute("ubook", ubook);
 		return "ubook/ubookDetailTest";*/
+	}
+	
+	//도서 수정 시 해당 도서 검색
+	@RequestMapping("ubookUpdateForm.ub")
+	@ResponseBody
+	public Ubook ubookUpdateForm(@RequestParam("ubookNo") int ubookNo) {
+
+		Ubook ubook = ubookService.selectUbook(ubookNo);
+		
+		return ubook;
 	}
 	
 	//판매자 페이지 - 도서 등록
@@ -158,6 +179,37 @@ public class UbookController {
 			//return "redirect:/sellerPage.se";
 			//return "seller/ubookEnroll";
 			return "redirect:/sellerPage.se";
+	}
+	
+	//도서 수정
+	@RequestMapping("ubookUpdate.ub")
+	@ResponseBody
+	public int ubookUpdate(HttpServletRequest request, HttpServletResponse response, MultipartHttpServletRequest req) throws ParseException, IOException {
+		MultipartFile UbookImgFile = req.getFile("UbookImgFile");
+		
+		String ubookImg = changeFileNameAndSave(request, UbookImgFile);
+		
+		Ubook update = new Ubook();
+		update.setUbookNo(Integer.parseInt(request.getParameter("ubookNo")));
+		update.setUbookName(request.getParameter("ubookName"));
+		update.setUbookWriter(request.getParameter("ubookWriter"));
+		update.setUbookIsbn(request.getParameter("ubookIsbn"));
+		update.setUbCategory(Integer.parseInt(request.getParameter("ubCategory")));	//int
+		update.setUbookTrans(request.getParameter("ubookTrans"));
+		update.setUbookPub(request.getParameter("ubookPub"));
+		SimpleDateFormat smf = new SimpleDateFormat("YYYY-MM-dd");
+		update.setUbookPubDate(smf.parse(request.getParameter("ubookPubDate")));//date
+		update.setUbookOPrice(Integer.parseInt(request.getParameter("ubookOPrice")));//int
+		update.setUbookPrice(Integer.parseInt(request.getParameter("ubookPrice")));//int
+		update.setUbookStock(Integer.parseInt(request.getParameter("ubookStock")));//int
+		update.setUbookQual(request.getParameter("ubookQual"));
+		update.setUbookQual(request.getParameter("ubookDetail"));
+		update.setUbookContent(request.getParameter("ubookContent"));
+		update.setUbookImg(ubookImg);	//img
+
+		int result = ubookService.ubookUpdate(update);
+		
+		return result;
 	}
 	
 	//이미지 파일 변환 및 업로드
