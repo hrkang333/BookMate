@@ -50,6 +50,22 @@ public class PaymentDetail {
 		this.getPoint = getPoint;
 	}
 
+	
+	
+	
+	public PaymentDetail(String bookISBN, String bookMainImg, String bookTitle, int quantity, int bookPrice,
+			int salePrice, int getPoint) {
+		super();
+		this.bookISBN = bookISBN;
+		this.bookMainImg = bookMainImg;
+		this.bookTitle = bookTitle;
+		this.quantity = quantity;
+		this.bookPrice = bookPrice;
+		this.salePrice = salePrice;
+		this.getPoint = getPoint;
+	}
+
+	
 	public int getPaymentDetailNo() {
 		return paymentDetailNo;
 	}

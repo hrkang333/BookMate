@@ -30,6 +30,20 @@ public class ShoppingBasket {
 		this.user_Id = user_Id;
 		this.quantity = quantity;
 	}
+	
+	
+
+	public ShoppingBasket(List<ShoppingBasket> basketList) {
+		super();
+		this.basketList = basketList;
+	}
+
+	public ShoppingBasket(int basketNo, String bookISBN, int quantity) {
+		super();
+		this.basketNo = basketNo;
+		this.bookISBN = bookISBN;
+		this.quantity = quantity;
+	}
 
 	public int getBasketNo() {
 		return basketNo;
