@@ -98,6 +98,20 @@ function changeQuantity(status,index) {
 	$('#itemsPriceSpan'+index).html(itemsPrice.toLocaleString('ko-KR'))
 	priceSum()
 }
+
+function movePayment() {
+	
+	$('.price').each(function(i,item) {
+		if($("input:checkbox[id=checkBox"+i+"]").is(":checked")==false){
+			
+			$('#basketInfoTr'+i).remove();
+		}
+	})
+	
+	$('#movePaymentForm').submit(); 
+
+	
+}
 </script>
 </head>
 
@@ -109,7 +123,7 @@ function changeQuantity(status,index) {
 
         <div class="container">
             <div class="cart_inner">
-                <form>
+                <form action="movePayment.sc" method="post" id="movePaymentForm">
                 <table class="table" id="basketTable">
                     <thead >
                         <tr>
@@ -118,13 +132,13 @@ function changeQuantity(status,index) {
                             <th style="width: 15%;">판매가(권당)</th>
                             <th style="width: 10%;">수량</th>
                             <th style="width: 10%;">합계</th>
-                            <th style="width: 15%;">출고일정</th>
+                            <th style="width: 15%;">예상출고일정<br><span style="font-size: 5px">(오후4시 이전 당일출고)</span></th>
                             <th style="width: 10%;">선택</th>
                         </tr>
                     </thead>
                     <tbody>
                     <c:forEach items="${requestScope.cartItemList}" var="list" varStatus="status">
-                        <tr>
+                        <tr id="basketInfoTr${status.index}">
                             <td><input type="checkbox" value="" id="checkBox${status.index}" checked="checked" onchange="changeCheckbox()"></td>
                             <td>
                                 <div class="media">
@@ -143,7 +157,10 @@ function changeQuantity(status,index) {
                                 <span><fmt:formatNumber value="${list.bookPrice*0.05}"/>pt 적립</span>
                             </td>
                             <td>
-                                <div style="display: flex; align-items: center;">
+                                <div style="display: flex; align-items: center;" >
+                                	<input type="hidden" name="basketList[${status.index}].basketNo" value="${requestScope.basketList[status.index].basketNo}">
+                                	<input type="hidden" value="${sessionScope.loginUser.userId}" name="basketList[${status.index}].user_Id">
+                                	<input type="hidden" name="basketList[${status.index}].bookISBN" value="${requestScope.basketList[status.index].bookISBN}">
                                     <input type="text" name="basketList[${status.index}].quantity"id="quantity${status.index}" class="quantity" maxlength="2" value="${requestScope.basketList[status.index].quantity}" style="height: 40px; width: 30px;">&nbsp;
                                     <div>
                                         <button type="button" style="height: 20px; width: 30px; font-size: 10px;" onclick="changeQuantity(1,'${status.index}')">▲</button><br>
@@ -154,7 +171,7 @@ function changeQuantity(status,index) {
                             <td>
                                 <span id="itemsPriceSpan${status.index}"><fmt:formatNumber value="${list.bookPrice*0.9*requestScope.basketList[status.index].quantity}"/></span>원
                             </td>
-                            <td></td>
+                            <td>${requestScope.shipDate}</td>
                             <td></td>
                         </tr>
                        </c:forEach>
@@ -191,7 +208,7 @@ function changeQuantity(status,index) {
                 </div>
             </div>
         </div>
-        
+        <button type="button" onclick="movePayment()">결제하기</button>
 
     </main>
  
