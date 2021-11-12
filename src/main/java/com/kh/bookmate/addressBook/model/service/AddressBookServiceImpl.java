@@ -19,12 +19,16 @@ public class AddressBookServiceImpl implements AddressBookService {
 	@Override
 	public AddressBook selcetAddressBook(String userId) {
 		// TODO Auto-generated method stub
-		return null;
+		return addressBookDao.selcetAddressBook(sqlSession,userId);
 	}
 
 	@Override
 	public void insertAddressBook(AddressBook abook) {
-		// TODO Auto-generated method stub
+		int result = addressBookDao.insertAddressBook(sqlSession, abook);
+		if(result<0) {
+			
+			throw new RuntimeException("주소록 등록 실패!");
+		}
 		
 	}
 

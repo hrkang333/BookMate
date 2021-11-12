@@ -47,4 +47,10 @@ public class ShoppingBasketServiceImpl implements ShoppingBasketService {
 		return selectBookList;
 	}
 
+	@Override
+	public int deleteBasket(int basketNo) {
+		// TODO Auto-generated method stub
+		return shoppingBasketDao.deleteBasket(sqlSession,basketNo);
+	}
+
 }

@@ -38,7 +38,7 @@
 				listIndex = 1;
 			}
 			$.ajax({
-					url : "index",
+					url : "bestListMove",
 					
 					data : {
 						listIndex : listIndex,
@@ -304,7 +304,7 @@
 										value="${list.bookTitle}" /></span><br>
 								<br> <span><c:out value="${list.bookWriter}" /></span><br>
 								<span style="color: red; font-weight: bold;"><fmt:formatNumber
-										value="${list.bookPrice}"></fmt:formatNumber></span>
+										value="${list.bookPrice}"></fmt:formatNumber>원</span>
 							</div>
 						</div>
 

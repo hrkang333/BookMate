@@ -63,17 +63,25 @@
 		<button type="button" onclick="moveCart()">장바구니 이동</button>
 
 	</form>
-
 	<br>
+	<br>
+	<br>
+	<form action="adminPageOpen.ad" method="post">
+		관리자 페이지 이동<br> <br>
+		<br> <br>
+		<button type="submit">관리자 페이지 이동</button>
+
+	</form>
+	<!-- <br>
 	<br>
 	<br>
 	<form action="tempBook.book" method="post">
-		asfsf<br>
+		베스트 도서 작업용 도서 판매부수 조절(일주일에 한번)<br>
 		<br>
 
-		<!-- <button type="submit">asfasfasfa</button> -->
+		<button type="submit">도서 판매작업</button>
 
-	</form>
+	</form> -->
 
 </body>
 </html>
