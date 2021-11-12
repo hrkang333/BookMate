@@ -30,7 +30,7 @@
       <!--================ 좌측 사이드바(도서 카테고리 선택) =================-->
       <div class="col-xl-2">
         <div class="sidebar-categories" style="text-align: center;">
-          <div class="head category"><a href="ubookMain.ub">중고도서</a></div>
+          <div class="head category" style="width: 175px;"><a href="ubookMain.ub">중고도서</a></div>
 		  <div class="categorybody"><a href="ubookCategory.ub?ubCategory=1">소설/시/에세이</a></div>
 		      	<div class="categorybody"><a href="ubookCategory.ub?ubCategory=2">경제/경영</a></div>
 		          <div class="categorybody"><a href="ubookCategory.ub?ubCategory=3">과학</a></div>
@@ -124,6 +124,7 @@
 									<tr data-status="pagado">
 											<td>
 												<div class="tbNo1">${status.index + 1 }</div>
+												<div class="tbNo1">보임? ${u.BSellerNo }</div>
 											</td>
 											<td>
 												<div class="ubookImg">
@@ -133,7 +134,7 @@
 											<td>
 												<div class="tbNo1">
 													<input name="ubookNo" hidden="hidden" value="${ u.ubookNo }"/>
-													<a href="ubookDetailTest.ub?ubookNo=${ u.ubookNo }">${u.ubookName }</a>
+													<a href="ubookDetailTest.ub?ubookNo=${ u.ubookNo }&bSellerNo=${u.BSellerNo}">${u.ubookName }</a>
 												</div>
 											</td>
 											<td>

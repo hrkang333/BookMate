@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%-- <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -89,7 +89,7 @@
 											<td>
 												<div class="tbNo1">
 													<input name="ubookNo" hidden="hidden" value="${ u.ubookNo }"/>
-													<a href="ubookDetailTest.ub?ubookNo=${ u.ubookNo }">${u.ubookName }</a>
+													<a href="ubookDetailTest.ub?ubookNo=${ u.ubookNo }&bSellerNo=${u.BSellerNo}">${u.ubookName }</a>
 												</div>
 											</td>
 											<td>
@@ -155,4 +155,4 @@
  	<jsp:include page="../common/footer.jsp"/>
 </body>
 
-</html>
+</html> --%>

@@ -32,7 +32,7 @@ public class UbookServiceImpl implements UbookService {
 						
 		}
 	}
-
+/*
 	@Override
 	public Ubook selectUbook(int ubookNo) {		
 		Ubook u = null;
@@ -70,6 +70,13 @@ public class UbookServiceImpl implements UbookService {
 	@Override
 	public List<Ubook> selectCategory(int ubCategory) {
 		return ubookDao.selectCategory(sqlSession, ubCategory);
+	}
+
+	@Override
+	public Ubook selectUbook(Ubook ub) {
+		Ubook u = null;
+		u = ubookDao.selectUbook(sqlSession, ub);
+		return u;
 	}
 
 	

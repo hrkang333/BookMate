@@ -149,26 +149,33 @@ function showModal(ubookNo) {
         data : {ubookNo : ubookNo},
         success : function(data) {
         	console.log(data.ubCategory);
-        	$("input[name='ubookName']").val(data.ubookName);
-        	$("input[name='ubookWriter']").val(data.ubookWriter);
-        	$("input[name='ubookIsbn']").val(data.ubookIsbn);
+        	$("input[name='ubookNo']").eq(1).val(data.ubookNo);
+        	$("input[name='ubookName']").eq(1).val(data.ubookName);
+        	$("input[name='ubookName']").eq(1).val(data.ubookName);
+        	$("input[name='ubookWriter']").eq(1).val(data.ubookWriter);
+        	$("input[name='ubookIsbn']").eq(1).val(data.ubookIsbn);
         	//$('#ubCategory').val(data.ubCategory).niceSelect('update');
-        	$("#ubCategory").val(data.ubCategory).attr("selected", true);
-        	$("input[name='ubookTrans']").val(data.ubookTrans);
-        	$("input[name='ubookPub']").val(data.ubookPub);
+        	$("#ubCategory").eq(1).val(data.ubCategory).attr("selected", true);
+        	$("input[name='ubookTrans']").eq(1).val(data.ubookTrans);
+        	$("input[name='ubookPub']").eq(1).val(data.ubookPub);
         	var date = new Date(data.ubookPubDate);
         	var year = date.getFullYear();
         	var month = ('0' + (date.getMonth() + 1)).slice(-2);
         	var day = ('0' + date.getDate()).slice(-2);
-        	$("input[name='ubookPubDate']").val(year+"-"+month+"-"+day);
-        	$("input[name='ubookOPrice']").val(data.ubookOPrice);
-        	$("input[name='ubookPrice']").val(data.ubookPrice);
-        	$("input[name='ubookStock']").val(data.ubookStock);
-        	$("select[name='ubookQual']").val(data.ubookQual).attr("selected", "true");//select
-        	$("textarea[name='ubookDetail']").val(data.ubookDetail);
-        	$("textarea[name='ubookContent']").val(data.ubookContent);
-        	$("input[name='ubookImg']").val(data.ubookImg);
+        	$("input[name='ubookPubDate']").eq(1).val(year+"-"+month+"-"+day);
+        	$("input[name='ubookOPrice']").eq(1).val(data.ubookOPrice);
+        	$("input[name='ubookPrice']").eq(1).val(data.ubookPrice);
+        	$("input[name='ubookStock']").eq(1).val(data.ubookStock);
+
+        	$("#ubookQual").eq(1).val(data.ubookQual).attr("selected", true);
+        	//$("select[name='ubookQual']").val(data.ubookQual).attr("selected", "true");//select
+        	$("textarea[name='ubookDetail']").eq(1).val(data.ubookDetail);
+        	$("textarea[name='ubookContent']").eq(1).val(data.ubookContent);
+        	$("input[name='ubookImg']").eq(1).val(data.ubookImg);
         	
+   		 $('#test_cnt_2').html("("+$("textarea[name='ubookDetail']").eq(1).val().length+" / 3600)");
+
+   		 $('#test_cnt1_2').html("("+$("textarea[name='ubookContent']").eq(1).val().length+" / 3600)");
         	$("#exampleModal").modal('show');
 
         },
@@ -176,4 +183,30 @@ function showModal(ubookNo) {
         	alert("너는 뭔가 잘못하고 있따...");
         }
     });
+}
+
+
+
+
+function imgCheck(img,inputId) {
+	if(img.files&&img.files[0]){
+		var name= img.files[0].name;
+		var ext = name.substring(name.length-3,name.length);
+		if(!(ext.toUpperCase()=='PNG'||ext.toUpperCase()=='JPG')){
+			alert("이미지파일을 확인해주세요. png와 jpg만 가능합니다.")
+			$('#'+inputId).val("")
+
+
+			return;
+		}
+		const imgFile = new FileReader();
+		imgFile.readAsDataURL(img.files[0]);
+		imgFile.onload = function(e) {
+			const previewUbookImage = document.getElementById("pre"+inputId);
+			previewUbookImage.src = e.target.result;
+			if(inputId=='ubookImg2'){
+				$('#pre'+inputId).css({"width":"200px","height":"300px"});
+			}			
+		}		   
+	}
 }

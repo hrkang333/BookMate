@@ -32,7 +32,7 @@
             <header class="header_area">
                 <div class="main_menu" style="background-color: #f8f9fa !important;">
                     <nav class="navbar navbar-expand-lg navbar-light" style="margin-bottom: 0px !important;">
-                        <div class="container" style="padding-right: 55px;">
+                        <div class="container" style="margin-left: 0; margin-right: 0;">
                             <!--로고링크-->
                             <a href="home.us" class="logo_link">
                                 <img src="resources/img/logo1.png" class="logo1">
@@ -57,6 +57,8 @@
                                     </form>
                             <!--로그인 회원정보-->
                             <c:if test="${ empty sessionScope.loginUser }">
+                            
+                                <a href="home.us">책구메이트 홈</a> |
                                 <a href="register.me">회원가입</a> |
                                 <br>
                                 <a href="login.me"">로그인</a> |
@@ -68,10 +70,10 @@
                                 <label>${ sessionScope.loginUser.userName }님</label>
                                 <c:if test="${ !empty s.sellerId && s.status eq 'Y' }">
                                 |
-                                <a href="sellerPage.se">판매자 페이지</a>
+                                <a href="home.us">책구메이트 홈</a>
                                 </c:if>
                                 |
-                                <a href="myPage.me">마이페이지</a>
+                                <a href="sellerPage.se">판매자페이지</a>
                                 |
                                 <a href="logout.us">로그아웃</a>
                             </c:if>
