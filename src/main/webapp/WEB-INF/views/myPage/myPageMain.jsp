@@ -177,16 +177,13 @@
                             </span>
                         </a>
                     </li> 
-                    
-                    
                 </ul>
             </nav>
    		</div>
    		
             </div>
           </div>
-       
-      </section>
+	 </section>
 
     
 	   <jsp:include page="../common/footer.jsp" />

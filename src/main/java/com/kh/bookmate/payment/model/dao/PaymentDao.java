@@ -33,6 +33,11 @@ public class PaymentDao {
 	public int cancelMyOrder(SqlSessionTemplate sqlSession, int paymentDetailNo) {
 		return sqlSession.update("paymentMapper.cancelMyOrder",paymentDetailNo);
 	}
+
+	public int confirmOrder(SqlSessionTemplate sqlSession, int paymentDetailNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("paymentMapper.confirmOrder",paymentDetailNo);
+	}
 }
 
 

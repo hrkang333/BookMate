@@ -16,6 +16,8 @@ public interface PaymentService {
 
 	int cancelMyOrder(int paymentDetailNo);
 
+	int confirmOrder(int paymentDetailNo);
+
 	
 
 }

@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>주문 목록 상세보기</title>
 
     <link rel="icon" href="img/Fevicon.png" type="image/png">
     <link rel="stylesheet" href="resources/vendors/bootstrap/bootstrap.min.css">
@@ -58,7 +58,6 @@
 					    i_order_id.name = "paymentDetailNo";
 					    i_order_id.value = paymentDetailNo;
 	
-					    
 					    i_order_id2.name = "paymentNo";
 					    i_order_id2.value = paymentNo;
 						
@@ -71,8 +70,45 @@
 					    formObj.action="${contextPath}/cancelMyOrder.me";
 					    formObj.submit();	
 					}
-				} 
+				}  
+				 
+	
+				 
+		 		 //구매확정 
+				 function confirmOrder(paymentDetailNo){
+					 var answer = confirm("구매확정하시겠습니까? 확정시 교환환불이 불가합니다.")
+					 
+					if(answer==true){
+						
+						var formObj1=document.createElement("form");
+						var confirmOrder = document.createElement("input"); 
+					 	var confirmOrder2 = documnet.createElement("input"); 
+						
+						confirmOrder.name = "paymentDetailNo";
+						confirmOrder.value = paymentDetailNo;
+				 
+						confirmOrder2.name = "paymentNo";
+						confirmOrder2.value = paymentNo; 
+					    
+						console.log(formObj1);
+						
+						formObj1.appendChild(confirmOrder);
+					    formObj1.appendChild(confirmOrder2);
+					    
+					    document.body.appendChild(formObj1); 
+					    formObj1.method="post";
+					    formObj1.action="${contextPath}/confirmOrder.me";
+					    formObj1.submit();
+					    
+					}
+				 }
+				
+
+				 
 				</script>
+				
+				
+				
 <body>
  <jsp:include page="../common/menubar.jsp" />
 
@@ -199,17 +235,21 @@
                         	
                   	     	<td><c:out value="${item.quantity}"/>개</td>   
                   	     	<td><c:out value="${item.bookPrice}"/>원</td>               
-                  	     	<td id="deliveryStatus"><%-- <c:out value="${item.deliveryStatus}"/> --%>
-                  	     	<%-- <input type="hidden" id="paymentDetailNo${status.index }" value="${item.paymentDetailNo}"/> --%>
+                  	     	<td id="deliveryStatus">
                   	     	<c:choose>
+                  	     	
                   	     		<c:when test="${item.deliveryStatus =='1'}">배송준비중</c:when>
-                  	     		<c:when test="${item.deliveryStatus =='2'}">배송중</c:when>
-                  	     		<c:when test="${item.deliveryStatus =='3'}">배송완료</c:when>
                   	     		
+                  	     		<c:when test="${item.deliveryStatus =='2'}">배송중</c:when> 
+                  	     		<c:when test="${item.deliveryStatus =='3'}">배송완료</c:when>
+                  	    
                   	     		<c:when test="${item.deliveryStatus =='4'}">주문취소</c:when>
+                  	     		
                   	     	    <c:when test="${item.deliveryStatus =='5'}">반품완료</c:when>
                   	     	    <c:when test="${item.deliveryStatus =='6'}">교환완료</c:when>
-                  	     	    <c:when test="${item.deliveryStatus =='7'}">반품/교환 진행중</c:when>  
+                  	     	    <c:when test="${item.deliveryStatus =='7'}">반품/교환 진행중</c:when>
+                  	     	    <c:when test="${item.deliveryStatus =='8'}">구매확정</c:when>
+                  	     	    
                   	     	    
                   	       </c:choose>
                   	     	
@@ -217,20 +257,26 @@
                   	     	</td>  
                   	     	
                           	<td> <!-- <input type="button" class="button button-hero" value="주문취소" onclick="orderCancle()"/> -->
-                          	 <c:choose>
+                      <c:choose>
 						   <c:when test="${item.deliveryStatus =='1'}"> <!--배송준비중일때 주문취소 버튼 활성화 -->
 						       <input  type="button" onclick="cancelOrder('${item.paymentDetailNo}','${item.paymentNo}')" value="주문취소"  />
 						   </c:when>
 						   <c:when test="${item.deliveryStatus =='4'}">
 						      <input  type="button" onclick="cancelOrder('${item.paymentDetailNo}')" value="주문취소" disabled />
 						   </c:when>
-						   <c:when test="${item.deliveryStatus =='7'}">
-						      <input  type="button" onclick="cancelOrder('${item.paymentDetailNo}','${item.paymentNo}')" value="진행중" disabled />
-						      <input  type="button" onclick="cancelOrder('${item.paymentDetailNo}','${item.paymentNo}')" value="진행중" disabled />
+						   <c:when test="${item.deliveryStatus =='2'}"><!-- 배송중 일때  -->						  
+						  <div>  <input  type="button" onclick="applyExchangeAndRefund()" value="교환/반품신청"/></div>
+					      <div>  <input  type="button" onclick="confirmOrder('${item.paymentDetailNo}','${item.paymentNo}')" value= "구매확정"/></div>
+						  	  
+						  </c:when>
+						   <c:when test="${item.deliveryStatus =='3'}"><!--  배송완료 일 때 -->
+						  <div>  <input  type="button" onclick="applyExchangeAndRefund()" value="교환/반품신청"/></div>	  
+						  <div>  <input  type="button" onclick="confirmOrder('${item.paymentDetailNo}','${item.paymentNo}')" value= "구매확정"/></div>
 						   </c:when>
-						   <c:otherwise>
-						   		 <input  type="button" onclick="cancelOrder('${item.paymentDetailNo}')" value="반품완료" disabled />
-						   </c:otherwise>
+						    <c:when test="${item.deliveryStatus =='8'}">
+						    <input  type="button" onclick="confirmOrder('${item.paymentDetailNo}')" value="구매확정" disabled />
+						   </c:when>
+						   
 					  </c:choose>
                           	
                           	 </td>
@@ -240,7 +286,7 @@
                          
                         </tbody>
                       </table>
-                      
+                      <!-- 교환환불 페이지 만들어서 그 페이지에서 신청할수있게 하는게 나을거같음  -->
                       <!--  히든으로 숨겨진 상세주문 번호 -->
                      	 <!-- <form id ="cancleForm" action="cancelMyOrder.me" method="post">
                      	 <input type="hidden" id="cancelForm1" name="paymentDetailNo">
@@ -249,16 +295,23 @@
                         <!-- 교환/환불  구매확정하면(교환, 환불불가) -->
                         
                     </div>
-                </div>
-             </div> 
-        
-          
-   		</div>
+         <script type="text/javascript">
    		
+   			function applyExchangeAndRefund(){
+   				window.location.href ="applyExchangeAndRefund.me"
+   			}
+		</script>
+		
+		
+                </div>
+             </div>   
+   		</div>
+   	
             </div>
           </div>
        
  </section>
+ 
  
  
 
