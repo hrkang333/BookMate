@@ -68,6 +68,14 @@ public class UbookController {
 		int sellerNo = s.getSellerNo();
 		List<Ubook> list = ubookService.selectbookList(sellerNo);
 		//System.out.println(list.size());
+		
+
+		 for(int i=0; i < list.size(); i++) { 
+			 Ubook str = list.get(i);
+			 System.out.println("셀러 번호 보이려나 모르겠네" + str.getBSellerNo());
+			 }
+		
+		System.out.println("list" + list);
 		model.addAttribute("list", list);
 		return list;
 	}
@@ -99,10 +107,10 @@ public class UbookController {
 		}
 		List<Ubook> list = ubookService.selectCategory(ubCategory);
 		model.addAttribute("list", list);
-		for(int i=0; i < list.size(); i++) {
-			Ubook str = list.get(i);
-			System.out.println("셀러 번호 보이려나 모르겠네" + str.getBSellerNo());
-		}
+		/*
+		 * for(int i=0; i < list.size(); i++) { Ubook str = list.get(i);
+		 * System.out.println("셀러 번호 보이려나 모르겠네" + str.getSellerNickN()); }
+		 */
 		
 		return "ubook/ubookCategory";
 	}
@@ -115,7 +123,7 @@ public class UbookController {
 	
 	//도서 상세
 	@RequestMapping("ubookDetailTest.ub")
-	public String ubookDetail(@RequestParam("ubookNo") int ubookNo, ModelAndView mv, HttpServletRequest request, Model model) {
+	public String ubookDetail(HttpServletRequest request, Model model) {
 
 		if((User)request.getSession().getAttribute("loginUser") != null) {
 			String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
@@ -123,8 +131,16 @@ public class UbookController {
 			//System.out.println("셀러?" + s.getSellerNo());
 			model.addAttribute("s", s);
 		}
-		Ubook ubook = ubookService.selectUbook(ubookNo);
+
+		Ubook ub = new Ubook();
+		ub.setUbookNo(Integer.parseInt(request.getParameter("ubookNo")));
+		ub.setBSellerNo(Integer.parseInt(request.getParameter("bSellerNo")));
+		
+		Ubook ubook = ubookService.selectUbook(ub);
+		System.out.println("야!!!! 좀 얼굴 좀 비춰봐!!" + ub.getBSellerNo());
+		System.out.println("야!!!! 좀 얼굴 좀 비춰봐!!2222" + ub.getUbookName());
 		model.addAttribute("ubook", ubook);
+		
 		return "ubook/ubookDetailTest";
 		/*
 		System.out.println("도서야~~ 나와줘~~~~~" + ubook.getUbookName());
@@ -135,9 +151,13 @@ public class UbookController {
 	//도서 수정 시 해당 도서 검색
 	@RequestMapping("ubookUpdateForm.ub")
 	@ResponseBody
-	public Ubook ubookUpdateForm(@RequestParam("ubookNo") int ubookNo) {
+	public Ubook ubookUpdateForm(HttpServletRequest request, @RequestParam("ubookNo") int ubookNo) {
 
-		Ubook ubook = ubookService.selectUbook(ubookNo);
+		Ubook ub = new Ubook();
+		ub.setUbookNo(Integer.parseInt(request.getParameter("ubookNo")));
+		ub.setSellerNo(Integer.parseInt(request.getParameter("sellerNo")));
+		
+		Ubook ubook = ubookService.selectUbook(ub);
 		
 		return ubook;
 	}
@@ -203,9 +223,11 @@ public class UbookController {
 		update.setUbookPrice(Integer.parseInt(request.getParameter("ubookPrice")));//int
 		update.setUbookStock(Integer.parseInt(request.getParameter("ubookStock")));//int
 		update.setUbookQual(request.getParameter("ubookQual"));
-		update.setUbookQual(request.getParameter("ubookDetail"));
+		update.setUbookDetail(request.getParameter("ubookDetail"));
 		update.setUbookContent(request.getParameter("ubookContent"));
 		update.setUbookImg(ubookImg);	//img
+		
+		System.out.println(update);
 
 		int result = ubookService.ubookUpdate(update);
 		

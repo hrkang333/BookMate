@@ -8,6 +8,31 @@
 <title>도서 등록</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
+$(document).ready(function() {
+    $('#ubookDetail').on('keyup', function() {
+        $('#test_cnt').html("("+$(this).val().length+" / 3600)");
+ 
+        if($(this).val().length > 3600) {
+        	alert("최대 3600자까지 입력 가능합니다.");
+            $(this).val($(this).val().substring(0, 3600));
+            $('#test_cnt').html("(3600 / 3600)");
+        }
+    });
+});
+
+
+$(document).ready(function() {
+    $('#ubookContent').on('keyup', function() {
+        $('#test_cnt1').html("("+$(this).val().length+" / 3600)");
+ 
+        if($(this).val().length > 3600) {
+        	alert("최대 3600자까지 입력 가능합니다.");
+            $(this).val($(this).val().substring(0, 3600));
+            $('#test_cnt1').html("(3600 / 3600)");
+        }
+    });
+});
+
 function imgCheck(img,inputId) {
 	
 	if(img.files&&img.files[0]){
@@ -30,6 +55,19 @@ function imgCheck(img,inputId) {
 			}			
 		}		   
 	}
+}
+
+
+function resetForm() {
+	if($('.selected').data != '' ){
+		$('.selected').remove();
+		$('.focus').addClass('selected');
+		$('.option').data();
+	}
+	document.getElementById('ubCategory').value="";
+	document.getElementById('ubookQual').value="";
+	
+	document.getElementById('ubookEnroll').reset();
 }
 
 function submitCheck(){
@@ -278,14 +316,16 @@ function checkText(obj) {
 
 							<tr>
 								<th class="info">도서 상세</th>
-								<td><textarea name="ubookDetail" id="ubookDetail" cols="54" required="required"
+								<td><textarea name="ubookDetail" id="ubookDetail" cols="54" required="required" maxlength="3600"
 										rows="10" placeholder="도서의 줄거리, 도서 품질 상세 정보 등을 입력해주세요" data-name = "도서 상세"></textarea>
+										<div id="test_cnt">(0 / 3600)</div>
 								</td>
 							</tr>
 							<tr>
 								<th class="info">도서 목차</th>
-								<td><textarea name="ubookContent" id="ubookContent" cols="54" required="required"
+								<td><textarea name="ubookContent" id="ubookContent" cols="54" required="required" maxlength="3600"
 										rows="10" placeholder="도서의 목차를 입력해주세요" data-name = "도서 목차"></textarea>
+										<div id="test_cnt1">(0 / 3600)</div>
 								</td>
 							</tr>
 							<tr>
@@ -308,6 +348,7 @@ function checkText(obj) {
 							
 							<input type="button"
 							id="approve_btn" class="btn btn-warning" name="approve_btn"
+							 onclick="resetForm()"
 							value="취소하기">
 					</center>
 				</form>

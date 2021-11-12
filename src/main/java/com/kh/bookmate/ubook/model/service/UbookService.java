@@ -9,7 +9,7 @@ public interface UbookService {
 
 	void insertUbook(Ubook ubook);
 	
-	Ubook selectUbook(int ubookNo);
+	//Ubook selectUbook(int ubookNo);
 
 	//List<Ubook> selectbookList();
 
@@ -22,6 +22,8 @@ public interface UbookService {
 	//List<Ubook> ubookCateList1();
 
 	List<Ubook> selectCategory(int ubCategory);
+
+	Ubook selectUbook(Ubook ub);
 
 	//List<Ubook> selectbookList(String userId);
 

@@ -42,7 +42,7 @@
                                 	for(var i=0; i < data.length; i++){
                                 		$('#ubookListTb').append("<tr><td align='center'>" + (i+1) + "</td>" + "<td hidden='hidden' name='ubookNo'>"+data[i].ubookNo+"</td>" +
                     										"<td align='center'><img src='${pageContext.servletContext.contextPath }/resources/images/Ubookimg/" + data[i].ubookImg + "' style='width: 145px; height: auto;'></td>" +
-                                							"<td align='center'><a href='ubookDetailTest.ub?ubookNo="+data[i].ubookNo+"'>" + data[i].ubookName + "</a></td>" +
+                                							"<td align='center'><a href='ubookDetailTest.ub?ubookNo="+data[i].ubookNo+"&bSellerNo="+data[i].bsellerNo+"'>" + data[i].ubookName + "</a></td>" +
                                 							"<td align='center'>" + data[i].ubookWriter + "</td>" +
                                 							"<td align='center'>" + data[i].ubookStock + "</td>" +
                                 							"<td align='center'>"+

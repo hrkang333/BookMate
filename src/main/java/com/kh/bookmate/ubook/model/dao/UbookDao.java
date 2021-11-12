@@ -14,12 +14,12 @@ public class UbookDao {
 	public int insertUbook(SqlSession sqlSession, Ubook ubook) {
 		return sqlSession.insert("ubookMapper.insertUbook",ubook);
 	}
-
+/*
 	public Ubook selectUbook(SqlSessionTemplate sqlSession, int ubookNo) {
 		System.out.println("dao----" + ubookNo);
 		return sqlSession.selectOne("ubookMapper.selectUbook",ubookNo);
 	}
-/*
+
 	public List<Ubook> selectbookListCount(SqlSessionTemplate sqlSession) {
 		List list1 =  sqlSession.selectList("ubookMapper.selectbookListCount");
 		System.out.println("dao----" + list1);
@@ -60,6 +60,11 @@ public class UbookDao {
 
 	public int ubookUpdate(SqlSessionTemplate sqlSession, Ubook ubook) {
 	return sqlSession.update("ubookMapper.updateUbook", ubook);
+	}
+
+	public Ubook selectUbook(SqlSessionTemplate sqlSession, Ubook ub) {
+		System.out.println("dao----" + ub);
+		return sqlSession.selectOne("ubookMapper.selectUbook",ub);
 	}
 
 }

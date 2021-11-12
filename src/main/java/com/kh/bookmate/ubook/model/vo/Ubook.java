@@ -33,4 +33,7 @@ public class Ubook {
 	private String ubookImg;
 	private String ubookStatus;
 	
+	//셀러 추가
+	private String sellerNickN;
+	private int sellerNo;
 }
