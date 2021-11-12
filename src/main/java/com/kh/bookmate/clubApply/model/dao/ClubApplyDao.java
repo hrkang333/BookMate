@@ -7,6 +7,8 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.bookmate.clubApply.model.vo.ClubApply;
+
 @Repository
 public class ClubApplyDao {
 
@@ -54,6 +56,24 @@ public class ClubApplyDao {
 	public int updateHeartCount(SqlSessionTemplate sqlSession, int clubNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("clubApplyMapper.updateHeartCount", clubNo);
+	}
+
+	public int deleteHeart(SqlSessionTemplate sqlSession, String userId,  List<Integer> clubNoList) {
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("userId", userId);
+		map.put("clubNoList", clubNoList);
+		
+		return sqlSession.delete("clubApplyMapper.deleteHeart",map);
+	}
+
+	public int updateHeartCount2(SqlSessionTemplate sqlSession,  List<Integer> clubNoList) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("clubApplyMapper.updateHeartCount2", clubNoList);
+	}
+
+	public List<ClubApply> selectApplyList(SqlSessionTemplate sqlSession, String userId) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("clubApplyMapper.selectApplyList",userId);
 	}
 
 }

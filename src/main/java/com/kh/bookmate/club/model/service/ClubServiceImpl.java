@@ -204,18 +204,16 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	@Override
-	public int selectListCount_mp2(String userId) {
+	public int selectListCount(String userId, String table) {
 		// TODO Auto-generated method stub
-		return 0;
+		return clubDao.selectListCount(sqlSession,userId, table);
 	}
 
 	@Override
-	public ArrayList<Club> selectList2(String userId, PageInfo pi) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	public ArrayList<Club> selectList2(String userId, String table, PageInfo pi) {
 	
+		return clubDao.selectList2(sqlSession, userId, table, pi);
+	}
 
 	
 	

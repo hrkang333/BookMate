@@ -11,9 +11,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   <resultMap id="clubApplyResultSet" type="ClubApply">
 		<id column="APPLY_NO" property="applyNo"/>
 		<result column="REF_TIME_NO" property="timeNo"/>
+		<result column="REF_CLUB_NO" property="clubNo"/>
 		<result column="USER_ID" property="userId"/>
 		<result column="APPLY_CANCLE" property="applyCancle"/>
-		<result column="APPLY_ACCEPT" property="applyAccept"/>
 		<result column="APPLY_PARTI" property="applyParti"/>
 		<result column="STATUS" property="status"/>
   </resultMap>
@@ -71,11 +71,39 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES(SEQ_CWNO.NEXTVAL, #{clubNo}, #{userId})
 	</insert>
 	
-	<!-- 3-3. club : heart_count +1 -->
+	<!-- 3-3. 찜 - club : heart_count +1 -->
 	<update id="updateHeartCount">
 		UPDATE CLUB 
 		SET HEART_COUNT = HEART_COUNT+1
 		WHERE CLUB_NO = #{clubNo}
 	</update>
+	
+	<!-- 4-1. 찜 - club_wish : delete -->
+	<delete id="deleteHeart" parameterType="hashmap">
+		delete from club_wish
+		where user_id = #{userId}
+		and ref_club_no in
+		<foreach item="item" collection="clubNoList" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<!-- 4-2. 찜 - club : heart_count -1 -->
+	<update id="updateHeartCount2">
+		UPDATE CLUB 
+		SET HEART_COUNT = HEART_COUNT-1
+		WHERE CLUB_NO in
+		<foreach item="item" collection="list" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</update>
+	
+	<!-- 5. 신청 -->
+	<select id="selectApplyList" resultMap="clubApplyResultSet">
+		SELECT *
+		FROM CLUB_APPLY
+		WHERE USER_ID=#{userId}
+		ORDER BY APPLY_NO
+	</select>
 	
 </mapper>

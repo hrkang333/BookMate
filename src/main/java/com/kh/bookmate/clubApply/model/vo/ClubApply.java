@@ -15,9 +15,9 @@ public class ClubApply {
 
 	private int applyNo;
 	private int timeNo;
+	private int clubNo;
 	private String userId;
 	private String applyCancle;
-	private String applyAccept;
 	private String applyParti;
 	private String status;
 }
