@@ -12,5 +12,7 @@ public interface ShoppingBasketService {
 	List<ShoppingBasket> selectCartList(String user_Id);
 
 	List<Book> selectBookList(List<ShoppingBasket> basketList);
+
+	int deleteBasket(int basketNo);
 	
 }

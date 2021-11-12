@@ -3,17 +3,17 @@ package com.kh.bookmate.coupon.model.vo;
 public class UseCoupon {
 
 	private String user_Id;
-	private int couponNo;
+	private String couponCode;
 	
 	public UseCoupon() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public UseCoupon(String user_Id, int couponNo) {
+	public UseCoupon(String user_Id, String couponCode) {
 		super();
 		this.user_Id = user_Id;
-		this.couponNo = couponNo;
+		this.couponCode = couponCode;
 	}
 
 	public String getUser_Id() {
@@ -24,18 +24,20 @@ public class UseCoupon {
 		this.user_Id = user_Id;
 	}
 
-	public int getCouponNo() {
-		return couponNo;
+	public String getCouponCode() {
+		return couponCode;
 	}
 
-	public void setCouponNo(int couponNo) {
-		this.couponNo = couponNo;
+	public void setCouponCode(String couponCode) {
+		this.couponCode = couponCode;
 	}
 
 	@Override
 	public String toString() {
-		return "UseCouponVo [user_Id=" + user_Id + ", couponNo=" + couponNo + "]";
+		return "UseCoupon [user_Id=" + user_Id + ", couponCode=" + couponCode + "]";
 	}
+
+
 	
 	
 	

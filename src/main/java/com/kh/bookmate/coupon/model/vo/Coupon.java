@@ -2,12 +2,15 @@ package com.kh.bookmate.coupon.model.vo;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class Coupon {
 	
-	private int couponNo;
 	private String couponCode;
 	private int couponPoint;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date couponStartDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date couponEndDate;
 	
 	public Coupon() {
@@ -15,27 +18,12 @@ public class Coupon {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Coupon(int couponNo, String couponCode, int couponPoint, Date couponStartDate, Date couponEndDate) {
+	public Coupon(String couponCode, int couponPoint, Date couponStartDate, Date couponEndDate) {
 		super();
-		this.couponNo = couponNo;
 		this.couponCode = couponCode;
 		this.couponPoint = couponPoint;
 		this.couponStartDate = couponStartDate;
 		this.couponEndDate = couponEndDate;
-	}
-
-	public Coupon(String couponCode, int couponPoint) {
-		super();
-		this.couponCode = couponCode;
-		this.couponPoint = couponPoint;
-	}
-
-	public int getCouponNo() {
-		return couponNo;
-	}
-
-	public void setCouponNo(int couponNo) {
-		this.couponNo = couponNo;
 	}
 
 	public String getCouponCode() {
@@ -72,10 +60,9 @@ public class Coupon {
 
 	@Override
 	public String toString() {
-		return "CouponVo [couponNo=" + couponNo + ", couponCode=" + couponCode + ", couponPoint=" + couponPoint
-				+ ", couponStartDate=" + couponStartDate + ", couponEndDate=" + couponEndDate + "]";
+		return "Coupon [couponCode=" + couponCode + ", couponPoint=" + couponPoint + ", couponStartDate="
+				+ couponStartDate + ", couponEndDate=" + couponEndDate + "]";
 	}
-	
-	
+
 	
 }

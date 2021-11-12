@@ -22,7 +22,7 @@ public class Book {
 	private String bookIntro;
 	private String bookDetailImg;
 	private int bookStock;
-	private int bookStatud;
+	private int bookStatus;
 	private int allBestRank;
 	private int categoryBestRank;
 	private Double bookRating;
@@ -54,7 +54,7 @@ public class Book {
 		this.bookIntro = bookIntro;
 		this.bookDetailImg = bookDetailImg;
 		this.bookStock = bookStock;
-		this.bookStatud = bookStatud;
+		this.bookStatus = bookStatud;
 		this.allBestRank = allBestRank;
 		this.categoryBestRank = categoryBestRank;
 		this.bookRating = bookRating;
@@ -204,11 +204,11 @@ public class Book {
 	}
 
 	public int getBookStatud() {
-		return bookStatud;
+		return bookStatus;
 	}
 
 	public void setBookStatud(int bookStatud) {
-		this.bookStatud = bookStatud;
+		this.bookStatus = bookStatud;
 	}
 
 	public Double getBookRating() {
@@ -266,7 +266,7 @@ public class Book {
 				+ ", bookCategory=" + bookCategory + ", bookSubCategory=" + bookSubCategory + ", bookPublisher="
 				+ bookPublisher + ", bookPublisheDate=" + bookPublisheDate + ", bookPrice=" + bookPrice
 				+ ", bookContents=" + bookContents + ", bookIntro=" + bookIntro + ", bookDetailImg=" + bookDetailImg
-				+ ", bookStock=" + bookStock + ", bookStatud=" + bookStatud + ", allBestRank=" + allBestRank
+				+ ", bookStock=" + bookStock + ", bookStatud=" + bookStatus + ", allBestRank=" + allBestRank
 				+ ", categoryBestRank=" + categoryBestRank + ", bookRating=" + bookRating + ", bookRatingCount="
 				+ bookRatingCount + ", bookReviewCount=" + bookReviewCount + "]";
 	}

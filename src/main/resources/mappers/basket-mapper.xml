@@ -18,5 +18,8 @@ SELECT * FROM BOOK WHERE BOOKISBN IN
 </foreach>
 
 </select>
+<delete id="deleteBasket">
+DELETE FROM SHOPPINGBASKET WHERE BASKETNO = #{basketNo}
+</delete>
 
 </mapper>

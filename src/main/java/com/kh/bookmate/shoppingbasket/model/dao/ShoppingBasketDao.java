@@ -26,4 +26,9 @@ public class ShoppingBasketDao {
 		return sqlSession.selectList("basketMapper.selectBookList",basketList);
 	}
 
+	public int deleteBasket(SqlSession sqlSession, int basketNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("basketMapper.deleteBasket",basketNo);
+	}
+
 }

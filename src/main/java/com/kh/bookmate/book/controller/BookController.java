@@ -30,8 +30,10 @@ import com.kh.bookmate.book.model.vo.Book;
 public class BookController {
 
 	@Autowired
-	BookService bookService;
+	private BookService bookService;
 
+	private String[] categoryNameArr = {"소설/시/에세이" , "경제/경영" , "과학" , "인문",  "컴퓨터/IT", "자기계발" ,  "정치/사회", "역사/문화", "취미" ,  "가정/육아" };
+	         
 	@RequestMapping("bookTemp.book")
 	public String bookTemp() {
 		return "book/bookTemp";
@@ -57,14 +59,10 @@ public class BookController {
 		bestList = new ArrayList<Book>(bestBookList.subList(0, 5));
 		
 
-//		book.setBookContents(book.getBookContents().replaceAll("<br>", "\r\n"));
-//		book.setBookIntro(book.getBookIntro().replaceAll("<br>", "\r\n"));
-		System.out.println(book);
-
 		mo.addAttribute("newBookList", newBookList);
 		mo.addAttribute("bestList", bestList);
 		mo.addAttribute("book", book);
-		mo.addAttribute("categoryName", "취미");
+		mo.addAttribute("categoryName", categoryNameArr[book.getBookSubCategory()]);
 		mo.addAttribute("bestListIndex", 0);
 
 		return "book/bookDetail";
@@ -132,12 +130,14 @@ public class BookController {
 	public String tempBook() {
 		List<Book> bookList = new ArrayList<Book>();
 		
-		bookList = bookService.selectCategoryBookList(8);
+		for(int i = 0 ;i<10;i++) {
+			bookList = bookService.selectCategoryBookList(i);
+			
+			
+			bookService.sellDateInsert(bookList);
+		}
 		
 		
-		System.out.println(bookList.size());
-		
-		bookService.sellDateInsert(bookList);
 		
 		
 		return "book/bookTemp";	
@@ -166,6 +166,20 @@ public class BookController {
     
 	        
 		return bestList;
+	}
+	
+	@RequestMapping(value = "checkISBN", produces = "application/text; charset=utf-8")
+	@ResponseBody
+	public String checkISBN(String bookISBN) {
+
+		Book book = bookService.selectCheckISBN(bookISBN);
+
+		if(book!=null) {
+			return book.getBookTitle();
+		}
+
+		return "pass";
+
 	}
 
 }
