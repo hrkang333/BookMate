@@ -15,7 +15,7 @@ import com.kh.bookmate.payment.model.vo.PaymentDetail;
 
 @Service
 public class ExchageItemImpl implements ExchageItemService {
-
+ 
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 	
@@ -32,7 +32,7 @@ public class ExchageItemImpl implements ExchageItemService {
 		if (result > 0) {
 			
 			list.add(result);
-			
+			 
 		} else {
 			throw new RuntimeException("교환신청 실패");
 		}

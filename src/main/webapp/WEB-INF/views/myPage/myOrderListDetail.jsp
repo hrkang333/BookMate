@@ -280,7 +280,7 @@
 					  </c:choose>
                           	
                           	 </td>
-                       </tr>
+                       </tr> 
                             
                   </c:forEach> 
                          
