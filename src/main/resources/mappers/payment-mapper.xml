@@ -61,6 +61,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE PAYMENTDETAILNO = ${paymentDetailNo}
 	</select>
 	
-	
+		<!-- 주문상태 취소로 변경하기 -->
+	<select id="confirmOrder" resultMap="paymentDetailResultSet" parameterType="_int">
+		UPDATE PAYMENTDETAIL
+		SET DELIVERYSTATUS = 8
+		WHERE PAYMENTDETAILNO = ${paymentDetailNo}
+	</select>
 
 </mapper>

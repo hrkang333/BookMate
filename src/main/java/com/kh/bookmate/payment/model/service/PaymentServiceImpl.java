@@ -44,9 +44,17 @@ public class PaymentServiceImpl implements PaymentService {
 		return list;
 	}
 
+	//사용자 배송준비중 구매취소
 	@Override
 	public int cancelMyOrder(int paymentDetailNo) {
 		int list = paymentDao.cancelMyOrder(sqlSession,paymentDetailNo);
+		return list;
+	}
+
+	//사용자 배송완료 후 구매확정 
+	@Override
+	public int confirmOrder(int paymentDetailNo) {
+		int list = paymentDao.confirmOrder(sqlSession,paymentDetailNo);
 		return list;
 	}
 

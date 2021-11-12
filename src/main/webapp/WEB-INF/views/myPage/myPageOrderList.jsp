@@ -160,7 +160,7 @@
 					
                    <c:forEach var="item" items="${myOrderList}" varStatus="status">
                          
-                      <tr class="OrderListTr">       
+                      <tr>       
                        	<td>
                     	<input type="hidden"  id="paymentNo${status.index}" value="${item.paymentNo }"/>
                         	<p><c:out value="${item.paymentNo}"/></p></td>     

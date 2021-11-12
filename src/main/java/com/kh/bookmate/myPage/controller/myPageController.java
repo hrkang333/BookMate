@@ -2,8 +2,6 @@ package com.kh.bookmate.myPage.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.bookmate.common.PageInfo;
 import com.kh.bookmate.common.Pagination;
+import com.kh.bookmate.exchange_item.model.service.ExchageItemService;
+import com.kh.bookmate.exchange_item.model.vo.ExchageItem;
 import com.kh.bookmate.payment.model.service.PaymentService;
 import com.kh.bookmate.payment.model.vo.Payment;
 import com.kh.bookmate.payment.model.vo.PaymentDetail;
@@ -34,6 +32,10 @@ public class myPageController {
 	
 	@Autowired
 	private PaymentService paymentService;
+	
+	
+	@Autowired 
+	private ExchageItemService exchageItemService;
 	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -58,8 +60,7 @@ public class myPageController {
 
 	}
 	
-	
-	
+		
 	//마이페이지 이동 
 	@RequestMapping("myPage.me")
 	public String updateUser() {
@@ -132,9 +133,6 @@ public class myPageController {
 	//주문 리스트 내역 상세보기 
 	@RequestMapping("selectMyOrderListDetail.me")
 	public String selectMyOrderListDetail (Model model, int paymentNo ) {	
-		
-//		int paymentNo = Integer.parseInt(request.getParameter("paymentNo"));
-//		System.out.println(paymentNo+"===============ㅠㅠㅠ=========");
 
 		List<PaymentDetail> myOrderListDetail = paymentService.selectMyOrderListDetail(paymentNo);
 		model.addAttribute("myOrderListDetail",myOrderListDetail);
@@ -157,16 +155,60 @@ public class myPageController {
 		return "myPage/myOrderListDetail";
 	}
 	
+
+	//배송후 사용자가 주문확정 
+	@RequestMapping("confirmOrder.me") 
+	public String confirmOrder(int paymentNo, int paymentDetailNo, Model model ){
+									
 	
-	//주문리스트 검색하기 
-	@RequestMapping("searchMyOrderList.me")
-	public String searchMyOrderList (int paymentNo, int paymentDetailNo, Model model ) {
+		paymentService.confirmOrder(paymentDetailNo); //구매확정 업데이트 
 		
-		
+		//이후 셀렉 
+		List<PaymentDetail> myOrderListDetail = paymentService.selectMyOrderListDetail(paymentNo);
+		model.addAttribute("myOrderListDetail",myOrderListDetail);
 		return "myPage/myOrderListDetail";
 	}
 	
+
 	
+	//교환 반품 페이지 이동 
+	@RequestMapping("applyExchangeAndRefund.me") 
+	public String applyExchangeAndRefund(){
+		return "myPage/applyExchangeAndRefund";
+	}
+	
+	
+	//교환 신청하기 
+	@RequestMapping("insertExchangeItem.me") 
+	public String insertExchangeItem(int paymentNo, int paymentDetailNo, Model model){
+		
+		//1. 기존의 주문 상세 리스트 불러오기
+		List<PaymentDetail> myOrderListDetail = paymentService.selectMyOrderListDetail(paymentNo);
+		
+		//체크박스같은거 누르고 확인하면 인서트 되는걸 만들어 주고 싶음. 
+		
+		//2. 저 주문상세 번호 교환테이블에 넣어주기 
+		List<ExchageItem> exchangeList = exchageItemService.insertExchangeItem(myOrderListDetail);
+		model.addAttribute("exchangeList",exchangeList);
+		
+		
+		
+		
+		return "myPage/applyExchangeAndRefund";
+	}
+	
+	
+	
+	
+//	//교환 신청하기- - 이 번호를 가지고 가서 insert 겨환 쪽으로 인서트를 해야되는것.. 
+//	@RequestMapping("applyExchangeBook.me")
+//	public String applyExchangeBook(int paymentNo, int paymentDetailNo, Model model, int exchangeNo ) {
+//		
+//		List<ExchageItem> applyEx = exchageItemService.applyExchangeBook(exchangeNo);
+//		
+////		
+//		return "myPage/applyExchangeBook";
+//	}
 	
 	
 //일주일 
