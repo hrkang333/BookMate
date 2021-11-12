@@ -17,7 +17,7 @@ public class PaymentDao {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("paymentMapper.selectMyOrderList", loginUser);
 	}
-
+ 
 	//페이징처리 
 	public int selectListCount(SqlSessionTemplate sqlSession, String loginUser) {
 		// TODO Auto-generated method stub

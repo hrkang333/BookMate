@@ -24,11 +24,11 @@ public class PaymentServiceImpl implements PaymentService {
 	private PaymentDao paymentDao;
 
 	//주문 리스트 조회 
-	@Override
+	@Override 
 	public List<Payment> selectMyOrderList(String loginUser) {
 		List<Payment> list = paymentDao.selectMyOrderList(sqlSession, loginUser);
 		return list;
-	}
+	} 
 
 	//페이지 처리 
 	@Override

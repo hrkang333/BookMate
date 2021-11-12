@@ -192,7 +192,7 @@ public class myPageController {
 		model.addAttribute("exchangeList",exchangeList);
 		
 		
-		
+		 
 		
 		return "myPage/applyExchangeAndRefund";
 	}

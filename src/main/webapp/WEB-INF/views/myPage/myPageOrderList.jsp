@@ -216,7 +216,7 @@
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>
-
+ 
 
 				<c:choose>
 					<c:when test="${ pi.currentPage ne pi.maxPage }">
