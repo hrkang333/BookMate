@@ -53,8 +53,11 @@ public interface ClubService {
 
 	List<Integer> selectApplyList(List<Integer> ctList);
 
-	//마이페이지2
-	int selectListCount_mp2(String userId);
-	ArrayList<Club> selectList2(String userId, PageInfo pi);  
+	int selectListCount(String userId, String table);
+
+	ArrayList<Club> selectList2(String userId, String table, PageInfo pi);
+
+
+
 
 }

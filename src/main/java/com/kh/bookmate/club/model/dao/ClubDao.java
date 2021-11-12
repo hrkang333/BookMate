@@ -5,6 +5,7 @@
 package com.kh.bookmate.club.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Repository;
 import com.kh.bookmate.club.model.vo.Club;
 import com.kh.bookmate.club.model.vo.ClubAttachment;
 import com.kh.bookmate.club.model.vo.ClubTime;
-import com.kh.bookmate.clubApply.model.vo.ClubApply;
 import com.kh.bookmate.common.PageInfo;
 
 @Repository
@@ -184,6 +184,40 @@ public class ClubDao {
 	public ArrayList<Integer> selectApplyList(SqlSessionTemplate sqlSession, List<Integer> ctList) {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("clubMapper.selectApplyList", ctList);
+	}
+
+	public int selectListCount(SqlSessionTemplate sqlSession, String userId, String table) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("userId", userId);
+		map.put("table", table);
+		return sqlSession.selectOne("clubMapper.selectListCount2",map);
+	}
+
+	//마이페이지 - 찜목록
+	public ArrayList<Club> selectList2(SqlSessionTemplate sqlSession, String userId, String table, PageInfo pi) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("userId", userId);
+		map.put("table", table);
+		
+		List<Integer> clubNoList = new ArrayList<>();
+		ArrayList<Club> mypageList= new ArrayList<>();
+		
+		if(table.equals("CLUB_WISH")) {
+			//1.club_wish테이블에 table, userid 보내서 clubNo 뽑아오기
+			clubNoList = sqlSession.selectList("clubMapper.selectClubNoList", map);
+		}else if(table.equals("CLUB_APPLY")) {
+			//1.club_apply테이블에 table, userid 보내서 clubNo 뽑아오기
+			clubNoList = sqlSession.selectList("clubMapper.selectClubNoList", map);
+		}
+
+		//2.clubNo로 club전체내용 뽑기
+		if(clubNoList.size()!=0) {
+			mypageList = (ArrayList)sqlSession.selectList("clubMapper.selectMypageList",clubNoList);
+		}
+		
+		System.out.println("clubDao - 마이페이지찜목록 : " + mypageList.toString());
+		
+		return mypageList;
 	}
 
 }

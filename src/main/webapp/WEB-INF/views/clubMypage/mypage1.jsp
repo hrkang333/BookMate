@@ -86,32 +86,37 @@
             <div class="row">
                 <h3 id="test" style="font-size: 30px; ">  찜한 독서모임</h3>
             </div>
+
             <div class="row">  
                 <div class="col-xl-12 col-lg-12 col-md-12">
                     <!-- Start Best Seller -->
                     <section>
-						<form id="mypageForm1" action="" method="post">
+						<form id="mypageForm2" action="" method="post">
                         <div style="float: right;">
                             <button class="button button-login" style="margin-bottom: 20px;" onclick="deleteClub()">삭제하기</button>
                         </div>
-   
+
                         <table id="applyList" class="table table-hover" align="center">
                             <thead>
                                 <tr>
                                     <th style="width:5%;">선택</th>
                                     <th style="width:10%;">카테고리</th>
                                     <th style="width:29%;">독서모임명</th>
-                                    <th style="width:10%;">호스트명</th>
                                     <th style="width:9%;">온/오프라인</th>
                                     <th style="width:17%;">날짜</th>
                                     <!-- <th>신청인원/정원</th> -->
-                                    <th style="width:7%;">마감까지</th>
+                                    <th style="width:7%;">취소</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            	<c:forEach items="${list}" var="c">
+                            	<c:forEach items="${capList}" var="ap">
 	                                <tr>
-	                                    <td><input name="clubNo" type="checkBox" value="${c.clubNo}"></td>
+	                                <c:forEach items="${list}" var="club"> 
+	                                	<c:if test="${club.clubNo eq ap.clubNo}">
+	                                		<c:set var="c" value="${club}"/>
+	                                	</c:if>
+	                                </c:forEach>
+	                                    <td><input name="timeNo" type="checkBox" value="${ap.timeNo}"></td>
 	                                    <td><c:out value="${c.category}"/></td>
 	                                    
 	                                    <td>
@@ -124,31 +129,19 @@
 	                                    	<div><c:out value="${c.clubTitle}"/></div>
 	                                    </div>
 	                                    </td>
-	                                    
-	                                    <td><c:out value="${c.hostName}"/></td>
+
 	                                    <td><c:out value="${c.onoffLine}"/></td>
 	                                    
 	                                    <td>
 		                                    <c:forEach items="${c.clubTimes}" var="ct">
-		                                    	<c:if test="${ !empty ct.clubDate}">
+		                                    	<c:if test="${ct.timeNo eq ap.timeNo}">
 		                                    		${fn:substring(ct.clubDate,0,11)} | ${ct.startTime} ~ ${ct.endTime}<br>
-		                                    		<%-- ${ct.clubDate} | ${ct.startTime} ~ ${ct.endTime}<br> --%>
 		                                    	</c:if>
-		                                    	<c:if test="${ empty ct.clubDate}">
-		                                    		${ct.clubDate} | ${ct.startTime} ~ ${ct.endTime}<br>
-		                                    	</c:if>
+		              
 			                                </c:forEach>
 		                                </td>
-		                                
-		                                <jsp:useBean id="today" class="java.util.Date" />
-		                                <fmt:formatDate var="today2" value="${today}" pattern="yyyy-MM-dd"/>
-		                                <fmt:parseDate var="now"  value="${today2}" pattern="yyyy-MM-dd"/>
-										<fmt:parseNumber value="${now.time / (1000*60*60*24)}" integerOnly="true" var="now1"></fmt:parseNumber>
-
-										<fmt:parseDate var="endDate" value="${c.clubEndDate}"  pattern="yyyy-MM-dd"/>
-										<fmt:parseNumber value="${endDate.time / (1000*60*60*24)}" integerOnly="true" var="endDate1"></fmt:parseNumber>
-
-									    <td>${endDate1- now1}일</td>
+		                  
+									    <td><button>취소하기</button></td>
 		                                
 	                                </tr>
                                 </c:forEach>  

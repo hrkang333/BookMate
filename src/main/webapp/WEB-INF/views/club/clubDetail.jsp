@@ -39,12 +39,12 @@
             border: 1px solid #bebebe;
             display: flex;
             align-items: center;
-            width: 80%;
+            width: 100%;
         }
         
         .left {
             flex: 0 0 auto;
-            margin: 20px;
+            margin: 16px 28px;
         }
         
         .right {
@@ -82,6 +82,27 @@
             padding-top: 4%;
             box-sizing: border-box;
         }
+        
+        .titleDiv{
+	        width: 100%;
+		    height: 100%;
+		   /*  background-color: #D5C4A2; */
+	    }
+	    
+	    .titleBackImg{
+	    	background-size: cover;
+		    width: 100%;
+		    height: 100%;
+		    /* opacity:0.85; */
+	    }
+	    
+	    .heartImg{
+	    	position: absolute;
+		    bottom: 4%;
+		    right: 8%;
+		    width: 10.5%;
+		    cursor: pointer;
+	    }
     </style>
 </head>
 
@@ -97,14 +118,24 @@
 
             <div class="row s_product_inner">
                 <div class="col-lg-5">
-                    <div>
-                        <div class="single-prd-item">
-                        	<c:forEach var="ca" items="${club.clubAttachments}">
-                        		<c:if test="${ca.fileType eq 2}">
-                        			<img class="img-fluid" src="resources/upload_files/club_img/${ca.changeName}" alt="">
-                        		</c:if>         		
-                        	</c:forEach> 
-                        </div>
+                    <div class="titleDiv">
+                        <c:forEach var="ca" items="${club.clubAttachments}">
+                        	<c:if test="${ca.fileType eq 2}">
+                        		<div class="titleBackImg" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${ca.changeName}')">
+                        			
+                        			<c:choose>
+                        				<c:when test="${befHeart eq 0}">
+                        					<img  id="heartClub" class="heartImg" src="resources/img/club/hearts_empty.png">
+                        				</c:when>
+                        				<c:otherwise>
+                        					<img  id="heartClub" class="heartImg" src="resources/img/club/hearts_full.png">
+                        				</c:otherwise>
+                        			</c:choose>
+                        			
+                        		</div>
+                        		<!-- background-image 뒤에 넣기 : linear-gradient( rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) ), -->
+                        	</c:if>         		
+                        </c:forEach> 
                     </div>
                 </div>
                 <div class="col-lg-6 offset-lg-1">
@@ -113,38 +144,40 @@
                         <h3 style="font-size: 37px;">${club.clubTitle}</h3>
                         <h2 style="font-size: 17px;">#${club.category} &nbsp; #${club.onoffLine} &nbsp; #${club.times} </h2>
 
-						<c:forEach var="ct" items="${club.clubTimes}" varStatus="status">
-							<div class="times">
-                            <div class="left">
-                                <p class="time">
-                                    <span>
-                                    	<fmt:parseDate var="clubD" value="${ct.clubDate}" pattern="yyyy-MM-dd" /> <!-- string -> Date로 -->	
-										<fmt:parseDate value="${ct.clubDate}" var="dateK" pattern="yyyy-MM-dd"/>
-										<fmt:formatDate value="${dateK}" pattern="yyyy년 MM월 dd일"/>
-                                    	(<fmt:formatDate value="${clubD}" pattern="E"/>)
-                                    	</span>
-                                    <span>|</span>
-                                    <span>${ct.startTime} ~ ${ct.endTime}</span>
-                                </p>
-                                <p class="apply" style="display:flex">
-                                    <span style="margin-left: auto;">신청 <span id="applyCount${status.index}">${ct.apply_count}</span> / 정원 <span id="clubCapacity${status.index}">${club.clubCapacity}</span></span>
-                                </p>
-                            </div>
-                            <div class="right">
-                            	<c:if test="${club.times eq '한 번 만나요'}">
-                            		<input type="checkbox" class="applys" id="checkbox${status.index}" name="applys" value="${ct.timeNo}">
-                            	</c:if>
-                            	<c:if test="${club.times eq '여러 번 만나요'}">
-                            		<input type="hidden" class="applys" name="applys" value="${ct.timeNo}">
-                            	</c:if>
-                            </div>
-                        </div>
-						</c:forEach>
+						<div style="overflow:auto; width:80%; height:258px; margin:40px 0px 30px; border:3px solid #FFAE42">
+							<c:forEach var="ct" items="${club.clubTimes}" varStatus="status">
+								<div class="times">
+	                            <div class="left">
+	                                <p class="time">
+	                                    <span>
+	                                    	<fmt:parseDate var="clubD" value="${ct.clubDate}" pattern="yyyy-MM-dd" /> <!-- string -> Date로 -->	
+											<fmt:parseDate value="${ct.clubDate}" var="dateK" pattern="yyyy-MM-dd"/>
+											<fmt:formatDate value="${dateK}" pattern="yyyy년 MM월 dd일"/>
+	                                    	(<fmt:formatDate value="${clubD}" pattern="E"/>)
+	                                    	</span>
+	                                    <span>|</span>
+	                                    <span>${ct.startTime} ~ ${ct.endTime}</span>
+	                                </p>
+	                                <p class="apply" style="display:flex">
+	                                    <span style="margin-left: auto;">신청 <span id="applyCount${status.index}">${ct.apply_count}</span> / 정원 <span id="clubCapacity${status.index}">${club.clubCapacity}</span></span>
+	                                </p>
+	                            </div>
+	                            <div class="right">
+	                            	<c:if test="${club.times eq '한 번 만나요'}">
+	                            		<input type="checkbox" class="applys" id="checkbox${status.index}" name="applys" value="${ct.timeNo}">
+	                            	</c:if>
+	                            	<c:if test="${club.times eq '여러 번 만나요'}">
+	                            		<input type="hidden" class="applys" name="applys" value="${ct.timeNo}">
+	                            	</c:if>
+	                            </div>
+	                        </div>
+							</c:forEach>
+						</div>	
 						
-                        <div class="">
-                            <button id="heartClub" class="button primary-btn">찜하기</button>
-                            <button id="applyClub" class="button primary-btn">신청하기</button>
-                        </div>
+	                    <div class="">
+	                        <!-- <button id="heartClub" class="button primary-btn">찜하기</button> -->
+	                        <button id="applyClub" class="button primary-btn">신청하기</button>
+	                    </div>
 
                     </div>
                 </div>
@@ -155,7 +188,7 @@
     <!--================End Single Product Area =================-->
 
     <br><br>
-    <hr>
+    <hr style="width:94%;">
     <br>
 
     <section class="club_detail">
@@ -344,11 +377,11 @@
     
     <script>
     	$("#heartClub").click(function() {
-			var clubNo = $("#clubNo").val();
+    		var clubNo = $("#clubNo").val();
 			var userId = '<c:out value="${ loginUser.userId }"/>';
 			var c_host = '<c:out value="${club.userId}"/>';
-			
-			//1. 로그인 유저 확인
+    		var src = $('#heartClub').attr("src");
+    		
     		if(userId == ''){
     			alert("독서모임 찜기능은 로그인 후 이용 부탁드립니다")
     			return;
@@ -360,26 +393,55 @@
     			return;
     		}
     		
-    		$.ajax({
-    			url:"heart.cl",
-				data:{
-					clubNo : clubNo,
-					userId : userId
-				},
-				type : "get",
-				success:function(result){
-					console.log("ajax통신성공");
-					
-					if(result == 'fail'){
-						alert("이전에 찜하기 하신 적 있는 독서모임입니다.");
-					}else{
-						alert("찜목록에 추가되었습니다. 마이페이지에서 확인가능합니다!")
-					}
-					
-				},error:function(){
-					console.log("ajax통신실패");
-				}
-    		})
+    		if(src == 'resources/img/club/hearts_empty.png'){
+    			//1. 로그인 유저 확인
+
+        		$.ajax({
+        			url:"heart.cl",
+    				data:{
+    					clubNo : clubNo,
+    					userId : userId
+    				},
+    				type : "get",
+    				success:function(result){
+    					console.log("ajax통신성공");
+    					
+    					if(result == 'fail'){
+    						alert("이전에 찜하기 하신 적 있는 독서모임입니다.");
+    					}else{
+    						alert("찜목록에 추가되었습니다.");
+    						$("#heartClub").attr("src","resources/img/club/hearts_full.png");
+    					}
+    					
+    				},error:function(){
+    					console.log("ajax통신실패");
+    				}
+        		})
+        		
+    		}else{
+    			$.ajax({
+        			url:"heartCancle.cl",
+    				data:{
+    					clubNo : clubNo,
+    					userId : userId
+    				},
+    				type : "get",
+    				success:function(result){
+    					console.log("ajax통신성공");
+    					
+    					alert("찜목록에서 삭제되었습니다.");
+						$("#heartClub").attr("src","resources/img/club/hearts_empty.png");
+    					
+    				},error:function(){
+    					console.log("ajax통신실패");
+    				}
+        		})
+    		}
+
+    		
+    		
+			
+			
     		
     		
 		})

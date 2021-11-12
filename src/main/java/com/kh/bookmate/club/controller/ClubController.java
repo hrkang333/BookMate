@@ -41,6 +41,7 @@ import com.kh.bookmate.club.model.service.ClubService;
 import com.kh.bookmate.club.model.vo.Club;
 import com.kh.bookmate.club.model.vo.ClubAttachment;
 import com.kh.bookmate.club.model.vo.ClubTime;
+import com.kh.bookmate.clubApply.model.service.ClubApplyService;
 import com.kh.bookmate.clubApply.model.vo.ClubApply;
 import com.kh.bookmate.common.PageInfo;
 import com.kh.bookmate.common.Pagination;
@@ -54,6 +55,9 @@ public class ClubController {
 
 	@Autowired
 	private ClubService clubService;
+	
+	@Autowired
+	private ClubApplyService clubApplyService;
 	
 	//0. insert 첫단계 화면 띄우기
 	@RequestMapping("insertForm1.cl")
@@ -239,38 +243,48 @@ public class ClubController {
 	}
 	
 	
+	//마이페이지2 조회 - 찜목록 조회
+	@RequestMapping("mypage1.cl")
+	public String selectListMypage1(@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage,
+									HttpServletRequest request, Model model) {
+			
+		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
+		String table  = "CLUB_APPLY";;
+		int listCount  = clubService.selectListCount(userId, table);
+		List<ClubApply> capList = new ArrayList<>();  //신청
+		
+		//1.신청 목록
+		capList = clubApplyService.selectApplyList(userId);
+		System.out.println("club 컨트롤러 - 신청 : " + capList.toString());
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 7, 7);
+		ArrayList<Club> list = clubService.selectList2(userId, table, pi);
+		System.out.println("club 컨트롤러 - 신청club리스트 : " + list.toString());
+		System.out.println("club 컨트롤러 - 신청 : " + capList.toString());
+		
+		model.addAttribute("list", list);
+		model.addAttribute("capList", capList);
+		model.addAttribute("pi",pi);
+		return "clubMypage/mypage1";
+	}	
 	
+	//마이페이지2 조회 - 찜목록 조회
 	@RequestMapping("mypage2.cl")
 	public String selectListMypage2(@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage,
 									HttpServletRequest request, Model model) {
 		
 		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
+		String table = "CLUB_WISH";
+		int listCount = clubService.selectListCount(userId, table);
 		
-		int listCount = clubService.selectListCount_mp2(userId);
-		System.out.println("listCount : " + listCount);
-		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 7, 5);
-		
-		ArrayList<Club> list = clubService.selectList2(userId, pi);		
-		
-		System.out.println("list크기 : " + list.size());
-		
-		for(Club c : list) {
-			System.out.println("list크기 : " + c.toString());
-		}
-		
-		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 7, 7);
+		ArrayList<Club> list = clubService.selectList2(userId, table, pi);
+
 		model.addAttribute("list", list);
 		model.addAttribute("pi",pi);
-
-		return "clubMypage/mypage3";
+		
+		return "clubMypage/mypage2";
 	}
-	
-	
-	
-	
-	
-	
 	
 	//5. 마이페이지3 - 독서모임 개설 조회하기
 	@RequestMapping("mypage3.cl")
@@ -556,12 +570,15 @@ public class ClubController {
 	
 	//9. 상세페이지
 	@RequestMapping("detail.cl")
-	public ModelAndView clubDetail(int clubNo, ModelAndView mv) {
+	public ModelAndView clubDetail(HttpServletRequest request, int clubNo, ModelAndView mv) {
 		
+		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
 		Club club = clubService.selectClub(clubNo);
+		int befHeart = clubApplyService.selectCheckHeart(userId, clubNo);
 		
 		System.out.println("club 확인! : " + club.toString());
 		
+		mv.addObject("befHeart",befHeart);
 		mv.addObject("club",club).setViewName("club/clubDetail");
 		return mv;
 	}

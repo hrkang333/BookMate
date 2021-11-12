@@ -287,4 +287,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ORDER BY REF_TIME_NO DESC
 	</select> -->
 	
+	<!-- 마이페이지2 - 페이징처리 -->
+	<select id="selectListCount2" parameterType="hashmap" resultType="_int">
+		SELECT COUNT(*)
+		FROM ${table}
+		WHERE USER_ID = #{userId}	
+	</select>
+	
+	<!-- 마이페이지2 - clubNo갯수 세기 -->
+	<select id="selectClubNoList" parameterType="hashmap" resultType="_int">
+		SELECT REF_CLUB_NO
+		FROM ${table}
+		WHERE USER_ID = #{userId}
+	</select>
+	
+	<select id="selectMypageList" parameterType="java.util.Map" resultMap="clubResultSet">
+		SELECT A.*, B.*, C.REF_CLUB_NO, C.ORIGINAL_NAME, C.CHANGE_NAME, C.FILE_TYPE
+		FROM CLUB A
+		LEFT JOIN CLUB_TIME B
+		ON A.CLUB_NO = B.REF_CLUB_NO
+		LEFT JOIN CLUB_ATTACHMENT C
+		ON A.CLUB_NO = C.REF_CLUB_NO
+		WHERE A.STATUS='Y'
+		AND A.CLUB_NO IN
+		<foreach item="item" collection="list" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+		ORDER BY B.CLUB_DATE	
+	</select>
+	
+	
 </mapper>
