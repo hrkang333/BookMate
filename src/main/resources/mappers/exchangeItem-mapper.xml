@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="ExchangeItem">
-
+ 
 	<resultMap id="exchangeItemResultSet" type="com.kh.bookmate.exchange_item.model.vo.ExchangeItem">
 		<id column="EXCHANGENO" property="exchangeNo" />
 		<result column="PAYMENTDETAILNO" property="paymentDetailNo" />
@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="EXCHANGEADDRESS" property="exchangeAddress" />
 	</resultMap>
   
-	
+	 
 	<!-- <select id="selectMyOrderListDetail" resultMap="exchangeItemResultSet">
 		SELECT * FROM EXCHANGE_ITEM
 		WHERE PAYMENTDETAILNO = ${paymentDetailNo}

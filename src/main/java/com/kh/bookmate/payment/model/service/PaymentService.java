@@ -18,6 +18,6 @@ public interface PaymentService {
 
 	int confirmOrder(int paymentDetailNo);
 
-	
+	 
 
 }

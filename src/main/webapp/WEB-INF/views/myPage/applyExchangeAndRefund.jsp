@@ -76,7 +76,7 @@
                     guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
                     guideTextBox.style.display = 'block';
 
-             
+              
                 } else {
                     guideTextBox.innerHTML = '';
                     guideTextBox.style.display = 'none';
@@ -85,7 +85,7 @@
         }).open();
     }
 </script>
- 
+  
 </head>
 <body>
 
@@ -148,7 +148,7 @@
 	  			
 	  		</tr>
 	  		
-	  	
+	  	 
 	  	</table>
 	  
 	  

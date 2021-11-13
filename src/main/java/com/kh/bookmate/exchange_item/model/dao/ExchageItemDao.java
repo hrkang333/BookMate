@@ -14,8 +14,8 @@ public class ExchageItemDao {
 //
 //			sqlSession.selectList("exchangeItem.selectMyOrderListDetail", paymentDetailNo);
 //	}
-//	
-
+//	 
+ 
 	
 	 
  

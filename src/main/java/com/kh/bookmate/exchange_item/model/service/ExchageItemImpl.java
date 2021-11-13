@@ -3,9 +3,9 @@ package com.kh.bookmate.exchange_item.model.service;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+ 
 import com.kh.bookmate.exchange_item.model.dao.ExchageItemDao;
-
+ 
 @Service
 public class ExchageItemImpl implements ExchageItemService {
  
