@@ -161,9 +161,8 @@ public class myPageController {
 	public String confirmOrder(int paymentNo, int paymentDetailNo, Model model ){
 									
 	
-		paymentService.confirmOrder(paymentDetailNo); //구매확정 업데이트 
+		paymentService.confirmOrder(paymentDetailNo); //구매확정 업데이트 이건 또 왜 안됨..?
 		
-		//이후 셀렉 
 		List<PaymentDetail> myOrderListDetail = paymentService.selectMyOrderListDetail(paymentNo);
 		model.addAttribute("myOrderListDetail",myOrderListDetail);
 		return "myPage/myOrderListDetail";
@@ -171,70 +170,26 @@ public class myPageController {
 	
 
 	
-	//교환 반품 페이지 이동 
-	@RequestMapping("applyExchangeAndRefund.me") 
-	public String applyExchangeAndRefund(){
-		return "myPage/applyExchangeAndRefund";
-	}
-	
-	
 	//교환 신청하기 
 	@RequestMapping("insertExchangeItem.me") 
 	public String insertExchangeItem(int paymentNo, int paymentDetailNo, Model model){
-		
-		//1. 기존의 주문 상세 리스트 불러오기
-		List<PaymentDetail> myOrderListDetail = paymentService.selectMyOrderListDetail(paymentNo);
-		
-		//체크박스같은거 누르고 확인하면 인서트 되는걸 만들어 주고 싶음. 
-		
-		//2. 저 주문상세 번호 교환테이블에 넣어주기 
-		List<ExchageItem> exchangeList = exchageItemService.insertExchangeItem(myOrderListDetail);
-		model.addAttribute("exchangeList",exchangeList);
-		
-		
-		 
+
+		//상세주문 번호 리스트 조회 먼저 
+		paymentService.selectMyOrderListDetail(paymentDetailNo);
+//		List<PaymentDetail> myOrderListDetail = paymentService.selectMyOrderListDetail(paymentDetailNo);
+//		model.addAttribute("myOrderListDetail",myOrderListDetail);
+	
+	int exchangeList = exchageItemService.insertExchangeItem(paymentDetailNo);
+	model.addAttribute("exchangeList",exchangeList);
 		
 		return "myPage/applyExchangeAndRefund";
 	}
 	
+
 	
 	
 	
-//	//교환 신청하기- - 이 번호를 가지고 가서 insert 겨환 쪽으로 인서트를 해야되는것.. 
-//	@RequestMapping("applyExchangeBook.me")
-//	public String applyExchangeBook(int paymentNo, int paymentDetailNo, Model model, int exchangeNo ) {
-//		
-//		List<ExchageItem> applyEx = exchageItemService.applyExchangeBook(exchangeNo);
-//		
-////		
-//		return "myPage/applyExchangeBook";
-//	}
 	
-	
-//일주일 
-//		private String getCurrentDate() {
-//			Date dateNow = (Date) Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST")).getTime();
-//	        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-//	        return formatter.format(dateNow);
-//	}
-//	
-//	// 한달 
-//	private String getMonthAgoDate() {
-//	     Calendar cal = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST"));
-//	     cal.add(Calendar.MONTH ,-1); // 한달전 날짜 가져오기
-//	     Date monthago = (Date) cal.getTime();
-//	     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-//	     return formatter.format(monthago);
-//	}
-//	
-//	// 삼개월  
-//	private String getThreeMonthAgoDate() {
-//	     Calendar cal = Calendar.getInstance(new SimpleTimeZone(0x1ee6280, "KST"));
-//	     cal.add(Calendar.MONTH ,-3); // 세달전 날짜 가져오기
-//	     Date monthago = (Date) cal.getTime();
-//	     SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-//	     return formatter.format(monthago);
-//	}
 	
 	
 	

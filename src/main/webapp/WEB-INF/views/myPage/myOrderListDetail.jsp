@@ -75,9 +75,9 @@
 	
 				 
 		 		 //구매확정 
-				 function confirmOrder(paymentDetailNo){
+				 function confirmOrder(paymentDetailNo,paymentNo){
 					 var answer = confirm("구매확정하시겠습니까? 확정시 교환환불이 불가합니다.")
-					 
+			
 					if(answer==true){
 						
 						var formObj1=document.createElement("form");
@@ -90,10 +90,10 @@
 						confirmOrder2.name = "paymentNo";
 						confirmOrder2.value = paymentNo; 
 					    
-						console.log(formObj1);
-						
 						formObj1.appendChild(confirmOrder);
 					    formObj1.appendChild(confirmOrder2);
+					    
+					    console.log(confirmOrder,confirmOrder2)
 					    
 					    document.body.appendChild(formObj1); 
 					    formObj1.method="post";
@@ -101,8 +101,8 @@
 					    formObj1.submit();
 					    
 					}
-				 }
-				
+				 } 
+		 		
 
 				 
 				</script>
@@ -110,7 +110,6 @@
 				
 				
 <body>
- <jsp:include page="../common/menubar.jsp" />
 
 
 <!-- 왼쪽 사이드바  -->
@@ -252,33 +251,36 @@
                   	     	    
                   	     	    
                   	       </c:choose>
-                  	     	
-                  	     	
                   	     	</td>  
                   	     	
-                          	<td> <!-- <input type="button" class="button button-hero" value="주문취소" onclick="orderCancle()"/> -->
-                      <c:choose>
-						   <c:when test="${item.deliveryStatus =='1'}"> <!--배송준비중일때 주문취소 버튼 활성화 -->
-						       <input  type="button" onclick="cancelOrder('${item.paymentDetailNo}','${item.paymentNo}')" value="주문취소"  />
-						   </c:when>
-						   <c:when test="${item.deliveryStatus =='4'}">
-						      <input  type="button" onclick="cancelOrder('${item.paymentDetailNo}')" value="주문취소" disabled />
-						   </c:when>
-						   <c:when test="${item.deliveryStatus =='2'}"><!-- 배송중 일때  -->						  
-						  <div>  <input  type="button" onclick="applyExchangeAndRefund()" value="교환/반품신청"/></div>
-					      <div>  <input  type="button" onclick="confirmOrder('${item.paymentDetailNo}','${item.paymentNo}')" value= "구매확정"/></div>
-						  	  
-						  </c:when>
-						   <c:when test="${item.deliveryStatus =='3'}"><!--  배송완료 일 때 -->
-						  <div>  <input  type="button" onclick="applyExchangeAndRefund()" value="교환/반품신청"/></div>	  
-						  <div>  <input  type="button" onclick="confirmOrder('${item.paymentDetailNo}','${item.paymentNo}')" value= "구매확정"/></div>
-						   </c:when>
-						    <c:when test="${item.deliveryStatus =='8'}">
-						    <input  type="button" onclick="confirmOrder('${item.paymentDetailNo}')" value="구매확정" disabled />
-						   </c:when>
-						   
-					  </c:choose>
-                          	
+                          	<td> 
+		                      <c:choose>
+								   <c:when test="${item.deliveryStatus =='1'}"> <!--배송준비중일때 주문취소 버튼 활성화 -->
+								       <input  type="button" onclick="cancelOrder('${item.paymentDetailNo}','${item.paymentNo}')" value="주문취소"  />
+								   </c:when>
+								   <c:when test="${item.deliveryStatus =='4'}">
+								      <input  type="button" onclick="cancelOrder('${item.paymentDetailNo}')" value="주문취소" disabled />
+								   </c:when>
+								   
+								   <c:when test="${item.deliveryStatus =='2'}"><!-- 배송중 일때  -->						  
+								
+	  								
+	  								<input type="hidden" id="paymentDetailNo${status.index }" value="${item.paymentDetailNo}"> 
+								   	<input  type="button" onclick="goExchange('${status.index}')" value="교환/반품신청"/>
+ 
+ 
+							     	<input  type="button" onclick="confirmOrder('${item.paymentDetailNo}','${item.paymentNo}')" value= "구매확정"/>
+								  	  
+								  </c:when>
+								   <c:when test="${item.deliveryStatus =='3'}"><!--  배송완료 일 때 -->
+								  <input  type="button"  onclick="goExchange('${status.index}')" value="교환/반품신청"/>  
+								  <input  type="button" onclick="confirmOrder('${item.paymentDetailNo}','${item.paymentNo}')" value= "구매확정"/>
+								   </c:when>
+								   
+								    <c:when test="${item.deliveryStatus =='8'}">
+								    <input  type="button"  onclick="confirmOrder('${item.paymentDetailNo}','${item.paymentNo}')" value="구매확정" disabled />
+								   </c:when>
+							  </c:choose>
                           	 </td>
                        </tr> 
                             
@@ -286,22 +288,25 @@
                          
                         </tbody>
                       </table>
-                      <!-- 교환환불 페이지 만들어서 그 페이지에서 신청할수있게 하는게 나을거같음  -->
-                      <!--  히든으로 숨겨진 상세주문 번호 -->
-                     	 <!-- <form id ="cancleForm" action="cancelMyOrder.me" method="post">
-                     	 <input type="hidden" id="cancelForm1" name="paymentDetailNo">
-                        </form> -->
-                        
-                        <!-- 교환/환불  구매확정하면(교환, 환불불가) -->
-                        
+                 				<form id=exchangeForm action="insertExchangeItem.me" method="post">
+                 				<input type="hidden" id="exchangeForm1" name="paymentDetailNo"></form>                 				
                     </div>
-         <script type="text/javascript">
-   		
-   			function applyExchangeAndRefund(){
-   				window.location.href ="applyExchangeAndRefund.me"
-   			}
-		</script>
-		
+                    
+	         <script type="text/javascript">
+	   		
+	   			function goExchange(num){
+	   				
+/* 	   				 window.location.href ="insertExchangeItem.me" 
+ */	   				
+	   			 	var exchagne =$('#paymentDetailNo'+num).val();
+	   			 	
+	   			 		console.log(exchange);
+	   					$('#exchangeForm1').val(exchange);
+	   					$("#exchangeForm").submit; 
+	   			}
+	   			
+			</script>
+			
 		
                 </div>
              </div>   

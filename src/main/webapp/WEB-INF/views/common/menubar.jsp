@@ -38,8 +38,12 @@
               
               
               <li class="nav-item submenu dropdown">
+              
+              
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false">Ebook</a>
+                  
+                  
                 <ul class="dropdown-menu">
                   <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
                   <li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
@@ -56,7 +60,7 @@
 	                <a href="register.me">회원가입</a> | 
 	                
 	                <br>
-	                <a href="login.me"">로그인</a>  |
+	                <a href="login.me"">로그인</a>  | <!--  모달로 띄우기  ui 만 조금 다듬기 -->
 	                  <br>
 	                <a href="findId.us">아이디찾기</a> |
 	                  <br>
@@ -70,8 +74,6 @@
 	                <label>${ sessionScope.loginUser.userName }님 환영합니다</label> &nbsp;&nbsp;
 	                <a href="myPageMain.me">마이페이지</a>
 	                <a href="logout.us">로그아웃</a>
-	                
- 	           
                 </c:if>  
             </ul>
 
