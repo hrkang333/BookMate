@@ -20,16 +20,16 @@ public class PaymentServiceImpl implements PaymentService {
 	@Autowired
 	private UserDao userDao;
 	
-	@Autowired
+	@Autowired 
 	private PaymentDao paymentDao;
-
+ 
 	//주문 리스트 조회 
 	@Override 
 	public List<Payment> selectMyOrderList(String loginUser) {
 		List<Payment> list = paymentDao.selectMyOrderList(sqlSession, loginUser);
 		return list;
-	} 
-
+	}  
+ 
 	//페이지 처리 
 	@Override
 	public int selectListCount(String loginUser) {

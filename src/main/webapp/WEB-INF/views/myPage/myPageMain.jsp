@@ -42,8 +42,7 @@
     </style>
 </head>
 <body>
- <jsp:include page="../common/menubar.jsp" />
- 
+
  
 <!-- 왼쪽 사이드바  -->
     <section class="section-margin--small mb-5">

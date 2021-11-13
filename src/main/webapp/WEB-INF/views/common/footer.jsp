@@ -53,7 +53,7 @@
     }
 </style>
 </head>
-<body>
+<body >
   <!--================ Start footer Area  =================-->   
    <footer class="footer">
       <div class="footer-area">
@@ -145,7 +145,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
    <!--================ End footer Area  =================-->
 
 
-
+ 
   <script src="resources/vendors/jquery/jquery-3.2.1.min.js"></script>
   <script src="resources/vendors/bootstrap/bootstrap.bundle.min.js"></script>
   <script src="resources/vendors/skrollr.min.js"></script>

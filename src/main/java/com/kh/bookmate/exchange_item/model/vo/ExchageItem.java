@@ -1,7 +1,5 @@
 package com.kh.bookmate.exchange_item.model.vo;
 
-import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,12 +14,14 @@ import lombok.ToString;
 @ToString
 public class ExchageItem {
 	
-	private int exchageNo;
-	private int paymentDetailNo;
-	private int paymentNo;
-	private Date exchageDate;
-	private Date exchageAccept;
-	private String exchageStatus;
+	//교환은 책에 이상이 있을 때만 가능함 
 	
+	private int exchangeNo;
+	private int paymentDetailNo;
+	private String exchangeReason;
+	private int exchangeStatus;
+	private String exchangeName;
+	private String exchangePhone;
+	private String exchangeAddress;
 
 }

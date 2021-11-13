@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="paymentMapper">
-
+ 
 	<resultMap id="paymentResultSet" type="Payment">
 		<id column="PAYMENTNO" property="paymentNo" />
 		<result column="USER_ID" property="user_Id" />
@@ -59,7 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		UPDATE PAYMENTDETAIL
 		SET DELIVERYSTATUS = 4
 		WHERE PAYMENTDETAILNO = ${paymentDetailNo}
-	</select>
+	</select> 
 	
 		<!-- 주문상태 취소로 변경하기 -->
 	<select id="confirmOrder" resultMap="paymentDetailResultSet" parameterType="_int">
