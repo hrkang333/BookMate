@@ -67,4 +67,9 @@ public class UbookDao {
 		return sqlSession.selectOne("ubookMapper.selectUbook",ub);
 	}
 
+	public Ubook selectUpdateUbook(SqlSessionTemplate sqlSession, int ubookNo) {
+		System.out.println("dao----" + ubookNo);
+		return sqlSession.selectOne("ubookMapper.selectUpdateUbook",ubookNo);
+	}
+
 }

@@ -79,6 +79,11 @@ public class UbookServiceImpl implements UbookService {
 		return u;
 	}
 
+	@Override
+	public Ubook selectUpdateUbook(int ubookNo) {
+		return ubookDao.selectUpdateUbook(sqlSession, ubookNo);
+	}
+
 	
 	/*@Override
 	public List<Ubook> selectbookList(String userId) {

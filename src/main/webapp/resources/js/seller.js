@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     showTab(currentTab);
 
 });
-
+//판매자 가입 폼
 function showTab(n) {
     var x = document.getElementsByClassName("tab");
     x[n].style.display = "block";
