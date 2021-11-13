@@ -72,7 +72,7 @@ public class UbookController {
 
 		 for(int i=0; i < list.size(); i++) { 
 			 Ubook str = list.get(i);
-			 System.out.println("셀러 번호 보이려나 모르겠네" + str.getBSellerNo());
+			 System.out.println("도서" + str);
 			 }
 		
 		System.out.println("list" + list);
@@ -149,18 +149,17 @@ public class UbookController {
 	}
 	
 	//도서 수정 시 해당 도서 검색
-	@RequestMapping("ubookUpdateForm.ub")
-	@ResponseBody
-	public Ubook ubookUpdateForm(HttpServletRequest request, @RequestParam("ubookNo") int ubookNo) {
+	   @RequestMapping("ubookUpdateForm.ub")
+	   @ResponseBody
+	   public Ubook ubookUpdateForm(@RequestParam("ubookNo") int ubookNo) {
 
-		Ubook ub = new Ubook();
-		ub.setUbookNo(Integer.parseInt(request.getParameter("ubookNo")));
-		ub.setSellerNo(Integer.parseInt(request.getParameter("sellerNo")));
-		
-		Ubook ubook = ubookService.selectUbook(ub);
-		
-		return ubook;
-	}
+	      Ubook ubook = ubookService.selectUpdateUbook(ubookNo);
+	      
+	      return ubook;
+	   }
+
+
+
 	
 	//판매자 페이지 - 도서 등록
 	@RequestMapping("ubookEnrollForm.ub")

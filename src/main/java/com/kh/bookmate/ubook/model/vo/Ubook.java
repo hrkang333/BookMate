@@ -36,4 +36,5 @@ public class Ubook {
 	//셀러 추가
 	private String sellerNickN;
 	private int sellerNo;
+	private String sellerId;
 }

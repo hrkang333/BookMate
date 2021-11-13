@@ -109,14 +109,14 @@
 								</colgroup>
 								<thead>
 									<tr>
-										<th class="fixedHeader">No</th>
-										<th class="fixedHeader">표지</th>
-										<th class="fixedHeader">제목</th>
-										<th class="fixedHeader">저자</th>
-										<th class="fixedHeader">가격</th>
-										<th class="fixedHeader">재고</th>
-										<th class="fixedHeader">상태</th>
-										<th class="fixedHeader">구매</th>
+										<th class="tbNo1">No</th>
+										<th class="tbNo1">표지</th>
+										<th class="tbNo1">제목</th>
+										<th class="tbNo1">저자</th>
+										<th class="tbNo1">가격</th>
+										<th class="tbNo1">재고</th>
+										<th class="tbNo1">상태</th>
+										<th class="tbNo1">구매</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -124,7 +124,6 @@
 									<tr data-status="pagado">
 											<td>
 												<div class="tbNo1">${status.index + 1 }</div>
-												<div class="tbNo1">보임? ${u.BSellerNo }</div>
 											</td>
 											<td>
 												<div class="ubookImg">
@@ -173,7 +172,7 @@
 											<td>
 												<c:if test="${ s.sellerNo eq u.BSellerNo }">
 													<div class="tbNo1">
-														<button type="button" style="background-color: #BB937E;color:#ffffff; border:none; width: 100%; margin-bottom:10px; border-radius: 0.3rem;">${s.sellerNickN }의 등록 도서</button>	
+														<button type="button" style="background-color: #BB937E;color:#ffffff; border:none; width: 100%; margin-bottom:10px; border-radius: 0.3rem;">나의 등록 도서</button>	
 													</div>
 												</c:if>
 												<c:if test="${ empty s.sellerNo || s.sellerNo ne u.BSellerNo }">

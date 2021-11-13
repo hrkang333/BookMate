@@ -436,7 +436,7 @@
 
 													},
 													error : function() {
-														alert("너는 뭔가 잘못하고 있따...");
+														alert("너는 뭔가 잘못하고 있어ㅓㅓㅓㅓㅓ...");
 													}
 												});
 									} else {
@@ -471,7 +471,7 @@
 						<form class="form updateUbook1" enctype='multipart/form-data'
 							method="post" action="">
 							<div class="modal-body">
-								<input type="hidden" name="ubookNo">
+								<input type="text" name="ubookNo">
 								<table class="table table-bordered success">
 									<colgroup>
 										<col width="100px" />

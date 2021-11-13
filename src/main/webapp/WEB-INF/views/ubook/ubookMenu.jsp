@@ -25,6 +25,15 @@
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
                 integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
                 crossorigin="anonymous">
+                
+            <style type="text/css">
+            	.fixed{
+            		margin-left:170px !important;
+            	}
+            	.header-area{
+            		box-shadow: none !important;
+            	}
+            </style>
         </head>
 
         <body style="width: 1200px; margin: auto;">

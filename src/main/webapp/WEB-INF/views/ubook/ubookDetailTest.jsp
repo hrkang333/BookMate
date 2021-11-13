@@ -170,17 +170,15 @@
 									<div class="detail_information"
 										style="margin: 0; padding: 20px 43px 25px; font-size: 12px; letter-spacing: -1px; line-height: 1.4em; border: 1px solid #EDEDED; background: #fafafa;">
 										<p style="padding: 10px 0 0 5px;">책장메이트에 등록된 판매상품과 제품의 상태는
-											개별 판매자들이 등록, 판매하는 것으로 중개시스템만을 제공하는 책구메이트는 해당 상품과 내용에 대해 일체
-											책임을 지지 않습니다. 상단 제품상태와 하단 상품 상세를 꼭 확인하신 후 구입해주시기 바랍니다.</p>
+											개별 판매자들이 등록, 판매하는 것으로<br>중개시스템만을 제공하는 책구메이트는 해당 상품과 내용에 대해 일체
+											책임을 지지 않습니다.<br> 상단 제품상태와 하단 상품 상세를 꼭 확인하신 후 구입해주시기 바랍니다.</p>
 										<p style="padding: 10px 0 0 5px;">책구메이트 결제 시스템을 이용하지 않은
 											직거래로 인한 피해 발생 시 책구메이트는 일체 책임을 지지 않습니다.</p>
 
 										<p style="padding: 10px 0 0 5px;">
-											책장메이트에 등록된 판매 상품과 제품의 상태는 개별 오픈마켓 판매자들이 등록, 판매하는 것으로 중개 시스템만을
-											제공하는<br> 인터넷 책구메이트에서는 해당 상품과 내용에 대해 일체 책임을 지지 않습니다.
+											책장메이트에 등록된 판매 상품과 제품의 상태는 개별 오픈마켓 판매자들이 등록, 판매하는 것으로 <br>중개 시스템만을
+											제공하는 인터넷 책구메이트에서는 해당 상품과 내용에 대해 일체 책임을 지지 않습니다.
 										</p>
-										<p style="padding: 10px 0 0 5px;">책구메이트 결제시스템을 이용하지 않은
-											직거래로 인한 피해 발생시, 책구메이트는 일체의 책임을 지지 않습니다.</p>
 									</div>
 									<!-- e: 2020-08-26 -->
 								</div>
@@ -679,21 +677,48 @@
 							style="position: relative; width: 198px; border: 1px solid #5b8a5b; padding: 10px 10px 10px 10px;">
 							<dl
 								style="width: 100%; margin: 0; padding: 0; list-style: none; display: block; margin-block-start: 1em; margin-block-end: 1em; margin-inline-start: 0px; margin-inline-end: 0px;">
-								<dt class="seller">판매자 ${ubook.sellerNickN} 보였으면..</dt>
-								<dd class="seller" name="bSellerNo"
+								<dt class="seller">판매자 &nbsp; <strong style="color:#09992f">${ubook.sellerNickN}</strong></dt>
+								<dd class="seller" name="bSellerNo" hidden="hidden"
 									style="width: 100%; font-size: 14px; color: #5f699c; font-weight: bold; padding: 0 0 5px 0; float: left;">
-									${ ubook.BSellerNo }
-								</dd>
+									${ ubook.BSellerNo }</dd>
 								<dt class="delivery_rank"
 									style="width: 104px; min-height: 14px; float: left; height: 12px; line-height: 12px; padding: 7px 0 0 0;">
 									구매만족도</dt>
 								<dd class="delivery_rank">몇 %</dd>
 								<!-- !구매 만족도 -->
 							</dl>
-
-							<button
-								style="border: none; padding: 8px 0 0 0; margin: 8px 0 0 0; padding-top: 0; background-color: #dcd3cc; width: 100%;">상품
-								문의하기</button>
+							
+							<!-- 로그인 안한 상태에서 문의할 때 -->
+						 <c:if test="${ empty sessionScope.loginUser }">
+							<button type="button" onclick="loginPlease()"
+								style="border: none; padding: 8px 0 0 0; margin: 8px 0 0 0; padding-top: 0; background-color: #dcd3cc; width: 100%;">
+								상품 문의하기</button>
+								<script>
+									function loginPlease() {
+										alert("로그인 후 문의 가능합니다.");
+										document.location.href="login.me";
+									}
+								</script>
+						</c:if>
+							<!-- 내 도서를 문의하려고할 때 -->
+						 <c:if test="${ !empty sessionScope.loginUser && loginUser.userId eq ubook.sellerId }">
+								<button type="button"
+								 onclick="samePerson()"
+								style="border: none; padding: 8px 0 0 0; margin: 8px 0 0 0; padding-top: 0; background-color: #dcd3cc; width: 100%;">
+								상품 문의하기</button>
+						</c:if>
+								<script>
+									function samePerson() {
+										alert("자신의 도서에는 문의할 수 없습니다.");
+									}
+								</script>
+							<!-- 로그인 한 상태에서 다른 사람의 도서 문의할 때 -->
+						 <c:if test="${ !empty sessionScope.loginUser && loginUser.userId ne ubook.sellerId }">
+								<button type="button" data-toggle="modal" id="dormancyBtn"
+								data-target="#dormancy"
+								style="border: none; padding: 8px 0 0 0; margin: 8px 0 0 0; padding-top: 0; background-color: #dcd3cc; width: 100%;">
+								상품 문의하기</button>
+						</c:if>
 						</div>
 						<!--// 판매자 정보 -->
 
@@ -763,6 +788,48 @@
 						<!-- end secondhand-newbook -->
 					</div>
 					<!--// detail_side -->
+				</div>
+			</div>
+			<!-- 판매자 Modal -->
+			<div class="modal fade" id="dormancy" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document" style="margin-left: 16%;">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">상품 문의하기</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">×</span>
+							</button>
+						</div>
+
+						<form class="form" method="post" action="deleteSeller.se">
+							<div class="modal-body">
+								<h6>
+									도서에 대한 궁금한 사항이나 거래 방식을 문의해주세요.
+								</h6>
+								<br>
+								<label>
+									<h4>문의 작성자</h4>
+								</label> 
+								<input type="text" class="form-control" name="userName" value="${ loginUser.userName }">
+								
+								<label>
+									<h4>문의 내용</h4>
+								</label> 
+								<textarea class="form-control" name="chatContent" style="height: 200px;"></textarea>
+								
+								 
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">취소</button>
+								<button type="submit" class="btn btn-primary" onclick="PwdChk()">휴면
+									전환</button>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>

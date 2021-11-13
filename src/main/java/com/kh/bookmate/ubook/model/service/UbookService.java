@@ -25,6 +25,8 @@ public interface UbookService {
 
 	Ubook selectUbook(Ubook ub);
 
+	Ubook selectUpdateUbook(int ubookNo);
+
 	//List<Ubook> selectbookList(String userId);
 
 }

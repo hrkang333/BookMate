@@ -93,7 +93,7 @@ $(document).ready(function () {
 });
   
 
-
+//판매내역 검색
 $(document).ready(function() {
     var activeSystemClass = $('.list-group-item.active');
 
@@ -141,6 +141,7 @@ $(document).ready(function() {
     });
 });
 
+//등록한 도서 수정 모달 띄우기
 function showModal(ubookNo) {
 	$.ajax({
         type : "POST",
@@ -148,8 +149,8 @@ function showModal(ubookNo) {
         dataType : 'json',
         data : {ubookNo : ubookNo},
         success : function(data) {
-        	console.log(data.ubCategory);
-        	$("input[name='ubookNo']").eq(1).val(data.ubookNo);
+        	console.log("책 번호 보여줘,,,,"+data.ubookNo);
+        	$("input[name='ubookNo']").val(data.ubookNo);
         	$("input[name='ubookName']").eq(1).val(data.ubookName);
         	$("input[name='ubookName']").eq(1).val(data.ubookName);
         	$("input[name='ubookWriter']").eq(1).val(data.ubookWriter);
@@ -173,21 +174,21 @@ function showModal(ubookNo) {
         	$("textarea[name='ubookContent']").eq(1).val(data.ubookContent);
         	$("input[name='ubookImg']").eq(1).val(data.ubookImg);
         	
-   		 $('#test_cnt_2').html("("+$("textarea[name='ubookDetail']").eq(1).val().length+" / 3600)");
-
-   		 $('#test_cnt1_2').html("("+$("textarea[name='ubookContent']").eq(1).val().length+" / 3600)");
+	   		 $('#test_cnt_2').html("("+$("textarea[name='ubookDetail']").eq(1).val().length+" / 3600)");
+	
+	   		 $('#test_cnt1_2').html("("+$("textarea[name='ubookContent']").eq(1).val().length+" / 3600)");
         	$("#exampleModal").modal('show');
 
         },
         error : function() {
-        	alert("너는 뭔가 잘못하고 있따...");
+        	alert("너는 뭔가 잘못하고 있따...??????");
         }
     });
 }
 
 
 
-
+//이미지 파일 체크
 function imgCheck(img,inputId) {
 	if(img.files&&img.files[0]){
 		var name= img.files[0].name;
