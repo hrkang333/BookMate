@@ -167,7 +167,7 @@ public class myPageController {
 		model.addAttribute("myOrderListDetail",myOrderListDetail);
 		return "myPage/myOrderListDetail";
 	}
-	
+	 
 
 	
 	//교환 신청하기 

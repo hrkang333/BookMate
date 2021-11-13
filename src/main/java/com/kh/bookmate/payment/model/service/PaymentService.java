@@ -11,7 +11,7 @@ public interface PaymentService {
 	List<Payment> selectMyOrderList(String loginUser);
 
 	int selectListCount(String loginUser);
-
+ 
 	List<PaymentDetail> selectMyOrderListDetail(int paymentNo);
 
 	int cancelMyOrder(int paymentDetailNo);

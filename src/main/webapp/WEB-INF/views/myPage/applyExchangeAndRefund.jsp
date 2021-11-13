@@ -85,7 +85,7 @@
         }).open();
     }
 </script>
-
+ 
 </head>
 <body>
 
@@ -107,7 +107,7 @@
 	  		
 	  		</tr>
 	  	
-	  	
+	  	 
 	  	
 	  		<tr>
 	  			<td style="text-align: left"><img src="${pageContext.servletContext.contextPath }/resources/images/book_img/${item.bookMainImg}" style="width: 40px; height: auto;"/>

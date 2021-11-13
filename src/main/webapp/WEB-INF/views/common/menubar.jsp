@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="resources/vendors/owl-carousel/owl.carousel.min.css">
 
   <link rel="stylesheet" href="resources/css/style.css">
-</head>
+</head> 
 <body>
   <!--================ Start Header Menu Area =================-->
    <header class="header_area">

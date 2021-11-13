@@ -8,7 +8,7 @@ public class ExchageItemDao {
 
 	public int insertExchangeItem(SqlSessionTemplate sqlSession, int paymentDetailNo) {
 		return sqlSession.insert("exchageItem.insertExchangeItem",paymentDetailNo);
-	}
+	} 
 
 //	public void selectMyOrderListDetail(SqlSessionTemplate sqlSession, int paymentDetailNo) {
 //

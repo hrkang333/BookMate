@@ -9,7 +9,7 @@ import com.kh.bookmate.exchange_item.model.dao.ExchageItemDao;
 @Service
 public class ExchageItemImpl implements ExchageItemService {
  
-	@Autowired
+	@Autowired 
 	private SqlSessionTemplate sqlSession;
 	
 	@Autowired

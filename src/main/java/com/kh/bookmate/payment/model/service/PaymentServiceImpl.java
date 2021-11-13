@@ -20,7 +20,7 @@ public class PaymentServiceImpl implements PaymentService {
 	@Autowired
 	private UserDao userDao;
 	
-	@Autowired
+	@Autowired 
 	private PaymentDao paymentDao;
 
 	//주문 리스트 조회 

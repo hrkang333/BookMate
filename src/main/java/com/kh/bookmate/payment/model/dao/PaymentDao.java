@@ -38,6 +38,6 @@ public class PaymentDao {
 		// TODO Auto-generated method stub
 		return sqlSession.update("paymentMapper.confirmOrder",paymentDetailNo);
 	}
-}
+} 
 
 

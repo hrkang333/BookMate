@@ -5,7 +5,7 @@ public interface ExchageItemService {
 	int insertExchangeItem(int paymentDetailNo);
 
 //	void selectMyOrderListDetail(int paymentDetailNo);
-
+ 
 
 }
    
