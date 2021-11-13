@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.bookmate.clubApply.model.vo.ClubApply;
+import com.kh.bookmate.common.PageInfo;
 
 @Repository
 public class ClubApplyDao {
@@ -22,17 +24,18 @@ public class ClubApplyDao {
 	}
 
 	//1. club_apply테이블에 insert하기
-	public int insertApply(SqlSessionTemplate sqlSession, List<Integer> times, String userId) {
+	public int insertApply(SqlSessionTemplate sqlSession, List<Integer> times, String userId, int clubNo) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("times", times);
 		map.put("userId", userId);
+		map.put("clubNo", clubNo);
 		
 		return sqlSession.insert("clubApplyMapper.insertApply",map);
 	}
 
 	//1-2.club_time테이블에 'apply_count'컬럼 update하기
 	public int insertApplyTime(SqlSessionTemplate sqlSession, List<Integer> times) {
-		// TODO Auto-generated method stub
+		
 		return sqlSession.update("clubApplyMapper.insertApplyTime",times);
 	}
 
@@ -71,9 +74,22 @@ public class ClubApplyDao {
 		return sqlSession.update("clubApplyMapper.updateHeartCount2", clubNoList);
 	}
 
-	public List<ClubApply> selectApplyList(SqlSessionTemplate sqlSession, String userId) {
+	public List<ClubApply> selectApplyList(SqlSessionTemplate sqlSession, String userId, PageInfo pi) {
+
+		int offset = (pi.getCurrentPage()-1)*(pi.getBoardLimit());
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return sqlSession.selectList("clubApplyMapper.selectApplyList",userId, rowBounds);
+	}
+
+	public int updateCancel(SqlSessionTemplate sqlSession, Map<String,Object> map) {
+
+		return sqlSession.update("clubApplyMapper.updateCancel",map);
+	}
+
+	public int updateCancelTime(SqlSessionTemplate sqlSession,Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("clubApplyMapper.selectApplyList",userId);
+		return sqlSession.update("clubApplyMapper.updateCancelTime", map);
 	}
 
 }

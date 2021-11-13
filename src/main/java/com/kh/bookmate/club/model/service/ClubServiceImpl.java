@@ -127,17 +127,25 @@ public class ClubServiceImpl implements ClubService {
 		return clubDao.selectListCount(sqlSession,userId);
 	}
 
+	//메인페이지 - 카테고리 리스트
 	@Override
 	public ArrayList<Club> selectCateList(String category) {
 		// TODO Auto-generated method stub
 		return clubDao.selectCateList(sqlSession, category);
 	}
-
+	//메인페이지 - 마감임박 리스트
 	@Override
 	public ArrayList<Club> selectEndList() {
 		// TODO Auto-generated method stub
 		return clubDao.selectEndList(sqlSession);
 	}
+	//메인페이지 - 인기(찜) 리스트
+	@Override
+	public ArrayList<Club> popList() {
+		// TODO Auto-generated method stub
+		return clubDao.selectPopList(sqlSession);
+	}
+	
 
 	@Override
 	public Club selectClub(int cno) {
@@ -214,6 +222,18 @@ public class ClubServiceImpl implements ClubService {
 	
 		return clubDao.selectList2(sqlSession, userId, table, pi);
 	}
+
+	@Override
+	public void updateCondition(int clubNo, int condition) {
+		
+		int result = clubDao.updateCondition(sqlSession, clubNo, condition);
+		
+		if(result < 0) {
+			//오류처리
+		}
+	}
+
+	
 
 	
 	

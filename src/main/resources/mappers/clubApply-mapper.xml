@@ -24,11 +24,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<result column="USER_ID" property="userId"/>
   </resultMap>
 	
-	<!-- 1.이전에 신청한 적 있는지 판별 -->
+	<!-- 1.이전에 신청한 적 있는지 판별 
+	취소한 경우는 신청한 적이 없다고 간주하기 위해 and조건에 추가했음(11.13)-->
 	<select id="checkBeforeApply" parameterType="hashmap" resultType="_int">
 		SELECT COUNT(*)
 		FROM CLUB_APPLY
 		WHERE USER_ID = #{userId} AND
+		APPLY_CANCLE = 'N' AND
 		REF_TIME_NO IN
 		<foreach collection="times" item="item" open="(" close=")" separator=",">
 			#{item}
@@ -37,8 +39,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 2.신청 -->
 	<insert id="insertApply" parameterType="hashmap">
-		INSERT INTO CLUB_APPLY(APPLY_NO, USER_ID, REF_TIME_NO)
-        SELECT SEQ_CAPNO.NEXTVAL, #{userId}, A.* 
+		INSERT INTO CLUB_APPLY(APPLY_NO, USER_ID, REF_CLUB_NO, REF_TIME_NO)
+        SELECT SEQ_CAPNO.NEXTVAL, #{userId}, #{clubNo}, A.* 
 		FROM(
 			<foreach item="item" collection="times" separator="UNION ALL ">
 				select 
@@ -98,12 +100,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</foreach>
 	</update>
 	
-	<!-- 5. 신청 -->
+	<!-- 5. 신청 목록 조회 -->
 	<select id="selectApplyList" resultMap="clubApplyResultSet">
 		SELECT *
 		FROM CLUB_APPLY
 		WHERE USER_ID=#{userId}
-		ORDER BY APPLY_NO
+		AND STATUS='Y'
+		ORDER BY APPLY_NO DESC
 	</select>
+	
+	<!-- 6.신청취소 -->
+	<update id="updateCancel" parameterType="hashmap">
+		UPDATE CLUB_APPLY
+		SET APPLY_CANCLE = 'Y'
+		WHERE STATUS='Y' AND
+		USER_ID=#{userId}
+		AND REF_TIME_NO=#{timeNo}
+		<selectKey keyColumn="REF_CLUB_NO" keyProperty="clubNo" resultType="int" order="AFTER">
+			SELECT REF_CLUB_NO
+			FROM CLUB_APPLY
+			WHERE
+			REF_TIME_NO=#{timeNo} AND 
+			USER_ID=#{userId}
+		</selectKey>
+	</update>
+	
+	<update id="updateCancelTime" parameterType="hashmap">
+		UPDATE CLUB_TIME
+		SET APPLY_COUNT = APPLY_COUNT-1
+		WHERE ${column}=#{columnValue}
+	</update>
+	
+	
 	
 </mapper>

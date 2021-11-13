@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kh.bookmate.club.model.service.ClubService;
+import com.kh.bookmate.club.model.vo.Club;
+import com.kh.bookmate.club.model.vo.ClubTime;
 import com.kh.bookmate.clubApply.model.service.ClubApplyService;
 import com.kh.bookmate.user.model.vo.User;
 
@@ -21,11 +24,14 @@ public class ClubApplyController {
 	
 	@Autowired
 	private ClubApplyService clubApplyService;
+	
+	@Autowired
+	private ClubService clubService;
 
 	@ResponseBody
 	@RequestMapping("apply.cl")
 	//1. 독서모임 신청
-	public String insertApply(@RequestParam(value="times[]") List<Integer> times, String userId) { //String[] times -> 이렇게 배열 받으면 안됨;;
+	public String insertApply(@RequestParam(value="times[]") List<Integer> times, String userId, int clubNo, String c_times) { //String[] times -> 이렇게 배열 받으면 안됨;;
 		
 		//1)이전에 신청한 적 있는지 확인
 		int befApply = clubApplyService.selectCheckApply(times, userId);
@@ -36,7 +42,30 @@ public class ClubApplyController {
 
 		//2-1)club_apply : insert
 		//2-2)club_time : apply_count +1
-		int result = clubApplyService.insertApply(times, userId);	
+		int result = clubApplyService.insertApply(times, userId, clubNo, c_times);	
+		
+		
+		//3)모집종료로 바꿔야 함
+		//3-1) club 조회 - collection으로 club_time도 들어있으므로 2번 db에 왔다갔다 할 필요없다.
+		//3-2) 신청인원, 모집정원 비교하기
+		boolean status = true;
+		
+		Club club = clubService.selectClub(clubNo);
+		for(ClubTime ct : club.getClubTimes()) {
+			int nowApply = ct.getApply_count();
+			if(club.getClubCapacity() > nowApply) {  //모집정원이 신청인원보다 많을때니까 아직 모집중이어도 된다.
+				status = false;
+				break;
+			}
+		}
+		
+		if(status) {
+			int condition = 5; //5:모집완료  (4:모집중-관리자페이지에서 아래 메소드 활용가능) 
+			clubService.updateCondition(clubNo, condition);
+		}
+		
+
+		System.out.println(club.toString());
 
 		return String.valueOf(result);
 	}
@@ -83,5 +112,37 @@ public class ClubApplyController {
 		
 		return "redirect:mypage2.cl";
 	}
+	
+	@ResponseBody
+	@RequestMapping("updateCancel.cl")
+	public String updateCancel(String userId, int timeNo, String times) {
+		//1) club_apply테이블 apply_cancle컬럼 'n'으로 바꾸기
+		//2) club_time테이블 apply_count컬럼 -1해주기
+		int result = clubApplyService.updateCancel(userId, timeNo, times);
+		
+		System.out.println("clubapply컨트롤러 - result=clubNo : " + result);
+		
+		//3) 독서모임 상태 바꾸기
+		boolean status = true;
+		
+		Club club = clubService.selectClub(result);
+		for(ClubTime ct : club.getClubTimes()) {
+			int nowApply = ct.getApply_count();
+			if(club.getClubCapacity() > nowApply) {  //모집정원이 신청인원보다 많을때니까 아직 모집중이어도 된다.
+				status = false;
+				break;
+			}
+		}
+		
+		if(!status) {
+			int condition = 4; //5:모집완료  (4:모집중-관리자페이지에서 아래 메소드 활용가능) 
+			clubService.updateCondition(result, condition);
+		}
+		
+		return String.valueOf(result);
+	}
+	
+	
+	
 
 }

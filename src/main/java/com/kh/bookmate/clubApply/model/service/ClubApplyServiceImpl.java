@@ -1,5 +1,6 @@
 package com.kh.bookmate.clubApply.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.bookmate.clubApply.model.dao.ClubApplyDao;
 import com.kh.bookmate.clubApply.model.vo.ClubApply;
+import com.kh.bookmate.common.PageInfo;
 
 @Service
 public class ClubApplyServiceImpl implements ClubApplyService {
@@ -29,10 +31,19 @@ public class ClubApplyServiceImpl implements ClubApplyService {
 	}
 
 	@Override  //2. 신청: insert, update
-	public int insertApply(List<Integer> times, String userId) {
+	public int insertApply(List<Integer> times, String userId, int clubNo, String c_times) {
 		//2-1)club_apply : insert
 		//2-2)club_time : apply_count +1
-		int result1 = clubApplyDao.insertApply(sqlSession, times, userId);
+		int result1;
+		if(c_times.equals("한 번 만나요")) {
+			result1 = clubApplyDao.insertApply(sqlSession, times, userId,clubNo);
+		}else {
+			//'여러번 만나요'일때 club_apply테이블에 한 번만 들어갈 수 있도록 한다.
+			//마이페이지 - 신청목록에서 여러 번 뜨면 페이징처리가 어렵다.
+			List<Integer> subList = new ArrayList<>(times.subList(0, 1));
+			result1 = clubApplyDao.insertApply(sqlSession, subList, userId,clubNo);
+		}
+		
 		int result2 = clubApplyDao.insertApplyTime(sqlSession,times);
 		
 		if(result1 < 0 || result2 < 0) {
@@ -76,10 +87,38 @@ public class ClubApplyServiceImpl implements ClubApplyService {
 	}
 
 	@Override
-	public List<ClubApply> selectApplyList(String userId) {
+	public List<ClubApply> selectApplyList(String userId , PageInfo pi) {
 		// TODO Auto-generated method stub
-		System.out.println("club-apply-service 여기 오는거맞니?" + clubApplyDao.selectApplyList(sqlSession, userId).toString());
-		return clubApplyDao.selectApplyList(sqlSession, userId);
+		return clubApplyDao.selectApplyList(sqlSession, userId, pi);
+	}
+
+	@Override
+	public int updateCancel(String userId, int timeNo, String times) {
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("userId", userId);
+		map.put("timeNo", timeNo);
+		
+		//1) club_apply테이블 apply_cancle컬럼 'n'으로 바꾸기
+		int result1 = clubApplyDao.updateCancel(sqlSession,map);
+
+		//2) club_time테이블 apply_count컬럼 -1해주기
+		int result2 = 0;
+		if(times.equals("여러 번 만나요")) {
+			map.put("columnValue", map.get("clubNo"));
+			map.put("column", "REF_CLUB_NO");
+			result2 = clubApplyDao.updateCancelTime(sqlSession,map);
+		}else {
+			map.put("columnValue", timeNo);
+			map.put("column", "CLUB_TIME_NO");
+			result2 = clubApplyDao.updateCancelTime(sqlSession,map);
+		}
+		
+		
+		if(result1<0 || result2<0) {
+			//ㅇ예외처리
+		}
+		return (int) map.get("clubNo");
 	}
 	
 	

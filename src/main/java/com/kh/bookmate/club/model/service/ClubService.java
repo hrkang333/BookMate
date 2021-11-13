@@ -36,6 +36,8 @@ public interface ClubService {
 	ArrayList<Club> selectCateList(String category);
 
 	ArrayList<Club> selectEndList();
+	
+	ArrayList<Club> popList();
 
 	Club selectClub(int cno);
 
@@ -56,6 +58,10 @@ public interface ClubService {
 	int selectListCount(String userId, String table);
 
 	ArrayList<Club> selectList2(String userId, String table, PageInfo pi);
+
+	void updateCondition(int clubNo, int condition);
+
+	
 
 
 

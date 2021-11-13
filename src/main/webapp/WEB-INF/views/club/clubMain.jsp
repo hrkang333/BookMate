@@ -88,196 +88,121 @@
                    attribute is used to mark a carousel as animating starting at page load. It cannot be used in combination with (redundant and unnecessary) explicit JavaScript initialization of the same carousel.
                   4. carousel - id는 꼭 유일하게 해줘야함
                 -->
+			   <!-- 마감임박 독서모임 리스트 갯수가 3개 이하인 경우에는 carousel로 슬라이딩되지 않도록 설정했다.
+                                       ㅅ슬라이딩되도록 하면 다음 페이지로 넘어간 후 다시 앞 페이지로 돌아오지 않기 때문이다. -->
+                	<c:if test="${fn:length(popList) <= 3}">
+	                	<div style="display:flex;">
+	                		<c:forEach items="${popList}" var="list" begin="0" end="2">
+	                             <div class="col-md-6 col-lg-4 mb-4 mb-lg-0 pointer">
+					                  <input type="hidden" value="${list.clubNo}">
+					                  <div class="card card-blog">
+					                        <div class="card-blog__img">
+					                             <c:forEach items="${list.clubAttachments}" var="ca">
+					                                 <img class="card-img rounded-0" src="${pageContext.servletContext.contextPath}/resources/upload_files/club_img/${ca.changeName}" alt="">
+					                             </c:forEach>
+					                        </div>
+					                        <div class="card-body">
+					                             <ul class="card-blog__info">
+					                                  <li>${list.category} &nbsp; [ ${list.onoffLine} ]</li>
+					                                  <li><i class="ti-comments-smiley"></i> 2 Comments</li>
+					                             </ul>
+					                             <h4 class="card-blog__title">${list.clubTitle}</h4>
+					                             <p>
+					                                 <c:set var="temp" value="${list.intro}"/>
+					                                 <c:choose>
+						                                  <c:when test="${fn:length(temp) gt 61}">
+						                                       <c:out value="${fn:substring(temp,0,60)}"></c:out> ...
+						                                  </c:when>
+						                                  <c:otherwise>
+						                                       <c:out value="${temp}"/>
+						                                  </c:otherwise>
+					                                 </c:choose>        
+					                             </p>
+					                       </div>
+					                  </div>
+					              </div> 
+	                         </c:forEach>
+	                    </div>
+                   </c:if>
+	
+				<!-- 3개 초과인 경우에는 슬라이딩 된다.
+					 클래스명이 carousel-item인 div에 <row>는 한개, 독서모임은 3개를 넣어줘야 하므로 아래와 같이 변수를 지정하여 했다.
+					 이렇게 하면 select 시 조회해오는 독서모임의 갯수에 상관없이 슬라이딩을 적용할 수 있다.-->
+				   <c:if test="${fn:length(popList) > 3}">
+                        <div id="carouselExampleIndicators0" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                            </ol>
+                            <div class="carousel-inner">
+                            
+                            	<c:forEach var="i" begin="0" end="${fn:length(popList)}" step="3">
+                            	
+                            		<c:choose>
+                            			<c:when test="${i eq 0}">
+                            				<c:set var="activeD" value="carousel-item active"/>
+                            			</c:when>
+                            			<c:otherwise>
+                            				<c:set var="activeD" value="carousel-item"/>
+                            			</c:otherwise>
+                            		</c:choose>
 
-                <div id="carouselExampleIndicators1" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                    </ol>
-                    <div class="carousel-inner">
-                        <div class="carousel-item active" style="width: 100%;">
-
-                            <div class="row">
-                                <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-                                    <div class="card card-blog">
-                                        <div class="card-blog__img">
-                                            <!--사진 이미지 클릭했을 때 detail view로-->
-                                            <a href="single-blog.html">
-                                                <img class="card-img rounded-0" src="img/blog/blog1.png" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="card-body">
-                                            <ul class="card-blog__info">
-                                                <!--제목 클릭했을 때 detail view로-->
-                                                <a href="single-blog.html">
-                                                    <li>By Admin</li>
-                                                    <li><i class="ti-comments-smiley"></i> 2 Comments</li>
-                                                </a>
-                                            </ul>
-                                            <h4 class="card-blog__title"><a href="single-blog.html">The Richland Center Shooping News and weekly shooper</a></h4>
-                                            <p>Let one fifth i bring fly to divided face for bearing divide unto seed. Winged divided light Forth.</p>
-                                            <!-- <a class="card-blog__link" href="#">Read More <i class="ti-arrow-right"></i></a> -->
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-                                    <div class="card card-blog">
-                                        <div class="card-blog__img">
-                                            <a href="single-blog.html">
-                                                <img class="card-img rounded-0" src="img/blog/blog2.png" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="card-body">
-                                            <ul class="card-blog__info">
-                                                <li>By Admin</li>
-                                                <li><i class="ti-comments-smiley"></i> 2 Comments</li>
-                                            </ul>
-                                            <h4 class="card-blog__title"><a href="single-blog.html">The Shopping News also offers top-quality printing services</a></h4>
-                                            <p>Let one fifth i bring fly to divided face for bearing divide unto seed. Winged divided light Forth.</p>
-                                            <!-- <a class="card-blog__link" href="#">Read More <i class="ti-arrow-right"></i></a> -->
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-                                    <div class="card card-blog">
-                                        <div class="card-blog__img">
-                                            <img class="card-img rounded-0" src="img/blog/blog3.png" alt="">
-                                        </div>
-                                        <div class="card-body">
-                                            <ul class="card-blog__info">
-                                                <li><a href="#">By Admin</a></li>
-                                                <li><a href="#"><i class="ti-comments-smiley"></i> 2 Comments</a></li>
-                                            </ul>
-                                            <h4 class="card-blog__title"><a href="single-blog.html">Professional design staff and efficient equipment you’ll find we offer</a></h4>
-                                            <p>Let one fifth i bring fly to divided face for bearing divide unto seed. Winged divided light Forth.</p>
-                                            <!-- <a class="card-blog__link" href="#">Read More <i class="ti-arrow-right"></i></a> -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="carousel-item">
-                            <div class="row">
-                                <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-                                    <div class="card card-blog">
-                                        <div class="card-blog__img">
-                                            <img class="card-img rounded-0" src="img/category/c1.jpg" alt="">
-                                        </div>
-                                        <div class="card-body">
-                                            <ul class="card-blog__info">
-                                                <li><a href="#">By Admin</a></li>
-                                                <li><a href="#"><i class="ti-comments-smiley"></i> 2 Comments</a></li>
-                                            </ul>
-                                            <h4 class="card-blog__title"><a href="single-blog.html">The Richland Center Shooping News and weekly shooper</a></h4>
-                                            <p>Let one fifth i bring fly to divided face for bearing divide unto seed. Winged divided light Forth.</p>
-                                            <a class="card-blog__link" href="#">Read More <i class="ti-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-                                    <div class="card card-blog">
-                                        <div class="card-blog__img">
-                                            <img class="card-img rounded-0" src="img/category/c2.jpg" alt="">
-                                        </div>
-                                        <div class="card-body">
-                                            <ul class="card-blog__info">
-                                                <li><a href="#">By Admin</a></li>
-                                                <li><a href="#"><i class="ti-comments-smiley"></i> 2 Comments</a></li>
-                                            </ul>
-                                            <h4 class="card-blog__title"><a href="single-blog.html">The Shopping News also offers top-quality printing services</a></h4>
-                                            <p>Let one fifth i bring fly to divided face for bearing divide unto seed. Winged divided light Forth.</p>
-                                            <a class="card-blog__link" href="#">Read More <i class="ti-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-                                    <div class="card card-blog">
-                                        <div class="card-blog__img">
-                                            <img class="card-img rounded-0" src="img/category/c3.jpg" alt="">
-                                        </div>
-                                        <div class="card-body">
-                                            <ul class="card-blog__info">
-                                                <li><a href="#">By Admin</a></li>
-                                                <li><a href="#"><i class="ti-comments-smiley"></i> 2 Comments</a></li>
-                                            </ul>
-                                            <h4 class="card-blog__title"><a href="single-blog.html">Professional design staff and efficient equipment you’ll find we offer</a></h4>
-                                            <p>Let one fifth i bring fly to divided face for bearing divide unto seed. Winged divided light Forth.</p>
-                                            <a class="card-blog__link" href="#">Read More <i class="ti-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <div class="row">
-                                <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-                                    <div class="card card-blog">
-                                        <div class="card-blog__img">
-                                            <img class="card-img rounded-0" src="img/category/c4.jpg" alt="">
-                                        </div>
-                                        <div class="card-body">
-                                            <ul class="card-blog__info">
-                                                <li><a href="#">By Admin</a></li>
-                                                <li><a href="#"><i class="ti-comments-smiley"></i> 2 Comments</a></li>
-                                            </ul>
-                                            <h4 class="card-blog__title"><a href="single-blog.html">The Richland Center Shooping News and weekly shooper</a></h4>
-                                            <p>Let one fifth i bring fly to divided face for bearing divide unto seed. Winged divided light Forth.</p>
-                                            <a class="card-blog__link" href="#">Read More <i class="ti-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-                                    <div class="card card-blog">
-                                        <div class="card-blog__img">
-                                            <img class="card-img rounded-0" src="img/category/c5.jpg" alt="">
-                                        </div>
-                                        <div class="card-body">
-                                            <ul class="card-blog__info">
-                                                <li><a href="#">By Admin</a></li>
-                                                <li><a href="#"><i class="ti-comments-smiley"></i> 2 Comments</a></li>
-                                            </ul>
-                                            <h4 class="card-blog__title"><a href="single-blog.html">The Shopping News also offers top-quality printing services</a></h4>
-                                            <p>Let one fifth i bring fly to divided face for bearing divide unto seed. Winged divided light Forth.</p>
-                                            <a class="card-blog__link" href="#">Read More <i class="ti-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-                                    <div class="card card-blog">
-                                        <div class="card-blog__img">
-                                            <img class="card-img rounded-0" src="img/category/c2.jpg" alt="">
-                                        </div>
-                                        <div class="card-body">
-                                            <ul class="card-blog__info">
-                                                <li><a href="#">By Admin</a></li>
-                                                <li><a href="#"><i class="ti-comments-smiley"></i> 2 Comments</a></li>
-                                            </ul>
-                                            <h4 class="card-blog__title"><a href="single-blog.html">Professional design staff and efficient equipment you’ll find we offer</a></h4>
-                                            <p>Let one fifth i bring fly to divided face for bearing divide unto seed. Winged divided light Forth.</p>
-                                            <a class="card-blog__link" href="#">Read More <i class="ti-arrow-right"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <a class="carousel-control-prev" href="#carouselExampleIndicators1" role="button" data-slide="prev" style="justify-content: left; left: 20px;">
-                        <span class="prevIcon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleIndicators1" role="button" data-slide="next" style="justify-content: right; right: 20px;">
-                        <span class="nextIcon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </div>
+                                	<div id="activeOrNot" class="${activeD}" style="width: 100%;">
+	                                    <div class="row">
+	                                    
+	                                        <c:forEach items="${popList}" var="club" begin="${i}" end="${i+2}">
+	                                        	<div class="col-md-6 col-lg-4 mb-4 mb-lg-0 pointer">
+					                            	<input type="hidden" value="${club.clubNo}">
+					                                <div class="card card-blog">
+					                                    <div class="card-blog__img">
+					                                   		 <c:forEach items="${club.clubAttachments}" var="ca">
+					                                   		 	<img class="card-img rounded-0" src="${pageContext.servletContext.contextPath}/resources/upload_files/club_img/${ca.changeName}" alt="">
+					                                   		 </c:forEach>
+					                                         
+					                                    </div>
+					                                    <div class="card-body">
+					                                        <ul class="card-blog__info">
+					                                            <li>${club.category} &nbsp; [ ${club.onoffLine} ]</li>
+					                                            <li><i class="ti-comments-smiley"></i> 2 Comments</li>
+					                                        </ul>
+					                                        <h4 class="card-blog__title">${club.clubTitle}</h4>
+					                                        <p>
+					                                        	<c:set var="temp" value="${club.intro}"/>
+					                                        	<c:choose>
+						                                        	<c:when test="${fn:length(temp) gt 61}">
+						                                        		<c:out value="${fn:substring(temp,0,60)}"></c:out> ...
+						                                        	</c:when>
+						                                        	<c:otherwise>
+						                                        		<c:out value="${temp}"/>
+						                                        	</c:otherwise>
+					                                        	</c:choose>
+					                                        
+					                                        </p>
+					                                    </div>
+					                                </div>
+					                            </div> 
+	                                        </c:forEach>
+	                            		</div>
+	                            	</div>
+                                </c:forEach>   
+                            </div>  
+                            	
+		                    <a class="carousel-control-prev" href="#carouselExampleIndicators0" role="button" data-slide="prev" style="justify-content: left; left: 20px;">
+		                        <span class="prevIcon" aria-hidden="true"></span>
+		                        <span class="sr-only">Previous</span>
+		                    </a>
+		                    <a class="carousel-control-next" href="#carouselExampleIndicators0" role="button" data-slide="next" style="justify-content: right; right: 20px;">
+		                        <span class="nextIcon" aria-hidden="true"></span>
+		                        <span class="sr-only">Next</span>
+		                    </a>
+                  	    </div>
+                    </c:if>
+			
+			</div>
+		</section>
+                
+             
 
 
 
@@ -480,6 +405,8 @@
                 </section>
                 
                 <script>
+                	var origin = 0;
+                	
                     $(function(){
                         $(".pointer").click(function(){
                             console.log($(this).children(":first").val());
@@ -488,8 +415,9 @@
                     })
                     
                     $(".clickCategory").click(function(){
-
+						
 	    	        	var category = $(this).text();
+
 						$.ajax({
 							url:"categoryList.cl",
 							data:{category:category},
@@ -507,15 +435,15 @@
 									listView1.style.display = 'flex';
 								}else{				  //2. 리스트 값 있는 경우
 									$.each(list,function(i){
+										
 										$('#c_clubImg'+i).attr("src","${pageContext.servletContext.contextPath }/resources/upload_files/club_img/"+list[i].clubAttachments[0].changeName);
 										$('#c_clubNo'+i).val(list[i].clubNo);	
 										$('#c_category'+i).text(list[i].category);	
 										$('#c_onoffLine'+i).text(list[i].onoffLine);
 										$('#c_title'+i).text(list[i].clubTitle);
 										
-										if(list[i].intro.length > 75){
-											console.log("여기 안도나?")
-											intro = (list[i].intro).substring(0,75)+'...';
+										if(list[i].intro.length > 61){
+											intro = (list[i].intro).substring(0,60)+'...';
 										}else{
 											intro = list[i].intro;
 										}
@@ -524,12 +452,16 @@
 										$('#c_clubTotal'+i).css('display','flex');  //none풀어주기
 										
 									})
-									
+				
 									console.log("test")
 									listView1.style.display = 'none';
 									
 									if(listView.style.display == 'none'){  //리스트 없는 경우 none으로 되어있어서 clubTotal이 보이려면 풀어줘야 함
 										listView.style.display = 'flex';
+									}
+									
+									for(var i=list.length; i<6; i++){
+										$('#c_clubTotal'+i).css('display','none');
 									}
 								}
 
@@ -571,8 +503,6 @@
                     </div>
                 </section>
                 <!-- ================ trending product section end ================= -->
-			</div>
-		</section>
     </main>
 
 
