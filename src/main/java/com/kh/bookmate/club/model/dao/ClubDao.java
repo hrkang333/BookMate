@@ -128,6 +128,11 @@ public class ClubDao {
 		return (ArrayList)sqlSession.selectList("clubMapper.selectCateList",category);
 	}
 	
+	public ArrayList<Club> selectPopList(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("clubMapper.selectPopList");
+	}
+	
 	//메인페이지 - 마감임박 리스트 뽑기
 	public ArrayList<Club> selectEndList(SqlSessionTemplate sqlSession) {
 		
@@ -202,9 +207,12 @@ public class ClubDao {
 		List<Integer> clubNoList = new ArrayList<>();
 		ArrayList<Club> mypageList= new ArrayList<>();
 		
+		int offset = (pi.getCurrentPage()-1)*(pi.getBoardLimit());		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
 		if(table.equals("CLUB_WISH")) {
 			//1.club_wish테이블에 table, userid 보내서 clubNo 뽑아오기
-			clubNoList = sqlSession.selectList("clubMapper.selectClubNoList", map);
+			clubNoList = sqlSession.selectList("clubMapper.selectClubNoList", map, rowBounds);
 		}else if(table.equals("CLUB_APPLY")) {
 			//1.club_apply테이블에 table, userid 보내서 clubNo 뽑아오기
 			clubNoList = sqlSession.selectList("clubMapper.selectClubNoList", map);
@@ -219,5 +227,14 @@ public class ClubDao {
 		
 		return mypageList;
 	}
+
+	public int updateCondition(SqlSessionTemplate sqlSession, int clubNo, int condition) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("clubNo", clubNo);
+		map.put("condition",condition);
+		return sqlSession.update("clubMapper.updateCondition", map);
+	}
+
+	
 
 }

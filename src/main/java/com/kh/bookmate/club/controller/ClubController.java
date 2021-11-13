@@ -249,16 +249,20 @@ public class ClubController {
 									HttpServletRequest request, Model model) {
 			
 		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
-		String table  = "CLUB_APPLY";;
+		String table  = "CLUB_APPLY";
 		int listCount  = clubService.selectListCount(userId, table);
 		List<ClubApply> capList = new ArrayList<>();  //신청
+
+		//1.전체 apply 리스트 - 페이징처리
+		System.out.println("club 컨트롤러 - currentPage : "+ currentPage );
+		System.out.println("club 컨트롤러 - listCount : "+ listCount);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 7, 5);
+		capList = clubApplyService.selectApplyList(userId, pi);
 		
-		//1.신청 목록
-		capList = clubApplyService.selectApplyList(userId);
-		System.out.println("club 컨트롤러 - 신청 : " + capList.toString());
-		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 7, 7);
+		//2.신청한 club 리스트
+		//pi보내지만 dao에서 쓰지는 않는다.
 		ArrayList<Club> list = clubService.selectList2(userId, table, pi);
+
 		System.out.println("club 컨트롤러 - 신청club리스트 : " + list.toString());
 		System.out.println("club 컨트롤러 - 신청 : " + capList.toString());
 		
@@ -277,7 +281,7 @@ public class ClubController {
 		String table = "CLUB_WISH";
 		int listCount = clubService.selectListCount(userId, table);
 		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 7, 7);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 7, 5);
 		ArrayList<Club> list = clubService.selectList2(userId, table, pi);
 
 		model.addAttribute("list", list);
@@ -350,11 +354,7 @@ public class ClubController {
 	@RequestMapping("updateForm3_1.cl")
 	public String updateForm(int clubNo, Model model) {
 		
-		System.out.println("clubNo들어있지?1 " + clubNo);
-		
 		Club club = clubService.selectClub(clubNo);
-		
-		System.out.println(club.toString());
 		
 		model.addAttribute("club", club);
 		return "clubMypage/updateForm3_1";
@@ -536,18 +536,16 @@ public class ClubController {
 	}
 
 
-	
-	
-	
-	
-	
 
 	//7.메인페이지
 	@RequestMapping("clubMain.cl")
 	public String clubMain(Model model) {
 		
 		ArrayList<Club> endList = clubService.selectEndList();
+		ArrayList<Club> popList = clubService.popList();
+		
 		model.addAttribute("endList",endList);
+		model.addAttribute("popList",popList);
 		return "club/clubMain";
 	}
 	
@@ -571,14 +569,19 @@ public class ClubController {
 	//9. 상세페이지
 	@RequestMapping("detail.cl")
 	public ModelAndView clubDetail(HttpServletRequest request, int clubNo, ModelAndView mv) {
-		
-		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
+		int befHeart = 0;
 		Club club = clubService.selectClub(clubNo);
-		int befHeart = clubApplyService.selectCheckHeart(userId, clubNo);
-		
+
+		if((User)request.getSession().getAttribute("loginUser") != null) {
+			String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
+			befHeart = clubApplyService.selectCheckHeart(userId, clubNo);
+			mv.addObject("befHeart",befHeart);
+		}else {
+			mv.addObject("befHeart",befHeart);
+		}
+
 		System.out.println("club 확인! : " + club.toString());
-		
-		mv.addObject("befHeart",befHeart);
+
 		mv.addObject("club",club).setViewName("club/clubDetail");
 		return mv;
 	}

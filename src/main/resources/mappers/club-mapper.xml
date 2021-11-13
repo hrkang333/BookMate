@@ -235,6 +235,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</select>
 	
+	<select id="selectPopList" resultMap="clubResultSet">
+		<![CDATA[
+		SELECT *
+		FROM(SELECT A.* , B.CHANGE_NAME 
+		    FROM CLUB A
+		    LEFT JOIN CLUB_ATTACHMENT B
+		    ON A.CLUB_NO = B.REF_CLUB_NO
+		    WHERE A.CONDITION=4 AND A.STATUS='Y'
+		    AND CSTART_DATE <= SYSDATE
+		    AND CEND_DATE > SYSDATE
+		    AND B.FILE_TYPE=2
+		    ORDER BY HEART_COUNT DESC)
+		WHERE ROWNUM <=9
+		]]>
+	</select>
+	
 	<!-- 메인페이지 - 마감임박 리스트(2. ClubAttachment테이블에서 조회) 
 	     **이 부분은 페이징처리가 없으니 collection으로 해도 될 것 같은데?-->
 	<select id="selectList_clubAttachment" resultMap="clubAttachmentResultSet">
@@ -246,6 +262,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</foreach>
 		ORDER BY REF_CLUB_NO DESC	
 	</select>
+	
+	
 	
 	<!-- 디테일페이지 조회 -->
 	<select id="selectClub" parameterType="java.util.Map" resultMap="clubResultSet">
@@ -315,6 +333,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</foreach>
 		ORDER BY B.CLUB_DATE	
 	</select>
+	
+	<update id="updateCondition" parameterType="hashmap">
+		UPDATE CLUB
+		SET CONDITION=#{condition}
+		WHERE CLUB_NO=#{clubNo}
+	</update>
 	
 	
 </mapper>

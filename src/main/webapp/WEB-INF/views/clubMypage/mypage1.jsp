@@ -67,7 +67,7 @@
     <script>
 		    	
 	    //선택한 독서모임 multiple 삭제하기
-	    function deleteClub(){
+	    /* function deleteClub(){
 	        var deleteC = confirm("찜목록에서 삭제하시겠습니까?");
 	        if(deleteC){
 	            if($("input:checkBox[name=clubNo]:checked").length == 0){
@@ -76,6 +76,42 @@
 	                $("#mypageForm2").attr("action", "deleteClub2.cl");
 	            }
 	        }
+	    } */
+	    
+	    function cancleClub(e){
+	    	var userId = "${sessionScope.loginUser.userId}";
+	    	var btnId = $(e).attr('id');
+	    	var index = btnId.slice(-1);
+	    	var timeNo = $('#timeNo'+index).val();
+	    	var times = $('#times'+index).text();
+	    	
+	    	console.log("btnId : " + btnId);
+	    	console.log("timeNO : " + timeNo);
+	    	console.log("times : " + times);
+
+	    	$.ajax({
+	        	
+        		url : "updateCancel.cl",
+        		data : {
+        			userId : userId,
+        			timeNo : timeNo,
+        			times : times
+        		},
+        		
+        		type : "post" ,
+        		success : function(str) {
+					//취소완료로 바꾸기
+					//$(this) 로는 안된다...
+					alert("취소되었습니다.");
+					$(e).attr('value','취소완료');
+					$(e).attr('disabled', true);
+
+        			
+				},error:function(){
+					console.log("ajax 통신실패")
+					alert("오류")
+				}
+        	}) 
 	    }
     </script>
 
@@ -84,7 +120,7 @@
     <section class="section-margin--small mb-5" style="margin-top: 50px;">
         <div class="container">
             <div class="row">
-                <h3 id="test" style="font-size: 30px; ">  찜한 독서모임</h3>
+                <h3 id="test" style="font-size: 30px; ">독서모임 신청내역</h3>
             </div>
 
             <div class="row">  
@@ -103,20 +139,23 @@
                                     <th style="width:10%;">카테고리</th>
                                     <th style="width:29%;">독서모임명</th>
                                     <th style="width:9%;">온/오프라인</th>
+                                    <th style="width:12%;">만남 횟수</th>
                                     <th style="width:17%;">날짜</th>
                                     <!-- <th>신청인원/정원</th> -->
-                                    <th style="width:7%;">취소</th>
+                                    <th style="width:9%;">취소</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            	<c:forEach items="${capList}" var="ap">
-	                                <tr>
+                            	<c:forEach items="${capList}" var="ap" varStatus="status">
+	                                
 	                                <c:forEach items="${list}" var="club"> 
 	                                	<c:if test="${club.clubNo eq ap.clubNo}">
 	                                		<c:set var="c" value="${club}"/>
 	                                	</c:if>
 	                                </c:forEach>
-	                                    <td><input name="timeNo" type="checkBox" value="${ap.timeNo}"></td>
+	
+	                                <tr>
+	                                    <td><input name="timeNo" type="checkBox" id="timeNo${status.index}" value="${ap.timeNo}"></td>
 	                                    <td><c:out value="${c.category}"/></td>
 	                                    
 	                                    <td>
@@ -131,19 +170,61 @@
 	                                    </td>
 
 	                                    <td><c:out value="${c.onoffLine}"/></td>
+	                                    <td><span id="times${status.index}"><c:out value="${c.times}"/></span></td>
 	                                    
 	                                    <td>
-		                                    <c:forEach items="${c.clubTimes}" var="ct">
-		                                    	<c:if test="${ct.timeNo eq ap.timeNo}">
-		                                    		${fn:substring(ct.clubDate,0,11)} | ${ct.startTime} ~ ${ct.endTime}<br>
+		                                    <c:forEach items="${c.clubTimes}" var="ct" varStatus="i">
+		                                    	<c:if test="${c.times eq '한 번 만나요'}">
+		                                    		<c:if test="${ct.timeNo eq ap.timeNo}">
+		                                    			${fn:substring(ct.clubDate,0,11)} | ${ct.startTime} ~ ${ct.endTime}<br>
+		                                    			<c:set var="cd" value="${ct.clubDate}"></c:set>
+		                                    		</c:if>
 		                                    	</c:if>
-		              
+		                                    	<c:if test="${c.times eq '여러 번 만나요'}">
+		                                    		${fn:substring(ct.clubDate,0,11)} | ${ct.startTime} ~ ${ct.endTime}<br>
+		                                    		<c:if test="${i.first}">
+		                                    			<c:set var="cd" value="${ct.clubDate}"></c:set>
+		                                    		</c:if>
+		                                    	</c:if>
+		                                    	
+		                                    	<fmt:parseDate var="clubDate" value="${cd}"  pattern="yyyy-MM-dd"/>
+												<fmt:parseNumber value="${clubDate.time / (1000*60*60*24)}" integerOnly="true" var="clubDate1"></fmt:parseNumber>
 			                                </c:forEach>
 		                                </td>
-		                  
-									    <td><button>취소하기</button></td>
 		                                
-	                                </tr>
+		                                <jsp:useBean id="today" class="java.util.Date" />
+		                                <fmt:formatDate var="today2" value="${today}" pattern="yyyy-MM-dd"/>
+		                                <fmt:parseDate var="now"  value="${today2}" pattern="yyyy-MM-dd"/>
+										<fmt:parseNumber value="${now.time / (1000*60*60*24)}" integerOnly="true" var="now1"></fmt:parseNumber>
+
+									    <td>
+									    	<c:choose>
+									    		<c:when test="${ap.applyCancle eq 'N'}">
+									    			<c:choose>
+									    				<c:when test="${c.condition eq 4 || c.condition eq 5}">
+										    				<c:choose>
+										    					<c:when test="${clubDate1- now1 >= 3}">  <!-- 모임일자 3일 이전은 취소 못함 -->
+											    					<input type="button" id="cancleBtn${status.index}" value="취소하기" onclick="cancleClub(this);">
+											    				</c:when>
+											    				<c:otherwise>
+											    					<button disabled>취소 불가</button>
+											    					<label>모임일자 3일 이전에는 취소가 불가능합니다.</label>
+											    				</c:otherwise>
+										    				</c:choose>
+										    			</c:when>
+											    		<c:otherwise>
+											    			<button disabled>취소 불가</button>
+											    			<label>현재 모집중인 독서모임이 아닙니다.</label>
+											    		</c:otherwise>
+									    			</c:choose>
+									    		</c:when>
+									    		
+									    		<c:otherwise>
+									    			<button disabled>취소완료</button>
+									    		</c:otherwise>
+									    	</c:choose>
+									    </td>
+	                                </tr>  
                                 </c:forEach>  
                             </tbody>
                         </table>
@@ -175,7 +256,7 @@
 			                <ul class="pagination">
 			                	<c:choose>
 			                		<c:when test="${ pi.currentPage ne 1 }">
-			                			<li class="page-item"><a class="page-link" href="mypage3.cl?currentPage=${ pi.currentPage-1 }">이전</a></li>
+			                			<li class="page-item"><a class="page-link" href="mypage1.cl?currentPage=${ pi.currentPage-1 }">이전</a></li>
 			                		</c:when>
 			                		<c:otherwise>
 			                			<li class="page-item disabled"><a class="page-link" href="">이전</a></li>
@@ -185,7 +266,7 @@
 			                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
 			                    	<c:choose>
 				                		<c:when test="${ pi.currentPage ne p }">
-			                    			<li class="page-item"><a class="page-link" href="mypage3.cl?currentPage=${ p }">${ p }</a></li>
+			                    			<li class="page-item"><a class="page-link" href="mypage1.cl?currentPage=${ p }">${ p }</a></li>
 				                		</c:when>
 				                		<c:otherwise>
 				                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
@@ -195,10 +276,10 @@
 			                    
 			                    <c:choose>
 			                		<c:when test="${ pi.currentPage ne pi.maxPage }">
-			                			<li class="page-item"><a class="page-link" href="mypage3.cl?currentPage=${ pi.currentPage+1 }">다음</a></li>
+			                			<li class="page-item"><a class="page-link" href="mypage1.cl?currentPage=${ pi.currentPage+1 }">다음</a></li>
 			                		</c:when>
 			                		<c:otherwise>
-			                			<li class="page-item disabled"><a class="page-link" href="mypage3.cl?currentPage=${ pi.currentPage+1 }">다음</a></li>
+			                			<li class="page-item disabled"><a class="page-link" href="mypage1.cl?currentPage=${ pi.currentPage+1 }">다음</a></li>
 			                		</c:otherwise>
 			                	</c:choose>
 			                </ul>

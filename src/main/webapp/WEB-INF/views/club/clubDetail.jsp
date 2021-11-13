@@ -447,6 +447,7 @@
 		})
     
     	$("#applyClub").click(function(){
+    		var clubNo = $("#clubNo").val();
     		var chkApply = true;
     		var indexs = [];  //한번만나요: 사용자가 체크한 status.index / 여러번만나요: 모든status.index -> 이거로 신청인원+1 해줌
     		var times = [];   //한번만나요: 사용자가 체크한 timeNo / 여러번만나요: 모든 timeNo
@@ -531,7 +532,9 @@
     					url:"apply.cl",
     					data:{
     						times : times,
-    						userId : userId
+    						userId : userId,
+    						clubNo : clubNo,
+    						c_times : c_times
     					},
     					type : "get",
     					success:function(result){
