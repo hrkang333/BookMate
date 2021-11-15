@@ -162,7 +162,7 @@
                            
                       <tr>       
                        	<td>
-                    	<input type="hidden"  id="paymentNo${status.index}" value="${item.paymentNo }"/>
+                    	<input type="hidden"  id="paymentNo${status.index}" value="${item.paymentNo}"/>
                         	<p><c:out value="${item.paymentNo}"/></p></td>     
                         	<td><fmt:formatDate value="${item.shipDate}" pattern ="yyyy-MM-dd"/></td> 
                   	   		<td class="orderListDetail"><p style="cursor:pointer" onclick="OrderListDetailGo('${status.index}')">주문내역 상세보기</p></td> 

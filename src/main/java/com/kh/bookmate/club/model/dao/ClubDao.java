@@ -66,11 +66,7 @@ public class ClubDao {
 	public ArrayList<Club> selectList3(SqlSessionTemplate sqlSession, String userId, PageInfo pi) {
 		// TODO Auto-generated method stub
 		
-		int offset = (pi.getCurrentPage()-1)*(pi.getBoardLimit());
-		
-		System.out.println("dao-currentPage: "+ pi.getCurrentPage());
-		System.out.println("dao-getBoardLimit " + pi.getBoardLimit());
-		
+		int offset = (pi.getCurrentPage()-1)*(pi.getBoardLimit());		
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
 		//return (ArrayList)sqlSession.selectList("clubMapper.selectList3", userId);
@@ -100,11 +96,6 @@ public class ClubDao {
 				c.setClubTimes(temp);
 			}
 		}
-
-		for(Club c : list1) {
-			System.out.println("club최종 : " + c.toString());
-		}
-		
 		return list1;
 	}
 
@@ -233,6 +224,84 @@ public class ClubDao {
 		map.put("clubNo", clubNo);
 		map.put("condition",condition);
 		return sqlSession.update("clubMapper.updateCondition", map);
+	}
+
+	public int selectListCount_1(SqlSessionTemplate sqlSession, String category) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("clubMapper.selectListCount_1", category);
+	}
+
+	public ArrayList<Club> selectCateList_1(SqlSessionTemplate sqlSession, String category, PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*(pi.getBoardLimit());		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		ArrayList<Club> list = (ArrayList)sqlSession.selectList("clubMapper.selectCateList_1", category, rowBounds);
+
+		//2. 위에서 뽑아온 clubNo를 list에 담는다.
+		List<Integer> clubNo1 = new ArrayList<>();
+		for(Club c : list) {
+			clubNo1.add(c.getClubNo());
+		}
+				
+		if(clubNo1.size() != 0) {
+			//3. 2에서 담은 list를 club_time테이블에 넘겨서 그 갯수만큼 club_time갯수 조회해오기
+			ArrayList<ClubTime> list2 = (ArrayList)sqlSession.selectList("clubMapper.selectList_clubTime", clubNo1); 
+
+			//4. 1에서 받아온 <club>리스트에 3에서 받아온 clubTime정보를 clubNo로 매칭시켜 set해주기
+			for(Club c : list) {
+				List<ClubTime> temp = new ArrayList<>();
+				for(ClubTime ct : list2) {
+					if(c.getClubNo() == ct.getClubNo()) {
+						temp.add(ct);
+					}
+				}
+				c.setClubTimes(temp);
+			}
+		}
+
+		for(Club c : list) {
+			System.out.println("clubdao -club최종 : " + c.toString());
+		}
+		return list;
+	}
+
+	public int selectListCount_2(SqlSessionTemplate sqlSession, String category) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("clubMapper.selectListCount_2", category);
+	}
+
+	public ArrayList<Club> selectCateList_2(SqlSessionTemplate sqlSession, String category, PageInfo pi1) {
+		int offset = (pi1.getCurrentPage()-1)*(pi1.getBoardLimit());		
+		RowBounds rowBounds = new RowBounds(offset, pi1.getBoardLimit());
+		
+		ArrayList<Club> list = (ArrayList)sqlSession.selectList("clubMapper.selectCateList_2", category, rowBounds);
+
+		//2. 위에서 뽑아온 clubNo를 list에 담는다.
+		List<Integer> clubNo1 = new ArrayList<>();
+		for(Club c : list) {
+			clubNo1.add(c.getClubNo());
+		}
+				
+		if(clubNo1.size() != 0) {
+			//3. 2에서 담은 list를 club_time테이블에 넘겨서 그 갯수만큼 club_time갯수 조회해오기
+			ArrayList<ClubTime> list2 = (ArrayList)sqlSession.selectList("clubMapper.selectList_clubTime", clubNo1); 
+
+			//4. 1에서 받아온 <club>리스트에 3에서 받아온 clubTime정보를 clubNo로 매칭시켜 set해주기
+			for(Club c : list) {
+				List<ClubTime> temp = new ArrayList<>();
+				for(ClubTime ct : list2) {
+					if(c.getClubNo() == ct.getClubNo()) {
+						temp.add(ct);
+					}
+				}
+				c.setClubTimes(temp);
+			}
+		}
+
+		for(Club c : list) {
+			System.out.println("clubdao -club최종 : " + c.toString());
+		}
+		return list;
 	}
 
 	

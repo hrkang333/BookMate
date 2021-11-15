@@ -20,6 +20,8 @@
   
     <link rel="stylesheet" href="resources/css/style.css">
   
+  <script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
      <style>
 
        #insertCoupon{
@@ -37,7 +39,7 @@
      </style>
   
 </head>
-<body>
+<body >
    <!-- 왼쪽 사이드바  -->
    <section class="section-margin--small mb-5">
     <div class="container">
@@ -122,11 +124,12 @@
 						<div class="filter-bar d-flex flex-wrap align-items-center">
 							<div class="sorting">
 								<div class="redeemPoint">
-									<form class="" action="#" method="post">
+								
+									<form class="" action="addCoupon.me" method="post">
 										<div class="col-md-12 form-group">
 											<br> <input type="text" class="" id="insertCoupon"
-												name="insertCoupon" placeholder="쿠폰번호를 입력해주세요" required>
-											<button type="submit" value="submit"
+												name="addCoupon" placeholder="쿠폰번호를 입력해주세요" required>
+											<button type="submit" value="확인"
 												class="button button-tracking">쿠폰 등록하기</button>
 										</div>
 									</form>
@@ -136,12 +139,6 @@
 					</div>
 				</div>
 			</div>
-			
-			
-			
-			
-
-
 		</div>
     
   </section>

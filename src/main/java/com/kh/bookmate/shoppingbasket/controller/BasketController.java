@@ -20,6 +20,9 @@ import com.kh.bookmate.addressBook.model.vo.AddressBook;
 import com.kh.bookmate.book.model.vo.Book;
 import com.kh.bookmate.payment.model.vo.Payment;
 import com.kh.bookmate.payment.model.vo.PaymentDetail;
+import com.kh.bookmate.paymentmethod.model.service.PaymentMethodService;
+import com.kh.bookmate.paymentmethod.model.vo.PaymentMethod;
+import com.kh.bookmate.paymentmethod.model.vo.PaymentMethodDetail;
 import com.kh.bookmate.shoppingbasket.model.service.ShoppingBasketService;
 import com.kh.bookmate.shoppingbasket.model.vo.ShoppingBasket;
 import com.kh.bookmate.user.model.vo.User;
@@ -28,10 +31,13 @@ import com.kh.bookmate.user.model.vo.User;
 public class BasketController {
 
 	@Autowired
-	ShoppingBasketService shoppingBasketService;
+	private ShoppingBasketService shoppingBasketService;
 
 	@Autowired
-	AddressBookService addressBookService;
+	private AddressBookService addressBookService;
+	
+	@Autowired
+	private PaymentMethodService paymentMethodService;
 
 	@RequestMapping("insertBasket.ba")
 	@ResponseBody
@@ -59,7 +65,7 @@ public class BasketController {
 	}
 
 	@RequestMapping("movePayment.sc")
-	public String selectPaymentPage(ShoppingBasket basketList, @SessionAttribute("loginUser") User user) {
+	public String selectPaymentPage(ShoppingBasket basketList, @SessionAttribute("loginUser") User user,Model mo) {
 
 		List<ShoppingBasket> newBasketList = basketList.getBasketList();
 		List<Book> cartItemList = null;
@@ -69,11 +75,15 @@ public class BasketController {
 		Book tempBook = null;
 		AddressBook abook = null;
 		ShoppingBasket tempBasket = null;
+		PaymentMethod paymentMethod = null;
+		List<PaymentMethodDetail> PMDetailList = null;
 		int totalCost = 0;
 		int getPoint = 0;
 		String shippingName, shippingAddress, shippingPhone;
-		cartItemList = shoppingBasketService.selectBookList(newBasketList);
+		String[] shippingAddressArr;
 
+		//주문 페이지로 가져갈 장바구니 상품들과 주문테이블에 표시될 금액 정보 처리
+		cartItemList = shoppingBasketService.selectBookList(newBasketList);
 		for (int i = 0; i < newBasketList.size(); i++) {
 			tempBook = cartItemList.get(i);
 			tempBasket = newBasketList.get(i);
@@ -86,6 +96,8 @@ public class BasketController {
 		}
 		getPoint = (int) (totalCost * 0.05);
 
+		
+		//주문 페이지로 가져갈 주소록 처리
 		abook = addressBookService.selcetAddressBook(user.getUserId());
 		if (abook != null) {
 			String[] arrTemp = abook.getMainAddress().split("_");
@@ -100,10 +112,25 @@ public class BasketController {
 			abook = new AddressBook(user.getUserId(), strTemp);
 			addressBookService.insertAddressBook(abook);
 		}
+		
+		//주문 페이지로 가져갈 저장된 결제수단 처리
+		paymentMethod = paymentMethodService.selectPaymentMethod(user.getUserId());
+		if(paymentMethod==null) {
+			paymentMethodService.insertPaymentMethod(user.getUserId());
+		}else {
+			if(paymentMethod.getMainPayment()!=0) {
+				PMDetailList = paymentMethodService.selectPMDetailList(paymentMethod);
+				mo.addAttribute("PMDetailList", PMDetailList);
+			}
+		}
 
-		order = new Payment(user.getUserId(), shippingName, shippingAddress, shippingPhone, totalCost, null, getPoint);
-		System.out.println(order);
-		return null;
+		shippingAddressArr = shippingAddress.split("/");
+		
+		order = new Payment(user.getUserId(), shippingName, shippingAddressArr[0], shippingAddressArr[1],shippingAddressArr[2],shippingPhone, totalCost, getPoint);
+		
+		mo.addAttribute("order", order);
+		mo.addAttribute("orderList", orderList);
+		return "payment/orderDetail";
 
 	}
 

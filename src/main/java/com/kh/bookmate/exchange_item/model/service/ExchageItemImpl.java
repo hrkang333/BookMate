@@ -21,12 +21,6 @@ public class ExchageItemImpl implements ExchageItemService {
 		return exchageItemDao.insertExchangeItem(sqlSession,paymentDetailNo);
 	}
 
-//	// 상세넘버부터  목록 먼저 조회하기 
-//	@Override
-//	public void selectMyOrderListDetail(int paymentDetailNo) {
-//		exchageItemDao.selectMyOrderListDetail(sqlSession,paymentDetailNo);
-//	}
-	
 	
 }
  

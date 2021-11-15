@@ -61,6 +61,14 @@ public interface ClubService {
 
 	void updateCondition(int clubNo, int condition);
 
+	int selectListCount_1(String category);
+
+	ArrayList<Club> selectCateList_1(String category, PageInfo pi);
+
+	int selectListCount_2(String category);
+
+	ArrayList<Club> selectCateList_2(String category, PageInfo pi1);
+
 	
 
 

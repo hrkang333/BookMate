@@ -293,17 +293,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			CHANGE_NAME=#{changeName}
 		WHERE REF_CLUB_NO=#{clubNo} AND FILE_TYPE=#{fileType}
 	</update>
-
-	
-	<!-- <select id="selectApplyList" resultType="com.kh.bookmate.clubApply.model.vo.ClubApply">
-		SELECT COUNT(*)
-		FROM CLUB_APPLY
-		WHERE REF_TIME_NO IN
-		<foreach item="item" collection="list" open="(" close=")" separator=",">
-			#{item}
-		</foreach>
-		ORDER BY REF_TIME_NO DESC
-	</select> -->
 	
 	<!-- 마이페이지2 - 페이징처리 -->
 	<select id="selectListCount2" parameterType="hashmap" resultType="_int">
@@ -339,6 +328,77 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SET CONDITION=#{condition}
 		WHERE CLUB_NO=#{clubNo}
 	</update>
+	
+	<!-- 모든 독서모임 - 모집중 -->
+	<select id="selectListCount_1" resultType="_int">
+		<![CDATA[
+		SELECT COUNT(*) 
+		FROM CLUB 
+		WHERE CONDITION=4 AND STATUS='Y'
+		AND CSTART_DATE <= TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		AND CEND_DATE > SYSDATE AND CATEGORY=#{category}
+		]]>
+	</select>
+	
+	<!-- 모든 독서모임 - 모집완료 -->
+	<select id="selectListCount_2" resultType="_int">
+		<![CDATA[
+		SELECT COUNT(*) 
+		FROM CLUB 
+		WHERE CONDITION=5 AND STATUS='Y'
+		AND CSTART_DATE <= TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		AND CEND_DATE > SYSDATE AND CATEGORY=#{category}
+		]]>
+	</select>
+	
+	<!-- 모든 독서모임 - 모집종료 -->
+	<select id="selectListCount_3" resultType="_int">
+		<![CDATA[
+		SELECT COUNT(*)
+		FROM CLUB 
+		WHERE CONDITION=6 AND STATUS='Y'
+		]]>
+	</select>
+	
+	<select id="selectCateList_1" resultMap="clubResultSet">
+		<![CDATA[
+		SELECT A.* , B.CHANGE_NAME 
+		FROM CLUB A
+		LEFT JOIN CLUB_ATTACHMENT B
+		ON A.CLUB_NO = B.REF_CLUB_NO
+		WHERE A.CONDITION=4 AND A.STATUS='Y'
+		AND CSTART_DATE <= TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		AND CEND_DATE > SYSDATE AND CATEGORY=#{category}
+		AND B.FILE_TYPE=2
+		ORDER BY CSTART_DATE
+		]]>
+	</select>
+	
+	<select id="selectCateList_2" resultMap="clubResultSet">
+		<![CDATA[
+		SELECT A.* , B.CHANGE_NAME 
+		FROM CLUB A
+		LEFT JOIN CLUB_ATTACHMENT B
+		ON A.CLUB_NO = B.REF_CLUB_NO
+		WHERE CONDITION=5 AND STATUS='Y'
+		AND CSTART_DATE <= TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+		AND CEND_DATE > SYSDATE AND CATEGORY=#{category}
+		AND B.FILE_TYPE=2
+		ORDER BY CSTART_DATE
+		]]>
+	</select>
+	
+	<select id="selectCateList_3" resultMap="clubResultSet">
+		<![CDATA[
+		SELECT A.* , B.CHANGE_NAME 
+		FROM CLUB A
+		LEFT JOIN CLUB_ATTACHMENT B
+		ON A.CLUB_NO = B.REF_CLUB_NO
+		WHERE CONDITION=6 AND STATUS='Y'
+		AND B.FILE_TYPE=2
+		ORDER BY CSTART_DATE
+		]]>
+	</select>
 	
 	
 </mapper>

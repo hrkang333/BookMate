@@ -7,7 +7,9 @@ public class Payment {
 	private int paymentNo;
 	private String user_Id;
 	private String shippingName;
+	private String shippingPostCode;
 	private String shippingAddress;
+	private String shippingAddressDetail;
 	private String shippingPhone;
 	private String deliveryRequest;
 	private Date shipDate;
@@ -86,6 +88,21 @@ public class Payment {
 		this.usePoint = usePoint;
 		this.totalCost = totalCost;
 		this.paymentMethod = paymentMethod;
+		this.getPoint = getPoint;
+	}
+	
+	
+
+	public Payment(String user_Id, String shippingName, String shippingPostCode, String shippingAddress,
+			String shippingAddressDetail, String shippingPhone, int totalCost, int getPoint) {
+		super();
+		this.user_Id = user_Id;
+		this.shippingName = shippingName;
+		this.shippingPostCode = shippingPostCode;
+		this.shippingAddress = shippingAddress;
+		this.shippingAddressDetail = shippingAddressDetail;
+		this.shippingPhone = shippingPhone;
+		this.totalCost = totalCost;
 		this.getPoint = getPoint;
 	}
 
@@ -175,6 +192,22 @@ public class Payment {
 
 	public void setGetPoint(int getPoint) {
 		this.getPoint = getPoint;
+	}
+
+	public String getShippingPostCode() {
+		return shippingPostCode;
+	}
+
+	public void setShippingPostCode(String shippingPostCode) {
+		this.shippingPostCode = shippingPostCode;
+	}
+
+	public String getShippingAddressDetail() {
+		return shippingAddressDetail;
+	}
+
+	public void setShippingAddressDetail(String shippingAddressDetail) {
+		this.shippingAddressDetail = shippingAddressDetail;
 	}
 
 	@Override
