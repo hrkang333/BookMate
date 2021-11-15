@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kh.bookmate.common.PageInfo;
 import com.kh.bookmate.common.Pagination;
+import com.kh.bookmate.coupon.model.service.CouponService;
+import com.kh.bookmate.coupon.model.vo.Coupon;
 import com.kh.bookmate.exchange_item.model.service.ExchageItemService;
 import com.kh.bookmate.exchange_item.model.vo.ExchageItem;
 import com.kh.bookmate.payment.model.service.PaymentService;
@@ -37,8 +39,12 @@ public class myPageController {
 	@Autowired 
 	private ExchageItemService exchageItemService;
 	
+	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	@Autowired
+	private CouponService couponService;
 	
 
 
@@ -54,11 +60,25 @@ public class myPageController {
 	public String selectUserPoint(@ModelAttribute User user, HttpSession session, Model model ) throws Exception {
 		
 		User userPoint = userService.selectUserPoint(user);
-		model.addAttribute("loginUser", userPoint);
-		
+		model.addAttribute("loginUser", userPoint);	
 	return "myPage/myPoint";
 
 	}
+	
+	
+	
+	
+	//쿠폰 등록하기 
+	@RequestMapping("addCoupon.me")
+	public String addCoupon(String couponCode, Model model, @RequestParam("@addCoupon") String addCoupon ) {
+		
+		Coupon cu = couponService.selectCoupon(couponCode); //쿠폰 리스트를 가져온다.
+		
+		
+		
+		return "myPage/mayPoint";
+	}
+
 	
 		
 	//마이페이지 이동 
@@ -140,53 +160,73 @@ public class myPageController {
 		return "myPage/myOrderListDetail";
 		
 	}
-	
 
-	//배송전 사용자가 주문 취소하기 
-	@RequestMapping("cancelMyOrder.me") 
-	public String cancelMyOrder(int paymentNo, int paymentDetailNo, Model model ){
-									
-		//업데이트인데 
-		 paymentService.cancelMyOrder(paymentDetailNo);
-		
-		//업데이트 후에 셀렉을 가져와야된다.... 
+	// 배송전 사용자가 주문 취소하기
+	@RequestMapping("cancelMyOrder.me")
+	public String cancelMyOrder(int paymentNo, int paymentDetailNo, Model model) {
+
+		paymentService.cancelMyOrder(paymentDetailNo);
+
 		List<PaymentDetail> myOrderListDetail = paymentService.selectMyOrderListDetail(paymentNo);
-		model.addAttribute("myOrderListDetail",myOrderListDetail);
+		model.addAttribute("myOrderListDetail", myOrderListDetail);
 		return "myPage/myOrderListDetail";
 	}
-	
 
-	//배송후 사용자가 주문확정 
-	@RequestMapping("confirmOrder.me") 
-	public String confirmOrder(int paymentNo, int paymentDetailNo, Model model ){
-									
-	
-		paymentService.confirmOrder(paymentDetailNo); //구매확정 업데이트 이건 또 왜 안됨..?
-		
+	// 배송후 사용자가 주문확정
+	@RequestMapping("confirmOrder.me")
+	public String confirmOrder(int paymentNo, int paymentDetailNo, Model model) {
+
+		paymentService.confirmOrder(paymentDetailNo);
+
 		List<PaymentDetail> myOrderListDetail = paymentService.selectMyOrderListDetail(paymentNo);
-		model.addAttribute("myOrderListDetail",myOrderListDetail);
+		model.addAttribute("myOrderListDetail", myOrderListDetail);
 		return "myPage/myOrderListDetail";
 	}
-	 
 
 	
-	//교환 신청하기 
-	@RequestMapping("insertExchangeItem.me") 
-	public String insertExchangeItem(int paymentNo, int paymentDetailNo, Model model){
-
-		//상세주문 번호 리스트 조회 먼저 
-		paymentService.selectMyOrderListDetail(paymentDetailNo);
-//		List<PaymentDetail> myOrderListDetail = paymentService.selectMyOrderListDetail(paymentDetailNo);
-//		model.addAttribute("myOrderListDetail",myOrderListDetail);
+	//교환 신청 페이지로 이동하기 
+	@RequestMapping("exchange.me") 
+	public String selectExchangeList(int paymentNo, int paymentDetailNo, Model model){
 	
-	int exchangeList = exchageItemService.insertExchangeItem(paymentDetailNo);
-	model.addAttribute("exchangeList",exchangeList);
+//		Payment payNo = paymentService.selectPaymentNo(paymentNo);
+//		PaymentDetail exchangeDetail = paymentService.selectExchangeList(paymentDetailNo);
+//		
+//		System.out.println("==============="+payNo);
+//		System.out.println("=============exchangeDetail==" + exchangeDetail);
+//	
+//		
+//		model.addAttribute("exchangeDetail",exchangeDetail);
+//		model.addAttribute("payNo",payNo);
+		
+		paymentService.selectExchangeList(paymentDetailNo);
+		List<PaymentDetail> myOrderListDetail = paymentService.selectMyOrderListDetail(paymentNo);
+		model.addAttribute("myOrderListDetail", myOrderListDetail);
+		
+		System.out.println(myOrderListDetail+"============교환으로 보낼거야 너 들어와야됨 ==========");
 		
 		return "myPage/applyExchangeAndRefund";
 	}
 	
 
-	
+	//교환 신청하기 
+	@RequestMapping("insertExchange.me")
+	public String insertExchangeItem(HttpSession session, int paymentDetailNo, Model model, @RequestParam("post") String post,
+															 @RequestParam("address1") String address1,
+															 @RequestParam("address2")String address2, 
+															 @RequestParam("phone") String phone,
+															 @RequestParam("userName")String userName) {
+//		user.setUserName(userName);
+//		user.setPhone(phone);												
+//		user.setAddress(post+"/"+address1+"/"+address2);
+		
+		int insertExchangeBook = exchageItemService.insertExchangeItem(paymentDetailNo);
+		System.out.println("========으아아아아 ==========="+insertExchangeBook);
+		
+
+		
+		
+		return "redirect:myPage/myOrderListDetail";
+	}
 	
 	
 	
