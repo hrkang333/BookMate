@@ -87,6 +87,7 @@ public class ClubController {
 		
 		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
 		c.setUserId(userId);
+		c.setHostComment(c.getHostComment().replaceAll("\r\n", "<br>"));
 		
 		System.out.println("=========테스트===========");
 		System.out.println(c.getHostName());
@@ -167,6 +168,12 @@ public class ClubController {
 							@RequestParam(name="capacity", required=false, defaultValue="0") int capacity) {
 		ClubAttachment ca = null;
 		int imageType = 2;	
+		
+		c.setIntro(c.getIntro().replaceAll("\r\n", "<br>"));
+		c.setActivity(c.getActivity().replaceAll("\r\n", "<br>"));
+		c.setWant(c.getWant().replaceAll("\r\n", "<br>"));
+		c.setNotwant(c.getNotwant().replaceAll("\r\n", "<br>"));
+		
 		ca = preSaveFile(ca, file, request, imageType);
 
 		c.setClubCapacity(capacity); //typeMismatch 오류나서 따로 뺏음(11.03)
@@ -586,5 +593,132 @@ public class ClubController {
 		return mv;
 	}
 		
+	@RequestMapping("clubAll.cl")	
+	public String selectClubAll(@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage,
+								@RequestParam(value="category", required=false, defaultValue="인문/과학/심리") String category,Model model) {
 		
+		//1.인문/과학/심리 로 선택해서 붙이기
+		//- listcount세기
+		int listCount  = clubService.selectListCount_1(category);
+		int listCount2  = clubService.selectListCount_2(category);
+		
+		//2.
+		PageInfo pi_first = Pagination.getPageInfo(listCount, 1, 7, 8);
+		ArrayList<Club> cateList_first = clubService.selectCateList_1(category, pi_first);
+		
+		PageInfo pi_second = Pagination.getPageInfo(listCount2, 1, 7, 8);
+		ArrayList<Club> cateList_second = clubService.selectCateList_2(category, pi_second);
+		
+		model.addAttribute("cateList_first",cateList_first);
+		model.addAttribute("pi_first",pi_first);
+		model.addAttribute("cateList_second",cateList_second);
+		model.addAttribute("pi_second",pi_second);
+		
+		
+		
+		return "club/allClubs";
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping("clubAllMove.cl")	
+	public String selectClubAll_1(@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage,
+								@RequestParam(value="category", required=false, defaultValue="인문/과학/심리") String category) {
+		
+		//1.인문/과학/심리 로 선택해서 붙이기
+		//- listcount세기
+		int listCount  = clubService.selectListCount_1(category);
+		int listCount2  = clubService.selectListCount_2(category);
+		
+		//2.
+		PageInfo pi_first = Pagination.getPageInfo(listCount, 1, 7, 8);
+		ArrayList<Club> cateList_first = clubService.selectCateList_1(category, pi_first);
+		
+		
+		
+		return "club/allClubs";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="allCateListPart.cl", produces="application/json; charset=utf-8")
+	public String selectallCateListPart(@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage,
+						  String category, String clubStatus) {
+		int listCount;
+		PageInfo pi1= null;
+		ArrayList<Club> cateList1 = null;
+		//1.카테고리 별  listcount 세기
+		//1)모집중, 모집완료, 모집종료
+
+		if(clubStatus.equals("모집중")) {
+			listCount  = clubService.selectListCount_1(category);
+			pi1 = Pagination.getPageInfo(listCount, currentPage, 7, 8);
+			cateList1 = clubService.selectCateList_1(category, pi1);
+		}else {
+			listCount  = clubService.selectListCount_2(category);
+			pi1 = Pagination.getPageInfo(listCount, currentPage, 7, 8);
+			cateList1 = clubService.selectCateList_2(category, pi1);
+		}
+
+		System.out.println("club controller - catelist " + cateList1.toString());
+		for(Club c : cateList1) {
+			System.out.println("club controller - catelist확인 : "+c.toString());
+		}
+		
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("cateList1", cateList1);
+		map.put("pi1",pi1);
+		return new GsonBuilder().create().toJson(map);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="allCateList.cl", produces="application/json; charset=utf-8")
+	public String selectallCateList(@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage,
+						  String category) {
+		//1.모집중
+		int listCount1  = clubService.selectListCount_1(category);
+		PageInfo pi1 = Pagination.getPageInfo(listCount1, currentPage, 7, 8);
+		ArrayList<Club> cateList1 = clubService.selectCateList_1(category, pi1);
+		
+		//2.모집완료
+		int listCount2  = clubService.selectListCount_2(category);
+		PageInfo pi2 = Pagination.getPageInfo(listCount2, currentPage, 7, 8);
+		ArrayList<Club> cateList2 = clubService.selectCateList_2(category, pi2);
+		
+		//3.모집종료
+
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("cateList1", cateList1);
+		map.put("pi1",pi1);
+		map.put("cateList2", cateList2);
+		map.put("pi2",pi2);
+		return new GsonBuilder().create().toJson(map);
+	}
+	
+	
+//	public String selectListMypage1(@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage,
+//			HttpServletRequest request, Model model) {
+//
+//String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
+//String table  = "CLUB_APPLY";
+//int listCount  = clubService.selectListCount(userId, table);
+//List<ClubApply> capList = new ArrayList<>();  //신청
+//
+////1.전체 apply 리스트 - 페이징처리
+//System.out.println("club 컨트롤러 - currentPage : "+ currentPage );
+//System.out.println("club 컨트롤러 - listCount : "+ listCount);
+//PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 7, 5);
+//capList = clubApplyService.selectApplyList(userId, pi);
+//
+////2.신청한 club 리스트
+////pi보내지만 dao에서 쓰지는 않는다.
+//ArrayList<Club> list = clubService.selectList2(userId, table, pi);
+//
+//System.out.println("club 컨트롤러 - 신청club리스트 : " + list.toString());
+//System.out.println("club 컨트롤러 - 신청 : " + capList.toString());
+//
+//model.addAttribute("list", list);
+//model.addAttribute("capList", capList);
+//model.addAttribute("pi",pi);
+//return "clubMypage/mypage1";
+//}	
 }

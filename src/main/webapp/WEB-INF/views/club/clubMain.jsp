@@ -63,6 +63,17 @@
         .pointer{
         	cursor: pointer;
         }
+        .titleBackImg{
+        	width: 100%;
+        	height: 100%;
+		    background-size: cover;
+		    background-position: center center;
+        }
+        
+        .cardImg{
+        	height: 275px;
+        	background-color: #EED8AE;
+        }
     </style>
 </head>
 
@@ -75,7 +86,7 @@
 
         <!-- ================ 1.인기 독서모임 ================= -->
         <section class="section-margin calc-60px" style="margin-top:50px;">
-            <div class="container">
+            <div class="">
                 <div class="section-intro pb-60px">
                     <p>책구메이트에서 가장 인기있는 독서모임들</p>
                     <h2><span class="section-intro__style">인기</span> 독서모임</h2>
@@ -90,15 +101,16 @@
                 -->
 			   <!-- 마감임박 독서모임 리스트 갯수가 3개 이하인 경우에는 carousel로 슬라이딩되지 않도록 설정했다.
                                        ㅅ슬라이딩되도록 하면 다음 페이지로 넘어간 후 다시 앞 페이지로 돌아오지 않기 때문이다. -->
-                	<c:if test="${fn:length(popList) <= 3}">
+                	<c:if test="${fn:length(popList) <= 4}">
 	                	<div style="display:flex;">
-	                		<c:forEach items="${popList}" var="list" begin="0" end="2">
-	                             <div class="col-md-6 col-lg-4 mb-4 mb-lg-0 pointer">
+	                		<c:forEach items="${popList}" var="list" begin="0" end="3">
+	                             <div class="col-md-6 col-lg-4 mb-4 mb-lg-0 pointer" style="padding-right:7px; padding-left:7px">
 					                  <input type="hidden" value="${list.clubNo}">
 					                  <div class="card card-blog">
 					                        <div class="card-blog__img">
 					                             <c:forEach items="${list.clubAttachments}" var="ca">
-					                                 <img class="card-img rounded-0" src="${pageContext.servletContext.contextPath}/resources/upload_files/club_img/${ca.changeName}" alt="">
+					                             	 <div class="titleBackImg" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${ca.changeName}')">
+					                                 </div><%-- <img class="card-img rounded-0" src="${pageContext.servletContext.contextPath}/resources/upload_files/club_img/${ca.changeName}" alt=""> --%>
 					                             </c:forEach>
 					                        </div>
 					                        <div class="card-body">
@@ -128,7 +140,7 @@
 				<!-- 3개 초과인 경우에는 슬라이딩 된다.
 					 클래스명이 carousel-item인 div에 <row>는 한개, 독서모임은 3개를 넣어줘야 하므로 아래와 같이 변수를 지정하여 했다.
 					 이렇게 하면 select 시 조회해오는 독서모임의 갯수에 상관없이 슬라이딩을 적용할 수 있다.-->
-				   <c:if test="${fn:length(popList) > 3}">
+				   <c:if test="${fn:length(popList) > 4}">
                         <div id="carouselExampleIndicators0" class="carousel slide" data-ride="carousel">
                             <ol class="carousel-indicators">
                                 <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -137,7 +149,7 @@
                             </ol>
                             <div class="carousel-inner">
                             
-                            	<c:forEach var="i" begin="0" end="${fn:length(popList)}" step="3">
+                            	<c:forEach var="i" begin="0" end="${fn:length(popList)}" step="4">
                             	
                             		<c:choose>
                             			<c:when test="${i eq 0}">
@@ -151,20 +163,20 @@
                                 	<div id="activeOrNot" class="${activeD}" style="width: 100%;">
 	                                    <div class="row">
 	                                    
-	                                        <c:forEach items="${popList}" var="club" begin="${i}" end="${i+2}">
-	                                        	<div class="col-md-6 col-lg-4 mb-4 mb-lg-0 pointer">
+	                                        <c:forEach items="${popList}" var="club" begin="${i}" end="${i+3}">
+	                                        	<div class="col-md-6 col-lg-3 mb-3 mb-lg-0 pointer">
 					                            	<input type="hidden" value="${club.clubNo}">
 					                                <div class="card card-blog">
-					                                    <div class="card-blog__img">
+					                                    <div class="card-blog__img cardImg">
 					                                   		 <c:forEach items="${club.clubAttachments}" var="ca">
-					                                   		 	<img class="card-img rounded-0" src="${pageContext.servletContext.contextPath}/resources/upload_files/club_img/${ca.changeName}" alt="">
+					                                   		 	<div class="titleBackImg" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${ca.changeName}')"></div>
 					                                   		 </c:forEach>
 					                                         
 					                                    </div>
 					                                    <div class="card-body">
 					                                        <ul class="card-blog__info">
 					                                            <li>${club.category} &nbsp; [ ${club.onoffLine} ]</li>
-					                                            <li><i class="ti-comments-smiley"></i> 2 Comments</li>
+					                                            <li><i class="ti-comments-smiley"></i> 2 Likes</li>
 					                                        </ul>
 					                                        <h4 class="card-blog__title">${club.clubTitle}</h4>
 					                                        <p>
@@ -208,7 +220,7 @@
 
                 <!-- ================ 2. 분야별 독서모임 확인  ================= -->
                 <section class="section-margin calc-60px">
-                    <div class="container">
+                    <div class="">
                         <div class="section-intro pb-60px">
                             <p>분야별 독서모임을 확인해보세요</p>
                             <h2><span class="section-intro__style">분야별</span> 독서모임</h2>
@@ -277,7 +289,7 @@
 
                 <!-- ================ 3. 마감임박 독서모임 ================= -->
                 <section class="section-margin calc-60px">
-                    <div class="container">
+                    <div class="">
                         <div class="section-intro pb-60px">
                             <p>마감이 임박한 독서모임</p>
                             <h2><span class="section-intro__style">마감 임박</span> 독서모임</h2>
@@ -477,7 +489,7 @@
 
                 <!-- ================ trending product section 삭제 ================= -->
                 <section class="section-margin calc-60px">
-                    <div class="container">
+                    <div class="">
                         <div class="section-intro pb-60px">
                             <p>책구메이트 회원들이 남긴 베스트 독서후기를 확인해보세요</p>
                             <h2><span class="section-intro__style">베스트</span> 독서모임 후기</h2>
@@ -485,7 +497,7 @@
 
 
                         <div class="row reviewTable">
-                            <div class="tableThumb">
+                            <div class="tableThumb">	
                                 <img class="card-img" src="img/product/product1.png" alt="">
                             </div>
                             <div class="tableTitle">
