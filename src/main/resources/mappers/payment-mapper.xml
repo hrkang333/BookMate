@@ -61,11 +61,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE PAYMENTDETAILNO = ${paymentDetailNo}
 	</select> 
 	
-		<!-- 주문상태 취소로 변경하기 -->
+		<!-- 구매확정 상태로 변경하기 -->
 	<select id="confirmOrder" resultMap="paymentDetailResultSet" parameterType="_int">
 		UPDATE PAYMENTDETAIL
 		SET DELIVERYSTATUS = 8
 		WHERE PAYMENTDETAILNO = ${paymentDetailNo}
 	</select>
+	
+	<select id="selectExchangeList" resultMap="paymentDetailResultSet"  >
+		
+	<!-- 	SELECT *
+		FROM PAYMENT A 
+		JOIN PAYMENTDETAIL B on A.PAYMENTNO = B.PAYMENTNO
+		WHERE USER_ID = ${user_Id}; -->
+		
+		SELECT * FROM PAYMENTDETAIL
+		WHERE PAYMENTNO=#{paymentNo}
+				
+	</select>
+	
+
+	
 
 </mapper>

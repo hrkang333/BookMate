@@ -58,6 +58,29 @@ public class PaymentServiceImpl implements PaymentService {
 		return list;
 	}
 
+	@Override
+	public int selectExchangeList(int paymentDetailNo) {
+		int list= paymentDao.selectExchangeList(sqlSession,paymentDetailNo);
+		return list;
+	}
+
+//	// 교환 환불 페이지로 이동하기 
+//	@Override
+//	public PaymentDetail selectExchangeList(int paymentDetailNo) {
+//		PaymentDetail list = paymentDao.selectExchangeList(sqlSession,paymentDetailNo);
+//		return list;
+//	}
+//
+//	@Override
+//	public Payment selectPaymentNo(int paymentNo) {
+//		Payment list = paymentDao.selectPaymentNo(sqlSession,paymentNo);
+//		return list;
+//	}
+
+	
+
+
+
 	
 
 

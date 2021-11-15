@@ -19,7 +19,6 @@
   
      <!-- 제이쿼리피커  -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="/resources/demos/style.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     
@@ -89,36 +88,36 @@
 </head>
 <body>
 
-	<!-- 여기서 교환 환불 신청 하면 상태가 업데이트 해주는걸로 해주자  -->
-	<!-- 기존에 리스트 paymentDetailNo 조회해서 그걸 인서트로 넣어야되는디..  --> 
-	<form action="insertExchangeItem.me" method="post">
-		 
-		 
-	  <c:forEach var="item" items="${myOrderListDetail}" varStatus="status">
-	  
-	  	<table>
+	<h1>교환 신청 페이지 </h1>
+<form action="exchange.me" method="post"></form>
+ 	<form action="insertExchange.me" method="post">
+
+	  	<table border="1px;" style="text-align: center;">
 	  	
 	  		<tr>
 	  		  <th>상품정보</th>
 	  		  <th>교환수량</th>
 	  		  <th>받으실 분 </th>
-	  		  <th>받으실 분 휴대폰번호</th>
+	  		  <th>휴대폰 주소 </th>
 	  		  <th>주소 입력 </th>
 	  		
 	  		</tr>
 	  	
-	  	 
-	  	
+	  	 	 <c:forEach var="item" items="myOrderListDetail"> 
+	  	 	
+	  
 	  		<tr>
-	  			<td style="text-align: left"><img src="${pageContext.servletContext.contextPath }/resources/images/book_img/${item.bookMainImg}" style="width: 40px; height: auto;"/>
-                        	<c:out value="${item.bookTitle}"/></td>
+	  			<td style="text-align: left"><img src="${pageContext.servletContext.contextPath }/resources/images/book_img/${myOrderListDetail.bookMainImg}" style="width: 40px; height: auto;"/>
+                 <c:out value="${myOrderListDetail.bookTitle}"/></td>
 	  			
-	  			<td><c:out value="${item.quantity}"/>개 </td>
-	  			<td><input type="text" value="" style="width:500px;" maxlength="100" placeholder="교환사유를 입력해주세요"></td>
-	  			<td><input type="text" value="" style="width:500px;" maxlength="100"></td>
+	  			<td><c:out value="${myOrderListDetail.quantity}"/>개 </td>
+	  			<td><c:out value=""></c:out></td>
+				<td><input type="text" placeholder="받으실 분 성함을 입력해주세요" name="userName" style="width: 200px"></td>
+	  			<td><input type="text" placeholder="휴대폰 번호를 입력하세요" name="phone"> </td>
+	  			
 	  			<td>
 	  			
-	  				<div class="col-md-12 form-group">
+	  			<div class="col-md-12 form-group">
 					<input class="form-control" type="text" id="sample4_postcode" name="post" placeholder="우편번호" readonly>
 					</div>
 					<div class="col-md-12 form-group">
@@ -142,22 +141,19 @@
 					<div class="col-md-12 form-group">
 					<input class="form-control" type="hidden" id="sample4_engAddress" placeholder="영문주소"  size="60">
 					</div>
-	  			
-	  			
+	  		
 	  			</td>
 	  			
 	  		</tr>
-	  		
+	  	
+	</c:forEach>
 	  	 
 	  	</table>
+	  	
+	  	<br>
+	  <button type="submit"> 교환 신청 </button>
 	  
-	  
-		</c:forEach>
-	 
-	
-	</form>
-
-<!-- 교환 신청하면 교환 폼으로 인서트 되게 하라  -->
+	  </form>
 	
 </body>
 </html>

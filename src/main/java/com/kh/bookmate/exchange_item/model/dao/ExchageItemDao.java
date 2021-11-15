@@ -10,13 +10,7 @@ public class ExchageItemDao {
 		return sqlSession.insert("exchageItem.insertExchangeItem",paymentDetailNo);
 	} 
 
-//	public void selectMyOrderListDetail(SqlSessionTemplate sqlSession, int paymentDetailNo) {
-//
-//			sqlSession.selectList("exchangeItem.selectMyOrderListDetail", paymentDetailNo);
-//	}
-//	 
- 
-	
+
 	 
  
 }

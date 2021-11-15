@@ -38,6 +38,23 @@ public class PaymentDao {
 		// TODO Auto-generated method stub
 		return sqlSession.update("paymentMapper.confirmOrder",paymentDetailNo);
 	}
+
+	public int selectExchangeList(SqlSessionTemplate sqlSession, int paymentDetailNo) {
+		return sqlSession.selectOne("paymentMapper.selectExchangeList", paymentDetailNo);
+	}
+
+//	public PaymentDetail selectExchangeList(SqlSessionTemplate sqlSession, int paymentDetailNo) {
+//		// TODO Auto-generated method stub
+//		return sqlSession.selectOne("paymentMapper.selectExchangeList",paymentDetailNo);
+//	}
+//
+//	public Payment selectPaymentNo(SqlSessionTemplate sqlSession, int paymentNo) {
+//			
+//		return sqlSession.selectOne("paymentMapper.selectPaymentNo" , paymentNo);
+//	}
+
+
+	
 } 
 
 

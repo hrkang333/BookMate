@@ -18,7 +18,7 @@ public class ExchageItem {
 	
 	private int exchangeNo;
 	private int paymentDetailNo;
-	private String exchangeReason;
+	private String userId;
 	private int exchangeStatus;
 	private String exchangeName;
 	private String exchangePhone;
