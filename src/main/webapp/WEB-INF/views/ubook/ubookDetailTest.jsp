@@ -13,20 +13,19 @@
 </head>
 <body style="width: 1200px; margin: auto;">
 
-	<div class="mycontainer"
-		style="width: 100% !important; padding: 0px 0px 0px 0px !important; margin: 0px 0px 0px 0px !important;">
-		<div class="row">
 			<jsp:include page="../ubook/ubookCategory.jsp" />
+	<div >
+		<div class="row">
 			<!-- s:html -->
 			<!--================ 메인 Content =================-->
-			<div class="col-xl-9 col-lg-8 col-md-7 maincon">
+			<div class="col-xl-9 col-lg-8 col-md-7 maincon" style="margin-left: 220px; width: 1080px; margin-top: 93px;">
 				<div
 					style="background-color: #fcfcfc; overflow: hidden; height: auto; margin: 15px 0px 20px 0px;">
 					<!-- detail_product  -->
 					<div class="detail_product"
-						style="float: left; margin: 13px 0 0; width: 670px; padding: 0; display: block;">
+						style="float: left; margin: 13px 0 0; width: 870px; padding: 0; display: block;">
 						<div class="detail_content type_2"
-							style="width: 649px; padding: 0; background: none; border: 2px solid #5b8a5b; margin-left: 10px;">
+							style="width: 100%; padding: 0; background: none; border: 2px solid #5b8a5b; margin-left: 10px;">
 							<div class="inner" style="padding: 43px 0 0 0;">
 								<!-- product_image -->
 								<div class="product_image"
@@ -36,21 +35,22 @@
 											style="padding: 5px 7px 7px 6px; line-height: 0; font-size: 0; margin: 0;">
 											<img
 												src="${pageContext.servletContext.contextPath }/resources/images/Ubookimg/${ubook.ubookImg}"
-												class="photo" style="width: 200px; height: 285px;" />
+												class="photo" style="width: 300px; height: auto;" />
 
 										</div>
 									</div>
 
 									<!--<div class="seller_info">* 중고장터 판매상품은 판매자가 직접 등록/판매하는 상품으로 판매자가 해당상품과 내용에 모든 책임을 집니다. 우측의 제품상태와 하단의 상품상세를 꼭 확인하신 후 구입해주시기 바랍니다.</div>-->
 									<div class="summary_info"
-										style="width: 209px; margin: 0px 0px 0px 0px; padding: 10px 0 0 10px; color: #000; font-size: 15px; text-align: center;">
+										style="width: 250px; margin: 0px 0px 0px 0px; padding: 10px 0 0 60px; color: #000; font-size: 15px; text-align: center;">
 										ISBN-13 : ${ ubook.ubookIsbn }</div>
+
 								</div>
 								<!--// product_image -->
 
 								<!-- product_detail_info -->
 								<div class="product_detail_info"
-									style="width: 399px; float: right; padding: 0 40px 11px 0; margin: 0 0 0 0px; margin-right: none; margin-right: none !important;">
+									style="width: 400px; float: right; padding: 0 40px 11px 0; margin: 0 90px 0 0px; margin-right: none; margin-right: none !important;">
 									<div class="subject" style="padding: 0px 20px 10px 30px;">
 										<span class="title"
 											style="font-size: 19px; font-weight: bold;"><c:out
@@ -110,8 +110,10 @@
 										style="padding: 180px 0 0 36px; width: 350px; font-size: 15px; line-height: 1.3em; color: #000000;">
 										<span class="release" style="color: #212529;"><strong>출판연도</strong>
 											&nbsp; <fmt:formatDate value="${ubook.ubookPubDate}"
-												pattern="yyyy년 MM월 dd일" /> </span> <br>
-
+												pattern="yyyy년 MM월 dd일" /> </span> <br> <br> <span
+											class="release" style="color: #212529;"><strong>판매자</strong>
+											&nbsp; <strong style="color: #09992f">${ubook.sellerNickN}</strong>
+										</span>
 
 									</div>
 
@@ -138,56 +140,60 @@
 												<c:if test="${ ubook.ubookQual == 'D' }">
 													<c:out value="최하">최하</c:out>
 												</c:if>
-
 											</dd>
 										</dl>
 
+
+										<!-- !구매 만족도 -->
 									</div>
 									<!-- end state-lowest-new -->
 
 									<div class="order_quantity"
 										style="margin: 10px 0 0 30px; padding: 10px 0 10px 0; width: 350px; border-top: 1px solid #dcddd7; font-size: 15px;">
-										<label for="order-quantity"
-											style="display: inline-block; padding: 2px 0 0 6px; font-weight: bold;">주문가능수량</label>
-										<input type="number" id="order-quantity" value="1"
-											max="${ ubook.ubookStock }" min="1"
-											onkeydown="onlyNum(event, this)" title="주문수량입력"
-											style="margin: 0 0 0 10px; padding: 2px 2px 0 0; width: 50px; height: 25px; text-align: center; border: 1px solid #ddd;">
-										<span class="count-up-down"> </span>
-									</div>
-								</div>
-								<!--// product_detail_info  -->
-								<div class="product_detail_bottom">
-									<div class="button_buy"
-										style="margin: 0 0 30px 280px; padding: 0 0 0 0; clear: both;">
+										<div style="clear: both; margin-bottom: 60px;">
+											<label for="order-quantity"
+												style="display: inline-block; padding: 2px 0 0 6px; font-weight: bold;">주문가능수량</label>
+											<input type="number" id="order-quantity" value="1"
+												max="${ ubook.ubookStock }" min="1"
+												onkeydown="onlyNum(event, this)" title="주문수량입력"
+												style="margin: 0 0 0 10px; padding: 2px 2px 0 0; width: 50px; height: 25px; text-align: center; border: 1px solid #ddd;">
+										</div>
+
+
 										<a href="#" class="btn_large btn_blue"
 											style="width: 124px; font-size: 12px !important; margin-right: 10px; background-image: none; background-color: #5cb85c !important; border: 1px solid #5cb85c; color: #fff !important; padding: 7px 12px 1px; box-shadow: none; height: 33px; text-align: center;">장바구니에
 											담기</a> <a href="#" class="btn_large btn_blue2"
 											style="width: 124px; font-size: 12px !important; margin-right: 10px; background-image: none; background-color: #5b8a5b !important; border: 1px solid #5b8a5b; color: #fff !important; padding: 7px 12px 1px; box-shadow: none; height: 33px; text-align: center;">바로
 											구매하기</a>
 									</div>
-									<!-- s: 2020-08-26 -->
+								</div>
+								<!--// product_detail_info  -->
+								<div class="product_detail_bottom">
+									<div class="button_buy" style="padding: 0 0 0 0; clear: both;">
+
+									</div>
 									<div class="detail_information"
 										style="margin: 0; padding: 20px 43px 25px; font-size: 12px; letter-spacing: -1px; line-height: 1.4em; border: 1px solid #EDEDED; background: #fafafa;">
-										<p style="padding: 10px 0 0 5px;">책장메이트에 등록된 판매상품과 제품의 상태는
-											개별 판매자들이 등록, 판매하는 것으로<br>중개시스템만을 제공하는 책구메이트는 해당 상품과 내용에 대해 일체
-											책임을 지지 않습니다.<br> 상단 제품상태와 하단 상품 상세를 꼭 확인하신 후 구입해주시기 바랍니다.</p>
+										<p style="padding: 10px 0 0 5px;">
+											책장메이트에 등록된 판매상품과 제품의 상태는 개별 판매자들이 등록, 판매하는 것으로<br>중개시스템만을
+											제공하는 책구메이트는 해당 상품과 내용에 대해 일체 책임을 지지 않습니다.<br> 상단 제품상태와
+											하단 상품 상세를 꼭 확인하신 후 구입해주시기 바랍니다.
+										</p>
 										<p style="padding: 10px 0 0 5px;">책구메이트 결제 시스템을 이용하지 않은
 											직거래로 인한 피해 발생 시 책구메이트는 일체 책임을 지지 않습니다.</p>
 
 										<p style="padding: 10px 0 0 5px;">
-											책장메이트에 등록된 판매 상품과 제품의 상태는 개별 오픈마켓 판매자들이 등록, 판매하는 것으로 <br>중개 시스템만을
-											제공하는 인터넷 책구메이트에서는 해당 상품과 내용에 대해 일체 책임을 지지 않습니다.
+											책장메이트에 등록된 판매 상품과 제품의 상태는 개별 오픈마켓 판매자들이 등록, 판매하는 것으로 <br>중개
+											시스템만을 제공하는 인터넷 책구메이트에서는 해당 상품과 내용에 대해 일체 책임을 지지 않습니다.
 										</p>
 									</div>
-									<!-- e: 2020-08-26 -->
 								</div>
 							</div>
 						</div>
 
 						<!-- 판매자 다른 상품 -->
 						<div class="seller_another_product"
-							style="position: relative; margin: 10px 0 30px 10px; border: 1px solid #5b8a5b; width: 650px;">
+							style="position: relative; margin: 10px 0 10px 10px; border: 1px solid #5b8a5b; width: 870px;">
 							<h2
 								style="color: #333; font-size: 13px; letter-spacing: -0.05em; padding: 8px 15px; background-color: #d1e7d1;">
 								중고책 추천 (판매자 <span>다른</span> 상품)
@@ -293,13 +299,38 @@
 										</p>
 									</div>
 								</li>
+
+								<li style="float: left; width: 20%; text-align: center;">
+									<p class="photo">
+										<a href="" style="color: #4d4d4d; text-decoration: none;">
+											<img
+											src="http://image.kyobobook.co.kr/new_ink/used/web/images/common/noimage_150_215.gif"
+											alt="초등학생이 되었다: 바른마음"
+											onerror="this.src='http://image.kyobobook.co.kr/new_ink/used/web/images/common/noimage_150_215.gif'"
+											style="width: 68px; height: 94px; border: 1px solid #ccc; transition: all .3s;">
+										</a>
+									</p>
+									<div class="info" style="margin: 10px 5px 0; padding: 0;">
+										<p class="subject"
+											style="font-weight: bold; display: block; margin-block-start: 1em; margin-block-end: 1em; margin-inline-start: 0px; margin-inline-end: 0px;">
+											<a href="" style="color: #4d4d4d; text-decoration: none;">
+												초등학생이 되었다: 바른마음 </a>
+										</p>
+										<p class="price" style="padding: 5px 0 5px 0; color: #fe6000;">6800원</p>
+										<p class="quality">
+											<span class="grade_s"
+												style="font-size: 11px; line-height: 15px; display: inline-block; padding: 0px 2px 0px; background-color: #d4ddf8; border: 1px solid #00006d; color: #00006d;">상태
+												: 최상</span>
+										</p>
+									</div>
+								</li>
 							</ul>
 						</div>
 						<!--// 판매자 다른 상품 -->
 
 						<!-- detail_menu_content -->
 						<div class="detail_menu_content"
-							style="margin: 25px 0 0 10px; width: 650px; line-height: 1.3em; font-size: 15px;">
+							style="margin: 25px 0 0 10px; width: 870px; line-height: 1.3em; font-size: 15px;">
 
 							<!-- 탭메뉴 -->
 
@@ -324,13 +355,6 @@
 										</ul></li>
 									<li
 										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
-										href="#seller_postscript_content"
-										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #dadada; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">판매자
-											전체 후기 <span
-											style="font-size: 11px; font-weight: normal; text-decoration: none;">[119건]</span>
-									</a></li>
-									<li
-										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
 										href="#info_content"
 										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #DADADA; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">도서
 											정보 </a></li>
@@ -339,6 +363,18 @@
 										href="#member_refund"
 										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #DADADA; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">교환/반품
 											안내 </a></li>
+									<li
+										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
+										href="#seller_postscript_content"
+										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #dadada; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">판매자
+											전체 후기 <span
+											style="font-size: 11px; font-weight: normal; text-decoration: none;">[119건]</span>
+									</a></li>
+									<li
+										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
+										href="#question"
+										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #DADADA; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">상품 문의
+</a></li>
 								</ul>
 							</div>
 							<!--// 탭메뉴 -->
@@ -366,6 +402,103 @@
 								</div>
 							</div>
 							<!--// 중고 도서 정보 -->
+							<!-- 탭메뉴 -->
+							<div id="used_info_content" class="detail_menu"
+								style="width: 100%; height: 60px; letter-spacing: -0.03em; margin: 0 0 10px 0;">
+								<ul class="main"
+									style="width: 100%; padding: 1px 0 0 0; height: 30px; border-bottom: 2px solid #5b8a5b;">
+									<li
+										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0;"><a
+										href="#used_info_content"
+										style="color: #3378b3; height: 26px; border: 2px solid #3378b3; border-bottom: none; margin: 0 0 -2px 0; background: #fff; height: 20 px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #dadada; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">판매자
+											상품 정보</a></li>
+									<li class="on"
+										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
+										href="#info_content"
+										style="height: 29px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #DADADA; border-bottom: none; background: #d1e7d1; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">도서
+											정보 </a>
+
+										<ul class="sub m01"
+											style="position: absolute; top: 42px; left: 0px; width: 400px;">
+											<li class="first" style="float: left; padding: 0 7px;"><a
+												href="#book_info_detail"
+												style="line-height: 12px; color: #666;">도서 줄거리 및 내용</a></li>
+											<li style="float: left; padding: 0 7px;"><a
+												href="#book_info_content"
+												style="line-height: 12px; color: #666;">도서 목차</a></li>
+										</ul></li>
+									<li
+										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
+										href="#member_refund"
+										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #DADADA; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">교환/반품
+											안내 </a></li>
+									<li
+										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
+										href="#seller_postscript_content"
+										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #dadada; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">판매자
+											전체 후기 <span
+											style="font-size: 11px; font-weight: normal; text-decoration: none;">[119건]</span>
+									</a></li>
+									<li
+										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
+										href="#question"
+										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #DADADA; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">상품 문의
+</a></li>
+								</ul>
+							</div>
+							<!--// 탭메뉴 -->
+
+							<!-- 도서 정보 -->
+							<div class="info_content" id="info_content">
+								<div id="info_content02"
+									style="margin: 25px 0 0 0; width: 717px; line-height: 1.3em;">
+									<div class="book_info_content dot_line" id="book_info_detail"
+										style="margin: 0 0 20px 0; padding-bottom: 20px; width: 870px;">
+										<table summary="도서 줄거리 및 내용"
+											style="width: 100%; border-collapse: collapse; border-spacing: 0; table-layout: fixed; border-top: 1px solid #e2e2e2; width: 100%; border-bottom: 1px solid #e2e2e2; border-right: 1px solid #e2e2e2; text-align: center; font-size: 11px;">
+											<caption
+												style="height: 0; font-size: 0; line-height: 0; visibility: hidden;">
+												도서 줄거리 및 내용</caption>
+											<thead
+												style="display: table-header-group; vertical-align: middle; border-color: inherit;">
+												<tr
+													style="display: table-row; vertical-align: inherit; border-color: inherit;">
+													<th scope="col"
+														style="background-color: #edefed; padding: 6px 0 5px 0; border-bottom: 1px solid #e2e2e2; border-left: 1px solid #e2e2e2; color: #666; font-size: 11px; letter-spacing: -0.03em;">도서
+														줄거리 및 내용</th>
+												</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+										<p class="txt" style="margin: 15px 0 0 0; padding: 0;">${ ubook.ubookDetail }</p>
+									</div>
+								</div>
+								<div id="info_content04">
+									<div class="book_info_content dot_line" id="book_info_content"
+										style="margin: 0 0 20px 0; padding-bottom: 20px; width: 870px;">
+										<table summary="도서 목차"
+											style="width: 100%; border-collapse: collapse; border-spacing: 0; table-layout: fixed; border-top: 1px solid #e2e2e2; width: 100%; border-bottom: 1px solid #e2e2e2; border-right: 1px solid #e2e2e2; text-align: center; font-size: 11px;">
+											<caption
+												style="height: 0; font-size: 0; line-height: 0; visibility: hidden;">
+												도서 목차</caption>
+											<thead
+												style="display: table-header-group; vertical-align: middle; border-color: inherit;">
+												<tr
+													style="display: table-row; vertical-align: inherit; border-color: inherit;">
+													<th scope="col"
+														style="background-color: #edefed; padding: 6px 0 5px 0; border-bottom: 1px solid #e2e2e2; border-left: 1px solid #e2e2e2; color: #666; font-size: 11px; letter-spacing: -0.03em;">도서
+														목차</th>
+												</tr>
+											</thead>
+											<tbody>
+											</tbody>
+										</table>
+										<p class="txt" style="margin: 15px 0 0 0; padding: 0;">${ ubook.ubookContent }</p>
+									</div>
+								</div>
+							</div>
+							<!-- 도서 정보 -->
 
 							<!-- 탭메뉴 -->
 							<div id="used_info_content" class="detail_menu"
@@ -377,6 +510,107 @@
 										href="#used_info_content"
 										style="color: #3378b3; height: 26px; border: 2px solid #3378b3; border-bottom: none; margin: 0 0 -2px 0; background: #fff; height: 20 px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #dadada; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">판매자
 											상품 정보</a></li>
+									<li
+										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
+										href="#info_content"
+										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #DADADA; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">도서
+											정보 </a></li>
+									<li class="on"
+										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
+										href="#member_refund"
+										style="height: 29px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #DADADA; border-bottom: none; background: #d1e7d1; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">교환/반품
+											안내 </a>
+
+										<ul class="sub m01"
+											style="position: absolute; top: 42px; left: 0px; width: 400px;">
+											<li style="float: left; padding: 0 7px;"><a
+												href="#member_refund"
+												style="line-height: 12px; color: #666;">도서 교환/반품</a></li>
+										</ul></li>
+									<li
+										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
+										href="#seller_postscript_content"
+										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #dadada; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">판매자
+											전체 후기 <span
+											style="font-size: 11px; font-weight: normal; text-decoration: none;">[119건]</span>
+									</a></li>
+									<li
+										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
+										href="#question"
+										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #DADADA; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">상품 문의
+</a></li>
+								</ul>
+							</div>
+							<!--// 탭메뉴 -->
+							<!-- 교환/반품안내 -->
+							<div class="member_refund" id="member_refund">
+								<p class="info" style="margin: 0 0 5px 0;">
+									※ 상품 설명에 반품/교환 관련한 안내가 있는 경우 그 내용을 우선으로 합니다.<br> (업체 사정에
+									따라 달라질 수 있습니다.)
+								</p>
+								<table summary="교환/반품안내"
+									style="border-collapse: collapse; border-spacing: 0; table-layout: fixed; border-top: 1px solid #5b8a5b; border-right: 1px solid #d1e7d1; border-bottom: 1px solid #e1e1e1; width: 100%; text-align: left; font-size: 15px; margin-bottom: 20px;">
+
+									<colgroup>
+										<col width="130px">
+										<col width="*">
+									</colgroup>
+									<tbody
+										style="display: table-row-group; vertical-align: middle; border-color: inherit;">
+										<tr
+											style="display: table-row; vertical-align: inherit; border-color: inherit;">
+											<th scope="row"
+												style="text-align: center; vertical-align: middle; padding: 8px 0 7px 0; border-bottom: 1px solid #5b8a5b; border-left: 1px solid #e1e1e1; background: #d1e7d1; color: #62655c; letter-spacing: -0.03em; font-weight: normal;"><span>반품/교환
+													안내</span></th>
+											<td
+												style="padding: 8px 10px 2px 10px; border-bottom: 1px solid #5b8a5b; border-left: 1px solid #e1e1e1; letter-spacing: -0.03em; line-height: 16px;">
+												<p style="margin: 0 0 5px 0;">
+													<strong>[중고도서 반품 및 교환 안내]</strong>
+												</p>
+												<p>
+													※ 중고도서의 경우 중고 상품 특성상 반품 및 교환이 불가능합니다.<br> 구매 시 주의하여
+													구매하시기 바랍니다.
+												</p>
+											</td>
+										</tr>
+										<tr
+											style="display: table-row; vertical-align: inherit; border-color: inherit;">
+											<th scope="row"
+												style="text-align: center; vertical-align: middle; padding: 8px 0 7px 0; border-bottom: 1px solid #5b8a5b; border-left: 1px solid #e1e1e1; background: #d1e7d1; color: #62655c; letter-spacing: -0.03em; font-weight: normal;"><span>소비자
+													피해보상</span></th>
+											<td
+												style="padding: 8px 10px 2px 10px; border-bottom: 1px solid #5b8a5b; border-left: 1px solid #e1e1e1; letter-spacing: -0.03em; line-height: 16px;">
+												<p style="margin: 0 0 5px 0;">- 상품의 불량에 의한 교환, A/S, 환불,
+													품질보증 및 피해보상 등에 관한 사항은 소비자분쟁해결 기준 (공정거래위원회 고시)에 준하여 처리됨</p>
+												<p style="margin: 0 0 5px 0;">- 대금 환불 및 환불지연에 따른 배상금 지급
+													조건, 절차 등은 전자상거래 등에서의 소비자 보호에 관한 법률에 따라 처리함</p>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<!--// 교환/반품안내 -->
+
+							<!-- 탭메뉴 -->
+							<div id="used_info_content" class="detail_menu"
+								style="width: 100%; height: 60px; letter-spacing: -0.03em; margin: 0 0 10px 0;">
+								<ul class="main"
+									style="width: 100%; padding: 1px 0 0 0; height: 30px; border-bottom: 2px solid #5b8a5b;">
+									<li
+										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0;"><a
+										href="#used_info_content"
+										style="color: #3378b3; height: 26px; border: 2px solid #3378b3; border-bottom: none; margin: 0 0 -2px 0; background: #fff; height: 20 px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #dadada; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">판매자
+											상품 정보</a></li>
+									<li
+										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
+										href="#info_content"
+										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #DADADA; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">도서
+											정보 </a></li>
+									<li
+										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
+										href="#member_refund"
+										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #DADADA; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">교환/반품
+											안내 </a></li>
 									<li class="on"
 										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
 										href="#seller_postscript_content"
@@ -393,14 +627,9 @@
 										</ul></li>
 									<li
 										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
-										href="#info_content"
-										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #DADADA; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">도서
-											정보 </a></li>
-									<li
-										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
-										href="#member_refund"
-										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #DADADA; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">교환/반품
-											안내 </a></li>
+										href="#question"
+										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #DADADA; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">상품 문의
+</a></li>
 								</ul>
 							</div>
 							<!--// 탭메뉴 -->
@@ -483,6 +712,7 @@
 							</div>
 							<!--// 판매자 후기 -->
 
+							
 							<!-- 탭메뉴 -->
 							<div id="used_info_content" class="detail_menu"
 								style="width: 100%; height: 60px; letter-spacing: -0.03em; margin: 0 0 10px 0;">
@@ -493,343 +723,194 @@
 										href="#used_info_content"
 										style="color: #3378b3; height: 26px; border: 2px solid #3378b3; border-bottom: none; margin: 0 0 -2px 0; background: #fff; height: 20 px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #dadada; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">판매자
 											상품 정보</a></li>
-									<li
-										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
-										href="#seller_postscript_content"
-										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #dadada; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">판매자
-											전체 후기 <span
-											style="font-size: 11px; font-weight: normal; text-decoration: none;">[119건]</span>
-									</a></li>
-									<li class="on"
-										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
-										href="#info_content"
-										style="height: 29px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #DADADA; border-bottom: none; background: #d1e7d1; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">도서
-											정보 </a>
-
-										<ul class="sub m01"
-											style="position: absolute; top: 42px; left: 0px; width: 400px;">
-											<li class="first" style="float: left; padding: 0 7px;"><a
-												href="#book_info_detail"
-												style="line-height: 12px; color: #666;">도서 줄거리 및 내용</a></li>
-											<li style="float: left; padding: 0 7px;"><a
-												href="#book_info_content"
-												style="line-height: 12px; color: #666;">도서 목차</a></li>
-										</ul></li>
-									<li
-										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
-										href="#member_refund"
-										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #DADADA; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">교환/반품
-											안내 </a></li>
-								</ul>
-							</div>
-							<!--// 탭메뉴 -->
-
-							<!-- 도서 정보 -->
-							<div class="info_content" id="info_content">
-								<div id="info_content02"
-									style="margin: 25px 0 0 0; width: 717px; line-height: 1.3em;">
-									<div class="book_info_content dot_line" id="book_info_detail"
-										style="margin: 0 0 20px 0; padding-bottom: 20px; width: 650px;">
-										<table summary="도서 줄거리 및 내용"
-											style="width: 100%; border-collapse: collapse; border-spacing: 0; table-layout: fixed; border-top: 1px solid #e2e2e2; width: 100%; border-bottom: 1px solid #e2e2e2; border-right: 1px solid #e2e2e2; text-align: center; font-size: 11px;">
-											<caption
-												style="height: 0; font-size: 0; line-height: 0; visibility: hidden;">
-												도서 줄거리 및 내용</caption>
-											<thead
-												style="display: table-header-group; vertical-align: middle; border-color: inherit;">
-												<tr
-													style="display: table-row; vertical-align: inherit; border-color: inherit;">
-													<th scope="col"
-														style="background-color: #edefed; padding: 6px 0 5px 0; border-bottom: 1px solid #e2e2e2; border-left: 1px solid #e2e2e2; color: #666; font-size: 11px; letter-spacing: -0.03em;">도서
-														줄거리 및 내용</th>
-												</tr>
-											</thead>
-											<tbody>
-											</tbody>
-										</table>
-										<p class="txt" style="margin: 15px 0 0 0; padding: 0;">${ ubook.ubookDetail }</p>
-									</div>
-								</div>
-								<div id="info_content04">
-									<div class="book_info_content dot_line" id="book_info_content"
-										style="margin: 0 0 20px 0; padding-bottom: 20px; width: 650px;">
-										<table summary="도서 목차"
-											style="width: 100%; border-collapse: collapse; border-spacing: 0; table-layout: fixed; border-top: 1px solid #e2e2e2; width: 100%; border-bottom: 1px solid #e2e2e2; border-right: 1px solid #e2e2e2; text-align: center; font-size: 11px;">
-											<caption
-												style="height: 0; font-size: 0; line-height: 0; visibility: hidden;">
-												도서 목차</caption>
-											<thead
-												style="display: table-header-group; vertical-align: middle; border-color: inherit;">
-												<tr
-													style="display: table-row; vertical-align: inherit; border-color: inherit;">
-													<th scope="col"
-														style="background-color: #edefed; padding: 6px 0 5px 0; border-bottom: 1px solid #e2e2e2; border-left: 1px solid #e2e2e2; color: #666; font-size: 11px; letter-spacing: -0.03em;">도서
-														목차</th>
-												</tr>
-											</thead>
-											<tbody>
-											</tbody>
-										</table>
-										<p class="txt" style="margin: 15px 0 0 0; padding: 0;">${ ubook.ubookContent }</p>
-									</div>
-								</div>
-							</div>
-							<!-- 도서 정보 -->
-
-							<!-- 탭메뉴 -->
-							<div id="used_info_content" class="detail_menu"
-								style="width: 100%; height: 60px; letter-spacing: -0.03em; margin: 0 0 10px 0;">
-								<ul class="main"
-									style="width: 100%; padding: 1px 0 0 0; height: 30px; border-bottom: 2px solid #5b8a5b;">
-									<li
-										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0;"><a
-										href="#used_info_content"
-										style="color: #3378b3; height: 26px; border: 2px solid #3378b3; border-bottom: none; margin: 0 0 -2px 0; background: #fff; height: 20 px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #dadada; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">판매자
-											상품 정보</a></li>
-									<li
-										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
-										href="#seller_postscript_content"
-										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #dadada; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">판매자
-											전체 후기 <span
-											style="font-size: 11px; font-weight: normal; text-decoration: none;">[119건]</span>
-									</a></li>
 									<li
 										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
 										href="#info_content"
 										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #DADADA; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">도서
 											정보 </a></li>
-									<li class="on"
+									<li
 										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
 										href="#member_refund"
-										style="height: 29px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #DADADA; border-bottom: none; background: #d1e7d1; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">교환/반품
-											안내 </a>
+										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #DADADA; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">교환/반품
+											안내 </a></li>
+									<li 
+										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
+										href="#seller_postscript_content"
+										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #DADADA; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">판매자
+											전체 후기 <span
+											style="font-size: 11px; font-weight: normal; text-decoration: none;">[119건]</span>
+									</a></li>
+									<li class="on"
+										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
+										href="#question"
+										style="height: 29px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #dadada; border-bottom: none; background: #d1e7d1; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">상품 문의</a>
+										
 
 										<ul class="sub m01"
 											style="position: absolute; top: 42px; left: 0px; width: 400px;">
-											<li style="float: left; padding: 0 7px;"><a
-												href="#member_refund"
-												style="line-height: 12px; color: #666;">도서 교환/반품</a></li>
-										</ul></li>
+											<li class="first" style="float: left; padding: 0 7px;"><a
+												href="#question"
+												style="line-height: 12px; color: #666;">상품 문의</a></li>
+										</ul>
+										</li>
 								</ul>
 							</div>
 							<!--// 탭메뉴 -->
-							<!-- 교환/반품안내 -->
-							<div class="member_refund" id="member_refund">
-								<p class="info" style="margin: 0 0 5px 0;">
-									※ 상품 설명에 반품/교환 관련한 안내가 있는 경우 그 내용을 우선으로 합니다.<br> (업체 사정에
-									따라 달라질 수 있습니다.)
-								</p>
-								<table summary="교환/반품안내"
-									style="border-collapse: collapse; border-spacing: 0; table-layout: fixed; border-top: 1px solid #5b8a5b; border-right: 1px solid #d1e7d1; border-bottom: 1px solid #e1e1e1; width: 100%; text-align: left; font-size: 15px; margin-bottom: 20px;">
 
-									<colgroup>
-										<col width="130px">
-										<col width="*">
-									</colgroup>
-									<tbody
-										style="display: table-row-group; vertical-align: middle; border-color: inherit;">
-										<tr
-											style="display: table-row; vertical-align: inherit; border-color: inherit;">
-											<th scope="row"
-												style="text-align: center; vertical-align: middle; padding: 8px 0 7px 0; border-bottom: 1px solid #5b8a5b; border-left: 1px solid #e1e1e1; background: #d1e7d1; color: #62655c; letter-spacing: -0.03em; font-weight: normal;"><span>반품/교환
-													안내</span></th>
-											<td
-												style="padding: 8px 10px 2px 10px; border-bottom: 1px solid #5b8a5b; border-left: 1px solid #e1e1e1; letter-spacing: -0.03em; line-height: 16px;">
-												<p style="margin: 0 0 5px 0;">
-													<strong>[중고도서 반품 및 교환 안내]</strong>
-												</p>
-												<p>
-													※ 중고도서의 경우 중고 상품 특성상 반품 및 교환이 불가능합니다.<br> 구매 시 주의하여
-													구매하시기 바랍니다.
-												</p>
-											</td>
-										</tr>
-										<tr
-											style="display: table-row; vertical-align: inherit; border-color: inherit;">
-											<th scope="row"
-												style="text-align: center; vertical-align: middle; padding: 8px 0 7px 0; border-bottom: 1px solid #5b8a5b; border-left: 1px solid #e1e1e1; background: #d1e7d1; color: #62655c; letter-spacing: -0.03em; font-weight: normal;"><span>소비자
-													피해보상</span></th>
-											<td
-												style="padding: 8px 10px 2px 10px; border-bottom: 1px solid #5b8a5b; border-left: 1px solid #e1e1e1; letter-spacing: -0.03em; line-height: 16px;">
-												<p style="margin: 0 0 5px 0;">- 상품의 불량에 의한 교환, A/S, 환불,
-													품질보증 및 피해보상 등에 관한 사항은 소비자분쟁해결 기준 (공정거래위원회 고시)에 준하여 처리됨</p>
-												<p style="margin: 0 0 5px 0;">- 대금 환불 및 환불지연에 따른 배상금 지급
-													조건, 절차 등은 전자상거래 등에서의 소비자 보호에 관한 법률에 따라 처리함</p>
-											</td>
-										</tr>
-									</tbody>
-								</table>
+							<!-- 상품문의 -->
+							<div class="seller_postscript_content"
+								id="question"
+								style="margin: 0 0 20px 0; padding: 0;">
+								
+					            <table id="qnaArea" class="table" align="center">
+					                <thead>
+					                    <tr>
+					                    	<c:if test="${ !empty loginUser }">
+						                        <th colspan="2" style="width:75%">
+						                            <textarea class="form-control" id="qnaContent" rows="2" style="resize:none; width:100%"></textarea>
+						                        </th>
+						                        <th style="vertical-align: middle"><button class="btn btn-secondary" id="addQna">등록하기</button></th>
+					                        </c:if>
+					                        <c:if test="${ empty loginUser }">
+					                        	<th colspan="2" style="width:75%">
+						                            <textarea class="form-control" readonly rows="2" style="resize:none; width:100%">로그인한 사용자만 사용가능한 서비스입니다. 로그인 후 이용해주세요.</textarea>
+						                        </th>
+						                        <th style="vertical-align: middle"><button class="btn btn-secondary" disabled>등록하기</button></th>
+					                        </c:if>
+					                    </tr>
+					                    <tr>
+					                       <td colspan="3">문의 (<span id="qnaCount">0</span>) </td> 
+					                    </tr>
+					                </thead>
+					                <tbody>
+					                
+					                </tbody>
+					            </table>
 							</div>
-							<!--// 교환/반품안내 -->
+							<!--// 상품문의 -->
+							
+							 <script>
+							 	$(function(){
+							 		selectQnaList();	//문의 리스트 조회
+									
+							 		//상담 문의에서 등록하기 버튼 눌렀을 때
+									$("#addQna").click(function(){
+							    		var ubookNo = ${ubook.ubookNo};
+							
+										if($("#qnaContent").val().trim().length != 0){
+											
+											$.ajax({
+												url:"qnaInsert.ub",
+												type:"post",
+												data:{qnaContent:$("#qnaContent").val(),
+													  ubno:ubookNo,
+													  qnaWriter:"${loginUser.userId}"},
+												success:function(result){
+													if(result > 0){
+														$("#qnaContent").val("");
+														selectQnaList();
+														
+													}else{
+														alert("문의등록실패");
+													}
+												},error:function(){
+													console.log("문의 작성 ajax 통신 실패");
+												}
+											});
+											
+										}else{
+											alert("문의등록하셈");
+										}
+										
+									});
+								});
+								
+							 	//문의 리스트 보기
+								function selectQnaList(){
+						    		var ubookNo = ${ubook.ubookNo};
+									$.ajax({
+										url:"qnalist.ub",
+										data:{ubookNo:ubookNo},
+										type:"get",
+										success:function(list){
+											$("#qnaCount").text(list.length);
+											
+											var value="";
+											$.each(list, function(i, obj){
+												//현재로그인한 회원이랑 문의 작성자랑 같으면 배경색 바꾸기
+												if("${loginUser.userId}" == obj.qnaWriter){
+													value += "<tr style='background:#EAFAF1'>";
+												}else{
+													value += "<tr>";
+												}
 
+												//현재로그인한 회원이랑 해당 도서의 판매자랑 같으면 답글 등록 가능하도록 버튼 보여주기
+												value += "<th>" + obj.qnaWriter + "</th>" + 
+												 			"<td>" + obj.qnaGroupNo + "</td>" + 
+												 			"<td>" + obj.qnaGroupNoOrder + "</td>" + 
+															 "<td>" + obj.qnaContent + "</td>" + 
+															 "<td>" + obj.createDate + "</td>" +"<c:if test='${ loginUser.userId eq ubook.sellerId }'><td><button onclick='reply()'>답글달기</button></c:if>"+
+													 "</tr>"+
+													 "<tr id='show' style='display:none'><th colspan='2' style='width:75%'>"+
+													 "<textarea class='form-control' id='qnaContent2' rows='2' style='resize:none; width:100%'></textarea>"+
+													 "</th><th style='vertical-align: middle'><button class='btn btn-secondary' id='addAnswer'>등록하기</button></th></tr>";
+													 
+											});
+											$("#qnaArea tbody").html(value);
+										},error:function(){
+											console.log("문의 리스트조회용 ajax 통신 실패");
+										}
+									});
+								}
+							     
+							   //문의 답변 쓰기
+							      function reply() {
+									alert("답변 준비 완료!");
+									//버튼 눌렀을 때 input 보이게
+							    	document.getElementById("show").style.display="";
+									
+									
+									$("#addAnswer").click(function(){
+							    		var ubookNo = ${ubook.ubookNo};
+								    	  console.log(ubookNo);
+							
+										if($("#qnaContent2").val().trim().length != 0){
+											
+											$.ajax({
+												url:"qnaInsertAnswer.ub",
+												type:"post",
+												data:{qnaContent:$("#qnaContent2").val(),
+													  ubno:ubookNo,
+													  qnaWriter:"${loginUser.userId}"},
+												success:function(result){
+													if(result > 0){
+														$("#qnaContent2").val("");
+														selectQnaList();
+														
+													}else{
+														alert("답변등록실패");
+													}
+												},error:function(){
+													console.log("답변 작성 ajax 통신 실패");
+												}
+											});
+											
+										}else{
+											alert("답변등록하셈");
+										}
+										
+									});	
+										
+								}
+
+							    </script>
+							
 						</div>
 						<!--// detail_menu_content  -->
 
 					</div>
 					<!--// detail_product -->
 
-					<!-- detail_side  -->
-					<div class="detail_side"
-						style="float: right; margin: 13px 5px 0; width: 220px; height: 500px; font-size: 15px;">
-						<!-- 판매자 정보 -->
-						<!-- <div class="seller_info"> -->
-						<div class="seller_info type_2"
-							style="position: relative; width: 198px; border: 1px solid #5b8a5b; padding: 10px 10px 10px 10px;">
-							<dl
-								style="width: 100%; margin: 0; padding: 0; list-style: none; display: block; margin-block-start: 1em; margin-block-end: 1em; margin-inline-start: 0px; margin-inline-end: 0px;">
-								<dt class="seller">판매자 &nbsp; <strong style="color:#09992f">${ubook.sellerNickN}</strong></dt>
-								<dd class="seller" name="bSellerNo" hidden="hidden"
-									style="width: 100%; font-size: 14px; color: #5f699c; font-weight: bold; padding: 0 0 5px 0; float: left;">
-									${ ubook.BSellerNo }</dd>
-								<dt class="delivery_rank"
-									style="width: 104px; min-height: 14px; float: left; height: 12px; line-height: 12px; padding: 7px 0 0 0;">
-									구매만족도</dt>
-								<dd class="delivery_rank">몇 %</dd>
-								<!-- !구매 만족도 -->
-							</dl>
-							
-							<!-- 로그인 안한 상태에서 문의할 때 -->
-						 <c:if test="${ empty sessionScope.loginUser }">
-							<button type="button" onclick="loginPlease()"
-								style="border: none; padding: 8px 0 0 0; margin: 8px 0 0 0; padding-top: 0; background-color: #dcd3cc; width: 100%;">
-								상품 문의하기</button>
-								<script>
-									function loginPlease() {
-										alert("로그인 후 문의 가능합니다.");
-										document.location.href="login.me";
-									}
-								</script>
-						</c:if>
-							<!-- 내 도서를 문의하려고할 때 -->
-						 <c:if test="${ !empty sessionScope.loginUser && loginUser.userId eq ubook.sellerId }">
-								<button type="button"
-								 onclick="samePerson()"
-								style="border: none; padding: 8px 0 0 0; margin: 8px 0 0 0; padding-top: 0; background-color: #dcd3cc; width: 100%;">
-								상품 문의하기</button>
-						</c:if>
-								<script>
-									function samePerson() {
-										alert("자신의 도서에는 문의할 수 없습니다.");
-									}
-								</script>
-							<!-- 로그인 한 상태에서 다른 사람의 도서 문의할 때 -->
-						 <c:if test="${ !empty sessionScope.loginUser && loginUser.userId ne ubook.sellerId }">
-								<button type="button" data-toggle="modal" id="dormancyBtn"
-								data-target="#dormancy"
-								style="border: none; padding: 8px 0 0 0; margin: 8px 0 0 0; padding-top: 0; background-color: #dcd3cc; width: 100%;">
-								상품 문의하기</button>
-						</c:if>
-						</div>
-						<!--// 판매자 정보 -->
-
-
-						<div class="new_used_product"
-							style="margin: 10px 0 0; width: 200px; border: 1px solid #e0e0e0; overflow: hidden; height: auto;">
-							<h2
-								style="color: #333; font-size: 13px; letter-spacing: -0.05em; padding: 8px 0 5px 10px; background: #d1e7d1;">
-								<span>중고 신간</span>
-							</h2>
-							<ul
-								style="height: 260px; padding: 0 9px; width: 200px; margin-block-start: 1em; margin-block-end: 1em; margin-inline-start: 0px; margin-inline-end: 0px; padding-inline-start: 15px; padding-inline-end: 15px; overflow: hidden; height: auto;">
-								<li
-									style="padding: 10px 0; width: 165px; display: list-item; height: 88px; text-align: -webkit-match-parent;">
-
-									<span class="product" style=""> <span class="photo"
-										style="float: left; margin: 0 10px 0 0; width: 48px;">
-											<a href=""> <img
-												src="http://image.kyobobook.co.kr/new_ink/used/web/images/common/noimage_150_215.gif"
-												alt="호랑이를 덫에 가두면"
-												onerror="this.src='http://image.kyobobook.co.kr/new_ink/used/web/images/common/noimage_150_215.gif'"
-												style="width: 46px; border: 1px solid #ccc; transition: all .3s;">
-										</a>
-									</span> <span class="subject"
-										style="font-weight: bold; width: 105px; margin-top: 10px; float: right;">
-											<a href=""> 호랑이를 덫에 가두면 </a>
-									</span>
-								</span>
-								</li>
-								<li
-									style="padding: 10px 0; width: 165px; display: list-item; height: 88px; text-align: -webkit-match-parent;">
-
-									<span class="product" style=""> <span class="photo"
-										style="float: left; margin: 0 10px 0 0; width: 48px;">
-											<a href=""> <img
-												src="http://image.kyobobook.co.kr/new_ink/used/web/images/common/noimage_150_215.gif"
-												alt="호랑이를 덫에 가두면"
-												onerror="this.src='http://image.kyobobook.co.kr/new_ink/used/web/images/common/noimage_150_215.gif'"
-												style="width: 46px; border: 1px solid #ccc; transition: all .3s;">
-										</a>
-									</span> <span class="subject"
-										style="font-weight: bold; width: 105px; margin-top: 10px; float: right;">
-											<a href=""> 호랑이를 덫에 가두면 </a>
-									</span>
-								</span>
-								</li>
-								<li
-									style="padding: 10px 0; width: 165px; display: list-item; height: 88px; text-align: -webkit-match-parent;">
-
-									<span class="product" style=""> <span class="photo"
-										style="float: left; margin: 0 10px 0 0; width: 48px;">
-											<a href=""> <img
-												src="http://image.kyobobook.co.kr/new_ink/used/web/images/common/noimage_150_215.gif"
-												alt="호랑이를 덫에 가두면"
-												onerror="this.src='http://image.kyobobook.co.kr/new_ink/used/web/images/common/noimage_150_215.gif'"
-												style="width: 46px; border: 1px solid #ccc; transition: all .3s;">
-										</a>
-									</span> <span class="subject"
-										style="font-weight: bold; width: 105px; margin-top: 10px; float: right;">
-											<a href=""> 호랑이를 덫에 가두면 </a>
-									</span>
-								</span>
-								</li>
-
-							</ul>
-						</div>
-						<!-- end secondhand-newbook -->
-					</div>
-					<!--// detail_side -->
-				</div>
-			</div>
-			<!-- 판매자 Modal -->
-			<div class="modal fade" id="dormancy" tabindex="-1" role="dialog"
-				aria-labelledby="exampleModalLabel" aria-hidden="true">
-				<div class="modal-dialog" role="document" style="margin-left: 16%;">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">상품 문의하기</h5>
-							<button type="button" class="close" data-dismiss="modal"
-								aria-label="Close">
-								<span aria-hidden="true">×</span>
-							</button>
-						</div>
-
-						<form class="form" method="post" action="deleteSeller.se">
-							<div class="modal-body">
-								<h6>
-									도서에 대한 궁금한 사항이나 거래 방식을 문의해주세요.
-								</h6>
-								<br>
-								<label>
-									<h4>문의 작성자</h4>
-								</label> 
-								<input type="text" class="form-control" name="userName" value="${ loginUser.userName }">
-								
-								<label>
-									<h4>문의 내용</h4>
-								</label> 
-								<textarea class="form-control" name="chatContent" style="height: 200px;"></textarea>
-								
-								 
-
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary"
-									data-dismiss="modal">취소</button>
-								<button type="submit" class="btn btn-primary" onclick="PwdChk()">휴면
-									전환</button>
-							</div>
-						</form>
-					</div>
 				</div>
 			</div>
 		</div>

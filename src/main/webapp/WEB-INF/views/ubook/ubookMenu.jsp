@@ -38,21 +38,21 @@
 
         <body style="width: 1200px; margin: auto;">
             <!--================ 헤더(로고 + 검색 + 로그인 된 회원) =================-->
-            <header class="header_area">
-                <div class="main_menu" style="background-color: #f8f9fa !important;">
-                    <nav class="navbar navbar-expand-lg navbar-light" style="margin-bottom: 0px !important;">
-                        <div class="container" style="margin-left: 0; margin-right: 0;">
+            <header class="header_area1" style="width: 100%; z-index: 99999; position: fixed;">
+                <div class="main_menu1" style="background-color: #ffffff !important;">
+                    <nav class="navbar1 navbar-expand-lg1 navbar-light1" style="margin-bottom: 0px !important;">
+                        <div class="row" style="margin-left: 0; margin-right: 0;">
                             <!--로고링크-->
                             <a href="home.us" class="logo_link">
                                 <img src="resources/img/logo1.png" class="logo1">
                             </a>
-                            <a href="ubookMain.ub" class="logo_link2">
+                            <a href="ubookMain.ub" class="logo_link2" style=" margin-top: 10px;">
                                 <img src="resources/img/logo2.png" class="logo2">
                             </a>
                             <br />
                             <!--검색-->
-                                    <form class="card card-sm searchbar" style="background-color: #f8f9fa !important; width: 360px;">
-                                        <div class="card-body row no-gutters align-items-center">
+                                    <form class="" style=" width: 445px; margin-top: 20px;">
+                                        <div class="row no-gutters align-items-center">
                                             <!--검색 input-->
                                             <div class="col">
                                                 <input class="form-control form-control-lg form-control-borderless"
@@ -64,14 +64,13 @@
                                             </div>
                                         </div>
                                     </form>
+                             <div style="font-size: 20px; margin-left: 10px; padding-top: 30px;">
                             <!--로그인 회원정보-->
                             <c:if test="${ empty sessionScope.loginUser }">
                             
                                 <a href="home.us">책구메이트 홈</a> |
                                 <a href="register.me">회원가입</a> |
-                                <br>
-                                <a href="login.me"">로그인</a> |
-		      					<a href=" findId.us">아이디찾기</a>
+                                <a href="login.me">로그인</a>
                             </c:if>
 
                             <!-- 로그인 후  -->
@@ -79,13 +78,14 @@
                                 <label>${ sessionScope.loginUser.userName }님</label>
                                 <c:if test="${ !empty s.sellerId && s.status eq 'Y' }">
                                 |
-                                <a href="home.us">책구메이트 홈</a>
-                                </c:if>
-                                |
                                 <a href="sellerPage.se">판매자페이지</a>
+                                |
+                                </c:if>
+                                <a href="home.us">책구메이트 홈</a>
                                 |
                                 <a href="logout.us">로그아웃</a>
                             </c:if>
+                            </div>
                             <br />
                         </div>
                     </nav>

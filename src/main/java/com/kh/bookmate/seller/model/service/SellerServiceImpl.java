@@ -56,6 +56,11 @@ public class SellerServiceImpl implements SellerService {
 		
 	}*/
 
+	@Override
+	public int chkNickN(String sellerNickN) {
+		return sellerDao.chkNickN(sqlSession, sellerNickN);
+	}
+
 /*	@Override
 	public void updateSeller(Seller s) {
 		int result = sellerDao.updateSeller(sqlSession, s);

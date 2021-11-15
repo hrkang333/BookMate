@@ -15,13 +15,13 @@
 <body style="width: 1200px; margin: auto;">
 
   <!--================ 바디 =================-->
-  <div class="mycontainer" style="width: 100% !important; padding:0px 0px 0px 0px !important; margin:0px 0px 0px 0px !important;">
+  <div class="f" style="width: 1200px;">
     <div class="row">
  	<jsp:include page="../ubook/ubookCategory.jsp"/>
 
       <!--================ 메인 Content =================-->
-      <div class="col-xl-9 col-lg-8 col-md-7 maincon">
-        <div class="container">
+      <div class="col-xl-9 col-lg-8 col-md-7 maincon" style="margin-left: 205px; width: 1060px;">
+        <div class="container" style="padding-top: 100px;">
           <div class="row">
             <div class="col-xs-12 mainslide">
               <nav>

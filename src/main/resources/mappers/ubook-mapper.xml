@@ -26,6 +26,36 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="sellerId" column="SELLER_ID"/>
 	</resultMap>
 	
+	<resultMap id="ubookQnaResultSet" type="Ubook_Qna">
+		<id property="qnaNo" column="QNA_NO"/>
+		<result property="ubno" column="UBNO"/>
+		<result property="qnaGroupNo" column="QNA_GROUPNO"/>
+		<result property="qnaGroupNoOrder" column="QNA_GROUPNO_ORDER"/>
+		<result property="qnaWriter" column="QNA_WRITER"/>
+		<result property="qnaContent" column="QNA_CONTENT"/>
+		<result property="createDate" column="CREATE_DATE"/>
+	</resultMap>
+	
+	<!--상품문의 리스트 -->
+	<select id="selectQnaList" parameterType="_int" resultMap="ubookQnaResultSet">
+		SELECT *
+		FROM UBOOK_QNA
+		WHERE UBNO=#{ubookNo}
+		ORDER BY QNA_NO DESC
+	</select>
+	
+	<!-- 상품문의 쓰기 / 문의번호+1, 도서번호, 그룹번호+1, 그룹내번호=1, 작성자,내용,시간날짜 -->
+	<insert id="insertQna" parameterType="Ubook_Qna">
+		INSERT INTO UBOOK_QNA
+		VALUES(SEQ_QNANO.NEXTVAL, #{ubno}, (SELECT NVL2(MAX(QNA_GROUPNO),0) FROM UBOOK_QNA) + 1, 1, #{qnaWriter}, #{qnaContent}, sysdate)
+	</insert>
+
+	<!-- 상품문의 답변쓰기 / 문의번호+1, 도서번호, 그룹번호=답변할 문의의 그룹번호, 그룹내번호+1, 작성자,내용,시간날짜-->
+	<insert id="insertAnswer" parameterType="Ubook_Qna">
+		INSERT INTO UBOOK_QNA
+		VALUES(SEQ_QNANO.NEXTVAL, #{ubno}, (SELECT QNA_GROUPNO FROM UBOOK_QNA WHERE QNA_GROUPNO = #{qnaGroupNo}), (SELECT MAX(QNA_GROUPNO_ORDER) FROM UBOOK_QNA) + 1, #{qnaWriter}, #{qnaContent}, sysdate)
+	</insert>
+	
 	<!-- 내가 등록한 도서 리스트 -->
 	<select id="selectbookList" resultMap="ubookResultSet">
 		SELECT DISTINCT *

@@ -22,21 +22,17 @@
  <jsp:include page="../common/menubar.jsp"/>
 
 	<section class="login_box_area section-margin">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-6">
-
-	<div class = "col-md-12 form-group" style="margin:auto;text-align:center;padding-top:50px;">
+		<div class="container" style="width: 500px; margin-left: 460px;">
+	<h1 style="text-align: center;">아이디 찾기</h1><br>
 	<form method="post" action="findId.me"> 
-	<input type = "text"  class = "col-md-12 form-group" name = "userName" maxlength="10" placeholder="이름"> <br><br>
-	<input type = "text"  class = "col-md-12 form-group" name = "email"  placeholder ="이메일" ><br><br>
+	<center>
+	<input type = "text"  class = "col-md-12 form-group" name = "userName" maxlength="10" placeholder="이름" required="required"> <br><br>
+	<input type = "email"  class = "col-md-12 form-group" name = "email"  placeholder ="이메일" required="required" ><br><br>
 		<input type = "submit" style="width:75%;"value = "아이디 찾기" class = "userbtn">
+		</center>
 	</form>
-	</div>
 	
 	
-	</div>
-	</div>
 	</div>
 	</section>
 		   	<jsp:include page="../common/footer.jsp"/>

@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.bookmate.ubook.model.vo.Ubook;
+import com.kh.bookmate.ubook.model.vo.Ubook_Qna;
 
 @Repository
 public class UbookDao {
@@ -70,6 +71,18 @@ public class UbookDao {
 	public Ubook selectUpdateUbook(SqlSessionTemplate sqlSession, int ubookNo) {
 		System.out.println("dao----" + ubookNo);
 		return sqlSession.selectOne("ubookMapper.selectUpdateUbook",ubookNo);
+	}
+
+	public ArrayList<Ubook_Qna> selectQnaList(SqlSessionTemplate sqlSession, int ubookNo) {
+		return (ArrayList)sqlSession.selectList("ubookMapper.selectQnaList",ubookNo);
+	}
+
+	public int insertQna(SqlSessionTemplate sqlSession, Ubook_Qna qna) {
+		return sqlSession.insert("ubookMapper.insertQna",qna);
+	}
+
+	public int insertAnswer(SqlSessionTemplate sqlSession, Ubook_Qna qna2) {
+		return sqlSession.insert("ubookMapper.insertAnswer",qna2);
 	}
 
 }

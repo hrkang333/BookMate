@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.kh.bookmate.ubook.model.vo.Ubook;
+import com.kh.bookmate.ubook.model.vo.Ubook_Qna;
 
 public interface UbookService {
 
@@ -28,5 +29,11 @@ public interface UbookService {
 	Ubook selectUpdateUbook(int ubookNo);
 
 	//List<Ubook> selectbookList(String userId);
+	//ArrayList<Ubook_Qna> selectQnaList(Ubook ub);
 
+	int insertQna(Ubook_Qna qna);
+
+	ArrayList<Ubook_Qna> selectQnaList(int ubookNo);
+
+	int insertAnswer(Ubook_Qna qna2);
 }

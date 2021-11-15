@@ -78,26 +78,11 @@
                 <div class="row">
 
                     <!--================ 좌측 사이드바(도서 카테고리 선택) =================-->
-                    <div class="col-xl-3 col-lg-4 col-md-5">
-                        <div class="sidebar-categories">
-                            <div class="head category">Browse Categories</div>
-                            <div class="categorybody">Browse Categories</div>
-                            <div class="categorybody">Browse Categories</div>
-                            <div class="categorybody">Browse Categories</div>
-                            <div class="categorybody">Browse Categories</div>
-                            <div class="categorybody">Browse Categories</div>
-                            <div class="categorybody">Browse Categories</div>
-                            <div class="categorybody">Browse Categories</div>
-                            <div class="categorybody">Browse Categories</div>
-                            <div class="categorybody">Browse Categories</div>
-                            <div class="categorybody">Browse Categories</div>
-                            <!--background-color: #c9ae9c;-->
-                        </div>
-                    </div>
+ 					<jsp:include page="../ubook/ubookCategory.jsp"/>
                     <!--================ End 좌측 사이드바(도서 카테고리 선택) =================-->
 
                     <!--================ 메인 Content =================-->
-                    <div class="col-xl-9 col-lg-8 col-md-7 maincon">
+                    <div class="col-xl-9 col-lg-8 col-md-7 maincon" style="margin-left: 203px; padding-top: 93px;">
                         <!--================ 메인 Content 헤더 =================-->
                         <nav id="header" class="maintab">
                             <div id="header-container" class="container navbar-container">
@@ -174,19 +159,57 @@
                                                 <h3>판매자 정보 입력</h3><br>
 
                                                 <label>판매자 아이디</label>
-                                                <input id="datainput" value="${ loginUser.userId }" readonly
+                                                <input id="datainput" value="${ loginUser.userId }" readonly required="required"
                                                     name="sellerId">
                                                 <br><br>
                                                 <label>판매자 닉네임</label>
-                                                <input id="datainput" value="${ s.sellerNickN }"
+                                                <input id="datainput" required="required"
                                                     oninput="this.className = ''" name="sellerNickN"><button class="postBtn" onclick="chkNickN()">중복확인</button>
                                                 <br><br>
+                                                
+                                                 <script>
+					                                //호스트명 중복 확인
+					                                function chkNickN() {
+					                                    var sellerNickN = $("#sellerRegForm input[name=sellerNickN]");
+					                                    console.log(sellerNickN.val());
+					
+					                                    if (sellerNickN.val() == "") {
+					                                        alert("닉네임을 입력해주세요");
+					                                        return false;
+					                                    }
+					
+					                                    $.ajax({
+					                                        url: "chkNickN.se",
+					                                        type: "post",
+					                                        data: {
+					                                        	sellerNickN: sellerNickN.val()
+					                                        },
+					                                        success: function(result) {
+					                                            if (result == "no") {
+					                                                confirm("이미 존재하는 닉네임입니다. 다른 닉네임을 입력해주세요.");
+					                                                sellerNickN.val('');
+					                                                sellerNickN.focus();
+					                                            } else {
+					                                                if (confirm("사용가능한 닉네임입니다. 사용하시겠습니까?")) {
+					                                                	sellerNickN.attr("readonly", "true");
+					                                                } else {
+					                                                	sellerNickN.focus();
+					                                                }
+					                                            }
+					                                        },
+					                                        error: function() {
+					                                            console.log("서버통신실패");
+					                                        }
+					                                    })
+					                                }
+					                            </script>
+                                                
                                                 <label>판매자 이메일</label>
-                                                <input id="datainput" value="${ s.sellerEmail }"
+                                                <input id="datainput" required="required"
                                                     oninput="this.className = ''" name="sellerEmail">
                                                 <br><br>
                                                 <label>판매자 핸드폰</label>
-                                                <input id="datainput" value="${ s.setSellerPhone }"
+                                                <input id="datainput" required="required"
                                                     oninput="this.className = ''" name="sellerPhone">
                                                 <br><br>
                                                 <hr>
@@ -217,19 +240,19 @@
                                                 <label class="inputlabel">출고지</label>
 												<br><br>
                                
-                                                <input type="text" id="sample4_postcode" name="post" placeholder="우편번호"
+                                                <input type="text" id="sample4_postcode" name="post" placeholder="우편번호" required="required"
                                                     readonly>
                  								<button type="button" class="postBtn" onclick="sample4_execDaumPostcode()">우편번호 찾기</button>
 
                                                 <input type="text" id="sample4_roadAddress" name="address1"
-                                                    placeholder="도로명주소" size="60" readonly>
+                                                    placeholder="도로명주소" size="60"  required="required" readonly>
 
                                                 <textarea type="hidden" id="sample4_jibunAddress" placeholder="지번주소" style="display:none"
                                                     size="60" disabled></textarea>
 
                                                 <textarea id="guide" style="color:#999;display:none"></textarea>
 
-                                                <input type="text" id="sample4_detailAddress" name="address2"
+                                                <input type="text" id="sample4_detailAddress" name="address2" required="required"
                                                     placeholder="상세주소" size="60">
 
                                                 <textarea type="hidden" id="sample4_extraAddress" placeholder="참고항목" style="display:none"

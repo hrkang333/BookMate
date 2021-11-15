@@ -23,6 +23,7 @@
 		<typeAlias type="com.kh.bookmate.payment.model.vo.PaymentDetail" alias="PaymentDetail"/>
 		<typeAlias type="com.kh.bookmate.addressBook.model.vo.AddressBook" alias="AddressBook"/>
 		<typeAlias type="com.kh.bookmate.coupon.model.vo.Coupon" alias="Coupon"/>
+		<typeAlias type="com.kh.bookmate.ubook.model.vo.Ubook_Qna" alias="Ubook_Qna"/>
 		<typeAlias type="com.kh.bookmate.paymentmethod.model.vo.PaymentMethodDetail" alias="PaymentMethodDetail"/>
 		<typeAlias type="com.kh.bookmate.paymentmethod.model.vo.PaymentMethod" alias="PaymentMethod"/>
 	</typeAliases>

@@ -37,10 +37,12 @@
 </head>
 
 <body>
-	<jsp:include page="../ubook/ubookMenu.jsp" />
 
 	<div class="container bootstrap snippet">
 		<div class="row">
+                    <!--================ 좌측 사이드바(도서 카테고리 선택) =================-->
+ 					<jsp:include page="../ubook/ubookCategory.jsp"/>
+                    <!--================ End 좌측 사이드바(도서 카테고리 선택) =================-->
 			<!--좌측 info
       		<div class="col-xl-2">
 				<div class="panel panel-default">
@@ -63,7 +65,7 @@
 				</div>
 			</div>-->
 			<!--판매자 페이지-->
-			<div class="col-sm-9" style="margin: auto;">
+			<div class="col-sm-9" style="margin-left: 190px; padding-top: 83px;">
 				<div class="newsInner">
 					<!--탭 시작-->
 					<div id="tabs">
@@ -397,7 +399,12 @@
 														for (var t = trlength - 1; t > 0; t--) {
 															table.deleteRow(t);
 														}
-
+														if(data.length < 1){
+															$('#ubookListTb')
+															.append(
+															"<tr> <td colspan='6' style='text-align: center;'>아직 등록된 도서가 없습니다.</td></tr>");
+														
+														}
 														//데이터 뿌리기 
 														for (var i = 0; i < data.length; i++) {
 															console.log("야ㅑㅑㅑㅑ호오오오오" + data[i].bSellerNo);
@@ -417,7 +424,6 @@
 																					+ data[i].bsellerNo
 																					+ "'>"
 																					+ data[i].ubookName
-																					+ data[i].bsellerNo
 																					+ "</a></td>"
 																					+ "<td align='center'>"
 																					+ data[i].ubookWriter

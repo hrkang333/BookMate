@@ -32,4 +32,8 @@ public class SellerDao {
 		return sqlSession.selectList("sellerMapper.selectMyUbook", userId);
 	}
 */
+
+	public int chkNickN(SqlSessionTemplate sqlSession, String sellerNickN) {
+		return sqlSession.selectOne("sellerMapper.chkNickN", sellerNickN);
+	}
 }

@@ -24,12 +24,12 @@
  	<jsp:include page="../ubook/ubookMenu.jsp"/>
       
   <!--================ 바디 =================-->
-  <div class="mycontainer" style="width: 100% !important; padding:0px 0px 0px 0px !important; margin:0px 0px 0px 0px !important;">
-    <div class="row">
+  <div class="f" style="width: 1200px;">
+    <div>
 
       <!--================ 좌측 사이드바(도서 카테고리 선택) =================-->
-      <div class="col-xl-2">
-        <div class="sidebar-categories" style="text-align: center;">
+      <div class="col-xl-2" style="text-align: center; position: fixed; z-index: 8888; margin-top: 93px;">
+        <div class="sidebar-categories">
           <div class="head category" style="width: 175px;"><a href="ubookMain.ub">중고도서</a></div>
 		  <div class="categorybody"><a href="ubookCategory.ub?ubCategory=1">소설/시/에세이</a></div>
 		      	<div class="categorybody"><a href="ubookCategory.ub?ubCategory=2">경제/경영</a></div>
@@ -49,8 +49,11 @@
 
 <c:if test="${ !empty list }">
       <!--================ 메인 Content =================-->
-      <div class="col-xl-9 col-lg-8 col-md-7 maincon">
-        <section class="content">
+      <div class="col-xl-9 col-lg-8 col-md-7 maincon" style="position: absolute;
+    z-index: 7777;
+    width: 943px;
+    margin-left: 205px;">
+        <section class="content" style="margin-top: 100px;">
 			<input value="${ s.sellerNo }" name="sellerNo">
             <div>
 				<div class="sorting" style="float: right;">
@@ -195,7 +198,6 @@
       </div>
     </div>
   </div>
- 	<jsp:include page="../common/footer.jsp"/>
 </c:if>
 </body>
 </html>

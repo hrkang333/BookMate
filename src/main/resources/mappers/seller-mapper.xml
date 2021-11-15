@@ -44,6 +44,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			AND U.BSELLER_NO = S.SELLER_NO;
 		</select>-->
 		
+		<!-- 판매자 닉네임 중복 확인 -->
+		<select id="chkNickN" resultType="_int">
+			SELECT COUNT(*)
+			FROM SELLER
+			WHERE SELLER_NICKN = #{sellerNickN}
+		</select>
+		
 		<!-- 판매자 휴면 -->
 		<update id="deleteSeller" parameterType="Seller">
 			UPDATE SELLER SET STATUS='N'

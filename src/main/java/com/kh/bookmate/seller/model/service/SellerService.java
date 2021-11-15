@@ -20,6 +20,8 @@ public interface SellerService {
 	
 	int deleteSeller(Seller s);
 
+	int chkNickN(String sellerNickN);
+
 	//List<Ubook> selectMyUbook(String userId);
 
 	//void deleteSeller(Seller s, String userPwd);
