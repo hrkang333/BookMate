@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -114,7 +115,7 @@ public class ClubApplyController {
 	}
 	
 	@ResponseBody
-	@RequestMapping("updateCancel.cl")
+	@RequestMapping(value = "updateCancel.cl",method = RequestMethod.POST)
 	public String updateCancel(String userId, int timeNo, String times) {
 		//1) club_apply테이블 apply_cancle컬럼 'n'으로 바꾸기
 		//2) club_time테이블 apply_count컬럼 -1해주기
