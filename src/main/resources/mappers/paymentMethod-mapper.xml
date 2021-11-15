@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="paymentMethodMapper">
+<insert id="insertPaymentMethod">
+INSERT INTO PAYMENTMETHOD VALUES(#{user_Id},DEFAULT)
+</insert>
+<select id="selectPaymentMethod" resultType="PaymentMethod">
+SELECT * FROM PAYMENTMETHOD WHERE USER_ID = #{user_Id}
+</select>
+<select id="selectPMDetailList" parameterType="PaymentMethod" resultType="PaymentMethodDetail">
+SELECT * FROM PAYMENTMETHODDETAIL WHERE USER_ID = #{user_Id} ORDER BY (CASE WHEN PAYMENTMETHODDETAILNO=#{mainPayment} THEN 1 ELSE 2 END),PAYMENTMETHODDETAILNO DESC
+</select>
+</mapper>

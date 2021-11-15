@@ -23,6 +23,8 @@
 		<typeAlias type="com.kh.bookmate.payment.model.vo.PaymentDetail" alias="PaymentDetail"/>
 		<typeAlias type="com.kh.bookmate.addressBook.model.vo.AddressBook" alias="AddressBook"/>
 		<typeAlias type="com.kh.bookmate.coupon.model.vo.Coupon" alias="Coupon"/>
+		<typeAlias type="com.kh.bookmate.paymentmethod.model.vo.PaymentMethodDetail" alias="PaymentMethodDetail"/>
+		<typeAlias type="com.kh.bookmate.paymentmethod.model.vo.PaymentMethod" alias="PaymentMethod"/>
 	</typeAliases>
 	<typeHandlers>
 		<typeHandler
@@ -41,6 +43,7 @@
 		<mapper resource="/mappers/payment-mapper.xml"/>
 		<mapper resource="/mappers/addressBook-mapper.xml"/>
 		<mapper resource="/mappers/coupon-mapper.xml"/>
+		<mapper resource="/mappers/paymentMethod-mapper.xml"/>
 	</mappers>
 
 
