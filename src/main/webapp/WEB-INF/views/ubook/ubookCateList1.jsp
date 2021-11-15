@@ -38,7 +38,7 @@
             <div>
 				<div class="sorting" style="float: right;">
                     <select>
-                    	<option value="1">가격 낮은 순</option>
+                    	<option value="1">가격 낮asdfasfasfasd은 순</option>
                         <option value="2">가격 높은 순</option>
                         <option value="3">상태 좋은 순</option>
                 	</select>

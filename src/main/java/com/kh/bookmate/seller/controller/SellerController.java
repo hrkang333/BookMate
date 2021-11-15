@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kh.bookmate.seller.model.service.SellerService;
@@ -43,6 +45,19 @@ public class SellerController {
 			model.addAttribute("s", s);
 		}
 		return "ubook/ubookMain";
+	}
+	
+	//판매자 닉네임 중복 확인
+	@ResponseBody
+	@RequestMapping(value="/chkNickN.se", method=RequestMethod.POST)
+	public String chkNickN(String sellerNickN) {
+
+		int result = sellerService.chkNickN(sellerNickN);
+		if(result > 0) {  //이미 이름 있는 경우
+			return "no";
+		}else {
+			return "use";
+		}
 	}
 	
 	//현재 로그인한 판매자 페이지 정보

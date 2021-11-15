@@ -13,6 +13,7 @@ import com.kh.bookmate.book.model.vo.Book;
 import com.kh.bookmate.common.PageInfo;
 import com.kh.bookmate.ubook.model.dao.UbookDao;
 import com.kh.bookmate.ubook.model.vo.Ubook;
+import com.kh.bookmate.ubook.model.vo.Ubook_Qna;
 
 @Service
 public class UbookServiceImpl implements UbookService {
@@ -82,6 +83,31 @@ public class UbookServiceImpl implements UbookService {
 	@Override
 	public Ubook selectUpdateUbook(int ubookNo) {
 		return ubookDao.selectUpdateUbook(sqlSession, ubookNo);
+	}
+
+	@Override
+	public int insertQna(Ubook_Qna qna) {
+		int result = ubookDao.insertQna(sqlSession, qna);
+		
+		if(result < 0) {
+			System.out.println("insertQna 실패");
+		}
+		return result;
+	}
+
+	@Override
+	public ArrayList<Ubook_Qna> selectQnaList(int ubookNo) {
+		return ubookDao.selectQnaList(sqlSession, ubookNo);
+	}
+
+	@Override
+	public int insertAnswer(Ubook_Qna qna2) {
+		int result = ubookDao.insertAnswer(sqlSession, qna2);
+		
+		if(result < 0) {
+			System.out.println("insertAnswer 실패");
+		}
+		return result;
 	}
 
 	

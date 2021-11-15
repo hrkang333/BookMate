@@ -103,67 +103,67 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6">
-					<div class="login_box_img">
+					<div class="login_box_img" style="height: 1000px;">
 						<div class="hover">
-							<h4>Already have an account?</h4>
-							<p>There are advances being made in science and technology everyday, and a good example of this is the</p>
-							<a class="button button-account" href="login.html">Login Now</a>
+							<h4>이미 계정이 있으신가요?</h4>
+							<p>책구메이트에 로그인하시면<br>더 많은 서비스를 이용하실 수 있어요</p>
+							<a class="button button-account" href="login.me">지금 바로 로그인하기</a>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-6">
 					<div class="login_form_inner register_form_inner">
-						<h3>Create an account</h3>
+						<h3>책구메이트 회원가입</h3>
 						<form class="row login_form" action="insert.us" id="register_form" >
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="userId" name="userId" placeholder="ID" onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID'">
+								<input type="text" class="form-control" id="userId" name="userId" placeholder="아이디" onfocus="this.placeholder = ''" onblur="this.placeholder = '아이디'" required="required">
 							</div>
 							<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="userName" name="userName" placeholder="Name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Name'">
+								<input type="text" class="form-control" id="userName" name="userName" placeholder="이름" onfocus="this.placeholder = ''" onblur="this.placeholder = '이름'" required="required">
 							</div>
 				
              			 <div class="col-md-12 form-group">
-								<input type="password" class="form-control" id="userPwd" name="userPwd" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+								<input type="password" class="form-control" id="userPwd" name="userPwd" placeholder="비밀번호" onfocus="this.placeholder = ''" onblur="this.placeholder = '비밀번호'" required="required">
             			  </div>
              			 <div class="col-md-12 form-group">
-								<input type="password" class="form-control" id="userPwdCheck" name="userPwdCheck" placeholder="Password Check" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password Check'">
+								<input type="password" class="form-control" id="userPwdCheck" name="userPwdCheck" placeholder="비밀번호 확인" onfocus="this.placeholder = ''" onblur="this.placeholder = '비밀번호 확인'" required="required">
 						 </div>
 
-								<div class="col">남자</div><input type="radio" style="width:20px;height:20px;border:1px;" class="form-control" id="gender" name="gender" value="M" >
-								<div class="col">여자</div><input type="radio" style="width:20px;height:20px;border:1px;" class="form-control" id="gender" name="gender" value="F" >
+								<div class="col" hidden="hidden" >남자</div><input hidden="hidden" type="radio" checked="checked" style="width:20px;height:20px;border:1px;" class="form-control" id="gender" name="gender" value="M" >
+								<div class="col" hidden="hidden" >여자</div><input hidden="hidden"  type="radio" style="width:20px;height:20px;border:1px;" class="form-control" id="gender" name="gender" value="F" >
 	 
 								<div class="col-md-12 form-group">
-								<input class="form-control" type="text" id="sample4_postcode" name="post" placeholder="우편번호" readonly>
+								<input class="form-control" type="text" id="sample4_postcode" name="post" placeholder="우편번호" readonly required="required">
 								</div>
 								<div class="col-md-12 form-group">
-								<input class="form-control" type="button" onclick="sample4_execDaumPostcode()" value="우편번호 찾기">
+								<input class="form-control" type="text" id="sample4_roadAddress" name="address1"placeholder="도로명주소" size="60" readonly required="required">
 								</div>
-								<div class="col-md-12 form-group">
-								<input class="form-control" type="text" id="sample4_roadAddress" name="address1"placeholder="도로명주소" size="60" readonly>
+								<div class="col-md-12 form-group" style="display: none;">
+								<input class="form-control" type="hidden" id="sample4_jibunAddress" placeholder="지번주소" size="60" disabled style="display: none;">
 								</div>
-								<div class="col-md-12 form-group">
-								<input class="form-control" type="hidden" id="sample4_jibunAddress" placeholder="지번주소" size="60" disabled>
-								</div>
-								<div class="col-md-12 form-group">
+								<div class="col-md-12 form-group" style="display: none;">
 								<input class="form-control" id="guide" style="color:#999;display:none">
 								</div>
 								<div class="col-md-12 form-group">
-								<input class="form-control" type="text" id="sample4_detailAddress" name="address2" placeholder="상세주소"  size="60">
+								<input class="form-control" type="text" id="sample4_detailAddress" name="address2" placeholder="상세주소"  size="60" required="required">
+								</div>
+								<div class="col-md-12 form-group" style="display: none;">
+								<input class="form-control" type="hidden" id="sample4_extraAddress" placeholder="참고항목"  size="60" style="display: none;">
+								</div>
+								<div class="col-md-12 form-group" style="display: none;">
+								<input class="form-control" type="hidden" id="sample4_engAddress" placeholder="영문주소"  size="60" style="display: none;">
 								</div>
 								<div class="col-md-12 form-group">
-								<input class="form-control" type="hidden" id="sample4_extraAddress" placeholder="참고항목"  size="60">
+								<button class="form-control" type="button" onclick="sample4_execDaumPostcode()">우편번호 찾기</button>
 								</div>
 								<div class="col-md-12 form-group">
-								<input class="form-control" type="hidden" id="sample4_engAddress" placeholder="영문주소"  size="60">
-								</div>
-								<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="phone" name="phone" placeholder="Phone - 포함" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone'">
+								<input type="tel" class="form-control" id="phone" name="phone" placeholder="핸드폰 (- 포함)" onfocus="this.placeholder = ''" onblur="this.placeholder = '핸드폰 (- 포함)'" required="required">
              			 		</div>
 								<div class="col-md-12 form-group">
-								<input type="text" class="form-control" id="email" name="email" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'">
+								<input type="email" class="form-control" id="email" name="email" placeholder="이메일 주소" onfocus="this.placeholder = ''" onblur="this.placeholder = '이메일 주소'" required="required">
              			 		</div>
 							<div class="col-md-12 form-group">
-								<button type="submit" value="submit" class="button button-register w-100">Register</button>
+								<button type="submit" value="submit" class="button button-register w-100">가입하기</button>
 							</div>
 						</form>
 					</div>

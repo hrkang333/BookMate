@@ -177,12 +177,16 @@
 }
 
 .mycontainer {
-    width: 70%;
+    /*width: 70%;
     padding-right: 15px;
     padding-left: 15px;
-    /*margin-left: 15%;*/
+    margin-left: 15%;
     margin-left : 300px;
-    margin-right: 10%;}
+    margin-right: 10%;*/
+    margin-top: 105px !important;
+    width: 100% !important;
+    
+    }
 
 .category{
     height: 68px;

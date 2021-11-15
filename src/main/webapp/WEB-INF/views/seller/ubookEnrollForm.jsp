@@ -71,43 +71,15 @@ function resetForm() {
 }
 
 function submitCheck(){
-	var bookName = $("input[name='ubookName']").value;
-	var ubookWriter = $("input[name='ubookWriter']").value;
-	var ubookIsbn = $("input[name='ubookIsbn']").value;
 	var ubCategory = $("select[name='ubCategory']").value;
-	var ubookTrans = $("input[name='ubookTrans']").value;
-	var ubookPub = $("input[name='ubookPub']").value;
-	var ubookPubDate = $("input[name='ubookPubDate']").value;
 	var ubookOPrice = $("input[name='ubookOPrice']").value;
 	var ubookPrice = $("input[name='ubookPrice']").value;
-	var ubookStock = $("input[name='ubookStock']").value;
 	var ubookQual = $("select[name='ubookQual']").value;
-	var ubookDetail = $("input[name='ubookDetail']").value;
-	var ubookContent = $("input[name='ubookContent']").value;
 		
-	if(bookName == ''){
-		alert('도서명을 입력해주세요');
-		bookName.focus();
-		return false;
-	}
-	if(ubookWriter == ''){
-		alert('저자를 입력해주세요');
-		ubookWriter.focus();
-		return false;
-	}
-	if(ubookIsbn == ''){
-		alert('ISBN을 입력해주세요');
-		ubookIsbn.focus();
-		return false;
-	}
-	if(ubookIsbn.length != 13){
-		alert('ISBN 13자리를 입력해주세요.');
-		ubookIsbn.focus();
-		return false;
-	}
+	
 	if(ubCategory == ''){
-		alert('도서 카테고리를 선택해주세요');
-		ubCategory.focus();
+		confirm('도서 카테고리를 선택해주세요');
+		console.log("카테고리 없음");
 		return false;
 	}
 	if(ubookTrans == ''){
@@ -115,61 +87,16 @@ function submitCheck(){
 		ubookTrans.focus();
 		return false;
 	}
-	if(ubookPub == ''){
-		alert('출판사를 입력해주세요');
-		ubookPub.focus();
-		return false;
-	}	
-	if(ubookPubDate == ''){
-		alert('출판일을 입력해주세요');
-		ubookPubDate.focus();
-		return false;
-	}
-	if(ubookOPrice == ''){
-		alert('도서정가를 입력해주세요');
-		ubookOPrice.focus();
-		return false;
-	}
-	if(ubookPrice == ''){
-		alert('도서 판매가를 입력해주세요');
-		ubookPrice.focus();
-		return false;
-	}
-	if(ubookStock == ''){
-		alert('도서 재고를 입력해주세요');
-		ubookStock.focus();
-		return false;
-	}
-	if(ubookOPrice == ''){
-		alert('정가를 입력해주세요');
-		ubookOPrice.focus();
-		return false;
-	}
-	if(ubookPrice == ''){
-		alert('판매가를 입력해주세요');
-		ubookPrice.val('');
-		ubookPrice.focus();
-		return false;
-	}
 	if(ubookPrice > ubookOPrice){
 		alert('판매가는 정가보다 높을 수 없습니다. 다시 입력해주세요.');
+		console.log("카테고리 없음");
 		ubookPrice.val('');
-		ubookPrice.focus();
 		return false;
 	}
+
 	if(ubookQual == ''){
-		alert('도서 상태가 선택되지 않았습니다. 선택해주세요');
-		ubookQual.focus();
-		return false;
-	}
-	if(ubookDetail == ''){
-		alert('도서 내용 및 줄거리를 입력해주세요');
-		ubookDetail.focus();
-		return false;
-	}
-	if(ubookContent == ''){
-		alert('도서 목차를 입력해주세요');
-		ubookContent.focus();
+		alert('도서 품질을 선택해주세요');
+		console.log("품질 없음");
 		return false;
 	}
 		alert("도서 등록 성공!");

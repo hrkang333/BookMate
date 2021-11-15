@@ -23,10 +23,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.GsonBuilder;
 import com.kh.bookmate.seller.model.service.SellerService;
 import com.kh.bookmate.seller.model.vo.Seller;
 import com.kh.bookmate.ubook.model.service.UbookService;
 import com.kh.bookmate.ubook.model.vo.Ubook;
+import com.kh.bookmate.ubook.model.vo.Ubook_Qna;
 import com.kh.bookmate.user.model.vo.User;
 
 @Controller
@@ -158,9 +160,48 @@ public class UbookController {
 	      return ubook;
 	   }
 
+	//도서 문의 리스트
+	@ResponseBody
+	@RequestMapping(value="qnalist.ub", produces="application/json; charset=utf-8")
+	public String selectQnaList(int ubookNo) {
+		ArrayList<Ubook_Qna> list = ubookService.selectQnaList(ubookNo);
+		
+		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
+	}
+	//도서 문의 등록
+	@ResponseBody
+	@RequestMapping(value="qnaInsert.ub")
+	public String insertQna(Ubook_Qna qna) {
+		int result = ubookService.insertQna(qna);
 
-
+		return String.valueOf(result);
+	}
 	
+	//도서 답변 등록
+	@ResponseBody
+	@RequestMapping(value="qnaInsertAnswer.ub")
+	public String insertAnswer(Ubook_Qna qna2) {
+		int result = ubookService.insertAnswer(qna2);
+			return String.valueOf(result);
+	}
+	/*
+	//도서 문의 리스트
+		@ResponseBody
+		@RequestMapping(value="qnalist.ub", produces="application/json; charset=utf-8")
+		public String selectQnaList2(int ubookNo, int qnaNo) {
+			ArrayList<Ubook_Qna> list = ubookService.selectQnaList2(ubookNo, qnaNo);
+			
+			return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
+		}
+		//도서 문의 등록
+		@ResponseBody
+		@RequestMapping(value="qnaInsert.ub")
+		public String insertQna2(Ubook_Qna qna2) {
+			int result = ubookService.insertQna2(qna2);
+
+			return String.valueOf(result);
+		}
+	*/
 	//판매자 페이지 - 도서 등록
 	@RequestMapping("ubookEnrollForm.ub")
 	public String ubookEnrollForm() {

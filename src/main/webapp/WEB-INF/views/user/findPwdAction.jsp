@@ -22,23 +22,15 @@
  <jsp:include page="../common/menubar.jsp"/>
 
 	<section class="login_box_area section-margin">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-6">
+		<div class="container" style="width: 700px; margin-left: 460px;">
+	<h1 style="text-align: center;">비밀번호 찾기 결과</h1><br>
 
 
-	<div class = "col-md-12 form-group" style="margin:auto;text-align:center;padding-top:50px;">
-	<div class = "col-md-12 form-group" style="margin:auto;text-align:center;padding-top:110px;">
-	<span class="col-md-12 form-group" style="font-size: 20px;" >비밀번호 찾기 결과<br><br>
-	<h5>
+	<h5  style="text-align: center;">
 		${findPwd }
 	</h5>
-	</div>
-	</div>
 	
 	
-	</div>
-	</div>
 	</div>
 	</section>
 		   	<jsp:include page="../common/footer.jsp"/>
