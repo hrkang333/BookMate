@@ -207,7 +207,7 @@ public class myPageController {
 		return "myPage/applyExchangeAndRefund";
 	}
 	
-
+ 
 	//교환 신청하기 
 	@RequestMapping("insertExchange.me")
 	public String insertExchangeItem(HttpSession session, int paymentDetailNo, Model model, @RequestParam("post") String post,

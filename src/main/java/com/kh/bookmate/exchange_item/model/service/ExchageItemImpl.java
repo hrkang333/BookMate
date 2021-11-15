@@ -14,7 +14,7 @@ public class ExchageItemImpl implements ExchageItemService {
 	
 	@Autowired
 	private ExchageItemDao exchageItemDao;
-
+  
 	@Override
 	public int insertExchangeItem(int paymentDetailNo) {
 		

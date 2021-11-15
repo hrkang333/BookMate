@@ -101,7 +101,7 @@
 	  		  <th>휴대폰 주소 </th>
 	  		  <th>주소 입력 </th>
 	  		
-	  		</tr>
+	  		</tr> 
 	  	
 	  	 	 <c:forEach var="item" items="myOrderListDetail"> 
 	  	 	
