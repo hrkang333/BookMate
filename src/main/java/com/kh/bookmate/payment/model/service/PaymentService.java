@@ -19,10 +19,10 @@ public interface PaymentService {
 	int confirmOrder(int paymentDetailNo);
 
 	int selectExchangeList(int paymentDetailNo);
-
+ 
 //	PaymentDetail selectExchangeList(int paymentDetailNo);
 //
 //	Payment selectPaymentNo(int paymentNo);
-
+ 
 
 }

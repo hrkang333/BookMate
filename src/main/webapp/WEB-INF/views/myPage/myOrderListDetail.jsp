@@ -307,7 +307,7 @@
 	     	 function goExchange(paymentDetailNo,paymentNo){
 				 var answer = confirm("교환페이지로 이동합니다 ")
 		
-				if(answer==true){
+				if(answer==true){ 
 					
 					var formObj=document.createElement("form");
 					var exchange = document.createElement("input"); 
