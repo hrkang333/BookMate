@@ -17,8 +17,8 @@ import com.kh.bookmate.common.PageInfo;
 import com.kh.bookmate.common.Pagination;
 import com.kh.bookmate.coupon.model.service.CouponService;
 import com.kh.bookmate.coupon.model.vo.Coupon;
-import com.kh.bookmate.exchange_item.model.service.ExchageItemService;
-import com.kh.bookmate.exchange_item.model.vo.ExchageItem;
+import com.kh.bookmate.exchange_item.model.service.ExchangeItemService;
+import com.kh.bookmate.exchange_item.model.vo.ExchangeItem;
 import com.kh.bookmate.payment.model.service.PaymentService;
 import com.kh.bookmate.payment.model.vo.Payment;
 import com.kh.bookmate.payment.model.vo.PaymentDetail;
@@ -37,7 +37,7 @@ public class myPageController {
 	
 	
 	@Autowired 
-	private ExchageItemService exchageItemService;
+	private ExchangeItemService exchangeItemService;
 	
 	
 	@Autowired
@@ -65,22 +65,16 @@ public class myPageController {
 
 	}
 	
-	
-	
-	
 	//쿠폰 등록하기 
 	@RequestMapping("addCoupon.me")
 	public String addCoupon(String couponCode, Model model, @RequestParam("@addCoupon") String addCoupon ) {
 		
 		Coupon cu = couponService.selectCoupon(couponCode); //쿠폰 리스트를 가져온다.
 		
-		
-		
 		return "myPage/mayPoint";
 	}
 
-	
-		
+
 	//마이페이지 이동 
 	@RequestMapping("myPage.me")
 	public String updateUser() {
@@ -186,48 +180,41 @@ public class myPageController {
 	
 	//교환 신청 페이지로 이동하기 
 	@RequestMapping("exchange.me") 
-	public String selectExchangeList(int paymentNo, int paymentDetailNo, Model model){
+	public String applyExchange(int paymentNo, int paymentDetailNo, Model model){
 	
-//		Payment payNo = paymentService.selectPaymentNo(paymentNo);
-//		PaymentDetail exchangeDetail = paymentService.selectExchangeList(paymentDetailNo);
-//		
-//		System.out.println("==============="+payNo);
-//		System.out.println("=============exchangeDetail==" + exchangeDetail);
-//	
-//		
-//		model.addAttribute("exchangeDetail",exchangeDetail);
-//		model.addAttribute("payNo",payNo);
+		Payment payNo = paymentService.selectPaymentNo(paymentNo);
+		PaymentDetail exchangeDetail = paymentService.applyExchange(paymentDetailNo);
 		
-		paymentService.selectExchangeList(paymentDetailNo);
-		List<PaymentDetail> myOrderListDetail = paymentService.selectMyOrderListDetail(paymentNo);
-		model.addAttribute("myOrderListDetail", myOrderListDetail);
-		
-		System.out.println(myOrderListDetail+"============교환으로 보낼거야 너 들어와야됨 ==========");
-		
-		return "myPage/applyExchangeAndRefund";
+		model.addAttribute("exchangeDetail",exchangeDetail);
+		model.addAttribute("payNo",payNo);
+
+		return "myPage/applyExchange";
 	}
 	
- 
 	//교환 신청하기 
 	@RequestMapping("insertExchange.me")
-	public String insertExchangeItem(HttpSession session, int paymentDetailNo, Model model, @RequestParam("post") String post,
-															 @RequestParam("address1") String address1,
-															 @RequestParam("address2")String address2, 
-															 @RequestParam("phone") String phone,
-															 @RequestParam("userName")String userName) {
-//		user.setUserName(userName);
-//		user.setPhone(phone);												
-//		user.setAddress(post+"/"+address1+"/"+address2);
-		
-		int insertExchangeBook = exchageItemService.insertExchangeItem(paymentDetailNo);
-		System.out.println("========으아아아아 ==========="+insertExchangeBook);
-		
+	public String insertExchangeItem(ExchangeItem exchangeBook, Model model ) {
 
+		System.out.println(exchangeBook + "=========================");
+		exchangeItemService.insertExchangeItem(exchangeBook);
 		
-		
-		return "redirect:myPage/myOrderListDetail";
+		return "redirect:myPage/myOrderList";
 	}
 	
+	//반품 신청 페이지로 이동하기 
+	@RequestMapping("returnBook.me") 
+	public String applyReturn(int paymentNo, int paymentDetailNo, Model model) {
+		
+		//위에 교환페이지 고대로 가져다 쓴거임 
+		Payment payNo = paymentService.selectPaymentNo(paymentNo);
+		PaymentDetail returnDetail = paymentService.applyExchange(paymentDetailNo);
+		
+		model.addAttribute("returnDetail",returnDetail);
+		model.addAttribute("payNo",payNo);
+
+		
+		return "myPage/applyReturn";
+	}
 	
 	
 	

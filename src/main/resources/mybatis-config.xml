@@ -26,6 +26,7 @@
       <typeAlias type="com.kh.bookmate.ubook.model.vo.Ubook_Qna" alias="Ubook_Qna"/>
       <typeAlias type="com.kh.bookmate.paymentmethod.model.vo.PaymentMethodDetail" alias="PaymentMethodDetail"/>
       <typeAlias type="com.kh.bookmate.paymentmethod.model.vo.PaymentMethod" alias="PaymentMethod"/>
+		<typeAlias type="com.kh.bookmate.exchange_item.model.vo.ExchangeItem" alias="ExchangeItem"/>
    </typeAliases>
    <typeHandlers>
       <typeHandler
@@ -45,6 +46,7 @@
       <mapper resource="/mappers/addressBook-mapper.xml"/>
       <mapper resource="/mappers/coupon-mapper.xml"/>
       <mapper resource="/mappers/paymentMethod-mapper.xml"/>
+		<mapper resource="/mappers/exchangeItem-mapper.xml"/>
    </mappers>
 
 

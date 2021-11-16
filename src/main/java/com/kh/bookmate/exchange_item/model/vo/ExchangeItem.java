@@ -12,7 +12,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class ExchageItem {
+public class ExchangeItem {
 	
 	//교환은 책에 이상이 있을 때만 가능함 
 	
@@ -22,6 +22,10 @@ public class ExchageItem {
 	private int exchangeStatus;
 	private String exchangeName;
 	private String exchangePhone;
-	private String exchangeAddress;
+	private String exShippingPostCode;
+	private String exShippingAddress;
+	private String exShippingAddressDetail;
+	
+	
 
 }

@@ -39,19 +39,17 @@ public class PaymentDao {
 		return sqlSession.update("paymentMapper.confirmOrder",paymentDetailNo);
 	} 
 
-	public int selectExchangeList(SqlSessionTemplate sqlSession, int paymentDetailNo) {
-		return sqlSession.selectOne("paymentMapper.selectExchangeList", paymentDetailNo);
+
+	public PaymentDetail applyExchange(SqlSessionTemplate sqlSession, int paymentDetailNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("paymentMapper.applyExchange",paymentDetailNo);
 	}
 
-//	public PaymentDetail selectExchangeList(SqlSessionTemplate sqlSession, int paymentDetailNo) {
-//		// TODO Auto-generated method stub
-//		return sqlSession.selectOne("paymentMapper.selectExchangeList",paymentDetailNo);
-//	}
-//
-//	public Payment selectPaymentNo(SqlSessionTemplate sqlSession, int paymentNo) {
-//			
-//		return sqlSession.selectOne("paymentMapper.selectPaymentNo" , paymentNo);
-//	}
+	public Payment selectPaymentNo(SqlSessionTemplate sqlSession, int paymentNo) {
+			
+		return sqlSession.selectOne("paymentMapper.selectPaymentNo" , paymentNo);
+	}
+
 
 
 	
