@@ -351,14 +351,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</select>
 	
-	<!-- 모든 독서모임 - 모집종료 -->
-	<select id="selectListCount_3" resultType="_int">
-		<![CDATA[
-		SELECT COUNT(*)
-		FROM CLUB 
-		WHERE CONDITION=6 AND STATUS='Y'
-		]]>
-	</select>
 	
 	<select id="selectCateList_1" resultMap="clubResultSet">
 		<![CDATA[
@@ -388,15 +380,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</select>
 	
+	<!-- 신청자 많은 순으로 뽑기 -->
 	<select id="selectCateList_3" resultMap="clubResultSet">
 		<![CDATA[
-		SELECT A.* , B.CHANGE_NAME 
-		FROM CLUB A
-		LEFT JOIN CLUB_ATTACHMENT B
-		ON A.CLUB_NO = B.REF_CLUB_NO
-		WHERE CONDITION=6 AND STATUS='Y'
-		AND B.FILE_TYPE=2
-		ORDER BY CSTART_DATE
+		SELECT * FROM(
+		SELECT A.SUM_APPLY, B.*, C.CHANGE_NAME
+		FROM (SELECT REF_CLUB_NO, SUM(APPLY_COUNT) SUM_APPLY
+		      FROM CLUB_TIME
+		      GROUP BY REF_CLUB_NO) A
+		JOIN CLUB B
+		ON A.REF_CLUB_NO = B.CLUB_NO
+		JOIN CLUB_ATTACHMENT C
+		ON C.REF_CLUB_NO = B.CLUB_NO
+		WHERE CONDITION=6
+		AND C.FILE_TYPE=2 AND CATEGORY=#{category}
+		ORDER BY A.SUM_APPLY DESC)
+		WHERE ROWNUM < 11
 		]]>
 	</select>
 	

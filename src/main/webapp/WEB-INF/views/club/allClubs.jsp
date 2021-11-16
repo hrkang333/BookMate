@@ -70,7 +70,19 @@
         .fontBold:hover{
         	color: #EE7942;
         }
-        
+        .closeClub{
+	        background-color: black;
+	        color: white;
+	        width: 50%;
+	        text-align: center;
+        }
+        .closeClubImgDiv{
+        	cursor: pointer; 
+        	background-size: cover;
+        	background-position: center;
+        	height: 80%;
+        	margin: 2%;
+        }
     </style>
 </head>
 
@@ -113,9 +125,8 @@
             <div class="row" id="categoryList1_1" style="display:none;">
                                 해당 카테고리에 독서모임은 없습니다.
             </div>
-                    
-            <c:if test="${fn:length(cateList_first) > 0}">           
-                <div class="row" id="categoryList1_2">
+                               
+                <div class="row" id="categoryList1_2"  style="display:none;">
                      <c:forEach begin="0" end="7" varStatus="s">
                         <div id="c_clubTotal${s.index}" class="col-md-6 col-lg-3 mb-3 mb-lg-0  pointer" style="display:flex;">
 	                        <input id="c_clubNo${s.index}" type="hidden" value="${cateList_first[s.index].clubNo}">
@@ -151,11 +162,9 @@
 	                     </div> 
                       </c:forEach>
                  </div>
-              </c:if> 
                  
-                 <div style="display:block;">	
-				
-			          <ul id="pagingArea1" class="pagination">  	
+                 <div >	
+			          <ul id="pagingArea1" class="pagination" style="display: none;">  	
 			             
 			             <c:choose>
 			                	<c:when test="${ pi_first.currentPage ne 1 }">
@@ -198,6 +207,9 @@
 				<script>
                 	var category = "인문/과학/심리";
                 	var origin = 0;
+                	var nowPage1 = 1;
+                	var nowPage2 = 1;
+                	var listIndex = 0;  //모집종료 용
                 	
                     $(function(){
                         $(".pointer").click(function(){
@@ -206,39 +218,98 @@
                         });
                     })
                     
-                    $(".page-item").click(function(){
-                    	var currentPage = $(this).val();
-                    	var clubStatus = '';
-                    	console.log("페이징-currentPage : " + currentPage);
+                    $(document).ready(function() {
+						//처음에 리스트가 0일 때 페이징바 안나오도록 div 3개(없습니다/있을때 for/페이징바) 모두 none처리 후
+						//div 없습니다 flex로 풀기
+						var cateList1_length = '<c:out value="${fn:length(cateList_first)}"/>'
+                        var cateList2_length = '<c:out value="${fn:length(cateList_second)}"/>'
+
+                        if(cateList1_length == 0){
+                            $('#categoryList1_1').css('display','flex');
+                        }else{
+                            $('#categoryList1_2').css('display','flex');
+                            $('#pagingArea1').css('display','flex');
+                        }
+                        if(cateList2_length == 0){
+                    	    $('#categoryList2_1').css('display','flex');
+                        }else{
+                        	$('#categoryList2_2').css('display','flex');
+                        	$('#pagingArea2').css('display','flex');
+                        }
                     	
-                    	var parentId = $(this).parent().attr('id');
-                    	if(parentrId = 'pagingArea1'){
-                    		clubStatus='모집중'
-                    	}else{
-                    		clubStatus='모집완료'
-                    	}
-                    	
-                    	$.ajax({
-                    		url:"allCateListPart.cl",
-                    		data:{
-                    			category : category,
-                    			clubStatus : clubStatus,
-                    			currentPage : currentPage
-                    		},
-							type : "post",
-							success:function(map){
-								console.log("ajax 통신성공");
-								
-								console.log("페이징 리스트 길이-"+ map.cateList1.length);
-								console.log("페이징-"+ map.pi1);
-								
-								list1(map);								
-								
-	                    	},error:function(){
-	                    		console.log("ajax 통신실패")
-	                    	}
-                    	})
-                    })
+		               $(".page-item").click(function(){
+		            	   
+		            	   var currentPage;
+		            	   var clubStatus = '';
+		            	   
+		            	   var parentId = $(this).parent().attr('id');
+		                     
+		                   if(parentId == 'pagingArea1'){
+		                      clubStatus='모집중'
+		                   }else{
+		                      clubStatus='모집완료'
+		                   }
+		            	   
+		            	   //다음, 이전 눌렀을 때 처리해줘야 함
+		                   if($(this).val() == ''){  //1.이전, 다음으로 클릭
+		                	   if(clubStatus == '모집중'){
+		                		   if($(this).attr('id').substring(0,2) == 'bb'){
+		                			   console.log("이전으로 클릭");
+		                			   currentPage = nowPage1 -1;
+			                		   nowPage1 = currentPage;  //현재 페이지 저장해두기
+		                		   }else{
+		                			   console.log("다음으로 클릭");
+		                			   currentPage = nowPage1 +1;
+			                		   nowPage1 = currentPage;  //현재 페이지 저장해두기
+		                		   }
+		                	   }else{
+		                		   if($(this).attr('id').substring(0,2) == 'bb'){
+		                			   console.log("이전으로 클릭");
+		                			   currentPage = nowPage2 -1;
+			                		   nowPage2 = currentPage;  //현재 페이지 저장해두기
+		                		   }else{
+		                			   console.log("다음으로 클릭");
+		                			   currentPage = nowPage2 +1;
+			                		   nowPage2 = currentPage;  //현재 페이지 저장해두기
+		                		   }
+		                	   }
+		                	   
+		                   }else{  //2.숫자 페이지 누르기
+		                	   currentPage = $(this).val();
+		                	   
+		                	   if(clubStatus == '모집중'){
+		                		   nowPage1 = currentPage;  //현재 페이지 저장해두기
+		                	   }else{
+		                		   nowPage2 = currentPage;  //현재 페이지 저장해두기
+		                	   }
+		                	   
+		                   }   
+		                   $.ajax({
+		                     url:"allCateListPart.cl",
+		                     data:{
+		                        category : category,
+		                        clubStatus : clubStatus,
+		                        currentPage : currentPage
+		                     },
+		                     type : "post",
+		                     success:function(map){
+		                        console.log("ajax 통신성공");
+		                        
+		                        console.log("clubStatus : " + clubStatus)
+		                        
+		                        if(clubStatus == '모집중'){
+		                        	list1(map);
+		                        }else{
+		                        	list2(map);
+		                        }
+		                                                
+		                        
+		                    },error:function(){
+		                         console.log("ajax 통신실패")
+		                    }
+		                   })
+		                })
+		             })
   
                     $(".clickCategory").click(function(){
 						
@@ -262,11 +333,12 @@
 						})
 	                })
 	                
-	                 function list1(map){
+	                function list1(map){
                     	var cateList1 = map.cateList1;
                     	
                     	var listView1 = document.getElementById("categoryList1_1");
 						var listView = document.getElementById("categoryList1_2");
+						var pagingArea = document.getElementById("pagingArea1");
 						
 						var intro;
 						
@@ -275,6 +347,7 @@
 						if(cateList1.length == 0){  //1.리스트 빈 경우
 							listView.style.display = 'none';
 							listView1.style.display = 'flex';
+							pagingArea.style.display = 'none';
 						}else{				  //2. 리스트 값 있는 경우
 							$.each(cateList1,function(i){
 								
@@ -307,10 +380,8 @@
 							})
 		
 							listView1.style.display = 'none';
-							
-							if(listView.style.display == 'none'){  //리스트 없는 경우 none으로 되어있어서 clubTotal이 보이려면 풀어줘야 함
-								listView.style.display = 'flex';
-							}
+							listView.style.display = 'flex';
+							pagingArea.style.display = 'flex';
 							
 							for(var i=cateList1.length; i<8; i++){
 								$('#c_clubTotal'+i).css('display','none');
@@ -319,7 +390,7 @@
 						
 						//2.페이징바 처리하기
 						//list내용 없으면 페이징바 안보이게 하기
-						if(cateList2.length == 0){
+						if(cateList1.length == 0){
 							$('#pagingArea1').css("display", "none");
 						}else{
 							$('#pagingArea1').css("display", "block");
@@ -369,15 +440,16 @@
                     	
                     	var listView1 = document.getElementById("categoryList2_1");
 						var listView = document.getElementById("categoryList2_2");
+						var pagingArea = document.getElementById("pagingArea2");
 						
 						var intro;
 						
 						console.log("list길이2 : " + cateList2.length)
 						
 						if(cateList2.length == 0){  //1.리스트 빈 경우
-							console.log("list길이2- 여기는돌아 : " + cateList2.length)
 							listView.style.display = 'none';
 							listView1.style.display = 'flex';
+							pagingArea.style.display = 'none';
 						}else{				  //2. 리스트 값 있는 경우
 							$.each(cateList2,function(i){
 								
@@ -386,7 +458,6 @@
 								$('#c_category2'+i).text(cateList2[i].category);	
 								$('#c_onoffLine2'+i).text(cateList2[i].onoffLine);
 								$('#c_title2'+i).text(cateList2[i].clubTitle);
-								
 								$('#c_likes2'+i).text(cateList2[i].heartCount);
 								
 								var dateCount = 0;
@@ -409,17 +480,19 @@
 								$('#c_clubTotal2'+i).css('display','flex');  //none풀어주기
 								
 							})
-							
-							console.log("list길이2 : " + cateList2.length)
 		
 							listView1.style.display = 'none';
+							listView.style.display = 'flex';
+							pagingArea.style.display = 'flex';
 							
-							if(listView.style.display == 'none'){  //리스트 없는 경우 none으로 되어있어서 clubTotal이 보이려면 풀어줘야 함
+							
+							/* if(listView.style.display == 'none'){  //리스트 없는 경우 none으로 되어있어서 clubTotal이 보이려면 풀어줘야 함
 								listView.style.display = 'flex';
-							}
+							} */
 							
+							//다시 지워줘야 함
 							for(var i=cateList2.length; i<8; i++){
-								$('#c_clubTotal'+i).css('display','none');
+								$('#c_clubTotal2'+i).css('display','none');
 							}
 						}
 						
@@ -474,6 +547,72 @@
 							$('#dd2').addClass("disabled");
 						}							
                     }
+	                 
+	                function closeListMove(checkIndex) {
+	         			if(checkIndex == 1){
+	         				listIndex += 1;
+	         			}else{
+	         				listIndex -= 1;
+	         			}
+	         			
+	         			if(listIndex < 0){
+	         				listIndex = 10;
+	         			}else if(listIndex > 10){
+	         				listIndex = 1;
+	         			}
+	         			
+	         			console.log("listIndex : " +listIndex)
+	         			
+	         			$.ajax({
+	         					url : "closeListMove.cl",
+	         					
+	         					data : {
+	         						listIndex : listIndex,
+	         						category : category
+	         					},
+	         					type : "post",
+	         					success : function(list) {
+	         						console.log("ajax 통신성공");
+	         						
+	         						console.log("list길이  : " + list.length)
+	         						
+	         							$.each(list,function(i){
+	         								/* $('#close_ClubImg'+i).css("background-image","url("+${pageContext.servletContext.contextPath }/resources/upload_files/club_img/list[i].clubAttachments[0].changeName +")");  */
+	         								/* $('#close_category'+i).attr("onclick","detailbook('"+list[i].bookISBN+"')"); */	
+	         								$('#close_category'+i).text(list[i].category);
+	         								$('#close_likes'+i).text(list[i].heartCount);	
+	         								$('#close_title'+i).text(list[i].clubTitle);
+	         							})
+	         					},
+	         					error : function (request, status, error){
+	         			               
+	         					    var errorMsg = "요청 도중 오류가 발생하였습니다. \n";
+	         					   
+	         					    if(request.status == 0){ //offline
+	         					        errorMsg += "네트워크 연결을 확인해주십시오.";
+	         					    }else if(request.status==401){//Unauthorized
+	         					        errorMsg += "권한이 없습니다. \n관리자에게 문의해주세요.";
+	         					    }else if(request.status==403){//Forbidden
+	         					        errorMsg += "접근이 거부되었습니다. \n관리자에게 문의해주세요.";
+	         					    }else if(request.status==404){//Not Found
+	         					        errorMsg += "요청한 페이지를 찾을 수 없습니다. \n관리자에게 문의해주세요.";
+	         					    }else if(request.status==500){ //Internel Server Error
+	         					        errorMsg += "서버 내 오류가 발생하였습니다. \n관리자에게 문의해주세요.";
+	         					    }else if(status=='parsererror'){ //Error.nParsing JSON Request failed.
+	         					        errorMsg += "응답 본문을 정상적으로 가져올 수 없습니다. \n관리자에게 문의해주세요.";
+	         					    }else if(status=='timeout'){ //Request Time out.
+	         					        errorMsg += "응답 제한 시간을 초과하였습니다. 다시 조회해주세요.";
+	         					    }else { //Unknow Error
+	         					        errorMsg += "\n관리자에게 문의해주세요.";
+	         					    }
+	         					   
+	         					    alert(errorMsg);
+	         					}
+
+	         				
+	         				})
+	         		}
+	                 
                 </script>
 
                 <!-- ================ 2. 모집완료  ================= -->
@@ -486,9 +625,8 @@
                  <div class="row" id="categoryList2_1" style="display:none;">
                                       해당 카테고리에 독서모임은 없습니다.
             	 </div>
-                    
-                 <c:if test="${fn:length(cateList_second) > 0}">           
-                	<div class="row" id="categoryList2_2">
+                 
+                 <div class="row" id="categoryList2_2" style="display:none;">   
                      	<c:forEach begin="0" end="7" varStatus="s">
                         	<div id="c_clubTotal2${s.index}" class="col-md-6 col-lg-3 mb-3 mb-lg-0  pointer" style="display:flex;">
 	                        	<input id="c_clubNo2${s.index}" type="hidden" value="${cateList_second[s.index].clubNo}">
@@ -501,6 +639,7 @@
 	                                       <li><span id="c_category2${s.index}">${cateList_second[s.index].category}</span> &nbsp; [<span style="margin-right:0px;" id="c_onoffLine${s.index}">${cateList_second[s.index].onoffLine}</span>] </li>
 	                                       <li><i class="ti-comments-smiley"></i> ${cateList_second[s.index].heartCount } Likes</li>
 	                                    </ul>
+	                                    <div class="closeClub"><span>마감되었습니다</span></div>
 	                                 <h4 id="c_title2${s.index}" class="card-blog__title">${cateList_second[s.index].clubTitle}</h4>
 	                                 <p>
 	                                 	<c:forEach items="${cateList_second[s.index].clubTimes}" var="at" varStatus="s_at">
@@ -523,12 +662,12 @@
 	                        </div>
 	                     </div> 
                       </c:forEach>
-                 </div>
-              </c:if> 
+              </div>
+               
                  
-                 <div style="display:block;">	
-				
-			          <ul id="pagingArea2" class="pagination">  	
+                 
+					<div>
+			          <ul id="pagingArea2" class="pagination" style="display: none;">  	
 			             
 			             <c:choose>
 			                	<c:when test="${ pi_second.currentPage ne 1 }">
@@ -546,10 +685,10 @@
 			             <c:forEach begin="${ pi_second.startPage }" end="${ pi_second.endPage }" var="p">
 			                    <c:choose>
 				                	<c:when test="${ pi_second.currentPage ne p }">
-			                    		<li class="page-item" value="${p}"><div class="page-link cc12" >${ p }</div></li>
+			                    		<li class="page-item" value="${p}"><div  class="page-link cc12" >${ p }</div></li>
 				                	</c:when>
 				                	<c:otherwise>
-				                		<li class="page-item disabled"><a class="page-link cc12" href="">${ p }</a></li>
+				                		<li class="page-item disabled"><a  class="page-link cc12" href="">${ p }</a></li>
 				                	</c:otherwise>
 				                </c:choose>
 			             </c:forEach>
@@ -564,7 +703,7 @@
 			              </c:choose> 
 			              
 			          </ul>
-			     </div>          
+			       </div>      
              </div>
           </section>                
 
@@ -574,125 +713,43 @@
                         <div class="section-intro pb-60px" style="text-align:center;">  <!-- pb-60px -->
                     		<h2>모집<span class="section-intro__style">종료</span></h2>
                  		</div>
-
-                        <!--
-                  1. carousel : carousel 컨베이어 벨트처럼 현재 사진에서 다른 사진으로 넘어갈 수 있게 해준다.
-                  2. slide : 다른 사진으로 넘어갈 때 슬라이딩되는 효과를 제공한다.
-                  3. data-ride="carousel" : 
-                   attribute is used to mark a carousel as animating starting at page load. It cannot be used in combination with (redundant and unnecessary) explicit JavaScript initialization of the same carousel.
-                  4. carousel - id는 꼭 유일하게 해줘야함
-                -->
-                	
-                <!-- 마감임박 독서모임 리스트 갯수가 3개 이하인 경우에는 carousel로 슬라이딩되지 않도록 설정했다.
-                                       ㅅ슬라이딩되도록 하면 다음 페이지로 넘어간 후 다시 앞 페이지로 돌아오지 않기 때문이다. -->
-                	<c:if test="${fn:length(endList) <= 3}">
-	                	<div style="display:flex;">
-	                		<c:forEach items="${endList}" var="list" begin="0" end="2">
-	                             <div class="col-md-6 col-lg-4 mb-4 mb-lg-0 pointer">
-					                  <input type="hidden" value="${list.clubNo}">
-					                  <div class="card card-blog">
-					                        <div class="card-blog__img">
-					                             <c:forEach items="${list.clubAttachments}" var="ca">
-					                                 <img class="card-img rounded-0" src="${pageContext.servletContext.contextPath}/resources/upload_files/club_img/${ca.changeName}" alt="">
-					                             </c:forEach>
-					                        </div>
-					                        <div class="card-body">
-					                             <ul class="card-blog__info">
-					                                  <li>${list.category} &nbsp; [ ${list.onoffLine} ]</li>
-					                                  <li><i class="ti-comments-smiley"></i> 2 Comments</li>
-					                             </ul>
-					                             <h4 class="card-blog__title">${list.clubTitle}</h4>
-					                             <p>
-					                                 <c:set var="temp" value="${list.intro}"/>
-					                                 <c:choose>
-						                                  <c:when test="${fn:length(temp) gt 41}">
-						                                       <c:out value="${fn:substring(temp,0,40)}"></c:out> ...
-						                                  </c:when>
-						                                  <c:otherwise>
-						                                       <c:out value="${temp}"/>
-						                                  </c:otherwise>
-					                                 </c:choose>        
-					                             </p>
-					                       </div>
-					                  </div>
-					              </div> 
-	                         </c:forEach>
-	                    </div>
-                   </c:if>
-	
-				<!-- 3개 초과인 경우에는 슬라이딩 된다.
-					 클래스명이 carousel-item인 div에 <row>는 한개, 독서모임은 3개를 넣어줘야 하므로 아래와 같이 변수를 지정하여 했다.
-					 이렇게 하면 select 시 조회해오는 독서모임의 갯수에 상관없이 슬라이딩을 적용할 수 있다.-->
-				   <c:if test="${fn:length(endList) > 3}">
-                        <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
-                            <ol class="carousel-indicators">
-                                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                            </ol>
-                            <div class="carousel-inner">
-                            
-                            	<c:forEach var="i" begin="0" end="${fn:length(endList)}" step="3">
-                            	
-                            		<c:choose>
-                            			<c:when test="${i eq 0}">
-                            				<c:set var="activeD" value="carousel-item active"/>
-                            			</c:when>
-                            			<c:otherwise>
-                            				<c:set var="activeD" value="carousel-item"/>
-                            			</c:otherwise>
-                            		</c:choose>
-
-                                	<div id="activeOrNot" class="${activeD}" style="width: 100%;">
-	                                    <div class="row">
-	                                    
-	                                        <c:forEach items="${endList}" var="club" begin="${i}" end="${i+2}">
-	                                        	<div class="col-md-6 col-lg-4 mb-4 mb-lg-0 pointer">
-					                            	<input type="hidden" value="${club.clubNo}">
-					                                <div class="card card-blog">
-					                                    <div class="card-blog__img">
-					                                   		 <c:forEach items="${club.clubAttachments}" var="ca">
-					                                   		 	<img class="card-img rounded-0" src="${pageContext.servletContext.contextPath}/resources/upload_files/club_img/${ca.changeName}" alt="">
-					                                   		 </c:forEach>
-					                                         
-					                                    </div>
-					                                    <div class="card-body">
-					                                        <ul class="card-blog__info">
-					                                            <li>${club.category} &nbsp; [ ${club.onoffLine} ]</li>
-					                                            <li><i class="ti-comments-smiley"></i> 2 Comments</li>
-					                                        </ul>
-					                                        <h4 class="card-blog__title">${club.clubTitle}</h4>
-					                                        <p>
-					                                        	<c:set var="temp" value="${club.intro}"/>
-					                                        	<c:choose>
-						                                        	<c:when test="${fn:length(temp) gt 41}">
-						                                        		<c:out value="${fn:substring(temp,0,40)}"></c:out> ...
-						                                        	</c:when>
-						                                        	<c:otherwise>
-						                                        		<c:out value="${temp}"/>
-						                                        	</c:otherwise>
-					                                        	</c:choose>
-					                                        
-					                                        </p>
-					                                    </div>
-					                                </div>
-					                            </div> 
-	                                        </c:forEach>
-	                            		</div>
-	                            	</div>
-                                </c:forEach>   
-                            </div>  
-                            	
-		                    <a class="carousel-control-prev" href="#carouselExampleIndicators2" role="button" data-slide="prev" style="justify-content: left; left: 20px;">
-		                        <span class="prevIcon" aria-hidden="true"></span>
-		                        <span class="sr-only">Previous</span>
-		                    </a>
-		                    <a class="carousel-control-next" href="#carouselExampleIndicators2" role="button" data-slide="next" style="justify-content: right; right: 20px;">
-		                        <span class="nextIcon" aria-hidden="true"></span>
-		                        <span class="sr-only">Next</span>
-		                    </a>
-                  	    </div>
-                    </c:if>
+                 		
+                 		
+                 	    <div class="row" id="categoryList3_1" style="display:none;">
+			                                해당 카테고리에 독서모임은 없습니다.
+			            </div>
+			            
+                 	    <c:if test="${fn:length(cateList_third) > 0}">
+                 	    	<div style="display: flex;">
+								<div style="margin-top: 125px">
+									<img alt=""
+										src="${pageContext.servletContext.contextPath }/resources/img/btn_prev.gif"
+										height="50px" style="margin-right: 15px; cursor: pointer;"
+										onclick="closeListMove(0)">
+								</div>
+								<c:forEach items="${cateList_third}" var="list" varStatus="status">
+									<div style="width: 18%; height: 300px; text-align: center;">
+										<div class="closeClubImgDiv" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${list.clubAttachments[0].changeName}')"
+											onclick="detailbook('${list.clubNo}')" id="close_ClubImg${status.index}">
+										</div>
+										
+										<ul class="card-blog__info">
+		                                    <li><span id="close_category${status.index}">${list.category}</span> &nbsp;</li>
+		                                    <li><i class="ti-comments-smiley"></i> <span id="close_likes${status.index}">${list.heartCount }</span> Likes</li>
+		                                </ul>
+		                                <div class="closeClub" style="width:70%; margin:auto;"><span>모집종료되었습니다</span></div>
+		                                <h4 id="close_title${status.index}" class="card-blog__title">${cateList_third[status.index].clubTitle}</h4>
+				
+									</div>
+								</c:forEach>
+								<div style="margin-top: 125px">
+									<img alt=""
+										src="${pageContext.servletContext.contextPath }/resources/img/btn_next.gif"
+										height="50px" style="margin-left: 15px; cursor: pointer;"
+										onclick="closeListMove(1)">
+								</div>
+							</div>
+                 	    </c:if>
                   </div>
                 </section>
                 
