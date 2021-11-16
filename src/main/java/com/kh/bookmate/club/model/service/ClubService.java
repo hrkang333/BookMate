@@ -69,6 +69,8 @@ public interface ClubService {
 
 	ArrayList<Club> selectCateList_2(String category, PageInfo pi1);
 
+	ArrayList<Club> selectCateList_3(String category);
+
 	
 
 

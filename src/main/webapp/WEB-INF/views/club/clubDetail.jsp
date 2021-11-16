@@ -165,7 +165,22 @@
 	                            </div>
 	                            <div class="right">
 	                            	<c:if test="${club.times eq '한 번 만나요'}">
-	                            		<input type="checkbox" class="applys" id="checkbox${status.index}" name="applys" value="${ct.timeNo}">
+	                            		
+	                            		<!-- 오늘 날짜 이전은 신청되지 않게 한다. -->
+	                            		<fmt:parseDate var="clubDate" value="${ct.clubDate}"  pattern="yyyy-MM-dd"/>
+										<fmt:parseNumber value="${clubDate.time / (1000*60*60*24)}" integerOnly="true" var="clubDate1"></fmt:parseNumber>
+	                            		
+	                            		<jsp:useBean id="today" class="java.util.Date" />
+			                            <fmt:formatDate var="today2" value="${today}" pattern="yyyy-MM-dd"/> 
+			                            <fmt:parseDate var="now"  value="${today2}" pattern="yyyy-MM-dd"/>
+										<fmt:parseNumber value="${now.time / (1000*60*60*24)}" integerOnly="true" var="now1"></fmt:parseNumber>
+	                            		
+	                            		
+	                            		<c:if test="${ clubDate1 >= now1 }">
+	                            			<input type="checkbox" class="applys" id="checkbox${status.index}" name="applys" value="${ct.timeNo}">
+	                            		</c:if>
+	        	
+	                            		
 	                            	</c:if>
 	                            	<c:if test="${club.times eq '여러 번 만나요'}">
 	                            		<input type="hidden" class="applys" name="applys" value="${ct.timeNo}">
@@ -177,7 +192,15 @@
 						
 	                    <div class="">
 	                        <!-- <button id="heartClub" class="button primary-btn">찜하기</button> -->
-	                        <button id="applyClub" class="button primary-btn">신청하기</button>
+	                        <c:choose>
+	                        	<c:when test="${club.condition eq 4 }">
+	                        		<button id="applyClub" class="button primary-btn">신청하기</button>
+	                        	</c:when>
+	                        	<c:otherwise>
+	                        		<button id="applyClub" class="button primary-btn" disabled>신청불가</button>
+	                        	</c:otherwise>
+	                        </c:choose>
+	                        
 	                    </div>
 
                     </div>

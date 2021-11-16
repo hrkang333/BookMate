@@ -259,9 +259,6 @@ public class ClubDao {
 			}
 		}
 
-		for(Club c : list) {
-			System.out.println("clubdao -club최종 : " + c.toString());
-		}
 		return list;
 	}
 
@@ -298,9 +295,35 @@ public class ClubDao {
 			}
 		}
 
+		return list;
+	}
+
+	public ArrayList<Club> selectCateList_3(SqlSessionTemplate sqlSession, String category) {
+		
+		ArrayList<Club> list = (ArrayList)sqlSession.selectList("clubMapper.selectCateList_3", category);
+
+		//2. 위에서 뽑아온 clubNo를 list에 담는다.
+		List<Integer> clubNo1 = new ArrayList<>();
 		for(Club c : list) {
-			System.out.println("clubdao -club최종 : " + c.toString());
+			clubNo1.add(c.getClubNo());
 		}
+				
+		if(clubNo1.size() != 0) {
+			//3. 2에서 담은 list를 club_time테이블에 넘겨서 그 갯수만큼 club_time갯수 조회해오기
+			ArrayList<ClubTime> list2 = (ArrayList)sqlSession.selectList("clubMapper.selectList_clubTime", clubNo1); 
+
+			//4. 1에서 받아온 <club>리스트에 3에서 받아온 clubTime정보를 clubNo로 매칭시켜 set해주기
+			for(Club c : list) {
+				List<ClubTime> temp = new ArrayList<>();
+				for(ClubTime ct : list2) {
+					if(c.getClubNo() == ct.getClubNo()) {
+						temp.add(ct);
+					}
+				}
+				c.setClubTimes(temp);
+			}
+		}
+
 		return list;
 	}
 
