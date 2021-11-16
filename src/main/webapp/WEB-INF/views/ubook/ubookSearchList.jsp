@@ -1,57 +1,65 @@
-<%-- <%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>[책장메이트] - 도서 리스트</title>
-
+<meta charset="UTF-8">
+<title>[책장메이트]</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  
-  <style type="text/css">
-	.fixedHeader {
-		position: sticky;
-		top: 0;
-		font-size: 25px;
-    	text-align: center;
-	}
-  </style>
-</head>
+  <link rel="icon" href="resources/img/Fevicon.png" type="image/png">
+  <link rel="stylesheet" href="resources/vendors/bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="resources/vendors/fontawesome/css/all.min.css">
+  <link rel="stylesheet" href="resources/vendors/themify-icons/themify-icons.css">
+  <link rel="stylesheet" href="resources/vendors/owl-carousel/owl.theme.default.min.css">
+  <link rel="stylesheet" href="resources/vendors/owl-carousel/owl.carousel.min.css">
 
+  <link rel="stylesheet" href="resources/css/style.css">
+  <link rel="stylesheet" href="resources/css/used.css">
+  <script type="text/javascript" src="resources/js/seller.js"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet"
+    id="bootstrap-css">
+</head>
 <body style="width: 1200px; margin: auto;">
  	<jsp:include page="../ubook/ubookMenu.jsp"/>
-
+      
   <!--================ 바디 =================-->
-  <div class="mycontainer" style="width: 100% !important; padding:0px 0px 0px 0px !important; margin:0px 0px 0px 0px !important;">
-    <div class="row">
- 	<jsp:include page="../ubook/ubookCategory.jsp"/>
+  <div class="f" style="width: 1200px;">
+    <div>
 
+      <!--================ 좌측 사이드바(도서 카테고리 선택) =================-->
+      <div class="col-xl-2" style="text-align: center; position: fixed; z-index: 8888; margin-top: 93px;">
+        <div class="sidebar-categories">
+          <div class="head category" style="width: 175px;"><a href="ubookMain.ub">중고도서</a></div>
+		  <div class="categorybody"><a href="ubookCategory.ub?ubCategory=1">소설/시/에세이</a></div>
+		      	<div class="categorybody"><a href="ubookCategory.ub?ubCategory=2">경제/경영</a></div>
+		          <div class="categorybody"><a href="ubookCategory.ub?ubCategory=3">과학</a></div>
+		      <div class="categorybody"><a href="ubookCategory.ub?ubCategory=4">인문</a></div>
+		        <div class="categorybody"><a href="ubookCategory.ub?ubCategory=5">컴퓨터/IT</a></div>
+		        <div class="categorybody"><a href="ubookCategory.ub?ubCategory=6">자기계발</a></div>
+		        <div class="categorybody"><a href="ubookCategory.ub?ubCategory=7">정치/사회</a></div>
+		      <div class="categorybody"><a href="ubookCategory.ub?ubCategory=8">역사/문화</a></div>
+		       <div class="categorybody"><a href="ubookCategory.ub?ubCategory=9">취미</a></div>
+		       <div class="categorybody"><a href="ubookCategory.ub?ubCategory=10">가정/육아</a></div>
+		      
+          <!--background-color: #c9ae9c;-->
+        </div>
+      </div>
+      <!--================ End 좌측 사이드바(도서 카테고리 선택) =================-->
 
       <!--================ 메인 Content =================-->
-      <div class="col-xl-9 col-lg-8 col-md-7 maincon">
-        <section class="content">
-			<input value="${ s.sellerNo }" name="sellerNo">
-            <div>
-				<div class="sorting" style="float: right;">
-                    <select>
-                    	<option value="1">가격 낮asdfasfasfasd은 순</option>
-                        <option value="2">가격 높은 순</option>
-                        <option value="3">상태 좋은 순</option>
-                	</select>
-                </div>
-			</div>
+      <div class="col-xl-9 col-lg-8 col-md-7 maincon" style="position: absolute;
+    z-index: 7777;
+    width: 943px;
+    margin-left: 205px;">
+        <section class="content" style="margin-top: 100px;">
 			<div class="col-md-offset-2 qnaTable">
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<div class="table-container bookListF">
 						<form id="myUbookListForm" action="" method="post">
-						<c:if test="${ list[0].ubCategory eq 1 }">
-							<h1 style="float: left;">소설/시/에세이</h1>
-						</c:if>
+						
+								<h1>검색결과</h1>
 							<table class="table table-filter" id="ubookListTb">
 								<colgroup>
 									<col width="45px" style="text-align: center;">
@@ -65,19 +73,23 @@
 								</colgroup>
 								<thead>
 									<tr>
-										<th class="fixedHeader">No</th>
-										<th class="fixedHeader">표지</th>
-										<th class="fixedHeader">제목</th>
-										<th class="fixedHeader">저자</th>
-										<th class="fixedHeader">가격</th>
-										<th class="fixedHeader">재고</th>
-										<th class="fixedHeader">상태</th>
-										<th class="fixedHeader">구매</th>
+										<th class="tbNo1">No</th>
+										<th class="tbNo1">표지</th>
+										<th class="tbNo1">제목</th>
+										<th class="tbNo1">저자</th>
+										<th class="tbNo1">가격</th>
+										<th class="tbNo1">재고</th>
+										<th class="tbNo1">상태</th>
+										<th class="tbNo1">구매</th>
 									</tr>
 								</thead>
 								<tbody>
+								<c:if test="${ empty list }">
+									<tr><td colspan="8"><h1>검색결과가 존재하지 않습니다.</h1></td></tr>
+								</c:if>
 								<c:forEach var="u" items="${ list }" varStatus="status">
-									<tr data-status="pagado">
+									<c:if test="${ !empty list }">
+									<tr data-status="pagado" onclick="location.href='ubookDetailTest.ub?ubookNo=${ u.ubookNo }&bSellerNo=${u.BSellerNo}'">
 											<td>
 												<div class="tbNo1">${status.index + 1 }</div>
 											</td>
@@ -88,8 +100,7 @@
 											</td>
 											<td>
 												<div class="tbNo1">
-													<input name="ubookNo" hidden="hidden" value="${ u.ubookNo }"/>
-													<a href="ubookDetailTest.ub?ubookNo=${ u.ubookNo }&bSellerNo=${u.BSellerNo}">${u.ubookName }</a>
+													<input name="ubookNo" hidden="hidden" value="${ u.ubookNo }"/>${u.ubookName }
 												</div>
 											</td>
 											<td>
@@ -128,9 +139,8 @@
 											<td>
 												<c:if test="${ s.sellerNo eq u.BSellerNo }">
 													<div class="tbNo1">
-														<button style="background-color: #5cb85c; color:#ffffff; border:none; width: 100%; margin-bottom:10px; border-radius: 0.3rem;" onclick="updateUbook()">수정</button>
-	                                        			<button class="btn-danger" style="border:none;width: 100%; border-radius: 0.3rem;" onclick="deleteUbook()">삭제</button>
-                                        			</div>
+														<button type="button" style="background-color: #BB937E;color:#ffffff; border:none; width: 100%; margin-bottom:10px; border-radius: 0.3rem;">나의 등록 도서</button>	
+													</div>
 												</c:if>
 												<c:if test="${ empty s.sellerNo || s.sellerNo ne u.BSellerNo }">
 													<div class="tbNo1">
@@ -140,6 +150,7 @@
 												</c:if>
 											</td>
 										</tr>
+										</c:if>
 									</c:forEach>
 								</tbody>
 							</table>
@@ -152,7 +163,5 @@
       </div>
     </div>
   </div>
- 	<jsp:include page="../common/footer.jsp"/>
 </body>
-
-</html> --%>
+</html>

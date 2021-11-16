@@ -41,19 +41,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT *
 		FROM UBOOK_QNA
 		WHERE UBNO=#{ubookNo}
-		ORDER BY QNA_NO DESC
+		ORDER BY QNA_NO,QNA_GROUPNO_ORDER DESC
 	</select>
 	
 	<!-- 상품문의 쓰기 / 문의번호+1, 도서번호, 그룹번호+1, 그룹내번호=1, 작성자,내용,시간날짜 -->
 	<insert id="insertQna" parameterType="Ubook_Qna">
 		INSERT INTO UBOOK_QNA
-		VALUES(SEQ_QNANO.NEXTVAL, #{ubno}, (SELECT NVL2(MAX(QNA_GROUPNO),0) FROM UBOOK_QNA) + 1, 1, #{qnaWriter}, #{qnaContent}, sysdate)
+		VALUES(SEQ_QNANO.NEXTVAL, #{ubno}, (SELECT NVL(MAX(QNA_GROUPNO),0)+ 1 FROM UBOOK_QNA) , 1, #{qnaWriter}, #{qnaContent}, sysdate)
 	</insert>
 
 	<!-- 상품문의 답변쓰기 / 문의번호+1, 도서번호, 그룹번호=답변할 문의의 그룹번호, 그룹내번호+1, 작성자,내용,시간날짜-->
 	<insert id="insertAnswer" parameterType="Ubook_Qna">
 		INSERT INTO UBOOK_QNA
-		VALUES(SEQ_QNANO.NEXTVAL, #{ubno}, (SELECT QNA_GROUPNO FROM UBOOK_QNA WHERE QNA_GROUPNO = #{qnaGroupNo}), (SELECT MAX(QNA_GROUPNO_ORDER) FROM UBOOK_QNA) + 1, #{qnaWriter}, #{qnaContent}, sysdate)
+		VALUES(SEQ_QNANO.NEXTVAL, #{ubno}, #{qnaGroupNo}, (SELECT NVL(MAX(QNA_GROUPNO_ORDER),0) + 1 FROM UBOOK_QNA), #{qnaWriter}, #{qnaContent}, sysdate)
 	</insert>
 	
 	<!-- 내가 등록한 도서 리스트 -->
@@ -61,6 +61,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT DISTINCT *
 		FROM UBOOK
 		WHERE BSELLER_NO = #{bSellerNo}
+	</select>
+	
+	<!-- 판매자의 다른 도서 -->
+	<select id="sellerBookList" resultType="Ubook" resultMap="ubookResultSet">
+		SELECT DISTINCT *
+		FROM UBOOK
+		WHERE BSELLER_NO = #{bSellerNo}
+		AND <![CDATA[ ROWNUM < 6 ]]>
+		AND UBOOK_STATUS = 'Y'
+		ORDER BY UBOOK_PUBDATE DESC
+	</select>
+	
+	<!-- 중고도서 메인(랜덤 도서) -->
+	<select id="selectRandomBookList" resultMap="ubookResultSet">
+	<![CDATA[
+		SELECT *
+		FROM (SELECT * FROM UBOOK WHERE UBOOK_STATUS='Y' ORDER BY DBMS_RANDOM.VALUE)
+		WHERE ROWNUM < 25
+	]]>
 	</select>
 	
 	
@@ -93,6 +112,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 도서 카테고리별 리스트 -->
 	<select id="selectUbookCateList" resultType="Ubook">
 		SELECT * FROM UBOOK UB_CATEGORY = #{ubCategory}
+		WHERE UBOOK_STATUS = 'Y'
 	</select>
 
 	<!-- 도서 수정 -->
@@ -136,5 +156,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectCategory" parameterType="_int" resultMap="ubookResultSet">
 		SELECT * FROM UBOOK
 		WHERE UB_CATEGORY=#{ubCategory}
+		AND UBOOK_STATUS = 'Y'
 	</select>
+	
+	<!-- 도서 검색 -->
+	<select id="searchUbook" parameterType="Ubook" resultMap="ubookResultSet">
+		SELECT * 
+		FROM UBOOK
+		<include refid="search"></include>
+		ORDER BY UBOOK_NO DESC
+	</select>
+	<sql id="search">
+		WHERE (UBOOK_NAME LIKE '%'||#{keyword}||'%' 
+		OR UBOOK_WRITER LIKE '%'||#{keyword}||'%')
+		AND UBOOK_STATUS = 'Y'
+	</sql>
+	
 </mapper>

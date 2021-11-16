@@ -124,7 +124,7 @@
 								</thead>
 								<tbody>
 								<c:forEach var="u" items="${ list }" varStatus="status">
-									<tr data-status="pagado">
+									<tr data-status="pagado" onclick="location.href='ubookDetailTest.ub?ubookNo=${ u.ubookNo }&bSellerNo=${u.BSellerNo}'">
 											<td>
 												<div class="tbNo1">${status.index + 1 }</div>
 											</td>
@@ -135,8 +135,7 @@
 											</td>
 											<td>
 												<div class="tbNo1">
-													<input name="ubookNo" hidden="hidden" value="${ u.ubookNo }"/>
-													<a href="ubookDetailTest.ub?ubookNo=${ u.ubookNo }&bSellerNo=${u.BSellerNo}">${u.ubookName }</a>
+													<input name="ubookNo" hidden="hidden" value="${ u.ubookNo }"/>${u.ubookName }
 												</div>
 											</td>
 											<td>
