@@ -36,4 +36,10 @@ public interface UbookService {
 	ArrayList<Ubook_Qna> selectQnaList(int ubookNo);
 
 	int insertAnswer(Ubook_Qna qna2);
+
+	List<Ubook> sellerBookList(Ubook sellerBook);
+
+	ArrayList<Ubook> selectRandomBookList();
+
+	List<Ubook> searchUbookList(String keyword);
 }

@@ -598,15 +598,6 @@ nav > .nav.nav-tabs{
       border-radius:0;
   }
   
-  nav > div a.nav-item.nav-link.active:after
-   {
-    content: "";
-    position: relative;
-    bottom: -65px;
-    left: -10%;
-    border: 15px solid transparent;
-    border-top-color: #e74c3c ;
-  }
   .tab-content2{
     background: #fdfdfd;
       line-height: 25px;

@@ -85,4 +85,17 @@ public class UbookDao {
 		return sqlSession.insert("ubookMapper.insertAnswer",qna2);
 	}
 
+	public List<Ubook> sellerBookList(SqlSessionTemplate sqlSession, Ubook sellerBook) {
+		System.out.println("sellerBook????" + sellerBook);
+		return sqlSession.selectList("ubookMapper.sellerBookList",sellerBook);
+	}
+
+	public ArrayList<Ubook> selectRandomBookList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("ubookMapper.selectRandomBookList");
+	}
+
+	public List<Ubook> searchUbookList(SqlSessionTemplate sqlSession, String keyword) {
+		return sqlSession.selectList("ubookMapper.searchUbook",keyword);
+	}
+
 }

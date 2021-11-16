@@ -411,7 +411,8 @@
 															console.log(data[i].ubookName);
 															$('#ubookListTb')
 																	.append(
-																			"<tr><td align='center'>"
+																			"<tr>"
+																					+"<td align='center'>"
 																					+ (i + 1)
 																					+ "</td>"
 																					+ "<td hidden='hidden' name='ubookNo'>"
