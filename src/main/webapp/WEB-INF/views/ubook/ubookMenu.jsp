@@ -51,17 +51,34 @@
                             </a>
                             <br />
                             <!--검색-->
-                                    <form class="" style=" width: 445px; margin-top: 20px;">
+                                    <form id="search" action="ubookSearch.ub" style=" width: 445px; margin-top: 20px;">
                                         <div class="row no-gutters align-items-center">
                                             <!--검색 input-->
                                             <div class="col">
                                                 <input class="form-control form-control-lg form-control-borderless"
+                                                name="keyword" 
                                                     type="search" placeholder="도서명 혹은 저자를 입력하세요">
                                             </div>
                                             <!--검색버튼-->
                                             <div class="col-auto">
-                                                <button class="btn btn-lg searchbtn" type="submit">Search</button>
+                                                <button class="btn btn-lg searchbtn" type="button" onclick="searchChk()">Search</button>
                                             </div>
+                                            <script>
+                                            	function searchChk() {
+													var keyword = $("input[name='keyword']").val();
+													if(keyword == ""){
+														alert("검색할 도서 제목이나 작가명을 입력해주세요.");
+														keyword.focus();
+														return false;
+													}else if(keyword == " "){
+														alert("공백은 입력할 수 없습니다.");
+														keyword.val('');
+														keyword.focus();
+														return false;
+													}
+													$("#search").submit();
+												}
+                                            </script>
                                         </div>
                                     </form>
                              <div style="font-size: 20px; margin-left: 10px; padding-top: 30px;">
@@ -70,7 +87,8 @@
                             
                                 <a href="home.us">책구메이트 홈</a> |
                                 <a href="register.me">회원가입</a> |
-                                <a href="login.me">로그인</a>
+                                <a data-toggle="modal" data-target="#loginModal">로그인</a>
+									
                             </c:if>
 
                             <!-- 로그인 후  -->
@@ -86,6 +104,37 @@
                                 <a href="logout.us">로그아웃</a>
                             </c:if>
                             </div>
+                            <!-- 로그인 모달  -->
+			<div class="modal fade" id="loginModal">
+				<div class="modal-dialog modal-sm">
+					<div class="modal-content">
+						<!-- Modal Header -->
+						<div class="modal-header">
+							<h4 class="modal-title">Login</h4>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+
+						<form action="login.us" method="post">
+							<!-- Modal Body -->
+							<div class="modal-body">
+								<label for="userId" class="mr-sm-2">ID :</label> <input
+									type="text" class="form-control mb-2 mr-sm-2"
+									placeholder="아이디를 입력해주세요" id="userId" name="userId"> <br>
+								<label for="userPwd" class="mr-sm-2">Password:</label> <input
+									type="password" class="form-control mb-2 mr-sm-2"
+									placeholder="비밀번호를 입력해주세요" id="userPwd" name="userPwd">
+							</div>
+
+							<!-- Modal footer -->
+							<div class="modal-footer">
+								<button type="submit" class="btn btn-primary">로그인</button>
+								<button type="button" class="btn btn-danger"
+									data-dismiss="modal">취소</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
                             <br />
                         </div>
                     </nav>

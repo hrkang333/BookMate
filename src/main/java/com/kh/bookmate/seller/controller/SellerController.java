@@ -30,22 +30,6 @@ public class SellerController {
 	@Autowired
 	private UbookService ubookService;
 	
-	//책장메이트 메인 - 로그인 안함/로그인했지만 판매자 가입 안함/둘 다 함/판매자 휴면 비교 가능
-	@RequestMapping("ubookMain.ub")
-	public String ubookMain(HttpServletRequest request, Model model) {	
-		//11.4 - 해결... (원인 : .getUserId() 때문이였음 -> if문으로 비교할 때에는 .getUserId()없이 해야한다)
-		if((User)request.getSession().getAttribute("loginUser") == null) {
-			String userId = "dlatluserId";
-			Seller s = sellerService.loginSeller(userId);
-			model.addAttribute("s", s);
-		}else {
-			String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
-			Seller s = sellerService.loginSeller(userId);
-			//System.out.println("셀러?" + s.getSellerNo());
-			model.addAttribute("s", s);
-		}
-		return "ubook/ubookMain";
-	}
 	
 	//판매자 닉네임 중복 확인
 	@ResponseBody

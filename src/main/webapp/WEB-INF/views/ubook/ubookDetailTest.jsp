@@ -9,7 +9,8 @@
 <title>[책장메이트] - 도서 상세</title>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
+<style type="text/css">
+</style>
 </head>
 <body style="width: 1200px; margin: auto;">
 
@@ -50,7 +51,7 @@
 
 								<!-- product_detail_info -->
 								<div class="product_detail_info"
-									style="width: 400px; float: right; padding: 0 40px 11px 0; margin: 0 90px 0 0px; margin-right: none; margin-right: none !important;">
+									style="width: 450px; float: right; padding: 0 40px 11px 0; margin: 0 40px 0 0px; margin-right: none; margin-right: none !important;">
 									<div class="subject" style="padding: 0px 20px 10px 30px;">
 										<span class="title"
 											style="font-size: 19px; font-weight: bold;"><c:out
@@ -158,13 +159,18 @@
 												onkeydown="onlyNum(event, this)" title="주문수량입력"
 												style="margin: 0 0 0 10px; padding: 2px 2px 0 0; width: 50px; height: 25px; text-align: center; border: 1px solid #ddd;">
 										</div>
-
-
+										
+										<c:if test="${ ubook.sellerId eq loginUser.userId}">
+										<span
+											style="width: 124px; font-size: 12px !important; margin-right: 10px; background-image: none; background-color: #dcd3cc !important; border: 1px solid #dcd3cc; color: black; !important; padding: 7px 12px 1px; box-shadow: none; height: 33px; text-align: center;">내가 등록한 도서</span>
+										</c:if>
+										<c:if test="${ ubook.sellerId ne loginUser.userId}">
 										<a href="#" class="btn_large btn_blue"
 											style="width: 124px; font-size: 12px !important; margin-right: 10px; background-image: none; background-color: #5cb85c !important; border: 1px solid #5cb85c; color: #fff !important; padding: 7px 12px 1px; box-shadow: none; height: 33px; text-align: center;">장바구니에
 											담기</a> <a href="#" class="btn_large btn_blue2"
 											style="width: 124px; font-size: 12px !important; margin-right: 10px; background-image: none; background-color: #5b8a5b !important; border: 1px solid #5b8a5b; color: #fff !important; padding: 7px 12px 1px; box-shadow: none; height: 33px; text-align: center;">바로
 											구매하기</a>
+										</c:if>
 									</div>
 								</div>
 								<!--// product_detail_info  -->
@@ -198,132 +204,47 @@
 								style="color: #333; font-size: 13px; letter-spacing: -0.05em; padding: 8px 15px; background-color: #d1e7d1;">
 								중고책 추천 (판매자 <span>다른</span> 상품)
 							</h2>
-							<ul style="padding: 15px; height: 230px;">
-								<li class="first-child"
+							
+							<ul style="padding: 15px; height: 290px;">
+							
+							<c:forEach items="${ sellerBookList }" var="sellerB" varStatus="status">
+								<li
 									style="float: left; width: 20%; text-align: center;">
 									<p class="photo">
-										<a href="" style="color: #4d4d4d; text-decoration: none;">
+										<a href="ubookDetailTest.ub?ubookNo=${ sellerB.ubookNo }&bSellerNo=${sellerB.BSellerNo}" style="color: #4d4d4d; text-decoration: none;">
 											<img
-											src="http://image.kyobobook.co.kr/new_ink/used/web/images/common/noimage_150_215.gif"
-											alt="초등학생이 되었다: 바른마음"
+											src="${pageContext.servletContext.contextPath }/resources/images/Ubookimg/${sellerB.ubookImg}"
 											onerror="this.src='http://image.kyobobook.co.kr/new_ink/used/web/images/common/noimage_150_215.gif'"
-											style="width: 68px; height: 94px; border: 1px solid #ccc; transition: all .3s;">
+											style="width: 100px; height: auto; border: 1px solid #ccc; transition: all .3s;">
 										</a>
 									</p>
-									<div class="info" style="margin: 10px 5px 0; padding: 0;">
-										<p class="subject"
-											style="font-weight: bold; display: block; margin-block-start: 1em; margin-block-end: 1em; margin-inline-start: 0px; margin-inline-end: 0px;">
-											<a href="" style="color: #4d4d4d; text-decoration: none;">
-												초등학생이 되었다: 바른마음 </a>
-										</p>
-										<p class="price" style="padding: 5px 0 5px 0; color: #fe6000;">6800원</p>
+									<div class="info" style="margin: 10px 5px 0; padding: 0; font-size: 15px;">
+										${sellerB.ubookName }
+										<p class="price" style="padding: 5px 0 5px 0; color: #fe6000;">${sellerB.ubookPrice }원</p>
 										<p class="quality">
 											<span class="grade_s"
-												style="font-size: 11px; line-height: 15px; display: inline-block; padding: 0px 2px 0px; background-color: #d4ddf8; border: 1px solid #00006d; color: #00006d;">상태
-												: 최상</span>
+												style="font-size: 11px; line-height: 15px; display: inline-block; padding: 0px 2px 0px; background-color: #d4ddf8; border: 1px solid #00006d; color: #00006d;">
+												<c:if test="${ sellerB.ubookQual == 'S' }">
+													<c:out value="최상">최상</c:out>
+												</c:if>
+												<c:if test="${ sellerB.ubookQual == 'A' }">
+													<c:out value="상급">상급</c:out>
+												</c:if>
+												<c:if test="${ sellerB.ubookQual == 'B' }">
+													<c:out value="보통">보통</c:out>
+												</c:if>
+												<c:if test="${ sellerB.ubookQual == 'C' }">
+													<c:out value="하급">하급</c:out>
+												</c:if>
+												<c:if test="${ sellerB.ubookQual == 'D' }">
+													<c:out value="최하">최하</c:out>
+												</c:if>
+												</span>
 										</p>
 									</div>
 								</li>
-
-								<li style="float: left; width: 20%; text-align: center;">
-									<p class="photo">
-										<a href="" style="color: #4d4d4d; text-decoration: none;">
-											<img
-											src="http://image.kyobobook.co.kr/new_ink/used/web/images/common/noimage_150_215.gif"
-											alt="초등학생이 되었다: 바른마음"
-											onerror="this.src='http://image.kyobobook.co.kr/new_ink/used/web/images/common/noimage_150_215.gif'"
-											style="width: 68px; height: 94px; border: 1px solid #ccc; transition: all .3s;">
-										</a>
-									</p>
-									<div class="info" style="margin: 10px 5px 0; padding: 0;">
-										<p class="subject"
-											style="font-weight: bold; display: block; margin-block-start: 1em; margin-block-end: 1em; margin-inline-start: 0px; margin-inline-end: 0px;">
-											<a href="" style="color: #4d4d4d; text-decoration: none;">
-												초등학생이 되었다: 바른마음 </a>
-										</p>
-										<p class="price" style="padding: 5px 0 5px 0; color: #fe6000;">6800원</p>
-										<p class="quality">
-											<span class="grade_s"
-												style="font-size: 11px; line-height: 15px; display: inline-block; padding: 0px 2px 0px; background-color: #d4ddf8; border: 1px solid #00006d; color: #00006d;">상태
-												: 최상</span>
-										</p>
-									</div>
-								</li>
-
-								<li style="float: left; width: 20%; text-align: center;">
-									<p class="photo">
-										<a href="" style="color: #4d4d4d; text-decoration: none;">
-											<img
-											src="http://image.kyobobook.co.kr/new_ink/used/web/images/common/noimage_150_215.gif"
-											alt="초등학생이 되었다: 바른마음"
-											onerror="this.src='http://image.kyobobook.co.kr/new_ink/used/web/images/common/noimage_150_215.gif'"
-											style="width: 68px; height: 94px; border: 1px solid #ccc; transition: all .3s;">
-										</a>
-									</p>
-									<div class="info" style="margin: 10px 5px 0; padding: 0;">
-										<p class="subject"
-											style="font-weight: bold; display: block; margin-block-start: 1em; margin-block-end: 1em; margin-inline-start: 0px; margin-inline-end: 0px;">
-											<a href="" style="color: #4d4d4d; text-decoration: none;">
-												초등학생이 되었다: 바른마음 </a>
-										</p>
-										<p class="price" style="padding: 5px 0 5px 0; color: #fe6000;">6800원</p>
-										<p class="quality">
-											<span class="grade_s"
-												style="font-size: 11px; line-height: 15px; display: inline-block; padding: 0px 2px 0px; background-color: #d4ddf8; border: 1px solid #00006d; color: #00006d;">상태
-												: 최상</span>
-										</p>
-									</div>
-								</li>
-
-								<li style="float: left; width: 20%; text-align: center;">
-									<p class="photo">
-										<a href="" style="color: #4d4d4d; text-decoration: none;">
-											<img
-											src="http://image.kyobobook.co.kr/new_ink/used/web/images/common/noimage_150_215.gif"
-											alt="초등학생이 되었다: 바른마음"
-											onerror="this.src='http://image.kyobobook.co.kr/new_ink/used/web/images/common/noimage_150_215.gif'"
-											style="width: 68px; height: 94px; border: 1px solid #ccc; transition: all .3s;">
-										</a>
-									</p>
-									<div class="info" style="margin: 10px 5px 0; padding: 0;">
-										<p class="subject"
-											style="font-weight: bold; display: block; margin-block-start: 1em; margin-block-end: 1em; margin-inline-start: 0px; margin-inline-end: 0px;">
-											<a href="" style="color: #4d4d4d; text-decoration: none;">
-												초등학생이 되었다: 바른마음 </a>
-										</p>
-										<p class="price" style="padding: 5px 0 5px 0; color: #fe6000;">6800원</p>
-										<p class="quality">
-											<span class="grade_s"
-												style="font-size: 11px; line-height: 15px; display: inline-block; padding: 0px 2px 0px; background-color: #d4ddf8; border: 1px solid #00006d; color: #00006d;">상태
-												: 최상</span>
-										</p>
-									</div>
-								</li>
-
-								<li style="float: left; width: 20%; text-align: center;">
-									<p class="photo">
-										<a href="" style="color: #4d4d4d; text-decoration: none;">
-											<img
-											src="http://image.kyobobook.co.kr/new_ink/used/web/images/common/noimage_150_215.gif"
-											alt="초등학생이 되었다: 바른마음"
-											onerror="this.src='http://image.kyobobook.co.kr/new_ink/used/web/images/common/noimage_150_215.gif'"
-											style="width: 68px; height: 94px; border: 1px solid #ccc; transition: all .3s;">
-										</a>
-									</p>
-									<div class="info" style="margin: 10px 5px 0; padding: 0;">
-										<p class="subject"
-											style="font-weight: bold; display: block; margin-block-start: 1em; margin-block-end: 1em; margin-inline-start: 0px; margin-inline-end: 0px;">
-											<a href="" style="color: #4d4d4d; text-decoration: none;">
-												초등학생이 되었다: 바른마음 </a>
-										</p>
-										<p class="price" style="padding: 5px 0 5px 0; color: #fe6000;">6800원</p>
-										<p class="quality">
-											<span class="grade_s"
-												style="font-size: 11px; line-height: 15px; display: inline-block; padding: 0px 2px 0px; background-color: #d4ddf8; border: 1px solid #00006d; color: #00006d;">상태
-												: 최상</span>
-										</p>
-									</div>
-								</li>
+							</c:forEach>
+								
 							</ul>
 						</div>
 						<!--// 판매자 다른 상품 -->
@@ -750,7 +671,7 @@
 											style="position: absolute; top: 42px; left: 0px; width: 400px;">
 											<li class="first" style="float: left; padding: 0 7px;"><a
 												href="#question"
-												style="line-height: 12px; color: #666;">상품 문의</a></li>
+												style="line-height: 12px; color: #666;">상품 문의(<span id="qnaCount">0</span>)</a></li>
 										</ul>
 										</li>
 								</ul>
@@ -762,24 +683,32 @@
 								id="question"
 								style="margin: 0 0 20px 0; padding: 0;">
 								
-					            <table id="qnaArea" class="table" align="center">
+					            <table id="qnaArea" class="table" style="text-align:center;">
 					                <thead>
 					                    <tr>
 					                    	<c:if test="${ !empty loginUser }">
-						                        <th colspan="2" style="width:75%">
-						                            <textarea class="form-control" id="qnaContent" rows="2" style="resize:none; width:100%"></textarea>
-						                        </th>
-						                        <th style="vertical-align: middle"><button class="btn btn-secondary" id="addQna">등록하기</button></th>
+						                        <td colspan="2" style="width:75%">
+						                            <textarea class="form-control" id="qnaContent" rows="2" style="resize:none; width:100%" placeholder="문의를 입력해주세요"></textarea>
+						                        </td>
+						                        <td colspan='2' style="vertical-align: middle"><button class="btn btn-secondary" id="addQna" style='background-color:#5b8a5b; color:#fff; border:none; border-radius:3px; width:80px; height:35px;'>등록하기</button></td>
+						                        
+												<tr id='show' style='display:none'>
+												<th colspan='2' style='width:75%'>
+													<textarea class='form-control' id='qnaContent2' rows='2' style='resize:none; width:100%' placeholder="답변을 입력해주세요"></textarea>
+												</th>
+													<td style='vertical-align: middle'>
+														<button class='btn btn-secondary' id='addAnswer'>등록하기</button>
+													</td>
+						                        <th></th>
+												</tr>
 					                        </c:if>
 					                        <c:if test="${ empty loginUser }">
-					                        	<th colspan="2" style="width:75%">
+						                        <th>
+						                        <td colspan="2" style="width:75%">
 						                            <textarea class="form-control" readonly rows="2" style="resize:none; width:100%">로그인한 사용자만 사용가능한 서비스입니다. 로그인 후 이용해주세요.</textarea>
-						                        </th>
-						                        <th style="vertical-align: middle"><button class="btn btn-secondary" disabled>등록하기</button></th>
+						                         </td>
+						                        <th colspan='2' style="vertical-align: middle"><button class="btn btn-secondary" style='background-color:#5b8a5b; color:#fff; border:none; border-radius:3px; width:80px; height:35px;' disabled>등록하기</button></th>
 					                        </c:if>
-					                    </tr>
-					                    <tr>
-					                       <td colspan="3">문의 (<span id="qnaCount">0</span>) </td> 
 					                    </tr>
 					                </thead>
 					                <tbody>
@@ -840,20 +769,19 @@
 												//현재로그인한 회원이랑 문의 작성자랑 같으면 배경색 바꾸기
 												if("${loginUser.userId}" == obj.qnaWriter){
 													value += "<tr style='background:#EAFAF1'>";
+												}else if("${ubook.sellerId}" == obj.qnaWriter){
+													value += "<tr style='background:#dcd3cc'>";
 												}else{
 													value += "<tr>";
 												}
-
 												//현재로그인한 회원이랑 해당 도서의 판매자랑 같으면 답글 등록 가능하도록 버튼 보여주기
-												value += "<th>" + obj.qnaWriter + "</th>" + 
-												 			"<td>" + obj.qnaGroupNo + "</td>" + 
-												 			"<td>" + obj.qnaGroupNoOrder + "</td>" + 
-															 "<td>" + obj.qnaContent + "</td>" + 
-															 "<td>" + obj.createDate + "</td>" +"<c:if test='${ loginUser.userId eq ubook.sellerId }'><td><button onclick='reply()'>답글달기</button></c:if>"+
-													 "</tr>"+
-													 "<tr id='show' style='display:none'><th colspan='2' style='width:75%'>"+
-													 "<textarea class='form-control' id='qnaContent2' rows='2' style='resize:none; width:100%'></textarea>"+
-													 "</th><th style='vertical-align: middle'><button class='btn btn-secondary' id='addAnswer'>등록하기</button></th></tr>";
+												var a = obj.qnaGroupNo;
+												value += "<th id='widthQna'><input hidden='hidden' name='qnaWriter' value='"+obj.qnaWriter+"'/>" + obj.qnaWriter + "</th>" + 
+												 			"<td  hidden='hidden'><input hidden='hidden' name='qnaGroupNo' id='qnaGroupNo' value='"+obj.qnaGroupNo+"'/>" + obj.qnaGroupNo + "</td>" + 
+												 			"<td hidden='hidden'>" + obj.qnaGroupNoOrder + "</td>" + 
+															 "<td id='widthQna'><input hidden='hidden' name='qnaContent' value='"+obj.qnaContent+"'/>" + obj.qnaContent + "</td>" + 
+															 "<td id='widthQna'><input hidden='hidden' name='createDate' value='"+obj.createDate+"'/>" + obj.createDate + "</td>" +"<c:if test='${ loginUser.userId eq ubook.sellerId }'><td><button onclick='reply()' style='background-color:#5b8a5b; color:#fff; border:none; border-radius:3px; width:80px; height:35px;'>답글달기</button></c:if>"+
+													 "</tr>";
 													 
 											});
 											$("#qnaArea tbody").html(value);
@@ -868,8 +796,6 @@
 									alert("답변 준비 완료!");
 									//버튼 눌렀을 때 input 보이게
 							    	document.getElementById("show").style.display="";
-									
-									
 									$("#addAnswer").click(function(){
 							    		var ubookNo = ${ubook.ubookNo};
 								    	  console.log(ubookNo);
@@ -880,6 +806,7 @@
 												url:"qnaInsertAnswer.ub",
 												type:"post",
 												data:{qnaContent:$("#qnaContent2").val(),
+													qnaGroupNo:$("#qnaGroupNo").val(),
 													  ubno:ubookNo,
 													  qnaWriter:"${loginUser.userId}"},
 												success:function(result){

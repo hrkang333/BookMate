@@ -110,6 +110,21 @@ public class UbookServiceImpl implements UbookService {
 		return result;
 	}
 
+	@Override
+	public List<Ubook> sellerBookList(Ubook sellerBook) {
+		return ubookDao.sellerBookList(sqlSession, sellerBook);
+	}
+
+	@Override
+	public ArrayList<Ubook> selectRandomBookList() {
+		return ubookDao.selectRandomBookList(sqlSession);
+	}
+
+	@Override
+	public List<Ubook> searchUbookList(String keyword) {
+		return ubookDao.searchUbookList(sqlSession, keyword);
+	}
+
 	
 	/*@Override
 	public List<Ubook> selectbookList(String userId) {

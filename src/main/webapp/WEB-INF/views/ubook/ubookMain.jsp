@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,25 +25,19 @@
         <div class="container" style="padding-top: 100px;">
           <div class="row">
             <div class="col-xs-12 mainslide">
-              <nav>
-                <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                  <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
-                    aria-controls="nav-home" aria-selected="true">Home</a>
-                  <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
-                    aria-controls="nav-profile" aria-selected="false">Profile</a>
-                  <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab"
-                    aria-controls="nav-contact" aria-selected="false">Contact</a>
-                  <a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab"
-                    aria-controls="nav-about" aria-selected="false">About</a>
+              <nav style="width: 900px; margin-left: -15px; margin-top: -8px; height: 70px; background-color: #915549; color: #fff; text-align: center;">
+                <div id="nav-tab" role="tablist" style="padding-top: 20px;">
+                  	책장메이트에 등록된 도서
                 </div>
               </nav>
               <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                   <!--================ 도서 슬라이드 =================-->
-                  <div class="container">
+                  <div class="container" style="padding-top: 20px; width: 840px;">
                     <div class="row">
-                      <div class="col-md-12">
-                        <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="0">
+                      <div class="col-md-12" style="background-color: #fff; border-radius: 15px;">
+				   		<c:if test="${fn:length(randomBookList) > 8}">
+                        <div id="myCarousel" class="carousel slide" data-ride="carousel">
                           <!-- 하단 슬라이드 페이지 표시 -->
                           <ol class="carousel-indicators">
                             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -51,291 +46,55 @@
                           </ol>
                           <!-- 슬라이드 content -->
                           <div class="carousel-inner">
-                            <div class="item carousel-item active">
+                            	<c:forEach var="i" begin="0" end="${fn:length(randomBookList)-1}" step="8">
+                            	<c:choose>
+                            			<c:when test="${i eq 0}">
+                            				<c:set var="activeD" value="carousel-item active"/>
+                            			</c:when>
+                            			<c:otherwise>
+                            				<c:set var="activeD" value="carousel-item"/>
+                            			</c:otherwise>
+                            		</c:choose>
+                            <div class="${activeD}">
                               <div class="row">
+	                			<c:forEach items="${randomBookList}" var="list" begin="${i}" end="${i+7}">
                                 <div class="col-sm-3">
-                                  <div class="thumb-wrapper">
+                                  <div class="thumb-wrapper" onclick="location.href='ubookDetailTest.ub?ubookNo=${ list.ubookNo }&bSellerNo=${ list.BSellerNo}'">
                                     <div class="img-box">
-                                      <img src="https://image.ibb.co/g0CAPp/ipad.jpg" class="img-responsive img-fluid"
+                                      <img src="${pageContext.servletContext.contextPath }/resources/images/Ubookimg/${list.ubookImg }" class="media-photo" style="width: 145px; height: auto;"
                                         alt="">
                                     </div>
                                     <div class="thumb-content">
-                                      <h4>Apple iPad</h4>
-                                      <p class="item-price"><strike>$400.00</strike> <span>$369.00</span></p>
-                                      <div class="star-rating">
-                                        <ul class="list-inline">
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-                                        </ul>
-                                      </div>
-                                      <a href="#" class="btn btn-primary">Add to Cart</a>
+                                      <h4>${list.ubookName }</h4>
+                                      <p class="item-price"><strike>${list.ubookOPrice }원</strike> <span>${list.ubookPrice }원</span></p>
+                                      <span class="grade_s"
+												style="font-size: 11px; line-height: 15px; display: inline-block; padding: 0px 2px 0px; background-color: #d4ddf8; border: 1px solid #00006d; color: #00006d;">
+												<c:if test="${ list.ubookQual == 'S' }">
+													<c:out value="최상">최상</c:out>
+												</c:if>
+												<c:if test="${ list.ubookQual == 'A' }">
+													<c:out value="상급">상급</c:out>
+												</c:if>
+												<c:if test="${ list.ubookQual == 'B' }">
+													<c:out value="보통">보통</c:out>
+												</c:if>
+												<c:if test="${ list.ubookQual == 'C' }">
+													<c:out value="하급">하급</c:out>
+												</c:if>
+												<c:if test="${ list.ubookQual == 'D' }">
+													<c:out value="최하">최하</c:out>
+												</c:if>
+												</span>
                                     </div>
                                   </div>
                                 </div>
-                                <div class="col-sm-3">
-                                  <div class="thumb-wrapper">
-                                    <div class="img-box">
-                                      <img src="https://image.ibb.co/g0CAPp/ipad.jpg" class="img-responsive img-fluid"
-                                        alt="">
-                                    </div>
-                                    <div class="thumb-content">
-                                      <h4>Sony Headphone</h4>
-                                      <p class="item-price"><strike>$25.00</strike> <span>$23.99</span></p>
-                                      <div class="star-rating">
-                                        <ul class="list-inline">
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-                                        </ul>
-                                      </div>
-                                      <a href="#" class="btn btn-primary">Add to Cart</a>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="col-sm-3">
-                                  <div class="thumb-wrapper">
-                                    <div class="img-box">
-                                      <img src="https://image.ibb.co/g0CAPp/ipad.jpg" class="img-responsive img-fluid"
-                                        alt="">
-                                    </div>
-                                    <div class="thumb-content">
-                                      <h4>Macbook Air</h4>
-                                      <p class="item-price"><strike>$899.00</strike> <span>$649.00</span></p>
-                                      <div class="star-rating">
-                                        <ul class="list-inline">
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star-half-o"></i></li>
-                                        </ul>
-                                      </div>
-                                      <a href="#" class="btn btn-primary">Add to Cart</a>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="col-sm-3">
-                                  <div class="thumb-wrapper">
-                                    <div class="img-box">
-                                      <img src="https://image.ibb.co/g0CAPp/ipad.jpg" class="img-responsive img-fluid"
-                                        alt="">
-                                    </div>
-                                    <div class="thumb-content">
-                                      <h4>Nikon DSLR</h4>
-                                      <p class="item-price"><strike>$315.00</strike> <span>$250.00</span></p>
-                                      <div class="star-rating">
-                                        <ul class="list-inline">
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-                                        </ul>
-                                      </div>
-                                      <a href="#" class="btn btn-primary">Add to Cart</a>
-                                    </div>
-                                  </div>
-                                </div>
+                                </c:forEach>
                               </div>
                             </div>
-                            <div class="item carousel-item">
-                              <div class="row">
-                                <div class="col-sm-3">
-                                  <div class="thumb-wrapper">
-                                    <div class="img-box">
-                                      <img src="https://image.ibb.co/g0CAPp/ipad.jpg" class="img-responsive img-fluid"
-                                        alt="">
-                                    </div>
-                                    <div class="thumb-content">
-                                      <h4>Sony Play Station</h4>
-                                      <p class="item-price"><strike>$289.00</strike> <span>$269.00</span></p>
-                                      <div class="star-rating">
-                                        <ul class="list-inline">
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-                                        </ul>
-                                      </div>
-                                      <a href="#" class="btn btn-primary">Add to Cart</a>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="col-sm-3">
-                                  <div class="thumb-wrapper">
-                                    <div class="img-box">
-                                      <img src="https://image.ibb.co/g0CAPp/ipad.jpg" class="img-responsive img-fluid"
-                                        alt="">
-                                    </div>
-                                    <div class="thumb-content">
-                                      <h4>Macbook Pro</h4>
-                                      <p class="item-price"><strike>$1099.00</strike> <span>$869.00</span></p>
-                                      <div class="star-rating">
-                                        <ul class="list-inline">
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star-half-o"></i></li>
-                                        </ul>
-                                      </div>
-                                      <a href="#" class="btn btn-primary">Add to Cart</a>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="col-sm-3">
-                                  <div class="thumb-wrapper">
-                                    <div class="img-box">
-                                      <img src="https://image.ibb.co/g0CAPp/ipad.jpg" class="img-responsive img-fluid"
-                                        alt="">
-                                    </div>
-                                    <div class="thumb-content">
-                                      <h4>Bose Speaker</h4>
-                                      <p class="item-price"><strike>$109.00</strike> <span>$99.00</span></p>
-                                      <div class="star-rating">
-                                        <ul class="list-inline">
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-                                        </ul>
-                                      </div>
-                                      <a href="#" class="btn btn-primary">Add to Cart</a>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="col-sm-3">
-                                  <div class="thumb-wrapper">
-                                    <div class="img-box">
-                                      <img src="https://image.ibb.co/g0CAPp/ipad.jpg" class="img-responsive img-fluid"
-                                        alt="">
-                                    </div>
-                                    <div class="thumb-content">
-                                      <h4>Samsung Galaxy S8</h4>
-                                      <p class="item-price"><strike>$599.00</strike> <span>$569.00</span></p>
-                                      <div class="star-rating">
-                                        <ul class="list-inline">
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-                                        </ul>
-                                      </div>
-                                      <a href="#" class="btn btn-primary">Add to Cart</a>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="item carousel-item">
-                              <div class="row">
-                                <div class="col-sm-3">
-                                  <div class="thumb-wrapper">
-                                    <div class="img-box">
-                                      <img src="https://image.ibb.co/g0CAPp/ipad.jpg" class="img-responsive img-fluid"
-                                        alt="">
-                                    </div>
-                                    <div class="thumb-content">
-                                      <h4>Apple iPhone</h4>
-                                      <p class="item-price"><strike>$369.00</strike> <span>$349.00</span></p>
-                                      <div class="star-rating">
-                                        <ul class="list-inline">
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-                                        </ul>
-                                      </div>
-                                      <a href="#" class="btn btn-primary">Add to Cart</a>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="col-sm-3">
-                                  <div class="thumb-wrapper">
-                                    <div class="img-box">
-                                      <img src="https://image.ibb.co/g0CAPp/ipad.jpg" class="img-responsive img-fluid"
-                                        alt="">
-                                    </div>
-                                    <div class="thumb-content">
-                                      <h4>Canon DSLR</h4>
-                                      <p class="item-price"><strike>$315.00</strike> <span>$250.00</span></p>
-                                      <div class="star-rating">
-                                        <ul class="list-inline">
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-                                        </ul>
-                                      </div>
-                                      <a href="#" class="btn btn-primary">Add to Cart</a>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="col-sm-3">
-                                  <div class="thumb-wrapper">
-                                    <div class="img-box">
-                                      <img src="https://image.ibb.co/g0CAPp/ipad.jpg" class="img-responsive img-fluid"
-                                        alt="">
-                                    </div>
-                                    <div class="thumb-content">
-                                      <h4>Google Pixel</h4>
-                                      <p class="item-price"><strike>$450.00</strike> <span>$418.00</span></p>
-                                      <div class="star-rating">
-                                        <ul class="list-inline">
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-                                        </ul>
-                                      </div>
-                                      <a href="#" class="btn btn-primary">Add to Cart</a>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="col-sm-3">
-                                  <div class="thumb-wrapper">
-                                    <div class="img-box">
-                                      <img src="https://image.ibb.co/g0CAPp/ipad.jpg" class="img-responsive img-fluid"
-                                        alt="">
-                                    </div>
-                                    <div class="thumb-content">
-                                      <h4>Apple Watch</h4>
-                                      <p class="item-price"><strike>$350.00</strike> <span>$330.00</span></p>
-                                      <div class="star-rating">
-                                        <ul class="list-inline">
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star"></i></li>
-                                          <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
-                                        </ul>
-                                      </div>
-                                      <a href="#" class="btn btn-primary">Add to Cart</a>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                            </c:forEach>
                           </div>
-                          <!-- 화살표(왼/오) -->
-                          <a class="carousel-control left carousel-control-prev" href="#myCarousel" data-slide="prev">
-                            <i class="fa fa-angle-left"></i>
-                          </a>
-                          <a class="carousel-control right carousel-control-next" href="#myCarousel" data-slide="next">
-                            <i class="fa fa-angle-right"></i>
-                          </a>
                         </div>
+                        </c:if>
                       </div>
                     </div>
                   </div>
@@ -345,44 +104,15 @@
             </div>
           </div>
         </div>
-        <main class="site-main">
+        <main class="site-main" style="padding-bottom: 50px;">
 
           <br>
           <br>
           <!-- ================ 도서 검색 ================= -->
-          <section class="subscribe-position">
+          <section class="">
             <div class="container">
-              <div class="subscribe text-center">
-                <h3 class="subscribe__title">내가 보고싶은 그 책!</h3>
-                <p>지금 중고 매입가를 확인해보세요</p>
-                <center>
-                <!--검색-->
-                <div class="row justify-content-center searchbar">
-                  <div class="col-12 col-md-10 col-lg-8 searchbar">
-                    <form class="card card-sm searchbar" action="ubookDetail.ub" method="post">
-                      <div class="card-body row no-gutters align-items-center">
-                        <!--검색 input-->
-                        <div class="col">
-                          <input class="form-control form-control-lg form-control-borderless" type="text"
-                          	name="ubookNo"
-                            placeholder="도서명 혹은 저자를 입력하세요">
-                        </div>
-                        <!--검색버튼-->
-                        <div class="col-auto">
-                          <button class="btn btn-lg searchbtn" type="submit">Search</button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </center>
-              </div>
-            </div>
-          </section>
-          <!-- ================ End 도서검색 ================= -->
-
-          <!-- ================ 판매자 버튼 ================= -->
-          <div class="row sellerbtn">
+              <div class="subscribe text-center" style="background-color:#d1e7d1; border-radius: 15px; box-shadow: none !important; height: 320px;">
+                <div class="row sellerbtn">
           
           <!-- ================ 로그인 안했을 때 -> alert로 로그인 진행하게끔 ================= -->
               <c:if test="${ empty sessionScope.loginUser && empty s.sellerId }">
@@ -468,6 +198,11 @@
 	            </section>         
             </c:if>
           </div>
+              </div>
+            </div>
+          </section>
+          <!-- ================ End 도서검색 ================= -->
+
         </main>
       </div>
     </div>

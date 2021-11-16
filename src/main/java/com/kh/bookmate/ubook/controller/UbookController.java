@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.GsonBuilder;
+import com.kh.bookmate.book.model.vo.Book;
 import com.kh.bookmate.seller.model.service.SellerService;
 import com.kh.bookmate.seller.model.vo.Seller;
 import com.kh.bookmate.ubook.model.service.UbookService;
@@ -40,6 +41,31 @@ public class UbookController {
 	@Autowired
 	private SellerService sellerService;
 	
+
+	//책장메이트 메인 - 로그인 안함/로그인했지만 판매자 가입 안함/둘 다 함/판매자 휴면 비교 가능
+	@RequestMapping("ubookMain.ub")
+	public String ubookMain(HttpServletRequest request, Model model) {	
+		//11.4 - 해결... (원인 : .getUserId() 때문이였음 -> if문으로 비교할 때에는 .getUserId()없이 해야한다)
+		if((User)request.getSession().getAttribute("loginUser") == null) {
+			String userId = "dlatluserId";
+			Seller s = sellerService.loginSeller(userId);
+			model.addAttribute("s", s);
+		}else {
+			String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
+			Seller s = sellerService.loginSeller(userId);
+			//System.out.println("셀러?" + s.getSellerNo());
+			model.addAttribute("s", s);
+		}
+		
+		ArrayList<Ubook> randomBookList = ubookService.selectRandomBookList();
+		model.addAttribute("randomBookList", randomBookList);
+		/*
+		 * List<Ubook> list = ubookService.searchUbookList(keyword);
+		 * model.addAttribute("list", list);
+		 */
+		
+		return "ubook/ubookMain";
+	}
 	/*
 	//카테고리 리스트 - 소설/시/에세이
 	@RequestMapping("ubookCateList1.ub")
@@ -116,6 +142,17 @@ public class UbookController {
 		
 		return "ubook/ubookCategory";
 	}
+	
+	//도서 검색
+	@RequestMapping("ubookSearch.ub")
+	public String searchUbook(HttpServletRequest request, Model model, @RequestParam("keyword") String keyword) {
+		List<Ubook> list = ubookService.searchUbookList(keyword);
+		model.addAttribute("list", list);
+		//model.addAttribute("keyword", keyword);
+		System.out.println(keyword);
+		
+		return "ubook/ubookSearchList";
+	}
 /*
 	@RequestMapping("ubookDetail.ub")
 	public String ubookDetail() {
@@ -125,7 +162,7 @@ public class UbookController {
 	
 	//도서 상세
 	@RequestMapping("ubookDetailTest.ub")
-	public String ubookDetail(HttpServletRequest request, Model model) {
+	public String ubookDetail(HttpServletRequest request, Model model, int ubookNo) {
 
 		if((User)request.getSession().getAttribute("loginUser") != null) {
 			String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
@@ -142,6 +179,17 @@ public class UbookController {
 		System.out.println("야!!!! 좀 얼굴 좀 비춰봐!!" + ub.getBSellerNo());
 		System.out.println("야!!!! 좀 얼굴 좀 비춰봐!!2222" + ub.getUbookName());
 		model.addAttribute("ubook", ubook);
+
+		Ubook sellerBook = new Ubook();
+		sellerBook.setUbookNo(Integer.parseInt(request.getParameter("ubookNo")));
+		sellerBook.setUbookImg(request.getParameter("ubookImg"));
+		sellerBook.setUbookName(request.getParameter("ubookName"));
+		sellerBook.setUbookQual(request.getParameter("ubookQual"));
+		sellerBook.setBSellerNo(Integer.parseInt(request.getParameter("bSellerNo")));
+		
+		
+		List<Ubook> sellerBookList = ubookService.sellerBookList(sellerBook);
+		model.addAttribute("sellerBookList", sellerBookList);
 		
 		return "ubook/ubookDetailTest";
 		/*
@@ -180,7 +228,23 @@ public class UbookController {
 	//도서 답변 등록
 	@ResponseBody
 	@RequestMapping(value="qnaInsertAnswer.ub")
-	public String insertAnswer(Ubook_Qna qna2) {
+	public String insertAnswer(@RequestParam("ubno") int ubno,
+			 					@RequestParam("qnaGroupNo") int qnaGroupNo,
+			 					@RequestParam("qnaWriter") String qnaWriter,
+			 					@RequestParam("qnaContent") String qnaContent
+			) {
+
+		Ubook_Qna qna2 = new Ubook_Qna();
+		qna2.setUbno(ubno);
+		qna2.setQnaGroupNo(qnaGroupNo);
+		qna2.setQnaWriter(qnaWriter);
+		qna2.setQnaContent(qnaContent);
+		
+		System.out.println(qna2);
+
+		System.out.println("그룹넘버~~?"+qna2.getQnaGroupNo());
+		System.out.println("그룹넘버~~?"+qna2.getQnaContent());
+		
 		int result = ubookService.insertAnswer(qna2);
 			return String.valueOf(result);
 	}
