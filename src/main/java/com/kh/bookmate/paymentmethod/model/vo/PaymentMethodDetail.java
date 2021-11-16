@@ -15,6 +15,7 @@ public class PaymentMethodDetail {
 
 	private int methodStatus; 
 	private String user_Id;
+	
 	public PaymentMethodDetail() {
 		super();
 		// TODO Auto-generated constructor stub

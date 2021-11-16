@@ -1,6 +1,7 @@
 package com.kh.bookmate.payment.model.vo;
 
 import java.util.Date;
+import java.util.List;
 
 public class PaymentDetail {
 
@@ -15,6 +16,8 @@ public class PaymentDetail {
 	private int getPoint;
 	private Date deliveryDate;
 	private int deliveryStatus;
+	
+	private List<PaymentDetail> PaymentDetailList;
 	
 	public PaymentDetail() {
 		super();
@@ -80,6 +83,14 @@ public class PaymentDetail {
 
 	public void setPaymentNo(int paymentNo) {
 		this.paymentNo = paymentNo;
+	}
+
+	public List<PaymentDetail> getPaymentDetailList() {
+		return PaymentDetailList;
+	}
+
+	public void setPaymentDetailList(List<PaymentDetail> paymentDetailList) {
+		PaymentDetailList = paymentDetailList;
 	}
 
 	public String getBookISBN() {
@@ -154,13 +165,24 @@ public class PaymentDetail {
 		this.deliveryStatus = deliveryStatus;
 	}
 
-	@Override
-	public String toString() {
-		return "PaymentDetailVo [paymentDetailNo=" + paymentDetailNo + ", paymentNo=" + paymentNo + ", bookISBN="
-				+ bookISBN + ", bookMainImg=" + bookMainImg + ", bookTitle=" + bookTitle + ", quantity=" + quantity
-				+ ", bookPrice=" + bookPrice + ", salePrice=" + salePrice + ", getPoint=" + getPoint + ", deliveryDate="
-				+ deliveryDate + ", deliveryStatus=" + deliveryStatus + "]";
+	public PaymentDetail(int paymentDetailNo, int paymentNo, String bookISBN, String bookMainImg, String bookTitle,
+			int quantity, int bookPrice, int salePrice, int getPoint, Date deliveryDate, int deliveryStatus,
+			List<PaymentDetail> paymentDetailList) {
+		super();
+		this.paymentDetailNo = paymentDetailNo;
+		this.paymentNo = paymentNo;
+		this.bookISBN = bookISBN;
+		this.bookMainImg = bookMainImg;
+		this.bookTitle = bookTitle;
+		this.quantity = quantity;
+		this.bookPrice = bookPrice;
+		this.salePrice = salePrice;
+		this.getPoint = getPoint;
+		this.deliveryDate = deliveryDate;
+		this.deliveryStatus = deliveryStatus;
+		PaymentDetailList = paymentDetailList;
 	}
+
 	
 	
 	

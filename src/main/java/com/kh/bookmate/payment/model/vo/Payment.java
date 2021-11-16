@@ -12,11 +12,13 @@ public class Payment {
 	private String shippingAddressDetail;
 	private String shippingPhone;
 	private String deliveryRequest;
-	private Date shipDate;
+	private Date payDate;
 	private int usePoint;
 	private int totalCost;
 	private String paymentMethod;
-	private int getPoint;
+	private int totalGetPoint;
+	private int totalPayCost;
+	private int deliveryCost;
 	
 	public Payment() {
 		super();
@@ -24,7 +26,7 @@ public class Payment {
 	}
 
 	public Payment(int paymentNo, String user_Id, String shippingName, String shippingAddress, String shippingPhone,
-			String deliveryRequest, Date shipDate, int usePoint, int totalCost, String paymentMethod, int getPoint) {
+			String deliveryRequest, Date payDate, int usePoint, int totalCost, String paymentMethod, int totalGetPoint) {
 		super();
 		this.paymentNo = paymentNo;
 		this.user_Id = user_Id;
@@ -32,15 +34,15 @@ public class Payment {
 		this.shippingAddress = shippingAddress;
 		this.shippingPhone = shippingPhone;
 		this.deliveryRequest = deliveryRequest;
-		this.shipDate = shipDate;
+		this.payDate = payDate;
 		this.usePoint = usePoint;
 		this.totalCost = totalCost;
 		this.paymentMethod = paymentMethod;
-		this.getPoint = getPoint;
+		this.totalGetPoint = totalGetPoint;
 	}
 
 	public Payment(String user_Id, String shippingName, String shippingAddress, String shippingPhone, int totalCost,
-			String paymentMethod, int getPoint) {
+			String paymentMethod, int totalGetPoint) {
 		super();
 		this.user_Id = user_Id;
 		this.shippingName = shippingName;
@@ -48,11 +50,11 @@ public class Payment {
 		this.shippingPhone = shippingPhone;
 		this.totalCost = totalCost;
 		this.paymentMethod = paymentMethod;
-		this.getPoint = getPoint;
+		this.totalGetPoint = totalGetPoint;
 	}
 
 	public Payment(String user_Id, String shippingName, String shippingAddress, String shippingPhone,
-			int usePoint, int totalCost, String paymentMethod, int getPoint) {
+			int usePoint, int totalCost, String paymentMethod, int totalGetPoint) {
 		super();
 		this.user_Id = user_Id;
 		this.shippingName = shippingName;
@@ -61,11 +63,11 @@ public class Payment {
 		this.usePoint = usePoint;
 		this.totalCost = totalCost;
 		this.paymentMethod = paymentMethod;
-		this.getPoint = getPoint;
+		this.totalGetPoint = totalGetPoint;
 	}
 
 	public Payment(String user_Id, String shippingName, String shippingAddress, String shippingPhone,
-			String deliveryRequest, int totalCost, String paymentMethod, int getPoint) {
+			String deliveryRequest, int totalCost, String paymentMethod, int totalGetPoint) {
 		super();
 		this.user_Id = user_Id;
 		this.shippingName = shippingName;
@@ -74,11 +76,11 @@ public class Payment {
 		this.deliveryRequest = deliveryRequest;
 		this.totalCost = totalCost;
 		this.paymentMethod = paymentMethod;
-		this.getPoint = getPoint;		
+		this.totalGetPoint = totalGetPoint;		
 	}
 
 	public Payment(String user_Id, String shippingName, String shippingAddress, String shippingPhone,
-			String deliveryRequest, int usePoint, int totalCost, String paymentMethod, int getPoint) {
+			String deliveryRequest, int usePoint, int totalCost, String paymentMethod, int totalGetPoint) {
 		super();
 		this.user_Id = user_Id;
 		this.shippingName = shippingName;
@@ -88,13 +90,13 @@ public class Payment {
 		this.usePoint = usePoint;
 		this.totalCost = totalCost;
 		this.paymentMethod = paymentMethod;
-		this.getPoint = getPoint;
+		this.totalGetPoint = totalGetPoint;
 	}
 	
 	
 
 	public Payment(String user_Id, String shippingName, String shippingPostCode, String shippingAddress,
-			String shippingAddressDetail, String shippingPhone, int totalCost, int getPoint) {
+			String shippingAddressDetail, String shippingPhone, int totalCost, int totalGetPoint) {
 		super();
 		this.user_Id = user_Id;
 		this.shippingName = shippingName;
@@ -103,7 +105,7 @@ public class Payment {
 		this.shippingAddressDetail = shippingAddressDetail;
 		this.shippingPhone = shippingPhone;
 		this.totalCost = totalCost;
-		this.getPoint = getPoint;
+		this.totalGetPoint = totalGetPoint;
 	}
 
 	public int getPaymentNo() {
@@ -155,16 +157,10 @@ public class Payment {
 	}
 
 	public Date getShipDate() {
-		return shipDate;
+		return payDate;
 	}
 
-	public void setShipDate(Date shipDate) {
-		this.shipDate = shipDate;
-	}
-
-	public int getUsePoint() {
-		return usePoint;
-	}
+	
 
 	public void setUsePoint(int usePoint) {
 		this.usePoint = usePoint;
@@ -186,13 +182,7 @@ public class Payment {
 		this.paymentMethod = paymentMethod;
 	}
 
-	public int getGetPoint() {
-		return getPoint;
-	}
-
-	public void setGetPoint(int getPoint) {
-		this.getPoint = getPoint;
-	}
+	
 
 	public String getShippingPostCode() {
 		return shippingPostCode;
@@ -210,13 +200,56 @@ public class Payment {
 		this.shippingAddressDetail = shippingAddressDetail;
 	}
 
+	public Date getPayDate() {
+		return payDate;
+	}
+
+	public void setPayDate(Date payDate) {
+		this.payDate = payDate;
+	}
+
+	public int getTotalGetPoint() {
+		return totalGetPoint;
+	}
+
+	public void setTotalGetPoint(int totalGetPoint) {
+		this.totalGetPoint = totalGetPoint;
+	}
+
+	public int getUsePoint() {
+		return usePoint;
+	}
+
+	
+	public int getTotalPayCost() {
+		return totalPayCost;
+	}
+
+	public void setTotalPayCost(int totalPayCost) {
+		this.totalPayCost = totalPayCost;
+	}
+
+	
+	public int getDeliveryCost() {
+		return deliveryCost;
+	}
+
+	public void setDeliveryCost(int deliveryCost) {
+		this.deliveryCost = deliveryCost;
+	}
+
 	@Override
 	public String toString() {
-		return "PaymentVo [paymentNo=" + paymentNo + ", user_Id=" + user_Id + ", shippingName=" + shippingName
-				+ ", shippingAddress=" + shippingAddress + ", shippingPhone=" + shippingPhone + ", deliveryRequest="
-				+ deliveryRequest + ", shipDate=" + shipDate + ", usePoint=" + usePoint + ", totalCost=" + totalCost
-				+ ", paymentMethod=" + paymentMethod + ", getPoint=" + getPoint + "]";
+		return "Payment [paymentNo=" + paymentNo + ", user_Id=" + user_Id + ", shippingName=" + shippingName
+				+ ", shippingPostCode=" + shippingPostCode + ", shippingAddress=" + shippingAddress
+				+ ", shippingAddressDetail=" + shippingAddressDetail + ", shippingPhone=" + shippingPhone
+				+ ", deliveryRequest=" + deliveryRequest + ", payDate=" + payDate + ", usePoint=" + usePoint
+				+ ", totalCost=" + totalCost + ", paymentMethod=" + paymentMethod + ", totalGetPoint=" + totalGetPoint
+				+ ", totalPayCost=" + totalPayCost + ", deliveryCost=" + deliveryCost + "]";
 	}
+
+	
+
 	
 	
 	

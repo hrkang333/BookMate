@@ -42,4 +42,18 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 		return paymentMethodDao.selectPMDetailList(sqlSession,paymentMethod);
 	}
 
+	@Override
+	public void insertPMDetail(PaymentMethod paymentMethod, PaymentMethodDetail PMDetail) {
+		int result2 = 1;
+		int result = paymentMethodDao.insertPMDetail(sqlSession,PMDetail);
+		
+		if(paymentMethod.getMainPayment()==0) {
+			result2 = paymentMethodDao.updateMainMethod(sqlSession,PMDetail.getUser_Id());
+		}
+		if(result*result2 < 0) {
+			throw new RuntimeException("결제 저장수단 등록 실패");
+		}
+		
+	}
+
 }
