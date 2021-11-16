@@ -6,6 +6,8 @@ import com.kh.bookmate.paymentmethod.model.vo.PaymentMethod;
 import com.kh.bookmate.paymentmethod.model.vo.PaymentMethodDetail;
 
 public interface PaymentMethodService {
+	
+	
 
 	PaymentMethod selectPaymentMethod(String userId);
 
@@ -13,6 +15,8 @@ public interface PaymentMethodService {
 
 
 	List<PaymentMethodDetail> selectPMDetailList(PaymentMethod paymentMethod);
+
+	void insertPMDetail(PaymentMethod paymentMethod, PaymentMethodDetail pmd);
 	
 	
 

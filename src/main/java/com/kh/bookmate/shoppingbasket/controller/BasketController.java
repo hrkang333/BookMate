@@ -1,5 +1,9 @@
 package com.kh.bookmate.shoppingbasket.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -7,6 +11,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +26,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.kh.bookmate.addressBook.model.service.AddressBookService;
 import com.kh.bookmate.addressBook.model.vo.AddressBook;
 import com.kh.bookmate.book.model.vo.Book;
+import com.kh.bookmate.common.AES;
 import com.kh.bookmate.payment.model.vo.Payment;
 import com.kh.bookmate.payment.model.vo.PaymentDetail;
 import com.kh.bookmate.paymentmethod.model.service.PaymentMethodService;
@@ -78,7 +87,7 @@ public class BasketController {
 		PaymentMethod paymentMethod = null;
 		List<PaymentMethodDetail> PMDetailList = null;
 		int totalCost = 0;
-		int getPoint = 0;
+		int totalGetPoint = 0;
 		String shippingName, shippingAddress, shippingPhone;
 		String[] shippingAddressArr;
 
@@ -94,7 +103,7 @@ public class BasketController {
 			orderList.add(orderDetail);
 			totalCost += (int) (tempBook.getBookPrice() * 0.9 * tempBasket.getQuantity());
 		}
-		getPoint = (int) (totalCost * 0.05);
+		totalGetPoint = (int) (totalCost * 0.05);
 
 		
 		//주문 페이지로 가져갈 주소록 처리
@@ -120,13 +129,45 @@ public class BasketController {
 		}else {
 			if(paymentMethod.getMainPayment()!=0) {
 				PMDetailList = paymentMethodService.selectPMDetailList(paymentMethod);
-				mo.addAttribute("PMDetailList", PMDetailList);
+
+				PaymentMethodDetail PMDetail = new PaymentMethodDetail();
+				
+
+								
+				
+				try {
+					PaymentMethodDetail pmd = PMDetailList.get(0);
+					AES aes = new AES(pmd.getMethodPwd().substring(0, 16));
+				
+				if(pmd.getMethodStatus()==1) {
+					PMDetail.setCardCompany(aes.aesDecode(pmd.getCardCompany()));
+					PMDetail.setCardNo(aes.aesDecode(pmd.getCardNo()));
+					PMDetail.setCardCVC(aes.aesDecode(pmd.getCardCVC()));
+				}else if(pmd.getMethodStatus()==2){
+					PMDetail.setBankName(aes.aesDecode(pmd.getBankName()));
+					PMDetail.setBankAccount(aes.aesDecode(pmd.getBankAccount()));
+					PMDetail.setBankPwd(aes.aesDecode(pmd.getBankPwd()));
+					PMDetail.setUserReg(aes.aesDecode(pmd.getUserReg()));
+				}else {
+					PMDetail.setPhoneNo(aes.aesDecode(pmd.getPhoneNo()));
+					PMDetail.setUserReg(aes.aesDecode(pmd.getUserReg()));
+				}
+				PMDetail.setUser_Id(pmd.getUser_Id());
+				PMDetail.setMethodStatus(pmd.getMethodStatus());
+				PMDetail.setMethodPwd(pmd.getMethodPwd());
+				
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				
+				mo.addAttribute("PMDetail", PMDetail);
 			}
 		}
 
 		shippingAddressArr = shippingAddress.split("/");
 		
-		order = new Payment(user.getUserId(), shippingName, shippingAddressArr[0], shippingAddressArr[1],shippingAddressArr[2],shippingPhone, totalCost, getPoint);
+		order = new Payment(user.getUserId(), shippingName, shippingAddressArr[0], shippingAddressArr[1],shippingAddressArr[2],shippingPhone, totalCost, totalGetPoint);
 		
 		mo.addAttribute("order", order);
 		mo.addAttribute("orderList", orderList);

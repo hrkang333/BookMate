@@ -28,4 +28,16 @@ public class PaymentMethodDao {
 		return sqlSession.selectList("paymentMethodMapper.selectPMDetailList",paymentMethod);
 	}
 
+	public int insertPMDetail(SqlSessionTemplate sqlSession, PaymentMethodDetail PMDetail) {
+		return sqlSession.insert("paymentMethodMapper.insertPMDetail",PMDetail);
+		
+		
+	}
+
+	public int updateMainMethod(SqlSessionTemplate sqlSession, String user_Id) {
+		return sqlSession.update("paymentMethodMapper.updateMainMethod",user_Id);
+		// TODO Auto-generated method stub
+		
+	}
+
 }
