@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="paymentMapper">
  
-	<resultMap id="paymentResultSet" type="Payment">
+<!-- 	<resultMap id="paymentResultSet" type="Payment">
 		<id column="PAYMENTNO" property="paymentNo" />
 		<result column="USER_ID" property="user_Id" />
 		<result column="SHIPPINGNAME" property="shippingName" />
@@ -31,11 +31,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="GETPOINT" property="getPoint" />
 		<result column="DELIVERYDATE" property="deliveryDate" />
 		<result column="DELIVERYSTATUS" property="deliveryStatus" />
-	</resultMap>
+	</resultMap> -->
 	 
 	
 	<!-- 나의 주문목록 조회  -->
-	<select id="selectMyOrderList" resultMap="paymentResultSet">
+	<select id="selectMyOrderList" resultType ="Payment">
 		 SELECT * FROM PAYMENT
 		 WHERE USER_ID =#{user_Id}
 	</select>
@@ -48,38 +48,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 나의 주문 목록 상세 조회  -->
-	<select id="selectMyOrderListDetail" resultMap="paymentDetailResultSet" parameterType="_int">
+	<select id="selectMyOrderListDetail" resultType="PaymentDetail" parameterType="_int">
 		SELECT * FROM PAYMENTDETAIL
 		WHERE PAYMENTNO=#{paymentNo}
 		ORDER BY DELIVERYDATE DESC 
 	</select>
 	
 	<!-- 주문상태 취소로 변경하기 -->
-	<select id="cancelMyOrder" resultMap="paymentDetailResultSet" parameterType="_int">
+	<select id="cancelMyOrder" resultType="PaymentDetail" parameterType="_int">
 		UPDATE PAYMENTDETAIL
 		SET DELIVERYSTATUS = 4
 		WHERE PAYMENTDETAILNO = ${paymentDetailNo}
 	</select>  
 	
 		<!-- 구매확정 상태로 변경하기 -->
-	<select id="confirmOrder" resultMap="paymentDetailResultSet" parameterType="_int">
+	<select id="confirmOrder" resultType="PaymentDetail" parameterType="_int">
 		UPDATE PAYMENTDETAIL
 		SET DELIVERYSTATUS = 8
 		WHERE PAYMENTDETAILNO = ${paymentDetailNo}
 	</select>
 	
-	<select id="selectExchangeList" resultMap="paymentDetailResultSet"  >
-		
-	<!-- 	SELECT *
-		FROM PAYMENT A 
-		JOIN PAYMENTDETAIL B on A.PAYMENTNO = B.PAYMENTNO
-		WHERE USER_ID = ${user_Id}; -->
+	<!-- 교환페이지에 있는 정보 들고오기 1  -->
+	<select id="applyExchange" resultType="PaymentDetail"  >
 		
 		SELECT * FROM PAYMENTDETAIL
-		WHERE PAYMENTNO=#{paymentNo}
+		WHERE PAYMENTDETAILNO=#{paymentDetailNo}
 				
 	</select>
-	
+	<!-- 교환페이지에 있는 정보 들고오기 2  -->
+	<select id="selectPaymentNo" resultType="Payment">
+		SELECT * FROM PAYMENT
+		WHERE PAYMENTNO=${paymentNo}
+	</select>
 
 	
 

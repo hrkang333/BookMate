@@ -243,6 +243,7 @@
 
 														<c:when test="${item.deliveryStatus =='5'}">반품완료</c:when>
 														<c:when test="${item.deliveryStatus =='6'}">교환완료</c:when>
+														
 														<c:when test="${item.deliveryStatus =='7'}">반품/교환 진행중</c:when>
 														<c:when test="${item.deliveryStatus =='8'}">구매확정</c:when>
 
@@ -253,43 +254,30 @@
 														<c:when test="${item.deliveryStatus =='1'}">
 															<!--배송준비중일때 주문취소 버튼 활성화 -->
 															<input type="button"
-																onclick="cancelOrder('${item.paymentDetailNo}','${item.paymentNo}')"
-																value="주문취소" />
+																onclick="cancelOrder('${item.paymentDetailNo}','${item.paymentNo}')" value="주문취소" />
 														</c:when>
 														<c:when test="${item.deliveryStatus =='4'}">
-															<input type="button"
-																onclick="cancelOrder('${item.paymentDetailNo}')"
-																value="주문취소" disabled />
+															<input type="button" onclick="cancelOrder('${item.paymentDetailNo}')" value="주문취소" disabled />
 														</c:when>
 
 														<c:when test="${item.deliveryStatus =='2'}">
 															<!-- 배송중 일때  -->
-
-
-															<input type="button"
-																onclick="goExchange('${item.paymentDetailNo}','${item.paymentNo}')"
-																value="교환/반품신청" />
-
-
-															<input type="button"
-																onclick="confirmOrder('${item.paymentDetailNo}','${item.paymentNo}')"
-																value="구매확정" />
+															<div><input type="button" onclick="goExchange('${item.paymentDetailNo}','${item.paymentNo}')" value="교환신청" /></div>
+															<div><input type="button" onclick="goReturn('${item.paymentDetailNo}','${item.paymentNo}')" value="반품신청" /></div>
+															<div><input type="button" onclick="confirmOrder('${item.paymentDetailNo}')" value="구매확정" /></div>
+														
 
 														</c:when>
 														<c:when test="${item.deliveryStatus =='3'}">
 															<!--  배송완료 일 때 -->
-															<input type="button"
-																onclick="goExchange('${item.paymentDetailNo}','${item.paymentNo}')"
-																value="교환/반품신청" />
-															<input type="button"
-																onclick="confirmOrder('${item.paymentDetailNo}')"
-																value="구매확정" />
+															<div><input type="button" onclick="goExchange('${item.paymentDetailNo}','${item.paymentNo}')" value="교환신청" /></div>
+															<div><input type="button" onclick="goReturn('${item.paymentDetailNo}','${item.paymentNo}')" value="반품신청" /></div>
+															<div><input type="button" onclick="confirmOrder('${item.paymentDetailNo}')" value="구매확정" /></div>
+														
 														</c:when>
 
 														<c:when test="${item.deliveryStatus =='8'}">
-															<input type="button"
-																onclick="confirmOrder('${item.paymentDetailNo}')"
-																value="구매확정" disabled />
+															<input type="button" onclick="confirmOrder('${item.paymentDetailNo}')" value="구매확정" disabled />
 														</c:when>
 													</c:choose></td>
 											</tr>
@@ -313,6 +301,7 @@
 					var exchange = document.createElement("input"); 
 					var exchange2 = document.createElement("input"); 
 
+					
 					exchange.name = "paymentDetailNo";
 					exchange.value = paymentDetailNo;
 					
@@ -332,9 +321,42 @@
 				    formObj.action="exchange.me";
 				    formObj.submit();
 				    
+				    
+				    
 				}
 			 } 
 
+	     	// 반품페이지로 이동
+	     	 function goReturn(paymentDetailNo,paymentNo){
+				 var answer = confirm("반품페이지로 이동합니다 ")
+		
+				if(answer==true){ 
+					
+					var formObj=document.createElement("form");
+					var returnBook = document.createElement("input"); 
+					var returnBook2 = document.createElement("input"); 
+
+					returnBook.name = "paymentDetailNo";
+					returnBook.value = paymentDetailNo;
+					
+					returnBook2.name = "paymentNo";
+					returnBook2.value = paymentNo;
+			 
+				    console.log( formObj );
+				    
+				    
+					formObj.appendChild(returnBook);
+					formObj.appendChild(returnBook2);
+				    
+				    console.log(confirmOrder)
+				    
+				    document.body.appendChild(formObj); 
+				    formObj.method="post";
+				    formObj.action="returnBook.me";
+				    formObj.submit();
+				    
+				}
+			 } 
 			</script>
 
 

@@ -17,12 +17,10 @@ public interface PaymentService {
 	int cancelMyOrder(int paymentDetailNo);
 
 	int confirmOrder(int paymentDetailNo);
+ 
+	PaymentDetail applyExchange(int paymentDetailNo);
 
-	int selectExchangeList(int paymentDetailNo);
- 
-//	PaymentDetail selectExchangeList(int paymentDetailNo);
-//
-//	Payment selectPaymentNo(int paymentNo);
- 
+	Payment selectPaymentNo(int paymentNo);
+
 
 }

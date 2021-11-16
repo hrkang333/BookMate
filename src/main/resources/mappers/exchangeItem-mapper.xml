@@ -2,26 +2,13 @@
 <!DOCTYPE mapper 
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="ExchangeItem">
+<mapper namespace="ExchangeItemMapper">
  
-	<resultMap id="exchangeItemResultSet" type="com.kh.bookmate.exchange_item.model.vo.ExchangeItem">
-		<id column="EXCHANGENO" property="exchangeNo" />
-		<result column="PAYMENTDETAILNO" property="paymentDetailNo" />
-		<result column="USER_ID" property="userId" />
-		<result column="EXCHANGESTATUS" property="exchangeStatus" />
-		<result column="EXCHANGENAME" property="exchangeName" />
-		<result column="EXCHANGEPHONE" property="exchangePhone" />
-		<result column="EXCHANGEADDRESS" property="exchangeAddress" />
-	</resultMap>
+	<insert id="insertExchangeItem" parameterType="ExchangeItem">
 
- 
-	<insert id="insertExchangeItem" 
-		parameterType="com.kh.bookmate.exchange_item.model.vo.ExchangeItem">
+	INSERT INTO EXCHANGE_ITEM VALUES(SEQ_EXNO.NEXTVAL,#{userId},
+	#{paymentDetailNo},DEFAULT,#{exchangeName},
+	#{exchangePhone},#{exShippingAddress})
 
-		INSERT INTO EXCHANGE_ITEM VALUES(SEQ_EXNO.NEXTVAL, #{userId},
-		#{paymentDetailNo},DEFAULT,#{exchangeName},
-		#{exchangePhone},#{exchangeAddress})
-
-
-	</insert>
+</insert>
 </mapper>
