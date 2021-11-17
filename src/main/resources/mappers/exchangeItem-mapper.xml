@@ -6,9 +6,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  
 	<insert id="insertExchangeItem" parameterType="ExchangeItem">
 
-	INSERT INTO EXCHANGE_ITEM VALUES(SEQ_EXNO.NEXTVAL,#{userId},
+	INSERT INTO EXCHANGE_ITEM VALUES(SEQ_EXNO.NEXTVAL,#{user_Id},
 	#{paymentDetailNo},DEFAULT,#{exchangeName},
 	#{exchangePhone},#{exShippingAddress})
 
-</insert>
+	</insert>
+
+
+<select id="selectExchangeList" parameterType="ExchangeItem" resultType="ExchangeItem">
+
+	SELECT * FROM EXCHANGE_ITEM
+	WHERE EXCHANGESTATUS = 1
+
+</select>
+
+
+<select id="selectOrderDetailList"  parameterType="ExchangeItem" resultType="_int" >
+ 
+	SELECT * FROM EXCHANGE_ITEM
+	WHERE PAYMENTDETAILNO = #{paymentDetailNo}
+
+ 	
+ 
+</select>
+
 </mapper>

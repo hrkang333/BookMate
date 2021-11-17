@@ -49,7 +49,7 @@
 
 <body>
   <!--================ Start Header Menu Area =================-->
-	<header class="header_area"  style="text-align: center; width: 1200px">
+	<header class="header_area"  style="text-align: center; width: 1200px; box-shadow: none;">
 		<div class="loginArea">
 			<c:if test="${ empty sessionScope.loginUser }">
 				<a href="register.me">회원가입</a> | 

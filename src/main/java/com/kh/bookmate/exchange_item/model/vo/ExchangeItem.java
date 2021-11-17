@@ -18,13 +18,13 @@ public class ExchangeItem {
 	
 	private int exchangeNo;
 	private int paymentDetailNo;
-	private String userId;
+	private String user_Id;
 	private int exchangeStatus;
 	private String exchangeName;
 	private String exchangePhone;
-	private String exShippingPostCode;
-	private String exShippingAddress;
-	private String exShippingAddressDetail;
+//	private String exShippingPostCode;
+	private String exchangeAddress;
+//	private String exShippingAddressDetail;
 	
 	
 

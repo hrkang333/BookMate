@@ -68,13 +68,22 @@
 	  				<input type="hidden" value="${payNo.shippingName }" name="exchangeName">
 	  				<input type="hidden" value="${payNo.shippingPhone }"name ="exchangePhone">
 	  				<input type="hidden" value="${payNo.shippingPostCode }"name="exShippingPostCode">
-	  				<input type="hidden" value="${payNo.shippingAddress }"name ="exShippingAddress">
+	  				<input type="hidden" value="${payNo.shippingAddress }"name ="exchangeAddress">
 	  				<input type="hidden" value="${payNo.shippingAddressDetail }"name="exShippingAddressDetail">
 	  			
 	  	<br>
-	  <button type="submit"> 교환 신청 </button>
+	  <button type="submit" onclick="exchangeSubmit()"> 교환 신청 </button>
 	  
 	  </form>
+	  
+	  <script>
+	  		function exchangeSubmit(){
+	  		
+	  			alert("교환신청이 완료 되었습니다.");
+	  			
+	  		}
+	  
+	  </script>
 	  
 </body>
 </html>

@@ -263,7 +263,7 @@
 														<c:when test="${item.deliveryStatus =='2'}">
 															<!-- 배송중 일때  -->
 															<div><input type="button" onclick="goExchange('${item.paymentDetailNo}','${item.paymentNo}')" value="교환신청" /></div>
-															<div><input type="button" onclick="goReturn('${item.paymentDetailNo}','${item.paymentNo}')" value="반품신청" /></div>
+															<div><input type="button" onclick="goReturn('${item.paymentDetailNo}','${item.paymentNo}')" value="반품신청"/></div>
 															<div><input type="button" onclick="confirmOrder('${item.paymentDetailNo}')" value="구매확정" /></div>
 														
 
