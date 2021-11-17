@@ -195,11 +195,15 @@ public class myPageController {
 	@RequestMapping("insertExchange.me")
 	public String insertExchangeItem(ExchangeItem exchangeBook, Model model ) {
 
-		System.out.println(exchangeBook + "=========================");
+		//System.out.println(exchangeBook + "=========================");
 		exchangeItemService.insertExchangeItem(exchangeBook);
 		
-		return "redirect:myPage/myOrderList";
+		return "myPage/myOrderListDetail";
 	}
+	
+	
+	
+	
 	
 	//반품 신청 페이지로 이동하기 
 	@RequestMapping("returnBook.me") 
@@ -215,8 +219,7 @@ public class myPageController {
 		
 		return "myPage/applyReturn";
 	}
-	
-	
+
 	
 	
 	

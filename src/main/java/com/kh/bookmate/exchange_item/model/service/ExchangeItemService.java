@@ -1,14 +1,19 @@
 package com.kh.bookmate.exchange_item.model.service;
 
+import java.util.List;
+
 import com.kh.bookmate.exchange_item.model.vo.ExchangeItem;
 
 public interface ExchangeItemService {
 
 	void insertExchangeItem(ExchangeItem exchangeBook);
 
-//	List<ExchageItem> insertExchangeItem();
+	List<ExchangeItem> selectExchangeList();
 
-//	int insertExchangeItem(int paymentDetailNo);
+	List<ExchangeItem> selectOrderDetailNoList(List<Integer> exchangeDetailNoList);
+
+
+
 
  
  
