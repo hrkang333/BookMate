@@ -64,7 +64,9 @@ public class BasketController {
 		List<Book> cartItemList = null;
 		String shipDate = new SimpleDateFormat("yyyy-MM-dd").format(ShipDate());
 		basketList = shoppingBasketService.selectCartList(user_Id);
+		if(basketList.size() > 0) {
 		cartItemList = shoppingBasketService.selectBookList(basketList);
+		}
 		mo.addAttribute("basketList", basketList);
 		mo.addAttribute("cartItemList", cartItemList);
 		mo.addAttribute("shipDate", shipDate);
@@ -128,39 +130,18 @@ public class BasketController {
 			paymentMethodService.insertPaymentMethod(user.getUserId());
 		}else {
 			if(paymentMethod.getMainPayment()!=0) {
+			
 				PMDetailList = paymentMethodService.selectPMDetailList(paymentMethod);
 
+				int savedMethodLength = PMDetailList.size();
+				
 				PaymentMethodDetail PMDetail = new PaymentMethodDetail();
 				
-
+				PMDetail = AESDecodeJob(PMDetailList.get(0));
 								
+			
 				
-				try {
-					PaymentMethodDetail pmd = PMDetailList.get(0);
-					AES aes = new AES(pmd.getMethodPwd().substring(0, 16));
-				
-				if(pmd.getMethodStatus()==1) {
-					PMDetail.setCardCompany(aes.aesDecode(pmd.getCardCompany()));
-					PMDetail.setCardNo(aes.aesDecode(pmd.getCardNo()));
-					PMDetail.setCardCVC(aes.aesDecode(pmd.getCardCVC()));
-				}else if(pmd.getMethodStatus()==2){
-					PMDetail.setBankName(aes.aesDecode(pmd.getBankName()));
-					PMDetail.setBankAccount(aes.aesDecode(pmd.getBankAccount()));
-					PMDetail.setBankPwd(aes.aesDecode(pmd.getBankPwd()));
-					PMDetail.setUserReg(aes.aesDecode(pmd.getUserReg()));
-				}else {
-					PMDetail.setPhoneNo(aes.aesDecode(pmd.getPhoneNo()));
-					PMDetail.setUserReg(aes.aesDecode(pmd.getUserReg()));
-				}
-				PMDetail.setUser_Id(pmd.getUser_Id());
-				PMDetail.setMethodStatus(pmd.getMethodStatus());
-				PMDetail.setMethodPwd(pmd.getMethodPwd());
-				
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				
-				
+				mo.addAttribute("savedMethodLength", savedMethodLength);
 				mo.addAttribute("PMDetail", PMDetail);
 			}
 		}
@@ -200,6 +181,37 @@ public class BasketController {
 		
 		return "fail";
 		
+	}
+	
+	private PaymentMethodDetail AESDecodeJob(PaymentMethodDetail pmd){
+
+		PaymentMethodDetail PMDetail = new PaymentMethodDetail();
+		try {
+			AES aes = new AES(pmd.getMethodPwd().substring(0, 16));
+			
+		if(pmd.getMethodStatus()==1) {
+			PMDetail.setCardCompany(aes.aesDecode(pmd.getCardCompany()));
+			PMDetail.setCardNo(aes.aesDecode(pmd.getCardNo()));
+			PMDetail.setCardCVC(aes.aesDecode(pmd.getCardCVC()));
+		}else if(pmd.getMethodStatus()==2){
+			PMDetail.setBankName(aes.aesDecode(pmd.getBankName()));
+			PMDetail.setBankAccount(aes.aesDecode(pmd.getBankAccount()));
+			PMDetail.setBankPwd(aes.aesDecode(pmd.getBankPwd()));
+			PMDetail.setUserReg(aes.aesDecode(pmd.getUserReg()));
+		}else {
+			PMDetail.setPhoneNo(aes.aesDecode(pmd.getPhoneNo()));
+			PMDetail.setUserReg(aes.aesDecode(pmd.getUserReg()));
+		}
+		PMDetail.setUser_Id(pmd.getUser_Id());
+		PMDetail.setMethodStatus(pmd.getMethodStatus());
+		PMDetail.setMethodPwd(pmd.getMethodPwd());
+		PMDetail.setPaymentMethodDetailNo(pmd.getPaymentMethodDetailNo());
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return PMDetail;
+	
 	}
 
 }

@@ -147,6 +147,9 @@ function deleteBasket(index,basketNo) {
 	<hr>
 	<main>
 
+		<c:choose>
+		<c:when test="${requestScope.cartItemList != null}">
+		
 
 		<div class="container">
 			<div class="cart_inner">
@@ -259,7 +262,11 @@ function deleteBasket(index,basketNo) {
 			</div>
 		</div>
 		<button type="button" onclick="movePayment()">결제하기</button>
-
+		</c:when>
+		<c:otherwise>
+		<div style="margin-top: 300px;font-size: 30px;font-weight: bold; text-align: center;">장바구니에 등록된 상품이 없습니다.</div>
+		</c:otherwise>
+		</c:choose>
 	</main>
 
 </body>

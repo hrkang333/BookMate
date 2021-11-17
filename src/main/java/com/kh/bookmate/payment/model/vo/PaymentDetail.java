@@ -183,6 +183,15 @@ public class PaymentDetail {
 		PaymentDetailList = paymentDetailList;
 	}
 
+	@Override
+	public String toString() {
+		return "PaymentDetail [paymentDetailNo=" + paymentDetailNo + ", paymentNo=" + paymentNo + ", bookISBN="
+				+ bookISBN + ", bookMainImg=" + bookMainImg + ", bookTitle=" + bookTitle + ", quantity=" + quantity
+				+ ", bookPrice=" + bookPrice + ", salePrice=" + salePrice + ", getPoint=" + getPoint + ", deliveryDate="
+				+ deliveryDate + ", deliveryStatus=" + deliveryStatus 
+				+ "]";
+	}
+
 	
 	
 	

@@ -14,8 +14,14 @@ SELECT * FROM PAYMENTMETHODDETAIL WHERE USER_ID = #{user_Id} ORDER BY (CASE WHEN
 </select>
 <insert id="insertPMDetail" parameterType="PaymentMethodDetail">
 INSERT INTO PAYMENTMETHODDETAIL VALUES (PAYMENTMETHODDETAIL_SEQ.NEXTVAL,#{bankName},#{bankAccount},#{bankPwd},#{userReg},#{cardCompany},#{cardNo},#{cardCVC},#{phoneNo},#{methodPwd},#{methodStatus},#{user_Id})
+<selectKey keyProperty="paymentMethodDetailNo" resultType="_int" order="AFTER">
+SELECT PAYMENTMETHODDETAIL_SEQ.CURRVAL FROM DUAL
+</selectKey>
 </insert>
 <update id="updateMainMethod">
 UPDATE PAYMENTMETHOD SET MAINPAYMENT = PAYMENTMETHODDETAIL_SEQ.CURRVAL WHERE USER_ID= #{user_Id}
 </update>
+<select id="selectPaymentMethodDetail" resultType="PaymentMethodDetail">
+SELECT * FROM PAYMENTMETHODDETAIL WHERE PAYMENTMETHODDETAILNO = #{paymentMethodDetailNo}
+</select>
 </mapper>

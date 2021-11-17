@@ -83,4 +83,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	
 
+	<insert id="insertPayment" parameterType="Payment">
+	INSERT INTO PAYMENT VALUES (PAYMENT_SEQ.NEXTVAL,#{user_Id},#{shippingName},#{shippingAddress},#{shippingPhone},#{deliveryRequest},DEFAULT,#{usePoint},#{totalCost},0,#{totalGetPoint},#{totalPayCost},#{deliveryCost})
+	<selectKey keyProperty="paymentNo" resultType="_int" order="AFTER">
+	SELECT PAYMENT_SEQ.CURRVAL FROM DUAL
+	</selectKey>
+	</insert>
+	
+	<insert id="insertPaymentDetail" parameterType="PaymentDetail">
+	
+	INSERT INTO PAYMENTDETAIL VALUES (PAYMENTDETAIL_SEQ.NEXTVAL,#{paymentNo},#{bookISBN},#{bookMainImg},#{bookTitle},#{quantity},#{bookPrice},#{salePrice},#{getPoint},#{deliveryDate},DEFAULT)
+	</insert>
 </mapper>
+	
+
+

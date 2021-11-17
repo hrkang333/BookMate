@@ -16,7 +16,9 @@ public interface PaymentMethodService {
 
 	List<PaymentMethodDetail> selectPMDetailList(PaymentMethod paymentMethod);
 
-	void insertPMDetail(PaymentMethod paymentMethod, PaymentMethodDetail pmd);
+	int insertPMDetail(PaymentMethod paymentMethod, PaymentMethodDetail pmd);
+
+	PaymentMethodDetail selectPaymentMethodDetail(int paymentMethodDetailNo);
 	
 	
 
