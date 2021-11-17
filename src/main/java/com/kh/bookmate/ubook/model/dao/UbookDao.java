@@ -98,4 +98,9 @@ public class UbookDao {
 		return sqlSession.selectList("ubookMapper.searchUbook",keyword);
 	}
 
+	public List<Ubook> haveQnaUbook(SqlSessionTemplate sqlSession, int sellerNumber) {
+		System.out.println("sellerNo????" + sellerNumber);
+		return sqlSession.selectList("ubookMapper.haveQnaUbook",sellerNumber);
+	}
+
 }

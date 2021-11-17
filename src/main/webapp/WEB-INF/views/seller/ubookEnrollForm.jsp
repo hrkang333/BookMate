@@ -71,26 +71,30 @@ function resetForm() {
 }
 
 function submitCheck(){
-	var ubCategory = $("select[name='ubCategory']").value;
-	var ubookOPrice = $("input[name='ubookOPrice']").value;
-	var ubookPrice = $("input[name='ubookPrice']").value;
-	var ubookQual = $("select[name='ubookQual']").value;
-		
-	
+	var check = true;
+	$('#ubookEnroll').find('input[type!=button]').each(function(){
+	    if(!$(this).val()) {
+	        alert($(this).data("name") +" 항목을 작성하지 않으셨습니다.")
+	        $(this).focus();
+	        check = false;
+	        return false;
+	    }
+	 });
+	if(!check){
+		return;
+	}
+	var ubCategory = $("select[name='ubCategory']").val();
+	var ubookQual = $("select[name='ubookQual']").val();
+	var ubookPrice = $("input[name='ubookPrice']").val();
+	var ubookOPrice = $("input[name='ubookOPrice']").val();
+
 	if(ubCategory == ''){
 		confirm('도서 카테고리를 선택해주세요');
-		console.log("카테고리 없음");
-		return false;
-	}
-	if(ubookTrans == ''){
-		alert('역자를 입력해주세요. 역자가 없으면 없음 으로 적어주세요.');
-		ubookTrans.focus();
 		return false;
 	}
 	if(ubookPrice > ubookOPrice){
 		alert('판매가는 정가보다 높을 수 없습니다. 다시 입력해주세요.');
-		console.log("카테고리 없음");
-		ubookPrice.val('');
+		ubookPrice.focus('');
 		return false;
 	}
 
@@ -99,9 +103,21 @@ function submitCheck(){
 		console.log("품질 없음");
 		return false;
 	}
-		alert("도서 등록 성공!");
-		$('#ubookEnroll').submit();
+
+	if(!$('#ubookDetail').val()){
+		alert($('#ubookDetail').data("name") +" 항목을 작성하지 않으셨습니다.")
+    	$('#ubookDetail').focus();
+    	return;
+	}
+	if(!$('#ubookContent').val()){
+		alert($('#ubookContent').data("name") +" 항목을 작성하지 않으셨습니다.")
+    	$('#ubookContent').focus();
+    	return;
+	}
 	
+	if(confirm("도서를 등록 하시겠습니까?")){
+		$('#ubookEnroll').submit();
+	}
 }
 
 function checkText(obj) {

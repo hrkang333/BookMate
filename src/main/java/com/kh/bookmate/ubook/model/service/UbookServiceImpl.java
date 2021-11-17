@@ -125,6 +125,11 @@ public class UbookServiceImpl implements UbookService {
 		return ubookDao.searchUbookList(sqlSession, keyword);
 	}
 
+	@Override
+	public List<Ubook> haveQnaUbook(int sellerNumber) {
+		return ubookDao.haveQnaUbook(sqlSession, sellerNumber);
+	}
+
 	
 	/*@Override
 	public List<Ubook> selectbookList(String userId) {

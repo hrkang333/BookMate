@@ -38,7 +38,7 @@
 
         <body style="width: 1200px; margin: auto;">
             <!--================ 헤더(로고 + 검색 + 로그인 된 회원) =================-->
-            <header class="header_area1" style="width: 100%; z-index: 99999; position: fixed;">
+            <header class="header_area1" style="width: 100%; z-index: 9999; position: fixed;">
                 <div class="main_menu1" style="background-color: #ffffff !important;">
                     <nav class="navbar1 navbar-expand-lg1 navbar-light1" style="margin-bottom: 0px !important;">
                         <div class="row" style="margin-left: 0; margin-right: 0;">
@@ -105,36 +105,36 @@
                             </c:if>
                             </div>
                             <!-- 로그인 모달  -->
-			<div class="modal fade" id="loginModal">
-				<div class="modal-dialog modal-sm">
-					<div class="modal-content">
-						<!-- Modal Header -->
-						<div class="modal-header">
-							<h4 class="modal-title">Login</h4>
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
-						</div>
-
-						<form action="login.us" method="post">
-							<!-- Modal Body -->
-							<div class="modal-body">
-								<label for="userId" class="mr-sm-2">ID :</label> <input
-									type="text" class="form-control mb-2 mr-sm-2"
-									placeholder="아이디를 입력해주세요" id="userId" name="userId"> <br>
-								<label for="userPwd" class="mr-sm-2">Password:</label> <input
-									type="password" class="form-control mb-2 mr-sm-2"
-									placeholder="비밀번호를 입력해주세요" id="userPwd" name="userPwd">
+							<div class="modal fade" id="loginModal">
+								<div class="modal-dialog modal-sm" style="width: 300px;">
+									<div class="modal-content">
+										<!-- Modal Header -->
+										<div class="modal-header">
+											<h4 class="modal-title">로그인</h4>
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+										</div>
+				
+										<form action="login.us" method="post">
+											<!-- Modal Body -->
+											<div class="modal-body">
+												<label for="userId" class="mr-sm-2">아이디</label> <input
+													type="text" class="form-control mb-2 mr-sm-2"
+													placeholder="아이디를 입력해주세요" id="userId" name="userId"> <br>
+												<label for="userPwd" class="mr-sm-2">비밀번호</label> <input
+													type="password" class="form-control mb-2 mr-sm-2"
+													placeholder="비밀번호를 입력해주세요" id="userPwd" name="userPwd">
+											</div>
+				
+											<!-- Modal footer -->
+											<div class="modal-footer">
+												<button type="submit" class="btn btn-primary">로그인</button>
+												<button type="button" class="btn btn-danger"
+													data-dismiss="modal">취소</button>
+											</div>
+										</form>
+									</div>
+								</div>
 							</div>
-
-							<!-- Modal footer -->
-							<div class="modal-footer">
-								<button type="submit" class="btn btn-primary">로그인</button>
-								<button type="button" class="btn btn-danger"
-									data-dismiss="modal">취소</button>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
                             <br />
                         </div>
                     </nav>

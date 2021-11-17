@@ -9,17 +9,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Aroma Shop - Login</title>
-	<link rel="icon" href="img/Fevicon.png" type="image/png">
-  <link rel="stylesheet" href="vendors/bootstrap/bootstrap.min.css">
-  <link rel="stylesheet" href="vendors/fontawesome/css/all.min.css">
-	<link rel="stylesheet" href="vendors/themify-icons/themify-icons.css">
-	<link rel="stylesheet" href="vendors/linericon/style.css">
-  <link rel="stylesheet" href="vendors/owl-carousel/owl.theme.default.min.css">
-  <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
-  <link rel="stylesheet" href="vendors/nice-select/nice-select.css">
-  <link rel="stylesheet" href="vendors/nouislider/nouislider.min.css">
-
-  <link rel="stylesheet" href="css/style.css">
   <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
   <script>
  function sample4_execDaumPostcode() {
@@ -80,40 +69,23 @@
 <body>
  	<jsp:include page="../common/menubar.jsp"/>
 
-  <!-- ================ start banner area ================= -->	
-	<section class="blog-banner-area" id="category">
-		<div class="container h-100">
-			<div class="blog-banner">
-				<div class="text-center">
-					<h1>Register</h1>
-					<nav aria-label="breadcrumb" class="banner-breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Register</li>
-            </ol>
-          </nav>
-				</div>
-			</div>
-    </div>
-	</section>
 	<!-- ================ end banner area ================= -->
-  
+  <div>
   <!--================Login Box Area =================-->
-	<section class="login_box_area section-margin">
+	<section class="login_box_area section-margin" style="margin:40px 0 40px 0;">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-6">
-					<div class="login_box_img" style="height: 1000px;">
+				<div class="col-lg-6" style="background-color: #5b8a5b; text-align: center; color:#fff;">
+					<div class="login_box_img" style="margin-top: 300px;">
 						<div class="hover">
-							<h4>이미 계정이 있으신가요?</h4>
-							<p>책구메이트에 로그인하시면<br>더 많은 서비스를 이용하실 수 있어요</p>
-							<a class="button button-account" href="login.me">지금 바로 로그인하기</a>
+							<h2>책구메이트 회원가입</h2><br>
+							<h4>책구메이트에 가입하시면<br>보다 더 많은 서비스를 이용하실 수 있어요</h4>
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-6">
+				<div class="col-lg-6" style="background-color: #EAFAF1; padding:40px;">
 					<div class="login_form_inner register_form_inner">
-						<h3>책구메이트 회원가입</h3>
+						<h3 style="text-align: center;">책구메이트 회원가입</h3>
 						<form class="row login_form" action="insert.us" id="register_form" >
 							<div class="col-md-12 form-group">
 								<input type="text" class="form-control" id="userId" name="userId" placeholder="아이디" onfocus="this.placeholder = ''" onblur="this.placeholder = '아이디'" required="required">
@@ -154,7 +126,7 @@
 								<input class="form-control" type="hidden" id="sample4_engAddress" placeholder="영문주소"  size="60" style="display: none;">
 								</div>
 								<div class="col-md-12 form-group">
-								<button class="form-control" type="button" onclick="sample4_execDaumPostcode()">우편번호 찾기</button>
+								<button class="form-control" type="button" onclick="sample4_execDaumPostcode()" style="background-color: #cda78a; border-radius: 5px; border:none; color:#fff; height: 50px;">우편번호 찾기</button>
 								</div>
 								<div class="col-md-12 form-group">
 								<input type="tel" class="form-control" id="phone" name="phone" placeholder="핸드폰 (- 포함)" onfocus="this.placeholder = ''" onblur="this.placeholder = '핸드폰 (- 포함)'" required="required">
@@ -163,7 +135,7 @@
 								<input type="email" class="form-control" id="email" name="email" placeholder="이메일 주소" onfocus="this.placeholder = ''" onblur="this.placeholder = '이메일 주소'" required="required">
              			 		</div>
 							<div class="col-md-12 form-group">
-								<button type="submit" value="submit" class="button button-register w-100">가입하기</button>
+								<button type="submit" value="submit" class="button button-register w-100" style="background-color: #5b8a5b; border-radius: 5px; border:none; color:#fff; height: 50px;">가입하기</button>
 							</div>
 						</form>
 					</div>
@@ -171,6 +143,10 @@
 			</div>
 		</div>
 	</section>
+  </div>
+	<jsp:include page="../common/footer.jsp" />
+  
+</body>
 	<!--================End Login Box Area =================-->
 
   <script src="vendors/jquery/jquery-3.2.1.min.js"></script>
@@ -181,8 +157,4 @@
   <script src="vendors/jquery.ajaxchimp.min.js"></script>
   <script src="vendors/mail-script.js"></script>
   <script src="js/main.js"></script>
-  
-   	<jsp:include page="../common/footer.jsp"/>
-  
-</body>
 </html>

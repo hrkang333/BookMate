@@ -28,7 +28,7 @@
     <div>
 
       <!--================ 좌측 사이드바(도서 카테고리 선택) =================-->
-      <div class="col-xl-2" style="text-align: center; position: fixed; z-index: 8888; margin-top: 93px;">
+      <div class="col-xl-2" style="text-align: center; position: fixed; z-index: 888; margin-top: 93px;">
         <div class="sidebar-categories">
           <div class="head category" style="width: 175px;"><a href="ubookMain.ub">중고도서</a></div>
 		  <div class="categorybody"><a href="ubookCategory.ub?ubCategory=1">소설/시/에세이</a></div>
@@ -53,22 +53,17 @@
     z-index: 7777;
     width: 943px;
     margin-left: 205px;">
-        <section class="content" style="margin-top: 100px;">
-			<input value="${ s.sellerNo }" name="sellerNo">
-            <div>
-				<div class="sorting" style="float: right;">
-                    <select>
-                    	<option value="1">가격 낮은 순</option>
-                        <option value="2">가격 높은 순</option>
-                        <option value="3">상태 좋은 순</option>
-                	</select>
-                </div>
-			</div>
+        <section class="content" style="margin-top: 100px;float: right;">
+                    <!-- <select onchange="sortChange(this.value)">
+                    	<option value="가격낮은순">가격 낮은 순</option>
+                        <option value="가격높은순">가격 높은 순</option>
+                        <option value="상태좋은순">상태 좋은 순</option>
+                	</select> -->
+			
 			<div class="col-md-offset-2 qnaTable">
 				<div class="panel panel-default">
 					<div class="panel-body">
 						<div class="table-container bookListF">
-						<form id="myUbookListForm" action="" method="post">
 						<c:if test="${ list[0].ubCategory eq 1 }">
 							<h1 style="float: left;">소설/시/에세이</h1>
 						</c:if>
@@ -108,7 +103,7 @@
 									<col width="110px" style="text-align: center;">
 									<col width="60px" style="text-align: center;">
 									<col width="60px" style="text-align: center;">
-									<col width="130px" style="text-align: center;">
+									<!-- <col width="130px" style="text-align: center;"> -->
 								</colgroup>
 								<thead>
 									<tr>
@@ -119,7 +114,7 @@
 										<th class="tbNo1">가격</th>
 										<th class="tbNo1">재고</th>
 										<th class="tbNo1">상태</th>
-										<th class="tbNo1">구매</th>
+										<!-- <th class="tbNo1">구매</th> -->
 									</tr>
 								</thead>
 								<tbody>
@@ -154,24 +149,24 @@
 											<td>
 												<div class="tbNo1">
 												<c:if test="${u.ubookQual eq 'S' }">
-													<div style="background-color: red; color: white;">${u.ubookQual}</div>
+													<div style="background-color: red; color: white;">최상</div>
 												</c:if>
 												<c:if test="${u.ubookQual eq 'A' }">
-													<div style="background-color: orange;">${u.ubookQual}</div>
+													<div style="background-color: orange;">상</div>
 												</c:if>
 												<c:if test="${u.ubookQual eq 'B' }">
-													<div style="background-color: yellow;">${u.ubookQual}</div>
+													<div style="background-color: yellow;">보통</div>
 												</c:if>
 												<c:if test="${u.ubookQual eq 'C' }">
-													<div style="background-color: green; color: white;">${u.ubookQual}</div>
+													<div style="background-color: green; color: white;">하</div>
 												</c:if>
 												<c:if test="${u.ubookQual eq 'D' }">
-													<div style="background-color: blue; color: white;">${u.ubookQual}</div>
+													<div style="background-color: blue; color: white;">최하</div>
 												</c:if>
 												
 												</div>
 											</td>
-											<td>
+											<!-- <td>
 												<c:if test="${ s.sellerNo eq u.BSellerNo }">
 													<div class="tbNo1">
 														<button type="button" style="background-color: #BB937E;color:#ffffff; border:none; width: 100%; margin-bottom:10px; border-radius: 0.3rem;">나의 등록 도서</button>	
@@ -183,12 +178,11 @@
 	                                        			<button style="background-color: #5b8a5b; color:#ffffff; border:none;width: 100%; border-radius: 0.3rem;" onclick="deleteUbook()">바로구매</button>
 													</div>
 												</c:if>
-											</td>
+											</td> -->
 										</tr>
 									</c:forEach>
 								</tbody>
 							</table>
-						</form>
 						</div>
 					</div>
 				</div>
