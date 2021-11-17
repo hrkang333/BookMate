@@ -104,14 +104,15 @@
 		    width: 10.5%;
 		    cursor: pointer;
 	    }
+	    .m_contents{
+	    	margin: 40px 0px 100px;
+	    }
     </style>
 </head>
 
 <body style="width:1200px; margin:auto">
     
     <jsp:include page="../club/clubMenubar.jsp"/>
-    
-    
     
     <!--================ 독서모임 디테일 =================-->
     <div class="product_image_area">
@@ -165,7 +166,6 @@
 	                            </div>
 	                            <div class="right">
 	                            	<c:if test="${club.times eq '한 번 만나요'}">
-	                            		
 	                            		<!-- 오늘 날짜 이전은 신청되지 않게 한다. -->
 	                            		<fmt:parseDate var="clubDate" value="${ct.clubDate}"  pattern="yyyy-MM-dd"/>
 										<fmt:parseNumber value="${clubDate.time / (1000*60*60*24)}" integerOnly="true" var="clubDate1"></fmt:parseNumber>
@@ -174,13 +174,10 @@
 			                            <fmt:formatDate var="today2" value="${today}" pattern="yyyy-MM-dd"/> 
 			                            <fmt:parseDate var="now"  value="${today2}" pattern="yyyy-MM-dd"/>
 										<fmt:parseNumber value="${now.time / (1000*60*60*24)}" integerOnly="true" var="now1"></fmt:parseNumber>
-	                            		
-	                            		
+
 	                            		<c:if test="${ clubDate1 >= now1 }">
 	                            			<input type="checkbox" class="applys" id="checkbox${status.index}" name="applys" value="${ct.timeNo}">
-	                            		</c:if>
-	        	
-	                            		
+	                            		</c:if>	
 	                            	</c:if>
 	                            	<c:if test="${club.times eq '여러 번 만나요'}">
 	                            		<input type="hidden" class="applys" name="applys" value="${ct.timeNo}">
@@ -189,7 +186,6 @@
 	                        </div>
 							</c:forEach>
 						</div>	
-						
 	                    <div class="">
 	                        <!-- <button id="heartClub" class="button primary-btn">찜하기</button> -->
 	                        <c:choose>
@@ -200,117 +196,128 @@
 	                        		<button id="applyClub" class="button primary-btn" disabled>신청불가</button>
 	                        	</c:otherwise>
 	                        </c:choose>
-	                        
 	                    </div>
-
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
     <!--================End Single Product Area =================-->
 
-    <br><br>
-    <hr style="width:94%;">
-    <br>
+	<section class="club_detail" style="margin-top:30px;">
+		<div class="container">
+			<ul class="nav nav-tabs">
+				<li class="nav-item"><a class="nav-link active"
+					data-toggle="tab" href="#qwe">상세내용</a></li>
+				<li class="nav-item"><a class="nav-link" data-toggle="tab"
+					href="#asd">모임리뷰</a></li>
+				<li class="nav-item"><a class="nav-link" data-toggle="tab"
+					href="#zxc">문의하기</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane fade show active m_contents" id="qwe">
+					<div class="detail_club">
+						<h4 class="detail_title1">모임 소개</h4>
+						<span><c:out value="${club.intro}" /></span> <br>
+						<br>
+						<h5 class="detail_title2">우리모임에서 할 활동들</h5>
+						<p>
+							<c:out value="${club.intro}" />
+						</p>
+						<h5 class="detail_title2">이런 멤버들을 만나고 싶어요</h5>
+						<p>
+							<c:out value="${club.want}" />
+						</p>
+						<h5 class="detail_title2">이런 분과는 맞지 않아요</h5>
+						<p>
+							<c:out value="${club.notwant}" />
+						</p>
+					</div>
 
-    <section class="club_detail">
-        <div class="container">
-            <!-- <div class="datail_first" style="width: 100%; height: 200px; background-color: darksalmon;">
-                <span>독서모임 제목</span>
-            </div> -->
+					<div class="detail_onoff">
+						<h4 class="detail_title1">참여 안내</h4>
+						<p>이 모임은 [<c:out value="${club.times}" />]</p>
 
-            <div class="detail_club">
-                <h4 class="detail_title1">모임 소개</h4>
-                <span><c:out value="${club.intro}"/></span>
-				<br><br>
-				
-                <h5 class="detail_title2">우리모임에서 할 활동들</h5>
-                <p><c:out value="${club.intro}"/></p>
-                <h5 class="detail_title2">이런 멤버들을 만나고 싶어요</h5>
-                <p><c:out value="${club.want}"/></p>
-                <h5 class="detail_title2">이런 분과는 맞지 않아요</h5>
-                <p><c:out value="${club.notwant}"/></p>
+						<h5 class="detail_title2">모임 일정</h5>
+						<p>
+						<ul>
+							<c:forEach var="ct" items="${club.clubTimes}">
+								<li><fmt:parseDate var="clubD" value="${ct.clubDate}"
+										pattern="yyyy-MM-dd" /> <!-- string -> Date로 --> <fmt:parseDate
+										value="${ct.clubDate}" var="dateK" pattern="yyyy-MM-dd" /> <fmt:formatDate
+										value="${dateK}" pattern="yyyy년 MM월 dd일" /> (<fmt:formatDate
+										value="${clubD}" pattern="E" />) | ${ct.startTime} ~
+									${ct.endTime}</li>
+								<li></li>
+							</c:forEach>
+						</ul>
+						</p>
+						<h5 class="detail_title2">장소</h5>
+						<p><c:out value="${club.onoffLine}" /></p>
+						<h5 class="detail_title2">모집 정원</h5>
+						<p><c:out value="${club.clubCapacity}" />명</p>
+					</div>
 
-            </div>
+					<div class="detail_book">
+						<h4 class="detail_title1">함께 읽을 책 소개</h4>
+						<div style="width: 100%; height: 270px; background-color: darksalmon;">
+							<div class="left_1">
+								<c:forEach var="ca" items="${club.clubAttachments}">
+									<c:if test="${ca.fileType eq 3}">
+										<img class="img-fluid" src="resources/upload_files/club_img/${ca.changeName}" style="height: 200px;" alt="">
+									</c:if>
+								</c:forEach>
+							</div>
 
-            <div class="detail_onoff">
-                <h4 class="detail_title1">참여 안내</h4>
-                <p> 이 모임은 [<c:out value="${club.times}"/>]</p>
+							<div class="right_1">
+								<p><c:out value="${club.bkName}" /></p>
+								<p><c:out value="${club.bkWriter}" /></p>
+								<p><c:out value="${club.bkPublisher}" /></p>
+							</div>
+						</div>
+					</div>
 
-                <h5 class="detail_title2">모임 일정</h5>
-                <p>
-                	<ul>
-	                	<c:forEach var="ct" items="${club.clubTimes}">
-	                			<li>
-	                				<fmt:parseDate var="clubD" value="${ct.clubDate}" pattern="yyyy-MM-dd" /> <!-- string -> Date로 -->	
-									<fmt:parseDate value="${ct.clubDate}" var="dateK" pattern="yyyy-MM-dd"/>
-									<fmt:formatDate value="${dateK}" pattern="yyyy년 MM월 dd일"/>
-                                    (<fmt:formatDate value="${clubD}" pattern="E"/>)
-                                    | ${ct.startTime} ~ ${ct.endTime}
-	                			</li>
-	                			<li></li>
-	                	</c:forEach>
-                	</ul>
-                </p>
-                <h5 class="detail_title2">장소</h5>
-                <p><c:out value="${club.onoffLine}"/></p>
-                <h5 class="detail_title2">모집 정원</h5>
-                <p><c:out value="${club.clubCapacity}"/>명</p>
+					<div class="detail_host">
+						<h4 class="detail_title1">Host 소개</h4>
+						<c:forEach var="ca" items="${club.clubAttachments}">
+							<c:if test="${ca.fileType eq 1}">
+								<img class="img-fluid" src="resources/upload_files/club_img/${ca.changeName}" style="width: 400px;"  alt="">
+							</c:if>
+						</c:forEach>
+						<h5><c:out value="${club.hostName}" /></h5>
+						<h5 class="detail_title2">약력</h5>
+						<P><c:out value="${club.clubCapacity}" /></P>
+						<h5 class="detail_title2">Comment</h5>
+						<p><c:out value="${club.hostComment}" /></p>
+					</div>
 
-            </div>
+					<div class="detail_notice">
+						<h4 class="detail_title1">책구메이트 독서모임 안내</h4>
+						<ol style="padding-left: 20px;">
+							<li>모임 신청 후 취소는 모임 전 이틀 전까지 가능합니다.</li>
+							<li>온라인 독서모임의 경우 모임시간 15분 전 호스트가 줌 주소를 전송할 것입니다.</li>
+							<li>독서모임을 통해 모두 즐거운 시간을 보낼 수 있도록 서로 배려 부탁드립니다.</li>
+						</ol>
+					</div>
 
-            <div class="detail_book">
-                <h4 class="detail_title1">함께 읽을 책 소개</h4>
+				</div>
+				<div class="tab-pane fade m_contents" id="asd">
+					<button onclick="insertReview(${club.clubNo})">리뷰 남기기</button>
+				</div>
+				<div class="tab-pane fade m_contents" id="zxc">
+					<p>Curabitur dignissim quis nunc vitae laoreet. Etiam ut mattis
+						leo, vel fermentum tellus. Sed sagittis rhoncus venenatis. Quisque
+						commodo consectetur faucibus. Aenean eget ultricies justo.</p>
+				</div>
+			</div>
 
-                <div style="width: 100%; height: 270px; background-color: darksalmon;">
-                    <div class="left_1">
-                        <c:forEach var="ca" items="${club.clubAttachments}">
-                        	<c:if test="${ca.fileType eq 3}">
-                        		<img class="img-fluid" src="resources/upload_files/club_img/${ca.changeName}" style="height:200px;" alt="">
-                        	</c:if>         		
-                    	</c:forEach>
-                    </div>
-
-                    <div class="right_1">
-                        <p><c:out value="${club.bkName}"/></p>
-                        <p><c:out value="${club.bkWriter}"/></p>
-                        <p><c:out value="${club.bkPublisher}"/></p>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="detail_host">
-                <h4 class="detail_title1">Host 소개</h4>
-                	<c:forEach var="ca" items="${club.clubAttachments}">
-                        <c:if test="${ca.fileType eq 1}">
-                        	<img class="img-fluid" src="resources/upload_files/club_img/${ca.changeName}" alt="">
-                        </c:if>         		
-                    </c:forEach>
-                <h5><c:out value="${club.hostName}"/></h5>
-
-                <h5 class="detail_title2">약력</h5>
-                <P><c:out value="${club.clubCapacity}"/></P>
-                <h5 class="detail_title2">Comment</h5>
-                <p><c:out value="${club.hostComment}"/></p>
-
-            </div>
-
-            <div class="detail_notice">
-                <h4 class="detail_title1">책구메이트 독서모임 안내</h4>
-
-                <ol style="padding-left: 20px;">
-                    <li>모임 신청 후 취소는 모임 전 이틀 전까지 가능합니다.</li>
-                    <li>온라인 독서모임의 경우 모임시간 15분 전 호스트가 줌 주소를 전송할 것입니다.</li>
-                    <li>독서모임을 통해 모두 즐거운 시간을 보낼 수 있도록 서로 배려 부탁드립니다.</li>
-                </ol>
-
-            </div>
+			
         </div>
     </section>
+    
+    <form id="insertReviewForm" action="">
+    	<input type="hidden" name="clubNo" id="formClubNo">
+    </form>
 
     <!--================ Start footer Area  =================-->
     <footer>
@@ -400,6 +407,39 @@
     </footer>
     
     <script>
+	    function insertReview(clubNo){
+			console.log("clubNo : " + clubNo);
+			var userId = '<c:out value="${ loginUser.userId }"/>';
+			
+			if(userId == ''){
+				alert("로그인 후 이용 부탁드립니다");
+				return;
+			}
+			
+			//1.참여한 적 있는지 확인하기
+			$.ajax({
+				url:"checkReview.cl",
+				data:{
+					clubNo : clubNo,
+					userId : userId
+				},
+				type : "post",
+				success:function(result){
+					if(result == '0'){
+						alert("이 모임에 참여하신 적이 없습니다. 참여하신 후 리뷰 부탁드려요~");
+						return;
+					}else{
+						if(confirm('참여하신 적이 있는 모임입니다! 리뷰를 쓰시겠습니까?')){
+							$('#formClubNo').val(clubNo);
+							$('#insertReviewForm').attr('action','insertReview.cl').submit();
+						}
+					}
+				}, error:function(){
+					
+				}
+			})
+		}
+    
     	$("#heartClub").click(function() {
     		var clubNo = $("#clubNo").val();
 			var userId = '<c:out value="${ loginUser.userId }"/>';
@@ -560,7 +600,7 @@
     						clubNo : clubNo,
     						c_times : c_times
     					},
-    					type : "get",
+    					type : "post",
     					success:function(result){
     						console.log(result)
     						if(result != "fail"){  //1.결과 fail아닐때

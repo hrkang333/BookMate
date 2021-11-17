@@ -85,406 +85,421 @@
 
 
         <!-- ================ 1.인기 독서모임 ================= -->
-        <section class="section-margin calc-60px" style="margin-top:50px;">
-            <div class="">
-                <div class="section-intro pb-60px">
-                    <p>책구메이트에서 가장 인기있는 독서모임들</p>
-                    <h2><span class="section-intro__style">인기</span> 독서모임</h2>
-                </div>
+		<section class="section-margin calc-60px" style="margin-top: 50px;">
+			<div class="">
+				<div class="section-intro pb-60px">
+					<p>책구메이트에서 가장 인기있는 독서모임들</p>
+					<h2>
+						<span class="section-intro__style">인기</span> 독서모임
+					</h2>
+				</div>
 
-                <!--
+				<!--
                   1. carousel : carousel 컨베이어 벨트처럼 현재 사진에서 다른 사진으로 넘어갈 수 있게 해준다.
                   2. slide : 다른 사진으로 넘어갈 때 슬라이딩되는 효과를 제공한다.
                   3. data-ride="carousel" : 
                    attribute is used to mark a carousel as animating starting at page load. It cannot be used in combination with (redundant and unnecessary) explicit JavaScript initialization of the same carousel.
                   4. carousel - id는 꼭 유일하게 해줘야함
                 -->
-			   <!-- 마감임박 독서모임 리스트 갯수가 3개 이하인 경우에는 carousel로 슬라이딩되지 않도록 설정했다.
+				<!-- 마감임박 독서모임 리스트 갯수가 3개 이하인 경우에는 carousel로 슬라이딩되지 않도록 설정했다.
                                        ㅅ슬라이딩되도록 하면 다음 페이지로 넘어간 후 다시 앞 페이지로 돌아오지 않기 때문이다. -->
-                	<c:if test="${fn:length(popList) <= 4}">
-	                	<div style="display:flex;">
-	                		<c:forEach items="${popList}" var="list" begin="0" end="3">
-	                             <div class="col-md-6 col-lg-4 mb-4 mb-lg-0 pointer" style="padding-right:7px; padding-left:7px">
-					                  <input type="hidden" value="${list.clubNo}">
-					                  <div class="card card-blog">
-					                        <div class="card-blog__img">
-					                             <c:forEach items="${list.clubAttachments}" var="ca">
-					                             	 <div class="titleBackImg" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${ca.changeName}')">
-					                                 </div><%-- <img class="card-img rounded-0" src="${pageContext.servletContext.contextPath}/resources/upload_files/club_img/${ca.changeName}" alt=""> --%>
-					                             </c:forEach>
-					                        </div>
-					                        <div class="card-body">
-					                             <ul class="card-blog__info">
-					                                  <li>${list.category} &nbsp; [ ${list.onoffLine} ]</li>
-					                                  <li><i class="ti-comments-smiley"></i> 2 Comments</li>
-					                             </ul>
-					                             <h4 class="card-blog__title">${list.clubTitle}</h4>
-					                             <p>
-					                                 <c:set var="temp" value="${list.intro}"/>
-					                                 <c:choose>
-						                                  <c:when test="${fn:length(temp) gt 61}">
-						                                       <c:out value="${fn:substring(temp,0,60)}"></c:out> ...
+				<c:if test="${fn:length(popList) <= 4}">
+					<div style="display: flex;">
+						<c:forEach items="${popList}" var="list" begin="0" end="3">
+							<div class="col-md-6 col-lg-4 mb-4 mb-lg-0 pointer"
+								style="padding-right: 7px; padding-left: 7px">
+								<input type="hidden" value="${list.clubNo}">
+								<div class="card card-blog">
+									<div class="card-blog__img">
+										<c:forEach items="${list.clubAttachments}" var="ca">
+											<div class="titleBackImg"
+												style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${ca.changeName}')">
+											</div>
+											<%-- <img class="card-img rounded-0" src="${pageContext.servletContext.contextPath}/resources/upload_files/club_img/${ca.changeName}" alt=""> --%>
+										</c:forEach>
+									</div>
+									<div class="card-body">
+										<ul class="card-blog__info">
+											<li>${list.category}&nbsp; [ ${list.onoffLine} ]</li>
+											<li><i class="ti-comments-smiley"></i> 2 Comments</li>
+										</ul>
+										<h4 class="card-blog__title">${list.clubTitle}</h4>
+										<p>
+											<c:set var="temp" value="${list.intro}" />
+											<c:choose>
+												<c:when test="${fn:length(temp) gt 61}">
+													<c:out value="${fn:substring(temp,0,60)}"></c:out> ...
 						                                  </c:when>
-						                                  <c:otherwise>
-						                                       <c:out value="${temp}"/>
-						                                  </c:otherwise>
-					                                 </c:choose>        
-					                             </p>
-					                       </div>
-					                  </div>
-					              </div> 
-	                         </c:forEach>
-	                    </div>
-                   </c:if>
-	
+												<c:otherwise>
+													<c:out value="${temp}" />
+												</c:otherwise>
+											</c:choose>
+										</p>
+									</div>
+								</div>
+							</div>
+						</c:forEach>
+					</div>
+				</c:if>
+
 				<!-- 3개 초과인 경우에는 슬라이딩 된다.
 					 클래스명이 carousel-item인 div에 <row>는 한개, 독서모임은 3개를 넣어줘야 하므로 아래와 같이 변수를 지정하여 했다.
 					 이렇게 하면 select 시 조회해오는 독서모임의 갯수에 상관없이 슬라이딩을 적용할 수 있다.-->
-				   <c:if test="${fn:length(popList) > 4}">
-                        <div id="carouselExampleIndicators0" class="carousel slide" data-ride="carousel">
-                            <ol class="carousel-indicators">
-                                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                            </ol>
-                            <div class="carousel-inner">
-                            
-                            	<c:forEach var="i" begin="0" end="${fn:length(popList)}" step="4">
-                            	
-                            		<c:choose>
-                            			<c:when test="${i eq 0}">
-                            				<c:set var="activeD" value="carousel-item active"/>
-                            			</c:when>
-                            			<c:otherwise>
-                            				<c:set var="activeD" value="carousel-item"/>
-                            			</c:otherwise>
-                            		</c:choose>
+				<c:if test="${fn:length(popList) > 4}">
+					<div id="carouselExampleIndicators0" class="carousel slide"
+						data-ride="carousel">
+						<ol class="carousel-indicators">
+							<li data-target="#carouselExampleIndicators" data-slide-to="0"
+								class="active"></li>
+							<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+							<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+						</ol>
+						<div class="carousel-inner">
 
-                                	<div id="activeOrNot" class="${activeD}" style="width: 100%;">
-	                                    <div class="row">
-	                                    
-	                                        <c:forEach items="${popList}" var="club" begin="${i}" end="${i+3}">
-	                                        	<div class="col-md-6 col-lg-3 mb-3 mb-lg-0 pointer">
-					                            	<input type="hidden" value="${club.clubNo}">
-					                                <div class="card card-blog">
-					                                    <div class="card-blog__img cardImg">
-					                                   		 <c:forEach items="${club.clubAttachments}" var="ca">
-					                                   		 	<div class="titleBackImg" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${ca.changeName}')"></div>
-					                                   		 </c:forEach>
-					                                         
-					                                    </div>
-					                                    <div class="card-body">
-					                                        <ul class="card-blog__info">
-					                                            <li>${club.category} &nbsp; [ ${club.onoffLine} ]</li>
-					                                            <li><i class="ti-comments-smiley"></i> 2 Likes</li>
-					                                        </ul>
-					                                        <h4 class="card-blog__title">${club.clubTitle}</h4>
-					                                        <p>
-					                                        	<c:set var="temp" value="${club.intro}"/>
-					                                        	<c:choose>
-						                                        	<c:when test="${fn:length(temp) gt 61}">
-						                                        		<c:out value="${fn:substring(temp,0,60)}"></c:out> ...
+							<c:forEach var="i" begin="0" end="${fn:length(popList)}" step="4">
+
+								<c:choose>
+									<c:when test="${i eq 0}">
+										<c:set var="activeD" value="carousel-item active" />
+									</c:when>
+									<c:otherwise>
+										<c:set var="activeD" value="carousel-item" />
+									</c:otherwise>
+								</c:choose>
+
+								<div id="activeOrNot" class="${activeD}" style="width: 100%;">
+									<div class="row">
+
+										<c:forEach items="${popList}" var="club" begin="${i}"
+											end="${i+3}">
+											<div class="col-md-6 col-lg-3 mb-3 mb-lg-0 pointer">
+												<input type="hidden" value="${club.clubNo}">
+												<div class="card card-blog">
+													<div class="card-blog__img cardImg">
+														<c:forEach items="${club.clubAttachments}" var="ca">
+															<div class="titleBackImg"
+																style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${ca.changeName}')"></div>
+														</c:forEach>
+
+													</div>
+													<div class="card-body">
+														<ul class="card-blog__info">
+															<li>${club.category}&nbsp; [ ${club.onoffLine} ]</li>
+															<li><i class="ti-comments-smiley"></i> 2 Likes</li>
+														</ul>
+														<h4 class="card-blog__title">${club.clubTitle}</h4>
+														<p>
+															<c:set var="temp" value="${club.intro}" />
+															<c:choose>
+																<c:when test="${fn:length(temp) gt 61}">
+																	<c:out value="${fn:substring(temp,0,60)}"></c:out> ...
 						                                        	</c:when>
-						                                        	<c:otherwise>
-						                                        		<c:out value="${temp}"/>
-						                                        	</c:otherwise>
-					                                        	</c:choose>
-					                                        
-					                                        </p>
-					                                    </div>
-					                                </div>
-					                            </div> 
-	                                        </c:forEach>
-	                            		</div>
-	                            	</div>
-                                </c:forEach>   
-                            </div>  
-                            	
-		                    <a class="carousel-control-prev" href="#carouselExampleIndicators0" role="button" data-slide="prev" style="justify-content: left; left: 20px;">
-		                        <span class="prevIcon" aria-hidden="true"></span>
-		                        <span class="sr-only">Previous</span>
-		                    </a>
-		                    <a class="carousel-control-next" href="#carouselExampleIndicators0" role="button" data-slide="next" style="justify-content: right; right: 20px;">
-		                        <span class="nextIcon" aria-hidden="true"></span>
-		                        <span class="sr-only">Next</span>
-		                    </a>
-                  	    </div>
-                    </c:if>
-			
+																<c:otherwise>
+																	<c:out value="${temp}" />
+																</c:otherwise>
+															</c:choose>
+														</p>
+													</div>
+												</div>
+											</div>
+										</c:forEach>
+									</div>
+								</div>
+							</c:forEach>
+						</div>
+
+						<a class="carousel-control-prev"
+							href="#carouselExampleIndicators0" role="button"
+							data-slide="prev" style="width:50px; left: 20px;">
+							<span class="prevIcon" aria-hidden="true"></span> <span
+							class="sr-only">Previous</span>
+						</a> <a class="carousel-control-next"
+							href="#carouselExampleIndicators0" role="button"
+							data-slide="next" style="width:50px; right: 20px;">
+							<span class="nextIcon" aria-hidden="true"></span> <span
+							class="sr-only">Next</span>
+						</a>
+					</div>
+				</c:if>
 			</div>
 		</section>
-                
-             
 
 
 
-                <!-- ================ 2. 분야별 독서모임 확인  ================= -->
-                <section class="section-margin calc-60px">
-                    <div class="">
-                        <div class="section-intro pb-60px">
-                            <p>분야별 독서모임을 확인해보세요</p>
-                            <h2><span class="section-intro__style">분야별</span> 독서모임</h2>
-                        </div>
 
-                        <!-- 카테고리별 헤더 만들기 -->
-                        <ul class="navbar" style="width: 80%;">
-                            <li class="nav-item">
-                                <h5 class="clickCategory"><a style="cursor:pointer">인문/과학/심리</a></h5>
-                            </li>
-                            <li class="nav-item">
-                                <h5 class="clickCategory"><a style="cursor:pointer">문학/에세이</a></h5>
-                            </li>
-                            <li class="nav-item">
-                                <h5 class="clickCategory"><a style="cursor:pointer">예술/음악</a></h5>
-                            </li>
-                            <li class="nav-item">
-                                <h5 class="clickCategory"><a style="cursor:pointer">경영/경제/마케팅</a></h5>
-                            </li>
-                            <li class="nav-item">
-                                <h5 class="clickCategory"><a style="cursor:pointer">글쓰기</a></h5>
-                            </li>
-                            <li class="nav-item">
-                                <h5 class="clickCategory"><a style="cursor:pointer">강연</a></h5>
-                            </li>
-                        </ul>
-                        
-                        <div class="row" id="categoryList1" style="display:none;">
-                        	해당 카테고리에 독서모임은 없습니다.
-                        </div>
-                        
-                        <div class="row" id="categoryList">
-                        	<c:forEach begin="0" end="5" varStatus="s">
-                        		<div id="c_clubTotal${s.index}" class="col-md-6 col-lg-4 mb-4 mb-lg-0  pointer" style="display:none;">
-	                            	<input id="c_clubNo${s.index}" type="hidden" value="22">
-	                                <div class="card card-blog">
-	                                    <div class="card-blog__img">
-	                                         <img id="c_clubImg${s.index}" class="card-img rounded-0" src="resources/img/blog/blog1.png" alt="">
-	                                    </div>
-	                                    <div class="card-body">
-	                                        <ul class="card-blog__info">
-	                                            <li><span id="c_category${s.index}">22</span> &nbsp; <span id="c_onoffLine${s.index}">[22]</span></li>
-	                                            <li><i class="ti-comments-smiley"></i> 2 Comments</li>
-	                                        </ul>
-	                                        <h4 id="c_title${s.index}" class="card-blog__title">독서모임 제목</h4>
-	                                        <p>	
-	                                        	<span id="c_intro${s.index}"> 독서모임 소개 독서모임 소개 독서모임 소개 독서모임 소개 독서모임 소개 독서모임 소개</span>
-		                                        	<%-- <c:set var="temp" value=""/>
-		                                        	<c:choose>
-			                                        	<c:when test="${fn:length(temp) gt 41}">
-			                                        		<c:out value="${fn:substring(temp,0,40)}"></c:out> ...
-			                                        	</c:when>
-			                                        	<c:otherwise>
-			                                        		<c:out value="${temp}"/>
-			                                        	</c:otherwise>
-		                                        	</c:choose> --%>
-	                                        </p>
-	                                    </div>
-	                                </div>
-	                            </div> 
-                        	</c:forEach>
-                        </div>
-                        
-                    </div>
-                </section>                
 
-                <!-- ================ 3. 마감임박 독서모임 ================= -->
-                <section class="section-margin calc-60px">
-                    <div class="">
-                        <div class="section-intro pb-60px">
-                            <p>마감이 임박한 독서모임</p>
-                            <h2><span class="section-intro__style">마감 임박</span> 독서모임</h2>
-                        </div>
+		<!-- ================ 2. 분야별 독서모임 확인  ================= -->
+		<section class="section-margin calc-60px">
+			<div class="">
+				<div class="section-intro pb-60px">
+					<p>분야별 독서모임을 확인해보세요</p>
+					<h2>
+						<span class="section-intro__style">분야별</span> 독서모임
+					</h2>
+				</div>
 
-                        <!--
+				<!-- 카테고리별 헤더 만들기 -->
+				<ul class="navbar" style="width: 80%;">
+					<li class="nav-item">
+						<h5 class="clickCategory"><a style="cursor: pointer">인문/과학/심리</a></h5>
+					</li>
+					<li class="nav-item">
+						<h5 class="clickCategory"><a style="cursor: pointer">문학/에세이</a></h5>
+					</li>
+					<li class="nav-item">
+						<h5 class="clickCategory"><a style="cursor: pointer">예술/음악</a></h5>
+					</li>
+					<li class="nav-item">
+						<h5 class="clickCategory"><a style="cursor: pointer">경영/경제/마케팅</a></h5>
+					</li>
+					<li class="nav-item">
+						<h5 class="clickCategory"><a style="cursor: pointer">글쓰기</a></h5>
+					</li>
+					<li class="nav-item">
+						<h5 class="clickCategory"><a style="cursor: pointer">강연</a></h5>
+					</li>
+				</ul>
+
+				<div class="row" id="categoryList1" style="display: none;">해당
+					카테고리에 독서모임은 없습니다.</div>
+
+				<div class="row" id="categoryList">
+					<c:forEach begin="0" end="5" varStatus="s">
+						<div id="c_clubTotal${s.index}"
+							class="col-md-6 col-lg-4 mb-4 mb-lg-0  pointer"
+							style="display: none;">
+							<input id="c_clubNo${s.index}" type="hidden" value="22">
+							<div class="card card-blog">
+								<div class="card-blog__img">
+									<img id="c_clubImg${s.index}" class="card-img rounded-0" src="resources/img/blog/blog1.png" alt="">
+								</div>
+								<div class="card-body">
+									<ul class="card-blog__info">
+										<li><span id="c_category${s.index}">22</span> &nbsp; <span
+											id="c_onoffLine${s.index}">[22]</span></li>
+										<li><i class="ti-comments-smiley"></i> 2 Comments</li>
+									</ul>
+									<h4 id="c_title${s.index}" class="card-blog__title">독서모임
+										제목</h4>
+									<p>
+										<span id="c_intro${s.index}"> 독서모임 소개 독서모임 소개 독서모임 소개
+											독서모임 소개 독서모임 소개 독서모임 소개</span>
+									</p>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
+			</div>
+		</section>
+
+		<!-- ================ 3. 마감임박 독서모임 ================= -->
+		<section class="section-margin calc-60px">
+			<div class="">
+				<div class="section-intro pb-60px">
+					<p>마감이 임박한 독서모임</p>
+					<h2>
+						<span class="section-intro__style">마감 임박</span> 독서모임
+					</h2>
+				</div>
+
+				<!--
                   1. carousel : carousel 컨베이어 벨트처럼 현재 사진에서 다른 사진으로 넘어갈 수 있게 해준다.
                   2. slide : 다른 사진으로 넘어갈 때 슬라이딩되는 효과를 제공한다.
                   3. data-ride="carousel" : 
                    attribute is used to mark a carousel as animating starting at page load. It cannot be used in combination with (redundant and unnecessary) explicit JavaScript initialization of the same carousel.
                   4. carousel - id는 꼭 유일하게 해줘야함
                 -->
-                	
-                <!-- 마감임박 독서모임 리스트 갯수가 3개 이하인 경우에는 carousel로 슬라이딩되지 않도록 설정했다.
+
+				<!-- 마감임박 독서모임 리스트 갯수가 3개 이하인 경우에는 carousel로 슬라이딩되지 않도록 설정했다.
                                        ㅅ슬라이딩되도록 하면 다음 페이지로 넘어간 후 다시 앞 페이지로 돌아오지 않기 때문이다. -->
-                	<c:if test="${fn:length(endList) <= 3}">
-	                	<div style="display:flex;">
-	                		<c:forEach items="${endList}" var="list" begin="0" end="2">
-	                             <div class="col-md-6 col-lg-4 mb-4 mb-lg-0 pointer">
-					                  <input type="hidden" value="${list.clubNo}">
-					                  <div class="card card-blog">
-					                        <div class="card-blog__img">
-					                             <c:forEach items="${list.clubAttachments}" var="ca">
-					                                 <img class="card-img rounded-0" src="${pageContext.servletContext.contextPath}/resources/upload_files/club_img/${ca.changeName}" alt="">
-					                             </c:forEach>
-					                        </div>
-					                        <div class="card-body">
-					                             <ul class="card-blog__info">
-					                                  <li>${list.category} &nbsp; [ ${list.onoffLine} ]</li>
-					                                  <li><i class="ti-comments-smiley"></i> 2 Comments</li>
-					                             </ul>
-					                             <h4 class="card-blog__title">${list.clubTitle}</h4>
-					                             <p>
-					                                 <c:set var="temp" value="${list.intro}"/>
-					                                 <c:choose>
-						                                  <c:when test="${fn:length(temp) gt 41}">
-						                                       <c:out value="${fn:substring(temp,0,40)}"></c:out> ...
+				<c:if test="${fn:length(endList) <= 3}">
+					<div style="display: flex;">
+						<c:forEach items="${endList}" var="list" begin="0" end="2">
+							<div class="col-md-6 col-lg-4 mb-4 mb-lg-0 pointer">
+								<input type="hidden" value="${list.clubNo}">
+								<div class="card card-blog">
+									<div class="card-blog__img">
+										<c:forEach items="${list.clubAttachments}" var="ca">
+											<img class="card-img rounded-0"
+												src="${pageContext.servletContext.contextPath}/resources/upload_files/club_img/${ca.changeName}"
+												alt="">
+										</c:forEach>
+									</div>
+									<div class="card-body">
+										<ul class="card-blog__info">
+											<li>${list.category}&nbsp; [ ${list.onoffLine} ]</li>
+											<li><i class="ti-comments-smiley"></i> 2 Comments</li>
+										</ul>
+										<h4 class="card-blog__title">${list.clubTitle}</h4>
+										<p>
+											<c:set var="temp" value="${list.intro}" />
+											<c:choose>
+												<c:when test="${fn:length(temp) gt 41}">
+													<c:out value="${fn:substring(temp,0,40)}"></c:out> ...
 						                                  </c:when>
-						                                  <c:otherwise>
-						                                       <c:out value="${temp}"/>
-						                                  </c:otherwise>
-					                                 </c:choose>        
-					                             </p>
-					                       </div>
-					                  </div>
-					              </div> 
-	                         </c:forEach>
-	                    </div>
-                   </c:if>
-	
+												<c:otherwise>
+													<c:out value="${temp}" />
+												</c:otherwise>
+											</c:choose>
+										</p>
+									</div>
+								</div>
+							</div>
+						</c:forEach>
+					</div>
+				</c:if>
+
 				<!-- 3개 초과인 경우에는 슬라이딩 된다.
 					 클래스명이 carousel-item인 div에 <row>는 한개, 독서모임은 3개를 넣어줘야 하므로 아래와 같이 변수를 지정하여 했다.
 					 이렇게 하면 select 시 조회해오는 독서모임의 갯수에 상관없이 슬라이딩을 적용할 수 있다.-->
-				   <c:if test="${fn:length(endList) > 3}">
-                        <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
-                            <ol class="carousel-indicators">
-                                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                            </ol>
-                            <div class="carousel-inner">
-                            
-                            	<c:forEach var="i" begin="0" end="${fn:length(endList)}" step="3">
-                            	
-                            		<c:choose>
-                            			<c:when test="${i eq 0}">
-                            				<c:set var="activeD" value="carousel-item active"/>
-                            			</c:when>
-                            			<c:otherwise>
-                            				<c:set var="activeD" value="carousel-item"/>
-                            			</c:otherwise>
-                            		</c:choose>
+				<c:if test="${fn:length(endList) > 3}">
+					<div id="carouselExampleIndicators2" class="carousel slide"
+						data-ride="carousel">
+						<ol class="carousel-indicators">
+							<li data-target="#carouselExampleIndicators" data-slide-to="0"
+								class="active"></li>
+							<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+							<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+						</ol>
+						<div class="carousel-inner">
 
-                                	<div id="activeOrNot" class="${activeD}" style="width: 100%;">
-	                                    <div class="row">
-	                                    
-	                                        <c:forEach items="${endList}" var="club" begin="${i}" end="${i+2}">
-	                                        	<div class="col-md-6 col-lg-4 mb-4 mb-lg-0 pointer">
-					                            	<input type="hidden" value="${club.clubNo}">
-					                                <div class="card card-blog">
-					                                    <div class="card-blog__img">
-					                                   		 <c:forEach items="${club.clubAttachments}" var="ca">
-					                                   		 	<img class="card-img rounded-0" src="${pageContext.servletContext.contextPath}/resources/upload_files/club_img/${ca.changeName}" alt="">
-					                                   		 </c:forEach>
-					                                         
-					                                    </div>
-					                                    <div class="card-body">
-					                                        <ul class="card-blog__info">
-					                                            <li>${club.category} &nbsp; [ ${club.onoffLine} ]</li>
-					                                            <li><i class="ti-comments-smiley"></i> 2 Comments</li>
-					                                        </ul>
-					                                        <h4 class="card-blog__title">${club.clubTitle}</h4>
-					                                        <p>
-					                                        	<c:set var="temp" value="${club.intro}"/>
-					                                        	<c:choose>
-						                                        	<c:when test="${fn:length(temp) gt 41}">
-						                                        		<c:out value="${fn:substring(temp,0,40)}"></c:out> ...
+							<c:forEach var="i" begin="0" end="${fn:length(endList)}" step="3">
+
+								<c:choose>
+									<c:when test="${i eq 0}">
+										<c:set var="activeD" value="carousel-item active" />
+									</c:when>
+									<c:otherwise>
+										<c:set var="activeD" value="carousel-item" />
+									</c:otherwise>
+								</c:choose>
+
+								<div id="activeOrNot" class="${activeD}" style="width: 100%;">
+									<div class="row">
+
+										<c:forEach items="${endList}" var="club" begin="${i}"
+											end="${i+2}">
+											<div class="col-md-6 col-lg-4 mb-4 mb-lg-0 pointer">
+												<input type="hidden" value="${club.clubNo}">
+												<div class="card card-blog">
+													<div class="card-blog__img">
+														<c:forEach items="${club.clubAttachments}" var="ca">
+															<img class="card-img rounded-0"
+																src="${pageContext.servletContext.contextPath}/resources/upload_files/club_img/${ca.changeName}"
+																alt="">
+														</c:forEach>
+													</div>
+													<div class="card-body">
+														<ul class="card-blog__info">
+															<li>${club.category}&nbsp; [ ${club.onoffLine} ]</li>
+															<li><i class="ti-comments-smiley"></i> 2 Comments</li>
+														</ul>
+														<h4 class="card-blog__title">${club.clubTitle}</h4>
+														<p>
+															<c:set var="temp" value="${club.intro}" />
+															<c:choose>
+																<c:when test="${fn:length(temp) gt 41}">
+																	<c:out value="${fn:substring(temp,0,40)}"></c:out> ...
 						                                        	</c:when>
-						                                        	<c:otherwise>
-						                                        		<c:out value="${temp}"/>
-						                                        	</c:otherwise>
-					                                        	</c:choose>
-					                                        
-					                                        </p>
-					                                    </div>
-					                                </div>
-					                            </div> 
-	                                        </c:forEach>
-	                            		</div>
-	                            	</div>
-                                </c:forEach>   
-                            </div>  
-                            	
-		                    <a class="carousel-control-prev" href="#carouselExampleIndicators2" role="button" data-slide="prev" style="justify-content: left; left: 20px;">
-		                        <span class="prevIcon" aria-hidden="true"></span>
-		                        <span class="sr-only">Previous</span>
-		                    </a>
-		                    <a class="carousel-control-next" href="#carouselExampleIndicators2" role="button" data-slide="next" style="justify-content: right; right: 20px;">
-		                        <span class="nextIcon" aria-hidden="true"></span>
-		                        <span class="sr-only">Next</span>
-		                    </a>
-                  	    </div>
-                    </c:if>
-                  </div>
-                </section>
-                
-                <script>
-                	var origin = 0;
-                	
-                    $(function(){
-                        $(".pointer").click(function(){
-                            console.log($(this).children(":first").val());
-                            location.href="detail.cl?clubNo=" + $(this).children(":first").val();
-                        });
-                    })
-                    
-                    $(".clickCategory").click(function(){
-						
-	    	        	var category = $(this).text();
+																<c:otherwise>
+																	<c:out value="${temp}" />
+																</c:otherwise>
+															</c:choose>
+														</p>
+													</div>
+												</div>
+											</div>
+										</c:forEach>
+									</div>
+								</div>
+							</c:forEach>
+						</div>
 
-						$.ajax({
-							url:"categoryList.cl",
-							data:{category:category},
-							type : "get",
-							success:function(list){
-								console.log("ajax 통신성공")
-								
-								var listView = document.getElementById("categoryList");
-								var listView1 = document.getElementById("categoryList1");
-								var intro;
-								
-								if(list.length == 0){  //1.리스트 빈 경우
-									console.log("리스트 빈 값");
-									listView.style.display = 'none';
-									listView1.style.display = 'flex';
-								}else{				  //2. 리스트 값 있는 경우
-									$.each(list,function(i){
-										
-										$('#c_clubImg'+i).attr("src","${pageContext.servletContext.contextPath }/resources/upload_files/club_img/"+list[i].clubAttachments[0].changeName);
-										$('#c_clubNo'+i).val(list[i].clubNo);	
-										$('#c_category'+i).text(list[i].category);	
-										$('#c_onoffLine'+i).text(list[i].onoffLine);
-										$('#c_title'+i).text(list[i].clubTitle);
-										
-										if(list[i].intro.length > 61){
-											intro = (list[i].intro).substring(0,60)+'...';
-										}else{
-											intro = list[i].intro;
-										}
-										
-										$('#c_intro'+i).text(intro);
-										$('#c_clubTotal'+i).css('display','flex');  //none풀어주기
-										
-									})
-				
-									console.log("test")
-									listView1.style.display = 'none';
-									
-									if(listView.style.display == 'none'){  //리스트 없는 경우 none으로 되어있어서 clubTotal이 보이려면 풀어줘야 함
-										listView.style.display = 'flex';
-									}
-									
-									for(var i=list.length; i<6; i++){
-										$('#c_clubTotal'+i).css('display','none');
-									}
+						<a class="carousel-control-prev"
+							href="#carouselExampleIndicators2" role="button"
+							data-slide="prev" style="justify-content: left; left: 20px;">
+							<span class="prevIcon" aria-hidden="true"></span> <span
+							class="sr-only">Previous</span>
+						</a> <a class="carousel-control-next"
+							href="#carouselExampleIndicators2" role="button"
+							data-slide="next" style="justify-content: right; right: 20px;">
+							<span class="nextIcon" aria-hidden="true"></span> <span
+							class="sr-only">Next</span>
+						</a>
+					</div>
+				</c:if>
+			</div>
+		</section>
+
+		<script>
+			var origin = 0;
+
+			$(function() {
+				$(".pointer").click(function() {
+					console.log($(this).children(":first").val());
+					location.href = "detail.cl?clubNo="+ $(this).children(":first").val();
+				});
+			})
+
+			$(".clickCategory").click(function() {
+				var category = $(this).text();
+
+				$.ajax({
+					url : "categoryList.cl",
+					data : {
+						category : category
+					},
+					type : "get",
+					success : function(list) {
+						console.log("ajax 통신성공")
+
+						var listView = document.getElementById("categoryList");
+						var listView1 = document.getElementById("categoryList1");
+						var intro;
+						
+						if (list.length == 0) { //1.리스트 빈 경우
+							console.log("리스트 빈 값");
+							listView.style.display = 'none';
+							listView1.style.display = 'flex';
+						} else { //2. 리스트 값 있는 경우
+							$.each(list,function(i) {
+								$('#c_clubImg'+ i).attr("src","${pageContext.servletContext.contextPath }/resources/upload_files/club_img/"+ list[i].clubAttachments[0].changeName);
+								$('#c_clubNo'+ i).val(list[i].clubNo);
+								$('#c_category'+ i).text(list[i].category);
+								$('#c_onoffLine'+ i).text(list[i].onoffLine);
+								$('#c_title'+ i).text(list[i].clubTitle);
+
+								if (list[i].intro.length > 61) {
+									intro = (list[i].intro).substring(0,60)+ '...';
+								} else {
+									intro = list[i].intro;
 								}
 
-							},error:function(){
-								console.log("ajax 통신실패")
-							}
-						})
-	                })
-                </script>
+								$('#c_intro'+ i).text(intro);
+								$('#c_clubTotal'+ i).css('display','flex'); //none풀어주기
 
-                <!-- ================ Best Selling item  carousel end ================= -->
+							})
+
+							console.log("test")
+							listView1.style.display = 'none';
+
+							if (listView.style.display == 'none') { //리스트 없는 경우 none으로 되어있어서 clubTotal이 보이려면 풀어줘야 함
+								listView.style.display = 'flex';
+							}
+
+							for (var i = list.length; i < 6; i++) {
+								$('#c_clubTotal' + i).css('display','none');
+							}
+						}
+					},error : function() {
+						console.log("ajax 통신실패")
+					}
+				})
+			})
+		</script>
+
+		<!-- ================ Best Selling item  carousel end ================= -->
 
 
                 <!-- ================ trending product section 삭제 ================= -->

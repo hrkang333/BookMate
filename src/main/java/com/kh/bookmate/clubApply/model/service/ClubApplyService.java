@@ -21,4 +21,10 @@ public interface ClubApplyService {
 
 	int updateCancel(String userId, int timeNo, String times);
 
+	List<ClubApply> selectApplyList(int clubNo);
+
+	int updateUserApply(List<Integer> applyNoList);
+
+	int selectParticipate(int clubNo, String userId);
+
 }

@@ -29,11 +29,10 @@ public class ClubApplyController {
 	@Autowired
 	private ClubService clubService;
 
+	//1. 독서모임 신청
 	@ResponseBody
 	@RequestMapping("apply.cl")
-	//1. 독서모임 신청
 	public String insertApply(@RequestParam(value="times[]") List<Integer> times, String userId, int clubNo, String c_times) { //String[] times -> 이렇게 배열 받으면 안됨;;
-		
 		//1)이전에 신청한 적 있는지 확인
 		int befApply = clubApplyService.selectCheckApply(times, userId);
 		//2)이전에 신청한 적 없는 경우에만 신청되게하기
@@ -44,7 +43,6 @@ public class ClubApplyController {
 		//2-1)club_apply : insert
 		//2-2)club_time : apply_count +1
 		int result = clubApplyService.insertApply(times, userId, clubNo, c_times);	
-		
 		
 		//3)모집종료로 바꿔야 함
 		//3-1) club 조회 - collection으로 club_time도 들어있으므로 2번 db에 왔다갔다 할 필요없다.
@@ -59,21 +57,17 @@ public class ClubApplyController {
 				break;
 			}
 		}
-		
 		if(status) {
 			int condition = 5; //5:모집완료  (4:모집중-관리자페이지에서 아래 메소드 활용가능) 
 			clubService.updateCondition(clubNo, condition);
 		}
-		
-
-		System.out.println(club.toString());
 
 		return String.valueOf(result);
 	}
 	
+	//2.찜하기
 	@ResponseBody
 	@RequestMapping("heart.cl")
-	//2.찜하기
 	public String insertHeart(String userId, int clubNo) {
 		
 		//1)이전에 찜한 적 있는지 확인
@@ -87,9 +81,9 @@ public class ClubApplyController {
 		return String.valueOf(result);
 	}
 	
+	//3.찜 삭제
 	@ResponseBody
 	@RequestMapping("heartCancle.cl")
-	//3.찜 삭제
 	public String deleteHeart(String userId, int clubNo) {
 		List<Integer> clubNoList = new ArrayList<>();
 		clubNoList.add(clubNo);
@@ -99,10 +93,9 @@ public class ClubApplyController {
 		return String.valueOf(result);
 	}
 	
-	
-	@RequestMapping("deleteClub2.cl")
 	//3-6.마이페이지2(찜목록)에서 찜 삭제
 	//clubController에 있었는데 복잡해서 여기로 뺐다.
+	@RequestMapping("deleteClub2.cl")
 	public String deleteClub2(int[] clubNo, HttpServletRequest request) {
 	
 		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
@@ -114,14 +107,13 @@ public class ClubApplyController {
 		return "redirect:mypage2.cl";
 	}
 	
+	//mypage3 - 신청 취소하기
 	@ResponseBody
 	@RequestMapping(value = "updateCancel.cl",method = RequestMethod.POST)
 	public String updateCancel(String userId, int timeNo, String times) {
-		//1) club_apply테이블 apply_cancle컬럼 'n'으로 바꾸기
+		//1) club_apply테이블 apply_cancle컬럼 'y'으로 바꾸기
 		//2) club_time테이블 apply_count컬럼 -1해주기
 		int result = clubApplyService.updateCancel(userId, timeNo, times);
-		
-		System.out.println("clubapply컨트롤러 - result=clubNo : " + result);
 		
 		//3) 독서모임 상태 바꾸기
 		boolean status = true;
@@ -134,7 +126,6 @@ public class ClubApplyController {
 				break;
 			}
 		}
-		
 		if(!status) {
 			int condition = 4; //5:모집완료  (4:모집중-관리자페이지에서 아래 메소드 활용가능) 
 			clubService.updateCondition(result, condition);
@@ -143,6 +134,32 @@ public class ClubApplyController {
 		return String.valueOf(result);
 	}
 	
+	
+	@ResponseBody
+	@RequestMapping(value = "checkUserApply.cl",method = RequestMethod.POST)
+	public String updateUserApply(@RequestParam(value="applyNoList[]") List<Integer> applyNoList) {
+		
+		int result = clubApplyService.updateUserApply(applyNoList);
+		
+		return String.valueOf(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "checkReview.cl",method = RequestMethod.POST)
+	public String selectParticipate(int clubNo, String userId) {
+		
+		int result = clubApplyService.selectParticipate(clubNo, userId);
+		
+		return String.valueOf(result);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "insertReview.cl",method = RequestMethod.POST)
+	public String insertReview(int clubNo, HttpServletRequest request) {
+		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
+		
+		return "success";
+	}
 	
 	
 
