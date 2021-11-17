@@ -1,5 +1,6 @@
 package com.kh.bookmate.payment.model.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -72,6 +73,29 @@ public class PaymentServiceImpl implements PaymentService {
 	public Payment selectPaymentNo(int paymentNo) {
 		Payment list = paymentDao.selectPaymentNo(sqlSession,paymentNo);
 		return list;
+	}
+
+	
+	
+
+	
+	
+
+	@Override
+	public void insertPayment(Payment temp, List<PaymentDetail> list) {
+		
+		int result = paymentDao.insertPayment(sqlSession,temp);
+		if(result < 0) {
+			throw new RuntimeException("결제 정보 저장 오류");
+		}
+		int paymentNo = temp.getPaymentNo();
+		for(PaymentDetail pd : list) {
+			pd.setPaymentNo(paymentNo);
+			int result2 = paymentDao.insertPaymentDetail(sqlSession,pd);
+			if(result2 < 0) {
+				throw new RuntimeException("세부 결제 정보 저장 오류");
+			}
+		}
 	}
 
 	

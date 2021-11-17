@@ -22,5 +22,7 @@ public interface PaymentService {
 
 	Payment selectPaymentNo(int paymentNo);
 
+	void insertPayment(Payment temp, List<PaymentDetail> list);
+
 
 }

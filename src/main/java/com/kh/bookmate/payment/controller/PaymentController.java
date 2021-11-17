@@ -1,8 +1,15 @@
 package com.kh.bookmate.payment.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,7 +24,6 @@ import com.kh.bookmate.payment.model.vo.PaymentDetail;
 import com.kh.bookmate.paymentmethod.model.service.PaymentMethodService;
 import com.kh.bookmate.paymentmethod.model.vo.PaymentMethod;
 import com.kh.bookmate.paymentmethod.model.vo.PaymentMethodDetail;
-
 @Controller
 public class PaymentController {
 
@@ -37,7 +43,84 @@ public class PaymentController {
 		paymentMethod = paymentMethodService.selectPaymentMethod(pmd.getUser_Id());
 
 		String encPwd = bCryptPasswordEncoder.encode(pmd.getMethodPwd());
+		
+		PMDetail = AESEncodeJob(pmd,encPwd);
+		
+		
+		int paymentMethodDetailNo = paymentMethodService.insertPMDetail(paymentMethod,PMDetail);
+		
+		return paymentMethodDetailNo+"";
+		
+	}
+	@RequestMapping("selectPaymentMethod")
+	@ResponseBody
+	public PaymentMethodDetail selectMethod(int selectMethodIndex,PaymentMethod paymentMethod){
+		
+		List<PaymentMethodDetail> PMDetailList = null;
+		PMDetailList = paymentMethodService.selectPMDetailList(paymentMethod);
+		PaymentMethodDetail PMDetail = AESDecodeJob(PMDetailList.get(selectMethodIndex));
+		
+		
+		return PMDetail;
+		
+	}
+	
+	@RequestMapping("insertPayment")
+	public String insertPayment(PaymentDetail paymentDetailList, Payment payment) {
+		
+		Payment temp = payment;
+		List<PaymentDetail> list = new ArrayList<PaymentDetail>();
+		temp.setShippingAddress(payment.getShippingPostCode()+"/"+payment.getShippingAddress()+"/"+payment.getShippingAddressDetail());
+		
+		
+		for(int i= 0 ; i < paymentDetailList.getPaymentDetailList().size();i++ ) {
+			paymentDetailList.getPaymentDetailList().get(i).setDeliveryDate(ShipDate());
+			list.add(paymentDetailList.getPaymentDetailList().get(i));
+			
+		}
+		paymentService.insertPayment(temp,list);
+		
+		
+		return "payment/orderComplete";
+		
+		
+		
+	}
+	
+	private PaymentMethodDetail AESDecodeJob(PaymentMethodDetail pmd){
+
+		PaymentMethodDetail PMDetail = new PaymentMethodDetail();
+		try {
+			AES aes = new AES(pmd.getMethodPwd().substring(0, 16));
+			
+		if(pmd.getMethodStatus()==1) {
+			PMDetail.setCardCompany(aes.aesDecode(pmd.getCardCompany()));
+			PMDetail.setCardNo(aes.aesDecode(pmd.getCardNo()));
+			PMDetail.setCardCVC(aes.aesDecode(pmd.getCardCVC()));
+		}else if(pmd.getMethodStatus()==2){
+			PMDetail.setBankName(aes.aesDecode(pmd.getBankName()));
+			PMDetail.setBankAccount(aes.aesDecode(pmd.getBankAccount()));
+			PMDetail.setBankPwd(aes.aesDecode(pmd.getBankPwd()));
+			PMDetail.setUserReg(aes.aesDecode(pmd.getUserReg()));
+		}else {
+			PMDetail.setPhoneNo(aes.aesDecode(pmd.getPhoneNo()));
+			PMDetail.setUserReg(aes.aesDecode(pmd.getUserReg()));
+		}
+		PMDetail.setUser_Id(pmd.getUser_Id());
+		PMDetail.setMethodStatus(pmd.getMethodStatus());
+		PMDetail.setMethodPwd(pmd.getMethodPwd());
+		PMDetail.setPaymentMethodDetailNo(pmd.getPaymentMethodDetailNo());
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return PMDetail;
+	
+	}
+	
+	private PaymentMethodDetail AESEncodeJob(PaymentMethodDetail pmd,String encPwd){
 		String key = encPwd.substring(0, 16);
+		PaymentMethodDetail PMDetail = new PaymentMethodDetail();
 		try {
 			AES aes = new AES(key);
 		
@@ -61,37 +144,38 @@ public class PaymentController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		paymentMethodService.insertPMDetail(paymentMethod,PMDetail);
+		return PMDetail;
+	
+	}
+	
+	@RequestMapping("checkPayPwd")
+	@ResponseBody
+	public String checkPayPwd(PaymentMethodDetail pmd) {
 		
 		System.out.println(pmd);
-		return "sss";
 		
-	}
-	@RequestMapping("selectPaymentMethod")
-	@ResponseBody
-	public Map<String, Object> selectMethod(int selectMethodIndex,PaymentMethod paymentMethod){
-		Map<String, Object>  map = new HashMap<String, Object>();
-		System.out.println(paymentMethod);
-		PaymentMethodDetail PMDetail = new PaymentMethodDetail();
-		PMDetail.setBankAccount("asfafaf");
-		map.put("pop", PMDetail);
-		map.put("11", 3);
+		PaymentMethodDetail PMDTemp = paymentMethodService.selectPaymentMethodDetail(pmd.getPaymentMethodDetailNo());
 		
-		return map;
+		
+		if (!bCryptPasswordEncoder.matches(pmd.getMethodPwd(), PMDTemp.getMethodPwd())) {
+			return "fail";
+		}else {
+
+			return "pass";
+		}
 		
 	}
 	
-	@RequestMapping("insertPayment")
-	public String insertPayment(PaymentDetail paymentDetailList, Payment payment) {
-		
-		
-		System.out.println(paymentDetailList.getPaymentDetailList());
-		System.out.println(payment);
-		
-		
-		return null;
-		
-		
-		
+	public Date ShipDate() {
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul"), Locale.KOREA);
+		Date date = cal.getTime();
+		if (16 > Integer.parseInt(new SimpleDateFormat("HH").format(date))) {
+
+			return date;
+		} else {
+			cal.add(cal.DATE, 1);
+			return cal.getTime();
+		}
 	}
+	
 }

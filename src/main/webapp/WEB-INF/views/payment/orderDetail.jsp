@@ -20,12 +20,10 @@
 <style>
 #paymentInnerWrap_1 {
 	width: 750px;
-	height: 2600px;
 }
 
 #paymentInnerWrap_2 {
 	width: 450px;
-	height: 1200px;
 }
 
 .paymentInnerWrap_1 {
@@ -97,12 +95,24 @@
 	left: 50%;
 	transform: translate(150px, 0)
 }
+#pwdInputDiv button{
+    zoom: 2;
+    margin: 2px;
+}
+.cursorP{
+cursor: pointer;
+}
 </style>
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
-	var mainPayment = "${requestScope.PMDetail.paymentMethodDetailNo}"
-	var methodStatus = 0;
+	var mainPayment = "${requestScope.PMDetail.paymentMethodDetailNo}" // 현 로그인 유저의 저장된 기본 결제수단
+	var methodStatus = (mainPayment > 0 ? 4 : 0); // 결제 수단 종류
+	var savedMethodIndex = 0; // 선택된 저장 결제수단 인덱스
+	var savedMethodLength = "${requestScope.savedMethodLength}"; // 선택된 저장 결제수단 개수
+	
+	
+	// 다음 api
 	function daumPostcode() {
 		new daum.Postcode({
 			oncomplete : function(data) {
@@ -129,6 +139,7 @@
 		}).open();
 	}
 
+	// 휴대폰 번호 관련
 	function phoneNumber(type, num) {
 		var input = $("#phoneNum_" + num).val();
 
@@ -189,10 +200,12 @@
 		}
 	}
 
+	
+	//일반결제수단 저장된 결제수단 선택시 ui
 	function checkPaymentMethodDiv(num) {
 		if (num == 1) {
 			var arrNum = [ '1', '2' ];
-
+			methodStatus = 4;
 		} else {
 			var arrNum = [ '2', '1' ];
 
@@ -218,58 +231,150 @@
 		$('.nomalMethod').not('#nomalMethod_' + num).css('border-bottom',
 				'solid 1px gray');
 		methodStatus = parseInt(num);
-		console.log(methodStatus)
 	}
-	function insertMethodCheck(num) {
-		var userReg;
-		if(num==1){
+	
+	function paymentInfoCheck() {
+		if(methodStatus==1){
 			if(!$('#cardCVC').val()||!$('#cardNo').val()||!$('input[name=cardCompany]:checked').val()){
 				alert("모든 결제 정보를 입력하셔야 합니다.")
 				return false;
 			}
 		}
-		else if(num==2){
+		else if(methodStatus==2){
 			if(!$('#userReg_1_1').val()||!$('#userReg_1_2').val()||!$('#bankAccount').val()||!$('#bankPwd').val()||!$('input[name=bankName]:checked').val()){
 				alert("모든 결제 정보를 입력하셔야 합니다.")
 				return false;
 			}else{
-				userReg=$('#userReg_1_1').val()+"-"+$('#userReg_1_2').val()
+				$('#userReg').val($('#userReg_1_1').val()+"-"+$('#userReg_1_2').val())
 			}
-		}else{
+		}else if(methodStatus==3){
 			if(!$('#userReg_2_1').val()||!$('#userReg_2_2').val()||!$('#phoneNum_2').val()){
 				alert("모든 결제 정보를 입력하셔야 합니다.")
 				return false;
 			}else{
-				userReg=$('#userReg_2_1').val()+"-"+$('#userReg_2_2').val()
+				$('#userReg').val($('#userReg_2_1').val()+"-"+$('#userReg_2_2').val())
 			}
 		}
-		if(confirm("입력하신 결제정보를 저장하시겠습니까?")){
-			$.ajax({
-				url : "insertPaymentMethod.sc",
-				method : "post",
-				data : {
-					methodStatus : methodStatus,
-					cardCompany : $('input[name=cardCompany]:checked').val(),
-					cardNo : $('#cardNo').val(),
-					cardCVC : $('#cardCVC').val(),
-					phoneNo : $('#phoneNum_2').val(),
-					userReg : userReg,
-					bankName : $('input[name=bankName]:checked').val(),
-					bankPwd : $('#bankPwd').val(),
-					bankAccount : $('#bankAccount').val(),
-					user_Id : $('#user_Id').val(),
-					methodPwd : $('#methodPwd').val()
-				},
-				success : function(str) {
-					alert(str)
-				}
-				
-			})
+		
+		return true;
+	}
+	
+	
+	//결제수단 저장시 정보 체크
+	function insertMethodCheck(num) {
+		
+		if(!paymentInfoCheck()){
+			return false
+		}
+
+		$('#inputPwdModal').modal('show');
 			
+	}
+	
+	
+	
+	//결제수단 저장 ajax
+	function confirmInsertPMethod() {
+		$.ajax({
+			url : "insertPaymentMethod.sc",
+			method : "post",
+			data : {
+				methodStatus : methodStatus,
+				cardCompany : $('input[name=cardCompany]:checked').val(),
+				cardNo : $('#cardNo').val(),
+				cardCVC : $('#cardCVC').val(),
+				phoneNo : $('#phoneNum_2').val(),
+				userReg : $('#userReg').val(),
+				bankName : $('input[name=bankName]:checked').val(),
+				bankPwd : $('#bankPwd').val(),
+				bankAccount : $('#bankAccount').val(),
+				user_Id : $('#user_Id').val(),
+				methodPwd : $('#methodPwd').val()
+			},
+			success : function(number) {
+				
+				alert("결제 정보가 등록되었습니다.")
+				$('#selectPayMethod').val(number);
+				if(methodStatus==1){
+					$('#methodNameSpan').html($('input[name=cardCompany]:checked').val()+'카드')
+					$('#methodNumSpan').html($('#cardNo').val().substring(0,4))
+				}else if(methodStatus==2){
+					$('#methodNameSpan').html($('input[name=bankName]:checked').val()+'은행')
+					$('#methodNumSpan').html($('#bankAccount').val().substring(0,6))
+				}else{
+					$('#methodNameSpan').html('휴대폰 결제')
+					$('#methodNumSpan').html('뒷번호 : '+$('#phoneNum_2').val().substring($('#phoneNum_2').val().length-4,$('#phoneNum_2').val().length))
+				}
+				if(mainPayment==""){
+										
+					mainPayment = parseInt(number);
+					savedMethodLength = 1;
+				}else{
+					savedMethodIndex = savedMethodLength;
+					savedMethodLength = parseInt(savedMethodLength)+1;
+				}
+				console.log(savedMethodLength)
+				checkPaymentMethodDiv(1);
+			}
+			
+		})
+	}
+	
+	//저장된 결제수단 교체
+	function saveMethodIndexMove(num) {
+		var selectMethodIndex = parseInt(savedMethodIndex) + parseInt(num);
+		
+		if(savedMethodLength < 2 || savedMethodLength == ""){
+			return false;
 		}
 		
+		if(selectMethodIndex < 0 ){
+			selectMethodIndex = savedMethodLength - 1;
+
+		}else if(selectMethodIndex == savedMethodLength){
+			selectMethodIndex = 0;
+		}
+		
+		$.ajax({
+		
+			url : "selectPaymentMethod",
+			type : "post",
+			data : {
+				selectMethodIndex : selectMethodIndex,
+				user_Id : $('#user_Id').val(),
+				mainPayment : mainPayment
+			},
+			success : function(data) {
+				
+				if(data.methodStatus==1){
+					$('#methodNameSpan').html(data.cardCompany+'카드')
+					$('#methodNumSpan').html(data.cardNo.substring(0,4))
+				}else if(data.methodStatus==2){
+					$('#methodNameSpan').html(data.bankName+'은행')
+					$('#methodNumSpan').html(data.bankAccount.substring(0,6))
+				}else{
+					$('#methodNameSpan').html('휴대폰 결제')
+					$('#methodNumSpan').html('뒷번호 : '+data.phoneNo.substring(data.phoneNo.length-4,data.phoneNo.length))
+				}
+				
+
+				$('#selectPayMethod').val(data.paymentMethodDetailNo)
+				console.log(data.paymentMethodDetailNo)
+				savedMethodIndex = selectMethodIndex
+			},
+			error : function(e) {
+				alert("결제수단 교체 ajax 통신 실패")
+			}
+			
+			
+			
+		})
+		
+		
+
 		
 	}
+	
 	function selectMethod(num) {
 		$.ajax({
 		
@@ -288,15 +393,14 @@
 		})
 		
 	}
-	  function aaaaaa() {
-	        var eee = $('#userId').val();
-	        console.log(eee)
-	        $('.ppp').click();
-	    }
+	  
 	  
 	  function paymentOrder() {
 		
 	}
+	  
+	  
+	  //보유 포인트 입력시 정보 변화
 	  function checkUsePoint() {
 		  var itemsPrise = parseInt('${requestScope.order.totalCost}');
 		  var keepPoint = parseInt($('#hiddenPoint').val());
@@ -317,13 +421,151 @@
 		  $('#totalPayCost').val(itemsPrise-usePoint)
 	}
 	  
+	  // 보유 포인트 모두 사용시
 	  function allUsePoint() {
 		  $('#usePointInput').val($('#hiddenPoint').val())
 		  checkUsePoint()
 	}
 	  
-	  function moveInsertPayment() {
-		  $('#insertPaymentForm').submit()
+	  
+	  
+	  // 결제수단 비밀번호 저장시 체크
+	  function inputPwd() {
+	        var pwd1 = $('#password_1').val();
+	        var pwd2 = $('#password_2').val();
+	        if(pwd1 != pwd2){
+	            alert("비밀번호가 서로 다릅니다.\n새로입력 해 주십시오.")
+	            $('#password_1').focus();
+	            return false;
+	        }
+	        if(pwd1.length<6){
+	            alert("비밀번호는 최소 6자리 이상의\n숫자로 입력해 주십시오")
+	            $('#password_1').focus();
+	            return false;
+	        }
+	        
+	        $('#methodPwd').val(pwd1);
+	    	if(confirm("입력하신 결제정보를 등록 하시겠습니까?")){
+				
+
+		        $('#closeModal1').click();
+				confirmInsertPMethod();
+				
+			}
+	    }
+
+	  //비밀번호 키패드 입력 숫자
+	    function pwdInputButton(num) {
+	        var selectNum = $('input[name=selectPassword]:checked').val();
+	        var pwd = $('#password_'+selectNum).val()
+	        pwd = pwd + (num.value+"");
+	        console.log(pwd);
+	        $('#password_'+selectNum).val(pwd)
+	    }
+
+	  //비밀번호 키패드 숫자 삭제
+	    function pwdInputDelButton() {
+	        var selectNum = $('input[name=selectPassword]:checked').val();
+	        var pwd = $('#password_'+selectNum).val()
+	        pwd = pwd.substring(0,pwd.length-1);
+	        console.log(pwd);
+	        $('#password_'+selectNum).val(pwd)
+	    }
+	  //비밀번호 키패드 입력시 input 창클릭시 라디오 버튼 체크 
+	    function clickPwdInput(num) {
+	        console.log(num)
+	        $('#selectPassword_'+num).prop("checked",true)
+	        $('.selectPassword').not($('#selectPassword_'+num)).prop("checked",false)
+	    }
+	  
+	  
+	    function payInputPwd() {
+	    	
+	    	$.ajax({
+	    		
+	    		url : "checkPayPwd",
+	    		type : "post",
+	    		data : {
+
+		    		paymentMethodDetailNo : $('#selectPayMethod').val(),
+		    		methodPwd : $('#password_3').val()
+	    			
+	    		},
+				success : function(str) {
+					if(str=='pass'){
+
+						$('#closeModal2').click();
+						$('#insertPaymentForm').submit();
+					}else{
+						alert("입력하신 비밀번호가 일치하지 않습니다\n다시 확인해 주십시오")
+						$('#selectPassword_3').focus()
+						return false;
+					}
+					
+				},
+				error : function(e) {
+
+					
+					alert("결제 비밀번호 입력 ajax 통신 오류")
+				}
+	    		
+	    	})
+	    	
+	    	
+	    	
+	    	
+			 /*  $('#insertPaymentForm').submit() */
+		}
+	    
+	   function moveInsertPayment() {
+		   
+		   if(!$('#orderCheck').prop("checked")){
+			   alert("주문 내역 확인 동의를 체크해 주십시오")
+			   return false
+			   
+		   }
+		   
+		   if(methodStatus==1||methodStatus==2){
+			   if(!paymentInfoCheck()){
+					return false
+				}
+			   if(confirm("입력하신 정보로 결제를 진행 하시겠습니까?")){
+
+					$('#insertPaymentForm').submit();
+				   
+			   }
+		   }else if(methodStatus==3){
+			   if(!paymentInfoCheck()){
+					return false
+				}
+
+			   $('#payPhonePwd').modal('show');
+		   }else if(methodStatus==4&&savedMethodLength>0){
+console.log("afasf")
+			   $('#payPwdModal').modal('show');
+		   }else{
+			  
+			   alert("결제 정보를 입력하셔야 합니다.")
+		   }
+			   
+		   
+	}
+	   
+	   function inputPhonePwd() {
+		if($('#inputPhonePwd').val()=='1111'){
+			alert("성공")
+			$('#closeModal3').click();
+			$('#insertPaymentForm').submit();
+		}else{
+			alert("휴대폰 결제 번호를 다시 확인해 주십시오")
+			return false;
+		}
+	}
+	   
+	   function moveShoppingCart() {
+		if(confirm("정말 장바구니로 되돌아 가시겠습니까?")){
+			$('#moveShoppingCartFomr').submit();
+		}
 	}
 </script>
 </head>
@@ -343,11 +585,11 @@
 					<br>
 					<form action="insertPayment" method="post" id="insertPaymentForm">
 					<input type="hidden" id="user_Id" name="user_Id" value="${sessionScope.loginUser.userId}">
-					<input type="hidden" id="usePointInput_2" name="usePoint" value="">
-					<input type="hidden" id="" name="totalGetPoint" value="${requestScope.order.totalGetPoint}">
-					<input type="hidden" id="totalPayCost" name="totalPayCost" value="">
+					<input type="hidden" id="usePointInput_2" name="usePoint" value="0" >
+					<input type="hidden" name="totalGetPoint" value="${requestScope.order.totalGetPoint}">
+					<input type="hidden" id="totalPayCost" name="totalPayCost" value="${requestScope.order.totalCost}">
 				<!-- 	<input type="hidden" id="" name="deliveryCost" value=""> -->
-					<input type="hidden" id="" name="totalCost" value="${requestScope.order.totalCost}">
+					<input type="hidden" name="totalCost" value="${requestScope.order.totalCost}">
 					<c:forEach items="${requestScope.orderList}" var="list"
 						varStatus="status">
 						<input type="hidden" name="paymentDetailList[${status.index}].bookISBN" value="${list.bookISBN}">
@@ -360,9 +602,7 @@
 						
 						
 						</c:forEach>
-				
 	
-					
 					
 					<div id="userAccountDiv">
 						<input type="text" placeholder="이름"
@@ -384,7 +624,7 @@
 							<span style="cursor: pointer;" onclick="name111()">배송요청사항</span><br>
 							<br>
 							<textarea name="deliveryRequest" id="deliveryRequest" cols="30"
-								rows="5" placeholder="100자 이하로 입력해주세요" maxlength="100"></textarea>
+								rows="5" placeholder="100자 이하로 입력해주세요" maxlength="100">배달 수고하십니다.</textarea>
 						</div>
 
 					</div>
@@ -469,12 +709,22 @@
 					<hr>
 					<br>
 					<div class="paymentMethod">
-						<p>저장된 결제수단</p>
-						<p class="rightValue" id="paymentMethodP_1"
-							onclick="checkPaymentMethodDiv(1)">닫기 △</p>
+						<p>저장된 결제수단으로 결제</p>
+						<p class="rightValue cursorP" id="paymentMethodP_1"
+							onclick="checkPaymentMethodDiv(1)" >닫기 △</p>
 					</div>
+						<br>
 					<div id="paymentMethodDiv_1">
-						<img src="${pageContext.servletContext.contextPath }/resources/img/wallet1.png" style="height: 300px"><br>
+					<input type="hidden" id="selectPayMethod" name="selectPayMethod" value="${requestScope.PMDetail.paymentMethodDetailNo}">
+					<div  style="display: flex; align-items: center;">
+						<div style="margin: auto;">
+						<img alt=""
+					src="${pageContext.servletContext.contextPath }/resources/img/btn_prev.gif"
+					height="50px" style="margin-right: 15px; cursor: pointer;"
+					onclick="saveMethodIndexMove(-1)">
+						</div>
+						<div style="margin: auto;">
+						<img src="${pageContext.servletContext.contextPath }/resources/img/wallet.png" style="height: 200px"><br>
 						<c:choose>
 						<c:when test="${requestScope.PMDetail.methodStatus==1}">
 						<span id="methodNameSpan">${requestScope.PMDetail.cardCompany}카드</span><br>
@@ -485,40 +735,47 @@
 						<span id="methodNumSpan">${fn:substring(requestScope.PMDetail.bankAccount,0,6) }</span>
 						</c:when>
 						<c:when test="${requestScope.PMDetail.methodStatus==3}">
-						<span id="methodNameSpan">${requestScope.PMDetail.phoneNo}</span><br>
-						<span id="methodNumSpan">${fn:substring(requestScope.PMDetail.phoneNo,fn:length(requestScope.PMDetail.phoneNo-5),4) }</span>
+						<span id="methodNameSpan">휴대폰 결제</span><br>
+						<span id="methodNumSpan">뒷번호 : ${fn:substring(requestScope.PMDetail.phoneNo,fn:length(requestScope.PMDetail.phoneNo)-4,fn:length(requestScope.PMDetail.phoneNo)) }</span>
 						</c:when>
 						<c:otherwise>
 						<span id="methodNameSpan">저장된 결제 수단이 없습니다</span><br>
 						<span id="methodNumSpan"></span>
 						</c:otherwise>
 						</c:choose>
-						
-							
+						</div>
+						<div style="margin: auto;">
+							<img alt=""
+					src="${pageContext.servletContext.contextPath }/resources/img/btn_next.gif"
+					height="50px" style="margin-left: 15px; cursor: pointer;"
+					onclick="saveMethodIndexMove(1)">
+					</div>
+					</div>
+					
 					</div>
 					<br>
 					<form action="" id="paymentMethodForm">
 						<div class="paymentMethod">
-							<p>일반 결제 수단</p>
-							<p class="rightValue" id="paymentMethodP_2"
-								onclick="checkPaymentMethodDiv(2)">열기 ▽</p>
+							<p>일반 결제 - 결제 수단 저장</p>
+							<p class="rightValue cursorP" id="paymentMethodP_2"
+								onclick="checkPaymentMethodDiv(2)" >열기 ▽</p>
 						</div>
 						<br>
 						<div id="paymentMethodDiv_2">
 							<div style="display: flex;">
-								<div id="nomalMethod_1" class="nomalMethod"
+								<div id="nomalMethod_1" class="nomalMethod cursorP"
 									onclick="checkNomalMethodDiv('1')">
 									<p>신용카드 결제</p>
 								</div>
-								<div id="nomalMethod_2" class="nomalMethod"
+								<div id="nomalMethod_2" class="nomalMethod cursorP"
 									onclick="checkNomalMethodDiv('2')">
 									<p>실시간 계좌이체</p>
 								</div>
-								<div id="nomalMethod_3" class="nomalMethod"
+								<div id="nomalMethod_3" class="nomalMethod cursorP"
 									onclick="checkNomalMethodDiv('3')">
 									<p>휴대폰 결제</p>
 								</div>
-								<input type="hidden" name="methodPwd" id="methodPwd" value="127737">
+								<input type="hidden" name="methodPwd" id="methodPwd">
 								<input type="hidden" name="userReg" id="userReg"> 
 							</div>
 							<div id="nomalMethodDiv_1" class="nomalMethodDiv">
@@ -633,59 +890,120 @@
 						</div>
 						<hr>
 						<div class="innerInfo" style="align-items: center;">
-							<input type="checkbox" style="zoom: 1.5;">
+							<input type="checkbox" style="zoom: 1.5;" id="orderCheck">
 							<p style="margin: 5px">주문내역확인 동의(필수)</p>
 						</div>
 						<hr>
 						<div style="text-align: center;">
 							<button class="paymentButton" onclick="moveInsertPayment()">결제하기</button>
 							<br>
-							<button class="paymentButton">장바구니로 가기</button>
+							<button class="paymentButton" onclick="moveShoppingCart()">장바구니로 가기</button>
 						</div>
+						<form action="shoppingCart.sc" method="post" id="moveShoppingCartFomr">
+							<input type="hidden" name="user_Id" value="${sessionScope.loginUser.userId}">
+						</form>
 						<br>
 						<br>
 					</div>
 				</div>
 			</div>
 		</div>
+		<br><br><br><br><br><br><br>
 
+		 <div class="modal fade" id="inputPwdModal">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">결제 비밀번호 등록</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button> 
+                </div>
+    
+                    <div class="modal-body" >
+                        <input type="radio" name="selectPassword" value="1"  id="selectPassword_1" class="selectPassword">
+                        <label for="userId" class="mr-sm-2">비밀번호 :</label>
+                        <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter password" id="password_1" readonly onfocus="clickPwdInput(1)"> <br>
+                        <input type="radio" name="selectPassword" value="2" id="selectPassword_2" class="selectPassword">
+                        <label for="userPwd" class="mr-sm-2">비밀번호 확인:</label>
+                        <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter password" id="password_2" readonly onfocus="clickPwdInput(2)"><br>
+                        <div id="pwdInputDiv" style="text-align: center;">
+                            <button type="button" value="1" onclick="pwdInputButton(this)">1</button><button type="button" value="2" onclick="pwdInputButton(this)">2</button><button type="button" value="3" onclick="pwdInputButton(this)">3</button><br>
+                            <button type="button" value="4" onclick="pwdInputButton(this)">4</button><button type="button" value="5" onclick="pwdInputButton(this)">5</button><button type="button" value="6" onclick="pwdInputButton(this)">6</button><br>
+                            <button type="button" value="7" onclick="pwdInputButton(this)">7</button><button type="button" value="8" onclick="pwdInputButton(this)">8</button><button type="button" value="9" onclick="pwdInputButton(this)">9</button><br>
+                            <button type="button" value="0" onclick="pwdInputButton(this)">0</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" onclick="pwdInputDelButton()">←</button>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-footer" >
+                        <button type="button" class="btn btn-primary mr-auto" onclick="inputPwd()">비밀번호 등록</button>
+                        <button type="button" class="btn btn-danger" id="closeModal1" data-dismiss="modal">취소</button>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+		<div class="modal fade" id="payPwdModal">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">결제 비밀번호 입력</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button> 
+                </div>
+    
+                    <!-- Modal Body -->
+                    <div class="modal-body" >
+                        
+                        
+                        <label for="payPassword" style="font-size: 30px; font-weight: bold;">비밀번호 입력:</label>
+                        <input type="radio" name="selectPassword" value="3" checked style="visibility: hidden;" id="selectPassword_3" class="selectPassword"><br>
+                        <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter password" id="password_3" readonly onfocus="clickPwdInput(3)"> <br>
+                        <div id="pwdInputDiv" style="text-align: center;">
+                            <button type="button" value="1" onclick="pwdInputButton(this)">1</button><button type="button" value="2" onclick="pwdInputButton(this)">2</button><button type="button" value="3" onclick="pwdInputButton(this)">3</button><br>
+                            <button type="button" value="4" onclick="pwdInputButton(this)">4</button><button type="button" value="5" onclick="pwdInputButton(this)">5</button><button type="button" value="6" onclick="pwdInputButton(this)">6</button><br>
+                            <button type="button" value="7" onclick="pwdInputButton(this)">7</button><button type="button" value="8" onclick="pwdInputButton(this)">8</button><button type="button" value="9" onclick="pwdInputButton(this)">9</button><br>
+                            <button type="button" value="0" onclick="pwdInputButton(this)">0</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" onclick="pwdInputDelButton()">←</button>
+                        </div>
+                    </div>
+                    
 
-						<!-- <button type="button" class="btn btn-primary" data-toggle="modal"
-							data-target="#loginModal">Launch demo modal</button>
-							
-							<button type="button" onclick="selectMethod(0)"></button> -->
-							
-		<div class="modal fade" id="loginModal">
-			<div class="modal-dialog modal-sm">
-				<div class="modal-content">
-					<!-- Modal Header -->
-					<div class="modal-header">
-						<h4 class="modal-title">Login</h4>
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-					</div>
+                    <!-- Modal footer -->
+                    <div class="modal-footer" >
+                        <button type="button" class="btn btn-primary mr-auto" onclick="payInputPwd()">비밀번호 입력</button>
+                        <button type="button" class="btn btn-danger" id="closeModal2" data-dismiss="modal">취소</button>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="payPhonePwd">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">결제 비밀번호 입력</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button> 
+                </div>
+    
+                    <!-- Modal Body -->
+                    <div class="modal-body" >
+                        
+                        
+                        <label for="inputPhonePwd" >휴대폰 결제 번호입력:</label>
+                        <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter password" id="inputPhonePwd" name="inputPhonePwd"> <br>
+                       
+                    </div>
+                    
 
-					<form action="login.me" method="post">
-						<!-- Modal Body -->
-						<div class="modal-body">
-							<label for="userId" class="mr-sm-2">ID :</label> <input
-								type="text" class="form-control mb-2 mr-sm-2"
-								placeholder="Enter ID" id="userId" name="userId"> <br>
-							<label for="userPwd" class="mr-sm-2">Password:</label> <input
-								type="password" class="form-control mb-2 mr-sm-2"
-								placeholder="Enter password" id="userPwd" name="userPwd">
-						</div>
-
-						<!-- Modal footer -->
-						<div class="modal-footer">
-							<button type="button" class="btn btn-primary" onclick="aaaaaa()">로그인</button>
-							<button type="button" class="btn btn-danger ppp"
-								data-dismiss="modal">취소</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-		
+                    <!-- Modal footer -->
+                    <div class="modal-footer" >
+                        <button type="button" class="btn btn-primary mr-auto" onclick="inputPhonePwd()">비밀번호 입력</button>
+                        <button type="button" class="btn btn-danger" id="closeModal3" data-dismiss="modal">취소</button>
+                    </div>
+                
+                </div>
+            </div>
+        </div>
 	</main>
 </body>
 </html>

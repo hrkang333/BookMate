@@ -50,6 +50,18 @@ public class PaymentDao {
 		return sqlSession.selectOne("paymentMapper.selectPaymentNo" , paymentNo);
 	}
 
+	
+	//결제정보 등록
+	public int insertPayment(SqlSessionTemplate sqlSession, Payment temp) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("paymentMapper.insertPayment",temp);
+	}
+
+	public int insertPaymentDetail(SqlSessionTemplate sqlSession, PaymentDetail pd) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("paymentMapper.insertPaymentDetail",pd);
+	}
+
 
 
 	
