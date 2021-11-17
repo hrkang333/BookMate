@@ -16,6 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="APPLY_CANCLE" property="applyCancle"/>
 		<result column="APPLY_PARTI" property="applyParti"/>
 		<result column="STATUS" property="status"/>
+		<result column="APPLY_DATE" property="applyDate"/>
   </resultMap>
   
   <resultMap id="clubWishResultSet" type="ClubWish">
@@ -39,8 +40,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 2.신청 -->
 	<insert id="insertApply" parameterType="hashmap">
-		INSERT INTO CLUB_APPLY(APPLY_NO, USER_ID, REF_CLUB_NO, REF_TIME_NO)
-        SELECT SEQ_CAPNO.NEXTVAL, #{userId}, #{clubNo}, A.* 
+		INSERT INTO CLUB_APPLY(APPLY_NO, USER_ID, REF_CLUB_NO, APPLY_DATE, REF_TIME_NO)
+        SELECT SEQ_CAPNO.NEXTVAL, #{userId}, #{clubNo}, SYSDATE, A.* 
 		FROM(
 			<foreach item="item" collection="times" separator="UNION ALL ">
 				select 
@@ -132,5 +133,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	
+	<!-- 7.독서모임 개설자가 신청자 확인할때 쓰는 메소드, clubNo로 찾는다. -->
+	<select id="selectApplyList_clubNo" resultMap="clubApplyResultSet">
+		SELECT *
+		FROM CLUB_APPLY
+		WHERE REF_CLUB_NO=#{clubNo}
+		AND APPLY_CANCLE = 'N'
+	</select>
+	
+	<!-- 8.독서모임 개설자가 신청자 참여완료 해주는 메소드 -->
+	<update id="updateUserApply">
+		UPDATE CLUB_APPLY
+		SET APPLY_PARTI = 'Y'
+		WHERE APPLY_NO IN 
+		<foreach item="item" collection="list" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</update>
+	
+	<!-- 9.리뷰 남기기 전에 참여여부 체크 -->
+	<select id="selectParticipate" parameterType="hashmap" resultType="_int">
+		select count(*)
+		from club_apply
+		where user_id=#{userId}
+		and ref_club_no=#{clubNo}
+		and apply_parti='Y'
+	</select>
 	
 </mapper>

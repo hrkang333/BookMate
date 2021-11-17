@@ -92,4 +92,22 @@ public class ClubApplyDao {
 		return sqlSession.update("clubApplyMapper.updateCancelTime", map);
 	}
 
+	public List<ClubApply> selectApplyList(SqlSessionTemplate sqlSession, int clubNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("clubApplyMapper.selectApplyList_clubNo", clubNo);
+	}
+
+	public int updateUserApply(SqlSessionTemplate sqlSession, List<Integer> applyNoList) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("clubApplyMapper.updateUserApply", applyNoList);
+	}
+
+	public int selectParticipate(SqlSessionTemplate sqlSession, int clubNo, String userId) {
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("userId", userId);
+		map.put("clubNo", clubNo);
+		
+		return sqlSession.selectOne("clubApplyMapper.selectParticipate", map);
+	}
+
 }

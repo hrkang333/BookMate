@@ -609,9 +609,15 @@ public class ClubController {
 		PageInfo pi_second = Pagination.getPageInfo(listCount2, 1, 7, 8);
 		ArrayList<Club> cateList_second = clubService.selectCateList_2(category, pi_second);
 		
+		List<Club> cateList_third;
 		ArrayList<Club> cateList_third_bef = clubService.selectCateList_3(category);
-		List<Club> cateList_third = new ArrayList<Club>(cateList_third_bef.subList(0, 5));
 		
+		if(cateList_third_bef.size() < 5) {
+			cateList_third = new ArrayList<Club>(cateList_third_bef.subList(0, 5));
+		}else {
+			cateList_third = cateList_third_bef;
+		}
+
 		model.addAttribute("cateList_first",cateList_first);
 		model.addAttribute("pi_first",pi_first);
 		model.addAttribute("cateList_second",cateList_second);
@@ -675,12 +681,14 @@ public class ClubController {
 		ArrayList<Club> cateList2 = clubService.selectCateList_2(category, pi2);
 		
 		//3.모집종료
+		ArrayList<Club> cateList3 = clubService.selectCateList_3(category);
 
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("cateList1", cateList1);
 		map.put("pi1",pi1);
 		map.put("cateList2", cateList2);
 		map.put("pi2",pi2);
+		map.put("cateList3", cateList3);
 		return new GsonBuilder().create().toJson(map);
 	}
 	
@@ -703,7 +711,20 @@ public class ClubController {
 		}
 
 		return cateList3;
+	}
+
+	@RequestMapping("selectApply.cl")
+	public String selectApply(int clNo1, Model model) {
 		
+		System.out.println("clubcontroller - clubNo1 : " + clNo1);
+		
+		Club club = clubService.selectClub(clNo1);
+		List<ClubApply> applyList = clubApplyService.selectApplyList(clNo1);
+
+		model.addAttribute("club", club);
+		model.addAttribute("applyList", applyList);
+		
+		return "clubMypage/checkApply";
 	}
 	
 

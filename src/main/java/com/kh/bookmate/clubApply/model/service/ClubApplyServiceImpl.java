@@ -120,6 +120,24 @@ public class ClubApplyServiceImpl implements ClubApplyService {
 		}
 		return (int) map.get("clubNo");
 	}
+
+	@Override
+	public List<ClubApply> selectApplyList(int clubNo) {
+		// TODO Auto-generated method stub
+		return clubApplyDao.selectApplyList(sqlSession, clubNo);
+	}
+
+	@Override
+	public int updateUserApply(List<Integer> applyNoList) {
+		// TODO Auto-generated method stub
+		return clubApplyDao.updateUserApply(sqlSession, applyNoList);
+	}
+
+	@Override
+	public int selectParticipate(int clubNo, String userId) {
+		// TODO Auto-generated method stub
+		return clubApplyDao.selectParticipate(sqlSession, clubNo, userId);
+	}
 	
 	
 

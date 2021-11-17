@@ -1,5 +1,7 @@
 package com.kh.bookmate.clubApply.model.vo;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,4 +22,5 @@ public class ClubApply {
 	private String applyCancle;
 	private String applyParti;
 	private String status;
+	private Date applyDate;
 }
