@@ -165,12 +165,24 @@
 											style="width: 124px; font-size: 12px !important; margin-right: 10px; background-image: none; background-color: #dcd3cc !important; border: 1px solid #dcd3cc; color: black; !important; padding: 7px 12px 1px; box-shadow: none; height: 33px; text-align: center;">내가 등록한 도서</span>
 										</c:if>
 										<c:if test="${ ubook.sellerId ne loginUser.userId}">
-										<a href="#" class="btn_large btn_blue"
+										<a onclick="goCart()" class="btn_large btn_blue"
 											style="width: 124px; font-size: 12px !important; margin-right: 10px; background-image: none; background-color: #5cb85c !important; border: 1px solid #5cb85c; color: #fff !important; padding: 7px 12px 1px; box-shadow: none; height: 33px; text-align: center;">장바구니에
 											담기</a> <a href="#" class="btn_large btn_blue2"
 											style="width: 124px; font-size: 12px !important; margin-right: 10px; background-image: none; background-color: #5b8a5b !important; border: 1px solid #5b8a5b; color: #fff !important; padding: 7px 12px 1px; box-shadow: none; height: 33px; text-align: center;">바로
 											구매하기</a>
 										</c:if>
+										<script type="text/javascript">
+											function goCart() {
+												var loginUser = "${sessionScope.loginUser.userId}"
+												if (loginUser == "") {
+													alert("로그인이 필요합니다.");
+													return false;
+												}else{
+													alert("뭘까?");
+												}
+										
+											}
+										</script>
 									</div>
 								</div>
 								<!--// product_detail_info  -->
@@ -774,15 +786,17 @@
 												}else{
 													value += "<tr>";
 												}
+												
 												//현재로그인한 회원이랑 해당 도서의 판매자랑 같으면 답글 등록 가능하도록 버튼 보여주기
 												var a = obj.qnaGroupNo;
 												value += "<th id='widthQna'><input hidden='hidden' name='qnaWriter' value='"+obj.qnaWriter+"'/>" + obj.qnaWriter + "</th>" + 
 												 			"<td  hidden='hidden'><input hidden='hidden' name='qnaGroupNo' id='qnaGroupNo' value='"+obj.qnaGroupNo+"'/>" + obj.qnaGroupNo + "</td>" + 
 												 			"<td hidden='hidden'>" + obj.qnaGroupNoOrder + "</td>" + 
 															 "<td id='widthQna'><input hidden='hidden' name='qnaContent' value='"+obj.qnaContent+"'/>" + obj.qnaContent + "</td>" + 
-															 "<td id='widthQna'><input hidden='hidden' name='createDate' value='"+obj.createDate+"'/>" + obj.createDate + "</td>" +"<c:if test='${ loginUser.userId eq ubook.sellerId }'><td><button onclick='reply()' style='background-color:#5b8a5b; color:#fff; border:none; border-radius:3px; width:80px; height:35px;'>답글달기</button></c:if>"+
+															 "<td id='widthQna'><input hidden='hidden' name='createDate' value='"+obj.createDate+"'/>" + obj.createDate +"</td>" +
+															 "<c:if test='${ loginUser.userId eq ubook.sellerId }'><td><button onclick='reply()' style='background-color:#5b8a5b; color:#fff; border:none; border-radius:3px; width:80px; height:35px;'>답글달기</button></td></c:if>"+
 													 "</tr>";
-													 
+													
 											});
 											$("#qnaArea tbody").html(value);
 										},error:function(){
@@ -790,6 +804,18 @@
 										}
 									});
 								}
+							 	
+								 /*
+															 "<c:if test='${ !empty loginUser.userId }'><td id='delMyQna'><button onclick='deleteMyQna()' style='background-color:red; color:#fff; border:none; border-radius:3px; width:80px; height:35px;'>삭제하기</button></td></c:if>"+
+								 function deleteMyQna() {
+										if("${ loginUser.userId}" == "${list.qnaWriter}"){
+											alert("삭제 가능합니다,");
+										}else{
+											alert("${ loginUser.userId}");
+											alert("${list.qnaWriter}");
+											alert("자신의 댓글만 삭제 가능합니다.");
+											}
+									}*/
 							     
 							   //문의 답변 쓰기
 							      function reply() {

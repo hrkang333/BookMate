@@ -211,9 +211,9 @@ public class UbookController {
 	//도서 문의 리스트
 	@ResponseBody
 	@RequestMapping(value="qnalist.ub", produces="application/json; charset=utf-8")
-	public String selectQnaList(int ubookNo) {
+	public String selectQnaList(int ubookNo, Model model) {
 		ArrayList<Ubook_Qna> list = ubookService.selectQnaList(ubookNo);
-		
+		model.addAttribute("list", list);
 		return new GsonBuilder().setDateFormat("yyyy년 MM월 dd일 HH:mm:ss").create().toJson(list);
 	}
 	//도서 문의 등록

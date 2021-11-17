@@ -120,8 +120,8 @@
 	              <div class="container">
 	              
 	                <button class="gobtn text-center" type="button" onclick="loginChk();">
-	                  <h3 class="subscribe__title">아직 판매자가 아니라면?</h3>
-	                  <h4>로그인 먼저 진행 후 판매자 가입해주세요</h4>
+	                  <h3 class="subscribe__title">아직 판매자가<br>아니라면?</h3>
+	                  <h4>로그인을 하신 후에 판매자 가입해주세요</h4>
 	                </button>
 	                <script type="text/javascript">
 	                	function loginChk() {
@@ -134,8 +134,8 @@
 	            <section class="goseller">
 	              <div class="container">
 	                <button class="gobtn text-center" onclick="loginChk();">
-	                  <h3 class="subscribe__title">안읽는 책을 팔고싶다면?</h3>
-	                  <h4>로그인 먼저 진행 후 판매자 가입해주세요</h4>
+	                  <h3 class="subscribe__title">안읽는 책을<br>팔고싶다면?</h3>
+	                  <h4>로그인을 하신 후에 판매자 가입해주세요</h4>
 	                </button>
 	              </div>
 	            </section>
@@ -145,7 +145,7 @@
 	            <section class="goseller">
 	              <div class="container">
 	                <button class="gobtn text-center" type="button" onclick="location.href='sellerInsertForm.se'">
-	                  <h3 class="subscribe__title">아직 판매자가 아니라면?</h3>
+	                  <h3 class="subscribe__title">아직 판매자가<br>아니라면?</h3>
 	                  <h4>판매자 가입하기</h4>
 	                </button>
 	              </div>
@@ -153,7 +153,7 @@
 	            <section class="goseller">
 	              <div class="container">
 	                <button class="gobtn text-center" onclick="location.href='sellerInsertForm.se'">
-	                  <h3 class="subscribe__title">안읽는 책을 팔고싶다면?</h3>
+	                  <h3 class="subscribe__title">안읽는 책을<br>팔고싶다면?</h3>
 	                  <h4>도서 등록하기</h4>
 	                </button>
 	              </div>
@@ -172,7 +172,7 @@
 	            <section class="goseller">
 	              <div class="container">
 	                <button class="gobtn text-center" onclick="location.href='sellerPage.se'">
-	                  <h3 class="subscribe__title">안읽는 책을 팔고싶다면?</h3>
+	                  <h3 class="subscribe__title">안읽는 책을<br>팔고싶다면?</h3>
 	                  <h4>도서 등록하기</h4>
 	                </button>
 	              </div>

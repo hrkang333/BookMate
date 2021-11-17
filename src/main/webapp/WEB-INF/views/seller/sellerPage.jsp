@@ -70,10 +70,10 @@
 					<!--탭 시작-->
 					<div id="tabs">
 						<ul class="tab">
-							<li class="active"><span>판매자 정보관리</span></li>
-							<li><span>도서관리</span></li>
-							<li><span>판매관리</span></li>
-							<li><span>도서문의</span></li>
+							<li class="active"><span style="height: 70px; padding-top: 22px;">판매자 정보관리</span></li>
+							<li><span style="height: 70px; padding-top: 22px;">도서관리</span></li>
+							<li><span style="height: 70px; padding-top: 22px;">판매관리</span></li>
+							<li><span style="height: 70px; padding-top: 22px;">도서문의</span></li>
 						</ul>
 						<!-- 판매자 정보관리 -->
 						<div class="tabContent active">
@@ -147,38 +147,6 @@
 											</div>
 											<div class="col-xs-12">
 												<br> <label class="inputlabel">출고지</label> <br> <br>
-
-												<!-- 												<c:forTokens var="addr" items="${ s.sellerAddress }" delims="/" varStatus="status">
-													<c:if test="${ status.index eq 0 && addr >= '0' && addr <= '99999' }">
-						<c:set var="post" value="${ addr }"/>
-					</c:if>
-					<c:if test="${ status.index eq 0 && !(addr >= '0' && addr <= '99999') }">
-						<c:set var="address1" value="${ addr }"/>
-					</c:if>
-					<c:if test="${ status.index eq 1 }">
-						<c:set var="address1" value="${ addr }"/>
-					</c:if>
-					<c:if test="${ status.index eq 2 }">
-						<c:set var="address2" value="${ addr }"/>
-					</c:if>
-				</c:forTokens>
-												
-													<button class="postBtn" onclick="sample4_execDaumPostcode()">우편번호 검색</button>
-													<input type="text" id="sample4_postcode" name="post" placeholder="우편번호" value=${ post } readonly>
-							
-								<input type="text" id="sample4_roadAddress" name="address1" value="${ address1 }" size="60" readonly>
-							
-								<input type="hidden" id="sample4_jibunAddress" placeholder="지번주소" size="60" disabled>
-					
-								<input id="guide" style="color:#999;display:none">
-						
-								<input type="text" id="sample4_detailAddress" name="address2"  value="${ address2 }" size="60">
-
-										<input type="hidden" id="sample4_extraAddress" placeholder="참고항목"  size="60">
-								
-								<input type="hidden" id="sample4_engAddress" placeholder="영문주소"  size="60">
-								 -->
-
 												<c:forTokens var="addr" items="${ s.sellerAddress }"
 													delims="/" varStatus="status">
 													<c:if
@@ -198,14 +166,14 @@
 												</c:forTokens>
 
 
-												<div class="col-md-12 form-group">
+												<div class="col-md-12 form-group" style="width: 70%;">
 													<input class="form-control" type="text"
 														id="sample4_postcode" name="post" placeholder="우편번호"
 														value="${ post }" readonly>
 												</div>
-												<div class="col-md-12 form-group">
+												<div class="col-md-12 form-group" style="width: 30%; margin-top: 2px;">
 
-													<button type="button" class="postBtn"
+													<button type="button" class="postBtn" style="border-radius: 5px;"
 														onclick="sample4_execDaumPostcode()">우편번호 검색</button>
 												</div>
 												<div class="col-md-12 form-group">
@@ -357,7 +325,37 @@
 						</div>
 						<!-- 도서문의 -->
 						<div class="tabContent">
-							<jsp:include page="ubookQue.jsp"></jsp:include>
+							<%-- <jsp:include page="ubookQue.jsp"></jsp:include> --%>
+							<!-- 도서문의 -->
+							<section class="content">
+								<h2>도서 문의 내역</h2>
+								<div class="col-md-offset-2 qnaTable">
+									<div class="panel panel-default">
+										<div class="panel-body">
+											<div class="table-container">
+												<table class="table table-filter" id="ubookListTb2">
+													<thead>
+					                                <tr>
+					                                    <th style="width:60px; text-align: center;">도서 번호</th>
+					                                    <th style="text-align: center;">도서 표지</th>
+					                                    <th style="text-align: center;">도서명</th>
+					                                    <th style="text-align: center;">저자</th>
+					                                </tr>
+					                            	</thead>
+													<tbody>
+													<tr>
+														<td colspan="6" style="text-align: center;">문의가 등록된 도서가 없습니다.</td>
+													</tr>
+													<tr>
+														<td colspan="6" style="text-align: center;"><input name="sellerNo" value="${s.sellerNo }"></td>
+													</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</section>
 						</div>
 					</div>
 					<!--tabs end-->

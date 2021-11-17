@@ -50,7 +50,14 @@ public class SellerController {
 		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
 		Seller s = sellerService.loginSeller(userId);
 		model.addAttribute("s", s);
+		/*
+		int sellerNumber = s.getSellerNo();
 
+		System.out.println("userId데 보이나..?" + sellerNumber);
+		List<Ubook> haveQnaUbook = ubookService.haveQnaUbook(sellerNumber);
+		System.out.println("haveQnaUbook 보이나..?" + haveQnaUbook);
+		model.addAttribute("haveQnaUbook", haveQnaUbook);*/
+		
 		return "seller/sellerPage";
 	}
 	

@@ -42,4 +42,6 @@ public interface UbookService {
 	ArrayList<Ubook> selectRandomBookList();
 
 	List<Ubook> searchUbookList(String keyword);
+
+	List<Ubook> haveQnaUbook(int sellerNumber);
 }
