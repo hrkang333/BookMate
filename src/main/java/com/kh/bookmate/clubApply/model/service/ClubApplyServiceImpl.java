@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.bookmate.clubApply.model.dao.ClubApplyDao;
 import com.kh.bookmate.clubApply.model.vo.ClubApply;
+import com.kh.bookmate.clubApply.model.vo.ClubReview;
 import com.kh.bookmate.common.PageInfo;
 
 @Service
@@ -138,6 +139,38 @@ public class ClubApplyServiceImpl implements ClubApplyService {
 		// TODO Auto-generated method stub
 		return clubApplyDao.selectParticipate(sqlSession, clubNo, userId);
 	}
+	
+	@Override
+	public int selectBefReview(int clubNo, String userId) {
+		// TODO Auto-generated method stub
+		return clubApplyDao.selectBefReview(sqlSession, clubNo, userId);
+	}
+
+	@Override
+	public void insertReview(ClubReview cr) {
+		// TODO Auto-generated method stub
+		int result = clubApplyDao.insertReview(sqlSession,cr);
+		if(result < 0) {
+			//error
+		}
+	}
+
+	@Override
+	public List<ClubReview> selectReviewList(int clubNo) {
+		// TODO Auto-generated method stub
+		return clubApplyDao.selectReviewList(sqlSession, clubNo);
+	}
+
+	@Override
+	public void deleteReview(int clubNo, String userId) {
+		// TODO Auto-generated method stub
+		int result = clubApplyDao.deleteReview(sqlSession,clubNo,userId);
+		if(result < 0) {
+			//error
+		}
+	}
+
+
 	
 	
 

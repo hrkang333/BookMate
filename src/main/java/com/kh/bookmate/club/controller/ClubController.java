@@ -43,6 +43,7 @@ import com.kh.bookmate.club.model.vo.ClubAttachment;
 import com.kh.bookmate.club.model.vo.ClubTime;
 import com.kh.bookmate.clubApply.model.service.ClubApplyService;
 import com.kh.bookmate.clubApply.model.vo.ClubApply;
+import com.kh.bookmate.clubApply.model.vo.ClubReview;
 import com.kh.bookmate.common.PageInfo;
 import com.kh.bookmate.common.Pagination;
 import com.kh.bookmate.user.model.vo.User;
@@ -586,9 +587,9 @@ public class ClubController {
 		}else {
 			mv.addObject("befHeart",befHeart);
 		}
-
-		System.out.println("club 확인! : " + club.toString());
-
+		
+		List<ClubReview> reviewList = clubApplyService.selectReviewList(clubNo);
+		mv.addObject("reviewList",reviewList);
 		mv.addObject("club",club).setViewName("club/clubDetail");
 		return mv;
 	}
