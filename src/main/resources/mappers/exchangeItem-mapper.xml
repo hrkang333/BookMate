@@ -8,7 +8,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	INSERT INTO EXCHANGE_ITEM VALUES(SEQ_EXNO.NEXTVAL,#{user_Id},
 	#{paymentDetailNo},DEFAULT,#{exchangeName},
-	#{exchangePhone},#{exShippingAddress})
+	#{exchangePhone},#{exchangeAddress})
 
 	</insert>
 
@@ -16,18 +16,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <select id="selectExchangeList" parameterType="ExchangeItem" resultType="ExchangeItem">
 
 	SELECT * FROM EXCHANGE_ITEM
-	WHERE EXCHANGESTATUS = 1
 
 </select>
 
 
-<select id="selectOrderDetailList"  parameterType="ExchangeItem" resultType="_int" >
- 
-	SELECT * FROM EXCHANGE_ITEM
-	WHERE PAYMENTDETAILNO = #{paymentDetailNo}
+<select id="selectOrderDetailList" resultType="PaymentDetail" >
 
- 	
- 
+	SELECT * FROM PAYMENTDETAIL
+	WHERE PAYMENTDETAILNO IN
+	<foreach item="item" collection="list" open="(" close=")" separator=",">
+		#{item}
+	</foreach>
 </select>
+
+
+
+<update id="updateExchangeList" parameterType="ExchangeItem" >
+
+ UPDATE EXCHANGE_ITEM
+ SET EXCHANGESTATUS = 2
+ WHERE PAYMENTDETAILNO = ${paymentDetailNo}
+
+</update>
 
 </mapper>

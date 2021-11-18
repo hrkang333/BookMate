@@ -3,6 +3,7 @@ package com.kh.bookmate.exchange_item.model.service;
 import java.util.List;
 
 import com.kh.bookmate.exchange_item.model.vo.ExchangeItem;
+import com.kh.bookmate.payment.model.vo.PaymentDetail;
 
 public interface ExchangeItemService {
 
@@ -10,7 +11,11 @@ public interface ExchangeItemService {
 
 	List<ExchangeItem> selectExchangeList();
 
-	List<ExchangeItem> selectOrderDetailNoList(List<Integer> exchangeDetailNoList);
+	List<PaymentDetail> selectOrderDetailNoList(List<Integer> exchangeDetailNoList);
+
+	void updateExchangeList(ExchangeItem exchangeBook);
+
+	//List<PaymentDetail> updateExchangeList(List<Integer> exchangeDetailNoList);
 
 
 

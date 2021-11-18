@@ -217,8 +217,7 @@
 
 
 
-										<c:forEach var="item" items="${myOrderListDetail}"
-											varStatus="status">
+										<c:forEach var="item" items="${myOrderListDetail}" varStatus="status">
 
 											<tr>
 												<td><p>

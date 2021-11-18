@@ -191,11 +191,10 @@ public class myPageController {
 		return "myPage/applyExchange";
 	}
 	
-	//교환 신청하기 
+	//교환 신청하기 (교환테이블에 넣기) 
 	@RequestMapping("insertExchange.me")
-	public String insertExchangeItem(ExchangeItem exchangeBook, Model model ) {
+	public String insertExchangeItem(ExchangeItem exchangeBook, Payment payment, Model model ) {
 
-		//System.out.println(exchangeBook + "=========================");
 		exchangeItemService.insertExchangeItem(exchangeBook);
 		
 		return "myPage/myOrderListDetail";
@@ -216,7 +215,6 @@ public class myPageController {
 		model.addAttribute("returnDetail",returnDetail);
 		model.addAttribute("payNo",payNo);
 
-		
 		return "myPage/applyReturn";
 	}
 

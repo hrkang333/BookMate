@@ -99,6 +99,40 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 	
+	
+	//교환대기중 리스트 업데이트 
+	@Override
+	public void updateUserExchangeList(PaymentDetail paymentDetail) {
+		paymentDao.updateUserExchangeList(sqlSession, paymentDetail);
+		
+	}
+
+	
+		//[관리자]배송리스트 볼라고..
+		@Override
+		public List<PaymentDetail> selectDeliveryList() {
+			List<PaymentDetail> list = paymentDao.selectDeliveryList(sqlSession);
+			return list;
+		}
+
+		// 페이먼트랑 페이먼트 디테일테이블쓰고싶어서 
+		@Override
+		public List<Payment> selectDeliveryPaymentNoList(List<Integer> deliveryDetailNoList) {
+			List<Payment> paymentNoList = paymentDao.selectDeliveryPaymentNoList(sqlSession,deliveryDetailNoList);
+			return paymentNoList;
+		}
+
+	
+	//배송리스트 업데이트 
+	@Override
+	public void updateUpdateDelivery(PaymentDetail paymentDetail) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+	
+	
 
 
 

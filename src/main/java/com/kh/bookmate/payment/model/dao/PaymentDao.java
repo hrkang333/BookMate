@@ -62,6 +62,31 @@ public class PaymentDao {
 		return sqlSession.insert("paymentMapper.insertPaymentDetail",pd);
 	}
 
+	
+	
+	//-----미소 
+	public void updateUserExchangeList(SqlSessionTemplate sqlSession, PaymentDetail paymentDetail) {
+		
+		sqlSession.update("paymentMapper.updateUserExchangeList",paymentDetail);
+	}
+
+	
+	public List<PaymentDetail> selectDeliveryList(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("paymentMapper.selectDeliveryList");
+	}
+
+	public List<Payment> selectDeliveryPaymentNoList(SqlSessionTemplate sqlSession, List<Integer> deliveryDetailNoList) {
+		
+		ArrayList<Payment> deliList = (ArrayList)sqlSession.selectList("paymentMapper.selectDeliveryPaymentNoList",deliveryDetailNoList);
+		
+		List<Integer> Nolist= new ArrayList<>();
+			for(Payment p: deliList) {
+				Nolist.add(p.getPaymentNo());
+			}
+		return deliList;
+	}
+
 
 
 	

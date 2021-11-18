@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.bookmate.exchange_item.model.dao.ExchangeItemDao;
 import com.kh.bookmate.exchange_item.model.vo.ExchangeItem;
+import com.kh.bookmate.payment.model.vo.PaymentDetail;
  
 @Service
 public class ExchangeItemImpl implements ExchangeItemService {
@@ -24,26 +25,33 @@ public class ExchangeItemImpl implements ExchangeItemService {
 		exchangeItemDao.insertExchangeItem(sqlSession,exchangeBook);
 	}
 
-	//관리자 교환 페이지 조회 
+	//관리자 교환 페이지 리스트 조회 
 	@Override
 	public List<ExchangeItem> selectExchangeList() {
-	
 		List<ExchangeItem> list = exchangeItemDao.selectExchangeList(sqlSession);
 		return list;
 		
 	}
 
+	//관리자 교환 리스트 뽑아옴 (디테일넘버테이블도 쓸꺼기 때문에 )
 	@Override
-	public List<ExchangeItem> selectOrderDetailNoList(List<Integer> exchangeDetailNoList) {
-		List<ExchangeItem> OrderDetailList = exchangeItemDao.selectOrderDetailList(sqlSession,exchangeDetailNoList);
+	public List<PaymentDetail> selectOrderDetailNoList(List<Integer> exchangeDetailNoList) {
+		List<PaymentDetail> OrderDetailList = exchangeItemDao.selectOrderDetailList(sqlSession,exchangeDetailNoList);
 		return OrderDetailList;
 	}
-  
+
+	@Override
+	public void updateExchangeList(ExchangeItem exchangeBook) {
+		exchangeItemDao.updateExchangeList(sqlSession,exchangeBook);
+
+	}
+
 //	@Override
-//	public int insertExchangeItem(int paymentDetailNo) {
-//		
-//		return exchageItemDao.insertExchangeItem(sqlSession,paymentDetailNo);
+//	public List<PaymentDetail> updateExchangeList(List<Integer> exchangeDetailNoList) {
+//		List<PaymentDetail> updateExchangeList = exchangeItemDao.updateExchangeList(sqlSession, exchangeDetailNoList);
+//		return updateExchangeList;
 //	}
+//  
 
 	
 }
