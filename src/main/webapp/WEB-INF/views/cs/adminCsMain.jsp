@@ -29,7 +29,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </head>
-<body>
+<body> 
 
 <h1>CS 관리자 메인페이지 </h1>
 

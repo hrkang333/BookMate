@@ -63,7 +63,7 @@
 				<td><c:out value="${exchangeItem.exchangeName}"/></td>
 	 			 <td><c:out value="${pd.bookTitle }"/></td>
 				<td><c:out value="${pd.quantity }"/>개</td> 
-				
+			 	
 				
 				<td>
 			

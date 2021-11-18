@@ -265,7 +265,7 @@
 															<div><input type="button" onclick="goReturn('${item.paymentDetailNo}','${item.paymentNo}')" value="반품신청"/></div>
 															<div><input type="button" onclick="confirmOrder('${item.paymentDetailNo}')" value="구매확정" /></div>
 														
-
+ 
 														</c:when>
 														<c:when test="${item.deliveryStatus =='3'}">
 															<!--  배송완료 일 때 -->

@@ -31,7 +31,7 @@ public class ExchangeItemImpl implements ExchangeItemService {
 		List<ExchangeItem> list = exchangeItemDao.selectExchangeList(sqlSession);
 		return list;
 		
-	}
+	} 
 
 	//관리자 교환 리스트 뽑아옴 (디테일넘버테이블도 쓸꺼기 때문에 )
 	@Override

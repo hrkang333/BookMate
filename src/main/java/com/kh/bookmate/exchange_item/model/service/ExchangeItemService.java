@@ -17,7 +17,7 @@ public interface ExchangeItemService {
 
 	//List<PaymentDetail> updateExchangeList(List<Integer> exchangeDetailNoList);
 
-
+ 
 
 
  

@@ -76,7 +76,7 @@ public class csController {
 		
 		return "redirect:cs/adminExchange";
 	}
-	
+	 
 	
 	//배송중/ 배송완료 리스트 가져오기 -페이먼트디테일 넘버에서 페이먼트 넘버를 가져와야 두개를 쓸수가 있다..? 
 	@RequestMapping("deliveryList.cs")

@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title> 배송대기중 업데이트 리스트 </title>
 </head>
-<body>
+<body> 
 
 	<table class="table" style="text-align: center; width: 1200px;">
 	

@@ -95,7 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	INSERT INTO PAYMENTDETAIL VALUES (PAYMENTDETAIL_SEQ.NEXTVAL,#{paymentNo},#{bookISBN},#{bookMainImg},#{bookTitle},#{quantity},#{bookPrice},#{salePrice},#{getPoint},#{deliveryDate},DEFAULT)
 	</insert>
 	
-	
+	 
 	
 	<!-- 사용자 교환상태 업데이트  -->
 	<update id="updateUserExchangeList" parameterType="PaymentDetail">
@@ -120,7 +120,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</foreach>
 	
 	</select>
-	
+	 
 </mapper>
 	
 

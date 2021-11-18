@@ -200,7 +200,7 @@ public class myPageController {
 		return "myPage/myOrderListDetail";
 	}
 	
-	
+	 
 	
 	
 	

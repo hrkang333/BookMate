@@ -122,7 +122,7 @@ public class PaymentServiceImpl implements PaymentService {
 			return paymentNoList;
 		}
 
-	
+	 
 	//배송리스트 업데이트 
 	@Override
 	public void updateUpdateDelivery(PaymentDetail paymentDetail) {
@@ -134,7 +134,7 @@ public class PaymentServiceImpl implements PaymentService {
 	
 	
 
-
+ 
 
 	
 

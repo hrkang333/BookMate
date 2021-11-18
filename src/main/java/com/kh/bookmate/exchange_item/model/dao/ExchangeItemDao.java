@@ -35,7 +35,7 @@ public class ExchangeItemDao {
 			
 			return orderList;
 	}
-
+ 
 	public void updateExchangeList(SqlSessionTemplate sqlSession, ExchangeItem exchangeBook) {
 		// TODO Auto-generated method stub
 		sqlSession.update("ExchangeItemMapper.updateExchangeList",exchangeBook);

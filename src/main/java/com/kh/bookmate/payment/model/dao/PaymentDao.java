@@ -62,7 +62,7 @@ public class PaymentDao {
 		return sqlSession.insert("paymentMapper.insertPaymentDetail",pd);
 	}
 
-	
+	 
 	
 	//-----미소 
 	public void updateUserExchangeList(SqlSessionTemplate sqlSession, PaymentDetail paymentDetail) {
@@ -88,7 +88,7 @@ public class PaymentDao {
 	}
 
 
-
+ 
 	
 } 
 

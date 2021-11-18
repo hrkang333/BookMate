@@ -46,7 +46,7 @@
 	  		  <th>휴대폰 번호 </th>
 	  		  <th>주소</th>
 	  		
-	  		</tr> 
+	  		</tr>  
 	  
 	  		<tr>
 	  			<td><c:out value="${exchangeDetail.paymentDetailNo}"/></td>

@@ -33,6 +33,6 @@ public interface PaymentService {
 	List<PaymentDetail> selectDeliveryList();
 
 	List<Payment> selectDeliveryPaymentNoList(List<Integer> deliveryDetailNoList);
-
-
+ 
+ 
 }
