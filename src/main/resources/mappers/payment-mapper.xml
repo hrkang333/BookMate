@@ -120,8 +120,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</foreach>
 	
 	</select>
-	 
-</mapper>
+
 	
 	<delete id="deleteBasket">
 	DELETE FROM SHOPPINGBASKET WHERE BASKETNO = #{basketNo}
