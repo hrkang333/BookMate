@@ -171,15 +171,42 @@
 											style="width: 124px; font-size: 12px !important; margin-right: 10px; background-image: none; background-color: #5b8a5b !important; border: 1px solid #5b8a5b; color: #fff !important; padding: 7px 12px 1px; box-shadow: none; height: 33px; text-align: center;">바로
 											구매하기</a>
 										</c:if>
+												<form action="selectBook.book" method="post" id="detailBookForm">
+														<input type="hidden" name="cartUbNo" id="ubookNo" value="${ ubook.ubookNo }">
+													</form>
+													
+													<form action="ubookCart.ub" method="post" id="moveCartForm">
+													
+													<input type="hidden" value="${sessionScope.loginUser.userId}" name="cartUserId">
+											
+												</form>
 										<script type="text/javascript">
 											function goCart() {
-												var loginUser = "${sessionScope.loginUser.userId}"
-												if (loginUser == "") {
+												var cartUserId = "${sessionScope.loginUser.userId}"
+										        var cartCount = parseInt($('#order-quantity').val())
+												if (cartUserId == null||cartUserId == "") {
 													alert("로그인이 필요합니다.");
 													return false;
-												}else{
-													alert("뭘까?");
 												}
+												$.ajax({
+										        	
+									        		url : "insertCart.ub",
+									        		data : {
+									        			cartUserId : cartUserId,
+									        			cartUbNo : "${requestScope.ubook.ubookNo}",
+									        			cartCount : cartCount
+									        		},
+									        		
+									        		type : "post" ,
+									        		success : function(str) {
+														if(confirm("상품을 장바구니에 담았습니다. 장바구니로 이동하시겠습니까?")){
+															$('#moveCartForm').submit();
+														}
+														return false;
+													}
+									        		
+									        		
+									        	})
 										
 											}
 										</script>

@@ -27,6 +27,9 @@
       <typeAlias type="com.kh.bookmate.paymentmethod.model.vo.PaymentMethodDetail" alias="PaymentMethodDetail"/>
       <typeAlias type="com.kh.bookmate.paymentmethod.model.vo.PaymentMethod" alias="PaymentMethod"/>
 		<typeAlias type="com.kh.bookmate.exchange_item.model.vo.ExchangeItem" alias="ExchangeItem"/>
+      <typeAlias type="com.kh.bookmate.ubook_payment.model.vo.UbookPayment" alias="UbookPayment"/>
+      <typeAlias type="com.kh.bookmate.ubook_cart.model.vo.UbookCart" alias="UbookCart"/>
+      <typeAlias type="com.kh.bookmate.ubook_payment.model.vo.UbookPaymentDetail" alias="UbookPaymentDetail"/>
    </typeAliases>
    <typeHandlers>
       <typeHandler
@@ -47,6 +50,8 @@
       <mapper resource="/mappers/coupon-mapper.xml"/>
       <mapper resource="/mappers/paymentMethod-mapper.xml"/>
 		<mapper resource="/mappers/exchangeItem-mapper.xml"/>
+      <mapper resource="/mappers/ubookPayment-mapper.xml"/>
+      <mapper resource="/mappers/ubookCart-mapper.xml"/>
    </mappers>
 
 
