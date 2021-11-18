@@ -3,6 +3,7 @@ package com.kh.bookmate.clubApply.model.service;
 import java.util.List;
 
 import com.kh.bookmate.clubApply.model.vo.ClubApply;
+import com.kh.bookmate.clubApply.model.vo.ClubReview;
 import com.kh.bookmate.common.PageInfo;
 
 public interface ClubApplyService {
@@ -26,5 +27,15 @@ public interface ClubApplyService {
 	int updateUserApply(List<Integer> applyNoList);
 
 	int selectParticipate(int clubNo, String userId);
+	
+	int selectBefReview(int clubNo, String userId);
+
+	void insertReview(ClubReview cr);
+
+	List<ClubReview> selectReviewList(int clubNo);
+
+	void deleteReview(int clubNo, String userId);
+
+	
 
 }

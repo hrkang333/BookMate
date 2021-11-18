@@ -107,6 +107,29 @@
 	    .m_contents{
 	    	margin: 40px 0px 100px;
 	    }
+	    
+		.reviewPhotos{
+			width: 120px;
+		    height: 120px;
+		    background-size: cover;
+		    background-position: center;
+		}
+		
+		.reviewTable{
+			display: table;
+			width: 100%;
+			border-bottom: 1px solid #dee2e6;
+		}
+						
+		.reviewTableCell1{
+			display: table-cell; 
+			width: 75%;
+		}
+		.reviewTableCell2{
+			display: table-cell; 
+			width: 25%;
+			padding-left: 4%
+		}
     </style>
 </head>
 
@@ -299,11 +322,37 @@
 							<li>독서모임을 통해 모두 즐거운 시간을 보낼 수 있도록 서로 배려 부탁드립니다.</li>
 						</ol>
 					</div>
-
 				</div>
 				<div class="tab-pane fade m_contents" id="asd">
-					<button onclick="insertReview(${club.clubNo})">리뷰 남기기</button>
+					<div style="border-bottom: 2px solid gray;">
+						<button onclick="checkReview(${club.clubNo})">리뷰 남기기</button>
+					</div>
+					<ul class="reviewArea">
+						<%-- <c:forEach items="${reviewList}" var="cr">
+							<li>
+								<div class="reviewTable">
+									<div class="reviewTableCell1">
+										<c:if test="${cr.reviewRate eq 5}">🤩 매우 만족</c:if>
+										<c:if test="${cr.reviewRate eq 4}">😊 만족</c:if>
+										<c:if test="${cr.reviewRate eq 3}">🙂 보통</c:if>
+										<c:if test="${cr.reviewRate eq 2}">🤔 불만족</c:if>
+										<c:if test="${cr.reviewRate eq 1}">😤 매우 불만족</c:if>
+										<br>
+										<c:out value="${cr.reviewContent}"/>
+										<c:if test="${!empty cr.reviewPhoto}">
+											<div class="reviewPhotos" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${cr.reviewPhoto}')"></div>
+										</c:if>
+									</div>
+									<div class="reviewTableCell2">
+										<c:out value="${cr.reviewWriter}"/> <br>
+										<c:out value="${cr.createDate}"/> <br>
+									</div>
+								</div>
+						   </li>
+						</c:forEach>  --%>
+					</ul>					
 				</div>
+				
 				<div class="tab-pane fade m_contents" id="zxc">
 					<p>Curabitur dignissim quis nunc vitae laoreet. Etiam ut mattis
 						leo, vel fermentum tellus. Sed sagittis rhoncus venenatis. Quisque
@@ -315,9 +364,9 @@
         </div>
     </section>
     
-    <form id="insertReviewForm" action="">
+    <!-- <form id="insertReviewForm" action="">
     	<input type="hidden" name="clubNo" id="formClubNo">
-    </form>
+    </form> -->
 
     <!--================ Start footer Area  =================-->
     <footer>
@@ -406,10 +455,128 @@
         </div>
     </footer>
     
+    <!-- The Modal -->
+	  <div class="modal" id="myModal">
+	    <div class="modal-dialog modal-dialog-centered modal-lg">  <!-- modal-dialog-centered : 모달창 화면중앙 -->
+	      <div class="modal-content">
+	      
+	        <!-- Modal Header -->
+	        <div class="modal-header">
+	          <h4 class="modal-title">리뷰 작성</h4>
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        </div>
+	        
+	        <!-- Modal body -->
+	      <form id="reviewEnrollForm" action="insertReview.cl" method="post" enctype="multipart/form-data">
+	        <div class="modal-body">
+	          <div class="content_scroll" style="overflow: auto; max-height:400px;">
+	          	<input type="hidden" id="refClubNo" name="refClubNo" value="${club.clubNo }">
+	          	<div style="text-align: center">
+		          	<input type="radio" id="rate5" name="reviewRate" value='5' checked><label for="rate5">매우 만족🤩</label> &nbsp;
+		          	<input type="radio" id="rate4" name="reviewRate" value='4'><label for="rate4">만족😊</label> &nbsp;
+		          	<input type="radio" id="rate3" name="reviewRate" value='3'><label for="rate3">보통🙂</label> &nbsp;
+		          	<input type="radio" id="rate2" name="reviewRate" value='2'><label for="rate2">불만족🤔</label> &nbsp;
+		          	<input type="radio" id="rate1" name="reviewRate" value='1'><label for="rate1">매우 불만족😤</label> 
+	          	</div>
+	          	<textarea id="reviewContent" name="reviewContent" class="form-control" rows="10" style="resize: none;" placeholder="리뷰를 작성해주세요"></textarea>
+	          	<input type="file" id="rPhoto" name="rPhoto" class="must" onchange="imgCheck(this,'reviewPhoto')"> <br>
+	          	<img alt="" src="" id="prereviewPhoto">
+	          </div>
+	        </div>
+		  </form>
+	        <!-- Modal footer -->
+	        <div class="modal-footer">
+	          <a class="btn btn-primary" onclick="insertReview()">리뷰작성!</a>
+	        </div>
+	        
+	      </div>
+	    </div>
+	  </div>
+    
     <script>
-	    function insertReview(clubNo){
+    	var userId = '<c:out value="${ loginUser.userId }"/>';
+    	
+       $(function(){
+    		selectReviewList();
+    	}) 
+    	
+    	function delReview(reviewNo){
+    	   var clubNo = ${club.clubNo};
+    	   
+    	   if("리뷰를 삭제하시겠습니까?"){
+    		   $.ajax({
+        		   url: "deleteReview.cl",
+        		   data:{
+        			   clubNo : clubNo,
+        			   userId : userId
+        		   },
+        		   type: "post",
+        		   success:function(result){
+        			   console.log("ajax 통신완료");
+        			   alert("리뷰가 삭제되었습니다.")
+        			   selectReviewList();
+        		   },error:function(){
+        			   console.log("ajax 통신실패");
+        		   }
+        	   })
+    	   }
+       }
+
+    	function selectReviewList(){
+    		var clubNo = ${club.clubNo};
+    		    		
+    		$.ajax({
+    			url:"selectReview.cl",
+    			data:{
+    				clubNo : clubNo
+    			},
+    			type : "get",
+    			success:function(list){
+    				console.log(list);
+    				console.log(list.length);
+    				
+    				var result ="";
+    				$.each(list, function(i){
+    					result += '<li><div class="reviewTable"> <div class="reviewTableCell1">'
+    				    
+    					if(list[i].reviewRate == 5){
+    						result += '🤩 매우만족'
+    		            }else if(list[i].reviewRate == 4){
+    		            	result += '😊 만족'
+    		            }else if(list[i].reviewRate == 3){
+    		            	result += '🙂 보통'
+    		            }else if(list[i].reviewRate == 2){
+    		            	result += '🤔 불만족'
+    		            }else{
+    		            	result += '😤 매우 불만족'
+    		            }
+    					result += '<br>'+list[i].reviewContent 
+    					
+    					var imgSrc = list[i].reviewPhoto
+    					//<div class="reviewPhotos" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${cr.reviewPhoto}')"></div>
+    					if(list[i].reviewPhoto != null){
+    						result += '<div class="reviewPhotos" style="background-image: url(\'${pageContext.servletContext.contextPath }/resources/upload_files/club_img/'+list[i].reviewPhoto+'\')"></div>'
+    					}
+    					result += '</div><div class="reviewTableCell2">' + list[i].reviewWriter+'<br>'+ list[i].createDate
+    					
+    					
+    					if(userId == list[i].reviewWriter){
+    						result += '<div onclick="delReview()">삭제하기</div>'
+    					}
+    					
+    					result += '</div></div></li>'
+    				})
+
+    	            $(".reviewArea").html(result);
+    				
+    			},error:function(){
+    				console.log("ajax통신오류")
+    			}
+    		})
+    	} 
+    
+	    function checkReview(clubNo){
 			console.log("clubNo : " + clubNo);
-			var userId = '<c:out value="${ loginUser.userId }"/>';
 			
 			if(userId == ''){
 				alert("로그인 후 이용 부탁드립니다");
@@ -423,15 +590,18 @@
 					clubNo : clubNo,
 					userId : userId
 				},
-				type : "post",
+				type : "get",
 				success:function(result){
-					if(result == '0'){
+					if(result == 'fail'){
 						alert("이 모임에 참여하신 적이 없습니다. 참여하신 후 리뷰 부탁드려요~");
 						return;
 					}else{
-						if(confirm('참여하신 적이 있는 모임입니다! 리뷰를 쓰시겠습니까?')){
-							$('#formClubNo').val(clubNo);
-							$('#insertReviewForm').attr('action','insertReview.cl').submit();
+						if(result == '0'){
+							if(confirm('참여하신 적이 있는 모임입니다! 리뷰를 쓰시겠습니까?')){
+								$('#myModal').modal("show");							
+							}
+						}else{
+							alert("이미 리뷰를 작성하셨습니다.")
 						}
 					}
 				}, error:function(){
@@ -439,10 +609,59 @@
 				}
 			})
 		}
+	    
+	    function insertReview() {
+	        var form = $('#reviewEnrollForm')[0];
+	        // FormData 객체 생성
+	        var formData = new FormData(form);
+	
+	        $.ajax({
+	            type: "POST",
+	            enctype: 'multipart/form-data',
+	            url: "insertReview.cl",
+	            data: formData,
+	            processData: false,
+	            contentType: false,
+	            cache: false,
+	            timeout: 600000,
+	            success: function (result) {
+	                
+	                $('#myModal').modal("hide"); //모달창 닫기
+	                alert("리뷰가 등록되었습니다. 포인트 1000점 증정되었습니다!");
+	                
+	                selectReviewList();
+	            },
+	            error: function (e) {
+	                console.log("ERROR : ", e);
+	            }
+	        });
+	    }
+	    
+		function imgCheck(img,inputId) {
+	    	
+	    	if(img.files&&img.files[0]){
+	    		var name= img.files[0].name
+	    		var ext = name.substring(name.length-3,name.length)
+	    		if(!(ext.toUpperCase()=='PNG'||ext.toUpperCase()=='JPG')){
+	    			alert("이미지파일을 확인해주세요. png와 jpg만 가능합니다.")
+	    			$('#'+inputId).val("")
+
+	    			return;
+	    		}
+	    		const imgFile = new FileReader();
+	    		imgFile.readAsDataURL(img.files[0])
+	    		imgFile.onload = function(e) {
+	    			const previewMainImage = document.getElementById("pre"+inputId);
+	    			previewMainImage.src = e.target.result
+	    			if(inputId=='reviewPhoto'){
+	    				$('#pre'+inputId).css({"width":"200px","height":"200px"})
+	    			}			
+	    		}		   
+	    	}
+	    }
     
     	$("#heartClub").click(function() {
     		var clubNo = $("#clubNo").val();
-			var userId = '<c:out value="${ loginUser.userId }"/>';
 			var c_host = '<c:out value="${club.userId}"/>';
     		var src = $('#heartClub').attr("src");
     		
@@ -466,7 +685,7 @@
     					clubNo : clubNo,
     					userId : userId
     				},
-    				type : "get",
+    				type : "post",
     				success:function(result){
     					console.log("ajax통신성공");
     					
@@ -489,7 +708,7 @@
     					clubNo : clubNo,
     					userId : userId
     				},
-    				type : "get",
+    				type : "post",
     				success:function(result){
     					console.log("ajax통신성공");
     					
@@ -501,12 +720,6 @@
     				}
         		})
     		}
-
-    		
-    		
-			
-			
-    		
     		
 		})
     
@@ -517,8 +730,7 @@
     		var times = [];   //한번만나요: 사용자가 체크한 timeNo / 여러번만나요: 모든 timeNo
     		var c_times = '<c:out value="${club.times}"/>'; 
     		var c_host = '<c:out value="${club.userId}"/>';
-    		var userId = '<c:out value="${ loginUser.userId }"/>';
-    		
+  
     		//1. 로그인 유저 확인
     		if(userId == ''){
     			alert("독서모임 신청은 로그인 후 이용 부탁드립니다")
@@ -622,12 +834,15 @@
     					},error:function(){
     						console.log("ajax 통신실패")
     					}
+    				
     				})
     			} 
     		}	
     	})
 
     </script>
+    
+    
     <!--================ End footer Area  =================-->
 
 
