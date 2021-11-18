@@ -13,6 +13,8 @@
 <title>Document</title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
 <script>
 
     	var listIndex = 0;
@@ -107,10 +109,14 @@
         		
         		type : "post" ,
         		success : function(str) {
-					if(confirm("상품을 장바구니에 담았습니다. 장바구니로 이동하시겠습니까?")){
-						$('#moveCartForm').submit();
-					}
-					return false;
+        			if(str == 'already'){
+        				alert('이미 장바구니에 있는 상품입니다.')
+        			}else{
+						if(confirm("상품을 장바구니에 담았습니다. 장바구니로 이동하시겠습니까?")){
+							$('#moveCartForm').submit();
+						}
+						return false;
+        			}
 				}
         		
         		
@@ -119,11 +125,33 @@
         	
 			
 		}
-
+        function reviewScore(num) {
+            for(var i=1;i<=5;i++){
+                $('#scoreImg_'+i).attr('src',"${pageContext.servletContext.contextPath }/resources/img/fHeart.jpg")
+                if(i>num){
+                    $('#scoreImg_'+i).attr('src',"${pageContext.servletContext.contextPath }/resources/img/eHeart.jpg")
+                }
+            }
+            $('#bookRating').val(num*2);
+        }
+        
+        function insertReview() {
+        	if($('#bookRating').val()==0){
+        		alert("평점을 입력하지 않으셨습니다.");
+        		return false;
+        	}
+			if($('#reviewContent').val().length==0||!$('#reviewTitle').val()){
+				alert("내용없음")
+        		return false;
+			}
+			if(confirm("입력하신 내용으로 리뷰를 등록하시겠습니까?")){
+				$('#insertReviewForm').submit();
+			}
+		}
     </script>
+
 </head>
 <body style="width: 1000px; margin: 0 auto;">
-	<jsp:include page="../common/menubar.jsp" />
 	<hr>
 	<main>
 
@@ -318,7 +346,12 @@
 		<br>
 		<hr>
 		<br>
-		<br> asf
+		<br> 
+		<div>
+		도서 구입 후 간단한 리뷰를 작성하시면 도서 정가의 2%(<fmt:formatNumber value="${price*0.02}"/>pt)를 추가 적립해 드립니다. <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reviewModal">리뷰작성</button>
+		
+		
+		</div>
 		<form action="selectBook.book" method="post" id="detailBookForm">
 			<input type="hidden" name="bookISBN" id="inputISBN">
 		</form>
@@ -328,5 +361,56 @@
 		<input type="hidden" value="${sessionScope.loginUser.userId}" name="user_Id">
 
 	</form>
+	
+	<div class="modal fade" id="reviewModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <h4 class="modal-title">도서 리뷰<span style="font-size: 15px;">(리뷰 작성시 <fmt:formatNumber value="${price*0.02}"/>pt를 추가 지급해 드립니다)</span></h4><br>
+            <button type="button" class="close" data-dismiss="modal">&times;</button> 
+        </div>
+
+            <!-- Modal Body -->
+            <div class="modal-body" >
+               
+                <div>
+                    <span style="font-weight: bold;">도서평점</span> - 책에 대한 점수를 표시해 주세요<br>
+                    <br>
+                    <img src="${pageContext.servletContext.contextPath }/resources/img/eHeart.jpg" alt="" id="scoreImg_1" onclick="reviewScore(1)" > 
+                    <img src="${pageContext.servletContext.contextPath }/resources/img/eHeart.jpg"  id="scoreImg_2" alt="" onclick="reviewScore(2)" > 
+                    <img src="${pageContext.servletContext.contextPath }/resources/img/eHeart.jpg"  id="scoreImg_3" alt="" onclick="reviewScore(3)" >
+                    <img src="${pageContext.servletContext.contextPath }/resources/img/eHeart.jpg" alt=""  id="scoreImg_4" onclick="reviewScore(4)" > 
+                    <img src="${pageContext.servletContext.contextPath }/resources/img/eHeart.jpg"  id="scoreImg_5" alt="" onclick="reviewScore(5)" >
+
+                </div>
+
+                <hr>
+
+                <div>
+                    <form action="insertReview.re" method="post" id="insertReviewForm">
+                        <input type="hidden" name="reviewWriter" value="${sessionScope.loginUser.userId})">
+                        <input type="hidden" name="bookISBN" value="${requestScope.book.bookISBN}">
+                        <input type="hidden" name="bookRating" id="bookRating" value="0">
+                    <span style="font-weight: bold;">도서리뷰</span> - 책에 대하여 사람들에게 말해주세요<br>
+                    <br>
+                    리뷰 제목 : <input type="text" name="reviewTitle" id="reviewTitle" style="width: 760px;"><br>
+                    리뷰 내용 :<br>
+                    <textarea name="reviewContent" id="reviewContent" cols="100" rows="10" maxlength="1000" placeholder="공백 포함 1000자 이내로 입력해 주세요&#13;&#10;댓글이 달린 후 수정과 삭제는 불가능 합니다.&#13;&#10;성의없는 포인트 수집용 리뷰는 불이익을 받으실 수 있습니다."></textarea>
+                    </form>
+                </div>
+            </div>
+            
+
+            <!-- Modal footer -->
+            <div class="modal-footer" >
+                <button type="button" class="btn btn-primary mr-auto" onclick="insertReview()">리뷰 등록</button>
+                
+                <button type="button" class="btn btn-danger" id="closeModal"data-dismiss="modal">취소</button>
+            </div>
+        
+        </div>
+    </div>
+</div>
 	</main>
 </html>

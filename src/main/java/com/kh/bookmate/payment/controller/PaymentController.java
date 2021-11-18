@@ -24,6 +24,7 @@ import com.kh.bookmate.payment.model.vo.PaymentDetail;
 import com.kh.bookmate.paymentmethod.model.service.PaymentMethodService;
 import com.kh.bookmate.paymentmethod.model.vo.PaymentMethod;
 import com.kh.bookmate.paymentmethod.model.vo.PaymentMethodDetail;
+import com.kh.bookmate.shoppingbasket.model.vo.ShoppingBasket;
 @Controller
 public class PaymentController {
 
@@ -66,8 +67,9 @@ public class PaymentController {
 	}
 	
 	@RequestMapping("insertPayment")
-	public String insertPayment(PaymentDetail paymentDetailList, Payment payment) {
+	public String insertPayment(PaymentDetail paymentDetailList, Payment payment,ShoppingBasket basketList) {
 		
+		List<ShoppingBasket> deleteBasketList = basketList.getBasketList();
 		Payment temp = payment;
 		List<PaymentDetail> list = new ArrayList<PaymentDetail>();
 		temp.setShippingAddress(payment.getShippingPostCode()+"/"+payment.getShippingAddress()+"/"+payment.getShippingAddressDetail());
@@ -78,7 +80,7 @@ public class PaymentController {
 			list.add(paymentDetailList.getPaymentDetailList().get(i));
 			
 		}
-		paymentService.insertPayment(temp,list);
+		paymentService.insertPayment(temp,list,deleteBasketList);
 		
 		
 		return "payment/orderComplete";

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="reviewMapper">
+<insert id="insertReview" parameterType="BookReview">
+INSERT INTO BOOKREVIEW VALUES(BOOKREVIEW_SEQ.NEXTVAL,#{bookISBN},#{bookRating},#{reviewTitle},#{reviewWriter},#{reviewContent},SYSDATE,DEFAULT)
+</insert> 
+<update id="updateReviewWriter" parameterType="BookReview">
+UPDATE BUYREVIEW SET REVIEWSTATUS = 1 WHERE USER_ID = #{reviewWriter}
+</update>
+<select id="selectTotalCount" resultType="_int">
+SELECT COUNT(*) FROM BOOKREVIEW
+</select>
+<select id="selectReviewList" resultType="BookReview">
+SELECT * FROM BOOKREVIEW
+</select>
+</mapper>

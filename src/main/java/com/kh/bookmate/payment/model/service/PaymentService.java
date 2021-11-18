@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kh.bookmate.payment.model.vo.Payment;
 import com.kh.bookmate.payment.model.vo.PaymentDetail;
+import com.kh.bookmate.shoppingbasket.model.vo.ShoppingBasket;
 import com.kh.bookmate.user.model.vo.User;
 
 public interface PaymentService {
@@ -22,7 +23,7 @@ public interface PaymentService {
 
 	Payment selectPaymentNo(int paymentNo);
 
-	void insertPayment(Payment temp, List<PaymentDetail> list);
+	void insertPayment(Payment temp, List<PaymentDetail> list, List<ShoppingBasket> deleteBasketList);
 
 
 }

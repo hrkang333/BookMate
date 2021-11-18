@@ -14,5 +14,7 @@ public interface ShoppingBasketService {
 	List<Book> selectBookList(List<ShoppingBasket> basketList);
 
 	int deleteBasket(int basketNo);
+
+	ShoppingBasket selectBasket(ShoppingBasket basket);
 	
 }

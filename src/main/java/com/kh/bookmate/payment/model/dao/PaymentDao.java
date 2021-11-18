@@ -57,9 +57,22 @@ public class PaymentDao {
 		return sqlSession.insert("paymentMapper.insertPayment",temp);
 	}
 
+	//결제 세부 정보 등록
 	public int insertPaymentDetail(SqlSessionTemplate sqlSession, PaymentDetail pd) {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("paymentMapper.insertPaymentDetail",pd);
+	}
+
+	//결제후 장바구니 삭제
+	public int deleteBasket(SqlSessionTemplate sqlSession, int basketNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("paymentMapper.deleteBasket",basketNo);
+	}
+
+	//결제후 유저 포인트 업데이트
+	public int updateUserPoint(SqlSessionTemplate sqlSession, Payment temp) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("paymentMapper.updateUserPoint",temp);
 	}
 
 
