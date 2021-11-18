@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ubookPaymentMapper">
+
+	<insert id="insertUbookPayment" parameterType="UbookPayment">
+	INSERT INTO UBOOKPAYMENT VALUES (SEQ_UBPAYMENTNO.NEXTVAL,#{userIdUb},#{shippingNameUb},#{shippingAddressUb},#{shippingPhoneUb},#{deliveryRequestUb},DEFAULT,#{totalCostUb},0,#{totalPayCostUb},#{deliveryCostUb})
+	<selectKey keyProperty="paymentNoUb" resultType="_int" order="AFTER">
+	SELECT SEQ_UBPAYMENTNO.CURRVAL FROM DUAL
+	</selectKey>
+	</insert>
+	
+	<insert id="insertUbookPaymentDetailUb" parameterType="UbookPaymentDetail">
+	INSERT INTO UBOOKPAYMENTDETAIL VALUES (SEQ_UBPAYMENTDETAILNO.NEXTVAL,#{paymentNoUb},#{ubookNoUb},#{ubookImgUb},#{ubookNameUb},#{quantityUb},#{ubookOPriceUb},#{ubookPriceUb},#{deliveryDateUb},DEFAULT)
+	</insert>
+
+</mapper>
