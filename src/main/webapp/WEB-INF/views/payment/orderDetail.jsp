@@ -599,7 +599,7 @@ console.log("afasf")
 						<input type="hidden" name="paymentDetailList[${status.index}].bookPrice" value="${list.bookPrice}">
 						<input type="hidden" name="paymentDetailList[${status.index}].salePrice" value="${list.salePrice}">
 						<input type="hidden" name="paymentDetailList[${status.index}].getPoint" value="${list.getPoint}">
-						
+						<input type="hidden" name="basketList[${status.index}].basketNo" value="${requestScope.deleteBasketList[status.index].basketNo}">
 						
 						</c:forEach>
 	

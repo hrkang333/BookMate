@@ -94,7 +94,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	INSERT INTO PAYMENTDETAIL VALUES (PAYMENTDETAIL_SEQ.NEXTVAL,#{paymentNo},#{bookISBN},#{bookMainImg},#{bookTitle},#{quantity},#{bookPrice},#{salePrice},#{getPoint},#{deliveryDate},DEFAULT)
 	</insert>
-</mapper>
 	
-
+	<delete id="deleteBasket">
+	DELETE FROM SHOPPINGBASKET WHERE BASKETNO = #{basketNo}
+	</delete>
+	
+	<update id="updateUserPoint" parameterType="Payment">
+	UPDATE USERS SET POINT = POINT - #{usePoint} WHERE USER_ID = #{user_Id}
+	</update>
+</mapper>
 

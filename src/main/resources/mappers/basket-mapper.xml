@@ -12,14 +12,14 @@ INSERT INTO SHOPPINGBASKET VALUES(SHOPPINGBASKET_SEQ.NEXTVAL,#{bookISBN},#{user_
 SELECT * FROM SHOPPINGBASKET WHERE USER_ID = #{user_Id}
 </select>
 <select id="selectBookList" parameterType="list" resultType="Book">
-SELECT * FROM BOOK WHERE BOOKISBN IN
-<foreach collection="list" item="ShoppingBasket" open="(" separator="," close=")">
-#{ShoppingBasket.bookISBN}
-</foreach>
-
+select B.* from 
+(SELECT * FROM SHOPPINGBASKET WHERE USER_ID = #{list[0].user_Id}) SB JOIN BOOK B ON (SB.BOOKISBN=b.BOOKISBN) 
 </select>
 <delete id="deleteBasket">
 DELETE FROM SHOPPINGBASKET WHERE BASKETNO = #{basketNo}
 </delete>
-
+<select id="selectBasket" resultType="ShoppingBasket">
+SELECT * FROM SHOPPINGBASKET WHERE USER_ID = #{user_Id} AND BOOKISBN = #{bookISBN}
+</select>
 </mapper>
+

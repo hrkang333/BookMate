@@ -25,12 +25,19 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.bookmate.book.model.service.BookService;
 import com.kh.bookmate.book.model.vo.Book;
+import com.kh.bookmate.bookreview.model.service.BookReviewService;
+import com.kh.bookmate.bookreview.model.vo.BookReview;
+import com.kh.bookmate.common.Paging;
 
 @Controller
 public class BookController {
 
 	@Autowired
 	private BookService bookService;
+	
+	@Autowired
+	private BookReviewService bookReviewService;
+	
 
 	private String[] categoryNameArr = {"소설/시/에세이" , "경제/경영" , "과학" , "인문",  "컴퓨터/IT", "자기계발" ,  "정치/사회", "역사/문화", "취미" ,  "가정/육아" };
 	         
@@ -41,9 +48,11 @@ public class BookController {
 	
 	@RequestMapping("selectBook.book")
 	public String selectBook(String bookISBN, Model mo) {
+		Paging reviewPaging; 
 		List<Book> bestBookList;
 		List<Book> newBookList;
 		List<Book> bestList;
+		List<BookReview> reviewList;
 		Book book;
 		int allBestRank;
 		int categoryBestRank;
@@ -57,7 +66,9 @@ public class BookController {
 		newBookList = bookService.selectNewBookList(book.getBookSubCategory());
 		bestBookList = bookService.selectBestBookList(book.getBookSubCategory());
 		bestList = new ArrayList<Book>(bestBookList.subList(0, 5));
-		
+		reviewPaging = new Paging(bookReviewService.selectTotalCount(), 1, 5, 10);
+		reviewList = bookReviewService.selectReviewList(reviewPaging,1);
+		System.out.println(reviewList);
 
 		mo.addAttribute("newBookList", newBookList);
 		mo.addAttribute("bestList", bestList);
@@ -180,6 +191,18 @@ public class BookController {
 
 		return "pass";
 
+	}
+	
+	@RequestMapping("insertReview.re")
+	public String insertReview(BookReview bookReview) {
+		BookReview temp = bookReview;
+		temp.setReviewContent(temp.getReviewContent().replaceAll("\r\n", "<br>"));
+		
+		bookReviewService.insertReview(bookReview);
+		
+		
+		return null;
+		
 	}
 
 }
