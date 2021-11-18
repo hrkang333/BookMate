@@ -31,34 +31,59 @@
 <body>
 
 	<!-- -->
-	<h2>교환 대기중인 목록</h2>
+	<h2>교환 리스트 목록</h2>
 
-	<table class="table" style="text-align: center;">
+
+<form action="updateExchangeList.cs" method="post">
+	<table class="table" style="text-align: center; width: 1200px;">
 
 
 		<tr>
 			<th>교환 상세주문 번호</th>
 			<th>교환 주문 번호</th>
 			<th>성함</th>
+			<th>책 제목 </th>
 			<th>주문 수량</th>
 			<th>주문상태</th>
-
-		</tr>
-	<c:forEach var="item" items="${exchangeList}" varStatus="status">
-		<tr>
-			<td><c:out value="${item.exchangeNo }"/></td>
-			<td><c:out value="${item.paymentDetailNo }"/></td>
- 			<td><c:out value="${item.user_Id }"/></td>
-			<%-- <td><c:out value="${item.quantity }"/>개</td>  --%>
-			<td><c:out value="${item.exchangeStatus }"/></td>
-			
-
-
+			<th>상태</th>
 		</tr>
 		
+		
+	
+	 <c:forEach  items="${exchangeList}" var="exchangeItem" varStatus="status">		
+			<tr>
+			
+		<c:forEach items="${orderDetailList}" var="paymentDetail" begin="0" end="1">	
+			<c:if test="${exchangeItem.paymentDetailNo eq paymentDetail.paymentDetailNo}">
+				<c:set var="pd" value="${paymentDetail}"/>
+			</c:if>
+			
+				<td><c:out value="${exchangeItem.exchangeNo}"/></td>
+				<td><c:out value="${exchangeItem.paymentDetailNo}"/></td>
+				<td><c:out value="${exchangeItem.exchangeName}"/></td>
+	 			 <td><c:out value="${pd.bookTitle }"/></td>
+				<td><c:out value="${pd.quantity }"/>개</td> 
+			 	
+				
+				<td>
+			
+			<c:choose> 
+			<c:when test="${exchangeItem.exchangeStatus == '1'}"> 교환대기중 </c:when>
+			<c:when test="${exchangeItem.exchangeStatus == '2'}"> 교환완료 </c:when>
+			</c:choose>
+			
+				</td>
+				
+				<input type="hidden" value="${exchangeItem.exchangeStatus}" name="exchangeStatus"/>
+				<input type="hidden" value="${exchangeItem.paymentDetailNo }" name="paymentDetailNo"/>
+				<td><button type="submit">승인 </button></td>
+			
 		</c:forEach>
+			</tr>
+		
+	</c:forEach>
 	</table>
-
+</form>
 
 </body>
 </html>

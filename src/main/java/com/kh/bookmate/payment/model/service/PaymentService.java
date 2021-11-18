@@ -25,5 +25,15 @@ public interface PaymentService {
 
 	void insertPayment(Payment temp, List<PaymentDetail> list, List<ShoppingBasket> deleteBasketList);
 
+	//(교환) 사용자 화면에서 주문상태 업데이트로 
+	void updateUserExchangeList(PaymentDetail paymentDetail);
+	
+	//(배송상태 업데이트) 사용자 화면에서 배송중으로 업데이트 
+	void updateUpdateDelivery(PaymentDetail paymentDetail);
 
+	List<PaymentDetail> selectDeliveryList();
+
+	List<Payment> selectDeliveryPaymentNoList(List<Integer> deliveryDetailNoList);
+ 
+ 
 }

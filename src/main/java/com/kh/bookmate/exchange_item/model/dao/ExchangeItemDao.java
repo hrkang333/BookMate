@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.bookmate.exchange_item.model.vo.ExchangeItem;
+import com.kh.bookmate.payment.model.vo.PaymentDetail;
 
 @Repository
 public class ExchangeItemDao {
@@ -22,18 +23,23 @@ public class ExchangeItemDao {
 		return sqlSession.selectList("ExchangeItemMapper.selectExchangeList");
 	}
 
-	public List<ExchangeItem> selectOrderDetailList(SqlSessionTemplate sqlSession, List<Integer> exchangeDetailNoList) {
+	public List<PaymentDetail> selectOrderDetailList(SqlSessionTemplate sqlSession, List<Integer> exchangeDetailNoList) {
 		
-		ArrayList<ExchangeItem> orderList = (ArrayList)sqlSession.selectList("ExchangeItemMapper.selectOrderDetailList");
+		ArrayList<PaymentDetail> orderList = (ArrayList)sqlSession.selectList("ExchangeItemMapper.selectOrderDetailList",exchangeDetailNoList);
 		
 		//위에 orderList에서 뽑은 DetailNoList에 담음 
 		List<Integer> exchangeOrderDetailNoList = new ArrayList<>();
-			for(ExchangeItem e : orderList) {
+			for(PaymentDetail e : orderList) {
 				exchangeOrderDetailNoList.add(e.getPaymentDetailNo());
 			}
 			
-			return (ArrayList) orderList;
-//		return (ArrayList)sqlSession.selectList("ExchangeItemMapper.selectOrderDetailList",exchangeDetailNoList);
+			return orderList;
+	}
+ 
+	public void updateExchangeList(SqlSessionTemplate sqlSession, ExchangeItem exchangeBook) {
+		// TODO Auto-generated method stub
+		sqlSession.update("ExchangeItemMapper.updateExchangeList",exchangeBook);
+
 	}
 
 	

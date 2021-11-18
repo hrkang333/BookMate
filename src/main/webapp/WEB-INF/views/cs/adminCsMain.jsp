@@ -29,12 +29,13 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </head>
-<body>
+<body> 
 
 <h1>CS 관리자 메인페이지 </h1>
 
-
-	<a href="selectExchangeList.cs"> 교환대기중리스트로 이동하기 </a>
+	<div><a href="deliveryList.cs"> 배송대기중리스트로 이동하기 </a></div>
+	<div><a href="selectExchangeList.cs"> 교환대기중리스트로 이동하기 </a></div>
+	
 
 
 

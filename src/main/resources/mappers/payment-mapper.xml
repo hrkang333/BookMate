@@ -95,6 +95,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	INSERT INTO PAYMENTDETAIL VALUES (PAYMENTDETAIL_SEQ.NEXTVAL,#{paymentNo},#{bookISBN},#{bookMainImg},#{bookTitle},#{quantity},#{bookPrice},#{salePrice},#{getPoint},#{deliveryDate},DEFAULT)
 	</insert>
 	
+	 
+	
+	<!-- 사용자 교환상태 업데이트  -->
+	<update id="updateUserExchangeList" parameterType="PaymentDetail">
+		UPDATE PAYMENTDETAIL
+		SET DELIVERYSTATUS = 6
+		WHERE PAYMENTDETAILNO = ${paymentDetailNo}
+	</update>
+	
+	<select id="selectDeliveryList" parameterType="PaymentDetail">
+		
+		SELECT * FROM PAYMENTDETAIL
+		WHERE PAYMENTNO = #{paymentNo}
+	
+	</select>
+	
+	<select id="selectDeliveryPaymentNoList" resultType="Payment">
+	
+	SELECT * FROM PAYMENT
+	WHERE PAYMENTNO IN
+	<foreach item="item" collection="list" open="(" close=")" separator=",">
+		#{item}
+	</foreach>
+	
+	</select>
+	 
+</mapper>
+	
 	<delete id="deleteBasket">
 	DELETE FROM SHOPPINGBASKET WHERE BASKETNO = #{basketNo}
 	</delete>

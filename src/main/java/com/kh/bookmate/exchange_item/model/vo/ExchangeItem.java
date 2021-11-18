@@ -22,10 +22,12 @@ public class ExchangeItem {
 	private int exchangeStatus;
 	private String exchangeName;
 	private String exchangePhone;
-//	private String exShippingPostCode;
 	private String exchangeAddress;
-//	private String exShippingAddressDetail;
+//	private String exchangeShippingPostCode;
+//	private String exchangeShippingAddressDetail;
 	
+	//페이먼드 어드레스 넘겨주실때 다 같이 넘겨주셨군... ㅠ
+
 	
 
 }

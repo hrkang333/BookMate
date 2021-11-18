@@ -46,7 +46,7 @@
 	  		  <th>휴대폰 번호 </th>
 	  		  <th>주소</th>
 	  		
-	  		</tr> 
+	  		</tr>  
 	  
 	  		<tr>
 	  			<td><c:out value="${exchangeDetail.paymentDetailNo}"/></td>
@@ -55,22 +55,22 @@
 	  			<td><c:out value="${exchangeDetail.quantity}"/>개</td>
 	  			<td><c:out value="${payNo.shippingName}"></c:out></td>
 	  			<td><c:out value="${payNo.shippingPhone}"></c:out></td>
-	  			<td><c:out value="${payNo.shippingPostCode}"/>
+ 	  			<td><%-- <c:out value="${payNo.shippingPostCode}"/> --%>
 	  			<br><c:out value="${payNo.shippingAddress}"/>
-	  			<br><c:out value="${payNo.shippingAddressDetail}"/>
+ 	  			<br><%-- <c:out value="${payNo.shippingAddressDetail}"/> --%>
 	  			</td>
 	  		
 	  		</tr>
 	  		  	 
 	  	</table>
-	  				<input type="hidden" value="${payNo.user_Id}" name="userId">
+	  				<input type="hidden" value="${payNo.user_Id}" name="user_Id">
 	  				<input type="hidden" value="${exchangeDetail.paymentDetailNo }" name="paymentDetailNo">
 	  				<input type="hidden" value="${payNo.shippingName }" name="exchangeName">
 	  				<input type="hidden" value="${payNo.shippingPhone }"name ="exchangePhone">
-	  				<input type="hidden" value="${payNo.shippingPostCode }"name="exShippingPostCode">
-	  				<input type="hidden" value="${payNo.shippingAddress }"name ="exchangeAddress">
-	  				<input type="hidden" value="${payNo.shippingAddressDetail }"name="exShippingAddressDetail">
-	  			
+	  				<input type="hidden" value="${payNo.shippingAddress}"name ="exchangeAddress">
+ 	  				<%-- <input type="hidden" value="${payNo.shippingPostCode }"name="exchangeShippingPostCode">
+ 	  				<input type="hidden" value="${payNo.shippingAddressDetail }"name="exchangeShippingAddressDetail">
+  			 --%>
 	  	<br>
 	  <button type="submit" onclick="exchangeSubmit()"> 교환 신청 </button>
 	  
