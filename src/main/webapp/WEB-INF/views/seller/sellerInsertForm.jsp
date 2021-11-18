@@ -228,16 +228,17 @@
                                                 <label class="inputlabel">배송비</label>
 
                                                 <label class="container leftradio2">&nbsp;&nbsp; 기본 : 2600원
-                                                    <input class="deleveryChk" type="checkbox" checked="checked"
+                                                    <input class="deleveryChk" type="checkbox" checked="checked" hidden="hidden"
                                                         name="sellerDelP1" value="2600">
                                                     <span class="checkmark"></span>
                                                 </label>
                                                 <label class="container rightradio">&nbsp;&nbsp; 도서산간지역 : 4000원
-                                                    <input class="deleveryChk" type="checkbox" checked="checked"
+                                                    <input class="deleveryChk" type="checkbox" checked="checked" hidden="hidden"
                                                         name="sellerDelP2" value="4000"> <span class="checkmark"></span>
                                                 </label>
                                                 <br><br>
                                                 <label class="inputlabel">출고지</label>
+												<br><br>
 												<br><br>
                                
                                                 <input type="text" id="sample4_postcode" name="post" placeholder="우편번호" required="required"

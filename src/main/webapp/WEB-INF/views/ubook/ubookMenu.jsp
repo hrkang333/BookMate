@@ -51,7 +51,7 @@
                             </a>
                             <br />
                             <!--검색-->
-                                    <form id="search" action="ubookSearch.ub" style=" width: 445px; margin-top: 20px;">
+                                    <form id="search" action="ubookSearch.ub" style=" width: 455px; margin-top: 20px;">
                                         <div class="row no-gutters align-items-center">
                                             <!--검색 input-->
                                             <div class="col">
@@ -81,7 +81,7 @@
                                             </script>
                                         </div>
                                     </form>
-                             <div style="font-size: 20px; margin-left: 10px; padding-top: 30px;">
+                             <div style="font-size: 15px; margin-left: 10px; padding-top: 35px;">
                             <!--로그인 회원정보-->
                             <c:if test="${ empty sessionScope.loginUser }">
                             
@@ -99,6 +99,8 @@
                                 <a href="sellerPage.se">판매자페이지</a>
                                 |
                                 </c:if>
+                                <a href="ubookCart.ub">장바구니</a>
+                                |
                                 <a href="home.us">책구메이트 홈</a>
                                 |
                                 <a href="logout.us">로그아웃</a>

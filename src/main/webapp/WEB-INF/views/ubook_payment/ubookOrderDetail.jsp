@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
+<title>[책장메이트] - 결제</title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script
@@ -570,6 +570,7 @@ console.log("afasf")
 </script>
 </head>
 <body style="width: 1200px; margin: auto;">
+ 	<jsp:include page="../ubook/ubookMenu.jsp"/>
 
 	<main>
 		<br>
@@ -599,7 +600,7 @@ console.log("afasf")
 						<input type="hidden" name="paymentDetailList[${status.index}].bookPrice" value="${list.bookPrice}">
 						<input type="hidden" name="paymentDetailList[${status.index}].salePrice" value="${list.salePrice}">
 						<input type="hidden" name="paymentDetailList[${status.index}].getPoint" value="${list.getPoint}">
-						<input type="hidden" name="basketList[${status.index}].basketNo" value="${requestScope.deleteBasketList[status.index].basketNo}">
+						
 						
 						</c:forEach>
 	

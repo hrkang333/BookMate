@@ -53,7 +53,7 @@
     }
 </style>
 </head>
-<body >
+<body style="width: 1200px;">
   <!--================ Start footer Area  =================-->   
    <footer class="footer">
       <div class="footer-area">

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.kh.bookmate.payment.model.dao.PaymentDao;
 import com.kh.bookmate.payment.model.vo.Payment;
 import com.kh.bookmate.payment.model.vo.PaymentDetail;
+import com.kh.bookmate.shoppingbasket.model.vo.ShoppingBasket;
 import com.kh.bookmate.user.model.dao.UserDao;
 
 @Service
@@ -82,7 +83,9 @@ public class PaymentServiceImpl implements PaymentService {
 	
 
 	@Override
-	public void insertPayment(Payment temp, List<PaymentDetail> list) {
+	public void insertPayment(Payment temp, List<PaymentDetail> list, List<ShoppingBasket> deleteBasketList) {
+		
+		//결제 정보 등록, 결제 세부(도서)정보 등록, 결제후 장바구니 삭제, 결제후 유저 포인트 업데이트
 		
 		int result = paymentDao.insertPayment(sqlSession,temp);
 		if(result < 0) {
@@ -94,6 +97,20 @@ public class PaymentServiceImpl implements PaymentService {
 			int result2 = paymentDao.insertPaymentDetail(sqlSession,pd);
 			if(result2 < 0) {
 				throw new RuntimeException("세부 결제 정보 저장 오류");
+			}
+		}
+		
+		for(ShoppingBasket basket : deleteBasketList) {
+			int result3 = paymentDao.deleteBasket(sqlSession,basket.getBasketNo());
+			if(result3 < 0) {
+				throw new RuntimeException("결제후 장바구니 삭제 오류");
+			}
+		}
+		
+		if(temp.getUsePoint() > 0) {
+			int result4 = paymentDao.updateUserPoint(sqlSession,temp);
+			if(result4 < 0) {
+				throw new RuntimeException("유저 포인트 업데이트 오류");
 			}
 		}
 	}
@@ -129,7 +146,6 @@ public class PaymentServiceImpl implements PaymentService {
 		// TODO Auto-generated method stub
 		
 	}
-
 	
 	
 	

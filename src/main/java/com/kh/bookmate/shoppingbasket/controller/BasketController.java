@@ -51,8 +51,12 @@ public class BasketController {
 	@RequestMapping("insertBasket.ba")
 	@ResponseBody
 	public String insertBasket(ShoppingBasket basket) {
-
-		System.out.println(basket);
+		
+		ShoppingBasket temp = null; 
+		temp = shoppingBasketService.selectBasket(basket);
+		if(temp != null) {
+			return "already";
+		}
 		shoppingBasketService.insertBasket(basket);
 		return "success";
 	}
@@ -68,6 +72,8 @@ public class BasketController {
 		cartItemList = shoppingBasketService.selectBookList(basketList);
 		}
 		mo.addAttribute("basketList", basketList);
+		System.out.println(basketList);
+		System.out.println(cartItemList);
 		mo.addAttribute("cartItemList", cartItemList);
 		mo.addAttribute("shipDate", shipDate);
 
@@ -78,7 +84,9 @@ public class BasketController {
 	@RequestMapping("movePayment.sc")
 	public String selectPaymentPage(ShoppingBasket basketList, @SessionAttribute("loginUser") User user,Model mo) {
 
-		List<ShoppingBasket> newBasketList = basketList.getBasketList();
+		List<ShoppingBasket> newBasketList = new ArrayList<ShoppingBasket>();
+		
+				
 		List<Book> cartItemList = null;
 		List<PaymentDetail> orderList = new ArrayList<PaymentDetail>();
 		Payment order = null;
@@ -92,9 +100,18 @@ public class BasketController {
 		int totalGetPoint = 0;
 		String shippingName, shippingAddress, shippingPhone;
 		String[] shippingAddressArr;
+		for(ShoppingBasket temp : basketList.getBasketList()) {
+			if(temp.getBookISBN()!=null) {
+				System.out.println(temp);
+				newBasketList.add(temp);
+			}
+		}
 
 		//주문 페이지로 가져갈 장바구니 상품들과 주문테이블에 표시될 금액 정보 처리
 		cartItemList = shoppingBasketService.selectBookList(newBasketList);
+		
+		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaa"+newBasketList.size());
+		
 		for (int i = 0; i < newBasketList.size(); i++) {
 			tempBook = cartItemList.get(i);
 			tempBasket = newBasketList.get(i);
@@ -150,6 +167,7 @@ public class BasketController {
 		
 		order = new Payment(user.getUserId(), shippingName, shippingAddressArr[0], shippingAddressArr[1],shippingAddressArr[2],shippingPhone, totalCost, totalGetPoint);
 		
+		mo.addAttribute("deleteBasketList", newBasketList);
 		mo.addAttribute("order", order);
 		mo.addAttribute("orderList", orderList);
 		return "payment/orderDetail";

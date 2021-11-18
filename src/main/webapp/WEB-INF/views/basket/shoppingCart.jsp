@@ -108,7 +108,7 @@ function movePayment() {
 		}
 	})
 	
-	$('#movePaymentForm').submit(); 
+	$('#movePaymentForm').submit();
 
 	
 }
