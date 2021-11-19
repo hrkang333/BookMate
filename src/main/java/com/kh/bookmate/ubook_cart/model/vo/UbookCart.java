@@ -87,8 +87,8 @@ public class UbookCart {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
+		return "UbookCart [cartNo=" + cartNo + ", cartUbNo=" + cartUbNo + ", cartUserId=" + cartUserId + ", cartCount="
+				+ cartCount + ", cartList=" + cartList + "]";
 	}
 
 	

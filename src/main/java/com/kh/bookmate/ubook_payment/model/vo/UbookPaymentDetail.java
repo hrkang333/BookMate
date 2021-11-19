@@ -93,7 +93,7 @@ public class UbookPaymentDetail {
 		this.ubookNoUb = ubookNoUb;
 	}
 
-	public String getuUookImgUb() {
+	public String getUookImgUb() {
 		return ubookImgUb;
 	}
 
@@ -175,15 +175,16 @@ public class UbookPaymentDetail {
 		UbookPaymentDetailList = ubookPaymentDetailList;
 	}
 
-	
 	@Override
 	public String toString() {
-		return "PaymentDetail [paymentDetailNoUb=" + paymentDetailNoUb + ", paymentNoUb=" + paymentNoUb + ", ubookNoUb="
-				+ ubookNoUb + ", ubookImgUb=" + ubookImgUb + ", ubookNameUb=" + ubookNameUb + ", quantityUb=" + quantityUb
-				+ ", ubookOPriceUb=" + ubookOPriceUb + ", ubookPriceUb=" + ubookPriceUb + ", deliveryDateUb="
-				+ deliveryDateUb + ", deliveryStatusUb=" + deliveryStatusUb 
-				+ "]";
+		return "UbookPaymentDetail [paymentDetailNoUb=" + paymentDetailNoUb + ", paymentNoUb=" + paymentNoUb
+				+ ", ubookNoUb=" + ubookNoUb + ", ubookImgUb=" + ubookImgUb + ", ubookNameUb=" + ubookNameUb
+				+ ", quantityUb=" + quantityUb + ", ubookOPriceUb=" + ubookOPriceUb + ", ubookPriceUb=" + ubookPriceUb
+				+ ", deliveryDateUb=" + deliveryDateUb + ", deliveryStatusUb=" + deliveryStatusUb
+				+ ", UbookPaymentDetailList=" + UbookPaymentDetailList + "]";
 	}
+
+	
 
 
 	

@@ -21,16 +21,28 @@ public class UbookCartDao {
 		return sqlSession.selectList("ubookCartMapper.selectCartList",cartUserId);
 	}
 
-	
+	/*
 	 public List<Ubook> selectUBookList(SqlSession sqlSession, String cartUserId) {
 		 return sqlSession.selectList("ubookCartMapper.selectUBookList",cartUserId);
 	  }
-	
-
+	*/
+	 public List<Ubook> selectUBookList(SqlSession sqlSession, List<UbookCart> cartList) {
+		 return sqlSession.selectList("ubookCartMapper.selectUBookList",cartList);
+	  }
+	 
 	public int deleteCart(SqlSession sqlSession, int cartNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("ubookCartMapper.deleteCart",cartNo);
 	}
+
+	public UbookCart selectCart(SqlSession sqlSession, UbookCart cart) {
+		return sqlSession.selectOne("ubookCartMapper.selectCart",cart);
+	}
+
+	/*
+	 * public int updateUbookStock(SqlSession sqlSession, int cartUbNo) { return
+	 * sqlSession.update("ubookCartMapper.updateUbookStock",cartUbNo); }
+	 */
 
 
 }

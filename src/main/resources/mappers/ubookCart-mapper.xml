@@ -39,13 +39,27 @@ INSERT INTO UBOOK_CART VALUES(SEQ_UBCARTNO.NEXTVAL,#{cartUbNo},#{cartUserId},#{c
 <select id="selectCartList" resultType="UbookCart">
 SELECT * FROM UBOOK_CART WHERE CARTUSERID = #{cartUserId}
 </select>
-
-<select id="selectUBookList" parameterType="String" resultMap="ubookResultSet">
+<select id="selectUBookList" parameterType="list" resultMap="ubookResultSet">
+	SELECT B.* FROM 
+	(SELECT * FROM UBOOK_CART WHERE CARTUSERID = #{list[0].cartUserId}) SB JOIN UBOOK B ON (SB.CARTUBNO=B.UBOOK_NO)
+</select>
+<!-- <select id="selectUBookList" parameterType="String" resultMap="ubookResultSet">
 	SELECT B.* FROM 
 	(SELECT * FROM UBOOK_CART WHERE CARTUSERID = #{cartUserId}) SB JOIN UBOOK B ON (SB.CARTUBNO=B.UBOOK_NO)
-</select>
+</select> -->
 <delete id="deleteCart">
 DELETE FROM UBOOK_CART WHERE CARTNO = #{cartNo}
 </delete>
 
+	<!-- 도서 삭제될 때 수량도 변경 #{ubookNoUb}-->
+	<!-- <update id="updateUbookStock" parameterType="Ubook">
+		UPDATE UBOOK
+		SET
+		UBOOK_STOCK = (UBOOK_STOCK-1)
+		WHERE UBOOK_NO=#{cartUbNo}
+	</update> -->
+	
+<select id="selectCart" resultType="UbookCart">
+SELECT * FROM UBOOK_CART WHERE CARTUSERID = #{cartUserId} AND CARTUBNO = #{cartUbNo}
+</select>
 </mapper>
