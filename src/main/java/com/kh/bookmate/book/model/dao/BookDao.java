@@ -3,6 +3,7 @@ package com.kh.bookmate.book.model.dao;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.bookmate.book.model.vo.Book;
@@ -50,6 +51,11 @@ public class BookDao {
 	public int selectCategoryBestRank(SqlSession sqlSession, Book book) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("bookMapper.selectCategoryBestRank" ,book);
+	}
+
+	public int updateBookRating(SqlSessionTemplate sqlSession, Book book) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("bookMapper.updateBookRating" ,book);
 	}
 
 	

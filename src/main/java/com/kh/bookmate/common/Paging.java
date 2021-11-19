@@ -7,7 +7,7 @@ public class Paging {
 	private int total; // 모든 자료의 개수
 	private int cntPerPage; //한 페이지에 보여질 자료 수, MYBATIS 사용시 LIMIT
 	private int lastPage; // 마지막 페이지 번호
-	private int start; // sql에서 사용할 가져올 자료 범위 시작 부분 , MYBATIS 사용시 OFFSET
+	private int start; // sql에서 사용할 가져올 자료 범위 시작 부분 , MYBATIS 사용시 OFFSET 으로 -1후에 사용
 	private int end; //sql에서 사용할 가져올 자료 범위 끝 부분
 	private int cntPage; // 하단에 보여질 페이지 범위
 	private int prePage; // pre 버튼이 필요한지 여부

@@ -47,7 +47,9 @@ public class BookController {
 	}
 	
 	@RequestMapping("selectBook.book")
-	public String selectBook(String bookISBN, Model mo) {
+	public String selectBook(String bookISBN, Model mo,@RequestParam(name="reviewKind",defaultValue = "1") int reviewKind, 
+								@RequestParam(name="reviewNowPage",defaultValue = "1") int reviewNowPage, @RequestParam(name="questionNowPage",defaultValue = "1") int questionNowPage,
+								@RequestParam(name="pagePosition",defaultValue = "0") int pagePosition) {
 		Paging reviewPaging; 
 		List<Book> bestBookList;
 		List<Book> newBookList;
@@ -56,9 +58,12 @@ public class BookController {
 		Book book;
 		int allBestRank;
 		int categoryBestRank;
+		int reviewCount;
 		
-		
+		System.out.println(bookISBN);
+		reviewCount = bookReviewService.selectTotalCount(bookISBN);
 		book = bookService.selectBook(bookISBN);
+		book.setBookReviewCount(reviewCount);
 		allBestRank = bookService.selectAllBestRank(bookISBN);
 		categoryBestRank = bookService.selectCategoryBestRank(book);
 		book.setAllBestRank(allBestRank);
@@ -66,10 +71,13 @@ public class BookController {
 		newBookList = bookService.selectNewBookList(book.getBookSubCategory());
 		bestBookList = bookService.selectBestBookList(book.getBookSubCategory());
 		bestList = new ArrayList<Book>(bestBookList.subList(0, 5));
-		reviewPaging = new Paging(bookReviewService.selectTotalCount(), 1, 5, 10);
-		reviewList = bookReviewService.selectReviewList(reviewPaging,1);
-		System.out.println(reviewList);
-
+		reviewPaging = new Paging(reviewCount, reviewNowPage, 5, 10);
+		reviewList = bookReviewService.selectReviewList(bookISBN,reviewPaging,reviewKind);
+		
+		mo.addAttribute("pagePosition", pagePosition);
+		mo.addAttribute("reviewPaging", reviewPaging);
+		mo.addAttribute("reviewKind", reviewKind);
+		mo.addAttribute("reviewList", reviewList);
 		mo.addAttribute("newBookList", newBookList);
 		mo.addAttribute("bestList", bestList);
 		mo.addAttribute("book", book);
@@ -194,15 +202,29 @@ public class BookController {
 	}
 	
 	@RequestMapping("insertReview.re")
+	@ResponseBody
 	public String insertReview(BookReview bookReview) {
 		BookReview temp = bookReview;
-		temp.setReviewContent(temp.getReviewContent().replaceAll("\r\n", "<br>"));
+		Book book = bookService.selectBook(bookReview.getBookISBN());
+		double bookRating = ((book.getBookRating()*book.getBookRatingCount())+bookReview.getBookRating())/(book.getBookRatingCount()+1);
+		bookRating = Math.round(bookRating*10)/10.0;
+		book.setBookRatingCount(book.getBookRatingCount()+1);
+		book.setBookRating(bookRating);
+		bookReviewService.insertReview(bookReview,book);
 		
-		bookReviewService.insertReview(bookReview);
-		
-		
-		return null;
-		
+		return "success";
 	}
 
+	@RequestMapping("reviewIdCheck.re")
+	@ResponseBody
+	public String selectReviewIdCheck(String user_Id,String bookISBN) {
+		
+		List<String> list = new ArrayList<String>();
+		list.add(user_Id);
+		list.add(bookISBN);
+		
+		int status = bookReviewService.insertIdCheck(list);
+		System.out.println(status);
+		return status+"";		
+	}
 }
