@@ -36,9 +36,9 @@ public class ExchangeItemDao {
 			return orderList;
 	}
  
-	public void updateExchangeList(SqlSessionTemplate sqlSession, ExchangeItem exchangeBook) {
+	public void updateExchangeList(SqlSessionTemplate sqlSession, int paymentDetailNo) {
 		// TODO Auto-generated method stub
-		sqlSession.update("ExchangeItemMapper.updateExchangeList",exchangeBook);
+		sqlSession.update("ExchangeItemMapper.updateExchangeList",paymentDetailNo);
 
 	}
 

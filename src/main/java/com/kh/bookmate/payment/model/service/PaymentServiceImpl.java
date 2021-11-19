@@ -60,10 +60,8 @@ public class PaymentServiceImpl implements PaymentService {
 		return list;
 	}
 
-
-
  
-	// 교환 환불 페이지로 이동하기 
+	// 교환
 	@Override
 	public PaymentDetail applyExchange(int paymentDetailNo) {
 		PaymentDetail applyExchange = paymentDao.applyExchange(sqlSession,paymentDetailNo);
@@ -76,9 +74,45 @@ public class PaymentServiceImpl implements PaymentService {
 		return list;
 	}
 
-	
+	//교환대기중 리스트 업데이트 
+	@Override
+	public void updateUserExchangeList(PaymentDetail paymentDetail) {
+		paymentDao.updateUserExchangeList(sqlSession, paymentDetail);
+		
+	}
 	
 
+	//배송리스트 업데이트 
+	@Override
+	public void updateUpdateDelivery(PaymentDetail paymentDetail) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Payment> selectDeliveryList(PaymentDetail paymentDetail) {
+		List<Payment> list = paymentDao.selectDeliveryList(sqlSession, paymentDetail);
+		return list;
+	}
+	
+	
+	
+//	//[관리자]배송리스트 볼라고..
+//	@Override
+//	public List<PaymentDetail> selectDeliveryList() {
+//		List<PaymentDetail> list = paymentDao.selectDeliveryList(sqlSession);
+//		return list;
+//	}
+//
+//	// 페이먼트랑 페이먼트 디테일테이블쓰고싶어서 
+//	@Override
+//	public List<Payment> selectDeliveryPaymentNoList(List<Integer> deliveryDetailNoList) {
+//		List<Payment> paymentNoList = paymentDao.selectDeliveryPaymentNoList(sqlSession,deliveryDetailNoList);
+//		return paymentNoList;
+//	}
+	
+	
+	
 	
 	
 
@@ -117,35 +151,30 @@ public class PaymentServiceImpl implements PaymentService {
 
 	
 	
-	//교환대기중 리스트 업데이트 
+	
+	
+	
 	@Override
-	public void updateUserExchangeList(PaymentDetail paymentDetail) {
-		paymentDao.updateUserExchangeList(sqlSession, paymentDetail);
-		
+	public Payment deliveryListPayment(int paymentNo) {
+		Payment pList = paymentDao.deliveryListPayment(sqlSession,paymentNo);
+		return pList;
+	}
+
+	@Override
+	public PaymentDetail deliveryListPaymentDetail(int paymentDetailNo) {
+		PaymentDetail pdList = paymentDao.deliveryListPaymentDetail(sqlSession,paymentDetailNo);
+		return pdList;
 	}
 
 	
-		//[관리자]배송리스트 볼라고..
-		@Override
-		public List<PaymentDetail> selectDeliveryList() {
-			List<PaymentDetail> list = paymentDao.selectDeliveryList(sqlSession);
-			return list;
-		}
+	
 
-		// 페이먼트랑 페이먼트 디테일테이블쓰고싶어서 
-		@Override
-		public List<Payment> selectDeliveryPaymentNoList(List<Integer> deliveryDetailNoList) {
-			List<Payment> paymentNoList = paymentDao.selectDeliveryPaymentNoList(sqlSession,deliveryDetailNoList);
-			return paymentNoList;
-		}
+
+	
+
 
 	 
-	//배송리스트 업데이트 
-	@Override
-	public void updateUpdateDelivery(PaymentDetail paymentDetail) {
-		// TODO Auto-generated method stub
-		
-	}
+
 	
 	
 	

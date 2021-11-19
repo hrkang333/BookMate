@@ -200,8 +200,6 @@ public class myPageController {
 		return "myPage/myOrderListDetail";
 	}
 	
-	 
-	
 	
 	
 	//반품 신청 페이지로 이동하기 

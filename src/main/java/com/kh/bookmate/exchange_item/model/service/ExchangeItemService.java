@@ -13,7 +13,7 @@ public interface ExchangeItemService {
 
 	List<PaymentDetail> selectOrderDetailNoList(List<Integer> exchangeDetailNoList);
 
-	void updateExchangeList(ExchangeItem exchangeBook);
+	void updateExchangeList(int paymentDetailNo);
 
 	//List<PaymentDetail> updateExchangeList(List<Integer> exchangeDetailNoList);
 

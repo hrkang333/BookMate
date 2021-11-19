@@ -15,12 +15,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <select id="selectExchangeList" parameterType="ExchangeItem" resultType="ExchangeItem">
 
-	SELECT * FROM EXCHANGE_ITEM
+	SELECT * FROM EXCHANGE_ITEM 
+	
+	
 
 </select>
 
 
-<select id="selectOrderDetailList" resultType="PaymentDetail" >
+<select id="selectOrderDetailList" parameterType="ExchangeItem" resultType="PaymentDetail" >
 
 	SELECT * FROM PAYMENTDETAIL
 	WHERE PAYMENTDETAILNO IN
@@ -31,11 +33,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  
 
 
-<update id="updateExchangeList" parameterType="ExchangeItem" >
+<update id="updateExchangeList" parameterType="_int" >
 
  UPDATE EXCHANGE_ITEM
  SET EXCHANGESTATUS = 2
- WHERE PAYMENTDETAILNO = ${paymentDetailNo}
+ WHERE PAYMENTDETAILNO = #{paymentDetailNo}
 
 </update>
 
