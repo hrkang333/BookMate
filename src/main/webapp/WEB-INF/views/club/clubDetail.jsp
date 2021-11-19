@@ -327,30 +327,7 @@
 					<div style="border-bottom: 2px solid gray;">
 						<button onclick="checkReview(${club.clubNo})">리뷰 남기기</button>
 					</div>
-					<ul class="reviewArea">
-						<%-- <c:forEach items="${reviewList}" var="cr">
-							<li>
-								<div class="reviewTable">
-									<div class="reviewTableCell1">
-										<c:if test="${cr.reviewRate eq 5}">🤩 매우 만족</c:if>
-										<c:if test="${cr.reviewRate eq 4}">😊 만족</c:if>
-										<c:if test="${cr.reviewRate eq 3}">🙂 보통</c:if>
-										<c:if test="${cr.reviewRate eq 2}">🤔 불만족</c:if>
-										<c:if test="${cr.reviewRate eq 1}">😤 매우 불만족</c:if>
-										<br>
-										<c:out value="${cr.reviewContent}"/>
-										<c:if test="${!empty cr.reviewPhoto}">
-											<div class="reviewPhotos" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${cr.reviewPhoto}')"></div>
-										</c:if>
-									</div>
-									<div class="reviewTableCell2">
-										<c:out value="${cr.reviewWriter}"/> <br>
-										<c:out value="${cr.createDate}"/> <br>
-									</div>
-								</div>
-						   </li>
-						</c:forEach>  --%>
-					</ul>					
+					<ul class="reviewArea"></ul>					
 				</div>
 				
 				<div class="tab-pane fade m_contents" id="zxc">
@@ -360,13 +337,9 @@
 				</div>
 			</div>
 
-			
         </div>
     </section>
-    
-    <!-- <form id="insertReviewForm" action="">
-    	<input type="hidden" name="clubNo" id="formClubNo">
-    </form> -->
+
 
     <!--================ Start footer Area  =================-->
     <footer>
@@ -471,13 +444,17 @@
 	        <div class="modal-body">
 	          <div class="content_scroll" style="overflow: auto; max-height:400px;">
 	          	<input type="hidden" id="refClubNo" name="refClubNo" value="${club.clubNo }">
-	          	<div style="text-align: center">
-		          	<input type="radio" id="rate5" name="reviewRate" value='5' checked><label for="rate5">매우 만족🤩</label> &nbsp;
-		          	<input type="radio" id="rate4" name="reviewRate" value='4'><label for="rate4">만족😊</label> &nbsp;
-		          	<input type="radio" id="rate3" name="reviewRate" value='3'><label for="rate3">보통🙂</label> &nbsp;
-		          	<input type="radio" id="rate2" name="reviewRate" value='2'><label for="rate2">불만족🤔</label> &nbsp;
-		          	<input type="radio" id="rate1" name="reviewRate" value='1'><label for="rate1">매우 불만족😤</label> 
-	          	</div>
+	          	<input type="hidden" id="reviewRate" name="reviewRate" value="10">
+
+	          	<div style="margin-bottom:20px;">
+                    <span style="font-weight: bold;">리뷰 평점</span> - 독서모임에 대해 평점을 선택해 주세요<br>
+                    <img src="${pageContext.servletContext.contextPath }/resources/img/rateFull.png" style="width:35px;" alt="" id="scoreImg_1" onclick="reviewScore(1)" > 
+                    <img src="${pageContext.servletContext.contextPath }/resources/img/rateFull.png" style="width:35px;" id="scoreImg_2" alt="" onclick="reviewScore(2)" > 
+                    <img src="${pageContext.servletContext.contextPath }/resources/img/rateFull.png" style="width:35px;" id="scoreImg_3" alt="" onclick="reviewScore(3)" >
+                    <img src="${pageContext.servletContext.contextPath }/resources/img/rateFull.png" style="width:35px;" alt=""  id="scoreImg_4" onclick="reviewScore(4)" > 
+                    <img src="${pageContext.servletContext.contextPath }/resources/img/rateFull.png" style="width:35px;" id="scoreImg_5" alt="" onclick="reviewScore(5)" >
+                </div>
+
 	          	<textarea id="reviewContent" name="reviewContent" class="form-control" rows="10" style="resize: none;" placeholder="리뷰를 작성해주세요"></textarea>
 	          	<input type="file" id="rPhoto" name="rPhoto" class="must" onchange="imgCheck(this,'reviewPhoto')"> <br>
 	          	<img alt="" src="" id="prereviewPhoto">
@@ -488,7 +465,6 @@
 	        <div class="modal-footer">
 	          <a class="btn btn-primary" onclick="insertReview()">리뷰작성!</a>
 	        </div>
-	        
 	      </div>
 	    </div>
 	  </div>
@@ -496,19 +472,84 @@
     <script>
     	var userId = '<c:out value="${ loginUser.userId }"/>';
     	
-       $(function(){
+    	$(function(){
     		selectReviewList();
     	}) 
     	
-    	function delReview(reviewNo){
+    	function selectReviewList(){
+    		var clubNo = ${club.clubNo};
+    		
+    		$.ajax({
+    			url:"selectReview.cl",
+    			data:{
+    				clubNo : clubNo
+    			},
+    			type : "get",
+    			success:function(list){
+    				console.log(list);
+    				console.log(list.length);
+    				
+    				var result ="";
+    				$.each(list, function(i){
+    					result += '<li><div class="reviewTable" onclick="openReview('+i+')"> <div class="reviewTableCell1">'
+						result += '<input type="hidden" id="reviewPhotoName'+i+'" value="'+list[i].reviewPhoto+'">'
+    					for(var j=1; j<=list[i].reviewRate; j+=2){
+    						result += '<img src="${pageContext.servletContext.contextPath }/resources/img/rateFull.png" style="width:20px; margin:10px 1px;">'
+    					}   
+    					result += '<br>'+list[i].reviewContent  
+    					
+    					var imgSrc = list[i].reviewPhoto
+    					if(list[i].reviewPhoto != null){
+    						result += '<div id="reviewPhotos1_'+i+'" class="reviewPhotos" style="background-image: url(\'${pageContext.servletContext.contextPath }/resources/upload_files/club_img/'+list[i].reviewPhoto+'\')"></div>'
+    						result += '<img id="reviewPhotos2_'+i+'" style="width:500px; display:none;" src="${pageContext.servletContext.contextPath }/resources/upload_files/club_img/'+list[i].reviewPhoto+'">'
+    					}
+    					result += '</div><div class="reviewTableCell2">' + list[i].reviewWriter+'<br>'+ list[i].createDate
+    					
+    					if(userId == list[i].reviewWriter){
+    						result += '<div onclick="delReview('+i+')">삭제하기</div>'
+    					}
+    					result += '</div></div></li>'
+    				})
+    	            $(".reviewArea").html(result);
+    				
+    			},error:function(){
+    				console.log("ajax통신오류")
+    			}
+    		})
+    	} 
+    	
+    	function openReview(i){
+    		if($("#reviewPhotos2_"+i).css('display')=='none'){
+    			$("#reviewPhotos1_"+i).css('display','none');
+        		$("#reviewPhotos2_"+i).css('display','block');
+    		}else{
+    			$("#reviewPhotos1_"+i).css('display','block');
+        		$("#reviewPhotos2_"+i).css('display','none');
+    		}
+    	}
+    	
+    	function reviewScore(num) {
+            for(var i=1;i<=5;i++){
+                $('#scoreImg_'+i).attr('src',"${pageContext.servletContext.contextPath }/resources/img/rateFull.png")
+                if(i>num){
+                    $('#scoreImg_'+i).attr('src',"${pageContext.servletContext.contextPath }/resources/img/rateEmpty.png")
+                }
+            }
+            $('#reviewRate').val(num*2);
+        }
+
+    	function delReview(i){
     	   var clubNo = ${club.clubNo};
+    	   console.log(i);
+    	   var fileName = $('#reviewPhotoName'+i).val()
     	   
-    	   if("리뷰를 삭제하시겠습니까?"){
+    	   if(confirm("리뷰를 삭제하시겠습니까?")){
     		   $.ajax({
         		   url: "deleteReview.cl",
         		   data:{
         			   clubNo : clubNo,
-        			   userId : userId
+        			   userId : userId,
+        			   fileName : fileName
         		   },
         		   type: "post",
         		   success:function(result){
@@ -522,59 +563,6 @@
     	   }
        }
 
-    	function selectReviewList(){
-    		var clubNo = ${club.clubNo};
-    		    		
-    		$.ajax({
-    			url:"selectReview.cl",
-    			data:{
-    				clubNo : clubNo
-    			},
-    			type : "get",
-    			success:function(list){
-    				console.log(list);
-    				console.log(list.length);
-    				
-    				var result ="";
-    				$.each(list, function(i){
-    					result += '<li><div class="reviewTable"> <div class="reviewTableCell1">'
-    				    
-    					if(list[i].reviewRate == 5){
-    						result += '🤩 매우만족'
-    		            }else if(list[i].reviewRate == 4){
-    		            	result += '😊 만족'
-    		            }else if(list[i].reviewRate == 3){
-    		            	result += '🙂 보통'
-    		            }else if(list[i].reviewRate == 2){
-    		            	result += '🤔 불만족'
-    		            }else{
-    		            	result += '😤 매우 불만족'
-    		            }
-    					result += '<br>'+list[i].reviewContent 
-    					
-    					var imgSrc = list[i].reviewPhoto
-    					//<div class="reviewPhotos" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${cr.reviewPhoto}')"></div>
-    					if(list[i].reviewPhoto != null){
-    						result += '<div class="reviewPhotos" style="background-image: url(\'${pageContext.servletContext.contextPath }/resources/upload_files/club_img/'+list[i].reviewPhoto+'\')"></div>'
-    					}
-    					result += '</div><div class="reviewTableCell2">' + list[i].reviewWriter+'<br>'+ list[i].createDate
-    					
-    					
-    					if(userId == list[i].reviewWriter){
-    						result += '<div onclick="delReview()">삭제하기</div>'
-    					}
-    					
-    					result += '</div></div></li>'
-    				})
-
-    	            $(".reviewArea").html(result);
-    				
-    			},error:function(){
-    				console.log("ajax통신오류")
-    			}
-    		})
-    	} 
-    
 	    function checkReview(clubNo){
 			console.log("clubNo : " + clubNo);
 			

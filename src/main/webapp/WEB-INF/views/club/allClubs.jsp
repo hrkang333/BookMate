@@ -204,98 +204,228 @@
 			</div>
 		</section>
 
-				<script>
-                	var category = "인문/과학/심리";
-                	var origin = 0;
-                	var nowPage1 = 1;
-                	var nowPage2 = 1;
-                	var listIndex = 0;  //모집종료 용
-                	
-                    $(function(){
-                        $(".pointer").click(function(){
-                            console.log($(this).children(":first").val());
-                            location.href="detail.cl?clubNo=" + $(this).children(":first").val();
-                        });
-                    })
-                    
-                    $(document).ready(function() {
-						//처음에 리스트가 0일 때 페이징바 안나오도록 div 3개(없습니다/있을때 for/페이징바) 모두 none처리 후
-						//div 없습니다 flex로 풀기
-						var cateList1_length = '<c:out value="${fn:length(cateList_first)}"/>'
-                        var cateList2_length = '<c:out value="${fn:length(cateList_second)}"/>'
-                        var cateList3_length = '<c:out value="${fn:length(cateList_third)}"/>'
+				
+	
+    <!-- ================ 2. 모집완료  ================= -->
+	<section class="section-margin calc-60px">
+     	<div class="">
+     		<div class="section-intro pb-60px" style="text-align:center;">  <!-- pb-60px -->
+                <h2>모집<span class="section-intro__style">완료</span></h2>
+            </div>
+            
+            <div class="row" id="categoryList2_1" style="display:none;">
+                                     해당 카테고리에 독서모임은 없습니다.
+            </div>
+            	     
+            <div class="row" id="categoryList2_2" style="display:none;">   
+                <c:forEach begin="0" end="7" varStatus="s">
+                     <div id="c_clubTotal2${s.index}" class="col-md-6 col-lg-3 mb-3 mb-lg-0  pointer" <c:if test="${s.index >= fn:length(cateList_second)}"><c:out value="style=display:none;"/></c:if> >
+	                      <input id="c_clubNo2${s.index}" type="hidden" value="${cateList_second[s.index].clubNo}">
+	                      <div class="card card-blog"  >  
+	                           <div class="card-blog__img">
+	                          	    <img id="c_clubImg2${s.index}" class="card-img rounded-0" src="${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${cateList_second[s.index].clubAttachments[0].changeName}" alt="">
+	                           </div>
+	                           <div class="card-body">
+	                                <ul class="card-blog__info">
+	                                    <li><span id="c_category2${s.index}">${cateList_second[s.index].category}</span> &nbsp; [<span style="margin-right:0px;" id="c_onoffLine${s.index}">${cateList_second[s.index].onoffLine}</span>] </li>
+	                                    <li><i class="ti-comments-smiley"></i> ${cateList_second[s.index].heartCount } Likes</li>
+	                                 </ul>
+	                                 <div class="closeClub"><span>마감되었습니다</span></div>
+	                                 <h4 id="c_title2${s.index}" class="card-blog__title">${cateList_second[s.index].clubTitle}</h4>
+	                                 <p>
+	                                 	<c:forEach items="${cateList_second[s.index].clubTimes}" var="at" varStatus="s_at">
+	                                 		<c:choose>
+	                                 			<c:when test="${s_at.index eq 0}">
+	                                 				<c:set var="firstStart" value="${at.clubDate}"/>
+	                                 			</c:when>
+	                                 			<c:otherwise>
+	                                 				<c:if test="${firstStart > at.clubDate }">
+	                                 					<c:set var="firstStart" value="${at.clubDate}"/>
+	                                 				</c:if>
+	                                 			</c:otherwise>
+	                                 		</c:choose>
+	                                 	</c:forEach>	
+	                                                                               시작 : <span id="c_startDate2${s.index}">${firstStart}</span> &nbsp; | <span id="c_manyTimes2${s.index}">${fn:length(cateList_second[s.index].clubTimes)}</span>번
+	                                </p>
+	                           </div>
+	                      </div>
+	                  </div> 
+                 </c:forEach>
+            </div>
+               
+            <div>
+			    <ul id="pagingArea2" class="pagination" style="display: none;">  	
+			         <c:choose>
+			             <c:when test="${ pi_second.currentPage ne 1 }">
+			                <li id="bb2" class="page-item"><div class="page-link pagelink1">이전</div></li>
+			             </c:when>
+			             <c:otherwise>
+			             	<li  id="bb2" class="page-item disabled"><div class="page-link">이전</div></li>
+			             </c:otherwise>
+			         </c:choose> 
+			         <c:forEach begin="1" end="${ pi_second.pageLimit}" var="p">
+			             <li id="cc2${p}" class="page-item" style="display:none" value="0"><div id="ccc2${p}" class="page-link"></div></li>
+			         </c:forEach>
+			         <c:forEach begin="${ pi_second.startPage }" end="${ pi_second.endPage }" var="p">
+			             <c:choose>
+				             <c:when test="${ pi_second.currentPage ne p }">
+			                    <li class="page-item" value="${p}"><div  class="page-link cc12" >${ p }</div></li>
+				             </c:when>
+				             <c:otherwise>
+				                <li class="page-item disabled"><a  class="page-link cc12" href="">${ p }</a></li>
+				             </c:otherwise>
+				         </c:choose>
+			         </c:forEach>
+			                    
+			         <c:choose>
+			            <c:when test="${ pi_second.currentPage ne pi_second.maxPage }">
+			               <li id="dd2" class="page-item"><div class="page-link pagelink1">다음</div></li>
+			            </c:when>
+			            <c:otherwise>
+			               <li id="dd2" class="page-item disabled"><div class="page-link">다음</div></li>
+			            </c:otherwise>
+			         </c:choose>       
+			    </ul>
+			</div>      
+		</div>
+	</section>                
 
-                        if(cateList1_length == 0){
-                            $('#categoryList1_1').css('display','flex');
-                        }else{
-                            $('#categoryList1_2').css('display','flex');
-                            $('#pagingArea1').css('display','flex');
-                        }
-                        if(cateList2_length == 0){
-                    	    $('#categoryList2_1').css('display','flex');
-                        }else{
-                        	$('#categoryList2_2').css('display','flex');
-                        	$('#pagingArea2').css('display','flex');
-                        }
-                        if(cateList3_length == 0){
-                    	    $('#categoryList3_1').css('display','flex');
-                        }else{
-                        	$('#categoryList3_2').css('display','flex');
-                        }
+    <!-- ================ 3. 마감임박 독서모임 ================= -->
+    <section class="section-margin calc-60px">
+              <div class="">
+                 <div class="section-intro pb-60px" style="text-align:center;">  <!-- pb-60px -->
+                     <h2>모집<span class="section-intro__style">종료</span></h2>
+                 </div>
+                 		
+                 		
+                 <div class="row" id="categoryList3_1" style="display:none;">
+			                       해당 카테고리에 독서모임은 없습니다.
+			     </div>
+			            
+			     <div id="categoryList3_2" style="display:none;">   
+                 	    <div style="display: flex; width:100%;">
+							<div style="margin-top: 125px">
+								<img alt="" src="${pageContext.servletContext.contextPath }/resources/img/btn_prev.gif" height="50px" style="margin-right: 15px; cursor: pointer;" onclick="closeListMove(0)">
+							</div>
+							<c:forEach begin="0" end="4" varStatus="status">
+								<%-- <c:forEach items="${cateList_third}" var="list" varStatus="status"> --%>
+								<div style="width: 18%; height: 300px; text-align: center;">
+									<div class="closeClubImgDiv" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${cateList_third[status.index].clubAttachments[0].changeName}')"onclick="detailbook('${cateList_third[status.index].clubNo}')" id="close_ClubImg${status.index}"></div>
+									<ul class="card-blog__info">
+		                                <li><span id="close_category${status.index}">${cateList_third[status.index].category}</span> &nbsp;</li>
+		                                <li><i class="ti-comments-smiley"></i> <span id="close_likes${status.index}">${cateList_third[status.index].heartCount }</span> Likes</li>
+		                            </ul>
+		                            <div class="closeClub" style="width:70%; margin:auto;"><span>모집종료되었습니다</span></div>
+		                            <h4 id="close_title${status.index}" class="card-blog__title">${cateList_third[status.index].clubTitle}</h4>
+								</div>
+								<%-- </c:forEach> --%>
+							</c:forEach>
+							<div style="margin-top: 125px">
+								<img alt=""src="${pageContext.servletContext.contextPath }/resources/img/btn_next.gif"height="50px" style="margin-left: 15px; cursor: pointer;"onclick="closeListMove(1)">
+							</div>
+						</div>
+                   </div>
+              </div>
+         </section>      
+    </main>
+
+	<script>
+        var category = "인문/과학/심리";
+        var origin = 0;
+        var nowPage1 = 1;
+        var nowPage2 = 1;
+        var listIndex = 0;  //모집종료 용
+                	
+        /* $(function(){ 아래로 옮김
+            $(".pointer").click(function(){
+                 console.log($(this).children(":first").val());
+                 location.href="detail.cl?clubNo=" + $(this).children(":first").val();
+            });
+        }) */
+                    
+        $(document).ready(function() {
+        	$(".pointer").click(function(){
+                console.log($(this).children(":first").val());
+                location.href="detail.cl?clubNo=" + $(this).children(":first").val();
+            });
+        	
+			//처음에 리스트가 0일 때 페이징바 안나오도록 div 3개(없습니다/있을때 for/페이징바) 모두 none처리 후
+			//div 없습니다 flex로 풀기
+			var cateList1_length = '<c:out value="${fn:length(cateList_first)}"/>'
+            var cateList2_length = '<c:out value="${fn:length(cateList_second)}"/>'
+            var cateList3_length = '<c:out value="${fn:length(cateList_third)}"/>'
+
+            if(cateList1_length == 0){
+                $('#categoryList1_1').css('display','flex');
+            }else{
+                $('#categoryList1_2').css('display','flex');
+                $('#pagingArea1').css('display','flex');
+            }
+            
+            if(cateList2_length == 0){
+                $('#categoryList2_1').css('display','flex');
+            }else{
+                $('#categoryList2_2').css('display','flex');
+                $('#pagingArea2').css('display','flex');
+            }
+            
+            if(cateList3_length == 0){
+                $('#categoryList3_1').css('display','flex');
+            }else{
+                $('#categoryList3_2').css('display','flex');
+            }
                     	
-		               $(".page-item").click(function(){
+		    $(".page-item").click(function(){
+		        //disabled된 이전, 다음으로 등 페이징바 눌렀을 때 ajax통신하지 않도록 막기
+		        if($(this).hasClass('disabled')){
+		            return;
+		        } 
 		            	   
-		            	   //disabled된 이전, 다음으로 등 페이징바 눌렀을 때 ajax통신하지 않도록 막기
-		            	   if($(this).hasClass('disabled')){
-		            		   return;
-		            	   } 
+		        var currentPage;
+		        var clubStatus = '';
 		            	   
-		            	   var currentPage;
-		            	   var clubStatus = '';
-		            	   
-		            	   var parentId = $(this).parent().attr('id');
+		        var parentId = $(this).parent().attr('id');
 		                     
-		                   if(parentId == 'pagingArea1'){
-		                      clubStatus='모집중'
-		                   }else{
-		                      clubStatus='모집완료'
-		                   }
+		        if(parentId == 'pagingArea1'){
+		            clubStatus='모집중'
+		        }else{
+		            clubStatus='모집완료'
+		        }
 		            	   
-		            	   //다음, 이전 눌렀을 때 처리해줘야 함
-		                   if($(this).val() == ''){  //1.이전, 다음으로 클릭
-		                	   if(clubStatus == '모집중'){
-		                		   if($(this).attr('id').substring(0,2) == 'bb'){
-		                			   console.log("이전으로 클릭");
-		                			   currentPage = nowPage1 -1;
-			                		   nowPage1 = currentPage;  //현재 페이지 저장해두기
-		                		   }else{
-		                			   console.log("다음으로 클릭");
-		                			   currentPage = nowPage1 +1;
-			                		   nowPage1 = currentPage;  //현재 페이지 저장해두기
-		                		   }
-		                	   }else{
-		                		   if($(this).attr('id').substring(0,2) == 'bb'){
-		                			   console.log("이전으로 클릭");
-		                			   currentPage = nowPage2 -1;
-			                		   nowPage2 = currentPage;  //현재 페이지 저장해두기
-		                		   }else{
-		                			   console.log("다음으로 클릭");
-		                			   currentPage = nowPage2 +1;
-			                		   nowPage2 = currentPage;  //현재 페이지 저장해두기
-		                		   }
-		                	   }
+		        //다음, 이전 눌렀을 때 처리해줘야 함
+		        if($(this).val() == ''){  //1.이전, 다음으로 클릭
+		        	if(clubStatus == '모집중'){
+		        		if($(this).attr('id').substring(0,2) == 'bb'){
+		                	console.log("이전으로 클릭");
+		                	currentPage = nowPage1 -1;
+			                nowPage1 = currentPage;  //현재 페이지 저장해두기
+		                }else{
+		                	console.log("다음으로 클릭");
+		                	currentPage = nowPage1 +1;
+			                nowPage1 = currentPage;  //현재 페이지 저장해두기
+		                }
+		           }else{
+		                if($(this).attr('id').substring(0,2) == 'bb'){
+		                	console.log("이전으로 클릭");
+		                	currentPage = nowPage2 -1;
+			                nowPage2 = currentPage;  //현재 페이지 저장해두기
+		                }else{
+		                	console.log("다음으로 클릭");
+		                	currentPage = nowPage2 +1;
+			                nowPage2 = currentPage;  //현재 페이지 저장해두기
+		                }
+		          }      	   
+		        }else{  //2.숫자 페이지 누르기
+		        	currentPage = $(this).val();
 		                	   
-		                   }else{  //2.숫자 페이지 누르기
-		                	   currentPage = $(this).val();
-		                	   
-		                	   if(clubStatus == '모집중'){
-		                		   nowPage1 = currentPage;  //현재 페이지 저장해두기
-		                	   }else{
-		                		   nowPage2 = currentPage;  //현재 페이지 저장해두기
-		                	   }
-		                	   
-		                   }   
-		                   $.ajax({
+		            if(clubStatus == '모집중'){
+		                nowPage1 = currentPage;  //현재 페이지 저장해두기
+		            }else{
+		                nowPage2 = currentPage;  //현재 페이지 저장해두기
+		            }    	   
+		        } 
+		        
+		        $.ajax({
 		                     url:"allCateListPart.cl",
 		                     data:{
 		                        category : category,
@@ -318,36 +448,32 @@
 		                    },error:function(){
 		                         console.log("ajax 통신실패")
 		                    }
-		                   })
-		                })
-		             })
+		       })
+		    })
+		})
   
-                    $(".clickCategory").click(function(){
+        $(".clickCategory").click(function(){
 						
-	    	        	category = $(this).text();
+	    	category = $(this).text();
 
-						$.ajax({
-							url:"allCateList.cl",
-							data:{category:category},
-							type : "post",
-							success:function(map){
-								console.log("ajax 통신성공")
+			$.ajax({
+				url:"allCateList.cl",
+				data:{category:category},
+				type : "post",
+				success:function(map){
+					console.log("ajax 통신성공")
 								
-								//1. 리스트 붙이기
-								list1(map);
-								list2(map);
-								list3(map);
-								
-
-							},error:function(){
-								console.log("ajax 통신실패")
-							}
-						})
-	                })
+					//1. 리스트 붙이기
+					list1(map);
+					list2(map);
+					list3(map);
+				},error:function(){
+					console.log("ajax 통신실패")
+				}
+			})
+	   })
 	                
-	                
-	                
-	                function list1(map){
+	   function list1(map){
                     	var cateList1 = map.cateList1;
                     	
                     	var listView1 = document.getElementById("categoryList1_1");
@@ -445,9 +571,9 @@
 						}else{
 							$('#dd').addClass("disabled");
 						}
-                    }
+       }
 	                
-	                 function list2(map){
+	   function list2(map){
                     	var cateList2 = map.cateList2;
                     	
                     	var listView1 = document.getElementById("categoryList2_1");
@@ -551,9 +677,9 @@
 						}else{
 							$('#dd2').addClass("disabled");
 						}							
-                    }
+       }
 	                 
-	                 function list3(map){
+	   function list3(map){
 	                    	var cateList1 = map.cateList3;
 	                    	
 	                    	var listView1 = document.getElementById("categoryList3_1");
@@ -581,10 +707,9 @@
 									$('#c_clubTotal'+i).css('display','none');
 								} */							
 							}
-	                    }
+	    }
 	               
-	                
-	                function closeListMove(checkIndex) {
+	    function closeListMove(checkIndex) {
 	         			if(checkIndex == 1){
 	         				listIndex += 1;
 	         			}else{
@@ -647,155 +772,9 @@
 
 	         				
 	         				})
-	         		}
+	    }
 	                 
-                </script>
-
-                <!-- ================ 2. 모집완료  ================= -->
-       <section class="section-margin calc-60px">
-            <div class="">
-                  <div class="section-intro pb-60px" style="text-align:center;">  <!-- pb-60px -->
-                    <h2>모집<span class="section-intro__style">완료</span></h2>
-                 </div>
-                 
-                 <div class="row" id="categoryList2_1" style="display:none;">
-                                      해당 카테고리에 독서모임은 없습니다.
-            	 </div>
-                 
-                 <div class="row" id="categoryList2_2" style="display:none;">   
-                     	<c:forEach begin="0" end="7" varStatus="s">
-                        	<div id="c_clubTotal2${s.index}" class="col-md-6 col-lg-3 mb-3 mb-lg-0  pointer" <c:if test="${s.index >= fn:length(cateList_second)}"><c:out value="style=display:none;"/></c:if> >
-	                        	<input id="c_clubNo2${s.index}" type="hidden" value="${cateList_second[s.index].clubNo}">
-	                        	<div class="card card-blog"  >  
-	                            	 <div class="card-blog__img">
-	                          	       <img id="c_clubImg2${s.index}" class="card-img rounded-0" src="${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${cateList_second[s.index].clubAttachments[0].changeName}" alt="">
-	                            	</div>
-	                             	<div class="card-body">
-	                                    <ul class="card-blog__info">
-	                                       <li><span id="c_category2${s.index}">${cateList_second[s.index].category}</span> &nbsp; [<span style="margin-right:0px;" id="c_onoffLine${s.index}">${cateList_second[s.index].onoffLine}</span>] </li>
-	                                       <li><i class="ti-comments-smiley"></i> ${cateList_second[s.index].heartCount } Likes</li>
-	                                    </ul>
-	                                    <div class="closeClub"><span>마감되었습니다</span></div>
-	                                 <h4 id="c_title2${s.index}" class="card-blog__title">${cateList_second[s.index].clubTitle}</h4>
-	                                 <p>
-	                                 	<c:forEach items="${cateList_second[s.index].clubTimes}" var="at" varStatus="s_at">
-	                                 		
-	                                 		<c:choose>
-	                                 			<c:when test="${s_at.index eq 0}">
-	                                 				<c:set var="firstStart" value="${at.clubDate}"/>
-	                                 			</c:when>
-	                                 			<c:otherwise>
-	                                 				<c:if test="${firstStart > at.clubDate }">
-	                                 					<c:set var="firstStart" value="${at.clubDate}"/>
-	                                 				</c:if>
-	                                 			</c:otherwise>
-	                                 		</c:choose>
-	            
-	                                 	</c:forEach>	
-	                                      	시작 : <span id="c_startDate2${s.index}">${firstStart}</span> &nbsp; | <span id="c_manyTimes2${s.index}">${fn:length(cateList_second[s.index].clubTimes)}</span>번
-	                                 </p>
-	                             </div>
-	                        </div>
-	                     </div> 
-                      </c:forEach>
-              </div>
-               
-                 
-                 
-					<div>
-			          <ul id="pagingArea2" class="pagination" style="display: none;">  	
-			             
-			             <c:choose>
-			                	<c:when test="${ pi_second.currentPage ne 1 }">
-			                		<li id="bb2" class="page-item"><div class="page-link pagelink1">이전</div></li>
-			                	</c:when>
-			                	<c:otherwise>
-			                		<li  id="bb2" class="page-item disabled"><div class="page-link">이전</div></li>
-			                	</c:otherwise>
-			              </c:choose> 
-			              
-			             <c:forEach begin="1" end="${ pi_second.pageLimit}" var="p">
-			             	<li id="cc2${p}" class="page-item" style="display:none" value="0"><div id="ccc2${p}" class="page-link"></div></li>
-			             </c:forEach>
-			             
-			             <c:forEach begin="${ pi_second.startPage }" end="${ pi_second.endPage }" var="p">
-			                    <c:choose>
-				                	<c:when test="${ pi_second.currentPage ne p }">
-			                    		<li class="page-item" value="${p}"><div  class="page-link cc12" >${ p }</div></li>
-				                	</c:when>
-				                	<c:otherwise>
-				                		<li class="page-item disabled"><a  class="page-link cc12" href="">${ p }</a></li>
-				                	</c:otherwise>
-				                </c:choose>
-			             </c:forEach>
-			                    
-			             <c:choose>
-			                 <c:when test="${ pi_second.currentPage ne pi_second.maxPage }">
-			                	 <li id="dd2" class="page-item"><div class="page-link pagelink1">다음</div></li>
-			                 </c:when>
-			                 <c:otherwise>
-			                	 <li id="dd2" class="page-item disabled"><div class="page-link">다음</div></li>
-			                 </c:otherwise>
-			              </c:choose> 
-			              
-			          </ul>
-			       </div>      
-             </div>
-          </section>                
-
-                <!-- ================ 3. 마감임박 독서모임 ================= -->
-                <section class="section-margin calc-60px">
-                    <div class="">
-                      <div class="section-intro pb-60px" style="text-align:center;">  <!-- pb-60px -->
-                    	  <h2>모집<span class="section-intro__style">종료</span></h2>
-                      </div>
-                 		
-                 		
-                 	  <div class="row" id="categoryList3_1" style="display:none;">
-			                          해당 카테고리에 독서모임은 없습니다.
-			          </div>
-			            
-			          <div id="categoryList3_2" style="display:none;">
-                 	    
-                 	    	<div style="display: flex; width:100%;">
-								<div style="margin-top: 125px">
-									<img alt=""
-										src="${pageContext.servletContext.contextPath }/resources/img/btn_prev.gif"
-										height="50px" style="margin-right: 15px; cursor: pointer;"
-										onclick="closeListMove(0)">
-								</div>
-								<c:forEach begin="0" end="4" varStatus="status">
-								<%-- <c:forEach items="${cateList_third}" var="list" varStatus="status"> --%>
-									<div style="width: 18%; height: 300px; text-align: center;">
-										<div class="closeClubImgDiv" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${cateList_third[status.index].clubAttachments[0].changeName}')"
-											onclick="detailbook('${cateList_third[status.index].clubNo}')" id="close_ClubImg${status.index}">
-										</div>
-										
-										<ul class="card-blog__info">
-		                                    <li><span id="close_category${status.index}">${cateList_third[status.index].category}</span> &nbsp;</li>
-		                                    <li><i class="ti-comments-smiley"></i> <span id="close_likes${status.index}">${cateList_third[status.index].heartCount }</span> Likes</li>
-		                                </ul>
-		                                <div class="closeClub" style="width:70%; margin:auto;"><span>모집종료되었습니다</span></div>
-		                                <h4 id="close_title${status.index}" class="card-blog__title">${cateList_third[status.index].clubTitle}</h4>
-									</div>
-								<%-- </c:forEach> --%>
-								</c:forEach>
-								<div style="margin-top: 125px">
-									<img alt=""
-										src="${pageContext.servletContext.contextPath }/resources/img/btn_next.gif"
-										height="50px" style="margin-left: 15px; cursor: pointer;"
-										onclick="closeListMove(1)">
-								</div>
-							</div>
-                 	    
-                 	  </div>
-                  </div>
-                </section>
-                
-                
-    </main>
-
-
+    </script>
     <!--================ Start footer Area  =================-->
     <footer class="footer">
         <div class="footer-area">

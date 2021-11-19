@@ -14,7 +14,7 @@
       <typeAlias type="com.kh.bookmate.club.model.vo.ClubTime" alias="ClubTime"/>
       <typeAlias type="com.kh.bookmate.clubApply.model.vo.ClubApply" alias="ClubApply" />
       <typeAlias type="com.kh.bookmate.clubApply.model.vo.ClubWish" alias="ClubWish" />
-      <typeAlias type="com.kh.bookmate.clubApply.model.vo.ClubReview" alias="ClubReview" />
+      <typeAlias type="com.kh.bookmate.clubReview.model.vo.ClubReview" alias="ClubReview" />
       <typeAlias type="com.kh.bookmate.user.model.vo.User" alias="myPage"/>
       <typeAlias type="com.kh.bookmate.user.model.vo.User" alias="User"/>
       <typeAlias type="com.kh.bookmate.seller.model.vo.Seller" alias="Seller"/>
@@ -46,6 +46,7 @@
       <mapper resource="/mappers/book-mapper.xml" />
       <mapper resource="/mappers/club-mapper.xml" />
       <mapper resource="/mappers/clubApply-mapper.xml" />
+      <mapper resource="/mappers/clubReview-mapper.xml" />
       <mapper resource="/mappers/myPage-mapper.xml"/>
       <mapper resource="/mappers/user-mapper.xml"/>
       <mapper resource="/mappers/seller-mapper.xml"/>

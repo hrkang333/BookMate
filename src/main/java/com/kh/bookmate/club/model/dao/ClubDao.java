@@ -63,6 +63,8 @@ public class ClubDao {
 		return sqlSession.update("clubMapper.insertClub", c);
 	}
 
+
+	//마이페이지3 조회
 	public ArrayList<Club> selectList3(SqlSessionTemplate sqlSession, String userId, PageInfo pi) {
 		// TODO Auto-generated method stub
 		
@@ -119,9 +121,9 @@ public class ClubDao {
 		return (ArrayList)sqlSession.selectList("clubMapper.selectCateList",category);
 	}
 	
-	public ArrayList<Club> selectPopList(SqlSessionTemplate sqlSession) {
+	public ArrayList<Club> selectPopList(SqlSessionTemplate sqlSession, String type) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("clubMapper.selectPopList");
+		return (ArrayList)sqlSession.selectList("clubMapper.selectPopList", type);
 	}
 	
 	//메인페이지 - 마감임박 리스트 뽑기
@@ -226,9 +228,11 @@ public class ClubDao {
 		return sqlSession.update("clubMapper.updateCondition", map);
 	}
 
-	public int selectListCount_1(SqlSessionTemplate sqlSession, String category) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("clubMapper.selectListCount_1", category);
+	public int selectListCount_1(SqlSessionTemplate sqlSession, String category, int type) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("category", category);
+		map.put("type",type);
+		return sqlSession.selectOne("clubMapper.selectListCount_1", map);
 	}
 
 	public ArrayList<Club> selectCateList_1(SqlSessionTemplate sqlSession, String category, PageInfo pi) {
@@ -262,10 +266,6 @@ public class ClubDao {
 		return list;
 	}
 
-	public int selectListCount_2(SqlSessionTemplate sqlSession, String category) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("clubMapper.selectListCount_2", category);
-	}
 
 	public ArrayList<Club> selectCateList_2(SqlSessionTemplate sqlSession, String category, PageInfo pi1) {
 		int offset = (pi1.getCurrentPage()-1)*(pi1.getBoardLimit());		

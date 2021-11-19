@@ -47,4 +47,6 @@ public class Club {
 	private List<ClubAttachment> clubAttachments;
 	//11.11 추가(HEART_COUNT - 찜기능)
 	private int heartCount;
+	//11.19 추가(타이틀 img) - vo에만 추가
+	private String titleChangeName;
 }

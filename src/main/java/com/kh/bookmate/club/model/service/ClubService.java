@@ -31,16 +31,19 @@ public interface ClubService {
 
 	void deleteClub3(List<Integer> clubNo);
 
+	//메인페이지
 	int selectListCount(String userId);
 
 	ArrayList<Club> selectCateList(String category);
 
 	ArrayList<Club> selectEndList();
 	
-	ArrayList<Club> popList();
+	ArrayList<Club> popList(String type);
 
+	//상세페이지
 	Club selectClub(int cno);
 
+	//독서모임 개설 수정
 	void updateStep1_2(Club c, ClubAttachment ca);
 
 	void updateStep1_1(Club c, ClubAttachment ca);
@@ -53,6 +56,7 @@ public interface ClubService {
 	//c:update, ca:insert	map:insert
 	void updateStep3_2(Club c, ClubAttachment ca, Map<String, Object> map);
 
+	//신청 리스트
 	List<Integer> selectApplyList(List<Integer> ctList);
 
 	int selectListCount(String userId, String table);
@@ -61,11 +65,9 @@ public interface ClubService {
 
 	void updateCondition(int clubNo, int condition);
 
-	int selectListCount_1(String category);
+	int selectListCount_1(String category, int type);
 
 	ArrayList<Club> selectCateList_1(String category, PageInfo pi);
-
-	int selectListCount_2(String category);
 
 	ArrayList<Club> selectCateList_2(String category, PageInfo pi1);
 
