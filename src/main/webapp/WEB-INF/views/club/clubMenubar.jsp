@@ -45,7 +45,7 @@
               <li class="nav-item"><a class="nav-link" href="clubMain.cl">독서모임 홈</a></li>
               <li class="nav-item"><a class="nav-link" href="clubAll.cl">모든 독서모임</a></li>
               
-              <li class="nav-item"><a class="nav-link" href="#">나에게 맞는 독서모임</a></li>
+              <li class="nav-item"><a class="nav-link" href="clubSearchPage.cl">나에게 맞는 독서모임</a></li>
               
               <li class="nav-item submenu dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"

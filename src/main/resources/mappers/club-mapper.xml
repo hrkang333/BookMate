@@ -4,10 +4,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="clubMapper">
 
-<!-- 담당자  : 황서연
-수정일자 : 2021.11.07
-수정사항 : detail페이지 중
-수정필요사항 : 메인페이지에서 마감임박리스트 조회시 collecton으로 select하기 -->
 
   <resultMap id="clubResultSet" type="Club">
 		<id column="CLUB_NO" property="clubNo"/>
@@ -36,6 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="HWHAT_TODO" property="hwhatTodo"/>
 		<result column="CATEGORY" property="category"/>
 		<result column="HEART_COUNT" property="heartCount"/>
+		<result column="CHANGE_NAME" property="titleChangeName"/>
 	
 		<!-- detailClub용(11.07) -->
 		<!-- 속성들 1)property:필드명  2)ofType:필드의클래스위치   -->
@@ -198,6 +195,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</foreach>
 	</delete>
 	
+	
 	<!-- listcount for 페이징처리용 -->
 	<select id="selectListCount" resultType="_int">
 		SELECT COUNT(*)
@@ -247,8 +245,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    AND CEND_DATE > SYSDATE
 		    AND B.FILE_TYPE=2
 		    ORDER BY HEART_COUNT DESC)
-		WHERE ROWNUM <=9
 		]]>
+		<if test="type == 'main'.toString()">
+			<![CDATA[WHERE ROWNUM <=9]]>
+		</if>
 	</select>
 	
 	<!-- 메인페이지 - 마감임박 리스트(2. ClubAttachment테이블에서 조회) 
@@ -330,27 +330,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 	
 	<!-- 모든 독서모임 - 모집중 -->
-	<select id="selectListCount_1" resultType="_int">
+	<select id="selectListCount_1" parameterType="hashmap" resultType="_int">
 		<![CDATA[
 		SELECT COUNT(*) 
 		FROM CLUB 
-		WHERE CONDITION=4 AND STATUS='Y'
-		AND CSTART_DATE <= TO_CHAR(SYSDATE, 'YYYY-MM-DD')
-		AND CEND_DATE > SYSDATE AND CATEGORY=#{category}
-		]]>
+		WHERE STATUS='Y'
+		AND CSTART_DATE <= TO_CHAR(SYSDATE, 'YYYY-MM-DD') AND CEND_DATE > SYSDATE ]]>
+		<if test="type != 0">  <!-- type: condition(독서모임 상태) -->
+			AND CONDITION=#{type}
+		</if>
+		<if test=' !"".equals(category) '>
+			AND CATEGORY=#{category}
+		</if>
 	</select>
-	
-	<!-- 모든 독서모임 - 모집완료 -->
-	<select id="selectListCount_2" resultType="_int">
-		<![CDATA[
-		SELECT COUNT(*) 
-		FROM CLUB 
-		WHERE CONDITION=5 AND STATUS='Y'
-		AND CSTART_DATE <= TO_CHAR(SYSDATE, 'YYYY-MM-DD')
-		AND CEND_DATE > SYSDATE AND CATEGORY=#{category}
-		]]>
-	</select>
-	
+
 	
 	<select id="selectCateList_1" resultMap="clubResultSet">
 		<![CDATA[
@@ -360,10 +353,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		ON A.CLUB_NO = B.REF_CLUB_NO
 		WHERE A.CONDITION=4 AND A.STATUS='Y'
 		AND CSTART_DATE <= TO_CHAR(SYSDATE, 'YYYY-MM-DD')
-		AND CEND_DATE > SYSDATE AND CATEGORY=#{category}
+		AND CEND_DATE > SYSDATE ]]>
+		<if test='!"".equals(category)'>
+			AND CATEGORY=#{category}
+		</if>
 		AND B.FILE_TYPE=2
 		ORDER BY CSTART_DATE
-		]]>
+		
 	</select>
 	
 	<select id="selectCateList_2" resultMap="clubResultSet">

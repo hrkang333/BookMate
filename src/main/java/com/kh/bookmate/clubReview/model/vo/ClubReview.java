@@ -1,4 +1,4 @@
-package com.kh.bookmate.clubApply.model.vo;
+package com.kh.bookmate.clubReview.model.vo;
 
 import java.sql.Date;
 

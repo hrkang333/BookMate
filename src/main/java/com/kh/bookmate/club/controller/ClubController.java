@@ -43,7 +43,8 @@ import com.kh.bookmate.club.model.vo.ClubAttachment;
 import com.kh.bookmate.club.model.vo.ClubTime;
 import com.kh.bookmate.clubApply.model.service.ClubApplyService;
 import com.kh.bookmate.clubApply.model.vo.ClubApply;
-import com.kh.bookmate.clubApply.model.vo.ClubReview;
+import com.kh.bookmate.clubReview.model.service.ClubReviewService;
+import com.kh.bookmate.clubReview.model.vo.ClubReview;
 import com.kh.bookmate.common.PageInfo;
 import com.kh.bookmate.common.Pagination;
 import com.kh.bookmate.user.model.vo.User;
@@ -56,9 +57,10 @@ public class ClubController {
 
 	@Autowired
 	private ClubService clubService;
-	
 	@Autowired
 	private ClubApplyService clubApplyService;
+	@Autowired
+	private ClubReviewService clubReviewService;
 	
 	//0. insert 첫단계 화면 띄우기
 	@RequestMapping("insertForm1.cl")
@@ -550,7 +552,7 @@ public class ClubController {
 	public String clubMain(Model model) {
 		
 		ArrayList<Club> endList = clubService.selectEndList();
-		ArrayList<Club> popList = clubService.popList();
+		ArrayList<Club> popList = clubService.popList("main");
 		
 		model.addAttribute("endList",endList);
 		model.addAttribute("popList",popList);
@@ -588,7 +590,7 @@ public class ClubController {
 			mv.addObject("befHeart",befHeart);
 		}
 		
-		List<ClubReview> reviewList = clubApplyService.selectReviewList(clubNo);
+		List<ClubReview> reviewList = clubReviewService.selectReviewList(clubNo);
 		mv.addObject("reviewList",reviewList);
 		mv.addObject("club",club).setViewName("club/clubDetail");
 		return mv;
@@ -600,8 +602,8 @@ public class ClubController {
 		
 		//1.인문/과학/심리 로 선택해서 붙이기
 		//- listcount세기
-		int listCount  = clubService.selectListCount_1(category);
-		int listCount2  = clubService.selectListCount_2(category);
+		int listCount  = clubService.selectListCount_1(category,4);
+		int listCount2  = clubService.selectListCount_1(category,5);
 		
 		//2.
 		PageInfo pi_first = Pagination.getPageInfo(listCount, 1, 7, 8);
@@ -641,11 +643,11 @@ public class ClubController {
 		//1)모집중, 모집완료, 모집종료
 
 		if(clubStatus.equals("모집중")) {
-			listCount  = clubService.selectListCount_1(category);
+			listCount  = clubService.selectListCount_1(category, 4);
 			pi1 = Pagination.getPageInfo(listCount, currentPage, 7, 8);
 			cateList1 = clubService.selectCateList_1(category, pi1);
 		}else {
-			listCount  = clubService.selectListCount_2(category);
+			listCount  = clubService.selectListCount_1(category,5);
 			pi1 = Pagination.getPageInfo(listCount, currentPage, 7, 8);
 			cateList1 = clubService.selectCateList_2(category, pi1);
 		}
@@ -672,12 +674,12 @@ public class ClubController {
 	public String selectallCateList(@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage,
 						  String category) {
 		//1.모집중
-		int listCount1  = clubService.selectListCount_1(category);
+		int listCount1  = clubService.selectListCount_1(category,4);
 		PageInfo pi1 = Pagination.getPageInfo(listCount1, currentPage, 7, 8);
 		ArrayList<Club> cateList1 = clubService.selectCateList_1(category, pi1);
 		
 		//2.모집완료
-		int listCount2  = clubService.selectListCount_2(category);
+		int listCount2  = clubService.selectListCount_1(category,5);
 		PageInfo pi2 = Pagination.getPageInfo(listCount2, currentPage, 7, 8);
 		ArrayList<Club> cateList2 = clubService.selectCateList_2(category, pi2);
 		
@@ -726,6 +728,17 @@ public class ClubController {
 		model.addAttribute("applyList", applyList);
 		
 		return "clubMypage/checkApply";
+	}
+	
+	@RequestMapping("clubSearchPage.cl")
+	public String selectSearchPage(@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage, Model model) {
+		
+		int listCount = clubService.selectListCount_1("", 0);
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 7, 12);
+		List<Club> clubList = clubService.selectCateList_1("", pi);
+		model.addAttribute("clubList",clubList);
+		
+		return "club/searchClub";
 	}
 	
 

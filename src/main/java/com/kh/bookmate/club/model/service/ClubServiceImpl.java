@@ -141,9 +141,9 @@ public class ClubServiceImpl implements ClubService {
 	}
 	//메인페이지 - 인기(찜) 리스트
 	@Override
-	public ArrayList<Club> popList() {
+	public ArrayList<Club> popList(String type) {
 		// TODO Auto-generated method stub
-		return clubDao.selectPopList(sqlSession);
+		return clubDao.selectPopList(sqlSession, type);
 	}
 	
 
@@ -234,9 +234,9 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	@Override
-	public int selectListCount_1(String category) {
+	public int selectListCount_1(String category, int type) {
 		
-		int result = clubDao.selectListCount_1(sqlSession, category);
+		int result = clubDao.selectListCount_1(sqlSession, category, type);
 		
 		if(result < 0) {
 			//예외처리
@@ -250,15 +250,6 @@ public class ClubServiceImpl implements ClubService {
 		return clubDao.selectCateList_1(sqlSession, category, pi);
 	}
 
-	@Override
-	public int selectListCount_2(String category) {
-		int result = clubDao.selectListCount_2(sqlSession, category);
-		
-		if(result < 0) {
-			//예외처리
-		}
-		return result;
-	}
 
 	@Override
 	public ArrayList<Club> selectCateList_2(String category, PageInfo pi1) {
