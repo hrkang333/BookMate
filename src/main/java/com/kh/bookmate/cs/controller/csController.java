@@ -67,40 +67,50 @@ public class csController {
 	
 	//[관리자] 교환 상태값 업데이트 
 	@RequestMapping("updateExchangeList.cs")
-	public String updateExchangeList(PaymentDetail paymentDetail, ExchangeItem exchangeBook, Model model ) {
+	public String updateExchangeList(int paymentDetailNo, Model model ) {
 
 		
-		exchangeItemService.updateExchangeList(exchangeBook); // 관리자화면 교환 승인시 교환완료로 업데이트 
-		paymentService.updateUserExchangeList(paymentDetail); //사용자 화면 교환 교환완료로 업데이트  
-	
+		exchangeItemService.updateExchangeList(paymentDetailNo); // 관리자화면 교환 승인시 교환완료로 업데이트 
+//		paymentService.updateUserExchangeList(paymentDetail); //사용자 화면 교환 교환완료로 업데이트  
 		
-		return "redirect:cs/adminExchange";
+		System.out.println(paymentDetailNo+"============ㅠ첫번째꺼만 업데이트 되네  ======");
+		
+		return "redirect:selectExchangeList.cs";
 	}
 	 
 	
-	//배송중/ 배송완료 리스트 가져오기 -페이먼트디테일 넘버에서 페이먼트 넘버를 가져와야 두개를 쓸수가 있다..? 
+	//배송전인 애들을 배송 
 	@RequestMapping("deliveryList.cs")
-		public String selectDeliveryList(PaymentDetail paymentDetail, Model model) {
-			
-		List<PaymentDetail> deliveryList = paymentService.selectDeliveryList();
-		System.out.println("===================deli============"+deliveryList.toString());
+		public String selectDeliveryList(int paymentNo, int paymentDetailNo, Model model) {
 		
-		//페이먼트 넘버만 보내기 
-		List<Integer> deliveryDetailNoList = new ArrayList<>();
-			for(PaymentDetail p :deliveryList) {
-				deliveryDetailNoList.add(p.getPaymentNo());
-			}
+//		List<PaymentDetail> deliveryList = paymentService.selectDeliveryList();
+//		System.out.println("===================deli============"+deliveryList.toString());
+//		
+//		//페이먼트 넘버만 보내기 
+//		List<Integer> deliveryDetailNoList = new ArrayList<>();
+//			for(PaymentDetail p :deliveryList) {
+//				deliveryDetailNoList.add(p.getPaymentNo());
+//			}
+//		
+//		List<Payment> deliveryDetailList = paymentService.selectDeliveryPaymentNoList(deliveryDetailNoList);
+//
+//		System.out.println("===============으아아아아아========" + deliveryDetailList);
+//		model.addAttribute("deliveryList",deliveryList);
+//		model.addAttribute("deliveryDetailList",deliveryDetailList);
 		
-		List<Payment> deliveryDetailList = paymentService.selectDeliveryPaymentNoList(deliveryDetailNoList);
+		System.out.println();
+		
+		Payment pno = paymentService.deliveryListPayment(paymentNo);
+		PaymentDetail pdno = paymentService.deliveryListPaymentDetail(paymentDetailNo);
+		
+		System.out.println(pno+"=======================");
+		System.out.println(pdno+"=======================");
 
-		System.out.println("===============으아아아아아========" + deliveryDetailList);
-		model.addAttribute("deliveryList",deliveryList);
-		model.addAttribute("deliveryDetailList",deliveryDetailList);
+		model.addAttribute("pno",pno);
+		model.addAttribute("pdno",pdno);
 		
 		return "cs/adminDelivery";
 	}
-	
-	
 	
 	
 	

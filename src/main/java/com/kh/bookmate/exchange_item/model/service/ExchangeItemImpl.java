@@ -41,8 +41,8 @@ public class ExchangeItemImpl implements ExchangeItemService {
 	}
 
 	@Override
-	public void updateExchangeList(ExchangeItem exchangeBook) {
-		exchangeItemDao.updateExchangeList(sqlSession,exchangeBook);
+	public void updateExchangeList(int paymentDetailNo) {
+		exchangeItemDao.updateExchangeList(sqlSession,paymentDetailNo);
 
 	}
 

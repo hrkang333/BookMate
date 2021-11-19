@@ -31,9 +31,19 @@ public interface PaymentService {
 	//(배송상태 업데이트) 사용자 화면에서 배송중으로 업데이트 
 	void updateUpdateDelivery(PaymentDetail paymentDetail);
 
-	List<PaymentDetail> selectDeliveryList();
+//	List<PaymentDetail> selectDeliveryList();
+//
+//	List<Payment> selectDeliveryPaymentNoList(List<Integer> deliveryDetailNoList);
 
-	List<Payment> selectDeliveryPaymentNoList(List<Integer> deliveryDetailNoList);
+	List<Payment> selectDeliveryList(PaymentDetail paymentDetail);
+
+
+	
+	
+	
+	Payment deliveryListPayment(int paymentNo);
+
+	PaymentDetail deliveryListPaymentDetail(int paymentDetailNo);
  
  
 }

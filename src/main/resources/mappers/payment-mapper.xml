@@ -104,24 +104,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE PAYMENTDETAILNO = ${paymentDetailNo}
 	</update>
 	
-	<select id="selectDeliveryList" parameterType="PaymentDetail">
-		
-		SELECT * FROM PAYMENTDETAIL
-		WHERE PAYMENTNO = #{paymentNo}
-	
-	</select>
-	
-	<select id="selectDeliveryPaymentNoList" resultType="Payment">
-	
-	SELECT * FROM PAYMENT
-	WHERE PAYMENTNO IN
-	<foreach item="item" collection="list" open="(" close=")" separator=",">
-		#{item}
-	</foreach>
-	
-	</select>
+	<!-- <select id="selectDeliveryList" parameterType="PaymentDetail" resultType="PaymentDetail">
 
+	SELECT * FROM PAYMENTDETAIL
+	JOIN PAYMENT USING(PAYMENTNO)
+	WHERE DELIVERYSTATUS IN (2,3)
 	
+	</select>
+	 -->
+	 
+	 <select id="deliveryListPayment" resultType="Payment">
+		
+		SELECT * FROM PAYMENT
+		WHERE PAYMENTNO=${paymentNo}
+	 
+	 </select>
+	 
+	  
+	 <select id="deliveryListPaymentDetail" resultType="PaymentDetail">
+	
+		SELECT * FROM PAYMENTDETAIL
+		WHERE PAYMENTDETAILNO=#{paymentDetailNo}
+	 
+	 </select>
+	 
+	 
+	 
+	 
+
 	<delete id="deleteBasket">
 	DELETE FROM SHOPPINGBASKET WHERE BASKETNO = #{basketNo}
 	</delete>

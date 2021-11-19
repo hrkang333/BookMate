@@ -8,6 +8,27 @@
 <meta charset="UTF-8">
 <title> 배송대기중 업데이트 리스트 </title>
 </head>
+
+
+    <link rel="icon" href="img/Fevicon.png" type="image/png">
+    <link rel="stylesheet" href="resources/vendors/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="resources/vendors/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="resources/vendors/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="resources/vendors/linericon/style.css">
+    <link rel="stylesheet" href="resources/vendors/owl-carousel/owl.theme.default.min.css">
+    <link rel="stylesheet" href="resources/vendors/owl-carousel/owl.carousel.min.css">
+  
+     <!-- 제이쿼리피커  -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
+    <link rel="stylesheet" href="resources/css/style.css">
+    
+    <script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
 <body> 
 
 	<table class="table" style="text-align: center; width: 1200px;">
@@ -21,16 +42,16 @@
 			<th>상태</th>
 		</tr>
 		
-		<c:forEach items="${myOrderListDetail}" var="item">
+		<%-- <c:forEach items="${test}" var="item"> --%>
 		<tr>
-			<td><c:out value="${item.paymentDetailNo }"/></td>
-			<td><c:out value="${item.shippingName }"/></td>
-			<td><c:out value="${item.bookTitle }"/></td>
-			<td><c:out value="${item.quantity }"/>개</td>
-			<td><c:out value="${item.deliveryStatus }"/></td>
-			
+			<td><c:out value="${pno.paymentDetailNo }"/></td>
+			 <td><c:out value="${pno.shippingName }"/></td>
+			<td><c:out value="${pdno.bookTitle }"/></td>
+			<td><c:out value="${pdno.quantity }"/>개</td>
+			<td><c:out value="${pno.deliveryStatus }"/></td>
+			<td><button>버튼</button></td>
 		</tr>
-	</c:forEach>
+	<%-- </c:forEach> --%>
 	</table>
 
 </body>

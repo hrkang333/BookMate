@@ -34,7 +34,6 @@
 	<h2>교환 리스트 목록</h2>
 
 
-<form action="updateExchangeList.cs" method="post">
 	<table class="table" style="text-align: center; width: 1200px;">
 
 
@@ -51,18 +50,17 @@
 		
 	
 	 <c:forEach  items="${exchangeList}" var="exchangeItem" varStatus="status">		
-			<tr>
-			
-		<c:forEach items="${orderDetailList}" var="paymentDetail" begin="0" end="1">	
+		<c:forEach items="${orderDetailList}" var="paymentDetail">	
 			<c:if test="${exchangeItem.paymentDetailNo eq paymentDetail.paymentDetailNo}">
 				<c:set var="pd" value="${paymentDetail}"/>
 			</c:if>
-			
+		</c:forEach>
+			<tr>		
 				<td><c:out value="${exchangeItem.exchangeNo}"/></td>
-				<td><c:out value="${exchangeItem.paymentDetailNo}"/></td>
+				<td ><span id="pno${status.index}"><c:out value="${exchangeItem.paymentDetailNo}"/></span></td>
 				<td><c:out value="${exchangeItem.exchangeName}"/></td>
 	 			 <td><c:out value="${pd.bookTitle }"/></td>
-				<td><c:out value="${pd.quantity }"/>개</td> 
+				<td><c:out value="${pd.quantity}"/>개</td> 
 			 	
 				
 				<td>
@@ -74,16 +72,42 @@
 			
 				</td>
 				
-				<input type="hidden" value="${exchangeItem.exchangeStatus}" name="exchangeStatus"/>
-				<input type="hidden" value="${exchangeItem.paymentDetailNo }" name="paymentDetailNo"/>
-				<td><button type="submit">승인 </button></td>
-			
-		</c:forEach>
-			</tr>
-		
+				
+				<td><button type="submit" id="${status.index}" onclick="exButton(this);">승인 </button></td>
+		</tr>
 	</c:forEach>
+
 	</table>
-</form>
+	<form action="updateExchangeList.cs" method="post" id="exForm">
+	<input type="hidden" name="paymentDetailNo" id="exchangeThing"/>
+					
+	</form>
+
+	<script>
+	
+ 	function exButton(e){
+		
+		var exId = "${sessionScope.loginUser.userId}"
+		var index = $(e).attr('id'); //버튼을 클릭했을때 id 들고와라 
+	
+		var pno =$('#pno'+ index ).text(); //span으론 텍스트 
+		console.log(index)
+		console.log(pno)
+		$('#exchangeThing').val(pno);
+		$('#exForm').submit();
+		
+
+	
+		
+		
+	}
+	
+	
+
+	
+	
+	
+	</script>
 
 </body>
 </html>
