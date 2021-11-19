@@ -50,5 +50,10 @@ INSERT INTO BOOK VALUES (#{bookISBN},#{bookMainImg},#{bookTitle},#{bookSubTitle}
 <insert id="sellDateInsert" parameterType="Book">
 INSERT INTO SELLDATE VALUES(#{bookISBN},#{bookRating}*10,SYSDATE)
 </insert>
+<update id="updateBookRating" parameterType="Book">
+UPDATE BOOK SET BOOKRATING = #{bookRating} , BOOKRATINGCOUNT = #{bookRatingCount} WHERE BOOKISBN = #{bookISBN}
+</update>
+
+
 </mapper>
 

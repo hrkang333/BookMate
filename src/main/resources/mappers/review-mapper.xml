@@ -7,12 +7,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 INSERT INTO BOOKREVIEW VALUES(BOOKREVIEW_SEQ.NEXTVAL,#{bookISBN},#{bookRating},#{reviewTitle},#{reviewWriter},#{reviewContent},SYSDATE,DEFAULT)
 </insert> 
 <update id="updateReviewWriter" parameterType="BookReview">
-UPDATE BUYREVIEW SET REVIEWSTATUS = 1 WHERE USER_ID = #{reviewWriter}
+UPDATE BUYREVIEW SET REVIEWSTATUS = 2 WHERE USER_ID = #{reviewWriter}
 </update>
 <select id="selectTotalCount" resultType="_int">
-SELECT COUNT(*) FROM BOOKREVIEW
+SELECT COUNT(*) FROM BOOKREVIEW WHERE BOOKISBN = #{bookISBN}
 </select>
 <select id="selectReviewList" resultType="BookReview">
-SELECT * FROM BOOKREVIEW
+SELECT * FROM BOOKREVIEW WHERE BOOKISBN = #{bookISBN} ORDER BY REVIEWDATE DESC
 </select>
+<select id="insertIdCheck" resultType="_int" parameterType="list">
+SELECT NVL(SUM(REVIEWSTATUS),0) REVIEWSTATUS FROM BUYREVIEW WHERE USER_ID = #{list[0]} AND BOOKISBN = #{list[1]}
+</select>
+
 </mapper>

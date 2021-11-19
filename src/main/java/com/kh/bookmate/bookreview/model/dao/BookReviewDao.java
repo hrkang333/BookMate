@@ -21,14 +21,19 @@ public class BookReviewDao {
 		return sqlSession.update("reviewMapper.updateReviewWriter",bookReview);
 	}
 
-	public int selectTotalCount(SqlSessionTemplate sqlSession) {
+	public int selectTotalCount(SqlSessionTemplate sqlSession, String bookISBN) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("reviewMapper.selectTotalCount");
+		return sqlSession.selectOne("reviewMapper.selectTotalCount",bookISBN);
 	}
 
-	public List<BookReview> selectReviewList(SqlSessionTemplate sqlSession, RowBounds rb) {
+	public List<BookReview> selectReviewList(SqlSessionTemplate sqlSession, RowBounds rb, String bookISBN) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("reviewMapper.selectReviewList", null, rb);
+		return sqlSession.selectList("reviewMapper.selectReviewList", bookISBN, rb);
+	}
+
+	public int insertIdCheck(SqlSessionTemplate sqlSession, List<String> list) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("reviewMapper.insertIdCheck",list);
 	}
 
 }
