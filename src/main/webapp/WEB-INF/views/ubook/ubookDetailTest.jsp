@@ -145,6 +145,40 @@
 										</dl>
 
 
+										<script type="text/javascript">
+											function goCart() {
+												var cartUserId = "${sessionScope.loginUser.userId}"
+										        var cartCount = parseInt($('#order-quantity').val())
+												if (cartUserId == null||cartUserId == "") {
+													alert("로그인이 필요합니다.");
+													return false;
+												}
+												$.ajax({
+										        	
+									        		url : "insertCart.ub",
+									        		data : {
+									        			cartUserId : cartUserId,
+									        			cartUbNo : "${requestScope.ubook.ubookNo}",
+									        			cartCount : cartCount
+									        		},
+									        		
+									        		type : "post" ,
+									        		success : function(str) {
+									        			if(str == 'already'){
+									        				alert('이미 장바구니에 있는 상품입니다.')
+									        			}else{
+															if(confirm("상품을 장바구니에 담았습니다. 장바구니로 이동하시겠습니까?")){
+																$('#moveCartForm').submit();
+															}
+															return false;
+									        			}
+													}
+									        		
+									        		
+									        	})
+										
+											}
+										</script>
 										<!-- !구매 만족도 -->
 									</div>
 									<!-- end state-lowest-new -->
@@ -180,36 +214,6 @@
 													<input type="hidden" value="${sessionScope.loginUser.userId}" name="cartUserId">
 											
 												</form>
-										<script type="text/javascript">
-											function goCart() {
-												var cartUserId = "${sessionScope.loginUser.userId}"
-										        var cartCount = parseInt($('#order-quantity').val())
-												if (cartUserId == null||cartUserId == "") {
-													alert("로그인이 필요합니다.");
-													return false;
-												}
-												$.ajax({
-										        	
-									        		url : "insertCart.ub",
-									        		data : {
-									        			cartUserId : cartUserId,
-									        			cartUbNo : "${requestScope.ubook.ubookNo}",
-									        			cartCount : cartCount
-									        		},
-									        		
-									        		type : "post" ,
-									        		success : function(str) {
-														if(confirm("상품을 장바구니에 담았습니다. 장바구니로 이동하시겠습니까?")){
-															$('#moveCartForm').submit();
-														}
-														return false;
-													}
-									        		
-									        		
-									        	})
-										
-											}
-										</script>
 									</div>
 								</div>
 								<!--// product_detail_info  -->

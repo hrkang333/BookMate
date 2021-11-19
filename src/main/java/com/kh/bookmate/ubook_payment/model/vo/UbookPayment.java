@@ -235,9 +235,16 @@ public class UbookPayment {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
+		return "UbookPayment [paymentNoUb=" + paymentNoUb + ", userIdUb=" + userIdUb + ", shippingNameUb="
+				+ shippingNameUb + ", shippingPostCodeUb=" + shippingPostCodeUb + ", shippingAddressUb="
+				+ shippingAddressUb + ", shippingAddressDetailUb=" + shippingAddressDetailUb + ", shippingPhoneUb="
+				+ shippingPhoneUb + ", deliveryRequestUb=" + deliveryRequestUb + ", payDateUb=" + payDateUb
+				+ ", totalCostUb=" + totalCostUb + ", paymentMethodUb=" + paymentMethodUb + ", totalPayCostUb="
+				+ totalPayCostUb + ", deliveryCostUb=" + deliveryCostUb + "]";
 	}
+
+
+
 
 	
 	

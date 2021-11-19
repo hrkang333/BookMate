@@ -47,13 +47,29 @@ public class UbookCartServiceImpl implements UbookCartService {
 		return ubookCartDao.deleteCart(sqlSession,cartNo);
 	}
 
-	@Override
+	/*@Override
 	public List<Ubook> selectUBookList(String cartUserId) {
 	  List<Ubook> selectUBookList = ubookCartDao.selectUBookList(sqlSession,cartUserId);
 		  if(selectUBookList == null) {
 			  throw new RuntimeException("장바구니 북리스트 가져오기 오류");
 		  }
 	  return selectUBookList;
+	}*/
+	@Override
+	public List<Ubook> selectUBookList(List<UbookCart> cartList) {
+	  List<Ubook> selectUBookList = ubookCartDao.selectUBookList(sqlSession,cartList);
+		  if(selectUBookList == null) {
+			  throw new RuntimeException("장바구니 북리스트 가져오기 오류");
+		  }
+	  return selectUBookList;
 	}
 
+	@Override
+	public UbookCart selectCart(UbookCart cart) {
+		return ubookCartDao.selectCart(sqlSession,cart);
+	}
+
+	/*
+	 * @Override public int updateUbookStock(int cartUbNo) { }
+	 */
 }

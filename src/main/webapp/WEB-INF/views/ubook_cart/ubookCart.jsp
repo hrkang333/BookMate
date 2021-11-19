@@ -24,47 +24,41 @@
 </style>
 <script type="text/javascript">
 
-var savePoint = new Array() 
-
 
 $(document).ready(function() {
 	priceSum();
 })
 
 
-
 function priceSum() {
 	var price = new Array() 
-	var quantity = new Array()
+	var cartCount = new Array()
 	var priceSum = 0;
 	var payPrice = 0;
-	var deleveryPrice = 0;
-	var savePoint = 0;
+	var deleveryPrice = 2600;
+	
+	
 	$('.price').each(function(i,item) {
 		if($("input:checkbox[id=checkBox"+i+"]").is(":checked")==true){
 			
 		price.push(item.value)
 		}
 	})
-	$('.quantity').each(function(i,item) {
+	$('.cartCount').each(function(i,item) {
 		if($("input:checkbox[id=checkBox"+i+"]").is(":checked")==true){
 		
-		quantity.push(item.value)
+			cartCount.push(item.value)
 		}
 	})
+	
 	for(var i = 0 ; i <price.length;i++ ){
 	
-		priceSum = priceSum + (price[i]*quantity[i])
+		priceSum = priceSum + (price[i]*cartCount[i])
+		deleveryPrice = deleveryPrice + (deleveryPrice*cartCount[i]);
 	}
 	
-	if(priceSum<10000){
-		deleveryPrice = 2600;
-		$('#deleveryPriceSpan').html(deleveryPrice.toLocaleString('ko-KR')+"원")
-		
-	}else{
-		deleveryPrice = 0;
-		$('#deleveryPriceSpan').html(deleveryPrice.toLocaleString('ko-KR')+"원")
-	}
+	$('#deleveryPriceSpan').html(deleveryPrice.toLocaleString('ko-KR')+"원")
+	
 	payPrice = priceSum + deleveryPrice;
 	$('#sumPriceSpan').html(priceSum.toLocaleString('ko-KR')+"원")
 	$('#payPriceSpan').html(payPrice.toLocaleString('ko-KR')+"원")
@@ -106,7 +100,7 @@ function movePayment() {
 		}
 	})
 	
-	$('#movePaymentForm').submit(); 
+	$('#moveUbookPaymentForm').submit(); 
 
 	
 }
@@ -136,6 +130,7 @@ function deleteCart(index,cartNo) {
 
 		priceSum();
 	}
+
 }
 </script>
 </head>
@@ -161,7 +156,7 @@ function deleteCart(index,cartNo) {
 								<th style="width: 10%;">수량</th>
 								<th style="width: 10%;">합계</th>
 								<th style="width: 15%;">예상출고일정<br>
-								<span style="font-size: 5px">(판매자 발송 일정에 따라 다름)</span></th>
+								<span style="font-size: 5px">(판매자 발송 일정에 따라 변동)</span></th>
 								<th style="width: 10%;">선택</th>
 							</tr>
 						</thead>
@@ -180,16 +175,17 @@ function deleteCart(index,cartNo) {
 													style="height: 150px">
 											</div>
 											<div class="media-body">
+												<%-- <input name="sellerNo" value="${list.BSellerNo}"/> --%>
 												<p>${list.ubookName}</p>
 											</div>
 										</div>
 									</td>
-									<td><input type="hidden" id="price${status.index}"
-										class="price" value="${list.ubookOPrice}"> <span
-										style="text-decoration: line-through"><fmt:formatNumber
-												value="${list.ubookPrice}" />원 </span><br> <span
-										style="color: red;"><fmt:formatNumber
-												value="${list.ubookPrice}" /></span>원</td>
+									<td><input type="hidden" id="price${status.index}" class="price" value="${list.ubookPrice}"> <span
+										style="text-decoration: line-through">
+										<fmt:formatNumber value="${list.ubookOPrice}" />원 </span><br> 
+										<span style="color: red;">
+										<fmt:formatNumber value="${list.ubookPrice}" /></span>원
+										</td>
 									<td>
 										<div style="display: flex; align-items: center;">
 											<input type="hidden"
@@ -199,8 +195,8 @@ function deleteCart(index,cartNo) {
 												name="cartList[${status.index}].cartUserId"> <input
 												type="hidden" name="cartList[${status.index}].cartUbNo"
 												value="${requestScope.cartList[status.index].cartUbNo}">
-											<input type="text"
-												name="cartList[${status.index}].quantity"
+											<input type="text" readonly="readonly"
+												name="cartList[${status.index}].cartCount"
 												id="cartCount${status.index}" class="cartCount" maxlength="2"
 												value="${requestScope.cartList[status.index].cartCount}"
 												style="height: 40px; width: 30px;">&nbsp;

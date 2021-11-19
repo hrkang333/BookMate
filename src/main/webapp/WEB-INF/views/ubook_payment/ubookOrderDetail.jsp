@@ -12,12 +12,19 @@
 <title>[책장메이트] - 결제</title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
+ <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 <style>
+.numBtn{
+	width: 24px;
+	height: 30px;
+	font-size: 15px;
+}
+
+
 #paymentInnerWrap_1 {
 	width: 750px;
 }
@@ -36,7 +43,7 @@
 	padding-right: 40px;
 }
 
-#deliveryRequest {
+#deliveryRequestUb {
 	width: 60%;
 	display: none;
 	resize: none;
@@ -192,11 +199,11 @@ cursor: pointer;
 
 	function name111() {
 
-		if ($('#deliveryRequest').css("display") == 'none') {
+		if ($('#deliveryRequestUb').css("display") == 'none') {
 
-			$('#deliveryRequest').css("display", "inline")
+			$('#deliveryRequestUb').css("display", "inline")
 		} else {
-			$('#deliveryRequest').css("display", "none")
+			$('#deliveryRequestUb').css("display", "none")
 		}
 	}
 
@@ -288,7 +295,7 @@ cursor: pointer;
 				bankName : $('input[name=bankName]:checked').val(),
 				bankPwd : $('#bankPwd').val(),
 				bankAccount : $('#bankAccount').val(),
-				user_Id : $('#user_Id').val(),
+				userIdUb : $('#userIdUb').val(),
 				methodPwd : $('#methodPwd').val()
 			},
 			success : function(number) {
@@ -341,7 +348,7 @@ cursor: pointer;
 			type : "post",
 			data : {
 				selectMethodIndex : selectMethodIndex,
-				user_Id : $('#user_Id').val(),
+				user_Id : $('#userIdUb').val(),
 				mainPayment : mainPayment
 			},
 			success : function(data) {
@@ -383,7 +390,7 @@ cursor: pointer;
 			data : {
 				selectMethodIndex : num,
 				mainPayment : mainPayment,
-				user_Id : $('#user_Id').val()
+				userIdUb : $('#userIdUb').val()
 			},
 			success : function(map) {
 				console.log(map['pop'].bankAccount)
@@ -400,9 +407,9 @@ cursor: pointer;
 	}
 	  
 	  
-	  //보유 포인트 입력시 정보 변화
+/* 	  //보유 포인트 입력시 정보 변화
 	  function checkUsePoint() {
-		  var itemsPrise = parseInt('${requestScope.order.totalCost}');
+		  var itemsPrise = parseInt('${requestScope.order.totalCostUb}');
 		  var keepPoint = parseInt($('#hiddenPoint').val());
 		  var usePoint = $('#usePointInput').val();
 		  if(usePoint > keepPoint){
@@ -425,7 +432,7 @@ cursor: pointer;
 	  function allUsePoint() {
 		  $('#usePointInput').val($('#hiddenPoint').val())
 		  checkUsePoint()
-	}
+	} */
 	  
 	  
 	  
@@ -478,7 +485,31 @@ cursor: pointer;
 	        $('.selectPassword').not($('#selectPassword_'+num)).prop("checked",false)
 	    }
 	  
-	  
+		
+		//도서 수량 -1 변경
+		function updateUbookStock(cartUbNo) {
+				$.ajax({
+					
+					url : "updateUbookStock.ub",
+					type: "post",
+					data : {
+						cartUbNo : cartUbNo
+					},
+					success : function(str) {
+						if(str=="up"){
+							console.log("수량 업데이트 성공.")
+						}else{
+							alert("수량 업데이트에 실패했습니다.")
+						}
+					},
+					error : function(e) {
+						alert("ajax 통신중 오류 발생")
+					}
+						
+					
+				})
+		}	
+		
 	    function payInputPwd() {
 	    	
 	    	$.ajax({
@@ -486,14 +517,14 @@ cursor: pointer;
 	    		url : "checkPayPwd",
 	    		type : "post",
 	    		data : {
-
+					//----- 도서 수량 체크
 		    		paymentMethodDetailNo : $('#selectPayMethod').val(),
 		    		methodPwd : $('#password_3').val()
 	    			
 	    		},
 				success : function(str) {
 					if(str=='pass'){
-
+						//updateUbookStock(index,cartUbNo);
 						$('#closeModal2').click();
 						$('#insertPaymentForm').submit();
 					}else{
@@ -541,7 +572,7 @@ cursor: pointer;
 
 			   $('#payPhonePwd').modal('show');
 		   }else if(methodStatus==4&&savedMethodLength>0){
-console.log("afasf")
+				console.log("afasf")
 			   $('#payPwdModal').modal('show');
 		   }else{
 			  
@@ -570,61 +601,59 @@ console.log("afasf")
 </script>
 </head>
 <body style="width: 1200px; margin: auto;">
- 	<jsp:include page="../ubook/ubookMenu.jsp"/>
+<jsp:include page="../ubook/ubookMenu.jsp"/>
 
 	<main>
 		<br>
 		<hr>
 		<br>
 		<br>
-		<div id="paymentWrap" style="display: flex;">
+		<div id="paymentWrap" style="display: flex; margin-top: 100px; font-size: 17px;">
 			<div id="paymentInnerWrap_1">
 				<div id="userAccountWrap" class="paymentInnerWrap_1">
 					배송지 정보 <br>
 					<br>
 					<hr>
 					<br>
-					<form action="insertPayment" method="post" id="insertPaymentForm">
-					<input type="hidden" id="user_Id" name="user_Id" value="${sessionScope.loginUser.userId}">
-					<input type="hidden" id="usePointInput_2" name="usePoint" value="0" >
-					<input type="hidden" name="totalGetPoint" value="${requestScope.order.totalGetPoint}">
-					<input type="hidden" id="totalPayCost" name="totalPayCost" value="${requestScope.order.totalCost}">
+					<form action="insertUbookPayment" method="post" id="insertPaymentForm">
+					<input type="hidden" id="userIdUb" name="userIdUb" value="${sessionScope.loginUser.userId}">
+					<input type="hidden" id="totalPayCost" name="totalPayCost" value="${requestScope.order.totalCostUb}">
 				<!-- 	<input type="hidden" id="" name="deliveryCost" value=""> -->
-					<input type="hidden" name="totalCost" value="${requestScope.order.totalCost}">
+					<input type="hidden" name="totalCostUb" value="${requestScope.order.totalCostUb}">
 					<c:forEach items="${requestScope.orderList}" var="list"
 						varStatus="status">
-						<input type="hidden" name="paymentDetailList[${status.index}].bookISBN" value="${list.bookISBN}">
-						<input type="hidden" name="paymentDetailList[${status.index}].bookMainImg" value="${list.bookMainImg}">
-						<input type="hidden" name="paymentDetailList[${status.index}].bookTitle" value="${list.bookTitle}">
-						<input type="hidden" name="paymentDetailList[${status.index}].quantity" value="${list.quantity}">
-						<input type="hidden" name="paymentDetailList[${status.index}].bookPrice" value="${list.bookPrice}">
-						<input type="hidden" name="paymentDetailList[${status.index}].salePrice" value="${list.salePrice}">
-						<input type="hidden" name="paymentDetailList[${status.index}].getPoint" value="${list.getPoint}">
-						
-						
+						<input type="hidden" name="ubookPaymentDetailList[${status.index}].ubookNoUb" value="${list.ubookNoUb}">
+						<input type="hidden" name="ubookPaymentDetailList[${status.index}].ubookImgUb" value="${list.uookImgUb}">
+						<input type="hidden" name="ubookPaymentDetailList[${status.index}].ubookNameUb" value="${list.ubookNameUb}">
+						<input type="hidden" name="ubookPaymentDetailList[${status.index}].quantityUb" value="${list.quantityUb}">
+						<input type="hidden" name="ubookPaymentDetailList[${status.index}].ubookOPriceUb" value="${list.ubookOPriceUb}">
+						<input type="hidden" name="ubookPaymentDetailList[${status.index}].ubookPriceUb" value="${list.ubookPriceUb}">
+						<input type="text" name="cartList[${status.index}].cartNo" value="${requestScope.deleteCartList[status.index].cartNo}">
+						<input type="text" name="cartList[${status.index}].cartUbNo" value="${requestScope.updateUbookStock[status.index].cartUbNo}">
+						<c:out value="${requestScope.deleteCartList[status.index].cartNo}"></c:out>
 						</c:forEach>
 	
 					
 					<div id="userAccountDiv">
 						<input type="text" placeholder="이름"
-							value="${requestScope.order.shippingName}" name="shippingName"> <input
+							value="${requestScope.order.shippingNameUb}" name="shippingNameUb"> <input
 							type="button" onclick="daumPostcode()" value="새 주소 입력"> <input
 							type="button" onclick="" value="주소록 불러오기"> <br>
 						<br> <input type="text" id="postcode" placeholder="우편번호"
-							value="${requestScope.order.shippingPostCode}" name="shippingPostCode"><br>
+							value="${requestScope.order.shippingPostCodeUb}" name="shippingPostCodeUb"><br>
 						<input type="text" id="address" placeholder="주소"
-							value="${requestScope.order.shippingAddress}" name="shippingAddress"><br> <input
+							value="${requestScope.order.shippingAddressUb}" name="shippingAddressUb"><br> <input
 							type="text" id="detailAddress" placeholder="상세주소"
-							value="${requestScope.order.shippingAddressDetail}" name="shippingAddressDetail"><br>
+							value="${requestScope.order.shippingAddressDetailUb}" name="shippingAddressDetailUb"><br>
 						<br> <input type="text" placeholder="전화번호(- 를 제외 숫자만)"
 							onfocus="phoneNumber('focus','1')"
 							onblur="phoneNumber('blur','1')" id="phoneNum_1"
-							value="${requestScope.order.shippingPhone}" name="shippingPhone"><br>
+							value="${requestScope.order.shippingPhoneUb}" name="shippingPhoneUb"><br>
 						<br>
 						<div style="text-align: right;">
 							<span style="cursor: pointer;" onclick="name111()">배송요청사항</span><br>
 							<br>
-							<textarea name="deliveryRequest" id="deliveryRequest" cols="30"
+							<textarea name="deliveryRequestUb" id="deliveryRequestUb" cols="30"
 								rows="5" placeholder="100자 이하로 입력해주세요" maxlength="100">배달 수고하십니다.</textarea>
 						</div>
 
@@ -646,11 +675,11 @@ console.log("afasf")
 							<div class="media" style="width: 50%; display: flex;">
 								<div class="d-flex">
 									<img
-										src="${pageContext.servletContext.contextPath }/resources/images/book_img/${list.bookMainImg}"
+										src="${pageContext.servletContext.contextPath }/resources/images/Ubookimg/${list.uookImgUb}"
 										style="height: 150px">
 								</div>
 								<div class="media-body">
-									<p>${list.bookTitle}</p>
+									<p>${list.ubookNameUb}</p>
 								</div>
 							</div>
 
@@ -659,14 +688,17 @@ console.log("afasf")
 
 								<div style="width: 50%;">
 									<span style="text-decoration: line-through"><fmt:formatNumber
-											value="${list.bookPrice}" />원 </span><br> <span><fmt:formatNumber
-											value="${list.salePrice}" /></span>원(↓ 10%)<br> <span><fmt:formatNumber
-											value="${list.getPoint}" />pt 적립</span><br>
-									<br> <span>${list.quantity}권</span>
+											value="${list.ubookOPriceUb}" />원 </span><br> 
+											<span><fmt:formatNumber value="${list.ubookPriceUb}" /></span>원<br>
+									<br> <span>${list.quantityUb}권</span>
 								</div>
 								<div style="width: 50%;">
-									<fmt:formatNumber value="${list.salePrice*list.quantity}" />
+									<fmt:formatNumber value="${list.ubookPriceUb*list.quantityUb}" />
 									원
+								</div>
+								<div style="width: 50%; text-align: right;" >
+									배송비 : <fmt:formatNumber value="${list.quantityUb * 2600}" />
+									
 								</div>
 							</div>
 						</div>
@@ -679,27 +711,6 @@ console.log("afasf")
 				<br>
 				<br>
 				<br>
-				<div id="usePointWrap" class="paymentInnerWrap_1">
-					포인트사용<br>
-					<br>
-					<hr>
-					<br>
-					<div id="usePoint">
-					<input type="hidden" id="hiddenPoint" value="${sessionScope.loginUser.point}">
-						<table>
-							<tr>
-								
-								<td class="tdd">보유포인트 : <span id="pointInfoSpan">${sessionScope.loginUser.point}</span>pt</td>
-								<td class="tdd">사용 : <input type="number"
-									style="width: 100px;" id="usePointInput" onkeyup="checkUsePoint()" min="0"> pt
-								</td>
-								<td><input type="button" value="모두사용" onclick="allUsePoint()"></td>
-							</tr>
-						</table>
-					</div>
-					<br>
-					<hr>
-				</div>
 				<br>
 				<br>
 				<br>
@@ -851,44 +862,33 @@ console.log("afasf")
 					<div id="paymentInfo">
 						<div
 							style="text-align: center; font-weight: bold; font-size: 20px;">
-							<br> xxxx월 xx일 출고 예정
+							<br> 판매자 일정에 따라 출고 예정
 						</div>
 						<br>
-						<div>상품별 출고일정이 다른경우 가장 늦은 상품 기준으로 함께 출고됩니다.</div>
+						<div>판매자 별로 출고 일정이 상이합니다.</div>
 						<br>
 						<hr>
 						<div class="innerInfo">
-							<p>상품금액</p>
+							<p>배송비 포함 상품금액</p>
 							<p class="rightValue">
-								<fmt:formatNumber value="${requestScope.order.totalCost}" />
+								<fmt:formatNumber value="${requestScope.order.totalCostUb}" />
 								원
 							</p>
 						</div>
-						<div class="innerInfo">
+						<!-- <div class="innerInfo">
 							<p>배송비</p>
-							<p class="rightValue">0</p>원
-						</div>
-						<div class="innerInfo">
-							<p>사용포인트</p>
-							<p class="rightValue" id="userPointP">0</p>pt
-						</div>
+							<p class="rightValue">2600</p>원
+						</div> -->
 						<hr>
 						<div class="innerInfo">
 							<p>최종 결제 금액</p>
 							<p class="rightValue"
 								style="font-size: 25px; color: red; font-weight: bold" id="totalPrice">
-								<fmt:formatNumber value="${requestScope.order.totalCost}" />
+								<fmt:formatNumber value="${requestScope.order.totalCostUb}" />
 								원
 							</p>
 						</div>
 						<hr>
-						<div class="innerInfo">
-							<p>적립예정 포인트</p>
-							<p class="rightValue">
-								<fmt:formatNumber value="${requestScope.order.totalGetPoint}" />
-								pt
-							</p>
-						</div>
 						<hr>
 						<div class="innerInfo" style="align-items: center;">
 							<input type="checkbox" style="zoom: 1.5;" id="orderCheck">
@@ -900,8 +900,8 @@ console.log("afasf")
 							<br>
 							<button class="paymentButton" onclick="moveShoppingCart()">장바구니로 가기</button>
 						</div>
-						<form action="shoppingCart.sc" method="post" id="moveShoppingCartFomr">
-							<input type="hidden" name="user_Id" value="${sessionScope.loginUser.userId}">
+						<form action="ubookCart.ub" method="post" id="moveShoppingCartFomr">
+							<input type="hidden" name="cartUserId" value="${sessionScope.loginUser.userId}">
 						</form>
 						<br>
 						<br>
@@ -913,14 +913,14 @@ console.log("afasf")
 
 		 <div class="modal fade" id="inputPwdModal">
             <div class="modal-dialog modal-sm">
-                <div class="modal-content">
+                <div class="modal-content" style="width: 302px; height: 630px;">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">결제 비밀번호 등록</h4>
+                    <h4 class="modal-title" style="font-size: 25px;">결제 비밀번호 등록</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button> 
                 </div>
     
-                    <div class="modal-body" >
+                    <div class="modal-body" style="font-size: 15px;">
                         <input type="radio" name="selectPassword" value="1"  id="selectPassword_1" class="selectPassword">
                         <label for="userId" class="mr-sm-2">비밀번호 :</label>
                         <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter password" id="password_1" readonly onfocus="clickPwdInput(1)"> <br>
@@ -928,16 +928,16 @@ console.log("afasf")
                         <label for="userPwd" class="mr-sm-2">비밀번호 확인:</label>
                         <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter password" id="password_2" readonly onfocus="clickPwdInput(2)"><br>
                         <div id="pwdInputDiv" style="text-align: center;">
-                            <button type="button" value="1" onclick="pwdInputButton(this)">1</button><button type="button" value="2" onclick="pwdInputButton(this)">2</button><button type="button" value="3" onclick="pwdInputButton(this)">3</button><br>
-                            <button type="button" value="4" onclick="pwdInputButton(this)">4</button><button type="button" value="5" onclick="pwdInputButton(this)">5</button><button type="button" value="6" onclick="pwdInputButton(this)">6</button><br>
-                            <button type="button" value="7" onclick="pwdInputButton(this)">7</button><button type="button" value="8" onclick="pwdInputButton(this)">8</button><button type="button" value="9" onclick="pwdInputButton(this)">9</button><br>
-                            <button type="button" value="0" onclick="pwdInputButton(this)">0</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" onclick="pwdInputDelButton()">←</button>
+                            <button class = "numBtn" type="button" value="1" onclick="pwdInputButton(this)">1</button><button class = "numBtn" type="button" value="2" onclick="pwdInputButton(this)">2</button><button class = "numBtn" type="button" value="3" onclick="pwdInputButton(this)">3</button><br>
+                            <button class = "numBtn" type="button" value="4" onclick="pwdInputButton(this)">4</button><button class = "numBtn" type="button" value="5" onclick="pwdInputButton(this)">5</button><button class = "numBtn" type="button" value="6" onclick="pwdInputButton(this)">6</button><br>
+                            <button class = "numBtn" type="button" value="7" onclick="pwdInputButton(this)">7</button><button class = "numBtn" type="button" value="8" onclick="pwdInputButton(this)">8</button><button class = "numBtn" type="button" value="9" onclick="pwdInputButton(this)">9</button><br>
+                            <button class = "numBtn" type="button" value="0" onclick="pwdInputButton(this)">0</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class = "numBtn" type="button" onclick="pwdInputDelButton()">←</button>
                         </div>
                     </div>
                     
                     <div class="modal-footer" >
-                        <button type="button" class="btn btn-primary mr-auto" onclick="inputPwd()">비밀번호 등록</button>
-                        <button type="button" class="btn btn-danger" id="closeModal1" data-dismiss="modal">취소</button>
+                        <button type="button" class="btn btn-primary mr-auto" onclick="inputPwd()" style="font-size: 15px;">비밀번호 등록</button>
+                        <button type="button" class="btn btn-danger" id="closeModal1" data-dismiss="modal" style="font-size: 15px;">취소</button>
                     </div>
                 
                 </div>
@@ -945,10 +945,10 @@ console.log("afasf")
         </div>
 		<div class="modal fade" id="payPwdModal">
             <div class="modal-dialog modal-sm">
-                <div class="modal-content">
+                <div class="modal-content" style="width: 302px; height: 571px;">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">결제 비밀번호 입력</h4>
+                    <h4 class="modal-title" style="font-size: 25px;">결제 비밀번호 입력</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button> 
                 </div>
     
@@ -960,18 +960,18 @@ console.log("afasf")
                         <input type="radio" name="selectPassword" value="3" checked style="visibility: hidden;" id="selectPassword_3" class="selectPassword"><br>
                         <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter password" id="password_3" readonly onfocus="clickPwdInput(3)"> <br>
                         <div id="pwdInputDiv" style="text-align: center;">
-                            <button type="button" value="1" onclick="pwdInputButton(this)">1</button><button type="button" value="2" onclick="pwdInputButton(this)">2</button><button type="button" value="3" onclick="pwdInputButton(this)">3</button><br>
-                            <button type="button" value="4" onclick="pwdInputButton(this)">4</button><button type="button" value="5" onclick="pwdInputButton(this)">5</button><button type="button" value="6" onclick="pwdInputButton(this)">6</button><br>
-                            <button type="button" value="7" onclick="pwdInputButton(this)">7</button><button type="button" value="8" onclick="pwdInputButton(this)">8</button><button type="button" value="9" onclick="pwdInputButton(this)">9</button><br>
-                            <button type="button" value="0" onclick="pwdInputButton(this)">0</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" onclick="pwdInputDelButton()">←</button>
+                            <button class = "numBtn" type="button" value="1" onclick="pwdInputButton(this)">1</button><button class = "numBtn" type="button" value="2" onclick="pwdInputButton(this)">2</button><button class = "numBtn" type="button" value="3" onclick="pwdInputButton(this)">3</button><br>
+                            <button class = "numBtn" type="button" value="4" onclick="pwdInputButton(this)">4</button><button class = "numBtn" type="button" value="5" onclick="pwdInputButton(this)">5</button><button class = "numBtn" type="button" value="6" onclick="pwdInputButton(this)">6</button><br>
+                            <button class = "numBtn" type="button" value="7" onclick="pwdInputButton(this)">7</button><button class = "numBtn" type="button" value="8" onclick="pwdInputButton(this)">8</button><button class = "numBtn" type="button" value="9" onclick="pwdInputButton(this)">9</button><br>
+                            <button class = "numBtn" type="button" value="0" onclick="pwdInputButton(this)">0</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class = "numBtn" type="button" onclick="pwdInputDelButton()">←</button>
                         </div>
                     </div>
                     
 
                     <!-- Modal footer -->
                     <div class="modal-footer" >
-                        <button type="button" class="btn btn-primary mr-auto" onclick="payInputPwd()">비밀번호 입력</button>
-                        <button type="button" class="btn btn-danger" id="closeModal2" data-dismiss="modal">취소</button>
+                        <button type="button" class="btn btn-primary mr-auto" onclick="payInputPwd()" style="font-size: 15px;">비밀번호 입력</button>
+                        <button type="button" class="btn btn-danger" id="closeModal2" data-dismiss="modal" style="font-size: 15px;">취소</button>
                     </div>
                 
                 </div>
@@ -982,12 +982,12 @@ console.log("afasf")
                 <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">결제 비밀번호 입력</h4>
+                    <h4 class="modal-title" style="font-size: 25px;">결제 비밀번호 입력</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button> 
                 </div>
     
                     <!-- Modal Body -->
-                    <div class="modal-body" >
+                    <div class="modal-body"  style="font-size: 15px;">
                         
                         
                         <label for="inputPhonePwd" >휴대폰 결제 번호입력:</label>
@@ -998,8 +998,8 @@ console.log("afasf")
 
                     <!-- Modal footer -->
                     <div class="modal-footer" >
-                        <button type="button" class="btn btn-primary mr-auto" onclick="inputPhonePwd()">비밀번호 입력</button>
-                        <button type="button" class="btn btn-danger" id="closeModal3" data-dismiss="modal">취소</button>
+                        <button type="button" class="btn btn-primary mr-auto" onclick="inputPhonePwd()" style="font-size: 15px;">비밀번호 입력</button>
+                        <button type="button" class="btn btn-danger" id="closeModal3" data-dismiss="modal" style="font-size: 15px;">취소</button>
                     </div>
                 
                 </div>

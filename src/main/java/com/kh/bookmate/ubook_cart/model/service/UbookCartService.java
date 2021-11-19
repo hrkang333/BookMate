@@ -14,6 +14,10 @@ public interface UbookCartService {
 
 	int deleteCart(int cartNo);
 
-	List<Ubook> selectUBookList(String cartUserId);
-	
+	//List<Ubook> selectUBookList(String cartUserId);
+	List<Ubook> selectUBookList(List<UbookCart> cartList);
+
+	UbookCart selectCart(UbookCart cart);
+
+	//int updateUbookStock(int cartUbNo);
 }

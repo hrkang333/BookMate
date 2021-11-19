@@ -50,6 +50,11 @@ public class UbookCartController {
 	@ResponseBody
 	public String insertCart(UbookCart cart) {
 
+		UbookCart temp = null; 
+		temp = ubookCartService.selectCart(cart);
+		if(temp != null) {
+			return "already";
+		}
 		System.out.println(cart);
 		ubookCartService.insertCart(cart);
 		return "success";
@@ -65,7 +70,8 @@ public class UbookCartController {
 		cartList = ubookCartService.selectCartList(cartUserId);
 		
 		if(cartList.size() > 0) { 
-			cartItemList = ubookCartService.selectUBookList(cartUserId);
+			//cartItemList = ubookCartService.selectUBookList(cartUserId);
+			cartItemList = ubookCartService.selectUBookList(cartList);
 		}
 		
 		
@@ -84,7 +90,8 @@ public class UbookCartController {
 	@RequestMapping("moveUbookPayment.ub")
 	public String selectPaymentPage(UbookCart cartList, @SessionAttribute("loginUser") User user,Model mo) {
 
-		List<UbookCart> newCartList = cartList.getCartList();
+		List<UbookCart> newCartList = new ArrayList<UbookCart>();
+		
 		List<Ubook> cartItemList = null;
 		List<UbookPaymentDetail> orderList = new ArrayList<UbookPaymentDetail>();
 		UbookPayment order = null;
@@ -97,9 +104,15 @@ public class UbookCartController {
 		int totalCost = 0;
 		String shippingName, shippingAddress, shippingPhone;
 		String[] shippingAddressArr;
-
+		for(UbookCart temp : cartList.getCartList()) {
+			if(temp.getCartUbNo() != 0) {
+				System.out.println(temp);
+				newCartList.add(temp);
+			}
+		}
 		//주문 페이지로 가져갈 장바구니 상품들과 주문테이블에 표시될 금액 정보 처리
-		//cartItemList = ubookCartService.selectUBookList(newCartList);
+		cartItemList = ubookCartService.selectUBookList(newCartList);
+		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaa"+cartItemList.size());
 		for (int i = 0; i < newCartList.size(); i++) {
 			tempUbook = cartItemList.get(i);
 			tempCart = newCartList.get(i);
@@ -107,7 +120,11 @@ public class UbookCartController {
 					tempCart.getCartCount(), tempUbook.getUbookOPrice(), tempUbook.getUbookPrice());
 			orderDetail.setDeliveryDateUb(ShipDate());
 			orderList.add(orderDetail);
+			
+			System.out.println("orderList" + orderList.get(i).getUookImgUb());
+
 			totalCost += (int) (tempUbook.getUbookPrice() * tempCart.getCartCount());
+			totalCost = totalCost+ (int) (2600 * tempCart.getCartCount());
 		}
 
 		
@@ -152,7 +169,8 @@ public class UbookCartController {
 		shippingAddressArr = shippingAddress.split("/");
 		
 		order = new UbookPayment(user.getUserId(), shippingName, shippingAddressArr[0], shippingAddressArr[1],shippingAddressArr[2],shippingPhone, totalCost);
-		
+
+		mo.addAttribute("deleteCartList", newCartList);
 		mo.addAttribute("order", order);
 		mo.addAttribute("orderList", orderList);
 		return "ubook_payment/ubookOrderDetail";

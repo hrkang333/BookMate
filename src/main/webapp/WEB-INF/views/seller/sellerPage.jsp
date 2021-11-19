@@ -110,11 +110,11 @@
 											<div class="col-xs-6">
 												<br> <label class="inputlabel">배송비</label> <br> <label
 													class="container leftradio2">&nbsp;&nbsp; 기본 :
-													2600원 <input class="deleveryChk" type="checkbox"
+													2600원 <input class="deleveryChk" type="checkbox" style="display: none;"
 													checked="checked" name="sellerDelP1" value="2600"
 													onclick="return false"> <span class="checkmark"></span>
 												</label> <label class="container rightradio">&nbsp;&nbsp;
-													도서산간지역 : 4000원 <input class="deleveryChk" type="checkbox"
+													도서산간지역 : 4000원 <input class="deleveryChk" type="checkbox" style="display: none;"
 													checked="checked" name="sellerDelP2" value="4000"
 													onclick="return false"> <span class="checkmark"></span>
 												</label>
