@@ -61,7 +61,7 @@
                                             </div>
                                             <!--검색버튼-->
                                             <div class="col-auto">
-                                                <button class="btn btn-lg searchbtn" type="button" onclick="searchChk()">Search</button>
+                                                <button class="btn btn-lg searchbtn" type="button" onclick="searchChk()">검색</button>
                                             </div>
                                             <script>
                                             	function searchChk() {

@@ -50,6 +50,7 @@
 <c:if test="${ !empty list }">
       <!--================ 메인 Content =================-->
       <div class="col-xl-9 col-lg-8 col-md-7 maincon" style="position: absolute;
+       margin-bottom: 100px;
     z-index: 7777;
     width: 943px;
     margin-left: 205px;">
@@ -191,6 +192,7 @@
       </div>
     </div>
   </div>
+ 	<div style="padding-top: 3500px;"><jsp:include page="../common/footer.jsp"/></div>
 </c:if>
 </body>
 </html>

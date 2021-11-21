@@ -116,12 +116,13 @@ public class UbookCartController {
 		for (int i = 0; i < newCartList.size(); i++) {
 			tempUbook = cartItemList.get(i);
 			tempCart = newCartList.get(i);
-			orderDetail = new UbookPaymentDetail(tempUbook.getUbookNo(), tempUbook.getUbookImg(), tempUbook.getUbookName(),
+			orderDetail = new UbookPaymentDetail(tempUbook.getUbookNo(), tempUbook.getBSellerNo(), tempUbook.getUbookImg(), tempUbook.getUbookName(),
 					tempCart.getCartCount(), tempUbook.getUbookOPrice(), tempUbook.getUbookPrice());
 			orderDetail.setDeliveryDateUb(ShipDate());
 			orderList.add(orderDetail);
-			
-			System.out.println("orderList" + orderList.get(i).getUookImgUb());
+
+			System.out.println("orderList" + orderList);
+			System.out.println("orderList" + orderList.get(i).getUbookImgUb());
 
 			totalCost += (int) (tempUbook.getUbookPrice() * tempCart.getCartCount());
 			totalCost = totalCost+ (int) (2600 * tempCart.getCartCount());
