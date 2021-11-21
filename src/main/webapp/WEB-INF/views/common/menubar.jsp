@@ -18,8 +18,8 @@
 
 </head> 
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<style>
+<!--   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+ --><style>
 
 
 	.searchingInput{
@@ -47,9 +47,10 @@
 
 </style>
 
-<body>
+<body  style="margin: auto; width: 1200px">
   <!--================ Start Header Menu Area =================-->
-	<header class="header_area"  style="text-align: center; width: 1200px; box-shadow: none;">
+	<header class="mainHeader"  style="text-align: center; z-index: 9999; background-color:#ffff; position:fixed;  width: 1200px;  box-shadow: none; margin: ">
+		
 		<div class="loginArea">
 			<c:if test="${ empty sessionScope.loginUser }">
 				<a href="register.me">회원가입</a> | 

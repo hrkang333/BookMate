@@ -16,6 +16,7 @@ public class PaymentDetail {
 	private int getPoint;
 	private Date deliveryDate;
 	private int deliveryStatus;
+	private String shippingName;//--추가 김미소 
 	
 	private List<PaymentDetail> PaymentDetailList;
 	
@@ -38,6 +39,14 @@ public class PaymentDetail {
 		this.getPoint = getPoint;
 		this.deliveryDate = deliveryDate;
 		this.deliveryStatus = deliveryStatus;
+	}
+
+	public String getShippingName() {
+		return shippingName;
+	}
+
+	public void setShippingName(String shippingName) {
+		this.shippingName = shippingName;
 	}
 
 	public PaymentDetail(int paymentNo, String bookISBN, String bookMainImg, String bookTitle, int quantity,

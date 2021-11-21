@@ -1,6 +1,5 @@
 package com.kh.bookmate.payment.model.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -70,47 +69,21 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public Payment selectPaymentNo(int paymentNo) {
-		Payment list = paymentDao.selectPaymentNo(sqlSession,paymentNo);
-		return list;
+		Payment pno = paymentDao.selectPaymentNo(sqlSession,paymentNo);
+		return pno;
 	}
 
-	//교환대기중 리스트 업데이트 
-	@Override
-	public void updateUserExchangeList(PaymentDetail paymentDetail) {
-		paymentDao.updateUserExchangeList(sqlSession, paymentDetail);
-		
-	}
-	
 
-	//배송리스트 업데이트 
+	//사용자 deliveryStatus 교환 완료로 업데이트 시켜줘야됨 
 	@Override
-	public void updateUpdateDelivery(PaymentDetail paymentDetail) {
-		// TODO Auto-generated method stub
+	public void updateUserExList(int paymentDetailNo) {
+		paymentDao.updateUserExList(sqlSession,paymentDetailNo);
 		
 	}
 
-	@Override
-	public List<Payment> selectDeliveryList(PaymentDetail paymentDetail) {
-		List<Payment> list = paymentDao.selectDeliveryList(sqlSession, paymentDetail);
-		return list;
-	}
 	
 	
-	
-//	//[관리자]배송리스트 볼라고..
-//	@Override
-//	public List<PaymentDetail> selectDeliveryList() {
-//		List<PaymentDetail> list = paymentDao.selectDeliveryList(sqlSession);
-//		return list;
-//	}
-//
-//	// 페이먼트랑 페이먼트 디테일테이블쓰고싶어서 
-//	@Override
-//	public List<Payment> selectDeliveryPaymentNoList(List<Integer> deliveryDetailNoList) {
-//		List<Payment> paymentNoList = paymentDao.selectDeliveryPaymentNoList(sqlSession,deliveryDetailNoList);
-//		return paymentNoList;
-//	}
-	
+
 	
 	
 	
@@ -152,21 +125,46 @@ public class PaymentServiceImpl implements PaymentService {
 	
 	
 	
-	
-	
 	@Override
-	public Payment deliveryListPayment(int paymentNo) {
-		Payment pList = paymentDao.deliveryListPayment(sqlSession,paymentNo);
-		return pList;
-	}
-
-	@Override
-	public PaymentDetail deliveryListPaymentDetail(int paymentDetailNo) {
-		PaymentDetail pdList = paymentDao.deliveryListPaymentDetail(sqlSession,paymentDetailNo);
+	public List<PaymentDetail> selectDeliveryList() {
+		List<PaymentDetail> pdList = paymentDao.selectDeliveryList(sqlSession);
 		return pdList;
 	}
 
+	//[관리자] 배송리스트 업데이트 
+	@Override
+	public void updateDeliveryList(int paymentDetailNo) {
+		paymentDao.updateDeliveryList(sqlSession,paymentDetailNo);
+		
+	}
+
+	@Override
+	public void exchangeWait(int paymentDetailNo) {	
+		paymentDao.exchangeWait(sqlSession,paymentDetailNo);
+	}
+
+	@Override
+	public void updateUserReList(int paymentDetailNo) {
+		paymentDao.updateUserReList(sqlSession,paymentDetailNo);
+		
+	}
+
+	@Override
+	public List<PaymentDetail> cancelList() {
+		List<PaymentDetail> cList = paymentDao.cancelList(sqlSession);
+		return cList;
+	}
+
+
+
+
 	
+	
+	
+	
+	
+
+
 	
 
 

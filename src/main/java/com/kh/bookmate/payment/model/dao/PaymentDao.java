@@ -49,22 +49,6 @@ public class PaymentDao {
 		return sqlSession.selectOne("paymentMapper.selectPaymentNo" , paymentNo);
 	}
 	
-
-	public void updateUserExchangeList(SqlSessionTemplate sqlSession, PaymentDetail paymentDetail) {		
-		sqlSession.update("paymentMapper.updateUserExchangeList",paymentDetail);
-	}
-
-	
-
-
-	public List<Payment> selectDeliveryList(SqlSessionTemplate sqlSession, PaymentDetail paymentDetail) {
-		// TODO Auto-generated method stub
-		return(ArrayList) sqlSession.selectList("paymentMapper.selectDeliveryList",paymentDetail);
-	}
-	
-	
-	
-	
 	
 	
 	//결제정보 등록
@@ -98,18 +82,38 @@ public class PaymentDao {
 
 	
 	
+
+
+	public void updateUserExList(SqlSessionTemplate sqlSession, int paymentDetailNo) {
+		// TODO Auto-generated method stub
+		sqlSession.update("paymentMapper.updateUserExList",paymentDetailNo);
+	}
+
+	public List<PaymentDetail> selectDeliveryList(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("paymentMapper.selectDeliveryList");
+	}
+
+	public void updateDeliveryList(SqlSessionTemplate sqlSession, int paymentDetailNo) {
+		sqlSession.update("paymentMapper.updateDeliveryList",paymentDetailNo);
+	}
+
+	public void exchangeWait(SqlSessionTemplate sqlSession, int paymentDetailNo) {
+		sqlSession.update("paymentMapper.exchangeWait",paymentDetailNo);
+		
+	}
+
+	public void updateUserReList(SqlSessionTemplate sqlSession, int paymentDetailNo) {
+		sqlSession.update("paymentMapper.updateUserReList",paymentDetailNo);		
+	}
+
+	public List<PaymentDetail> cancelList(SqlSessionTemplate sqlSession) {
+		
+		return (ArrayList) sqlSession.selectList("paymentMapper.cancelList");
+	}
+
 	
-	public Payment deliveryListPayment(SqlSessionTemplate sqlSession, int paymentNo) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("paymentMapper.deliveryListPayment",paymentNo);
-	}
-
-	public PaymentDetail deliveryListPaymentDetail(SqlSessionTemplate sqlSession, int paymentDetailNo) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("paymentMapper.deliveryListPaymentDetail",paymentDetailNo);
-	}
-
-
+	
 
  
 	

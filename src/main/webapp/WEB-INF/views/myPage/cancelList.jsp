@@ -3,12 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt"%>
 
-<!--관리자가 취소, 환불, 교환 등 확인 버튼 승인 눌러주는 CS 화면단   -->    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>CS 관리자 메인페이지 </title>
+<title>Insert title here</title>
+</head>
 <link rel="icon" href="img/Fevicon.png" type="image/png">
     <link rel="stylesheet" href="resources/vendors/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="resources/vendors/fontawesome/css/all.min.css">
@@ -27,22 +27,40 @@
     
     <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<body style="width:1200px">
 
-</head>
-<body> 
-
-<h1>CS 관리자 메인페이지 </h1>
-
-	<div><a href="deliveryList.cs"> 배송대기중리스트로 이동하기 </a></div>
-	<div><a href="selectExchangeList.cs"> 교환대기중리스트로 이동하기 </a></div>
-	<div><a href="selectReturnList.cs"> 반품대기중리스트로 이동하기 </a></div>
+	<table class="table" style="text-align: center;" border="1px;">		
+		<tr>
+			<th scope="col">상세주문번호</th>
+			<!-- <th scope="col">주문한 날짜</th> -->
+			<th scope="col">도서 제목</th>
+			<th scope="col">주문 수량</th>
+			<th scope="col">도서 가격</th>
+			<th scope="col">주문상태</th>
+			
+		</tr>	
+		
+			<c:if test="${empty cList}">
+	           <td colspan="5"><h2>취소하신 상품이 없습니다. </h2></td>
+	       	</c:if>
+                          
+		<c:forEach var="item" items="${cList }" varStatus="status" >
+		  <tr>
+			<td><c:out value="${item.paymentDetailNo }"/></td>
+			<td><c:out value="${item.bookTitle }"/></td>
+			<td><c:out value="${item.quantity}" />개</td>
+			<td><c:out value="${item.bookPrice}"/> 원</td>
+			 
+			 <td>
+			  <c:choose>
+			 	<c:when test="${item.deliveryStatus == '4' }">구매취소</c:when>
+			  </c:choose>
+			 <td>	
+		  </tr>
+		</c:forEach>
+	</table>
 	
-
-
-
-
-
-
+	
 
 </body>
 </html>

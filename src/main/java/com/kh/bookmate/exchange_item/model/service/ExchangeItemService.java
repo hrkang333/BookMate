@@ -15,11 +15,6 @@ public interface ExchangeItemService {
 
 	void updateExchangeList(int paymentDetailNo);
 
-	//List<PaymentDetail> updateExchangeList(List<Integer> exchangeDetailNoList);
-
- 
-
-
  
  
 }

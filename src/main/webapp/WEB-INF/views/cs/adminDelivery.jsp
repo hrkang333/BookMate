@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title> 배송대기중 업데이트 리스트 </title>
+<title> 배송 대기중 업데이트 리스트 </title>
 </head>
 
 
@@ -31,6 +31,8 @@
     
 <body> 
 
+	<h1>[관리자] 배송 대기중 리스트 </h1>
+
 	<table class="table" style="text-align: center; width: 1200px;">
 	
 		<tr>
@@ -42,17 +44,50 @@
 			<th>상태</th>
 		</tr>
 		
-		<%-- <c:forEach items="${test}" var="item"> --%>
+		<c:forEach items="${pList}" var="item" varStatus="status"> 
 		<tr>
-			<td><c:out value="${pno.paymentDetailNo }"/></td>
-			 <td><c:out value="${pno.shippingName }"/></td>
-			<td><c:out value="${pdno.bookTitle }"/></td>
-			<td><c:out value="${pdno.quantity }"/>개</td>
-			<td><c:out value="${pno.deliveryStatus }"/></td>
-			<td><button>버튼</button></td>
+			 <td><span id="dno${status.index }"><c:out value="${item.paymentDetailNo }"/></span></td>
+			 <td><c:out value="${item.shippingName }"/></td>
+			 <td><c:out value="${item.bookTitle }"/></td>
+			 <td><c:out value="${item.quantity }"/>개</td>
+			
+			
+			
+				<td>
+				<c:choose>
+				<c:when test="${item.deliveryStatus =='2' }">배송대기중</c:when>
+				<c:when test="${item.deliveryStatus =='3' }">배송완료</c:when>
+				</c:choose>	
+				
+				</td> 
+		
+			
+			
+			<td>
+			
+			<button type="submit" id="${status.index}" onclick="deliButton(this);">승인</button>
+			
+			</td>
 		</tr>
-	<%-- </c:forEach> --%>
+	 </c:forEach> 
 	</table>
+		<form action="updateDeliveryList.cs" method="post" id="deliForm"> 
+		<input type="hidden" name="paymentDetailNo" id="deliThing"></form>
 
+	<script type="text/javascript">
+
+	function deliButton(e){
+		
+		var index =$(e).attr('id');
+		var dno =$('#dno' + index).text()
+		
+		console.log(index)
+		console.log(dno)
+		$('#deliThing').val(dno);
+		$('#deliForm').submit();
+		
+	}
+	
+	</script>
 </body>
 </html>
