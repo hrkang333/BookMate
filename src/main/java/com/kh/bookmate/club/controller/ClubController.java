@@ -41,6 +41,7 @@ import com.kh.bookmate.club.model.service.ClubService;
 import com.kh.bookmate.club.model.vo.Club;
 import com.kh.bookmate.club.model.vo.ClubAttachment;
 import com.kh.bookmate.club.model.vo.ClubTime;
+import com.kh.bookmate.club.model.vo.SearchCondition;
 import com.kh.bookmate.clubApply.model.service.ClubApplyService;
 import com.kh.bookmate.clubApply.model.vo.ClubApply;
 import com.kh.bookmate.clubReview.model.service.ClubReviewService;
@@ -730,15 +731,49 @@ public class ClubController {
 		return "clubMypage/checkApply";
 	}
 	
-	@RequestMapping("clubSearchPage.cl")
+	@RequestMapping("searchPage.cl")
 	public String selectSearchPage(@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage, Model model) {
 		
-		int listCount = clubService.selectListCount_1("", 0);
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 7, 12);
+		int listCount = clubService.selectListCount_1("", 4);  //모집중인 것만 뽑아야지
+
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 7, 9);
 		List<Club> clubList = clubService.selectCateList_1("", pi);
+		
 		model.addAttribute("clubList",clubList);
+		model.addAttribute("pi",pi);
 		
 		return "club/searchClub";
+	}
+	
+	@RequestMapping("search.cl")
+	public String selectSearch(SearchCondition sc, Model model, 
+							   @RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage) {
+
+		System.out.println("서치 StartDate : " + sc.getStartDate());
+		System.out.println("서치 EndDate : " + sc.getEndDate());
+		//사용자가 지정하지 않은경우 controller에서 null로 처리해서 mapper에서 처리해주게 했다.
+		java.sql.Date nullDate =  java.sql.Date.valueOf("2000-01-01");
+		if(sc.getStartDate().equals(nullDate)) {
+			sc.setStartDate(null);
+		}
+		if(sc.getEndDate().equals(nullDate)) {
+			sc.setEndDate(null);
+		}
+		
+		int listCount = clubService.selectListCount_search(sc);  //모집중인 것만 뽑아야지
+
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 7, 9);
+		List<Club> clubList = clubService.selectList_search(sc, pi);
+		
+		System.out.println("서치 listCount : " + listCount);
+		System.out.println("서치 clubList : " + clubList.toString());		
+		
+		model.addAttribute("clubList",clubList);
+		model.addAttribute("pi",pi);
+		
+		model.addAttribute("sc",sc);
+		
+		return "club/searchResultClub";
 	}
 	
 

@@ -10,6 +10,7 @@ import java.util.Map;
 
 import com.kh.bookmate.club.model.vo.Club;
 import com.kh.bookmate.club.model.vo.ClubAttachment;
+import com.kh.bookmate.club.model.vo.SearchCondition;
 import com.kh.bookmate.clubApply.model.vo.ClubApply;
 import com.kh.bookmate.common.PageInfo;
 
@@ -72,6 +73,11 @@ public interface ClubService {
 	ArrayList<Club> selectCateList_2(String category, PageInfo pi1);
 
 	ArrayList<Club> selectCateList_3(String category);
+
+	//독서모임 검색
+	int selectListCount_search(SearchCondition sc);
+
+	List<Club> selectList_search(SearchCondition sc, PageInfo pi);
 
 	
 

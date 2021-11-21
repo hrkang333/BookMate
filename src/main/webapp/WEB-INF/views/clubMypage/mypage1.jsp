@@ -78,6 +78,10 @@
 	        }
 	    } */
 	    
+	    function goDetail(clubNo){
+	    	location.href="detail.cl?clubNo=" + clubNo;            	
+        }
+	    
 	    function cancleClub(e){
 	    	var userId = "${sessionScope.loginUser.userId}";
 	    	var btnId = $(e).attr('id');
@@ -159,7 +163,7 @@
 	                                    <td><c:out value="${c.category}"/></td>
 	                                    
 	                                    <td>
-	                                    <div>
+	                                    <div style="cursor:pointer;" onclick="goDetail(${c.clubNo});">
 	                                    	<c:forEach items="${c.clubAttachments}" var="ca">
 	                                    		<c:if test="${ca.fileType eq 2}">
 	                                    			<div class="titleImg" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${ca.changeName}')"> </div>

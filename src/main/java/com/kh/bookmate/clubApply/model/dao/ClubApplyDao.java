@@ -102,7 +102,6 @@ public class ClubApplyDao {
 		return sqlSession.update("clubApplyMapper.updateUserApply", applyNoList);
 	}
 
-	
 
 	
 

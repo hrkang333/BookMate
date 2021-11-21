@@ -150,43 +150,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{item}
 		</foreach>
 	</update>
-	
-	<!-- 9.리뷰 남기기 전에 참여여부 체크 -->
-	<select id="selectParticipate" parameterType="hashmap" resultType="_int">
-		select count(*)
-		from club_apply
-		where user_id=#{userId}
-		and ref_club_no=#{clubNo}
-		and apply_parti='Y'
-	</select>
-	
-	<select id="selectBefReview" parameterType="hashmap" resultType="_int">
-		select count(*)
-		from clubreview
-		where reviewwriter=#{userId}
-		and refclubno=#{clubNo}
-		and status='Y'
-	</select>
 
-	<insert id="insertReview" parameterType="ClubReview">
-		INSERT INTO CLUBREVIEW(REVIEWNO, REFCLUBNO, REVIEWWRITER, REVIEWRATE, REVIEWCONTENT, REVIEWPHOTO)
-		VALUES(SEQ_CRNO.NEXTVAL, #{refClubNo}, #{reviewWriter}, #{reviewRate}, #{reviewContent}, #{reviewPhoto})
-	</insert>
-	
-	<select id="selectReviewList" resultType="ClubReview">
-		select *
-		from clubreview
-		where refclubno=#{clubNo}
-		and status='Y'
-		order by reviewno desc
-	</select>
-	
-	<!-- 리뷰 삭제 -->
-	<update id="deleteReview" parameterType="hashmap">
-		UPDATE CLUBREVIEW
-		SET STATUS='N'
-		WHERE REVIEWWRITER = #{userId}
-		AND REFCLUBNO = #{clubNo}
-	</update>
 	
 </mapper>

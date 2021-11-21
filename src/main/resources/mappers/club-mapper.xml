@@ -395,5 +395,139 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		]]>
 	</select>
 	
+	<!-- search 기능 페이징 처리용 listcount구하기 
+		 오류 원인 : B.FILE_TYPE = 2 조건을 CLUBTIME 아래에 둬야 한다. 안그러면 여러 개 조회된다!
+		 이것 저것 지워보고 순서를 바꿔보고 해보니 AND , OR조건 때문인 것 같다.-->
+	<!-- <select id="selectListCount_search" parameterType="SearchCondition" resultType="_int">
+		SELECT COUNT(*)
+		FROM CLUB A
+		JOIN CLUB_ATTACHMENT B
+		ON A.CLUB_NO = B.REF_CLUB_NO
+		WHERE B.FILE_TYPE = 2 AND STATUS='Y'
+		AND A.CONDITION = 4
+		<if test='!"".equals(keyword)'>
+			AND CLUB_TITLE LIKE '%'||#{keyword}||'%' 
+			OR BK_NAME LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test="!onoffLines.isEmpty()">
+			AND ONOFF_LINE IN
+			<foreach item="item" collection="onoffLines" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		<if test="!categories.isEmpty()">
+			AND CATEGORY  IN
+			<foreach item="item" collection="categories" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		<if test="!times.isEmpty()">
+			AND TIMES  IN
+			<foreach item="item" collection="times" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		AND A.CLUB_NO IN (SELECT REF_CLUB_NO
+		                  FROM CLUB_TIME
+		                  <trim prefix="WHERE" prefixOverrides="AND|OR">
+					          <if test="startDate != null">
+					              AND <![CDATA[CLUB_DATE >= #{startDate}]]>
+					          </if>
+					          <if test="endDate != null">
+					              AND <![CDATA[CLUB_DATE <= #{endDate}]]>
+					          </if>
+					      </trim> 
+		                  GROUP BY REF_CLUB_NO)
+		ORDER BY CLUB_NO
+	</select> -->
+	
+	<select id="selectListCount_search" parameterType="SearchCondition" resultType="_int">
+		SELECT COUNT(*)
+		FROM CLUB A
+		JOIN CLUB_ATTACHMENT B
+		ON A.CLUB_NO = B.REF_CLUB_NO
+		WHERE STATUS='Y'
+		AND A.CONDITION = 4
+		<if test='!"".equals(keyword)'>
+			AND CLUB_TITLE LIKE '%'||#{keyword}||'%' 
+			OR BK_NAME LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test="onoffLines != null &amp;&amp; !onoffLines.isEmpty()">
+			AND ONOFF_LINE IN
+			<foreach item="item" collection="onoffLines" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		<if test="categories != null &amp;&amp; !categories.isEmpty()">
+			AND CATEGORY  IN
+			<foreach item="item" collection="categories" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		<if test="times != null &amp;&amp; !times.isEmpty()">
+			AND TIMES  IN
+			<foreach item="item" collection="times" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		AND B.FILE_TYPE = 2
+		AND A.CLUB_NO IN (SELECT REF_CLUB_NO
+		                  FROM CLUB_TIME
+		                  <trim prefix="WHERE" prefixOverrides="AND|OR">
+					          <if test="startDate != null">
+					              AND <![CDATA[CLUB_DATE >= #{startDate}]]>
+					          </if>
+					          <if test="endDate != null">
+					              AND <![CDATA[CLUB_DATE <= #{endDate}]]>
+					          </if>
+					      </trim> 
+		                  GROUP BY REF_CLUB_NO) 
+		ORDER BY CLUB_NO
+	</select>
+	
+	<select id="selectList_search" parameterType="SearchCondition" resultMap="clubResultSet">
+		SELECT A.* , B.CHANGE_NAME
+		FROM CLUB A
+		JOIN CLUB_ATTACHMENT B
+		ON A.CLUB_NO = B.REF_CLUB_NO
+		WHERE STATUS='Y'
+		AND A.CONDITION = 4
+		<if test='!"".equals(keyword)'>
+			AND CLUB_TITLE LIKE '%'||#{keyword}||'%' 
+			OR BK_NAME LIKE '%'||#{keyword}||'%'
+		</if>
+		<if test="onoffLines != null &amp;&amp; !onoffLines.isEmpty()">
+			AND ONOFF_LINE IN
+			<foreach item="item" collection="onoffLines" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		<if test="categories != null &amp;&amp; !categories.isEmpty()">
+			AND CATEGORY  IN
+			<foreach item="item" collection="categories" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		<if test="times != null &amp;&amp;!times.isEmpty()">
+			AND TIMES  IN
+			<foreach item="item" collection="times" open="(" close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+		AND B.FILE_TYPE = 2 
+		AND A.CLUB_NO IN (SELECT REF_CLUB_NO
+		                  FROM CLUB_TIME
+		                  <trim prefix="WHERE" prefixOverrides="AND|OR">
+					          <if test="startDate != null">
+					              AND <![CDATA[CLUB_DATE >= #{startDate}]]>
+					          </if>
+					          <if test="endDate != null">
+					              AND <![CDATA[CLUB_DATE <= #{endDate}]]>
+					          </if>
+					      </trim> 
+		                  GROUP BY REF_CLUB_NO)
+		ORDER BY CLUB_NO
+	</select>
+	
 	
 </mapper>

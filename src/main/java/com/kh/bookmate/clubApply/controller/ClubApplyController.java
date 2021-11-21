@@ -98,11 +98,12 @@ public class ClubApplyController {
 	@RequestMapping("deleteClub2.cl")
 	public String deleteClub2(int[] clubNo, HttpServletRequest request) {
 	
+		System.out.println("clubapply컨트롤러 - clubNo확인 : " + Arrays.toString(clubNo));
 		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
 		List<Integer> clubNos = Arrays.stream(clubNo).boxed().collect(Collectors.toList());
 				
 		//1.db 업데이트(delete시키기)
-		int result = clubApplyService.deleteHeart(userId, clubNos);
+		clubApplyService.deleteHeart(userId, clubNos);
 		
 		return "redirect:mypage2.cl";
 	}

@@ -68,15 +68,20 @@
 		    	
 	    //선택한 독서모임 multiple 삭제하기
 	    function deleteClub(){
-	        var deleteC = confirm("찜목록에서 삭제하시겠습니까?");
+	        var deleteC = confirm("찜목록에서 삭제하시겠습니까? 삭제시 찜도 자동으로 취소됩니다.");
 	        if(deleteC){
 	            if($("input:checkBox[name=clubNo]:checked").length == 0){
 	                alert("삭제할 독서모임을 선택해주세요!!");
 	            }else{
-	                $("#mypageForm2").attr("action", "deleteClub2.cl");
+	            	console.log("여기 타니?")
+	                $("#mypageForm2").attr("action", "deleteClub2.cl").submit();
 	            }
 	        }
 	    }
+	    
+	    function goDetail(clubNo){
+	    	location.href="detail.cl?clubNo=" + clubNo;            	
+        }
     </script>
 
     
@@ -90,7 +95,7 @@
                 <div class="col-xl-12 col-lg-12 col-md-12">
                     <!-- Start Best Seller -->
                     <section>
-						<form id="mypageForm1" action="" method="post">
+						<form id="mypageForm2" action="" method="post">
                         <div style="float: right;">
                             <button class="button button-login" style="margin-bottom: 20px;" onclick="deleteClub()">삭제하기</button>
                         </div>
@@ -115,7 +120,7 @@
 	                                    <td><c:out value="${c.category}"/></td>
 	                                    
 	                                    <td>
-	                                    <div>
+	                                    <div style="cursor:pointer;" onclick="goDetail(${c.clubNo});">
 	                                    	<c:forEach items="${c.clubAttachments}" var="ca">
 	                                    		<c:if test="${ca.fileType eq 2}">
 	                                    			<div class="titleImg" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${ca.changeName}')"> </div>

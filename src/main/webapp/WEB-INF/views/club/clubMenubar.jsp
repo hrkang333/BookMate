@@ -45,17 +45,7 @@
               <li class="nav-item"><a class="nav-link" href="clubMain.cl">독서모임 홈</a></li>
               <li class="nav-item"><a class="nav-link" href="clubAll.cl">모든 독서모임</a></li>
               
-              <li class="nav-item"><a class="nav-link" href="clubSearchPage.cl">나에게 맞는 독서모임</a></li>
-              
-              <li class="nav-item submenu dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">커뮤니티</a>
-                <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="#">실시간 독서모임 커뮤니티</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#">나의 독서모임 커뮤니티</a></li>
-                </ul>
-              </li>
-              
+              <li class="nav-item"><a class="nav-link" href="searchPage.cl">나에게 맞는 독서모임</a></li>
               
               
                     <c:if test="${ empty sessionScope.loginUser }">
@@ -64,8 +54,7 @@
 	                <br>
 	                <a href="login.me"">로그인</a>  
 	                  <br>
-	                
-	                
+
                 </c:if>
                 
                 <!-- 로그인 후  -->

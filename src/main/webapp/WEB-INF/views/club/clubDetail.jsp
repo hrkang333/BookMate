@@ -331,104 +331,28 @@
 				</div>
 				
 				<div class="tab-pane fade m_contents" id="zxc">
-					<p>Curabitur dignissim quis nunc vitae laoreet. Etiam ut mattis
-						leo, vel fermentum tellus. Sed sagittis rhoncus venenatis. Quisque
-						commodo consectetur faucibus. Aenean eget ultricies justo.</p>
+					<div style="border-bottom: 2px solid gray;">
+						<button onclick="insertQnaForm(${club.clubNo})">문의 남기기</button>
+					</div>
+					
+					<table id="qnaTable" class="table table-hover">
+						<thead style="text-align: center;">
+							<tr>
+								<th>상태</th>
+								<th>제목</th>
+								<th>작성자</th>
+								<th>등록일</th>
+							</tr>
+						</thead>
+						<tbody id="qnaTBody">
+						</tbody>
+					</table>
 				</div>
 			</div>
-
         </div>
     </section>
-
-
-    <!--================ Start footer Area  =================-->
-    <footer>
-        <div class="footer-area footer-only">
-            <div class="container">
-                <div class="row section_gap">
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="single-footer-widget tp_widgets ">
-                            <h4 class="footer_title large_title">Our Mission</h4>
-                            <p>
-                                So seed seed green that winged cattle in. Gathering thing made fly you're no divided deep moved us lan Gathering thing us land years living.
-                            </p>
-                            <p>
-                                So seed seed green that winged cattle in. Gathering thing made fly you're no divided deep moved
-                            </p>
-                        </div>
-                    </div>
-                    <div class="offset-lg-1 col-lg-2 col-md-6 col-sm-6">
-                        <div class="single-footer-widget tp_widgets">
-                            <h4 class="footer_title">Quick Links</h4>
-                            <ul class="list">
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Shop</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Product</a></li>
-                                <li><a href="#">Brand</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-6 col-sm-6">
-                        <div class="single-footer-widget instafeed">
-                            <h4 class="footer_title">Gallery</h4>
-                            <ul class="list instafeed d-flex flex-wrap">
-                                <li><img src="img/gallery/r1.jpg" alt=""></li>
-                                <li><img src="img/gallery/r2.jpg" alt=""></li>
-                                <li><img src="img/gallery/r3.jpg" alt=""></li>
-                                <li><img src="img/gallery/r5.jpg" alt=""></li>
-                                <li><img src="img/gallery/r7.jpg" alt=""></li>
-                                <li><img src="img/gallery/r8.jpg" alt=""></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="offset-lg-1 col-lg-3 col-md-6 col-sm-6">
-                        <div class="single-footer-widget tp_widgets">
-                            <h4 class="footer_title">Contact Us</h4>
-                            <div class="ml-40">
-                                <p class="sm-head">
-                                    <span class="fa fa-location-arrow"></span> Head Office
-                                </p>
-                                <p>123, Main Street, Your City</p>
-
-                                <p class="sm-head">
-                                    <span class="fa fa-phone"></span> Phone Number
-                                </p>
-                                <p>
-                                    +123 456 7890 <br> +123 456 7890
-                                </p>
-
-                                <p class="sm-head">
-                                    <span class="fa fa-envelope"></span> Email
-                                </p>
-                                <p>
-                                    free@infoexample.com <br> www.infoexample.com
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <div class="container">
-                <div class="row d-flex">
-                    <p class="col-lg-12 footer-text text-center">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Copyright &copy;
-                        <script>
-                            document.write(new Date().getFullYear());
-                        </script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </p>
-                </div>
-            </div>
-        </div>
-    </footer>
-    
-    <!-- The Modal -->
+        
+    <!-- The Modal (리뷰) -->
 	  <div class="modal" id="myModal">
 	    <div class="modal-dialog modal-dialog-centered modal-lg">  <!-- modal-dialog-centered : 모달창 화면중앙 -->
 	      <div class="modal-content">
@@ -468,14 +392,261 @@
 	      </div>
 	    </div>
 	  </div>
+	  
+	  
+	 <!-- The Modal (qna) -->
+	  <div class="modal" id="qnaModal">
+	    <div class="modal-dialog modal-dialog-centered modal-lg">  <!-- modal-dialog-centered : 모달창 화면중앙 -->
+	      <div class="modal-content">
+	      
+	        <!-- Modal Header -->
+	        <div class="modal-header">
+	          <h4 class="modal-title">문의</h4>
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        </div>
+	        
+	        <!-- Modal body -->
+	      <form id="qnaEnrollForm" action="insertQna.cl" method="post">
+	        <div class="modal-body" style="color:black;">
+	          <div class="content_scroll" style="overflow: auto; max-height:400px;">
+	          	<input type="hidden" id="refClubNo" name="refClubNo" value="${club.clubNo }">
+	          	<input type="hidden" id="userId" name="userId" value="${ loginUser.userId }">
+	          	<div style="font-size:22px; margin-bottom: 30px;"><c:out value="${club.clubTitle}"/></div>
+				<input type="text" name="qnaTitle" maxlength="30" style="margin-bottom: 15px; width: 100%; border: 0px; border-bottom: 1px solid gray;" placeholder="문의 제목(최대30자)"> 
+	          	<textarea maxlength="200" name="qnaContent" class="form-control" rows="7" style="resize: none;" placeholder="내용을 입력해주세요(최대 200자)"></textarea>
+	          </div>
+	        </div>
+		  </form>
+	        <!-- Modal footer -->
+	        <div class="modal-footer">
+	          <a class="btn btn-primary" onclick="insertQna()">문의작성</a>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+	  
+	  <!-- The Modal (answer) -->
+	  <div class="modal" id="answerModal">
+	    <div class="modal-dialog modal-dialog-centered modal-lg">  <!-- modal-dialog-centered : 모달창 화면중앙 -->
+	      <div class="modal-content">
+	      
+	        <!-- Modal Header -->
+	        <div class="modal-header" style="padding: 15px 15px 0px">
+	        	<div>
+	        		<h4 id="qnaTitle" class="modal-title">문의 제목입니다.</h4>
+	        		<div>
+		          		<label id="qnaWriter" style="font-size:18px;">user03</label> &nbsp;
+			          	<label id="qnaDate" style="font-size:15px;">2021-11-21</label> &nbsp;&nbsp;
+			          	<label id="qnaDelBtn" style="font-size:18px;">삭제</label>
+		          	</div>
+	        	</div>
+	          	
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	        </div>
+	        
+	        <!-- Modal body -->
+	      <form id="qnaAnswerForm" action="insertQnaAnswer.cl" method="post">
+	        <div class="modal-body" style="color:black;">
+	          <div class="content_scroll" style="overflow: auto; max-height:400px;">
+	          	<input type="hidden" id="qnaNoForAnswer" name="qnaNo">
+	          	<input type="hidden" id="qnaAnswerUser" name="userId">
+	          	<div id="qnaContent" style="margin: 15px 0px 50px;">안녕하세요 제가 꼭 참여를 하고 싶은데 시간대가 참여하기 힘든 시간대더라구요 혹시 시간대 변경안되려나요? 답변 부탁드립니다!!</div>
+	          	<hr> 
+	          	<div id="hostAnswer">
+	          		<div id="answerContent_bef">
+	          			<p id="answerContent" style="margin: 20px 0px 20px;"></p>
+	          			<p id="answerDate">2021-11-21</p>
+	          		</div>
+	          		<div id="answerContentBox" style="position: relative;">
+	          			<textarea maxlength="200" name="qnaAnswerContent" class="form-control" rows="5" style="resize: none;" placeholder="답변을 입력해주세요(최대 200자)"></textarea>
+	          			<button type="button" onclick="giveQnaAnswer()" style="position: absolute; bottom: 8%; right: 2%;">작성</button>
+	          		</div>
+	          	</div>
+	          </div>
+	        </div>
+		  </form>
+	        <!-- Modal footer -->
+	        <!-- <div class="modal-footer">
+	          <a class="btn btn-primary" onclick="insertQna()">문의작성</a>
+	        </div> -->
+	      </div>
+	    </div>
+	  </div>
     
     <script>
     	var userId = '<c:out value="${ loginUser.userId }"/>';
+    	var c_host = '<c:out value="${club.userId}"/>';
     	
     	$(function(){
-    		selectReviewList();
+    		selectReviewList();  //처음 로딩됐을때 리뷰 화면에 붙이기
+    		selectQnaList();  //처음 로딩됐을때 문의 화면에 붙이기
     	}) 
     	
+    	//qna form 띄우기
+    	function insertQnaForm(clubNo){
+    		if(userId == ''){
+				alert("로그인 후 이용 부탁드립니다");
+				return;
+			}else if(userId == c_host){
+				alert("독서모임 개설자는 문의를 남길 수 없습니다.");
+				return;
+    		}else{
+				if(confirm('문의를 작성하시겠습니까?')){
+					$('#qnaModal').modal("show");
+				}
+			}
+    	}
+    	
+    	//qna 작성하기
+    	function insertQna(){
+    		
+    		var form1 = $("#qnaEnrollForm").serialize();
+			$.ajax({
+				url:"insertQna.cl",
+				data: form1,
+				type : "post",
+				success:function(result){
+					$('#qnaModal').modal("hide");
+					alert("문의가 등록되었습니다.")
+					console.log("ajax 통신 완료")
+				}, error:function(result){
+					console.log("ajax 통신 실패")
+				}
+			});
+		}
+    	
+    	//qna 상세 모달창 열기
+    	function openAnswer(qnaNo, writer, qnaAnswer){
+
+    		if(userId != writer && userId != c_host){
+    			alert("비밀글입니다. 작성자만 읽을 수 있습니다.");
+    			return;
+    		}else if(userId == c_host || userId == writer){  //1.현재로그인유저=호스트 OR 2.현재로그인유저=WRITER
+    			
+    			$.ajax({
+					url:"selectQna.cl",
+					data:{
+						qnaNo : qnaNo
+					},
+					type : "get",
+					success:function(qna){						
+						$('#qnaTitle').text(qna.qnaTitle);
+						$('#qnaWriter').text(qna.userid);
+						$('#qnaDate').text(qna.createDate);
+						$('#qnaContent').text(qna.qnaContent);
+						$('#qnaNoForAnswer').val(qna.qnaNo);  //답변 작성 시 들고가려고
+					
+						console.log("userId : " + userId)
+						console.log("writer : " + writer)
+						console.log("c_host : " + c_host)
+						
+						if(qnaAnswer == 'Y'){
+							$('#answerContent').text(qna.qnaAnswerContent);
+		    				$('#answerContentBox').css('display','none');
+		    			}else{
+		    				$('#answerContent').text(""); //이상한데
+		    				if(userId == c_host){
+		    					$('#answerContentBox').css('display','block');
+		    				}else{
+		    					$('#answerContentBox').css('display','none');
+		    				}	    				
+		    			}
+	
+		    			$('#answerModal').modal("show");
+					
+					},error:function(){
+						console.log("ajax 통신 실패")
+					}
+				})
+    		}
+    	}
+    	
+    	//qna answer 작성하기
+    	function giveQnaAnswer(){
+    		$('#qnaAnswerUser').val(userId); //현재 로그인된 id, 즉 호스트 id
+    		var form1 = $("#qnaAnswerForm").serialize();
+    		
+			$.ajax({
+				url:"insertQnaAnswer.cl",
+				data: form1,
+				type : "post",
+				success:function(result){
+					console.log(result)
+					$('#answerModal').modal("hide");
+					alert("답변이 등록되었습니다.")
+					selectQnaList();
+					console.log("ajax 통신 완료");
+				}, error:function(result){
+					console.log(result)
+					console.log("ajax 통신 실패");
+				}
+			});
+		}
+    	
+    	//리뷰작성
+	    function insertReview() {
+	        var form = $('#reviewEnrollForm')[0];
+	        // FormData 객체 생성
+	        var formData = new FormData(form);
+	
+	        $.ajax({
+	            type: "POST",
+	            enctype: 'multipart/form-data',
+	            url: "insertReview.cl",
+	            data: formData,
+	            processData: false,
+	            contentType: false,
+	            cache: false,
+	            timeout: 600000,
+	            success: function (result) {
+	                
+	                $('#myModal').modal("hide"); //모달창 닫기
+	                alert("리뷰가 등록되었습니다. 포인트 1000점 증정되었습니다!");
+	                
+	                selectReviewList();
+	            },
+	            error: function (e) {
+	                console.log("ERROR : ", e);
+	            }
+	        });
+	    }
+
+    	//qna 리스트 화면에 붙이기
+    	function selectQnaList(){
+    		var clubNo = ${club.clubNo};
+    		
+    		$.ajax({
+    			url:"selectQnaList.cl",
+    			data:{
+    				clubNo : clubNo
+    			},
+    			type : "get",
+    			success:function(list){
+    				if(list.length == 0){
+    					$('#qnaTable').css('display','none');
+    					return;
+    				}
+    				var result ="";
+    				$.each(list, function(i){
+    					result += '<tr>';
+    					if(list[i].qnaAnswer == 'N'){
+    						result += '<td style="text-align: center;">답변 대기중</td>';
+    					}else{
+    						result += '<td style="text-align: center;">답변완료</td>';
+    					}
+    					result += '<td style="cursor: pointer;" onclick="openAnswer('+list[i].qnaNo +','+"'"+list[i].userId+"'"+','+"'"+list[i].qnaAnswer+"'"+')">비밀글입니다.</td>'
+    					result += '<td style="text-align: center;">'+list[i].userId+'</td><td style="text-align: center;">'+list[i].createDate+'</td></tr>'
+    				})
+    				
+    	            $("#qnaTBody").html(result);
+    				
+    			},error:function(){
+    				console.log("ajax통신오류")
+    			}
+    		})
+    	} 
+    	
+    	//리뷰리스트 화면에 붙이기
     	function selectReviewList(){
     		var clubNo = ${club.clubNo};
     		
@@ -486,8 +657,6 @@
     			},
     			type : "get",
     			success:function(list){
-    				console.log(list);
-    				console.log(list.length);
     				
     				var result ="";
     				$.each(list, function(i){
@@ -518,6 +687,7 @@
     		})
     	} 
     	
+    	//리뷰 클릭시 사진 크게 보여주기 
     	function openReview(i){
     		if($("#reviewPhotos2_"+i).css('display')=='none'){
     			$("#reviewPhotos1_"+i).css('display','none');
@@ -538,6 +708,7 @@
             $('#reviewRate').val(num*2);
         }
 
+    	//리뷰 삭제
     	function delReview(i){
     	   var clubNo = ${club.clubNo};
     	   console.log(i);
@@ -561,13 +732,19 @@
         		   }
         	   })
     	   }
-       }
+        }
 
+    	//리뷰작성 전 체크
 	    function checkReview(clubNo){
 			console.log("clubNo : " + clubNo);
 			
 			if(userId == ''){
 				alert("로그인 후 이용 부탁드립니다");
+				return;
+			}
+			
+			if(userId == c_host){
+				alert("독서모임 개설자는 리뷰를 남길 수 없습니다.");
 				return;
 			}
 			
@@ -598,6 +775,7 @@
 			})
 		}
 	    
+	    //리뷰작성
 	    function insertReview() {
 	        var form = $('#reviewEnrollForm')[0];
 	        // FormData 객체 생성
@@ -625,6 +803,7 @@
 	        });
 	    }
 	    
+	    //이미지 미리보기
 		function imgCheck(img,inputId) {
 	    	
 	    	if(img.files&&img.files[0]){
@@ -648,9 +827,9 @@
 	    	}
 	    }
     
+		//독서모임 찜하기
     	$("#heartClub").click(function() {
     		var clubNo = $("#clubNo").val();
-			var c_host = '<c:out value="${club.userId}"/>';
     		var src = $('#heartClub').attr("src");
     		
     		if(userId == ''){
@@ -711,13 +890,13 @@
     		
 		})
     
+		//독서모임 신청하기
     	$("#applyClub").click(function(){
     		var clubNo = $("#clubNo").val();
     		var chkApply = true;
     		var indexs = [];  //한번만나요: 사용자가 체크한 status.index / 여러번만나요: 모든status.index -> 이거로 신청인원+1 해줌
     		var times = [];   //한번만나요: 사용자가 체크한 timeNo / 여러번만나요: 모든 timeNo
     		var c_times = '<c:out value="${club.times}"/>'; 
-    		var c_host = '<c:out value="${club.userId}"/>';
   
     		//1. 로그인 유저 확인
     		if(userId == ''){
@@ -829,8 +1008,94 @@
     	})
 
     </script>
-    
-    
+
+
+    <!--================ Start footer Area  =================-->
+    <footer>
+        <div class="footer-area footer-only">
+            <div class="container">
+                <div class="row section_gap">
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="single-footer-widget tp_widgets ">
+                            <h4 class="footer_title large_title">Our Mission</h4>
+                            <p>
+                                So seed seed green that winged cattle in. Gathering thing made fly you're no divided deep moved us lan Gathering thing us land years living.
+                            </p>
+                            <p>
+                                So seed seed green that winged cattle in. Gathering thing made fly you're no divided deep moved
+                            </p>
+                        </div>
+                    </div>
+                    <div class="offset-lg-1 col-lg-2 col-md-6 col-sm-6">
+                        <div class="single-footer-widget tp_widgets">
+                            <h4 class="footer_title">Quick Links</h4>
+                            <ul class="list">
+                                <li><a href="#">Home</a></li>
+                                <li><a href="#">Shop</a></li>
+                                <li><a href="#">Blog</a></li>
+                                <li><a href="#">Product</a></li>
+                                <li><a href="#">Brand</a></li>
+                                <li><a href="#">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-6 col-sm-6">
+                        <div class="single-footer-widget instafeed">
+                            <h4 class="footer_title">Gallery</h4>
+                            <ul class="list instafeed d-flex flex-wrap">
+                                <li><img src="img/gallery/r1.jpg" alt=""></li>
+                                <li><img src="img/gallery/r2.jpg" alt=""></li>
+                                <li><img src="img/gallery/r3.jpg" alt=""></li>
+                                <li><img src="img/gallery/r5.jpg" alt=""></li>
+                                <li><img src="img/gallery/r7.jpg" alt=""></li>
+                                <li><img src="img/gallery/r8.jpg" alt=""></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="offset-lg-1 col-lg-3 col-md-6 col-sm-6">
+                        <div class="single-footer-widget tp_widgets">
+                            <h4 class="footer_title">Contact Us</h4>
+                            <div class="ml-40">
+                                <p class="sm-head">
+                                    <span class="fa fa-location-arrow"></span> Head Office
+                                </p>
+                                <p>123, Main Street, Your City</p>
+
+                                <p class="sm-head">
+                                    <span class="fa fa-phone"></span> Phone Number
+                                </p>
+                                <p>
+                                    +123 456 7890 <br> +123 456 7890
+                                </p>
+
+                                <p class="sm-head">
+                                    <span class="fa fa-envelope"></span> Email
+                                </p>
+                                <p>
+                                    free@infoexample.com <br> www.infoexample.com
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row d-flex">
+                    <p class="col-lg-12 footer-text text-center">
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer> 
     <!--================ End footer Area  =================-->
 
 
