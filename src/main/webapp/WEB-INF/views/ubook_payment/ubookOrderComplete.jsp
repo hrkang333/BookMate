@@ -16,18 +16,14 @@
 <body style="width: 1000px; margin: 0 auto;">
  	<jsp:include page="../ubook/ubookMenu.jsp"/>
 	<hr>
-	<main>
-	
-	결제 완료 페이지
-	
-	
+	<main style="margin-top: 100px; margin-bottom: 100px;">
+	<br><br><br><br><br><br><br><br><br><br>
+	<h1 style="font-size: 40px;">결제가 완료되었습니다.<br>더 많은 중고도서를 찾아보세요!</h1>
+	<br><br><br><br><br><br>
+	<center><button onclick="location.href='ubookMain.ub'" style="background-color: #5cb85c; border: none; font-size: 20px; width: 600px; height: 50px; color: #fff;">책장메이트 홈으로 이동하기</button></center>
 	
 	</main>
 
-
-
-
-
-
+	<jsp:include page="../common/footer.jsp" />
 </body>
 </html>

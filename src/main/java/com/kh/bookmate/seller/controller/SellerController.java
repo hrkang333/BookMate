@@ -1,8 +1,13 @@
 package com.kh.bookmate.seller.controller;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +19,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.kh.bookmate.seller.model.service.SellerService;
 import com.kh.bookmate.seller.model.vo.Seller;
 import com.kh.bookmate.ubook.model.service.UbookService;
 import com.kh.bookmate.ubook.model.vo.Ubook;
+import com.kh.bookmate.ubook_payment.model.service.UbookPaymentService;
+import com.kh.bookmate.ubook_payment.model.vo.UbookPayment;
+import com.kh.bookmate.ubook_payment.model.vo.UbookPaymentDetail;
 import com.kh.bookmate.user.model.vo.User;
 
 @SessionAttributes("loginSeller") 
@@ -29,6 +39,8 @@ public class SellerController {
 	private SellerService sellerService;
 	@Autowired
 	private UbookService ubookService;
+	@Autowired
+	private UbookPaymentService ubookPaymentService;
 	
 	
 	//판매자 닉네임 중복 확인
@@ -111,4 +123,100 @@ public class SellerController {
 		sellerService.deleteSeller(s);
 		return "redirect:/ubookMain.ub";
 	}
+	
+	
+	//판매자가 등록한 도서 중 주문된 도서 정보 확인
+	@RequestMapping("selectOrderUbookList.se")
+	@ResponseBody
+	public List<UbookPaymentDetail> selectOrderUbookList(HttpServletRequest request, Model model) {
+
+		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
+		Seller s = sellerService.loginSeller(userId);
+		
+		int bSellerNo = s.getSellerNo();
+		
+		
+		List<UbookPaymentDetail> ubookPayDetailList = ubookPaymentService.selectOrderUbookList(bSellerNo);
+
+		System.out.println("ubookPayDetailList 컨트롤러 - 결제내역 중 조건에 맞는 도서 리스트 보여줌" + ubookPayDetailList);
+		
+		model.addAttribute("ubookPayDetailList", ubookPayDetailList);
+		
+		return ubookPayDetailList;
+	}
+
+	
+	//주문자 정보 보여주기
+	   @RequestMapping(value="selectOrderUserInfo.se")
+	   @ResponseBody
+	   public UbookPayment selectOrderUserInfo(@RequestParam("paymentNoUb") int paymentNoUb,
+			   											Model model) {
+		   UbookPayment ubookPayment = ubookPaymentService.selectOrderUserInfo(paymentNoUb);
+	      return ubookPayment;
+	   }
+		
+		
+		//주문 도서 정보 보여주기
+		   @RequestMapping(value="selectOrderBookInfo.se")
+		   @ResponseBody
+		   public UbookPaymentDetail selectOrderBookInfo(@RequestParam("paymentNoUb") int paymentNoUb,
+				   										@RequestParam("ubookNoUb") int ubookNoUb,
+				   											Model model) {
+			   UbookPaymentDetail upd = new UbookPaymentDetail();
+			   upd.setPaymentNoUb(paymentNoUb);
+			   upd.setUbookNoUb(ubookNoUb);
+			   
+			UbookPaymentDetail ubookPaymentDetail = ubookPaymentService.selectOrderBookInfo(upd);
+		      return ubookPaymentDetail;
+		   }
+			
+			//주문 도서 정보 정보 변경일, 배송상태 변경
+			   @RequestMapping(value="updateOrderInfo.se")
+			   public String updateOrderInfo(@RequestParam("paymentNoUb") int paymentNoUb,
+					   						@RequestParam("deliveryStatusUb") String deliveryStatusUb,
+					   											Model model) {
+				   UbookPaymentDetail updUp = new UbookPaymentDetail();
+				   updUp.setPaymentNoUb(paymentNoUb);
+				   updUp.setDeliveryStatusUb(deliveryStatusUb);
+				   System.out.println("배송상태 변경???? 컨트롤러 : "+deliveryStatusUb);
+				int ubookPaymentDetail = ubookPaymentService.updateOrderInfo(updUp);
+
+				return "redirect:/sellerPage.se";
+			   }
+			   
+				//판매완료 도서 정보 보여주기
+			   @RequestMapping("selectSoldUbookList.se")
+				@ResponseBody
+			   public List<UbookPaymentDetail> selectSoldUbookList(HttpServletRequest request,
+					   							Model model) {
+
+					String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
+					Seller s = sellerService.loginSeller(userId);
+					
+					int bSellerNo = s.getSellerNo();
+					
+					/*
+					 * UbookPaymentDetail updSold = new UbookPaymentDetail();
+					 * updSold.setBSellerNo(bSellerNo);
+					 * updSold.setDeliveryStatusUb(deliveryStatusUb);
+					 * System.out.println("판매완료???? 컨트롤러 : "+updSold);
+					 */
+				   
+
+					
+					List<UbookPaymentDetail> ubookSoldList = ubookPaymentService.selectSoldUbookList(bSellerNo);
+
+					System.out.println("ubookSoldList 컨트롤러 - 판매완료 도서 리스트 보여줌" + ubookSoldList);
+					
+					model.addAttribute("ubookSoldList", ubookSoldList);
+					
+				//int ubookPaymentDetail = ubookPaymentService.selectSoldUbookList(updSold);
+
+				return ubookSoldList;
+			   }
+			   
+			   
+			   
+			   
+			   
 }

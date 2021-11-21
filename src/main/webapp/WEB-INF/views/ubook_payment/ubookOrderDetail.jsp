@@ -295,7 +295,7 @@ cursor: pointer;
 				bankName : $('input[name=bankName]:checked').val(),
 				bankPwd : $('#bankPwd').val(),
 				bankAccount : $('#bankAccount').val(),
-				userIdUb : $('#userIdUb').val(),
+				user_Id : $('#userIdUb').val(),
 				methodPwd : $('#methodPwd').val()
 			},
 			success : function(number) {
@@ -486,45 +486,41 @@ cursor: pointer;
 	    }
 	  
 		
-		//도서 수량 -1 변경
-		function updateUbookStock(cartUbNo) {
-				$.ajax({
-					
-					url : "updateUbookStock.ub",
-					type: "post",
-					data : {
-						cartUbNo : cartUbNo
-					},
-					success : function(str) {
-						if(str=="up"){
-							console.log("수량 업데이트 성공.")
-						}else{
-							alert("수량 업데이트에 실패했습니다.")
-						}
-					},
-					error : function(e) {
-						alert("ajax 통신중 오류 발생")
-					}
-						
-					
-				})
-		}	
-		
 	    function payInputPwd() {
-	    	
+	    	var ubookNoUb = $("input[name$='ubookNoUb']");
+	    	console.log("~~~~~~"+ubookNoUb);
+	    	//alert("ubookNoUb???" + ubookNoUb);
 	    	$.ajax({
 	    		
 	    		url : "checkPayPwd",
 	    		type : "post",
 	    		data : {
-					//----- 도서 수량 체크
 		    		paymentMethodDetailNo : $('#selectPayMethod').val(),
 		    		methodPwd : $('#password_3').val()
 	    			
 	    		},
 				success : function(str) {
 					if(str=='pass'){
-						//updateUbookStock(index,cartUbNo);
+							// 도서 수량 변경( -1)
+							
+							for(var i = 0; i < ubookNoUb.length; i++){
+								$.ajax({
+						    		url : "updateUbookStock.ub",
+						    		type : "post",
+						    		data : {
+						    			ubookNoUb : ubookNoUb.eq(i).val()
+						    		},
+									success : function(aa) {
+										if(aa > 0){
+											console.log("중고도서 수량변경 성공")
+										}
+									},
+									error : function(e) {
+										alert("중고도서 수량 감소 ajax 통신 오류")
+									}
+						    		
+						    	})
+							}
 						$('#closeModal2').click();
 						$('#insertPaymentForm').submit();
 					}else{
@@ -532,18 +528,11 @@ cursor: pointer;
 						$('#selectPassword_3').focus()
 						return false;
 					}
-					
 				},
 				error : function(e) {
-
-					
 					alert("결제 비밀번호 입력 ajax 통신 오류")
 				}
-	    		
 	    	})
-	    	
-	    	
-	    	
 	    	
 			 /*  $('#insertPaymentForm').submit() */
 		}
@@ -595,7 +584,7 @@ cursor: pointer;
 	   
 	   function moveShoppingCart() {
 		if(confirm("정말 장바구니로 되돌아 가시겠습니까?")){
-			$('#moveShoppingCartFomr').submit();
+			$('#moveShoppingCartForm').submit();
 		}
 	}
 </script>
@@ -615,6 +604,8 @@ cursor: pointer;
 					<br>
 					<hr>
 					<br>
+					
+					<!-- 이 폼에 담긴 정보들이 paymentdetail에 들어감 -->
 					<form action="insertUbookPayment" method="post" id="insertPaymentForm">
 					<input type="hidden" id="userIdUb" name="userIdUb" value="${sessionScope.loginUser.userId}">
 					<input type="hidden" id="totalPayCost" name="totalPayCost" value="${requestScope.order.totalCostUb}">
@@ -622,15 +613,16 @@ cursor: pointer;
 					<input type="hidden" name="totalCostUb" value="${requestScope.order.totalCostUb}">
 					<c:forEach items="${requestScope.orderList}" var="list"
 						varStatus="status">
+						<%-- <input type="text" name="ubookNoUb" value="${list.ubookNoUb}" style="background-color: aqua;"> --%>
+						<input type="hidden" name="ubookPaymentDetailList[${status.index}].bSellerNo" value="${list.BSellerNo}" style="background-color: aqua;">
 						<input type="hidden" name="ubookPaymentDetailList[${status.index}].ubookNoUb" value="${list.ubookNoUb}">
-						<input type="hidden" name="ubookPaymentDetailList[${status.index}].ubookImgUb" value="${list.uookImgUb}">
+						<input type="hidden" name="ubookPaymentDetailList[${status.index}].ubookImgUb" value="${list.ubookImgUb}">
 						<input type="hidden" name="ubookPaymentDetailList[${status.index}].ubookNameUb" value="${list.ubookNameUb}">
 						<input type="hidden" name="ubookPaymentDetailList[${status.index}].quantityUb" value="${list.quantityUb}">
 						<input type="hidden" name="ubookPaymentDetailList[${status.index}].ubookOPriceUb" value="${list.ubookOPriceUb}">
 						<input type="hidden" name="ubookPaymentDetailList[${status.index}].ubookPriceUb" value="${list.ubookPriceUb}">
-						<input type="text" name="cartList[${status.index}].cartNo" value="${requestScope.deleteCartList[status.index].cartNo}">
-						<input type="text" name="cartList[${status.index}].cartUbNo" value="${requestScope.updateUbookStock[status.index].cartUbNo}">
-						<c:out value="${requestScope.deleteCartList[status.index].cartNo}"></c:out>
+						<input type="hidden" name="cartList[${status.index}].cartNo" value="${requestScope.deleteCartList[status.index].cartNo}">
+						<%-- <c:out value="${requestScope.deleteCartList[status.index].cartNo}"></c:out> --%>
 						</c:forEach>
 	
 					
@@ -675,7 +667,7 @@ cursor: pointer;
 							<div class="media" style="width: 50%; display: flex;">
 								<div class="d-flex">
 									<img
-										src="${pageContext.servletContext.contextPath }/resources/images/Ubookimg/${list.uookImgUb}"
+										src="${pageContext.servletContext.contextPath }/resources/images/Ubookimg/${list.ubookImgUb}"
 										style="height: 150px">
 								</div>
 								<div class="media-body">
@@ -896,11 +888,11 @@ cursor: pointer;
 						</div>
 						<hr>
 						<div style="text-align: center;">
-							<button class="paymentButton" onclick="moveInsertPayment()">결제하기</button>
+							<button class="paymentButton" onclick="moveInsertPayment()" style="background-color: #5cb85c; border: none; ">결제하기</button>
 							<br>
-							<button class="paymentButton" onclick="moveShoppingCart()">장바구니로 가기</button>
+							<button class="paymentButton" onclick="moveShoppingCart()" style="background-color: #dcd3cc; border: none; ">장바구니로 가기</button>
 						</div>
-						<form action="ubookCart.ub" method="post" id="moveShoppingCartFomr">
+						<form action="ubookCart.ub" method="post" id="moveShoppingCartForm">
 							<input type="hidden" name="cartUserId" value="${sessionScope.loginUser.userId}">
 						</form>
 						<br>
@@ -1006,5 +998,6 @@ cursor: pointer;
             </div>
         </div>
 	</main>
+	<jsp:include page="../common/footer.jsp"/>
 </body>
 </html>

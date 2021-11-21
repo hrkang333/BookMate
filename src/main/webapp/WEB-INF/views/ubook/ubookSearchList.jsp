@@ -21,10 +21,10 @@
     id="bootstrap-css">
 </head>
 <body style="width: 1200px; margin: auto;">
- 	<jsp:include page="../ubook/ubookMenu.jsp"/>
+ 	<div style="margin-top: -100px;"><jsp:include page="../ubook/ubookMenu.jsp"/></div>
       
   <!--================ 바디 =================-->
-  <div class="f" style="width: 1200px;">
+  <div class="f">
     <div>
 
       <!--================ 좌측 사이드바(도서 카테고리 선택) =================-->
@@ -48,11 +48,10 @@
       <!--================ End 좌측 사이드바(도서 카테고리 선택) =================-->
 
       <!--================ 메인 Content =================-->
-      <div class="col-xl-9 col-lg-8 col-md-7 maincon" style="position: absolute;
-    z-index: 7777;
+      <div class="col-xl-9 col-lg-8 col-md-7 maincon" style="margin-top: 100px;
     width: 943px;
     margin-left: 205px;">
-        <section class="content" style="margin-top: 100px;">
+        <section class="content" style="margin-top: 100px;padding-top: 100px;">
 			<div class="col-md-offset-2 qnaTable">
 				<div class="panel panel-default">
 					<div class="panel-body">
@@ -69,7 +68,7 @@
 									<col width="110px" style="text-align: center;">
 									<col width="60px" style="text-align: center;">
 									<col width="60px" style="text-align: center;">
-									<col width="130px" style="text-align: center;">
+									<%-- <col width="130px" style="text-align: center;"> --%>
 								</colgroup>
 								<thead>
 									<tr>
@@ -80,12 +79,12 @@
 										<th class="tbNo1">가격</th>
 										<th class="tbNo1">재고</th>
 										<th class="tbNo1">상태</th>
-										<th class="tbNo1">구매</th>
+										<!-- <th class="tbNo1">구매</th> -->
 									</tr>
 								</thead>
 								<tbody>
 								<c:if test="${ empty list }">
-									<tr><td colspan="8"><h1>검색결과가 존재하지 않습니다.</h1></td></tr>
+									<tr><td colspan="7"><h1>검색결과가 존재하지 않습니다.</h1></td></tr>
 								</c:if>
 								<c:forEach var="u" items="${ list }" varStatus="status">
 									<c:if test="${ !empty list }">
@@ -119,24 +118,24 @@
 											<td>
 												<div class="tbNo1">
 												<c:if test="${u.ubookQual eq 'S' }">
-													<div style="background-color: red; color: white;">${u.ubookQual}</div>
+													<div style="background-color: red; color: white;">최상</div>
 												</c:if>
 												<c:if test="${u.ubookQual eq 'A' }">
-													<div style="background-color: orange;">${u.ubookQual}</div>
+													<div style="background-color: orange;">상</div>
 												</c:if>
 												<c:if test="${u.ubookQual eq 'B' }">
-													<div style="background-color: yellow;">${u.ubookQual}</div>
+													<div style="background-color: yellow;">보통</div>
 												</c:if>
 												<c:if test="${u.ubookQual eq 'C' }">
-													<div style="background-color: green; color: white;">${u.ubookQual}</div>
+													<div style="background-color: green; color: white;">하</div>
 												</c:if>
 												<c:if test="${u.ubookQual eq 'D' }">
-													<div style="background-color: blue; color: white;">${u.ubookQual}</div>
+													<div style="background-color: blue; color: white;">최하</div>
 												</c:if>
 												
 												</div>
 											</td>
-											<td>
+											<td hidden="hidden">
 												<c:if test="${ s.sellerNo eq u.BSellerNo }">
 													<div class="tbNo1">
 														<button type="button" style="background-color: #BB937E;color:#ffffff; border:none; width: 100%; margin-bottom:10px; border-radius: 0.3rem;">나의 등록 도서</button>	
@@ -163,5 +162,6 @@
       </div>
     </div>
   </div>
+	<jsp:include page="../common/footer.jsp" />
 </body>
 </html>

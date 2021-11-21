@@ -20,9 +20,7 @@ public interface UbookPaymentService {
  
 	UbookPayment selectPaymentNo(int paymentNoUb);
 
-	//내꺼
-	//void insertUbookPayment(UbookPayment temp, List<UbookPaymentDetail> list, List<UbookCart> deleteCartList, List<UbookCart> updateUbookStock);
-	
+	//주문 상세에 넣기
 	int insertUbookPayment(UbookPayment temp, List<UbookPaymentDetail> list, List<UbookCart> deleteCartList);
 	
 	//(배송상태 업데이트) 사용자 화면에서 배송중으로 업데이트 
@@ -32,6 +30,25 @@ public interface UbookPaymentService {
 
 	List<UbookPayment> selectDeliveryPaymentNoList(List<Integer> deliveryDetailNoList);
 
-	int updateUbookStock(int cartUbNo);
+	int updateUbookStock(int ubookNoUb);
+
+	//판매자 화면에서 현재 결제된 도서 리스트 보기
+	List<UbookPaymentDetail> selectOrderUbookList(int bSellerNo);
+
+	//결제된 도서 정보 보기
+	UbookPaymentDetail selectOrderUbookInfo(UbookPaymentDetail ubookPayDetail);
+
+	//주문자 정보 보기
+	UbookPayment selectOrderUserInfo(int paymentNoUb);
+
+	//도서 정보 보기
+	UbookPaymentDetail selectOrderBookInfo(UbookPaymentDetail upd);
+	
+	//주문상태 변경하려고
+	int updateOrderInfo(UbookPaymentDetail updUp);
+
+	//판매완료 도서 리스트 보기
+	List<UbookPaymentDetail> selectSoldUbookList(int bSellerNo);
+
  
 }

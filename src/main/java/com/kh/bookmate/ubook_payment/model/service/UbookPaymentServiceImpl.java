@@ -146,8 +146,47 @@ public class UbookPaymentServiceImpl implements UbookPaymentService {
 
 
 	@Override
-	public int updateUbookStock(int cartUbNo) {
-		return ubookPaymentDao.updateUbookStock(sqlSession,cartUbNo);
+	public int updateUbookStock(int ubookNoUb) {
+		return ubookPaymentDao.updateUbookStock(sqlSession,ubookNoUb);
+	}
+
+	//결제된 등록 도서 확인하기
+	@Override
+	public List<UbookPaymentDetail> selectOrderUbookList(int bSellerNo) {
+		List<UbookPaymentDetail> ubookPayDetailList = ubookPaymentDao.selectOrderUbookList(sqlSession,bSellerNo);
+		return ubookPayDetailList;
+	}
+
+
+
+	//결제한 도서 정보 보기
+	@Override
+	public UbookPaymentDetail selectOrderUbookInfo(UbookPaymentDetail ubookPayDetail) {
+		return ubookPaymentDao.selectOrderUbookInfo(sqlSession,ubookPayDetail);
+	}
+
+	//주문자 정보 보기
+	@Override
+	public UbookPayment selectOrderUserInfo(int paymentNoUb) {
+		return ubookPaymentDao.selectOrderUserInfo(sqlSession,paymentNoUb);
+	}
+
+	//도서정보 보기
+	@Override
+	public UbookPaymentDetail selectOrderBookInfo(UbookPaymentDetail upd) {
+		return ubookPaymentDao.selectOrderBookInfo(sqlSession,upd);
+	}
+
+	//도서 배송상태 수정
+	@Override
+	public int updateOrderInfo(UbookPaymentDetail updUp) {
+		return ubookPaymentDao.updateOrderInfo(sqlSession,updUp);
+	}
+
+	@Override
+	public List<UbookPaymentDetail> selectSoldUbookList(int bSellerNo) {
+		List<UbookPaymentDetail> ubookSoldList = ubookPaymentDao.selectSoldUbookList(sqlSession,bSellerNo);
+		return ubookSoldList;
 	}
 
 	

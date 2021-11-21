@@ -69,7 +69,6 @@
                }
                 
             }      	
-            //독서모임 수정하기
             function updateUbook(){
                 $("#myUbookListForm").attr("action", "updateMyUbook.ub");
             }
