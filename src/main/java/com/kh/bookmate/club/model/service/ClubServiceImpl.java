@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.kh.bookmate.club.model.dao.ClubDao;
 import com.kh.bookmate.club.model.vo.Club;
 import com.kh.bookmate.club.model.vo.ClubAttachment;
+import com.kh.bookmate.club.model.vo.SearchCondition;
 import com.kh.bookmate.clubApply.model.vo.ClubApply;
 import com.kh.bookmate.common.PageInfo;
 
@@ -261,6 +262,23 @@ public class ClubServiceImpl implements ClubService {
 	public ArrayList<Club> selectCateList_3(String category) {
 		// TODO Auto-generated method stub
 		return clubDao.selectCateList_3(sqlSession, category);
+	}
+
+	@Override
+	public int selectListCount_search(SearchCondition sc) {
+		// TODO Auto-generated method stub
+		int result = clubDao.selectListCount_search(sqlSession, sc);
+		
+		if(result < 0) {
+			//예외처리
+		}
+		return result;
+	}
+
+	@Override
+	public List<Club> selectList_search(SearchCondition sc, PageInfo pi) {
+		// TODO Auto-generated method stub
+		return clubDao.selectList_search(sqlSession, sc, pi);
 	}
 
 	

@@ -7,6 +7,8 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.bookmate.clubReview.model.vo.ClubQna;
+import com.kh.bookmate.clubReview.model.vo.ClubQnaAnswer;
 import com.kh.bookmate.clubReview.model.vo.ClubReview;
 
 @Repository
@@ -16,30 +18,55 @@ public class ClubReviewDao {
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("userId", userId);
 		map.put("clubNo", clubNo);
-		return sqlSession.selectOne("clubApplyMapper.selectParticipate", map);
+		return sqlSession.selectOne("clubReviewMapper.selectParticipate", map);
 	}
 	
 	public int selectBefReview(SqlSessionTemplate sqlSession, int clubNo, String userId) {
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("userId", userId);
 		map.put("clubNo", clubNo);
-		return sqlSession.selectOne("clubApplyMapper.selectBefReview", map);
+		return sqlSession.selectOne("clubReviewMapper.selectBefReview", map);
 	}
 
 	public int insertReview(SqlSessionTemplate sqlSession, ClubReview cr) {
 		// TODO Auto-generated method stub
-		return sqlSession.insert("clubApplyMapper.insertReview", cr);
+		return sqlSession.insert("clubReviewMapper.insertReview", cr);
 	}
 
 	public List<ClubReview> selectReviewList(SqlSessionTemplate sqlSession, int clubNo) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("clubApplyMapper.selectReviewList", clubNo);
+		return sqlSession.selectList("clubReviewMapper.selectReviewList", clubNo);
 	}
 
 	public int deleteReview(SqlSessionTemplate sqlSession, int clubNo, String userId) {
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("userId", userId);
 		map.put("clubNo", clubNo);
-		return sqlSession.update("clubApplyMapper.deleteReview", map);
+		return sqlSession.update("clubReviewMapper.deleteReview", map);
+	}
+
+	public int insertQna(SqlSessionTemplate sqlSession, ClubQna cq) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("clubReviewMapper.insertQna", cq);
+	}
+
+	public List<ClubReview> selectQnaList(SqlSessionTemplate sqlSession, int clubNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("clubReviewMapper.selectQnaList", clubNo);
+	}
+
+	public ClubQna selectQna(SqlSessionTemplate sqlSession, int qnaNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("clubReviewMapper.selectQna", qnaNo);
+	}
+
+	public int insertQnaAnswer(SqlSessionTemplate sqlSession, ClubQnaAnswer cqa) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("clubReviewMapper.insertQnaAnswer", cqa);
+	}
+
+	public int updateQna(SqlSessionTemplate sqlSession, int qnaNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("clubReviewMapper.updateQna", qnaNo);
 	}
 }

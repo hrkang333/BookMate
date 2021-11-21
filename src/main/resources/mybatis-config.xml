@@ -12,9 +12,12 @@
       <typeAlias type="com.kh.bookmate.club.model.vo.Club" alias="Club" />
       <typeAlias type="com.kh.bookmate.club.model.vo.ClubAttachment" alias="ClubAttachment"/>
       <typeAlias type="com.kh.bookmate.club.model.vo.ClubTime" alias="ClubTime"/>
+      <typeAlias type="com.kh.bookmate.club.model.vo.SearchCondition" alias="SearchCondition"/>
       <typeAlias type="com.kh.bookmate.clubApply.model.vo.ClubApply" alias="ClubApply" />
       <typeAlias type="com.kh.bookmate.clubApply.model.vo.ClubWish" alias="ClubWish" />
       <typeAlias type="com.kh.bookmate.clubReview.model.vo.ClubReview" alias="ClubReview" />
+      <typeAlias type="com.kh.bookmate.clubReview.model.vo.ClubQna" alias="ClubQna" />
+      <typeAlias type="com.kh.bookmate.clubReview.model.vo.ClubQnaAnswer" alias="ClubQnaAnswer" />
       <typeAlias type="com.kh.bookmate.user.model.vo.User" alias="myPage"/>
       <typeAlias type="com.kh.bookmate.user.model.vo.User" alias="User"/>
       <typeAlias type="com.kh.bookmate.seller.model.vo.Seller" alias="Seller"/>

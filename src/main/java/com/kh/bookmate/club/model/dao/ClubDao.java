@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.bookmate.club.model.vo.Club;
 import com.kh.bookmate.club.model.vo.ClubAttachment;
 import com.kh.bookmate.club.model.vo.ClubTime;
+import com.kh.bookmate.club.model.vo.SearchCondition;
 import com.kh.bookmate.common.PageInfo;
 
 @Repository
@@ -324,6 +325,19 @@ public class ClubDao {
 			}
 		}
 
+		return list;
+	}
+
+	public int selectListCount_search(SqlSessionTemplate sqlSession, SearchCondition sc) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("clubMapper.selectListCount_search", sc);
+	}
+
+	public List<Club> selectList_search(SqlSessionTemplate sqlSession, SearchCondition sc, PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*(pi.getBoardLimit());		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		List<Club> list = (ArrayList)sqlSession.selectList("clubMapper.selectList_search", sc, rowBounds);
 		return list;
 	}
 
