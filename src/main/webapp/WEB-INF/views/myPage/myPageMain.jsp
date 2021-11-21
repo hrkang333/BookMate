@@ -69,7 +69,7 @@
                   <form action="#">
                     <ul>
                         <li class="filter-list"><a href="selectMyOrderList.me">나의 주문 조회</a> </li>
-                        <li class="filter-list">  취소 리스트 조회 </li>
+                        <li class="filter-list"> <a href="cancelList.me">취소 리스트 조회 </a> </li>
                         <li class="filter-list">  교환/반품 리스트 조회 </li>
                     </ul>
                   </form>
@@ -83,7 +83,7 @@
                   <div class="head">중고상품</div>
                   <form action="#">
                     <ul>
-                        <li class="filter-list">  주문 리스트 조회 </li>
+                        <li class="filter-list"> 주문 리스트 조회 </li>
                    
                     </ul>
                   </form>
@@ -95,7 +95,7 @@
                 <div class="common-filter">
                    <form action="myPageMain.me" method="post">
                    <ul>
-                        <br>
+                        
                         <li class="filter-list">  관심작가 리스트 </li>
                         <li class="filter-list">  최근 조회한 상품 </li>
                         <li class="filter-list"> 나의 찜목록  </li>
@@ -139,47 +139,14 @@
                 <div class="order_details_table">
           
                    
-                		<h1>여기 마이페이지 메인이다 </h1>
+                		<h1>여기 마이페이지 메인 </h1>
                   
                 </div>
              </div>
         
-            <!-- 페이징 바  -->
-            <nav class="blog-pagination justify-content-center d-flex">
-                <ul class="pagination">
-                   <li class="page-item">
-                        <a href="#" class="page-link" aria-label="Previous">
-                            <span aria-hidden="true">
-                                <span class="lnr lnr-chevron-left"></span>
-                            </span>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a href="#" class="page-link">01</a>
-                    </li>
-                    <li class="page-item active">
-                        <a href="#" class="page-link">02</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="#" class="page-link">03</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="#" class="page-link">04</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="#" class="page-link">09</a>
-                    </li>
-                    <li class="page-item">
-                        <a href="#" class="page-link" aria-label="Next">
-                            <span aria-hidden="true">
-                                <span class="lnr lnr-chevron-right"></span>
-                            </span>
-                        </a>
-                    </li> 
-                </ul>
-            </nav>
+        
    		</div>
-   		
+   	
             </div>
           </div>
 	 </section>

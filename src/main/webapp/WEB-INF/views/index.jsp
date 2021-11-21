@@ -93,7 +93,7 @@
 <body>
  	<jsp:include page="common/menubar.jsp"/>
  
-  <main class="site-main">
+  <main class="site-main" style="padding-top: 180px">
     
     <!--================ Hero banner start =================-->
     <section class="hero-banner">
@@ -580,7 +580,7 @@
   </main>
 
 
- 	<jsp:include page="common/footer.jsp"/> 	<jsp:include page="common/footer.jsp"/>
+ 	<jsp:include page="common/footer.jsp"/>
  	
 	<form action="/" method="post" id="detailBookForm">
 			<input type="hidden" name="bookISBN" id="inputISBN">

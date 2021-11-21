@@ -30,8 +30,8 @@
 </head>
 <body>
 
-	<!-- -->
-	<h2>교환 리스트 목록</h2>
+
+	<h2>환불 리스트 목록</h2>
 
 
 	<table class="table" style="text-align: center; width: 1200px;">
@@ -49,43 +49,44 @@
 		
 		
 	
-	 <c:forEach  items="${exchangeList}" var="exchangeItem" varStatus="status">		
+	 <c:forEach  var="returnItem" items="${returnBookList}" varStatus="status">		
 		<c:forEach items="${orderDetailList}" var="paymentDetail">	
-			<c:if test="${exchangeItem.paymentDetailNo eq paymentDetail.paymentDetailNo}">
+			<c:if test="${returnItem.paymentDetailNo eq paymentDetail.paymentDetailNo}">
 				<c:set var="pd" value="${paymentDetail}"/>
 			</c:if>
-		</c:forEach>
+		</c:forEach> 
 			<tr>		
-				<td><c:out value="${exchangeItem.exchangeNo}"/></td>
-				<td ><span id="pno${status.index}"><c:out value="${exchangeItem.paymentDetailNo}"/></span></td>
-				<td><c:out value="${exchangeItem.exchangeName}"/></td>
-	 			 <td><c:out value="${pd.bookTitle }"/></td>
+				<td><c:out value="${returnItem.returnNo}"/></td>
+			<td ><span id="pno${status.index}"><c:out value="${returnItem.paymentDetailNo}"/></span></td>
+				<td><c:out value="${returnItem.returnName}"/></td>
+				<td><c:out value="${pd.bookTitle}"/></td>
 				<td><c:out value="${pd.quantity}"/>개</td> 
-			 	
+				
+	 	
 				
 				<td>
 			
 			<c:choose> 
-			<c:when test="${exchangeItem.exchangeStatus == '1'}"> 교환대기중 </c:when>
-			<c:when test="${exchangeItem.exchangeStatus == '2'}"> 교환완료 </c:when>
+			<c:when test="${returnItem.returnStatus == '1'}"> 환불대기중 </c:when>
+			<c:when test="${returnItem.returnStatus == '2'}"> 환불완료 </c:when>
 			</c:choose>
 			
 				</td>
 				
 				
-				<td><button type="submit" id="${status.index}" onclick="exButton(this);">승인 </button></td>
+				<td><button type="submit" id="${status.index}" onclick="reButton(this);">승인 </button></td>
 		</tr>
 	</c:forEach>
 
 	</table>
-	<form action="updateExchangeList.cs" method="post" id="exForm">
-	<input type="hidden" name="paymentDetailNo" id="exchangeThing"/>
+	<form action="updateReturnList.cs" method="post" id="reForm">
+	<input type="hidden" name="paymentDetailNo" id="returnThing"/>
 					
 	</form>
 
 	<script>
 	
- 	function exButton(e){
+ 	function reButton(e){
 		
 		var exId = "${sessionScope.loginUser.userId}"
 		var index = $(e).attr('id'); //버튼을 클릭했을때 id 들고와라 
@@ -93,8 +94,8 @@
 		var pno =$('#pno'+ index ).text(); //span으론 텍스트 뽑아야 온다. 
 		console.log(index)
 		console.log(pno)
-		$('#exchangeThing').val(pno);
-		$('#exForm').submit();
+		$('#returnThing').val(pno);
+		$('#reForm').submit();
 		
 	}
 	

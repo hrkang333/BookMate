@@ -35,6 +35,8 @@
       <typeAlias type="com.kh.bookmate.ubook_payment.model.vo.UbookPayment" alias="UbookPayment"/>
       <typeAlias type="com.kh.bookmate.ubook_cart.model.vo.UbookCart" alias="UbookCart"/>
       <typeAlias type="com.kh.bookmate.ubook_payment.model.vo.UbookPaymentDetail" alias="UbookPaymentDetail"/>
+      <typeAlias type="com.kh.bookmate.returnBook.model.vo.ReturnBook" alias="ReturnBook"/>
+      
    </typeAliases>
    <typeHandlers>
       <typeHandler
@@ -59,6 +61,7 @@
 		<mapper resource="/mappers/review-mapper.xml"/>
       <mapper resource="/mappers/ubookPayment-mapper.xml"/>
       <mapper resource="/mappers/ubookCart-mapper.xml"/>
+      <mapper resource="/mappers/returnBook-mapper.xml"/>
    </mappers>
 
 
