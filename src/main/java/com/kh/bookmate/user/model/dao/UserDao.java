@@ -45,4 +45,9 @@ public class UserDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("userMapper.findPwd", u);
 	}
+
+	public int updatePoint(SqlSessionTemplate sqlSession, User user) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("userMapper.updatePoint", user);
+	}
 }

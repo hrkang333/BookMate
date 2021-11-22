@@ -141,12 +141,12 @@ public class PaymentServiceImpl implements PaymentService {
 			}
 		}
 		
-		if(temp.getUsePoint() > 0) {
+			temp.setUsePoint(temp.getTotalGetPoint()-temp.getUsePoint());
 			int result4 = paymentDao.updateUserPoint(sqlSession,temp);
 			if(result4 < 0) {
 				throw new RuntimeException("유저 포인트 업데이트 오류");
 			}
-		}
+		
 	}
 
 	

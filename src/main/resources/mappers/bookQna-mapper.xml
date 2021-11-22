@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="bookQnaMapper">
+<select id="selectTotalCount" resultType="_int">
+SELECT COUNT(*) FROM BOOKQNA WHERE BOOKISBN = #{bookISBN}
+</select>
+<select id="selectListAll" resultType="BookQna">
+SELECT * FROM BOOKQNA WHERE BOOKISBN = #{bookISBN}
+</select>
+<select id="selectQnaDetail" resultType="BookQna">
+SELECT * FROM BOOKQNA WHERE QNANO = #{qnaNo}
+</select>
+<select id="selectAnswerDetail" resultType="BookQnaAnswer">
+SELECT * FROM BOOKQNAANSWER WHERE QNANO = #{qnaNo}
+</select>
+<select id="selectList" resultType="BookQna" parameterType="list">
+SELECT * FROM BOOKQNA WHERE BOOKISBN = #{list[0]} AND QNACATEGORY = #{list[1]}
+</select>
+<select id="selectKindCount" parameterType="list" resultType="_int">
+SELECT COUNT(*) FROM BOOKQNA WHERE BOOKISBN = #{list[0]} AND QNACATEGORY = #{list[1]}
+</select>
+<insert id="qnaInsert" parameterType="BookQna">
+INSERT INTO BOOKQNA VALUES(BOOKQNA_SEQ.NEXTVAL, #{user_Id}, #{bookISBN}, #{bookTitle}, #{qnaCategory}, #{qnaTitle}, #{qnaContent}, SYSDATE, 0, #{qnaSecret})
+</insert>
+<update id="qnaUpdate" parameterType="BookQna">
+UPDATE BOOKQNA SET QNATITLE = #{qnaTitle}, QNACONTENT =  #{qnaContent}, QNACATEGORY = #{qnaCategory},QNASECRET = #{qnaSecret} WHERE QNANO = #{qnaNo}
+</update>
+<delete id="qnaDelete">
+DELETE FROM BOOKQNA WHERE QNANO = #{qnaNo}
+</delete>
+</mapper>
+

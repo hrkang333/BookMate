@@ -14,10 +14,10 @@ import com.kh.bookmate.shoppingbasket.model.vo.ShoppingBasket;
 public class ShoppingBasketServiceImpl implements ShoppingBasketService {
 	
 	@Autowired
-	SqlSession sqlSession;
+	private SqlSession sqlSession;
 	
 	@Autowired
-	ShoppingBasketDao shoppingBasketDao;
+	private ShoppingBasketDao shoppingBasketDao;
 
 	@Override
 	public void insertBasket(ShoppingBasket basket) {

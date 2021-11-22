@@ -231,6 +231,7 @@ cursor: pointer;
 		$('.nomalMethod').not('#nomalMethod_' + num).css('border-bottom',
 				'solid 1px gray');
 		methodStatus = parseInt(num);
+		$('#paymentMethod').val(methodStatus)
 	}
 	
 	function paymentInfoCheck() {
@@ -279,7 +280,7 @@ cursor: pointer;
 			url : "insertPaymentMethod.sc",
 			method : "post",
 			data : {
-				methodStatus : methodStatus,
+				paymentMethod : methodStatus,
 				cardCompany : $('input[name=cardCompany]:checked').val(),
 				cardNo : $('#cardNo').val(),
 				cardCVC : $('#cardCVC').val(),
@@ -349,12 +350,15 @@ cursor: pointer;
 				if(data.methodStatus==1){
 					$('#methodNameSpan').html(data.cardCompany+'카드')
 					$('#methodNumSpan').html(data.cardNo.substring(0,4))
+					$('#paymentMethod').val(1)
 				}else if(data.methodStatus==2){
 					$('#methodNameSpan').html(data.bankName+'은행')
 					$('#methodNumSpan').html(data.bankAccount.substring(0,6))
+					$('#paymentMethod').val(2)
 				}else{
 					$('#methodNameSpan').html('휴대폰 결제')
 					$('#methodNumSpan').html('뒷번호 : '+data.phoneNo.substring(data.phoneNo.length-4,data.phoneNo.length))
+					$('#paymentMethod').val(3)
 				}
 				
 
@@ -541,7 +545,6 @@ cursor: pointer;
 
 			   $('#payPhonePwd').modal('show');
 		   }else if(methodStatus==4&&savedMethodLength>0){
-console.log("afasf")
 			   $('#payPwdModal').modal('show');
 		   }else{
 			  
@@ -588,6 +591,7 @@ console.log("afasf")
 					<input type="hidden" id="usePointInput_2" name="usePoint" value="0" >
 					<input type="hidden" name="totalGetPoint" value="${requestScope.order.totalGetPoint}">
 					<input type="hidden" id="totalPayCost" name="totalPayCost" value="${requestScope.order.totalCost}">
+					<input type="hidden" id="paymentMethod" name="paymentMethod" value="">
 				<!-- 	<input type="hidden" id="" name="deliveryCost" value=""> -->
 					<input type="hidden" name="totalCost" value="${requestScope.order.totalCost}">
 					<c:forEach items="${requestScope.orderList}" var="list"

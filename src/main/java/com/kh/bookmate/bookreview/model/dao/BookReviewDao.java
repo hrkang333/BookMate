@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.bookmate.bookreview.model.vo.BookReview;
+import com.kh.bookmate.bookreview.model.vo.BookReviewReply;
 
 @Repository
 public class BookReviewDao {
@@ -26,14 +27,71 @@ public class BookReviewDao {
 		return sqlSession.selectOne("reviewMapper.selectTotalCount",bookISBN);
 	}
 
-	public List<BookReview> selectReviewList(SqlSessionTemplate sqlSession, RowBounds rb, String bookISBN) {
+	public List<BookReview> selectReviewList(SqlSessionTemplate sqlSession, RowBounds rb, List<Object> list) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("reviewMapper.selectReviewList", bookISBN, rb);
+		return sqlSession.selectList("reviewMapper.selectReviewList", list, rb);
 	}
 
 	public int insertIdCheck(SqlSessionTemplate sqlSession, List<String> list) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("reviewMapper.insertIdCheck",list);
 	}
+
+	public List<BookReviewReply> selectReviewReply(SqlSessionTemplate sqlSession, int reviewNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("reviewMapper.selectReviewReply",reviewNo);
+	}
+
+	public int updateReview(SqlSessionTemplate sqlSession, BookReview review) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("reviewMapper.updateReview",review);
+	}
+
+	public int insertReviewReply(SqlSessionTemplate sqlSession, BookReviewReply reviewReply) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("reviewMapper.insertReviewReply",reviewReply);
+	}
+
+	public int updateReviewReplyInsert(SqlSessionTemplate sqlSession,  BookReview temp) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("reviewMapper.updateReviewReplyInsert",temp);
+	}
+
+	public int updateDeleteReply(SqlSessionTemplate sqlSession, BookReviewReply reviewReply) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("reviewMapper.updateDeleteReply",reviewReply);
+	}
+
+	public int deleteReply(SqlSessionTemplate sqlSession, BookReviewReply reviewReply) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("reviewMapper.deleteReply",reviewReply);
+	}
+
+	public int updateReply(SqlSessionTemplate sqlSession, BookReviewReply reviewReply) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("reviewMapper.updateReply",reviewReply);
+	}
+
+	public int insertAnswer(SqlSessionTemplate sqlSession, BookReviewReply reviewReply) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("reviewMapper.insertAnswer",reviewReply);
+	}
+
+	public int updateReplyAnswerInsert(SqlSessionTemplate sqlSession, BookReviewReply reviewReply) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("reviewMapper.updateReplyAnswerInsert",reviewReply);
+	}
+
+	public int deleteAnswer(SqlSessionTemplate sqlSession, BookReviewReply reviewReply) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("reviewMapper.deleteAnswer",reviewReply);
+	}
+
+	public int updateReplyDeleteAnswer(SqlSessionTemplate sqlSession, BookReviewReply reviewReply) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("reviewMapper.updateReplyDeleteAnswer",reviewReply);
+	}
+
+	
 
 }
