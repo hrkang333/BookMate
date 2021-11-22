@@ -63,6 +63,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SET
 		UBOOK_STOCK = (UBOOK_STOCK-1)
 		WHERE UBOOK_NO=#{ubookNoUb}
+		AND UBOOK_STOCK != 0
 	</update>
 	
 	<!-- 나의 주문목록 조회  -->

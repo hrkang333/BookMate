@@ -856,7 +856,7 @@
 							     
 							   //문의 답변 쓰기
 							      function reply() {
-									alert("답변 준비 완료!");
+									//alert("답변 준비 완료!");
 									//버튼 눌렀을 때 input 보이게
 							    	document.getElementById("show").style.display="";
 									$("#addAnswer").click(function(){
