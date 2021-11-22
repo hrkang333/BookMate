@@ -77,4 +77,12 @@ public class UserServiceImpl implements UserService {
 		String findPwd = userDao.findPwd(sqlSession, u);
 		return findPwd;
 	}
+
+	@Override
+	public void returnUserPoint(User u) {
+		userDao.returnUserPoint(sqlSession, u );
+		
+	}
+
+	
 }

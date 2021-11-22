@@ -3,6 +3,8 @@ package com.kh.bookmate.cs.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,9 +14,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.kh.bookmate.exchange_item.model.service.ExchangeItemService;
 import com.kh.bookmate.exchange_item.model.vo.ExchangeItem;
 import com.kh.bookmate.payment.model.service.PaymentService;
+import com.kh.bookmate.payment.model.vo.Payment;
 import com.kh.bookmate.payment.model.vo.PaymentDetail;
 import com.kh.bookmate.returnBook.model.service.ReturnBookService;
 import com.kh.bookmate.returnBook.model.vo.ReturnBook;
+import com.kh.bookmate.user.model.service.UserService;
 
 // 교환과 반품 승인버튼 값 업데이트 해주는 cs 페이지 
 
@@ -31,6 +35,9 @@ public class csController {
 	
 	@Autowired
 	private ReturnBookService returnBookService; 
+	
+	@Autowired
+	private UserService userService;
 	
 	@RequestMapping("goAdminMain.cs")
 	public String adminExchange() {
@@ -98,9 +105,6 @@ public class csController {
 	}
 	
 	
-	
-	
-	
 	//[관리자] 반품 리스트 가져오기 
 	@RequestMapping("selectReturnList.cs")  
 	public String selectReturnList(Model model) {
@@ -124,18 +128,41 @@ public class csController {
 	}
 	
 	//[관리자] 반품 교환/반품 대기중인 애들 반품 완료로 업데이트 시켜주기 반품완료는 5번
-	//사용자 포인트를 다시 되돌려 줄려면 반품 승인할 때 포인트 업데이트 시켜줘야되나 
-	
-	
 	@RequestMapping("updateReturnList.cs") 
-	public String updateReturnList(int paymentDetailNo, Model model ) {
+	public String updateReturnList(int paymentDetailNo, Model model, HttpSession session ) {
 		
+	
 		returnBookService.updateReturnList(paymentDetailNo); // 관리자화면 환불시 승인시 반품완료로 업데이트 
 		paymentService.updateUserReList(paymentDetailNo); // 사용자화면 환불시 반품완료 상태값 변경 
+		
+		Payment p = new Payment();
+		int returnPoint = (-1) * p.getTotalGetPoint(); //뺄거라서 마이너스로 들고감 
+	//	paymentService.updateUserPoint(returnPoint);
+		
+		
+//		1. paymentdetailNo 가지고가서 paymentDetail 객체 조회해오기
+//		2. paymentDetail 객체 가지고 가서 book에서 isbn, quantity이용해서 재고 +해주기
+		//재고빠지는거..BOOKSTOCK
+		//paymentNo 얻으려면 
+		
+		
+		PaymentDetail pd = new PaymentDetail();
+		pd.getQuantity();
+		pd.getBookISBN();
+		
+		
+		
+		
+		//책살때 유저가 사용했던 포인트, 재고, 책 샀을때 적립되었던 책에대한 포인트 다 바꿔줘야됨
+		//byreview 라는 테이블 userid BOOKISBN 들고가서 지움..? 조회먼저하고 
+		//맨위에꺼만 셀렉트해서 지움..? delete 로 지움..? 
+		
 		
 		
 		return "redirect:selectReturnList.cs";
 	}
+	
+	
 	
 
 }

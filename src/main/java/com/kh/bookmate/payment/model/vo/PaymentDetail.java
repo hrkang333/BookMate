@@ -17,9 +17,18 @@ public class PaymentDetail {
 	private Date deliveryDate;
 	private int deliveryStatus;
 	private String shippingName;//--추가 김미소 
+	private int totalPayCost;//--추가 김미소 
 	
 	private List<PaymentDetail> PaymentDetailList;
 	
+	public int getTotalPayCost() {
+		return totalPayCost;
+	}
+
+	public void setTotalPayCost(int totalPayCost) {
+		this.totalPayCost = totalPayCost;
+	}
+
 	public PaymentDetail() {
 		super();
 		// TODO Auto-generated constructor stub

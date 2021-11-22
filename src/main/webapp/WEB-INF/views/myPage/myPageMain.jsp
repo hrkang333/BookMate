@@ -41,73 +41,17 @@
         
     </style>
 </head>
-<body>
 
- 
-<!-- 왼쪽 사이드바  -->
-    <section class="section-margin--small mb-5">
+<body style="width: 1200px; margin: auto;">
+ <jsp:include page="../common/menubar.jsp" />
+
+
+     <section  style="padding-top: 180px;" >
         <div class="container">
           <div class="row">
-            <div class="col-xl-3 col-lg-4 col-md-5">
-              <div class="sidebar-categories">
-                <div class="head">마이페이지</div>
-                <ul class="main-categories">
-                  <li class="common-filter">
-                    <form action="#">
-                      <ul>
-                        <li><a href="myPage.me">내 정보 수정하기 </a> </li>
-                        <li>내 비밀번호 변경하기 </li>
-                     </ul>
-                    </form>
-                  </li>
-                </ul>
-              </div>
-              <div class="sidebar-filter">
-                <div class="top-filter-head">일반상품 주문관리</div>
-                <div class="common-filter">
-                  <div class="head">일반상품</div>
-                  <form action="#">
-                    <ul>
-                        <li class="filter-list"><a href="selectMyOrderList.me">나의 주문 조회</a> </li>
-                        <li class="filter-list"> <a href="cancelList.me">취소 리스트 조회 </a> </li>
-                        <li class="filter-list">  교환/반품 리스트 조회 </li>
-                    </ul>
-                  </form>
-                </div>
-             </div>
+         <jsp:include page="../myPageSideBar/sideBar.jsp" />
 
-
-             <div class="sidebar-filter">
-                <div class="top-filter-head">중고상품 주문관리</div>
-                <div class="common-filter">
-                  <div class="head">중고상품</div>
-                  <form action="#">
-                    <ul>
-                        <li class="filter-list"> 주문 리스트 조회 </li>
-                   
-                    </ul>
-                  </form>
-                </div>
-             </div>
-
-             <div class="sidebar-filter">
-                <div class="top-filter-head">관심작가 및 찜목록</div>
-                <div class="common-filter">
-                   <form action="myPageMain.me" method="post">
-                   <ul>
-                        
-                        <li class="filter-list">  관심작가 리스트 </li>
-                        <li class="filter-list">  최근 조회한 상품 </li>
-                        <li class="filter-list"> 나의 찜목록  </li>
-                        <li class="filter-list"> 나의 리뷰 조회  </li>
-                        <li class="filter-list"> <a href="myPoint.me">나의 포인트 조회</a></li>
-                    </ul>
-                </form>
-                </div>
-             </div>
-
-
-            </div>
+     
 
             <!-- 기간조회 페이지  -->
             <div class="col-xl-9 col-lg-8 col-md-7">

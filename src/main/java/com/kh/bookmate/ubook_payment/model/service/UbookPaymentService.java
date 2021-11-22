@@ -50,5 +50,9 @@ public interface UbookPaymentService {
 	//판매완료 도서 리스트 보기
 	List<UbookPaymentDetail> selectSoldUbookList(int bSellerNo);
 
+	
+	//유북 마이페이지 주문리스트 
+	List<UbookPayment> selectUbookMyOrderList(String loginUser);
+
  
 }
