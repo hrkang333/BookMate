@@ -159,7 +159,7 @@ function checkText(obj) {
 							<col width="400px" />
 						</colgroup>
 						<thead>
-							<tr>
+							<tr hidden="hidden">
 								<th class="info">판매자 번호</th>
 								<td><input class="usedBookInfo" name="bSellerNo"
 									value="${ s.sellerNo }" readonly="readonly"></td>
