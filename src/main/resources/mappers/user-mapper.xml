@@ -82,4 +82,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 		</update> 
  -->
+
+<update id="updatePoint" parameterType="User">
+UPDATE USERS SET POINT = POINT+#{point} WHERE USER_ID = #{userId}
+</update>
 </mapper>

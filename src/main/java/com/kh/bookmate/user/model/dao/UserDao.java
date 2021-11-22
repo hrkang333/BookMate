@@ -48,6 +48,9 @@ public class UserDao {
 
 	public void returnUserPoint(SqlSessionTemplate sqlSession, User u) {
 		sqlSession.update("userMapper.returnUserPoint", u);
-		
+  }
+	public int updatePoint(SqlSessionTemplate sqlSession, User user) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("userMapper.updatePoint", user);
 	}
 }

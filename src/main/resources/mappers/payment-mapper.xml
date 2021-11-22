@@ -148,7 +148,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 
 	<insert id="insertPayment" parameterType="Payment">
-	INSERT INTO PAYMENT VALUES (PAYMENT_SEQ.NEXTVAL,#{user_Id},#{shippingName},#{shippingAddress},#{shippingPhone},#{deliveryRequest},DEFAULT,#{usePoint},#{totalCost},0,#{totalGetPoint},#{totalPayCost},#{deliveryCost})
+	INSERT INTO PAYMENT VALUES (PAYMENT_SEQ.NEXTVAL,#{user_Id},#{shippingName},#{shippingAddress},#{shippingPhone},#{deliveryRequest},DEFAULT,#{usePoint},#{totalCost},#{paymentMethod},#{totalGetPoint},#{totalPayCost},#{deliveryCost})
 	<selectKey keyProperty="paymentNo" resultType="_int" order="AFTER">
 	SELECT PAYMENT_SEQ.CURRVAL FROM DUAL
 	</selectKey>
@@ -168,7 +168,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</delete>
 	
 	<update id="updateUserPoint" parameterType="Payment">
-	UPDATE USERS SET POINT = POINT - #{usePoint} WHERE USER_ID = #{user_Id}
+	UPDATE USERS SET POINT = POINT + #{usePoint} WHERE USER_ID = #{user_Id}
 	</update>
 </mapper>
 
