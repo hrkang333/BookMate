@@ -22,6 +22,9 @@ import com.kh.bookmate.payment.model.vo.Payment;
 import com.kh.bookmate.payment.model.vo.PaymentDetail;
 import com.kh.bookmate.returnBook.model.service.ReturnBookService;
 import com.kh.bookmate.returnBook.model.vo.ReturnBook;
+import com.kh.bookmate.ubook_payment.model.service.UbookPaymentService;
+import com.kh.bookmate.ubook_payment.model.vo.UbookPayment;
+import com.kh.bookmate.ubook_payment.model.vo.UbookPaymentDetail;
 import com.kh.bookmate.user.model.service.UserService;
 import com.kh.bookmate.user.model.vo.User;
 
@@ -49,7 +52,8 @@ public class myPageController {
 	@Autowired
 	private CouponService couponService;
 	
-	
+	@Autowired
+	private UbookPaymentService ubookPaymentService;
 	
 
 
@@ -239,19 +243,33 @@ public class myPageController {
 		return "myPage/cancelList";
 	}
 	
-	
-	
+
+
+//	
 //	//[중고] 주문 리스트 
-//	@RequestMapping("selectMyOrderList.me")
-//	public String selectSecondaryMyOrderList(Model model, HttpSession session) { 
+//	@RequestMapping("selectMyOrderList.ub")
+//	public String selectUbookMyOrderList(Model model, HttpSession session) { 
 //					
 //		//주문 내역보기 
 //		String loginUser = ((User) session.getAttribute("loginUser")).getUserId(); 
-//		List<Ubook_Payment> mySecondOrderList = paymentService.selectMyOrderList(loginUser);
+//		List<UbookPayment> ubMyOrderList = ubookPaymentService.selectUbookMyOrderList(loginUser);
 //
 //			
-//		model.addAttribute("myOrderList",myOrderList);
+//		model.addAttribute("ubMyOrderList",ubMyOrderList);
 //		return "myPage/myPageOrderList";
 //	}
-
+//
+//	
+//	//[중고] 주문 리스트 내역 상세보기 
+//	@RequestMapping("selectMyOrderListDetail.me")
+//	public String selectUbookMyOrderDetailList (Model model, int paymentNoUb ) {	
+//
+//		List<UbookPaymentDetail> myOrderListDetail = paymentService.selectUbookMyOrderDetailList(paymentNoUb);
+//		model.addAttribute("myOrderListDetail",myOrderListDetail);
+//		//System.out.println("myOrderListDetail=확인 =================" + myOrderListDetail.toString());
+//		
+//		return "myPage/myOrderListDetail";
+//		
+//	}
+	
 }

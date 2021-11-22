@@ -21,4 +21,7 @@ public interface UserService {
 
 	void deleteUser(String userId) ;
 
+	void returnUserPoint(User u);
+
+
 }

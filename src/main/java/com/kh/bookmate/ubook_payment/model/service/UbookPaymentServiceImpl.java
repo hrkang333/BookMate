@@ -189,5 +189,11 @@ public class UbookPaymentServiceImpl implements UbookPaymentService {
 		return ubookSoldList;
 	}
 
+	@Override
+	public List<UbookPayment> selectUbookMyOrderList(String loginUser) {
+		
+		return null;
+	}
+
 	
 }

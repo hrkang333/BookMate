@@ -39,8 +39,8 @@
 	  		<tr>
 	  		<th>상세상품번호</th>
 	  		  <th>상품정보</th>
-	  		  <th>교환수량</th>
-	  		  <th>받으실 분 </th>
+	  		  <th>환불수량</th>
+	  		  <th>환불 받는 사람 이름  </th>
 	  		  <th>휴대폰 번호 </th>
 	  		  <th>주소</th>
 	  		  <th>사용한 포인트</th>
@@ -77,15 +77,17 @@
 	  			<td><c:out value="${payNo.deliveryCost}"/> 원</td>
 	  		
 	  			<td>
-	  			 
-	  				<c:out value="${payNo.totalPayCost }"/> 원
+	  			 	  <span id="totalCost"><c:out value="${payNo.totalPayCost }"/></span> 원
+	  			</td>
+	  		
+	  		
 	  			
 	  			<td>
 	  			
-	  			<select id="changeReason" onchange="selectBoxChange(this.value);">
+	  			<select id="changeReason" onchange="selectBoxChange(this.value);" name="returnReason">
 	  			
-	  			 <option value="1">단순변심 (+2500원)</option> <!-- 얘는 고객과실  -->
-	  			 <option value="2">주문실수 (+2500원) </option> 
+	  			 <option value="1">단순변심 (+5000원)</option> 
+	  			 <option value="2">주문실수 (+5000원) </option> 
 	  			 <option value="3">파본</option>
 	  			 <option value="4">배송중 파손 </option>
 	  			</select>
@@ -101,11 +103,11 @@
 	  				<input type="hidden" value="${payNo.user_Id}" name="user_Id">
 	  				<input type="hidden" value="${returnDetail.paymentDetailNo }" name="paymentDetailNo">
 	  				<input type="hidden" value="${payNo.shippingName }" name="returnName">
-	  				<input type="hidden" id="selectBox" name="returnReason">
+	  				<!-- <input type="hidden" id="selectBox" name="returnReason"> -->
 	  				<input type="hidden" value="${payNo.paymentMethod }"name ="returnPaymentMethod"> 
 	  				<input type="hidden" value="${payNo.usePoint +payNo.totalGetPoint }"name ="returnPoint">
 	  				<input type="hidden" value="${payNo.deliveryCost }"name ="returnDeliveryPrice"> 
-	  				<input type="hidden" value="${payNo.totalPayCost }"name ="returnTotalPrice"> 
+	  				<input type="hidden" value="${payNo.totalPayCost }"name ="returnTotalPrice" id="returnTotal"> 
 	  				
 	  	<br>
 		  <button type="submit" onclick="returnSubmit()"> 반품 신청 </button>
@@ -114,6 +116,8 @@
 	  </form>
 	  
 	    <script>
+	    
+	  		var originTotalCast ='<c:out value="${payNo.totalPayCost }"/>'; //가격 등락이 있을수있으니 전역변수로 잡아둔다 
 	  		
 	    	function returnSubmit(){
 	  		
@@ -124,7 +128,23 @@
 	    	//반품사유 함수 
 	    	var selectBoxChange = function(value){
 	    		console.log("값 변경 테스트 :" + value);
-	    	var optionVal = $("#selectBox").val(value);
+	    		
+	    		var optionVal = $("#selectBox").val(value);
+	    
+	    		if(value == 1 || value == 2){
+	    			
+	    		
+	    			$('#totalCost').text(parseInt(originTotalCast) + 5000);
+	    			$('#returnTotal').val(parseInt(originTotalCast) + 5000);
+	    			
+	    		}else{ 
+
+	    			$('#totalCost').text(originTotalCast)
+	    			$('#returnTotal').val(originTotalCast)
+
+	    		}
+	    	
+	    	
 	    	
 	    	}
 	    	
