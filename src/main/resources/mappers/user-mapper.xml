@@ -75,4 +75,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	select user_Pwd from users where user_name=#{userName} and email=#{email} and user_id=#{userId}
 	</select>
 
+
+<update id="updatePoint" parameterType="User">
+UPDATE USERS SET POINT = POINT+#{point} WHERE USER_ID = #{userId}
+</update>
 </mapper>

@@ -8,18 +8,22 @@ public class BookQna {
 	private String user_Id;
 	private String bookISBN;
 	private String bookTitle;
-	private String qnaCategory;
+	private int qnaCategory;
 	private String qnaTitle;
 	private String qnaContent;
 	private Date qnaDate;
 	private int qnaAnswer;
+	private int qnaSecret;
 	
 	public BookQna() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public BookQna(int qnaNo, String user_Id, String bookISBN, String bookTitle, String qnaCategory, String qnaTitle,
-			String qnaContent, Date qnaDate, int qnaAnswer) {
+
+	
+	
+	public BookQna(int qnaNo, String user_Id, String bookISBN, String bookTitle, int qnaCategory, String qnaTitle,
+			String qnaContent, Date qnaDate, int qnaAnswer, int qnaSecret) {
 		super();
 		this.qnaNo = qnaNo;
 		this.user_Id = user_Id;
@@ -30,16 +34,28 @@ public class BookQna {
 		this.qnaContent = qnaContent;
 		this.qnaDate = qnaDate;
 		this.qnaAnswer = qnaAnswer;
+		this.qnaSecret = qnaSecret;
 	}
-	public BookQna(String user_Id, String bookISBN, String bookTitle, String qnaCategory, String qnaTitle,
-			String qnaContent) {
-		super();
-		this.user_Id = user_Id;
-		this.bookISBN = bookISBN;
-		this.bookTitle = bookTitle;
+
+
+
+	public int getQnaCategory() {
+		return qnaCategory;
+	}
+
+
+
+	public void setQnaCategory(int qnaCategory) {
 		this.qnaCategory = qnaCategory;
-		this.qnaTitle = qnaTitle;
-		this.qnaContent = qnaContent;
+	}
+
+
+
+	public int getQnaSecret() {
+		return qnaSecret;
+	}
+	public void setQnaSecret(int qnaSecret) {
+		this.qnaSecret = qnaSecret;
 	}
 	public int getQnaNo() {
 		return qnaNo;
@@ -65,12 +81,7 @@ public class BookQna {
 	public void setBookTitle(String bookTitle) {
 		this.bookTitle = bookTitle;
 	}
-	public String getQnaCategory() {
-		return qnaCategory;
-	}
-	public void setQnaCategory(String qnaCategory) {
-		this.qnaCategory = qnaCategory;
-	}
+	
 	public String getQnaTitle() {
 		return qnaTitle;
 	}
@@ -95,12 +106,15 @@ public class BookQna {
 	public void setQnaAnswer(int qnaAnswer) {
 		this.qnaAnswer = qnaAnswer;
 	}
+	
 	@Override
 	public String toString() {
-		return "BookQnaVo [qnaNo=" + qnaNo + ", user_Id=" + user_Id + ", bookISBN=" + bookISBN + ", bookTitle="
+		return "BookQna [qnaNo=" + qnaNo + ", user_Id=" + user_Id + ", bookISBN=" + bookISBN + ", bookTitle="
 				+ bookTitle + ", qnaCategory=" + qnaCategory + ", qnaTitle=" + qnaTitle + ", qnaContent=" + qnaContent
-				+ ", qnaDate=" + qnaDate + ", qnaAnswer=" + qnaAnswer + "]";
+				+ ", qnaDate=" + qnaDate + ", qnaAnswer=" + qnaAnswer + ", qnaSecret=" + qnaSecret + "]";
 	}
+	
+	
 	
 	
 	

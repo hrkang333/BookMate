@@ -5,15 +5,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -25,9 +20,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.bookmate.book.model.service.BookService;
 import com.kh.bookmate.book.model.vo.Book;
+import com.kh.bookmate.bookqna.model.service.BookQnaService;
+import com.kh.bookmate.bookqna.model.vo.BookQna;
 import com.kh.bookmate.bookreview.model.service.BookReviewService;
 import com.kh.bookmate.bookreview.model.vo.BookReview;
+import com.kh.bookmate.bookreview.model.vo.BookReviewReply;
 import com.kh.bookmate.common.Paging;
+import com.kh.bookmate.user.model.vo.User;
 
 @Controller
 public class BookController {
@@ -37,6 +36,10 @@ public class BookController {
 	
 	@Autowired
 	private BookReviewService bookReviewService;
+	
+	@Autowired
+	private BookQnaService bookQnaService;
+	
 	
 
 	private String[] categoryNameArr = {"소설/시/에세이" , "경제/경영" , "과학" , "인문",  "컴퓨터/IT", "자기계발" ,  "정치/사회", "역사/문화", "취미" ,  "가정/육아" };
@@ -49,18 +52,21 @@ public class BookController {
 	@RequestMapping("selectBook.book")
 	public String selectBook(String bookISBN, Model mo,@RequestParam(name="reviewKind",defaultValue = "1") int reviewKind, 
 								@RequestParam(name="reviewNowPage",defaultValue = "1") int reviewNowPage, @RequestParam(name="questionNowPage",defaultValue = "1") int questionNowPage,
-								@RequestParam(name="pagePosition",defaultValue = "0") int pagePosition) {
+								@RequestParam(name="questionKind",defaultValue = "5") int questionKind,@RequestParam(name="pagePosition",defaultValue = "0") int pagePosition) {
 		Paging reviewPaging; 
+		Paging qnaPaging; 
 		List<Book> bestBookList;
 		List<Book> newBookList;
 		List<Book> bestList;
 		List<BookReview> reviewList;
+		List<BookQna> qnaList;
 		Book book;
 		int allBestRank;
 		int categoryBestRank;
 		int reviewCount;
+		int qnaCount;
 		
-		System.out.println(bookISBN);
+		qnaCount = bookQnaService.selectTotalCount(bookISBN,questionKind);
 		reviewCount = bookReviewService.selectTotalCount(bookISBN);
 		book = bookService.selectBook(bookISBN);
 		book.setBookReviewCount(reviewCount);
@@ -73,8 +79,14 @@ public class BookController {
 		bestList = new ArrayList<Book>(bestBookList.subList(0, 5));
 		reviewPaging = new Paging(reviewCount, reviewNowPage, 5, 10);
 		reviewList = bookReviewService.selectReviewList(bookISBN,reviewPaging,reviewKind);
-		
+		qnaPaging = new Paging(qnaCount, questionNowPage, 10, 10);
+		qnaList = bookQnaService.selectList(bookISBN,qnaPaging,questionKind);
+	
+
 		mo.addAttribute("pagePosition", pagePosition);
+		mo.addAttribute("questionKind", questionKind);
+		mo.addAttribute("qnaPaging", qnaPaging);
+		mo.addAttribute("qnaList", qnaList);
 		mo.addAttribute("reviewPaging", reviewPaging);
 		mo.addAttribute("reviewKind", reviewKind);
 		mo.addAttribute("reviewList", reviewList);
@@ -204,13 +216,16 @@ public class BookController {
 	@RequestMapping("insertReview.re")
 	@ResponseBody
 	public String insertReview(BookReview bookReview) {
+		User user = new User();
 		BookReview temp = bookReview;
 		Book book = bookService.selectBook(bookReview.getBookISBN());
 		double bookRating = ((book.getBookRating()*book.getBookRatingCount())+bookReview.getBookRating())/(book.getBookRatingCount()+1);
 		bookRating = Math.round(bookRating*10)/10.0;
 		book.setBookRatingCount(book.getBookRatingCount()+1);
 		book.setBookRating(bookRating);
-		bookReviewService.insertReview(bookReview,book);
+		user.setUserId(bookReview.getReviewWriter());
+		user.setPoint((int)Math.round(book.getBookPrice()*0.02));
+		bookReviewService.insertReview(bookReview,book, user);
 		
 		return "success";
 	}
@@ -226,5 +241,123 @@ public class BookController {
 		int status = bookReviewService.insertIdCheck(list);
 		System.out.println(status);
 		return status+"";		
+	}
+	
+	@RequestMapping("selectReviewReply.re")
+	@ResponseBody
+	public List<BookReviewReply> selectReviewReply(int reviewNo) {
+		
+		List<BookReviewReply> list = bookReviewService.selectReviewReply(reviewNo);
+		
+		System.out.println(list.get(0).getReviewReplyDate());
+		
+		return list;
+		
+	}
+	
+	@RequestMapping("updateReview.re")
+	@ResponseBody
+	public String updateReview(BookReview review) {
+		
+		bookReviewService.updateReview(review);
+		
+		return "pass";
+		
+	}
+
+	
+	@RequestMapping("insertReviewReply.re")
+	@ResponseBody
+	public String insertReviewReply(BookReviewReply reviewReply) {
+		
+		bookReviewService.insertReviewReply(reviewReply);
+		
+		return "pass";
+		
+	}
+	@RequestMapping("deleteReply.re")
+	@ResponseBody
+	public String deleteReply(BookReviewReply reviewReply) {
+		
+		bookReviewService.deleteReply(reviewReply);
+				
+		
+		return "pass";
+				
+	}
+	
+	@RequestMapping("updateReply.re")
+	@ResponseBody
+	public String updateReply(BookReviewReply reviewReply) {
+		
+		bookReviewService.updateReply(reviewReply);
+		
+		return "pass";
+		
+	}
+	
+	@RequestMapping("insertAnswer.re")
+	@ResponseBody
+	public String insertAnswer(BookReviewReply reviewReply) {
+		
+		bookReviewService.insertAnswer(reviewReply);
+		
+		
+		return "pass";
+		
+	}
+	
+	@RequestMapping("deleteAnswer.re")
+	@ResponseBody
+	public String deleteAnswer(BookReviewReply reviewReply) {
+		
+		bookReviewService.deleteAnswer(reviewReply);
+		
+		return "pass";
+				
+	}
+	
+	@RequestMapping("selectQnaDetail.qa")
+	@ResponseBody
+	public List<String> selectQnaDetail(@RequestParam(name = "qnaNo") int qnaNo){
+		
+		List<String> strList = null;
+		
+		strList = bookQnaService.selectQnaDetail(qnaNo);
+		
+		return strList;
+		
+	}
+	
+	@RequestMapping("qnaUpdate.qa")
+	@ResponseBody
+	public String qnaUpdate(BookQna bookQna) {
+		
+		
+		bookQnaService.qnaUpdate(bookQna);
+		
+		return "pass";
+		
+		
+		
+	}
+	
+	@RequestMapping("qnaInsert.qa")
+	@ResponseBody
+	public String qnaInsert(BookQna bookQna) {
+		
+		bookQnaService.qnaInsert(bookQna);
+		
+		return "pass";
+		
+	}
+	@RequestMapping("qnaDelete.qa")
+	@ResponseBody
+	public String qnaDelete(int qnaNo) {
+		
+		bookQnaService.qnaDelete(qnaNo);
+		return "pass";
+		
+		
 	}
 }

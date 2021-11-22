@@ -12,6 +12,7 @@ public class BookReview {
 	private String reviewContent;
 	private Date reviewDate;	
 	private int reviewStatus;
+	private int reviewReplyCount;
 	
 	public BookReview() {
 		super();
@@ -39,6 +40,16 @@ public class BookReview {
 		this.reviewTitle = reviewTitle;
 		this.reviewWriter = reviewWriter;
 		this.reviewContent = reviewContent;
+	}
+	
+	
+
+	public int getReviewReplyCount() {
+		return reviewReplyCount;
+	}
+
+	public void setReviewReplyCount(int reviewReplyCount) {
+		this.reviewReplyCount = reviewReplyCount;
 	}
 
 	public int getReviewNo() {
@@ -107,10 +118,13 @@ public class BookReview {
 
 	@Override
 	public String toString() {
-		return "BookReviewVo [reviewNo=" + reviewNo + ", bookISBN=" + bookISBN + ", bookRating=" + bookRating
+		return "BookReview [reviewNo=" + reviewNo + ", bookISBN=" + bookISBN + ", bookRating=" + bookRating
 				+ ", reviewTitle=" + reviewTitle + ", reviewWriter=" + reviewWriter + ", reviewContent=" + reviewContent
-				+ ", reviewDate=" + reviewDate + ", reviewStatus=" + reviewStatus + "]";
+				+ ", reviewDate=" + reviewDate + ", reviewStatus=" + reviewStatus + ", reviewReplyCount="
+				+ reviewReplyCount + "]";
 	}
+
+	
 	
 	
 	

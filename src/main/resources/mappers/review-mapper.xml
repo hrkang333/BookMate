@@ -3,6 +3,9 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="reviewMapper">
+
+
+
 <insert id="insertReview" parameterType="BookReview">
 INSERT INTO BOOKREVIEW VALUES(BOOKREVIEW_SEQ.NEXTVAL,#{bookISBN},#{bookRating},#{reviewTitle},#{reviewWriter},#{reviewContent},SYSDATE,DEFAULT)
 </insert> 
@@ -12,11 +15,62 @@ UPDATE BUYREVIEW SET REVIEWSTATUS = 2 WHERE USER_ID = #{reviewWriter}
 <select id="selectTotalCount" resultType="_int">
 SELECT COUNT(*) FROM BOOKREVIEW WHERE BOOKISBN = #{bookISBN}
 </select>
-<select id="selectReviewList" resultType="BookReview">
-SELECT * FROM BOOKREVIEW WHERE BOOKISBN = #{bookISBN} ORDER BY REVIEWDATE DESC
+<select id="selectReviewList" resultType="BookReview" parameterType="list">
+SELECT * FROM BOOKREVIEW WHERE BOOKISBN = #{list[0]} 
+	<choose>
+	<when test="list[1]==2">
+	ORDER BY BOOKRATING DESC
+	</when>
+	<when test="list[1]==3">
+	ORDER BY BOOKRATING
+	</when>
+	<otherwise>
+	ORDER BY REVIEWDATE DESC
+	</otherwise>
+	</choose>
+
 </select>
 <select id="insertIdCheck" resultType="_int" parameterType="list">
 SELECT NVL(SUM(REVIEWSTATUS),0) REVIEWSTATUS FROM BUYREVIEW WHERE USER_ID = #{list[0]} AND BOOKISBN = #{list[1]}
 </select>
+<select id="selectReviewReply" resultType="BookReviewReply">
+SELECT * FROM BOOKREVIEWREPLY WHERE REVIEWNO = #{reviewNo} ORDER BY REVIEWREPLYINDEX DESC , REVIEWREPLYLEVEL
+</select>
+<update id="updateReview" parameterType="BookReview">
+UPDATE BOOKREVIEW SET REVIEWTITLE = #{reviewTitle} ,REVIEWCONTENT = #{reviewContent} WHERE REVIEWNO = #{reviewNo}
+</update>
+
+<update id="updateReviewReplyInsert">
+UPDATE BOOKREVIEW SET REVIEWSTATUS = REVIEWSTATUS+1, REVIEWREPLYCOUNT = REVIEWREPLYCOUNT+1  WHERE REVIEWNO = #{reviewNo} 
+<selectKey keyProperty="reviewStatus" resultType="_int" order="AFTER">
+SELECT REVIEWSTATUS FROM BOOKREVIEW  WHERE REVIEWNO = #{reviewNo} 
+</selectKey>
+</update>
+<insert id="insertReviewReply" parameterType="BookReviewReply">
+INSERT INTO BOOKREVIEWREPLY VALUES(BOOKREVIEWREPLY_SEQ.NEXTVAL,#{reviewNo},#{reviewReplyWriter},#{reviewReplyContent},SYSDATE,#{reviewReplyIndex},0,0)
+</insert>
+<update id="updateDeleteReply" parameterType="BookReviewReply">
+UPDATE BOOKREVIEW SET REVIEWREPLYCOUNT = REVIEWREPLYCOUNT-1  WHERE REVIEWNO = #{reviewNo} 
+</update>
+<delete id="deleteReply" parameterType="BookReviewReply">
+DELETE FROM BOOKREVIEWREPLY WHERE REVIEWREPLYNO = #{reviewReplyNo}
+</delete>
+<update id="updateReply" parameterType="BookReviewReply">
+UPDATE BOOKREVIEWREPLY SET REVIEWREPLYCONTENT = #{reviewReplyContent} WHERE REVIEWREPLYNO = #{reviewReplyNo}
+</update>
+<insert id="insertAnswer" parameterType="BookReviewReply">
+INSERT INTO BOOKREVIEWREPLY VALUES(BOOKREVIEWREPLY_SEQ.NEXTVAL,#{reviewNo},#{reviewReplyWriter},#{reviewReplyContent},SYSDATE,#{reviewReplyIndex},1,0)
+</insert>
+<update id="updateReplyAnswerInsert" parameterType="BookReviewReply">
+UPDATE BOOKREVIEWREPLY SET REVIEWREPLYSTATUS = 1 WHERE REVIEWNO = #{reviewNo} AND REVIEWREPLYINDEX = #{reviewReplyIndex} AND REVIEWREPLYLEVEL = 0
+</update>
+
+<delete id="deleteAnswer" parameterType="BookReviewReply">
+DELETE FROM BOOKREVIEWREPLY WHERE REVIEWREPLYNO = #{reviewReplyNo}
+</delete>
+<update id="updateReplyDeleteAnswer" parameterType="BookReviewReply">
+UPDATE BOOKREVIEWREPLY SET REVIEWREPLYSTATUS = 0 WHERE REVIEWNO = #{reviewNo} AND REVIEWREPLYINDEX = #{reviewReplyIndex} AND REVIEWREPLYLEVEL = 0
+</update>
+
 
 </mapper>
