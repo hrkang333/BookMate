@@ -8,9 +8,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kh.bookmate.shoppingbasket.model.vo.ShoppingBasket;
@@ -45,23 +47,9 @@ public class UbookPaymentController {
 			list.add(ubookPaymentDetailList.getUbookPaymentDetailList().get(i));
 			
 		}
-
-		List<Integer> cartUbNo = new ArrayList<>();
-		
-		for(int i= 0 ; i < list.size(); i++ ) {
-			
-			cartUbNo.add(list.get(i).getUbookNoUb());
-			System.out.println("for문 안에 "+cartUbNo);
-		}
-		System.out.println("cartUbNo~~"+cartUbNo);
 		
 		ubookPaymentService.insertUbookPayment(temp,list,deleteCartList);
 		
-		/*
-		 * if(result > 0) { List<UbookCart> updateUbookStock = cartList.getCartList();
-		 * ubookPaymentService.updateUbookStock(cartUbNo);
-		 * System.out.println("updateUbookStock : "+ updateUbookStock); }
-		 */
 		
 		return "ubook_payment/ubookOrderComplete";
 		
@@ -69,18 +57,18 @@ public class UbookPaymentController {
 		
 	}
 
-	/*
-	 * @RequestMapping("updateUbookStock.ub")
-	 * 
-	 * @ResponseBody public String updateUbookStock(int cartUbNo) {
-	 * 
-	 * int result = ubookPaymentService.updateUbookStock(cartUbNo); if(result > 0) {
-	 * ubookPaymentService.updateUbookStock(cartUbNo); }
-	 * 
-	 * return "fail";
-	 * 
-	 * }
-	 */
+	
+	 @RequestMapping("updateUbookStock.ub")
+	 @ResponseBody
+	 public int updateUbookStock(@RequestParam int ubookNoUb) {
+		 System.out.println("컨트롤러 잘 나오나요 우리친구"+ubookNoUb);
+		 
+	  int result = ubookPaymentService.updateUbookStock(ubookNoUb);
+	
+	  return result;
+	
+	  }
+	 
 	
 	public Date ShipDate() {
 		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Seoul"), Locale.KOREA);

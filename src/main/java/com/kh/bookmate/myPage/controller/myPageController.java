@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.kh.bookmate.common.PageInfo;
-import com.kh.bookmate.common.Pagination;
 import com.kh.bookmate.coupon.model.service.CouponService;
 import com.kh.bookmate.coupon.model.vo.Coupon;
 import com.kh.bookmate.exchange_item.model.service.ExchangeItemService;
@@ -22,6 +20,8 @@ import com.kh.bookmate.exchange_item.model.vo.ExchangeItem;
 import com.kh.bookmate.payment.model.service.PaymentService;
 import com.kh.bookmate.payment.model.vo.Payment;
 import com.kh.bookmate.payment.model.vo.PaymentDetail;
+import com.kh.bookmate.returnBook.model.service.ReturnBookService;
+import com.kh.bookmate.returnBook.model.vo.ReturnBook;
 import com.kh.bookmate.user.model.service.UserService;
 import com.kh.bookmate.user.model.vo.User;
 
@@ -39,12 +39,17 @@ public class myPageController {
 	@Autowired 
 	private ExchangeItemService exchangeItemService;
 	
+	@Autowired
+	private ReturnBookService returnBookService;
+	
 	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@Autowired
 	private CouponService couponService;
+	
+	
 	
 
 
@@ -123,22 +128,14 @@ public class myPageController {
 	
 	//주문리스트 조회 
 	@RequestMapping("selectMyOrderList.me")
-	public String selectMyOrderList(Model model, HttpSession session,
-									@RequestParam (value="currentPage", required=false, defaultValue="1") int currentPage) { 
+	public String selectMyOrderList(Model model, HttpSession session) { 
 					
 		//주문 내역보기 
 		String loginUser = ((User) session.getAttribute("loginUser")).getUserId(); 
 		List<Payment> myOrderList = paymentService.selectMyOrderList(loginUser);
 
-		//페이징 
-		int listCount = paymentService.selectListCount(loginUser);
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 5,5);
-		
 			
 		model.addAttribute("myOrderList",myOrderList);
-		model.addAttribute("pi",pi);
-		
-		
 		return "myPage/myPageOrderList";
 	
 	}
@@ -150,7 +147,8 @@ public class myPageController {
 
 		List<PaymentDetail> myOrderListDetail = paymentService.selectMyOrderListDetail(paymentNo);
 		model.addAttribute("myOrderListDetail",myOrderListDetail);
-
+		//System.out.println("myOrderListDetail=확인 =================" + myOrderListDetail.toString());
+		
 		return "myPage/myOrderListDetail";
 		
 	}
@@ -159,11 +157,10 @@ public class myPageController {
 	@RequestMapping("cancelMyOrder.me")
 	public String cancelMyOrder(int paymentNo, int paymentDetailNo, Model model) {
 
-		paymentService.cancelMyOrder(paymentDetailNo);
-
-		List<PaymentDetail> myOrderListDetail = paymentService.selectMyOrderListDetail(paymentNo);
-		model.addAttribute("myOrderListDetail", myOrderListDetail);
-		return "myPage/myOrderListDetail";
+		paymentService.cancelMyOrder(paymentDetailNo); // 업데이트로 deliveryStatus 바꿔줌 
+		model.addAttribute("paymentNo",paymentNo); //모델은 다음 화면에 필요한 파라미터를 주는 값 
+		
+		return "redirect:selectMyOrderListDetail.me";
 	}
 
 	// 배송후 사용자가 주문확정
@@ -171,19 +168,21 @@ public class myPageController {
 	public String confirmOrder(int paymentNo, int paymentDetailNo, Model model) {
 
 		paymentService.confirmOrder(paymentDetailNo);
-
-		List<PaymentDetail> myOrderListDetail = paymentService.selectMyOrderListDetail(paymentNo);
-		model.addAttribute("myOrderListDetail", myOrderListDetail);
-		return "myPage/myOrderListDetail";
+		model.addAttribute("paymentNo",paymentNo); 
+		
+		
+		return "redirect:selectMyOrderListDetail.me";
 	}
 
 	
-	//교환 신청 페이지로 이동하기 
+	//[교환] 신청 페이지로 이동하기 
 	@RequestMapping("exchange.me") 
 	public String applyExchange(int paymentNo, int paymentDetailNo, Model model){
 	
 		Payment payNo = paymentService.selectPaymentNo(paymentNo);
 		PaymentDetail exchangeDetail = paymentService.applyExchange(paymentDetailNo);
+		
+		paymentService.exchangeWait(paymentDetailNo); //교환 버튼을 누르는 순간 교환 대기중으로 상태 변경하기 
 		
 		model.addAttribute("exchangeDetail",exchangeDetail);
 		model.addAttribute("payNo",payNo);
@@ -191,33 +190,68 @@ public class myPageController {
 		return "myPage/applyExchange";
 	}
 	
-	//교환 신청하기 (교환테이블에 넣기) 
+	//[교환] 신청하기 (교환테이블에 넣기) 
 	@RequestMapping("insertExchange.me")
-	public String insertExchangeItem(ExchangeItem exchangeBook, Payment payment, Model model ) {
-
+	public String insertExchangeItem(ExchangeItem exchangeBook,int paymentNo, Model model ) {
 		exchangeItemService.insertExchangeItem(exchangeBook);
-		
-		return "myPage/myOrderListDetail";
+		model.addAttribute("paymentNo",paymentNo);
+
+		return "redirect:selectMyOrderListDetail.me";
 	}
 	
 	
 	
-	//반품 신청 페이지로 이동하기 
-	@RequestMapping("returnBook.me") 
-	public String applyReturn(int paymentNo, int paymentDetailNo, Model model) {
+	//[반품] 신청 페이지로 이동하기 
+	@RequestMapping("return.me")
+	public String applyReturn(int paymentNo, int paymentDetailNo, Model model){
 		
-		//위에 교환페이지 고대로 가져다 쓴거임 
 		Payment payNo = paymentService.selectPaymentNo(paymentNo);
 		PaymentDetail returnDetail = paymentService.applyExchange(paymentDetailNo);
+
+		paymentService.exchangeWait(paymentDetailNo); //교환 버튼을 누르는 순간 교환 대기중으로 상태 변경하기 
 		
 		model.addAttribute("returnDetail",returnDetail);
 		model.addAttribute("payNo",payNo);
 
+		
 		return "myPage/applyReturn";
 	}
+	
+	
+	//[반품] 신청하기 (반품테이블에 넣기) 
+	@RequestMapping("insertReturn.me")
+	public String insertReturn(ReturnBook returnBook,int paymentNo, Model model ) {
+		returnBookService.insertReturnBook(returnBook);
+		model.addAttribute("paymentNo",paymentNo);
 
+		return "redirect:selectMyOrderListDetail.me";
+	}
+	
+
+	//구매취소 리스트 
+	@RequestMapping("cancelList.me")
+	public String cancelList(Model model) {
+		
+		List<PaymentDetail> cList = paymentService.cancelList();
+		model.addAttribute("cList",cList);
+		System.out.println("cList=확인 =================" + cList.toString());
+
+		return "myPage/cancelList";
+	}
 	
 	
 	
+//	//[중고] 주문 리스트 
+//	@RequestMapping("selectMyOrderList.me")
+//	public String selectSecondaryMyOrderList(Model model, HttpSession session) { 
+//					
+//		//주문 내역보기 
+//		String loginUser = ((User) session.getAttribute("loginUser")).getUserId(); 
+//		List<Ubook_Payment> mySecondOrderList = paymentService.selectMyOrderList(loginUser);
+//
+//			
+//		model.addAttribute("myOrderList",myOrderList);
+//		return "myPage/myPageOrderList";
+//	}
 
 }

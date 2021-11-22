@@ -35,6 +35,7 @@
 
 	<div><a href="deliveryList.cs"> 배송대기중리스트로 이동하기 </a></div>
 	<div><a href="selectExchangeList.cs"> 교환대기중리스트로 이동하기 </a></div>
+	<div><a href="selectReturnList.cs"> 반품대기중리스트로 이동하기 </a></div>
 	
 
 

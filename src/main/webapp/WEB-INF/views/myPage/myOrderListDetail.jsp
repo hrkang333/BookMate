@@ -56,7 +56,7 @@
 					    formObj.appendChild(i_order_id);
 					    document.body.appendChild(formObj); 
 					    formObj.method="post";
-					    formObj.action="${contextPath}/cancelMyOrder.me";
+					    formObj.action="cancelMyOrder.me";
 					    formObj.submit();	
 					}
 				}  
@@ -65,6 +65,11 @@
 				 
 		 		 //구매확정 
 				 function confirmOrder(paymentDetailNo,paymentNo){
+		 			 
+		 			 
+		 			 console.log(paymentDetailNo)
+		 			 console.log(paymentNo)
+		 			 
 					 var answer = confirm("구매확정하시겠습니까? 확정시 교환환불이 불가합니다.")
 			
 					if(answer==true){
@@ -84,9 +89,6 @@
 					    
 						formObj1.appendChild(confirmOrder);
 					    formObj1.appendChild(confirmOrder2);
-					    
-					    console.log(confirmOrder,confirmOrder2)
-					    
 					    document.body.appendChild(formObj1); 
 					    formObj1.method="post";
 					    formObj1.action="confirmOrder.me";
@@ -100,7 +102,7 @@
 				
 				
 				
-<body>
+<body style="width: 1200px; margin: auto;">
 
 
 <!-- 왼쪽 사이드바  -->
@@ -263,7 +265,7 @@
 															<!-- 배송중 일때  -->
 															<div><input type="button" onclick="goExchange('${item.paymentDetailNo}','${item.paymentNo}')" value="교환신청" /></div>
 															<div><input type="button" onclick="goReturn('${item.paymentDetailNo}','${item.paymentNo}')" value="반품신청"/></div>
-															<div><input type="button" onclick="confirmOrder('${item.paymentDetailNo}')" value="구매확정" /></div>
+															<div><input type="button" onclick="confirmOrder('${item.paymentDetailNo}','${item.paymentNo}')" value="구매확정" /></div>
 														
  
 														</c:when>
@@ -271,10 +273,12 @@
 															<!--  배송완료 일 때 -->
 															<div><input type="button" onclick="goExchange('${item.paymentDetailNo}','${item.paymentNo}')" value="교환신청" /></div>
 															<div><input type="button" onclick="goReturn('${item.paymentDetailNo}','${item.paymentNo}')" value="반품신청" /></div>
-															<div><input type="button" onclick="confirmOrder('${item.paymentDetailNo}')" value="구매확정" /></div>
+															<div><input type="button" onclick="confirmOrder('${item.paymentDetailNo}','${item.paymentNo}')" value="구매확정" /></div>
 														
 														</c:when>
-
+														
+													
+													
 														<c:when test="${item.deliveryStatus =='8'}">
 															<input type="button" onclick="confirmOrder('${item.paymentDetailNo}')" value="구매확정" disabled />
 														</c:when>
@@ -351,7 +355,7 @@
 				    
 				    document.body.appendChild(formObj); 
 				    formObj.method="post";
-				    formObj.action="returnBook.me";
+				    formObj.action="return.me";
 				    formObj.submit();
 				    
 				}

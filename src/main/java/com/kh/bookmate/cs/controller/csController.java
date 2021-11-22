@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.kh.bookmate.exchange_item.model.service.ExchangeItemService;
 import com.kh.bookmate.exchange_item.model.vo.ExchangeItem;
 import com.kh.bookmate.payment.model.service.PaymentService;
-import com.kh.bookmate.payment.model.vo.Payment;
 import com.kh.bookmate.payment.model.vo.PaymentDetail;
+import com.kh.bookmate.returnBook.model.service.ReturnBookService;
+import com.kh.bookmate.returnBook.model.vo.ReturnBook;
 
 // 교환과 반품 승인버튼 값 업데이트 해주는 cs 페이지 
 
@@ -28,6 +29,8 @@ public class csController {
 	@Autowired 
 	private ExchangeItemService exchangeItemService;
 	
+	@Autowired
+	private ReturnBookService returnBookService; 
 	
 	@RequestMapping("goAdminMain.cs")
 	public String adminExchange() {
@@ -38,8 +41,8 @@ public class csController {
 	
 	
 	//[관리자]교환 리스트 가져오기 
-	@RequestMapping("selectExchangeList.cs")
-	public String selectExchangeList(ExchangeItem exchangeBook, Model model){
+	@RequestMapping("selectExchangeList.cs") //ExchangeItem exchangeBook,
+	public String selectExchangeList( Model model){
 		
 		
 		List <ExchangeItem> exchangeList = exchangeItemService.selectExchangeList();
@@ -63,64 +66,75 @@ public class csController {
 		return "cs/adminExchange";
 
 	}
-	
-	
+		
 	//[관리자] 교환 상태값 업데이트 
 	@RequestMapping("updateExchangeList.cs")
 	public String updateExchangeList(int paymentDetailNo, Model model ) {
 
-		
 		exchangeItemService.updateExchangeList(paymentDetailNo); // 관리자화면 교환 승인시 교환완료로 업데이트 
-//		paymentService.updateUserExchangeList(paymentDetail); //사용자 화면 교환 교환완료로 업데이트  
-		
-		System.out.println(paymentDetailNo+"============ㅠ첫번째꺼만 업데이트 되네  ======");
-		
+		paymentService.updateUserExList(paymentDetailNo);
 		return "redirect:selectExchangeList.cs";
 	}
 	 
-	
-	//배송전인 애들을 배송 
-	@RequestMapping("deliveryList.cs")
-		public String selectDeliveryList(int paymentNo, int paymentDetailNo, Model model) {
-		
-//		List<PaymentDetail> deliveryList = paymentService.selectDeliveryList();
-//		System.out.println("===================deli============"+deliveryList.toString());
-//		
-//		//페이먼트 넘버만 보내기 
-//		List<Integer> deliveryDetailNoList = new ArrayList<>();
-//			for(PaymentDetail p :deliveryList) {
-//				deliveryDetailNoList.add(p.getPaymentNo());
-//			}
-//		
-//		List<Payment> deliveryDetailList = paymentService.selectDeliveryPaymentNoList(deliveryDetailNoList);
-//
-//		System.out.println("===============으아아아아아========" + deliveryDetailList);
-//		model.addAttribute("deliveryList",deliveryList);
-//		model.addAttribute("deliveryDetailList",deliveryDetailList);
-		
-		System.out.println();
-		
-		Payment pno = paymentService.deliveryListPayment(paymentNo);
-		PaymentDetail pdno = paymentService.deliveryListPaymentDetail(paymentDetailNo);
-		
-		System.out.println(pno+"=======================");
-		System.out.println(pdno+"=======================");
 
-		model.addAttribute("pno",pno);
-		model.addAttribute("pdno",pdno);
+	//[관리자] 배송 리스트 불러오기 
+	@RequestMapping("deliveryList.cs")  
+	public String selectDeliveryList(Model model) {
 		
+		List<PaymentDetail> pList = paymentService.selectDeliveryList();
+		
+		model.addAttribute("pList", pList );
 		return "cs/adminDelivery";
+	}
+	
+	//[관리자] 배송 대기중인애들 배송중으로 바꿔주기 
+	@RequestMapping("updateDeliveryList.cs")  
+	public String updateDeliveryList(int paymentDetailNo, Model model) {
+		
+		paymentService.updateDeliveryList(paymentDetailNo); //관리자 화면 배송중으로 업데이트 
+		model.addAttribute("paymentDetailNo",paymentDetailNo);
+		
+		return "redirect:deliveryList.cs";
 	}
 	
 	
 	
-	//[관리자] 배송중으로 업데이트 하기 
-	@RequestMapping("updateDelivery.cs")
-	public String updateUpdateDelivery(PaymentDetail paymentDetail, Model model) {
-		
-		paymentService.updateUpdateDelivery(paymentDetail);
 	
-		return "redirect:cs/selectDeliveryList";
+	
+	//[관리자] 반품 리스트 가져오기 
+	@RequestMapping("selectReturnList.cs")  
+	public String selectReturnList(Model model) {
+		
+		//반품 목록 리스트를 먼저 뽑는다 
+		List<ReturnBook> returnBookList = returnBookService.selectReturnList();
+		System.out.println("========================" + returnBookList);
+		
+		//디테일페이먼트에 있는 것이 필요하니까 디테일넘버만 뽑아서 파라미터로 보낸다 
+		List<Integer> returnDetailNoList = new ArrayList<>();
+	      for(ReturnBook r : returnBookList) {
+	    	  returnDetailNoList.add(r.getPaymentDetailNo());
+	      }
+	      
+	     List<PaymentDetail> orderDetailList = returnBookService.selectReturnOrderDetailNoList(returnDetailNoList);
+		model.addAttribute("returnBookList",returnBookList);
+		model.addAttribute("orderDetailList",orderDetailList);
+		
+		
+		return "cs/adminReturn";
+	}
+	
+	//[관리자] 반품 교환/반품 대기중인 애들 반품 완료로 업데이트 시켜주기 반품완료는 5번
+	//사용자 포인트를 다시 되돌려 줄려면 반품 승인할 때 포인트 업데이트 시켜줘야되나 
+	
+	
+	@RequestMapping("updateReturnList.cs") 
+	public String updateReturnList(int paymentDetailNo, Model model ) {
+		
+		returnBookService.updateReturnList(paymentDetailNo); // 관리자화면 환불시 승인시 반품완료로 업데이트 
+		paymentService.updateUserReList(paymentDetailNo); // 사용자화면 환불시 반품완료 상태값 변경 
+		
+		
+		return "redirect:selectReturnList.cs";
 	}
 	
 

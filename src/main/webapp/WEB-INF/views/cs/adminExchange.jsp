@@ -90,15 +90,11 @@
 		var exId = "${sessionScope.loginUser.userId}"
 		var index = $(e).attr('id'); //버튼을 클릭했을때 id 들고와라 
 	
-		var pno =$('#pno'+ index ).text(); //span으론 텍스트 
+		var pno =$('#pno'+ index ).text(); //span으론 텍스트 뽑아야 온다. 
 		console.log(index)
 		console.log(pno)
 		$('#exchangeThing').val(pno);
 		$('#exForm').submit();
-		
-
-	
-		
 		
 	}
 	

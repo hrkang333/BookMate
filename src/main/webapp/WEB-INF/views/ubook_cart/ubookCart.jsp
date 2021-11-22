@@ -35,7 +35,7 @@ function priceSum() {
 	var cartCount = new Array()
 	var priceSum = 0;
 	var payPrice = 0;
-	var deleveryPrice = 2600;
+	var deleveryPrice = 0;
 	
 	
 	$('.price').each(function(i,item) {
@@ -54,7 +54,7 @@ function priceSum() {
 	for(var i = 0 ; i <price.length;i++ ){
 	
 		priceSum = priceSum + (price[i]*cartCount[i])
-		deleveryPrice = deleveryPrice + (deleveryPrice*cartCount[i]);
+		deleveryPrice = deleveryPrice+(2600*cartCount[i]);
 	}
 	
 	$('#deleveryPriceSpan').html(deleveryPrice.toLocaleString('ko-KR')+"원")
@@ -157,7 +157,7 @@ function deleteCart(index,cartNo) {
 								<th style="width: 10%;">합계</th>
 								<th style="width: 15%;">예상출고일정<br>
 								<span style="font-size: 5px">(판매자 발송 일정에 따라 변동)</span></th>
-								<th style="width: 10%;">선택</th>
+								<th style="width: 12%;">선택</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -177,6 +177,7 @@ function deleteCart(index,cartNo) {
 											<div class="media-body">
 												<%-- <input name="sellerNo" value="${list.BSellerNo}"/> --%>
 												<p>${list.ubookName}</p>
+												<p>${list.BSellerNo}</p>
 											</div>
 										</div>
 									</td>
@@ -215,7 +216,7 @@ function deleteCart(index,cartNo) {
 												value="${list.ubookPrice*requestScope.cartList[status.index].cartCount}" /></span>원
 									</td>
 									<td>${requestScope.shipDate}</td>
-									<td><button type="button"
+									<td><button type="button" style="background-color: #dcd3cc; width: 100%; border: none; border-radius: 5px;"
 											onclick="deleteCart(${status.index},${requestScope.cartList[status.index].cartNo})">장바구니
 											삭제</button></td>
 								</tr>
@@ -252,7 +253,7 @@ function deleteCart(index,cartNo) {
 				</div>
 			</div>
 		</div>
-		<button type="button" onclick="movePayment()">결제하기</button>
+		<center><button type="button" onclick="movePayment()" style="background-color: #5cb85c; width: 460px; border: none; border-radius: 5px; margin-bottom: 50px; height: 50px; color: #fff; font-size: 17px;">결제하기</button></center>
 		</c:when>
 		<c:otherwise>
 		<div style="margin-top: 300px;font-size: 30px;font-weight: bold; text-align: center; margin-bottom: 200px;">장바구니에 등록된 상품이 없습니다.</div>

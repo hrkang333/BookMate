@@ -38,6 +38,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectMyOrderList" resultType ="Payment">
 		 SELECT * FROM PAYMENT
 		 WHERE USER_ID =#{user_Id}
+		 ORDER BY PAYDATE DESC
+		 
 	</select>
 	
 	<!-- payment list 페이징  -->
@@ -51,8 +53,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectMyOrderListDetail" resultType="PaymentDetail" parameterType="_int">
 		SELECT * FROM PAYMENTDETAIL
 		WHERE PAYMENTNO=#{paymentNo}
-		ORDER BY DELIVERYDATE DESC 
+		ORDER BY DELIVERYDATE  
 	</select>
+	
 	
 	<!-- 주문상태 취소로 변경하기 -->
 	<select id="cancelMyOrder" resultType="PaymentDetail" parameterType="_int">
@@ -62,11 +65,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>  
 	
 		<!-- 구매확정 상태로 변경하기 -->
-	<select id="confirmOrder" resultType="PaymentDetail" parameterType="_int">
+	<select id="confirmOrder" resultType="PaymentDetail" parameterType="_int" >
 		UPDATE PAYMENTDETAIL
 		SET DELIVERYSTATUS = 8
 		WHERE PAYMENTDETAILNO = ${paymentDetailNo}
 	</select>
+	
 	
 	<!-- 교환페이지에 있는 정보 들고오기 1  -->
 	<select id="applyExchange" resultType="PaymentDetail"  >
@@ -80,6 +84,66 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM PAYMENT
 		WHERE PAYMENTNO=${paymentNo}
 	</select>
+
+
+
+	<!-- [사용자] 교환상태 업데이트  -->
+	<update id="updateUserExList" parameterType="PaymentDetail">
+		UPDATE PAYMENTDETAIL
+		SET DELIVERYSTATUS = 6
+		WHERE PAYMENTDETAILNO = ${paymentDetailNo}
+	</update>
+	
+	
+	<!-- [관리자] 배송대기중 리스트  -->
+	<select id="selectDeliveryList" resultType="PaymentDetail" >
+
+	SELECT A.* , B.SHIPPINGNAME
+	FROM PAYMENTDETAIL A
+	JOIN PAYMENT B
+	ON A.PAYMENTNO = B.PAYMENTNO
+	WHERE DELIVERYSTATUS IN (1,2,3)
+
+	</select>
+	
+	<!--[관리자] 배송상태업데이트 배송완료로 업데이트   -->
+	<update id="updateDeliveryList" parameterType="_int">
+
+	 UPDATE PAYMENTDETAIL
+	 SET DELIVERYSTATUS = 3
+	 WHERE PAYMENTDETAILNO = #{paymentDetailNo}
+		
+	</update> 
+
+	 
+	 <!-- 교환 완료 버튼을 누르면 교환/환불 대기중으로 상태변화하게  -->
+	 <update id="exchangeWait" parameterType="PaymentDetail">
+	 
+	 UPDATE PAYMENTDETAIL
+	 SET DELIVERYSTATUS = 7
+	 WHERE PAYMENTDETAILNO = #{paymentDetailNo}
+		
+	 </update>
+	 
+	 <!--[사용자] 반품완료   -->
+	<update id="updateUserReList" parameterType="PaymentDetail">
+		UPDATE PAYMENTDETAIL
+		SET DELIVERYSTATUS = 5
+		WHERE PAYMENTDETAILNO = ${paymentDetailNo}
+	</update>
+	
+	<select id="cancelList" resultType="PaymentDetail">
+		
+		SELECT * FROM PAYMENTDETAIL
+		WHERE DELIVERYSTATUS = 4  
+	
+	</select>
+
+
+
+
+
+
 
 	
 
@@ -97,39 +161,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	 
 	
-	<!-- 사용자 교환상태 업데이트  -->
-	<update id="updateUserExchangeList" parameterType="PaymentDetail">
-		UPDATE PAYMENTDETAIL
-		SET DELIVERYSTATUS = 6
-		WHERE PAYMENTDETAILNO = ${paymentDetailNo}
-	</update>
-	
-	<!-- <select id="selectDeliveryList" parameterType="PaymentDetail" resultType="PaymentDetail">
-
-	SELECT * FROM PAYMENTDETAIL
-	JOIN PAYMENT USING(PAYMENTNO)
-	WHERE DELIVERYSTATUS IN (2,3)
-	
-	</select>
-	 -->
-	 
-	 <select id="deliveryListPayment" resultType="Payment">
-		
-		SELECT * FROM PAYMENT
-		WHERE PAYMENTNO=${paymentNo}
-	 
-	 </select>
-	 
-	  
-	 <select id="deliveryListPaymentDetail" resultType="PaymentDetail">
-	
-		SELECT * FROM PAYMENTDETAIL
-		WHERE PAYMENTDETAILNO=#{paymentDetailNo}
-	 
-	 </select>
-	 
-	 
-	 
 	 
 
 	<delete id="deleteBasket">

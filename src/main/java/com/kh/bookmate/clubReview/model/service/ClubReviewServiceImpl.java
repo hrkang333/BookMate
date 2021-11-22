@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.bookmate.clubReview.model.dao.ClubReviewDao;
+import com.kh.bookmate.clubReview.model.vo.ClubQna;
+import com.kh.bookmate.clubReview.model.vo.ClubQnaAnswer;
 import com.kh.bookmate.clubReview.model.vo.ClubReview;
 
 @Service
@@ -49,6 +51,42 @@ public class ClubReviewServiceImpl implements ClubReviewService {
 	public void deleteReview(int clubNo, String userId) {
 		// TODO Auto-generated method stub
 		int result = clubReviewDao.deleteReview(sqlSession,clubNo,userId);
+		if(result < 0) {
+			//error
+		}
+	}
+
+	@Override
+	public void insertQna(ClubQna cq) {
+		int result = clubReviewDao.insertQna(sqlSession,cq);
+		if(result < 0) {
+			//error
+		}
+	}
+
+	@Override
+	public List<ClubReview> selectQnaList(int clubNo) {
+		// TODO Auto-generated method stub
+		return clubReviewDao.selectQnaList(sqlSession, clubNo);
+	}
+
+	@Override
+	public ClubQna selectQna(int qnaNo) {
+		// TODO Auto-generated method stub
+		return clubReviewDao.selectQna(sqlSession, qnaNo);
+	}
+
+	@Override
+	public void insertQnaAnswer(ClubQnaAnswer cqa) {
+		int result = clubReviewDao.insertQnaAnswer(sqlSession,cqa);
+		if(result < 0) {
+			//error
+		}
+	}
+
+	@Override
+	public void updateQna(int qnaNo) {
+		int result = clubReviewDao.updateQna(sqlSession,qnaNo);
 		if(result < 0) {
 			//error
 		}

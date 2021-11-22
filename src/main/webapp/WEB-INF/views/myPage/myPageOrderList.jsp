@@ -31,9 +31,7 @@
 
     
     <style>
-      body{
-    width:1200px
-    }
+   
         
         .order_details_table{
            text-align: center;
@@ -43,11 +41,11 @@
         
     </style>
 </head>
-<body>
+<body style="width: 1200px; margin: auto;">
  <jsp:include page="../common/menubar.jsp" />
 
 <!-- 왼쪽 사이드바  -->
-    <section class="section-margin--small mb-5">
+    <section class="section-margin--small mb-5" style="padding-top: 180px">
         <div class="container">
           <div class="row">
             <div class="col-xl-3 col-lg-4 col-md-5">
@@ -137,11 +135,11 @@
               
 
               <!-- 주문리스트 테이블  -->
-              <div class="filter-bar d-flex flex-wrap align-items-center">
+              <div class="filter-bar d-flex flex-wrap align-items-center" style="text-align: center">
                 <div class="order_details_table">
-                    <h2>주문 목록 리스트 </h2>
-                       배송전엔 사용자가 취소 가능함
-                    <div class="table-responsive">
+                    <h1>주문 목록 리스트 </h1>
+                       배송전엔 사용자가 취소가 가능합니다. 
+                    <div class="table-responsive" style="text-align: center">
                       <table class="table" style="text-align: center;">
                         <thead style="text-align: center;">
                           <tr>
@@ -150,16 +148,21 @@
                             <th scope="col">주문내역 상세보기</th>
                             <th scope="col">총 결제금액</th>
                             <th scope="col">받으실 분 </th>
-                            <th scope="col">주문취소여부</th>
+                            
                           </tr>
                         </thead>
               
 				    <!--받는사람 이름이랑 날짜로 조회하기 만들기 -->	    
                         <tbody style="text-align: center;">
                       
-					
+					<c:if test="${empty myOrderList}">
+                           <td colspan="5"><h2>주문하신 상품이 없습니다. </h2></td>
+                    </c:if>
+                          
+                          
+                          
                    <c:forEach var="item" items="${myOrderList}" varStatus="status">
-                           
+                       
                       <tr>       
                        	<td>
                     	<input type="hidden"  id="paymentNo${status.index}" value="${item.paymentNo}"/>
@@ -168,8 +171,8 @@
                   	   		<td class="orderListDetail"><p style="cursor:pointer" onclick="OrderListDetailGo('${status.index}')">주문내역 상세보기</p></td> 
                   	     	<td><c:out value="${item.totalCost}"/>원</td>                <!--  '' 스트링으로 가져온다 -->
                   	     	<td><c:out value="${item.shippingName}"/>님</td>
-                          	<td> <input type="button" class="button button-hero" value="주문취소" onclick="orderCancle()"/> </td>
-                      </tr>
+<!--                           	<td> <input type="button" class="button button-hero" value="주문취소" onclick="orderCancle()"/> </td>
+ -->                      </tr>
                             
                    </c:forEach>
                          
@@ -183,54 +186,7 @@
                       
                          
              </div> 
-        <script type="text/javascript">
-        
-        
-        
-        </script>
-            <!-- 페이징 바  -->
-            <nav class="blog-pagination justify-content-center d-flex">
-               <ul class="pagination">
-
-				<c:choose>
-					<c:when test="${ pi.currentPage ne 1 }">
-						<li class="page-item"><a class="page-link"
-							href="selectMyOrderList.me?currentPage=${ pi.currentPage-1 }">Previous</a></li>
-					</c:when>
-					<c:otherwise>
-						<li class="page-item disabled"><a class="page-link"
-							href="">Previous</a></li>
-					</c:otherwise>
-				</c:choose>
-
-				<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }"
-					var="p">
-					<c:choose>
-						<c:when test="${ pi.currentPage ne p }">
-							<li class="page-item"><a class="page-link"
-								href="selectMyOrderList.me?currentPage=${ p }">${ p }</a></li>
-						</c:when>
-						<c:otherwise>
-							<li class="page-item disabled"><a class="page-link"
-								href="">${ p }</a></li>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
- 
-
-				<c:choose>
-					<c:when test="${ pi.currentPage ne pi.maxPage }">
-						<li class="page-item"><a class="page-link"
-							href="selectMyOrderList.me?currentPage=${ pi.currentPage+1 }">Next</a></li>
-					</c:when>
-					<c:otherwise>
-						<li class="page-item disabled"><a class="page-link"
-							href="selectMyOrderList.me?currentPage=${ pi.currentPage+1 }">Next</a></li>
-					</c:otherwise>
-				</c:choose>
-			
-                </ul>
-            </nav>
+    
    		</div>
    		
             </div>
@@ -266,32 +222,7 @@
 			}
 		}
 		</script>
-    	<!--    
-	
-	 <script>
-        $.datepicker.setDefaults({
-            dateFormat: 'yy-mm-dd',
-            prevText: '이전 달',
-            nextText: '다음 달',
-            monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-            monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-            dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-            dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-            showMonthAfterYear: true,
-            yearSuffix: '년'
-        });
-    
-        $(function() {
-            $("#datepicker1").datepicker();
-        });
 
-        $(function() {
-            $("#datepicker2").datepicker();
-        });
-    
-    </script> -->
-    
     
 	   <jsp:include page="../common/footer.jsp" />
 		

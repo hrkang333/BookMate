@@ -10,13 +10,15 @@ public class UbookPaymentDetail {
 	private int paymentDetailNoUb;
 	private int paymentNoUb;
 	private int ubookNoUb;
+	private int bSellerNo;
 	private String ubookImgUb;
 	private String ubookNameUb;
 	private int quantityUb;
 	private int ubookOPriceUb;
 	private int ubookPriceUb;
 	private Date deliveryDateUb;
-	private int deliveryStatusUb;
+	//private int deliveryStatusUb;
+	private String deliveryStatusUb;
 	
 	private List<UbookPaymentDetail> UbookPaymentDetailList;
 	
@@ -25,50 +27,6 @@ public class UbookPaymentDetail {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UbookPaymentDetail(int paymentDetailNoUb, int paymentNoUb, int ubookNoUb, String ubookImgUb, String ubookNameUb,
-			int quantityUb, int ubookOPriceUb, int ubookPriceUb, Date deliveryDateUb, int deliveryStatusUb) {
-		super();
-		this.paymentDetailNoUb = paymentDetailNoUb;
-		this.paymentNoUb = paymentNoUb;
-		this.ubookNoUb = ubookNoUb;
-		this.ubookImgUb = ubookImgUb;
-		this.ubookNameUb = ubookNameUb;
-		this.quantityUb = quantityUb;
-		this.ubookOPriceUb = ubookOPriceUb;
-		this.ubookPriceUb = ubookPriceUb;
-		this.deliveryDateUb = deliveryDateUb;
-		this.deliveryStatusUb = deliveryStatusUb;
-	}
-
-	public UbookPaymentDetail(int paymentNoUb, int ubookNoUb, String ubookImgUb, String ubookNameUb, int quantityUb,
-			int ubookOPriceUb, int ubookPriceUb) {
-		super();
-		this.paymentNoUb = paymentNoUb;
-		this.ubookNoUb = ubookNoUb;
-		this.ubookImgUb = ubookImgUb;
-		this.ubookNameUb = ubookNameUb;
-		this.quantityUb = quantityUb;
-		this.ubookOPriceUb = ubookOPriceUb;
-		this.ubookPriceUb = ubookPriceUb;
-	}
-
-	
-	
-	
-	public UbookPaymentDetail(int ubookNoUb, String ubookImgUb, String ubookNameUb, int quantityUb, int ubookOPriceUb,
-			int ubookPriceUb) {
-		super();
-		this.ubookNoUb = ubookNoUb;
-		this.ubookImgUb = ubookImgUb;
-		this.ubookNameUb = ubookNameUb;
-		this.quantityUb = quantityUb;
-		this.ubookOPriceUb = ubookOPriceUb;
-		this.ubookPriceUb = ubookPriceUb;
-	}
-
-	
-	
-	
 	public int getPaymentDetailNoUb() {
 		return paymentDetailNoUb;
 	}
@@ -93,7 +51,15 @@ public class UbookPaymentDetail {
 		this.ubookNoUb = ubookNoUb;
 	}
 
-	public String getUookImgUb() {
+	public int getBSellerNo() {
+		return bSellerNo;
+	}
+
+	public void setBSellerNo(int bSellerNo) {
+		this.bSellerNo = bSellerNo;
+	}
+
+	public String getUbookImgUb() {
 		return ubookImgUb;
 	}
 
@@ -141,11 +107,11 @@ public class UbookPaymentDetail {
 		this.deliveryDateUb = deliveryDateUb;
 	}
 
-	public int getDeliveryStatusUb() {
+	public String getDeliveryStatusUb() {
 		return deliveryStatusUb;
 	}
 
-	public void setDeliveryStatusUb(int deliveryStatusUb) {
+	public void setDeliveryStatusUb(String deliveryStatusUb) {
 		this.deliveryStatusUb = deliveryStatusUb;
 	}
 
@@ -157,14 +123,14 @@ public class UbookPaymentDetail {
 		UbookPaymentDetailList = ubookPaymentDetailList;
 	}
 
-
-	public UbookPaymentDetail(int paymentDetailNoUb, int paymentNoUb, int ubookNoUb, String ubookImgUb, String ubookNameUb,
-			int quantityUb, int ubookOPriceUb, int ubookPriceUb, Date deliveryDateUb, int deliveryStatusUb,
-			List<UbookPaymentDetail> ubookPaymentDetailList) {
+	public UbookPaymentDetail(int paymentDetailNoUb, int paymentNoUb, int ubookNoUb, int bSellerNo, String ubookImgUb,
+			String ubookNameUb, int quantityUb, int ubookOPriceUb, int ubookPriceUb, Date deliveryDateUb,
+			String deliveryStatusUb, List<UbookPaymentDetail> ubookPaymentDetailList) {
 		super();
 		this.paymentDetailNoUb = paymentDetailNoUb;
 		this.paymentNoUb = paymentNoUb;
 		this.ubookNoUb = ubookNoUb;
+		this.bSellerNo = bSellerNo;
 		this.ubookImgUb = ubookImgUb;
 		this.ubookNameUb = ubookNameUb;
 		this.quantityUb = quantityUb;
@@ -175,16 +141,56 @@ public class UbookPaymentDetail {
 		UbookPaymentDetailList = ubookPaymentDetailList;
 	}
 
+	public UbookPaymentDetail(int paymentDetailNoUb, int paymentNoUb, int ubookNoUb, int bSellerNo, String ubookImgUb,
+			String ubookNameUb, int quantityUb, int ubookOPriceUb, int ubookPriceUb, Date deliveryDateUb,
+			String deliveryStatusUb) {
+		super();
+		this.paymentDetailNoUb = paymentDetailNoUb;
+		this.paymentNoUb = paymentNoUb;
+		this.ubookNoUb = ubookNoUb;
+		this.bSellerNo = bSellerNo;
+		this.ubookImgUb = ubookImgUb;
+		this.ubookNameUb = ubookNameUb;
+		this.quantityUb = quantityUb;
+		this.ubookOPriceUb = ubookOPriceUb;
+		this.ubookPriceUb = ubookPriceUb;
+		this.deliveryDateUb = deliveryDateUb;
+		this.deliveryStatusUb = deliveryStatusUb;
+	}
+
+	public UbookPaymentDetail(int paymentNoUb, int ubookNoUb, int bSellerNo, String ubookImgUb, String ubookNameUb,
+			int quantityUb, int ubookOPriceUb, int ubookPriceUb) {
+		super();
+		this.paymentNoUb = paymentNoUb;
+		this.ubookNoUb = ubookNoUb;
+		this.bSellerNo = bSellerNo;
+		this.ubookImgUb = ubookImgUb;
+		this.ubookNameUb = ubookNameUb;
+		this.quantityUb = quantityUb;
+		this.ubookOPriceUb = ubookOPriceUb;
+		this.ubookPriceUb = ubookPriceUb;
+	}
+
+	public UbookPaymentDetail(int ubookNoUb, int bSellerNo, String ubookImgUb, String ubookNameUb, int quantityUb,
+			int ubookOPriceUb, int ubookPriceUb) {
+		super();
+		this.ubookNoUb = ubookNoUb;
+		this.bSellerNo = bSellerNo;
+		this.ubookImgUb = ubookImgUb;
+		this.ubookNameUb = ubookNameUb;
+		this.quantityUb = quantityUb;
+		this.ubookOPriceUb = ubookOPriceUb;
+		this.ubookPriceUb = ubookPriceUb;
+	}
+
 	@Override
 	public String toString() {
 		return "UbookPaymentDetail [paymentDetailNoUb=" + paymentDetailNoUb + ", paymentNoUb=" + paymentNoUb
-				+ ", ubookNoUb=" + ubookNoUb + ", ubookImgUb=" + ubookImgUb + ", ubookNameUb=" + ubookNameUb
-				+ ", quantityUb=" + quantityUb + ", ubookOPriceUb=" + ubookOPriceUb + ", ubookPriceUb=" + ubookPriceUb
-				+ ", deliveryDateUb=" + deliveryDateUb + ", deliveryStatusUb=" + deliveryStatusUb
-				+ ", UbookPaymentDetailList=" + UbookPaymentDetailList + "]";
+				+ ", ubookNoUb=" + ubookNoUb + ", bSellerNo=" + bSellerNo + ", ubookImgUb=" + ubookImgUb
+				+ ", ubookNameUb=" + ubookNameUb + ", quantityUb=" + quantityUb + ", ubookOPriceUb=" + ubookOPriceUb
+				+ ", ubookPriceUb=" + ubookPriceUb + ", deliveryDateUb=" + deliveryDateUb + ", deliveryStatusUb="
+				+ deliveryStatusUb + ", UbookPaymentDetailList=" + UbookPaymentDetailList + "]";
 	}
-
-	
 
 
 	

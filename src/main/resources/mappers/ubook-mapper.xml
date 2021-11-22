@@ -70,6 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE BSELLER_NO = #{bSellerNo}
 		AND <![CDATA[ ROWNUM < 6 ]]>
 		AND UBOOK_STATUS = 'Y'
+		AND UBOOK_STOCK != 0 
 		ORDER BY UBOOK_PUBDATE DESC
 	</select>
 	
@@ -119,6 +120,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectUbookCateList" resultType="Ubook">
 		SELECT * FROM UBOOK UB_CATEGORY = #{ubCategory}
 		WHERE UBOOK_STATUS = 'Y'
+		ORDER BY UBOOK_STOCK DESC
 	</select>
 
 	<!-- 도서 수정 -->

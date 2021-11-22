@@ -146,6 +146,13 @@ public class UbookController {
 	//도서 검색
 	@RequestMapping("ubookSearch.ub")
 	public String searchUbook(HttpServletRequest request, Model model, @RequestParam("keyword") String keyword) {
+
+		if((User)request.getSession().getAttribute("loginUser") != null) {
+			String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
+			Seller s = sellerService.loginSeller(userId);
+			//System.out.println("셀러?" + s.getSellerNo());
+			model.addAttribute("s", s);
+		}
 		List<Ubook> list = ubookService.searchUbookList(keyword);
 		model.addAttribute("list", list);
 		//model.addAttribute("keyword", keyword);

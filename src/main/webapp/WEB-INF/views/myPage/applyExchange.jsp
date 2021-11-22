@@ -73,7 +73,7 @@
   			 --%>
 	  	<br>
 	  <button type="submit" onclick="exchangeSubmit()"> 교환 신청 </button>
-	  
+	  <input type="hidden" value="${exchangeDetail.paymentNo }" name="paymentNo"> 
 	  </form>
 	  
 	  <script>

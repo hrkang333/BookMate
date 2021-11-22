@@ -28,8 +28,8 @@ public class UbookPaymentDao {
 	public int deleteCart(SqlSessionTemplate sqlSession, int cartNo) {
 		return sqlSession.delete("ubookPaymentMapper.deleteCart",cartNo);
 	}
-	public int updateUbookStock(SqlSessionTemplate sqlSession, int cartUbNo) {
-		return sqlSession.update("ubookPaymentMapper.updateUbookStock",cartUbNo);
+	public int updateUbookStock(SqlSessionTemplate sqlSession, int ubookNoUb) {
+		return sqlSession.update("ubookPaymentMapper.updateUbookStock",ubookNoUb);
 	}
 
 	public List<UbookPayment> selectMyOrderList(SqlSessionTemplate sqlSession, String loginUser) {
@@ -70,6 +70,38 @@ public class UbookPaymentDao {
 				Nolist.add(p.getPaymentNoUb());
 			}
 		return deliList;
+	}
+
+	//결제된 도서 정보
+	public List<UbookPaymentDetail> selectOrderUbookList(SqlSessionTemplate sqlSession,int bSellerNo) {
+		return sqlSession.selectList("ubookPaymentMapper.selectOrderUbookList",bSellerNo);
+	}
+
+	public UbookPaymentDetail selectOrderUbookInfo(SqlSessionTemplate sqlSession, UbookPaymentDetail ubookPayDetail) {
+		return sqlSession.selectOne("ubookPaymentMapper.selectOrderUbookInfo" , ubookPayDetail);
+	}
+
+
+
+	//주문자 정보 보기
+	public UbookPayment selectOrderUserInfo(SqlSessionTemplate sqlSession, int paymentNoUb) {
+		return sqlSession.selectOne("ubookPaymentMapper.selectOrderUserInfo" , paymentNoUb);
+	}
+
+	//도서 정보 보기
+	public UbookPaymentDetail selectOrderBookInfo(SqlSessionTemplate sqlSession, UbookPaymentDetail upd) {
+		return sqlSession.selectOne("ubookPaymentMapper.selectOrderBookInfo" , upd);
+	}
+
+	//주문 상태 수정
+	public int updateOrderInfo(SqlSessionTemplate sqlSession, UbookPaymentDetail updUp) {
+		return sqlSession.update("ubookPaymentMapper.updateOrderInfo" , updUp);
+	}
+
+	//판매 완료 리스트
+	public List<UbookPaymentDetail> selectSoldUbookList(SqlSessionTemplate sqlSession, int bSellerNo) {
+
+		return sqlSession.selectList("ubookPaymentMapper.selectSoldUbookList",bSellerNo);
 	}
 
 

@@ -10,6 +10,9 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style type="text/css">
+.detail_menu{
+	margin-top: 100px !important;
+}
 </style>
 </head>
 <body style="width: 1200px; margin: auto;">
@@ -188,22 +191,25 @@
 										<div style="clear: both; margin-bottom: 60px;">
 											<label for="order-quantity"
 												style="display: inline-block; padding: 2px 0 0 6px; font-weight: bold;">주문가능수량</label>
-											<input type="number" id="order-quantity" value="1"
-												max="${ ubook.ubookStock }" min="1"
+											<input type="number" id="order-quantity" value="${ ubook.ubookStock }" max="${ ubook.ubookStock }" min="${ ubook.ubookStock }"
 												onkeydown="onlyNum(event, this)" title="주문수량입력"
 												style="margin: 0 0 0 10px; padding: 2px 2px 0 0; width: 50px; height: 25px; text-align: center; border: 1px solid #ddd;">
 										</div>
 										
-										<c:if test="${ ubook.sellerId eq loginUser.userId}">
+										<c:if test="${ ubook.ubookStock ne 0 && ubook.sellerId eq loginUser.userId}">
 										<span
 											style="width: 124px; font-size: 12px !important; margin-right: 10px; background-image: none; background-color: #dcd3cc !important; border: 1px solid #dcd3cc; color: black; !important; padding: 7px 12px 1px; box-shadow: none; height: 33px; text-align: center;">내가 등록한 도서</span>
 										</c:if>
-										<c:if test="${ ubook.sellerId ne loginUser.userId}">
+										<c:if test="${ ubook.ubookStock ne 0 && ubook.sellerId ne loginUser.userId}">
 										<a onclick="goCart()" class="btn_large btn_blue"
 											style="width: 124px; font-size: 12px !important; margin-right: 10px; background-image: none; background-color: #5cb85c !important; border: 1px solid #5cb85c; color: #fff !important; padding: 7px 12px 1px; box-shadow: none; height: 33px; text-align: center;">장바구니에
 											담기</a> <a href="#" class="btn_large btn_blue2"
 											style="width: 124px; font-size: 12px !important; margin-right: 10px; background-image: none; background-color: #5b8a5b !important; border: 1px solid #5b8a5b; color: #fff !important; padding: 7px 12px 1px; box-shadow: none; height: 33px; text-align: center;">바로
 											구매하기</a>
+										</c:if>
+										<c:if test="${ ubook.ubookStock eq 0 && ubook.sellerId ne loginUser.userId}">
+										<a class="btn_large btn_blue"
+											style="width: 225px; font-size: 12px !important; margin-right: 10px; background-image: none; background-color: #bb937e !important; border: 1px solid #bb937e; color: #fff !important; padding: 7px 12px 1px; box-shadow: none; height: 33px; text-align: center;">이미 판매된 상품입니다</a>
 										</c:if>
 												<form action="selectBook.book" method="post" id="detailBookForm">
 														<input type="hidden" name="cartUbNo" id="ubookNo" value="${ ubook.ubookNo }">
@@ -327,7 +333,7 @@
 										href="#member_refund"
 										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #DADADA; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">교환/반품
 											안내 </a></li>
-									<li
+									<li hidden="hidden"
 										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
 										href="#seller_postscript_content"
 										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #dadada; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">판매자
@@ -396,7 +402,7 @@
 										href="#member_refund"
 										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #DADADA; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">교환/반품
 											안내 </a></li>
-									<li
+									<li hidden="hidden"
 										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
 										href="#seller_postscript_content"
 										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #dadada; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">판매자
@@ -491,7 +497,7 @@
 												href="#member_refund"
 												style="line-height: 12px; color: #666;">도서 교환/반품</a></li>
 										</ul></li>
-									<li
+									<li hidden="hidden"
 										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
 										href="#seller_postscript_content"
 										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #dadada; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">판매자
@@ -555,7 +561,7 @@
 							</div>
 							<!--// 교환/반품안내 -->
 
-							<!-- 탭메뉴 -->
+							<!-- 탭메뉴
 							<div id="used_info_content" class="detail_menu"
 								style="width: 100%; height: 60px; letter-spacing: -0.03em; margin: 0 0 10px 0;">
 								<ul class="main"
@@ -575,7 +581,7 @@
 										href="#member_refund"
 										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #DADADA; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">교환/반품
 											안내 </a></li>
-									<li class="on"
+									<li  hidden="hidden"
 										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
 										href="#seller_postscript_content"
 										style="height: 29px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #dadada; border-bottom: none; background: #d1e7d1; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">판매자
@@ -599,7 +605,7 @@
 							<!--// 탭메뉴 -->
 
 							<!-- 판매자 후기 -->
-							<div class="seller_postscript_content"
+							<div class="seller_postscript_content" hidden="hidden"
 								id="seller_postscript_content"
 								style="margin: 0 0 20px 0; padding: 0;">
 								<table summary="구매후기 목록을 번호, 구매후기, ID, 등록일로 보실수 있습니다."
@@ -697,7 +703,7 @@
 										href="#member_refund"
 										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #DADADA; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">교환/반품
 											안내 </a></li>
-									<li 
+									<li  hidden="hidden"
 										style="position: relative; float: left; text-align: center; margin: 0 1px 0 0; padding: 1px 0 0 0;"><a
 										href="#seller_postscript_content"
 										style="height: 26px; min-width: 75px; padding: 8px 10px 0 10px; display: block; border: 1px solid #DADADA; border-bottom: none; background: #f5f5f5; font-size: 12px; line-height: 16px; font-weight: bold; color: #666;">판매자
@@ -850,7 +856,7 @@
 							     
 							   //문의 답변 쓰기
 							      function reply() {
-									alert("답변 준비 완료!");
+									//alert("답변 준비 완료!");
 									//버튼 눌렀을 때 input 보이게
 							    	document.getElementById("show").style.display="";
 									$("#addAnswer").click(function(){

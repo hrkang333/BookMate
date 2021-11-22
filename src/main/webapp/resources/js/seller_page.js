@@ -211,3 +211,56 @@ function imgCheck(img,inputId) {
 		}		   
 	}
 }
+
+
+
+//주문현황 수정 모달 띄우기
+function showModal2(ubookNoUb, paymentNoUb) {
+	$.ajax({
+      type : "POST",
+      url : "selectOrderUserInfo.se",
+      dataType : 'json',
+      data : {paymentNoUb : paymentNoUb},
+      success : function(data) {
+      		//---회원 정보 띄워주도록할 예정
+    	  $("input[name='paymentNoUb']").val(data.paymentNoUb);
+    	  $("input[name='userIdUb']").val(data.userIdUb);
+    	  $("input[name='shippingNameUb']").val(data.shippingNameUb);
+    	  $("input[name='shippingAddressUb']").val(data.shippingAddressUb);
+    	  $("input[name='shippingPhoneUb']").val(data.shippingPhoneUb);
+    	 // $("input[name='deliveryRequestUb']").val(data.deliveryRequestUb);
+    	  $("input[name='payDateUb']").val(data.payDateUb);
+    	  
+    	  
+	    	  $.ajax({
+	    	      type : "POST",
+	    	      url : "selectOrderBookInfo.se",
+	    	      dataType : 'json',
+	    	      data : {
+	    	    	  ubookNoUb : ubookNoUb,
+	    	    	  paymentNoUb : paymentNoUb
+	    	    	  },
+	    	      success : function(data) {
+	    	    	//---도서정보 띄워주도록할 예정
+	    	    	  $("input[name='paymentDetailNoUb']").val(data.paymentDetailNoUb);
+	    	    	  $("input[name='paymentNoUb']").val(data.paymentNoUb);
+	    	    	  $("input[name='ubookNoUb']").val(data.ubookNoUb);
+	    	    	  $("input[name='ubookNameUb']").val(data.ubookNameUb);
+	    	    	  $("input[name='quantityUb']").val(data.quantityUb);
+	    	    	  $("input[name='ubookPriceUb']").val(data.ubookPriceUb);
+	    	    	  $("input[name='deliveryDateUb']").val(data.deliveryDateUb);
+	    	    	  $("input[name='deliveryStatusUb']").val(data.deliveryStatusUb);
+	    	    	  
+	    	    	  $("#exampleModal2").modal('show');
+	    	      },
+	    	      error : function() {
+	    	      	alert("주문현황 수정 (도서)모달 띄울 때 뭔가 잘못하고있다");
+	    	      }
+	    	  });
+      },
+      error : function() {
+      	alert("주문현황 수정(회원) 모달 띄울 때 뭔가 잘못하고있다");
+      }
+  });
+}
+

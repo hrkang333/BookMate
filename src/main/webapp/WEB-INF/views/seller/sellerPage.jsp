@@ -43,27 +43,6 @@
                     <!--================ 좌측 사이드바(도서 카테고리 선택) =================-->
  					<jsp:include page="../ubook/ubookCategory.jsp"/>
                     <!--================ End 좌측 사이드바(도서 카테고리 선택) =================-->
-			<!--좌측 info
-      		<div class="col-xl-2">
-				<div class="panel panel-default">
-
-					<div class="panel-body">
-						<center>
-							<img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png"
-								class="avatar img-circle img-thumbnail" alt="avatar">
-						</center>
-						<h3>${ s.sellerNickN }</h3>
-						<center>
-							<input style="font-size: 17px; text-align: center;" type="file"
-								class="text-center center-block file-upload">
-						</center>
-					</div>
-					<div class="panel-heading">
-						<h4>구매 만족도 65%</h4>
-					</div>
-
-				</div>
-			</div>-->
 			<!--판매자 페이지-->
 			<div class="col-sm-9" style="margin-left: 190px; padding-top: 83px;">
 				<div class="newsInner">
@@ -73,7 +52,7 @@
 							<li class="active"><span style="height: 70px; padding-top: 22px;">판매자 정보관리</span></li>
 							<li><span style="height: 70px; padding-top: 22px;">도서관리</span></li>
 							<li><span style="height: 70px; padding-top: 22px;">판매관리</span></li>
-							<li><span style="height: 70px; padding-top: 22px;">도서문의</span></li>
+							<!-- <li><span style="height: 70px; padding-top: 22px;">도서문의</span></li> -->
 						</ul>
 						<!-- 판매자 정보관리 -->
 						<div class="tabContent active">
@@ -85,25 +64,25 @@
 											<div class="col-xs-6">
 												<label>
 													<h4>아이디</h4>
-												</label> <input type="text" class="form-control" name="sellerId"
+												</label> <input type="text" class="form-control" name="sellerId" style="font-size: 15px;"
 													id="sellerId" value="${ s.sellerId }" readonly>
 											</div>
 											<div class="col-xs-6">
 												<label>
 													<h4>닉네임</h4>
-												</label> <input type="text" class="form-control" name="sellerNickN"
+												</label> <input type="text" class="form-control" name="sellerNickN" style="font-size: 15px;"
 													id="sellerNickN" value="${ s.sellerNickN }" readonly>
 											</div>
 											<div class="col-xs-6">
 												<br> <label>
 													<h4>이메일</h4>
-												</label> <input type="email" class="form-control" name="sellerEmail"
+												</label> <input type="email" class="form-control" name="sellerEmail" style="font-size: 15px;"
 													id="selleremail" value="${ s.sellerEmail }">
 											</div>
 											<div class="col-xs-6">
 												<br> <label>
 													<h4>핸드폰 번호</h4>
-												</label> <input type="text" class="form-control" name="sellerPhone"
+												</label> <input type="text" class="form-control" name="sellerPhone" style="font-size: 15px;"
 													id="sellerphone" placeholder="010-0000-0000"
 													value="${ s.sellerPhone }">
 											</div>
@@ -167,7 +146,7 @@
 
 
 												<div class="col-md-12 form-group" style="width: 70%;">
-													<input class="form-control" type="text"
+													<input class="form-control" type="text" style="font-size: 15px;"
 														id="sample4_postcode" name="post" placeholder="우편번호"
 														value="${ post }" readonly>
 												</div>
@@ -177,7 +156,7 @@
 														onclick="sample4_execDaumPostcode()">우편번호 검색</button>
 												</div>
 												<div class="col-md-12 form-group">
-													<input class="form-control" type="text"
+													<input class="form-control" type="text" style="font-size: 15px;"
 														id="sample4_roadAddress" name="address1"
 														placeholder="도로명주소" value="${ address1 }" size="30"
 														readonly>
@@ -193,7 +172,7 @@
 												</div>
 												<div class="col-md-12 form-group">
 													<input class="form-control" type="text"
-														id="sample4_detailAddress" name="address2"
+														id="sample4_detailAddress" name="address2" style="font-size: 15px;"
 														placeholder="상세주소" value="${ address2 }" size="30">
 												</div>
 												<div class="col-md-12 form-group">
@@ -210,10 +189,10 @@
 											<div class="col-xs-12">
 												<br>
 												<center>
-													<button class="btn btn-lg btn-success" type="submit">
+													<button class="btn btn-lg btn-success" type="submit" style="font-size: 15px;">
 														<i class="glyphicon glyphicon-ok-sign"></i>저장
 													</button>
-													<button class="btn btn-lg" type="button"
+													<button class="btn btn-lg" type="button" style="font-size: 15px;"
 														data-toggle="modal" id="dormancyBtn"
 														data-target="#dormancy">
 														<i class="glyphicon glyphicon-remove"></i> 판매자 휴면 신청
@@ -231,7 +210,7 @@
 									style="margin-left: 16%;">
 									<div class="modal-content">
 										<div class="modal-header">
-											<h5 class="modal-title" id="exampleModalLabel">판매자 휴면 신청</h5>
+											<h5 class="modal-title" id="exampleModalLabel" style="font-size: 15px;">판매자 휴면 신청</h5>
 											<button type="button" class="close" data-dismiss="modal"
 												aria-label="Close">
 												<span aria-hidden="true">×</span>
@@ -243,10 +222,10 @@
 												<label>
 													<h4>비밀번호 입력</h4>
 												</label> <input type="password" class="form-control" name="userPwd"
-													id="userPwd" placeholder="현재 비밀번호를 입력해주세요"> <input
-													type="text" id="userPwd2" name="userPwd2"
+													id="userPwd" placeholder="현재 비밀번호를 입력해주세요" style="font-size: 15px;"> <input
+													type="text" id="userPwd2" name="userPwd2" hidden="hidden"
 													value="${ loginUser.userPwd }"> <input type="text"
-													id="sellerId" name="sellerId" value="${ s.sellerId }">
+													id="sellerId" name="sellerId" value="${ s.sellerId }" hidden="hidden">
 												<script>
 													function PwdChk() {
 														var inputPwd = document
@@ -265,16 +244,16 @@
 													}
 												</script>
 
-												<h6>
+												<h6 style="font-size: 12px;">
 													※ 비밀번호를 입력하면 판매자 계정이 휴면 상태로 전환됩니다. <br> 판매자 계정 활성화를
 													원하시면 문의를 해주세요.
 												</h6>
 
 											</div>
 											<div class="modal-footer">
-												<button type="button" class="btn btn-secondary"
+												<button type="button" class="btn btn-secondary" style="font-size: 15px;"
 													data-dismiss="modal">취소</button>
-												<button type="submit" class="btn btn-primary"
+												<button type="submit" class="btn btn-primary" style="font-size: 15px;"
 													onclick="PwdChk()">휴면 전환</button>
 											</div>
 										</form>
@@ -305,7 +284,6 @@
 						<div class="tabContent">
 							<ul class="tab2">
 								<li><span>주문현황</span></li>
-								<li><span>배송관리</span></li>
 								<li><span>판매내역</span></li>
 							</ul>
 							<div class="tabContentInner">
@@ -315,18 +293,16 @@
 
 										<!-- 주문현황 -->
 										<jsp:include page="ubookOrder.jsp"></jsp:include>
-										<!-- 배송관리 -->
-										<jsp:include page="ubookDelM.jsp"></jsp:include>
 										<!-- 판매내역 -->
 										<jsp:include page="ubookSalesHistory.jsp"></jsp:include>
 									</div>
 								</div>
 							</div>
 						</div>
-						<!-- 도서문의 -->
+						<!-- 도서문의
 						<div class="tabContent">
 							<%-- <jsp:include page="ubookQue.jsp"></jsp:include> --%>
-							<!-- 도서문의 -->
+							<!-- 도서문의
 							<section class="content">
 								<h2>도서 문의 내역</h2>
 								<div class="col-md-offset-2 qnaTable">
@@ -356,7 +332,7 @@
 									</div>
 								</div>
 							</section>
-						</div>
+						</div> -->
 					</div>
 					<!--tabs end-->
 				</div>
@@ -452,14 +428,276 @@
 									$(".tab1 li").removeClass('active');
 									$(this).addClass('active')
 								});
-				$(".tab2 li").click(function() {
+				
+				$(".tab2 li")
+				.click(
+						function() {
+							var num = $(".tab2 li").index(this);
+							$(".tabContent2").removeClass('active');
+							if (num == 0) {
+								$(".tabContent2").eq(num).addClass(
+										'active');
+
+								var table = document
+										.getElementById('orderBookList');
+								$
+										.ajax({
+											type : "POST",
+											url : "selectOrderUbookList.se",
+											dataType : 'json',
+											success : function(data) {
+												console.log(data);
+
+												//안내 tr 지우기
+												var trlength = $('#orderBookList tr').length;
+												for (var t = trlength - 1; t > 0; t--) {
+													table.deleteRow(t);
+												}
+												if(data.length < 1){
+													$('#orderBookList')
+													.append(
+													"<tr> <td colspan='6' style='text-align: center;'>아직 주문된 도서가 없습니다.</td></tr>");
+												
+												}
+												//데이터 뿌리기 
+												for (var i = 0; i < data.length; i++) {
+													console.log("야ㅑㅑㅑㅑ호오오오오" + data[i].paymentNoUb);
+													console.log(data[i].ubookNameUb);
+													$('#orderBookList')
+															.append(
+																	"<tr>"
+																			+"<td align='center'>"
+																			+ (i + 1)
+																			+ "</td>"
+																			+ "<td hidden='hidden' name='paymentNoUb'>"
+																			+ data[i].paymentNoUb
+																			+ "</td>"
+																			+ "<td align='center'><img src='${pageContext.servletContext.contextPath }/resources/images/Ubookimg/" + data[i].ubookImgUb + "' style='width: 145px; height: auto;'></td>"
+																			+ "<td align='center'><a href='ubookDetailTest.ub?ubookNo="
+																			+ data[i].ubookNoUb
+																			+"&bSellerNo="
+																			+ data[i].bsellerNo
+																			+ "'>"
+																			+ data[i].ubookNameUb
+																			+ "</a></td>"
+																			+ "<td align='center'>"
+																			+ data[i].quantityUb
+																			+"권<br><br>"
+																			+ data[i].ubookOPriceUb
+																			+ "원</td>"
+																			+ "<td align='center'>"
+																			+ data[i].deliveryStatusUb
+																			+ "</td>"
+																			+ "<td align='center'>"
+																			+ "<button type='button' style='background-color: #5cb85c; color:#ffffff; border:none; width: 100%; margin-bottom:10px; border-radius: 0.3rem;' onclick='showModal2("
+																			+ data[i].ubookNoUb
+																			+","
+																			+data[i].paymentNoUb
+																			+ ")'>수정</button></td></tr>");
+												}
+
+											},
+											error : function() {
+												alert("주문현황 조회에서 뭔가 안되고있음");
+											}
+										});
+							} else {
+								$(".tabContent2").removeClass('active');
+								if (num == 1) {
+								//alert("판매내역 확인");
+								$(".tabContent2").eq(1).addClass(
+										'active');
+								
+								var table = document
+								.getElementById('soldBookList');
+						$
+								.ajax({
+									type : "POST",
+									url : "selectSoldUbookList.se",
+									dataType : 'json',
+									success : function(data) {
+										console.log(data);
+
+										//안내 tr 지우기
+										var trlength = $('#soldBookList tr').length;
+										for (var t = trlength - 1; t > 0; t--) {
+											table.deleteRow(t);
+										}
+										if(data.length < 1){
+											$('#soldBookList')
+											.append(
+											"<tr> <td colspan='5' style='text-align: center;'>아직 판매 완료된 도서가 없습니다.</td></tr>");
+										
+										}
+										//데이터 뿌리기 
+										for (var i = 0; i < data.length; i++) {
+											console.log("야ㅑㅑㅑㅑ호오오오오" + data[i].paymentNoUb);
+											console.log(data[i].ubookNameUb);
+											$('#soldBookList')
+													.append(
+															"<tr>"
+																	+"<td align='center'>"
+																	+ (i + 1)
+																	+ "</td>"
+																	+ "<td hidden='hidden' name='paymentNoUb'>"
+																	+ data[i].paymentNoUb
+																	+ "</td>"
+																	+ "<td align='center'><img src='${pageContext.servletContext.contextPath }/resources/images/Ubookimg/" + data[i].ubookImgUb + "' style='width: 145px; height: auto;'></td>"
+																	+ "<td align='center'><a href='ubookDetailTest.ub?ubookNo="
+																	+ data[i].ubookNoUb
+																	+"&bSellerNo="
+																	+ data[i].bsellerNo
+																	+ "'>"
+																	+ data[i].ubookNameUb
+																	+ "</a></td>"
+																	+ "<td align='center'>"
+																	+ data[i].quantityUb
+																	+"권<br><br>"
+																	+ data[i].ubookOPriceUb
+																	+ "원</td>"
+																	+ "<td align='center'>"
+																	+ data[i].deliveryStatusUb
+																	+ "</td>"
+																	+"</tr>");
+										}
+
+									},
+									error : function() {
+										alert("판매내역 조회에서 뭔가 안되고있음");
+									}
+								});
+								}
+							}
+							$(".tab2 li").removeClass('active');
+							$(this).addClass('active')
+						});
+				/*$(".tab2 li").click(function() {
 					var num = $(".tab2 li").index(this);
 					$(".tabContent2").removeClass('active');
 					$(".tabContent2").eq(num).addClass('active');
 					$(".tab2 li").removeClass('active');
 					$(this).addClass('active')
-				});
+				});*/
 			</script>
+			
+			<!-- 주문 정보 수정 클릭시 띄워지는 모달 -->
+			<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document"
+					style="max-width: none; width: 1000px; margin-top: 100px;">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel" style="font-size: 15px;">주문 정보 수정</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">×</span>
+							</button>
+						</div>
+
+							<div class="modal-body">
+								<table class="table table-bordered success">
+									<thead>
+										<tr style="background-color: #d1e7d1;">
+											<th hidden ="hidden" style="width:70px; text-align: center;">중고도서주문번호</th>
+											<th style="width:70px; text-align: center;">주문자 ID</th>
+											<th style="width:70px; text-align: center;">수취인</th>
+											<th style="width:360px; text-align: center;">배송지</th>
+											<th style="width:140px; text-align: center;">구매자 전화번호</th>
+											<!-- <th style="width:170px; text-align: center;">배송 시 요청사항</th>
+											<th style="width:120px; text-align: center;">결제일</th> -->
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td hidden="hidden">
+												<input name="paymentNoUb">
+											</td>
+											<td>
+												<input name="userIdUb" style="width:100%; border :none;" readonly="readonly">
+											</td>
+											<td>
+												<input name="shippingNameUb" style="width:100%; border :none;" readonly="readonly">
+											</td>
+											<td>
+												<input name="shippingAddressUb" style="width:100%; border :none;" readonly="readonly">
+											</td>
+											<td>
+												<input name="shippingPhoneUb" style="width:100%; border :none;" readonly="readonly">
+											</td>
+											<!-- <td>
+												<input name="deliveryRequestUb">
+											</td>
+											<td>
+												<input name="payDateUb" style="width:100%; border :none;" readonly="readonly">
+											</td> -->
+										</tr>
+									</tbody>
+								</table>
+								
+								<form class="form showOrderBookInfo" enctype='multipart/form-data'
+									method="post" action="updateOrderInfo.se">
+										<table class="table table-bordered success">
+											<thead>
+												
+											<tr style="background-color: #d1e7d1;">
+													<th hidden="hidden" style="width:70px; text-align: center;">주문상세번호</th>
+													<th hidden="hidden" style="width:70px; text-align: center;">주문번호</th>
+													<th hidden="hidden" style="width:150px; text-align: center;">도서</th>
+													<th style="width:250px; text-align: center;">도서명</th>
+													<th style="width:150px; text-align: center;">주문수량<br>&금액</th>
+													<th hidden="hidden" style="width:100px; text-align: center;">배송상태<br>변경일</th>
+													<th style="width:300px; text-align: center;">배송상태<br>기준표</th>
+													<th style="width:200px; text-align: center;">배송상태<br>변경</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td hidden="hidden">
+														<input name="paymentDetailNoUb">
+													</td>
+													<td hidden="hidden">
+														<input name="paymentNoUb">
+													</td>
+													<td hidden="hidden">
+														<input name="ubookNoUb">
+													</td>
+													<td>
+														<input name="ubookNameUb" style="width:100%; border :none;" readonly="readonly">
+													</td>
+													<td>
+														<input name="quantityUb" style="width:15%; border :none;" readonly="readonly">권<br>
+														<input name="ubookPriceUb" style="width:60%; border :none;" readonly="readonly">원
+													</td>
+													<td hidden="hidden">
+														<input name="deliveryDateUb" style="width:100%; border :none;" readonly="readonly">
+													</td>
+													<td>
+														<strong>주문확인</strong> : 주문 확인 단계<br>
+														<strong>배송준비</strong> : 주문을 확인하고 도서 발송 준비 단계<br>
+														<strong>발송완료</strong> : 도서 발송한 상태
+													</td>
+													<td>
+														<p>※ 변경할 배송상태를 입력해주세요</p>
+														<input name="deliveryStatusUb" style="width:100%; border :none; background-color: #d5d3d3;"  required="required">
+													</td>
+												</tr>
+											</tbody>
+										</table>
+										<div class="modal-footer" style="justify-content: center;">
+											<button type="button" class="btn btn-secondary" style="width: 70px; height: 50px; font-size: 15px;"
+												data-dismiss="modal">취소</button>
+											<button type="submit" class="btn btn-primary" style="width: 160px; height: 50px; font-size: 15px;" onclick="deliveryUpdateChk()">배송상태 변경하기</button>
+										</div>
+								</form>
+								
+							</div>
+						
+					</div>
+				</div>
+			</div>
+			
+			
+			<!-- 도서 수정 모달 -->
 			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
 				aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog" role="document"
@@ -476,14 +714,14 @@
 						<form class="form updateUbook1" enctype='multipart/form-data'
 							method="post" action="">
 							<div class="modal-body">
-								<input type="text" name="ubookNo">
+								<input type="text" name="ubookNo" hidden="hidden">
 								<table class="table table-bordered success">
 									<colgroup>
 										<col width="100px" />
 										<col width="400px" />
 									</colgroup>
 									<thead>
-										<tr>
+										<tr hidden="hidden">
 											<th class="info">판매자 번호</th>
 											<td><input class="usedBookInfo" name="bSellerNo"
 												value="${ s.sellerNo }" readonly="readonly"></td>
@@ -631,8 +869,10 @@
 
 	<!-- 다음 우편번호 api  -->
 	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+	
+	<!-- 우편번호, 도서 수정 FUNCTION -->
 	<script>
-
+//도서 수정 중 도서 상세 글자제한
 	$(document).ready(function() {
 		 
 		$("textarea[name='ubookDetail']").eq(1).on('keyup', function() {
@@ -646,7 +886,7 @@
 	    });
 	});
 
-
+//도서 수정 중 목차 글자제한
 	$(document).ready(function() {
 		$("textarea[name='ubookContent']").eq(1).on('keyup', function() {
 	        $('#test_cnt1_2').html("("+$(this).val().length+" / 3600)");
@@ -659,7 +899,25 @@
 	    });
 	});
 	
+	function deliveryUpdateChk(){
+		var deliveryStatus = $("input[name=deliveryStatusUb]");
+		if(deliveryStatus.val() == "" || deliveryStatus.val() == null){
+			alert("배송상태를 입력해주세요.");
+			deliveryStatus.focus();
+			return false;
+		}
+		if(deliveryStatus.val() != "주문확인" && deliveryStatus.val() != "배송준비" && deliveryStatus.val() != "발송완료"){
+			// && deliveryStatus.val() != "수취확인"
+			alert("배송상태를 올바르게 입력해주세요.");
+			deliveryStatus.val("");
+			deliveryStatus.focus();
+			return false;
+		}
+		
+		alert("배송 상태가 정상적으로 수정되었습니다.");
+	}
 	
+	//등록한 도서 정보 수정
 		function updateUbook() {
 			var form = $(".updateUbook1")[0];
 			var formData = new FormData(form);
@@ -745,6 +1003,7 @@
 			}
 		}
 
+	//판매자 정보 수정 중 도로명 주소
 		function sample4_execDaumPostcode() {
 			new daum.Postcode(
 					{
