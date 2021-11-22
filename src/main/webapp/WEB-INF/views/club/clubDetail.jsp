@@ -436,8 +436,8 @@
 	        		<h4 id="qnaTitle" class="modal-title">문의 제목입니다.</h4>
 	        		<div>
 		          		<label id="qnaWriter" style="font-size:18px;">user03</label> &nbsp;
-			          	<label id="qnaDate" style="font-size:15px;">2021-11-21</label> &nbsp;&nbsp;
-			          	<label id="qnaDelBtn" style="font-size:18px;">삭제</label>
+			          	<label id="qnaDate" style="font-size:15px;"></label> &nbsp;&nbsp;
+			          	<label id="qnaDelBtn" style="font-size:18px;" onclick="qnaDel()">삭제</label>
 		          	</div>
 	        	</div>
 	          	
@@ -455,9 +455,9 @@
 	          	<div id="hostAnswer">
 	          		<div id="answerContent_bef">
 	          			<p id="answerContent" style="margin: 20px 0px 20px;"></p>
-	          			<p id="answerDate">2021-11-21</p>
+	          			<p id="answerDate"></p>
 	          		</div>
-	          		<div id="answerContentBox" style="position: relative;">
+	          		<div id="answerBox" style="position: relative;">
 	          			<textarea maxlength="200" name="qnaAnswerContent" class="form-control" rows="5" style="resize: none;" placeholder="답변을 입력해주세요(최대 200자)"></textarea>
 	          			<button type="button" onclick="giveQnaAnswer()" style="position: absolute; bottom: 8%; right: 2%;">작성</button>
 	          		</div>
@@ -507,8 +507,8 @@
 				type : "post",
 				success:function(result){
 					$('#qnaModal').modal("hide");
-					alert("문의가 등록되었습니다.")
-					console.log("ajax 통신 완료")
+					alert("문의가 등록되었습니다.");
+					console.log("ajax 통신 완료");
 				}, error:function(result){
 					console.log("ajax 통신 실패")
 				}
@@ -541,14 +541,16 @@
 						console.log("c_host : " + c_host)
 						
 						if(qnaAnswer == 'Y'){
+							$('#answerContent_bef').css('display','block');
 							$('#answerContent').text(qna.qnaAnswerContent);
-		    				$('#answerContentBox').css('display','none');
+							$('#answerDate').text(qna.answerDate);
+		    				$('#answerBox').css('display','none');
 		    			}else{
-		    				$('#answerContent').text(""); //이상한데
+		    				$('#answerContent_bef').css('display','none');
 		    				if(userId == c_host){
-		    					$('#answerContentBox').css('display','block');
+		    					$('#answerBox').css('display','block');
 		    				}else{
-		    					$('#answerContentBox').css('display','none');
+		    					$('#answerContent_bef').css('display','none');
 		    				}	    				
 		    			}
 	
