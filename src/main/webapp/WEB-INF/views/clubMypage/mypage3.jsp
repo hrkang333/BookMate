@@ -140,7 +140,9 @@
 	                                    <td><input name="clubNo" type="checkBox" value="${c.clubNo}"></td>
 	                                    <td><c:out value="${c.category}"/></td>
 	                                    <td><c:out value="${c.hostName}"/></td>
-	                                    <td><span style="cursor:pointer;" onclick="goDetail(${c.clubNo}, ${c.condition});"><c:out value="${c.clubTitle}"/></span></td>
+	                                    <td><span style="cursor:pointer;" onclick="goDetail(${c.clubNo}, ${c.condition});"><c:out value="${c.clubTitle}"/></span>
+	                                    	<p>(모집기간 : <c:out value="${c.clubStartDate}"/> ~ <c:out value="${c.clubEndDate}"/>)</p>
+	                                    </td>
 	                                    <td><c:out value="${c.onoffLine}"/></td>   
 	                                    <td>
 	                                    	<input name="clNo1" type="hidden" value="${c.clubNo}">
