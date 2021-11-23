@@ -193,34 +193,31 @@ public class ClubDao {
 	}
 
 	//마이페이지 - 찜목록
-	public ArrayList<Club> selectList2(SqlSessionTemplate sqlSession, String userId, String table, PageInfo pi) {
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("userId", userId);
-		map.put("table", table);
-		
-		List<Integer> clubNoList = new ArrayList<>();
-		ArrayList<Club> mypageList= new ArrayList<>();
-		
-		int offset = (pi.getCurrentPage()-1)*(pi.getBoardLimit());		
-		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		
-		if(table.equals("CLUB_WISH")) {
-			//1.club_wish테이블에 table, userid 보내서 clubNo 뽑아오기
-			clubNoList = sqlSession.selectList("clubMapper.selectClubNoList", map, rowBounds);
-		}else if(table.equals("CLUB_APPLY")) {
-			//1.club_apply테이블에 table, userid 보내서 clubNo 뽑아오기
-			clubNoList = sqlSession.selectList("clubMapper.selectClubNoList", map);
-		}
-
-		//2.clubNo로 club전체내용 뽑기
-		if(clubNoList.size()!=0) {
-			mypageList = (ArrayList)sqlSession.selectList("clubMapper.selectMypageList",clubNoList);
-		}
-		
-		System.out.println("clubDao - 마이페이지찜목록 : " + mypageList.toString());
-		
-		return mypageList;
-	}
+//	public ArrayList<Club> selectList2(SqlSessionTemplate sqlSession, String userId, String table) { //, PageInfo pi
+//		Map<String,Object> map = new HashMap<String,Object>();
+//		map.put("userId", userId);
+//		map.put("table", table);
+//		
+//		List<Integer> clubNoList = new ArrayList<>();
+//		ArrayList<Club> mypageList= new ArrayList<>();
+//		
+//		if(table.equals("CLUB_WISH")) {
+//			//1.club_wish테이블에 table, userid 보내서 clubNo 뽑아오기
+//			clubNoList = sqlSession.selectList("clubMapper.selectClubNoList", map);
+//		}else if(table.equals("CLUB_APPLY")) {
+//			//1.club_apply테이블에 table, userid 보내서 clubNo 뽑아오기
+//			clubNoList = sqlSession.selectList("clubMapper.selectClubNoList", map);
+//		}
+//
+//		//2.clubNo로 club전체내용 뽑기
+//		if(clubNoList.size()!=0) {
+//			mypageList = (ArrayList)sqlSession.selectList("clubMapper.selectMypageList",clubNoList);
+//		}
+//		
+//		System.out.println("clubDao - 마이페이지찜목록 : " + mypageList.toString());
+//		
+//		return mypageList;
+//	}
 
 	public int updateCondition(SqlSessionTemplate sqlSession, int clubNo, int condition) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -339,6 +336,12 @@ public class ClubDao {
 		
 		List<Club> list = (ArrayList)sqlSession.selectList("clubMapper.selectList_search", sc, rowBounds);
 		return list;
+	}
+
+	//테스트 1123
+	public ArrayList<Club> selectMypageList1_2(SqlSessionTemplate sqlSession, List<Integer> clubNoList) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("clubMapper.selectMypageList",clubNoList);
 	}
 
 	

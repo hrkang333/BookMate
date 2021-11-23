@@ -27,4 +27,7 @@ public interface ClubReviewService {
 	void insertQnaAnswer(ClubQnaAnswer cqa);
 
 	void updateQna(int qnaNo);
+
+	void deleteQna(int qnaNo, int type);
+
 }

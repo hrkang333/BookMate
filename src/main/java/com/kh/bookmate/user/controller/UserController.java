@@ -23,10 +23,10 @@ public class UserController {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
-	@RequestMapping(value="/")
-	public String home() {
-		return "index";
-	}
+//	@RequestMapping(value="/")
+//	public String home() {
+//		return "index";
+//	}
 	@RequestMapping(value="home.us")
 	public String logo() {
 		return "index";

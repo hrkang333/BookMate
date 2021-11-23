@@ -44,6 +44,7 @@ import com.kh.bookmate.club.model.vo.ClubTime;
 import com.kh.bookmate.club.model.vo.SearchCondition;
 import com.kh.bookmate.clubApply.model.service.ClubApplyService;
 import com.kh.bookmate.clubApply.model.vo.ClubApply;
+import com.kh.bookmate.clubApply.model.vo.ClubWish;
 import com.kh.bookmate.clubReview.model.service.ClubReviewService;
 import com.kh.bookmate.clubReview.model.vo.ClubReview;
 import com.kh.bookmate.common.PageInfo;
@@ -265,17 +266,19 @@ public class ClubController {
 		List<ClubApply> capList = new ArrayList<>();  //신청
 
 		//1.전체 apply 리스트 - 페이징처리
-		System.out.println("club 컨트롤러 - currentPage : "+ currentPage );
-		System.out.println("club 컨트롤러 - listCount : "+ listCount);
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 7, 5);
 		capList = clubApplyService.selectApplyList(userId, pi);
 		
 		//2.신청한 club 리스트
-		//pi보내지만 dao에서 쓰지는 않는다.
-		ArrayList<Club> list = clubService.selectList2(userId, table, pi);
-
-		System.out.println("club 컨트롤러 - 신청club리스트 : " + list.toString());
-		System.out.println("club 컨트롤러 - 신청 : " + capList.toString());
+		List<Integer> clubNoList = new ArrayList<>();
+		for(ClubApply ca : capList) {
+			clubNoList.add(ca.getClubNo());
+		}
+		
+		ArrayList<Club> list= new ArrayList<>();
+		if(clubNoList.size() != 0) {
+			list = clubService.selectMypageList1_2(clubNoList);
+		}
 		
 		model.addAttribute("list", list);
 		model.addAttribute("capList", capList);
@@ -293,8 +296,21 @@ public class ClubController {
 		int listCount = clubService.selectListCount(userId, table);
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 7, 5);
-		ArrayList<Club> list = clubService.selectList2(userId, table, pi);
+		List<ClubWish> cwList = clubApplyService.selectWishList(userId, pi);
+		
+		List<Integer> clubNoList = new ArrayList<>();
+		for(ClubWish cw : cwList) {
+			clubNoList.add(cw.getClubNo());
+		}
+		
+		ArrayList<Club> list= new ArrayList<>();
+		if(clubNoList.size() != 0) {
+			list = clubService.selectMypageList1_2(clubNoList);
+		}
 
+//	ArrayList<Club> list = clubService.selectList2(userId, table);
+
+		model.addAttribute("cwList", cwList);
 		model.addAttribute("list", list);
 		model.addAttribute("pi",pi);
 		

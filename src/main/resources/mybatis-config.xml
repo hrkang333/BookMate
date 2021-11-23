@@ -67,6 +67,7 @@
       <mapper resource="/mappers/ubookCart-mapper.xml"/>
       <mapper resource="/mappers/bookQna-mapper.xml"/>
       <mapper resource="/mappers/returnBook-mapper.xml"/>
+      <mapper resource="/mappers/main-mapper.xml"/>
    </mappers>
 
 

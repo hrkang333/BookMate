@@ -38,10 +38,8 @@ public class ClubReviewDao {
 		return sqlSession.selectList("clubReviewMapper.selectReviewList", clubNo);
 	}
 
-	public int deleteReview(SqlSessionTemplate sqlSession, int clubNo, String userId) {
-		Map<String,Object> map = new HashMap<String, Object>();
-		map.put("userId", userId);
-		map.put("clubNo", clubNo);
+	public int deleteReview(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		
 		return sqlSession.update("clubReviewMapper.deleteReview", map);
 	}
 
@@ -68,5 +66,20 @@ public class ClubReviewDao {
 	public int updateQna(SqlSessionTemplate sqlSession, int qnaNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("clubReviewMapper.updateQna", qnaNo);
+	}
+
+	public int deleteQna(SqlSessionTemplate sqlSession, int qnaNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("clubReviewMapper.deleteQna", qnaNo);
+	}
+
+	public int deleteQnaAnswer(SqlSessionTemplate sqlSession, int qnaNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("clubReviewMapper.deleteQnaAnswer", qnaNo);
+	}
+
+	public int updateQnaAnswerStatus(SqlSessionTemplate sqlSession, int qnaNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("clubReviewMapper.updateQnaAnswerStatus", qnaNo);
 	}
 }

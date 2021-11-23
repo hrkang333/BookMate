@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="mainMapper">
+
+	<!-- 3.베스트 도서 -->
+	<select id="selectBestList" resultType="Book">
+		<![CDATA[
+		SELECT BOOK.*
+		FROM BOOK
+		LEFT JOIN SELLDATE
+		ON BOOK.BOOKISBN = SELLDATE.BOOKISBN
+		WHERE BOOK.BOOKISBN IN (SELECT BOOKISBN
+		                        FROM(SELECT BOOKISBN, SELLQUNTITY
+		                            FROM SELLDATE
+		                            WHERE SELLDATE >= SYSDATE-14  --7로 바꿔야 한다!
+		                            ORDER BY SELLQUNTITY DESC)
+		                        WHERE ROWNUM <= 24)
+		ORDER BY SELLDATE.SELLQUNTITY DESC
+		]]>
+	</select>
+	
+	<!-- 2.오늘의 책 -->
+	<select id="selectTodayList" resultType="Book">
+		<![CDATA[
+		SELECT A.*
+		FROM BOOK A
+		WHERE A.BOOKISBN IN (SELECT DISTINCT BOOKISBN
+		                     FROM (SELECT BOOKISBN
+		                           FROM BOOKREVIEW
+		                           ORDER BY REVIEWDATE DESC)
+		                     WHERE ROWNUM <= 5)
+		AND A.BOOKCATEGORY = #{category_number}
+		]]>
+	</select>
+
+</mapper>
+

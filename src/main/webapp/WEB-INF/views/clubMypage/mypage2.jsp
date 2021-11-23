@@ -100,7 +100,7 @@
                             <button class="button button-login" style="margin-bottom: 20px;" onclick="deleteClub()">삭제하기</button>
                         </div>
    
-                        <table id="applyList" class="table table-hover" align="center">
+                        <table id="wishList" class="table table-hover" align="center">
                             <thead>
                                 <tr>
                                     <th style="width:5%;">선택</th>
@@ -114,7 +114,14 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            	<c:forEach items="${list}" var="c">
+                            	<c:forEach items="${cwList}" var="cw" varStatus="status">
+                            		
+                            		<c:forEach items="${list}" var="club"> 
+	                                	<c:if test="${club.clubNo eq cw.clubNo}">
+	                                		<c:set var="c" value="${club}"/>
+	                                	</c:if>
+	                                </c:forEach>
+                            	
 	                                <tr>
 	                                    <td><input name="clubNo" type="checkBox" value="${c.clubNo}"></td>
 	                                    <td><c:out value="${c.category}"/></td>
@@ -136,10 +143,6 @@
 	                                    <td>
 		                                    <c:forEach items="${c.clubTimes}" var="ct">
 		                                    	<c:if test="${ !empty ct.clubDate}">
-		                                    		${fn:substring(ct.clubDate,0,11)} | ${ct.startTime} ~ ${ct.endTime}<br>
-		                                    		<%-- ${ct.clubDate} | ${ct.startTime} ~ ${ct.endTime}<br> --%>
-		                                    	</c:if>
-		                                    	<c:if test="${ empty ct.clubDate}">
 		                                    		${ct.clubDate} | ${ct.startTime} ~ ${ct.endTime}<br>
 		                                    	</c:if>
 			                                </c:forEach>
@@ -183,38 +186,41 @@
 
 						</form>
 						
-						<div id="pagingArea">						
-			                <ul class="pagination">
-			                	<c:choose>
-			                		<c:when test="${ pi.currentPage ne 1 }">
-			                			<li class="page-item"><a class="page-link" href="mypage2.cl?currentPage=${ pi.currentPage-1 }">이전</a></li>
-			                		</c:when>
-			                		<c:otherwise>
-			                			<li class="page-item disabled"><a class="page-link" href="">이전</a></li>
-			                		</c:otherwise>
-			                	</c:choose>
-			                	
-			                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
-			                    	<c:choose>
-				                		<c:when test="${ pi.currentPage ne p }">
-			                    			<li class="page-item"><a class="page-link" href="mypage2.cl?currentPage=${ p }">${ p }</a></li>
+						<c:if test="${fn:length(cwList) != 0}">
+							<div id="pagingArea">						
+				                <ul class="pagination">
+				                	<c:choose>
+				                		<c:when test="${ pi.currentPage ne 1 }">
+				                			<li class="page-item"><a class="page-link" href="mypage2.cl?currentPage=${ pi.currentPage-1 }">이전</a></li>
 				                		</c:when>
 				                		<c:otherwise>
-				                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
+				                			<li class="page-item disabled"><a class="page-link" href="">이전</a></li>
 				                		</c:otherwise>
 				                	</c:choose>
-			                    </c:forEach>
-			                    
-			                    <c:choose>
-			                		<c:when test="${ pi.currentPage ne pi.maxPage }">
-			                			<li class="page-item"><a class="page-link" href="mypage2.cl?currentPage=${ pi.currentPage+1 }">다음</a></li>
-			                		</c:when>
-			                		<c:otherwise>
-			                			<li class="page-item disabled"><a class="page-link" href="mypage2.cl?currentPage=${ pi.currentPage+1 }">다음</a></li>
-			                		</c:otherwise>
-			                	</c:choose>
-			                </ul>
-			            </div>
+				                	
+				                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+				                    	<c:choose>
+					                		<c:when test="${ pi.currentPage ne p }">
+				                    			<li class="page-item"><a class="page-link" href="mypage2.cl?currentPage=${ p }">${ p }</a></li>
+					                		</c:when>
+					                		<c:otherwise>
+					                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
+					                		</c:otherwise>
+					                	</c:choose>
+				                    </c:forEach>
+				                    
+				                    <c:choose>
+				                		<c:when test="${ pi.currentPage ne pi.maxPage }">
+				                			<li class="page-item"><a class="page-link" href="mypage2.cl?currentPage=${ pi.currentPage+1 }">다음</a></li>
+				                		</c:when>
+				                		<c:otherwise>
+				                			<li class="page-item disabled"><a class="page-link" href="mypage2.cl?currentPage=${ pi.currentPage+1 }">다음</a></li>
+				                		</c:otherwise>
+				                	</c:choose>
+				                </ul>
+				            </div>
+						</c:if>
+						
                     </section>
                     <!-- End Best Seller -->
                 </div>
