@@ -131,7 +131,7 @@
                 <div class="col-xl-12 col-lg-12 col-md-12">
                     <!-- Start Best Seller -->
                     <section>
-						<form id="mypageForm2" action="" method="post">
+						<form id="mypageForm1" action="" method="post">
                         <div style="float: right;">
                             <button class="button button-login" style="margin-bottom: 20px;" onclick="deleteClub()">삭제하기</button>
                         </div>
@@ -182,6 +182,7 @@
 		                                    		<c:if test="${ct.timeNo eq ap.timeNo}">
 		                                    			${fn:substring(ct.clubDate,0,11)} | ${ct.startTime} ~ ${ct.endTime}<br>
 		                                    			<c:set var="cd" value="${ct.clubDate}"></c:set>
+		                                    			<c:set var="cd2" value="${ct.clubDate}"></c:set>
 		                                    		</c:if>
 		                                    	</c:if>
 		                                    	<c:if test="${c.times eq '여러 번 만나요'}">
@@ -189,10 +190,16 @@
 		                                    		<c:if test="${i.first}">
 		                                    			<c:set var="cd" value="${ct.clubDate}"></c:set>
 		                                    		</c:if>
+		                                    		<c:if test="${i.last}">
+		                                    			<c:set var="cd2" value="${ct.clubDate}"></c:set>
+		                                    		</c:if>
 		                                    	</c:if>
 		                                    	
 		                                    	<fmt:parseDate var="clubDate" value="${cd}"  pattern="yyyy-MM-dd"/>
 												<fmt:parseNumber value="${clubDate.time / (1000*60*60*24)}" integerOnly="true" var="clubDate1"></fmt:parseNumber>
+												
+												<fmt:parseDate var="clubDate2" value="${cd2}"  pattern="yyyy-MM-dd"/>
+												<fmt:parseNumber value="${clubDate2.time / (1000*60*60*24)}" integerOnly="true" var="clubDate22"></fmt:parseNumber>
 			                                </c:forEach>
 		                                </td>
 		                                
@@ -202,31 +209,41 @@
 										<fmt:parseNumber value="${now.time / (1000*60*60*24)}" integerOnly="true" var="now1"></fmt:parseNumber>
 
 									    <td>
-									    	<c:choose>
-									    		<c:when test="${ap.applyCancle eq 'N'}">
-									    			<c:choose>
-									    				<c:when test="${c.condition eq 4 || c.condition eq 5}">
-										    				<c:choose>
-										    					<c:when test="${clubDate1- now1 >= 3}">  <!-- 모임일자 3일 이전은 취소 못함 -->
-											    					<input type="button" id="cancleBtn${status.index}" value="취소하기" onclick="cancleClub(this);">
-											    				</c:when>
-											    				<c:otherwise>
-											    					<button disabled>취소 불가</button>
-											    					<label>모임일자 3일 이전에는 취소가 불가능합니다.</label>
-											    				</c:otherwise>
-										    				</c:choose>
-										    			</c:when>
-											    		<c:otherwise>
-											    			<button disabled>취소 불가</button>
-											    			<label>현재 모집중인 독서모임이 아닙니다.</label>
-											    		</c:otherwise>
-									    			</c:choose>
-									    		</c:when>
-									    		
-									    		<c:otherwise>
-									    			<button disabled>취소완료</button>
-									    		</c:otherwise>
-									    	</c:choose>
+									    	<c:if test="${ap.applyParti eq 'N'}">
+									    		<c:choose>
+									    			<c:when test="${ap.applyCancle eq 'Y'}">
+									    				<button disabled>취소완료</button>
+										    		</c:when>
+										    		<c:otherwise>
+										    			<c:choose>
+										    				<c:when test="${clubDate22 < now1 }">
+										    					불참 (참여하신 경우 문의를 남겨주세요)
+										    				</c:when>
+												    		<c:otherwise>
+												    			<c:if test="${clubDate1- now1 >= 3}">  <!-- 모임일자 3일 이전은 취소 못함 -->
+												    				<input type="button" id="cancleBtn${status.index}" value="취소하기" onclick="cancleClub(this);">
+												    			</c:if>
+												    			<c:if test="${clubDate1- now1 < 3}">
+												    				<button disabled>취소 불가</button>
+												    				<label>모임일자 3일 이전에는 취소가 불가능합니다.</label>
+												    			</c:if>
+												    		</c:otherwise>
+										    			</c:choose>
+										    		</c:otherwise>
+									    		</c:choose>
+									    	</c:if>
+									    	<c:if test="${ap.applyParti eq 'Y'}">
+									    		<c:choose>
+									    			<c:when test="${ap.reviewStatus eq 'Y'}">
+									    				참여완료 <br>
+									    				[리뷰 작성]
+									    			</c:when>
+									    			<c:otherwise>
+									    				참여완료 <br>
+									    				[리뷰 미작성]
+									    			</c:otherwise>
+									    		</c:choose>
+									    	</c:if>
 									    </td>
 	                                </tr>  
                                 </c:forEach>  

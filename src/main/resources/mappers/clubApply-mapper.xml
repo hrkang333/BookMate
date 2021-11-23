@@ -17,11 +17,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="APPLY_PARTI" property="applyParti"/>
 		<result column="STATUS" property="status"/>
 		<result column="APPLY_DATE" property="applyDate"/>
+		<result column="REVIEW_STATUS" property="reviewStatus"/>
   </resultMap>
   
   <resultMap id="clubWishResultSet" type="ClubWish">
-  	<id column="WISH_NO" property="applyNo"/>
-	<result column="REF_TIME_NO" property="timeNo"/>
+  	<id column="WISH_NO" property="wishNo"/>
+	<result column="REF_CLUB_NO" property="clubNo"/>
 	<result column="USER_ID" property="userId"/>
   </resultMap>
 	
@@ -150,6 +151,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{item}
 		</foreach>
 	</update>
-
+	
+	<!-- 9. 찜 목록 조회 -->
+	<select id="selectWishList" resultMap="clubWishResultSet">
+		SELECT *
+		FROM CLUB_WISH
+		WHERE USER_ID=#{userId}
+		ORDER BY WISH_NO DESC
+	</select>
+	
+	<!-- 10.리뷰등록시 review_status 업데이트 -->
+	<update id="updateReviewStatus" parameterType="ClubReview">
+		UPDATE CLUB_APPLY
+		SET REVIEW_STATUS = 'Y'
+		WHERE USER_ID = #{reviewWriter}
+		AND REF_CLUB_NO = #{refClubNo}
+	</update>
+	
+	<!-- 10.리뷰삭제시 review_status 업데이트 -->
+	<update id="updateReviewStatus_del" parameterType="hashmap">
+		UPDATE CLUB_APPLY
+		SET REVIEW_STATUS = 'N'
+		WHERE USER_ID = #{userId}
+		AND REF_CLUB_NO = #{clubNo}
+	</update>
 	
 </mapper>

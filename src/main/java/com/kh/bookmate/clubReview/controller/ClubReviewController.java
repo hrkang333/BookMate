@@ -147,20 +147,25 @@ public class ClubReviewController {
 		return new GsonBuilder().create().toJson(cq);
 	}
 	
-	//4.qna answer답변 등록
+	//7.qna answer답변 등록
 	@ResponseBody
 	@RequestMapping(value = "insertQnaAnswer.cl", method = RequestMethod.POST)
 	public String insertQnaAnswer(ClubQnaAnswer cqa) {
-
-		System.out.println("컨트롤러-테스트 : " + cqa.getQnaAnswerContent());
-		System.out.println("컨트롤러-테스트 : " + cqa.getQnaNo());
-		System.out.println("컨트롤러-테스트 : " + cqa.getUserId());
-		
 		//1.qnaAnswer테이블에 insert
 		clubReviewService.insertQnaAnswer(cqa);
 		//2.qna테이블에 update하기(qnaanswer = 'y'로)
 		clubReviewService.updateQna(cqa.getQnaNo());
 		
 		return "success";  
+	}
+	
+	//8. qna 삭제
+	@ResponseBody
+	@RequestMapping(value = "deleteQna.cl", method = RequestMethod.POST)
+	public String deleteQna(int qnaNo, int type) {
+		
+		clubReviewService.deleteQna(qnaNo, type);
+
+		return "success";
 	}
 }

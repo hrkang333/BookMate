@@ -30,14 +30,10 @@ public class UserController {
 	@Autowired
 	private BookService bookService;
 	
-	@RequestMapping(value="/")
-	public String home(Model model) {
-
-		ArrayList<Book> hotBook = bookService.selectHotTopicBook();
-		model.addAttribute("hotBook", hotBook);
-		
-		return "index";
-	}
+//	@RequestMapping(value="/")
+//	public String home() {
+//		return "index";
+//	}
 	@RequestMapping(value="home.us")
 	public String logo(Model model) {
 

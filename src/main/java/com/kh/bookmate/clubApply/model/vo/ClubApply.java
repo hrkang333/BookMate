@@ -23,4 +23,6 @@ public class ClubApply {
 	private String applyParti;
 	private String status;
 	private Date applyDate;
+	//리뷰상태 주기(11/22)
+	private String reviewStatus;
 }

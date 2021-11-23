@@ -301,7 +301,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE USER_ID = #{userId}	
 	</select>
 	
-	<!-- 마이페이지2 - clubNo갯수 세기 -->
+	<!-- 마이페이지2, 마이페이지1 - clubNo갯수 세기 -->
 	<select id="selectClubNoList" parameterType="hashmap" resultType="_int">
 		SELECT REF_CLUB_NO
 		FROM ${table}

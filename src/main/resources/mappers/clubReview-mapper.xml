@@ -85,10 +85,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES(SEQ_CQANO.NEXTVAL, #{userId}, #{qnaNo}, #{qnaAnswerContent})
 	</insert>
 	
-	<update id="updateQna"  parameterType="_int">
+	<update id="updateQna" parameterType="_int">
 		UPDATE CLUBQNA
 		SET QNAANSWER = 'Y'
 		WHERE QNANO = #{qnaNo}
 	</update>
+	
+	<delete id="deleteQna" parameterType="_int">
+		DELETE FROM CLUBQNA 
+		WHERE QNANO = #{qnaNo}
+	</delete>
+	
+	<delete id="deleteQnaAnswer" parameterType="_int">
+		DELETE FROM CLUBQNAANSWER 
+		WHERE QNANO = #{qnaNo}
+	</delete>
+	
+	<update id="updateQnaAnswerStatus" parameterType="_int">
+		UPDATE CLUBQNA
+		SET QNAANSWER = 'N'
+		WHERE QNANO = #{qnaNo}
+	</update>
+	
 	
 </mapper>

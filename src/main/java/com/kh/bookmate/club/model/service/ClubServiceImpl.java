@@ -218,11 +218,11 @@ public class ClubServiceImpl implements ClubService {
 		return clubDao.selectListCount(sqlSession,userId, table);
 	}
 
-	@Override
-	public ArrayList<Club> selectList2(String userId, String table, PageInfo pi) {
-	
-		return clubDao.selectList2(sqlSession, userId, table, pi);
-	}
+//	@Override
+//	public ArrayList<Club> selectList2(String userId, String table) { //, PageInfo pi
+//	
+//		return clubDao.selectList2(sqlSession, userId, table);
+//	}
 
 	@Override
 	public void updateCondition(int clubNo, int condition) {
@@ -279,6 +279,13 @@ public class ClubServiceImpl implements ClubService {
 	public List<Club> selectList_search(SearchCondition sc, PageInfo pi) {
 		// TODO Auto-generated method stub
 		return clubDao.selectList_search(sqlSession, sc, pi);
+	}
+
+	//테스트용도 1123
+	@Override
+	public ArrayList<Club> selectMypageList1_2(List<Integer> clubNoList) {
+		// TODO Auto-generated method stub
+		return clubDao.selectMypageList1_2(sqlSession,clubNoList);
 	}
 
 	

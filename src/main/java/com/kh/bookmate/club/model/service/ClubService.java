@@ -62,7 +62,10 @@ public interface ClubService {
 
 	int selectListCount(String userId, String table);
 
-	ArrayList<Club> selectList2(String userId, String table, PageInfo pi);
+//	ArrayList<Club> selectList2(String userId, String table);//, PageInfo pi
+	
+	//마이페이지 1,2
+		ArrayList<Club> selectMypageList1_2(List<Integer> clubNoList);  //11/23 메소드수정
 
 	void updateCondition(int clubNo, int condition);
 
@@ -78,6 +81,8 @@ public interface ClubService {
 	int selectListCount_search(SearchCondition sc);
 
 	List<Club> selectList_search(SearchCondition sc, PageInfo pi);
+
+	
 
 	
 

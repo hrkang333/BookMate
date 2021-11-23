@@ -9,6 +9,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.bookmate.clubApply.model.vo.ClubApply;
+import com.kh.bookmate.clubApply.model.vo.ClubWish;
+import com.kh.bookmate.clubReview.model.vo.ClubReview;
 import com.kh.bookmate.common.PageInfo;
 
 @Repository
@@ -74,12 +76,22 @@ public class ClubApplyDao {
 		return sqlSession.update("clubApplyMapper.updateHeartCount2", clubNoList);
 	}
 
+	//마이페이지1 - 신청목록 조회
 	public List<ClubApply> selectApplyList(SqlSessionTemplate sqlSession, String userId, PageInfo pi) {
 
 		int offset = (pi.getCurrentPage()-1)*(pi.getBoardLimit());
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
 		return sqlSession.selectList("clubApplyMapper.selectApplyList",userId, rowBounds);
+	}
+	
+
+	//마이페이지2 - 찜목록 조회
+	public List<ClubWish> selectWishList(SqlSessionTemplate sqlSession, String userId, PageInfo pi) {
+		int offset = (pi.getCurrentPage()-1)*(pi.getBoardLimit());
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return sqlSession.selectList("clubApplyMapper.selectWishList",userId, rowBounds);
 	}
 
 	public int updateCancel(SqlSessionTemplate sqlSession, Map<String,Object> map) {
@@ -97,10 +109,24 @@ public class ClubApplyDao {
 		return sqlSession.selectList("clubApplyMapper.selectApplyList_clubNo", clubNo);
 	}
 
+	
 	public int updateUserApply(SqlSessionTemplate sqlSession, List<Integer> applyNoList) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("clubApplyMapper.updateUserApply", applyNoList);
 	}
+
+	//리뷰작성시 club_Apply테이블 review_status 필드 값 변경
+	public int updateReviewStatus(SqlSessionTemplate sqlSession, ClubReview cr) {
+	
+		return sqlSession.update("clubApplyMapper.updateReviewStatus", cr);
+	}
+
+	public int updateReviewStatus_del(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("clubApplyMapper.updateReviewStatus_del", map);
+	}
+
+	
 
 
 	

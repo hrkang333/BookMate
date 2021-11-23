@@ -401,7 +401,8 @@
 	      
 	        <!-- Modal Header -->
 	        <div class="modal-header">
-	          <h4 class="modal-title">문의</h4>
+	          <h4 class="modal-title" style="padding-right: 10px;">문의</h4>
+	          <img style="width:25px;" src="${pageContext.servletContext.contextPath }/resources/img/club/lock.png">
 	          <button type="button" class="close" data-dismiss="modal">&times;</button>
 	        </div>
 	        
@@ -412,8 +413,8 @@
 	          	<input type="hidden" id="refClubNo" name="refClubNo" value="${club.clubNo }">
 	          	<input type="hidden" id="userId" name="userId" value="${ loginUser.userId }">
 	          	<div style="font-size:22px; margin-bottom: 30px;"><c:out value="${club.clubTitle}"/></div>
-				<input type="text" name="qnaTitle" maxlength="30" style="margin-bottom: 15px; width: 100%; border: 0px; border-bottom: 1px solid gray;" placeholder="문의 제목(최대30자)"> 
-	          	<textarea maxlength="200" name="qnaContent" class="form-control" rows="7" style="resize: none;" placeholder="내용을 입력해주세요(최대 200자)"></textarea>
+				<input type="text" id="qnaTitleInsert" name="qnaTitle" maxlength="30" style="margin-bottom: 15px; width: 100%; border: 0px; border-bottom: 1px solid gray;" placeholder="문의 제목(최대30자)"> 
+	          	<textarea maxlength="200" id="qnaContentInsert" name="qnaContent" class="form-control" rows="7" style="resize: none;" placeholder="내용을 입력해주세요(최대 200자)"></textarea>
 	          </div>
 	        </div>
 		  </form>
@@ -435,9 +436,9 @@
 	        	<div>
 	        		<h4 id="qnaTitle" class="modal-title">문의 제목입니다.</h4>
 	        		<div>
-		          		<label id="qnaWriter" style="font-size:18px;">user03</label> &nbsp;
+		          		<label id="qnaWriter" style="font-size:18px;"></label> &nbsp;
 			          	<label id="qnaDate" style="font-size:15px;"></label> &nbsp;&nbsp;
-			          	<label id="qnaDelBtn" style="font-size:18px;" onclick="qnaDel()">삭제</label>
+			          	<label id="qnaDelBtn" onclick="qnaDel(1)" style="font-size:18px; cursor: pointer; text-decoration: underline; text-underline-position:under"></label>
 		          	</div>
 	        	</div>
 	          	
@@ -448,17 +449,18 @@
 	      <form id="qnaAnswerForm" action="insertQnaAnswer.cl" method="post">
 	        <div class="modal-body" style="color:black;">
 	          <div class="content_scroll" style="overflow: auto; max-height:400px;">
-	          	<input type="hidden" id="qnaNoForAnswer" name="qnaNo">
-	          	<input type="hidden" id="qnaAnswerUser" name="userId">
+	          	<input type="hidden" id="qnaNoForAnswer" name="qnaNo">  <!-- 각 문의를 클릭하여 모달창 열었을 때 해당 문의의 qnaNo -->
+	          	<input type="hidden" id="qnaAnswerUser" name="userId">  <!-- 각 문의를 클릭하여 모달창 열었을 때 해당 문의의 Writer작성자 -->
 	          	<div id="qnaContent" style="margin: 15px 0px 50px;">안녕하세요 제가 꼭 참여를 하고 싶은데 시간대가 참여하기 힘든 시간대더라구요 혹시 시간대 변경안되려나요? 답변 부탁드립니다!!</div>
 	          	<hr> 
 	          	<div id="hostAnswer">
 	          		<div id="answerContent_bef">
 	          			<p id="answerContent" style="margin: 20px 0px 20px;"></p>
-	          			<p id="answerDate"></p>
+	          			<span id="answerDate" style="text-align: right"></span> &nbsp;
+	          			<label id="qnaAnswerDelBtn" onclick="qnaDel(2)" style="text-align: right; font-size:18px; cursor: pointer; text-decoration: underline; text-underline-position:under"></label>
 	          		</div>
 	          		<div id="answerBox" style="position: relative;">
-	          			<textarea maxlength="200" name="qnaAnswerContent" class="form-control" rows="5" style="resize: none;" placeholder="답변을 입력해주세요(최대 200자)"></textarea>
+	          			<textarea maxlength="200" id="qnaAnswerContent" name="qnaAnswerContent" class="form-control" rows="5" style="resize: none;" placeholder="답변을 입력해주세요(최대 200자)"></textarea>
 	          			<button type="button" onclick="giveQnaAnswer()" style="position: absolute; bottom: 8%; right: 2%;">작성</button>
 	          		</div>
 	          	</div>
@@ -481,6 +483,41 @@
     		selectReviewList();  //처음 로딩됐을때 리뷰 화면에 붙이기
     		selectQnaList();  //처음 로딩됐을때 문의 화면에 붙이기
     	}) 
+    	
+    	//qna 리스트 화면에 붙이기
+    	function selectQnaList(){
+    		var clubNo = ${club.clubNo};
+    		
+    		$.ajax({
+    			url:"selectQnaList.cl",
+    			data:{
+    				clubNo : clubNo
+    			},
+    			type : "get",
+    			success:function(list){
+    				if(list.length == 0){
+    					$('#qnaTable').css('display','none');
+    					return;
+    				}
+    				$('#qnaTable').css('display','table');
+    				var result ="";
+    				$.each(list, function(i){
+    					result += '<tr>';
+    					if(list[i].qnaAnswer == 'N'){
+    						result += '<td style="text-align: center;">답변 대기중</td>';
+    					}else{
+    						result += '<td style="text-align: center;">답변완료</td>';
+    					}
+    					result += '<td style="cursor: pointer;" onclick="openAnswer('+list[i].qnaNo +','+"'"+list[i].userId+"'"+','+"'"+list[i].qnaAnswer+"'"+')">비밀글입니다.</td>'
+    					result += '<td style="text-align: center;">'+list[i].userId+'</td><td style="text-align: center;">'+list[i].createDate+'</td></tr>'
+    				})
+    				
+    	            $("#qnaTBody").html(result);
+    			},error:function(){
+    				console.log("ajax통신오류")
+    			}
+    		})
+    	} 
     	
     	//qna form 띄우기
     	function insertQnaForm(clubNo){
@@ -506,9 +543,14 @@
 				data: form1,
 				type : "post",
 				success:function(result){
+					console.log("ajax 통신 완료");
 					$('#qnaModal').modal("hide");
 					alert("문의가 등록되었습니다.");
-					console.log("ajax 통신 완료");
+					//문의 모달창 비워주기
+					$('#qnaTitleInsert').val("");
+					$('#qnaContentInsert').val("");
+					
+					selectQnaList();
 				}, error:function(result){
 					console.log("ajax 통신 실패")
 				}
@@ -531,7 +573,7 @@
 					type : "get",
 					success:function(qna){						
 						$('#qnaTitle').text(qna.qnaTitle);
-						$('#qnaWriter').text(qna.userid);
+						$('#qnaWriter').text(qna.userId);
 						$('#qnaDate').text(qna.createDate);
 						$('#qnaContent').text(qna.qnaContent);
 						$('#qnaNoForAnswer').val(qna.qnaNo);  //답변 작성 시 들고가려고
@@ -546,14 +588,23 @@
 							$('#answerDate').text(qna.answerDate);
 		    				$('#answerBox').css('display','none');
 		    			}else{
+		    				console.log("11")
 		    				$('#answerContent_bef').css('display','none');
 		    				if(userId == c_host){
+		    					console.log("22")
 		    					$('#answerBox').css('display','block');
 		    				}else{
+		    					console.log("33")
 		    					$('#answerContent_bef').css('display','none');
+		    					$('#answerBox').css('display','none');
 		    				}	    				
 		    			}
-	
+						
+						if(userId == $('#qnaWriter').text()){
+			    			$('#qnaDelBtn').text("삭제");
+			    		}else{
+			    			$('#qnaAnswerDelBtn').text("삭제");
+			    		}
 		    			$('#answerModal').modal("show");
 					
 					},error:function(){
@@ -573,17 +624,61 @@
 				data: form1,
 				type : "post",
 				success:function(result){
-					console.log(result)
-					$('#answerModal').modal("hide");
-					alert("답변이 등록되었습니다.")
-					selectQnaList();
 					console.log("ajax 통신 완료");
+					$('#answerModal').modal("hide");
+					alert("답변이 등록되었습니다.");
+					$('#qnaAnswerContent').val("");  //작성 후 다른 답글을 달기위해 클릭하면 textArea에 이전에 작성한 글이 들어가있어서 이렇게 수정함
+					selectQnaList();
+					
 				}, error:function(result){
 					console.log(result)
 					console.log("ajax 통신 실패");
 				}
 			});
 		}
+    	
+    	//문의qna 삭제하기
+    	function qnaDel(type){
+    		var qnaNo = parseInt($('#qnaNoForAnswer').val());  //모달창 열때 qnaNo 넣어두었음
+    		
+    		if(type == 1){
+    			if(!confirm("문의를 삭제하시겠습니까?")){
+    				return;
+    			}
+    		}else{
+    			if(!confirm("문의 답변을 삭제하시겠습니까?")){
+    				return;
+    			}
+    		}
+    		$.ajax({
+				url:"deleteQna.cl",
+				data:{
+					qnaNo : qnaNo,
+					type : type
+				},
+				type: "post",
+				success:function(result){
+					console.log("ajax 통신 완료");
+					$('#answerModal').modal("hide");
+					
+					if(type == 1){
+						alert("문의가 삭제되었습니다.");
+					}else{
+						alert("문의답변이 삭제되었습니다.");
+						//답변 삭제 후 (1)답변창 안보이게하기 (2)답변등록창 보이게하기
+						$('#answerContent_bef').css('display','none');
+						$('#answerBox').css('display','block');	
+						$('#qnaAnswerContent').val("");
+					}
+					selectQnaList(); 
+						
+				},error:function(){
+					console.log("ajax 통신 실패")
+				}
+			})   		
+    	}
+
+    	
     	
     	//리뷰작성
 	    function insertReview() {
@@ -613,41 +708,6 @@
 	        });
 	    }
 
-    	//qna 리스트 화면에 붙이기
-    	function selectQnaList(){
-    		var clubNo = ${club.clubNo};
-    		
-    		$.ajax({
-    			url:"selectQnaList.cl",
-    			data:{
-    				clubNo : clubNo
-    			},
-    			type : "get",
-    			success:function(list){
-    				if(list.length == 0){
-    					$('#qnaTable').css('display','none');
-    					return;
-    				}
-    				var result ="";
-    				$.each(list, function(i){
-    					result += '<tr>';
-    					if(list[i].qnaAnswer == 'N'){
-    						result += '<td style="text-align: center;">답변 대기중</td>';
-    					}else{
-    						result += '<td style="text-align: center;">답변완료</td>';
-    					}
-    					result += '<td style="cursor: pointer;" onclick="openAnswer('+list[i].qnaNo +','+"'"+list[i].userId+"'"+','+"'"+list[i].qnaAnswer+"'"+')">비밀글입니다.</td>'
-    					result += '<td style="text-align: center;">'+list[i].userId+'</td><td style="text-align: center;">'+list[i].createDate+'</td></tr>'
-    				})
-    				
-    	            $("#qnaTBody").html(result);
-    				
-    			},error:function(){
-    				console.log("ajax통신오류")
-    			}
-    		})
-    	} 
-    	
     	//리뷰리스트 화면에 붙이기
     	function selectReviewList(){
     		var clubNo = ${club.clubNo};

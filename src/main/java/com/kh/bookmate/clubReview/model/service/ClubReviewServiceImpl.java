@@ -1,11 +1,14 @@
 package com.kh.bookmate.clubReview.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.bookmate.clubApply.model.dao.ClubApplyDao;
 import com.kh.bookmate.clubReview.model.dao.ClubReviewDao;
 import com.kh.bookmate.clubReview.model.vo.ClubQna;
 import com.kh.bookmate.clubReview.model.vo.ClubQnaAnswer;
@@ -19,6 +22,9 @@ public class ClubReviewServiceImpl implements ClubReviewService {
 	
 	@Autowired
 	private ClubReviewDao clubReviewDao;
+	
+	@Autowired
+	private ClubApplyDao clubApplyDao;
 	
 	@Override
 	public int selectParticipate(int clubNo, String userId) {
@@ -34,9 +40,12 @@ public class ClubReviewServiceImpl implements ClubReviewService {
 
 	@Override
 	public void insertReview(ClubReview cr) {
-		// TODO Auto-generated method stub
+		//1) clubReview테이블에 넣기
 		int result = clubReviewDao.insertReview(sqlSession,cr);
-		if(result < 0) {
+		//2) clubapply테이블 review_status 필드 update
+		int result2 = clubApplyDao.updateReviewStatus(sqlSession, cr);
+		
+		if(result < 0 || result2<0) {
 			//error
 		}
 	}
@@ -49,9 +58,14 @@ public class ClubReviewServiceImpl implements ClubReviewService {
 
 	@Override
 	public void deleteReview(int clubNo, String userId) {
-		// TODO Auto-generated method stub
-		int result = clubReviewDao.deleteReview(sqlSession,clubNo,userId);
-		if(result < 0) {
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("userId", userId);
+		map.put("clubNo", clubNo);
+		
+		int result = clubReviewDao.deleteReview(sqlSession,map);
+		int result2 = clubApplyDao.updateReviewStatus_del(sqlSession, map);
+		
+		if(result < 0 || result2<0) {
 			//error
 		}
 	}
@@ -91,4 +105,21 @@ public class ClubReviewServiceImpl implements ClubReviewService {
 			//error
 		}
 	}
+
+	@Override
+	public void deleteQna(int qnaNo, int type) {
+		int result;
+		int result2 = -1;
+		if(type == 1) {
+			result = clubReviewDao.deleteQna(sqlSession,qnaNo);
+		}else {
+			//CLUBQNAANSWER테이블에서 삭제 & CLUBQNA테이블 QNAANSWER상태 'N'으로 바꾸기
+			result = clubReviewDao.deleteQnaAnswer(sqlSession,qnaNo);
+			result2 = clubReviewDao.updateQnaAnswerStatus(sqlSession,qnaNo);
+		}
+		if(result < 0 || result2 < 0) {
+			//error
+		}
+	}
+
 }
