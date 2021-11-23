@@ -7,6 +7,7 @@
 
 <head>
 <title>[책장메이트] - 판매자 페이지</title>
+<link rel="icon" href="resources/img/logo1.png" type="image/png">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -925,7 +926,9 @@
 					$("input[name=UbookImgFile]")[0].files[0]);
 			//var form = $('.updateUbook').serialize();
 			//form += ("&UbookImgFile=" + $("input[name=UbookImgFile]").val());
-			if (confirm("해당 도서를 수정하시겠습니까?")) {
+			
+			
+			if (confirm("해당 도서를 수정하시겠습니까?")) {				
 				$
 						.ajax({
 							type : "POST",

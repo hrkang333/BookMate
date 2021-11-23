@@ -11,6 +11,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>[책장메이트] 책장메이트 메인</title>
 
+<link rel="icon" href="resources/img/logo1.png" type="image/png">
 </head>
 
 <body style="width: 1200px; margin: auto;">
@@ -33,11 +34,11 @@
               <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                   <!--================ 도서 슬라이드 =================-->
-                  <div class="container" style="padding-top: 20px; width: 840px;">
+                  <div class="container" style="padding-top: 20px; width: 870px;">
                     <div class="row">
                       <div class="col-md-12" style="background-color: #fff; border-radius: 15px;">
 				   		<c:if test="${fn:length(randomBookList) > 8}">
-                        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                        <div id="myCarousel" class="carousel slide" data-ride="carousel" style="padding : 0 0 0 0px !important;">
                           <!-- 하단 슬라이드 페이지 표시 -->
                           <ol class="carousel-indicators">
                             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -59,9 +60,10 @@
                               <div class="row">
 	                			<c:forEach items="${randomBookList}" var="list" begin="${i}" end="${i+7}">
                                 <div class="col-sm-3">
-                                  <div class="thumb-wrapper" onclick="location.href='ubookDetailTest.ub?ubookNo=${ list.ubookNo }&bSellerNo=${ list.BSellerNo}'">
+                                  <div class="card text-center card-product"style="width:180px; height: 350px; background-color: #fbf5f5;" onclick="location.href='ubookDetailTest.ub?ubookNo=${ list.ubookNo }&bSellerNo=${ list.BSellerNo}'">
                                     <div class="img-box">
-                                      <img src="${pageContext.servletContext.contextPath }/resources/images/Ubookimg/${list.ubookImg }" class="media-photo" style="width: 145px; height: auto;"
+                                      <img src="${pageContext.servletContext.contextPath }/resources/images/Ubookimg/${list.ubookImg }" class="media-photo"
+                                       style="width: 145px; height: 215px; cursor: pointer; padding-top: 20px;"
                                         alt="">
                                     </div>
                                     <div class="thumb-content">

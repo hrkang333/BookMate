@@ -1,8 +1,10 @@
 package com.kh.bookmate.book.model.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.kh.bookmate.book.model.vo.Book;
+import com.kh.bookmate.ubook.model.vo.Ubook;
 
 public interface BookService {
 
@@ -25,5 +27,8 @@ public interface BookService {
 	int selectCategoryBestRank(Book book);
 
 	Book selectCheckISBN(String bookISBN);
+
+	//화제의 신간
+	ArrayList<Book> selectHotTopicBook();
 
 }

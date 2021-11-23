@@ -8,6 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>등록 도서 조회</title>
+<link rel="icon" href="resources/img/logo1.png" type="image/png">
         <script>
             //선택한 독서모임 multiple 삭제하기
             function deleteUbook(ubookNo){
