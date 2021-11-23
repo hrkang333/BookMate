@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.bookmate.payment.model.vo.Payment;
 import com.kh.bookmate.payment.model.vo.PaymentDetail;
+import com.kh.bookmate.shoppingbasket.model.vo.ShoppingBasket;
 
 @Repository
 public class PaymentDao {
@@ -128,6 +129,16 @@ public class PaymentDao {
 //	public void updateUserReturnPoint(SqlSessionTemplate sqlSession, Payment p) {
 //		sqlSession.selectOne("paymentMapper.updateUserReturnPoint", p);
 //	}	
+	public int updateBookStock(SqlSessionTemplate sqlSession, ShoppingBasket basket) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("paymentMapper.updateBookStock",basket);
+	}
+
+	public int checkStock(SqlSessionTemplate sqlSession, String bookISBN) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("paymentMapper.checkStock",bookISBN);
+	}
+
 
  
 	

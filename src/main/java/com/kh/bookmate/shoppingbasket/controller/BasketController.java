@@ -72,8 +72,6 @@ public class BasketController {
 		cartItemList = shoppingBasketService.selectBookList(basketList);
 		}
 		mo.addAttribute("basketList", basketList);
-		System.out.println(basketList);
-		System.out.println(cartItemList);
 		mo.addAttribute("cartItemList", cartItemList);
 		mo.addAttribute("shipDate", shipDate);
 
@@ -97,6 +95,7 @@ public class BasketController {
 		PaymentMethod paymentMethod = null;
 		List<PaymentMethodDetail> PMDetailList = null;
 		int totalCost = 0;
+	
 		int totalGetPoint = 0;
 		String shippingName, shippingAddress, shippingPhone;
 		String[] shippingAddressArr;
@@ -110,7 +109,6 @@ public class BasketController {
 		//주문 페이지로 가져갈 장바구니 상품들과 주문테이블에 표시될 금액 정보 처리
 		cartItemList = shoppingBasketService.selectBookList(newBasketList);
 		
-		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaa"+newBasketList.size());
 		
 		for (int i = 0; i < newBasketList.size(); i++) {
 			tempBook = cartItemList.get(i);
@@ -121,9 +119,8 @@ public class BasketController {
 			orderDetail.setDeliveryDate(ShipDate());
 			orderList.add(orderDetail);
 			totalCost += (int) (tempBook.getBookPrice() * 0.9 * tempBasket.getQuantity());
+			totalGetPoint += (int) ((tempBook.getBookPrice()  * tempBasket.getQuantity())* 0.05);
 		}
-		totalGetPoint = (int) (totalCost * 0.05);
-
 		
 		//주문 페이지로 가져갈 주소록 처리
 		abook = addressBookService.selcetAddressBook(user.getUserId());

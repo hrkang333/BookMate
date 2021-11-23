@@ -7,6 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>[책장메이트] - 도서 상세</title>
+<link rel="icon" href="resources/img/logo1.png" type="image/png">
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style type="text/css">
