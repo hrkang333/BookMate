@@ -170,5 +170,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateUserPoint" parameterType="Payment">
 	UPDATE USERS SET POINT = POINT + #{usePoint} WHERE USER_ID = #{user_Id}
 	</update>
+	
+	<update id="updateBookStock" parameterType="ShoppingBasket">
+	UPDATE BOOK SET BOOKSTOCK = BOOKSTOCK - #{quantity} WHERE BOOKISBN = #{bookISBN}
+	</update>
+	
+	<select id="checkStock" resultType="_int">
+	SELECT BOOKSTOCK FROM BOOK WHERE BOOKISBN = #{bookISBN}
+	</select>
+	
+	
+	
+	
 </mapper>
 

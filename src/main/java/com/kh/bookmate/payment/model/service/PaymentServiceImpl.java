@@ -92,7 +92,7 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public void insertPayment(Payment temp, List<PaymentDetail> list, List<ShoppingBasket> deleteBasketList) {
 		
-		//결제 정보 등록, 결제 세부(도서)정보 등록, 결제후 장바구니 삭제, 결제후 유저 포인트 업데이트
+		//결제 정보 등록, 결제 세부(도서)정보 등록, 결제후 장바구니 삭제, 결제후 유저 포인트 업데이트, 결제후 도서 재고 변동
 		
 		int result = paymentDao.insertPayment(sqlSession,temp);
 		if(result < 0) {
@@ -119,7 +119,12 @@ public class PaymentServiceImpl implements PaymentService {
 			if(result4 < 0) {
 				throw new RuntimeException("유저 포인트 업데이트 오류");
 			}
-		
+			for(ShoppingBasket basket : deleteBasketList) {
+				int result5 = paymentDao.updateBookStock(sqlSession,basket);
+				if(result5 < 0) {
+					throw new RuntimeException("결제후 재고 감소 오류");
+				}
+			}
 	}
 
 	
@@ -155,35 +160,16 @@ public class PaymentServiceImpl implements PaymentService {
 		return cList;
 	}
 
-
-
-
 	
 	
 	
-	
-	
+	@Override
+	public boolean checkStock(ShoppingBasket basket) {
+		int stock = paymentDao.checkStock(sqlSession,basket.getBookISBN());
+		return stock >= basket.getQuantity() ;
+	}
 
 
-	
-
-
-	
-
-
-	 
-
-	
-	
-	
-
- 
-
-	
-
-
-
-	
 	
 	
 }

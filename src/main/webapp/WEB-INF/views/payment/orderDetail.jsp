@@ -363,7 +363,6 @@ cursor: pointer;
 				
 
 				$('#selectPayMethod').val(data.paymentMethodDetailNo)
-				console.log(data.paymentMethodDetailNo)
 				savedMethodIndex = selectMethodIndex
 			},
 			error : function(e) {
@@ -482,9 +481,11 @@ cursor: pointer;
 	        $('.selectPassword').not($('#selectPassword_'+num)).prop("checked",false)
 	    }
 	  
-	  
+	  // 저장된 결제수단 사용 비밀번호 입력시
 	    function payInputPwd() {
-	    	
+	    	if(parseInt(methodStatus)==4){
+	    		$('#paymentMethod').val(mainPayment)
+	    	}
 	    	$.ajax({
 	    		
 	    		url : "checkPayPwd",
@@ -520,8 +521,11 @@ cursor: pointer;
 	    	
 			 /*  $('#insertPaymentForm').submit() */
 		}
-	    
+	    //결제 버튼 클릭시
 	   function moveInsertPayment() {
+	    	if(!checkStock()){
+	    		 return false
+	    	}
 		   
 		   if(!$('#orderCheck').prop("checked")){
 			   alert("주문 내역 확인 동의를 체크해 주십시오")
@@ -570,6 +574,33 @@ cursor: pointer;
 			$('#moveShoppingCartFomr').submit();
 		}
 	}
+	   
+	   function checkStock() {
+		   var formData = $("#checkStockForm").serialize();
+		   var check = false;
+		  
+	        $.ajax({
+	            url : "checkStockForm.pm", 
+	            type : 'POST', 
+	            cache: false,
+	            data : formData, 
+	            async:false, 
+	            success : function(str) {
+	                if(str != "pass"){
+	                	alert("주문하시려는 도서의 재고가 부족합니다\n확인하시고 다시 결제해 주십시오")
+	                	check = false;
+	                	
+	                }else{
+	                	check = true;
+	                }
+	            }, 
+	    
+	            error : function(e) {
+	                alert ("재고 체크중 ajax통신 오류");
+	            }
+	        }); 
+	        return check;
+	}
 </script>
 </head>
 <body style="width: 1200px; margin: auto;">
@@ -604,8 +635,11 @@ cursor: pointer;
 						<input type="hidden" name="paymentDetailList[${status.index}].salePrice" value="${list.salePrice}">
 						<input type="hidden" name="paymentDetailList[${status.index}].getPoint" value="${list.getPoint}">
 						<input type="hidden" name="basketList[${status.index}].basketNo" value="${requestScope.deleteBasketList[status.index].basketNo}">
+						<input type="hidden" name="basketList[${status.index}].quantity" value="${requestScope.deleteBasketList[status.index].quantity}">
+						<input type="hidden" name="basketList[${status.index}].bookISBN" value="${requestScope.deleteBasketList[status.index].bookISBN}">
 						
 						</c:forEach>
+	
 	
 					
 					<div id="userAccountDiv">
@@ -633,6 +667,12 @@ cursor: pointer;
 
 					</div>
 					</form>
+					<form action="checkStock" method="post" id="checkStockForm">
+						<c:forEach items="${requestScope.deleteBasketList}" var="list"	varStatus="status">
+						<input type="hidden" name="basketList[${status.index}].quantity" value="${list.quantity}">
+						<input type="hidden" name="basketList[${status.index}].bookISBN" value="${list.bookISBN}">
+						</c:forEach>
+					</form>		
 					<hr>
 				</div>
 				<br>

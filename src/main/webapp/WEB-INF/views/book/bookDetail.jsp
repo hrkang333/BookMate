@@ -909,9 +909,19 @@ $(function() {
 		<div style="display: flex;">
 
 			<div style="width: 400px;">
+				<c:choose>
+				<c:when test="${requestScope.book.bookStock>0}">
 				<img
 					src="${pageContext.servletContext.contextPath }/resources/images/book_img/${requestScope.book.bookMainImg}"
 					alt="" style="width: 300px; height: auto;">
+				</c:when>
+				<c:otherwise>
+				<img
+					src="${pageContext.servletContext.contextPath }/resources/images/book_img/soldout.png"
+					alt="" style="width: 300px; height: auto;">
+				</c:otherwise>
+				</c:choose>
+				
 			</div>
 			<div>
 				<br>
@@ -974,6 +984,7 @@ $(function() {
 		<br>
 		<div style="display: flex;">
 
+			<c:if test="${requestScope.book.bookStock>0}">
 			<div style="width: 400px;">
 
 				주문수량 : <input type="text" style="width: 30px; text-align: right;"
@@ -992,6 +1003,7 @@ $(function() {
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a
 					href="bookEnrollForm.book">도서 입고로 이동</a>
 			</div>
+			</c:if>
 		</div>
 		<br>
 		<br>
@@ -1134,6 +1146,10 @@ $(function() {
         </div>
         </div>
         <br>
+        <c:if test="${empty requestScope.reviewList}">
+        <br><br>
+       	<div style="font-size: 30px;display: flex;"><p style="margin: auto;">등록된 글이 없습니다.</p></div>
+        </c:if>
 		<%-- <input type="hidden" name="reviewKind" id="reviewKind" value="${request.reviewKind}"> --%>
 		<c:forEach items="${requestScope.reviewList}" var="list" varStatus="status">
 		<div id="reviewInnerWrap" class="reviewInnerWrap">
@@ -1237,7 +1253,7 @@ $(function() {
         </div>
         </div>
         <br>
-
+	
     <div id="qnaWrap">
     	<c:set var="array">상품, 배송, 교환, 반품/환불, 기타</c:set>
         <table id="qnaViewTable" class="table table-hover" style="width: 800px; text-align: center;">
@@ -1324,8 +1340,12 @@ $(function() {
                                 </tfoot>
 								
                             </table>
-    </div>
-    
+                            <c:if test="${empty requestScope.qnaList}">
+       						 <br><br>
+					       	<div style="font-size: 30px;display: flex;width: 800px "><p style="margin: auto;">등록된 글이 없습니다.</p></div>
+					        </c:if>
+					    </div>
+					    
     
     
     <br><br><br><br><br><br>
