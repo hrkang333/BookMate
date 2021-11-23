@@ -46,13 +46,13 @@ function priceSum() {
 	var savePoint = 0;
 	$('.price').each(function(i,item) {
 		if($("input:checkbox[id=checkBox"+i+"]").is(":checked")==true){
-			
+		alert(item.value)
 		price.push(item.value)
 		}
 	})
 	$('.quantity').each(function(i,item) {
 		if($("input:checkbox[id=checkBox"+i+"]").is(":checked")==true){
-		
+			alert(item.value)
 		quantity.push(item.value)
 		}
 	})
@@ -136,12 +136,14 @@ function deleteBasket(index,basketNo) {
 			
 			url : "deleteBasket.sc",
 			type: "post",
+			async:false,
 			data : {
 				basketNo : basketNo
 			},
 			success : function(str) {
 				if(str=="pass"){
 					console.log("장바구니 삭제 성공.")
+					priceSum();
 				}else{
 					alert("장바구니 삭제에 실패했습니다.")
 				}
@@ -153,7 +155,7 @@ function deleteBasket(index,basketNo) {
 			
 		})
 
-		priceSum();
+		
 	}
 }
 
