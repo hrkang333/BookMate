@@ -1,8 +1,12 @@
 package com.kh.bookmate.user.model.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.bookmate.payment.model.vo.Payment;
+import com.kh.bookmate.payment.model.vo.PaymentDetail;
 import com.kh.bookmate.user.model.vo.User;
 @Repository
 public class UserDao {
@@ -46,11 +50,21 @@ public class UserDao {
 		return sqlSession.selectOne("userMapper.findPwd", u);
 	}
 
-	public void returnUserPoint(SqlSessionTemplate sqlSession, User u) {
-		sqlSession.update("userMapper.returnUserPoint", u);
-  }
+//	public void returnUserPoint(SqlSessionTemplate sqlSession, User u) {
+//		sqlSession.update("userMapper.returnUserPoint", u);
+//  }
+
 	public int updatePoint(SqlSessionTemplate sqlSession, User user) {
-		// TODO Auto-generated method stub
-		return sqlSession.update("userMapper.updatePoint", user);
+	      // TODO Auto-generated method stub
+	      return sqlSession.update("userMapper.updatePoint", user);
+	   }
+
+	public int updateUserReturnPoint(SqlSessionTemplate sqlSession, List<Object> pointAnduserId) {
+
+		return sqlSession.update("userMapper.updateUserReturnPoint", pointAnduserId);
+
+		}
+
+		
 	}
-}
+

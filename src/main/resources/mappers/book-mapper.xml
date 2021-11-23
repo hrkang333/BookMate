@@ -54,6 +54,13 @@ INSERT INTO SELLDATE VALUES(#{bookISBN},#{bookRating}*10,SYSDATE)
 UPDATE BOOK SET BOOKRATING = #{bookRating} , BOOKRATINGCOUNT = #{bookRatingCount} WHERE BOOKISBN = #{bookISBN}
 </update>
 
+	
+	<update id="updateBookStock" parameterType="PaymentDetail">
+		<!-- 북조건에 bookStock을 바꾼다   -->	
+		UPDATE BOOK SET BOOKSTOCK  = BOOKSTOCK + #{quantity} 
+		WHERE BOOKISBN = #{bookISBN}
+	
+	</update>
 <!-- 화제의 신간 -->
 <select id="selectHotTopicBook" resultType="Book">
 	<![CDATA[

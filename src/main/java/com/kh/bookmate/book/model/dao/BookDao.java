@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.bookmate.book.model.vo.Book;
+import com.kh.bookmate.payment.model.vo.PaymentDetail;
 
 @Repository
 public class BookDao {
@@ -59,9 +60,13 @@ public class BookDao {
 		return sqlSession.update("bookMapper.updateBookRating" ,book);
 	}
 
+	public void updateBookStock(SqlSessionTemplate sqlSession, PaymentDetail pd) {
+		sqlSession.update("bookMapper.updateBookStock",pd);
+		
 	//화제의 신간
 	public ArrayList<Book> selectHotTopicBook(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("bookMapper.selectHotTopicBook");
+
 	}
 
 	

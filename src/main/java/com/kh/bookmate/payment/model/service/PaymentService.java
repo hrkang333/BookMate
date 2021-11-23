@@ -42,6 +42,14 @@ public interface PaymentService {
 	boolean checkStock(ShoppingBasket basket);
 
 
+
+	
+
+
+	void updateReturn(int paymentDetailNo, Payment p);
+
+
+
 	
 	
 	

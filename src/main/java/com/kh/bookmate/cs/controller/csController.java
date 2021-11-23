@@ -3,14 +3,14 @@ package com.kh.bookmate.cs.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.kh.bookmate.book.model.service.BookService;
 import com.kh.bookmate.exchange_item.model.service.ExchangeItemService;
 import com.kh.bookmate.exchange_item.model.vo.ExchangeItem;
 import com.kh.bookmate.payment.model.service.PaymentService;
@@ -38,6 +38,11 @@ public class csController {
 	
 	@Autowired
 	private UserService userService;
+	
+	
+	@Autowired
+	private BookService bookService;
+	
 	
 	@RequestMapping("goAdminMain.cs")
 	public String adminExchange() {
@@ -122,39 +127,39 @@ public class csController {
 	     List<PaymentDetail> orderDetailList = returnBookService.selectReturnOrderDetailNoList(returnDetailNoList);
 		model.addAttribute("returnBookList",returnBookList);
 		model.addAttribute("orderDetailList",orderDetailList);
+//		model.addAttribute("paymentNo",paymentNo);
 		
 		
 		return "cs/adminReturn";
 	}
 	
-	//[관리자] 반품 교환/반품 대기중인 애들 반품 완료로 업데이트 시켜주기 반품완료는 5번
+	//[관리자] 반품 교환/반품 대기중인 애들
 	@RequestMapping("updateReturnList.cs") 
-	public String updateReturnList(int paymentDetailNo, Model model, HttpSession session ) {
+	public String updateReturnList(int paymentDetailNo, Model model, Payment p) {
 		
-	
-		returnBookService.updateReturnList(paymentDetailNo); // 관리자화면 환불시 승인시 반품완료로 업데이트 
-		paymentService.updateUserReList(paymentDetailNo); // 사용자화면 환불시 반품완료 상태값 변경 
 		
-		Payment p = new Payment();
-		int returnPoint = (-1) * p.getTotalGetPoint(); //뺄거라서 마이너스로 들고감 
+		paymentService.updateReturn(paymentDetailNo, p );
+		
+		
+		
+//		Payment p = new Payment();
+//		int returnPoint = (-1) * p.getTotalGetPoint(); //뺄거라서 마이너스로 들고감 
 	//	paymentService.updateUserPoint(returnPoint);
-		
-		
-//		1. paymentdetailNo 가지고가서 paymentDetail 객체 조회해오기
+			
 //		2. paymentDetail 객체 가지고 가서 book에서 isbn, quantity이용해서 재고 +해주기
-		//재고빠지는거..BOOKSTOCK
-		//paymentNo 얻으려면 
 		
 		
-		PaymentDetail pd = new PaymentDetail();
-		pd.getQuantity();
-		pd.getBookISBN();
+		//1. paymentdetailNo 가지고가서 paymentDetail 객체 조회해오기
+		//PaymentDetail pd = paymentService.selectPaymentDetail(paymentDetailNo); 임플에서 처리해줘서 지우는 
 		
+
+		//int로 paymentDetail 객체를 가지고 와서 다시 book 테이블에 들고가서 재고를 바꿔줘야한다... 
 		
-		
+	//	PaymentDetail pd = paymentService.selectPaymentDetailNo();
+	//	bookService.returnUserPoint(pd);
 		
 		//책살때 유저가 사용했던 포인트, 재고, 책 샀을때 적립되었던 책에대한 포인트 다 바꿔줘야됨
-		//byreview 라는 테이블 userid BOOKISBN 들고가서 지움..? 조회먼저하고 
+		//buyreview 라는 테이블 userid BOOKISBN 들고가서 지움..? 조회먼저하고 
 		//맨위에꺼만 셀렉트해서 지움..? delete 로 지움..? 
 		
 		

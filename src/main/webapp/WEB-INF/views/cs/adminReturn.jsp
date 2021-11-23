@@ -38,8 +38,8 @@
 
 
 		<tr>
-			<th>교환 상세주문 번호</th>
-			<th>교환 주문 번호</th>
+			<th>환불 상세주문 번호</th>
+			<th>환불 주문 번호</th>
 			<th>성함</th>
 			<th>책 제목 </th>
 			<th>주문 수량</th>
@@ -62,8 +62,7 @@
 				<td><c:out value="${pd.bookTitle}"/></td>
 				<td><c:out value="${pd.quantity}"/>개</td> 
 				
-	 	
-				
+			
 				<td>
 			
 			<c:choose> 
@@ -75,13 +74,17 @@
 				
 				
 				<td><button type="submit" id="${status.index}" onclick="reButton(this);">승인 </button></td>
+				<c:out value="${returnItem.user_Id }" />
+				<c:out  value="${pd.getPoint }"/>
 		</tr>
 	</c:forEach>
 
 	</table>
+
 	<form action="updateReturnList.cs" method="post" id="reForm">
 	<input type="hidden" name="paymentDetailNo" id="returnThing"/>
-					
+		
+				
 	</form>
 
 	<script>
@@ -91,7 +94,7 @@
 		var exId = "${sessionScope.loginUser.userId}"
 		var index = $(e).attr('id'); //버튼을 클릭했을때 id 들고와라 
 	
-		var pno =$('#pno'+ index ).text(); //span으론 텍스트 뽑아야 온다. 
+		var pno =parseInt($('#pno'+ index ).text()); //span으론 텍스트 뽑아야 온다. 
 		console.log(index)
 		console.log(pno)
 		$('#returnThing').val(pno);
