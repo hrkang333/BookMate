@@ -1,5 +1,6 @@
 package com.kh.bookmate.book.model.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -56,6 +57,11 @@ public class BookDao {
 	public int updateBookRating(SqlSessionTemplate sqlSession, Book book) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("bookMapper.updateBookRating" ,book);
+	}
+
+	//화제의 신간
+	public ArrayList<Book> selectHotTopicBook(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("bookMapper.selectHotTopicBook");
 	}
 
 	

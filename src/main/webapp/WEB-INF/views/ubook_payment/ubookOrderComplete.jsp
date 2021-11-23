@@ -11,6 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>[책장메이트] - 결제완료</title>
+<link rel="icon" href="resources/img/logo1.png" type="image/png">
 
 </head>
 <body style="width: 1000px; margin: 0 auto;">

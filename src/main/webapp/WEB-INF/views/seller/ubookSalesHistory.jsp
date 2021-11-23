@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>판매내역</title>
+<link rel="icon" href="resources/img/logo1.png" type="image/png">
 </head>
 <body>
 	<!-- 판매 내역 -->

@@ -8,7 +8,7 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta http-equiv="X-UA-Compatible" content="ie=edge">
             <title>[책장메이트] - 온라인 중고도서장터</title>
-            <link rel="icon" href="resources/img/Fevicon.png" type="image/png">
+			<link rel="icon" href="resources/img/logo1.png" type="image/png">
             <link rel="stylesheet" href="resources/vendors/bootstrap/bootstrap.min.css">
             <link rel="stylesheet" href="resources/vendors/fontawesome/css/all.min.css">
             <link rel="stylesheet" href="resources/vendors/themify-icons/themify-icons.css">
@@ -38,7 +38,7 @@
 
         <body style="width: 1200px; margin: auto;">
             <!--================ 헤더(로고 + 검색 + 로그인 된 회원) =================-->
-            <header class="header_area1" style="width: 100%; z-index: 9999; position: fixed;">
+            <header class="header_area1" style="width: 1200px; z-index: 9999; position: fixed;">
                 <div class="main_menu1" style="background-color: #ffffff !important;">
                     <nav class="navbar1 navbar-expand-lg1 navbar-light1" style="margin-bottom: 0px !important;">
                         <div class="row" style="margin-left: 0; margin-right: 0;">

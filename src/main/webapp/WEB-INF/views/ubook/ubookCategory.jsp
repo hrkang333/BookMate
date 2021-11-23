@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>[책장메이트]</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <link rel="icon" href="resources/img/Fevicon.png" type="image/png">
+<link rel="icon" href="resources/img/logo1.png" type="image/png">
   <link rel="stylesheet" href="resources/vendors/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="resources/vendors/fontawesome/css/all.min.css">
   <link rel="stylesheet" href="resources/vendors/themify-icons/themify-icons.css">
