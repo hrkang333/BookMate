@@ -61,14 +61,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="cancelMyOrder" resultType="PaymentDetail" parameterType="_int">
 		UPDATE PAYMENTDETAIL
 		SET DELIVERYSTATUS = 4
-		WHERE PAYMENTDETAILNO = ${paymentDetailNo}
+		WHERE PAYMENTDETAILNO = #{paymentDetailNo}
 	</select>  
 	
 		<!-- 구매확정 상태로 변경하기 -->
 	<select id="confirmOrder" resultType="PaymentDetail" parameterType="_int" >
 		UPDATE PAYMENTDETAIL
 		SET DELIVERYSTATUS = 8
-		WHERE PAYMENTDETAILNO = ${paymentDetailNo}
+		WHERE PAYMENTDETAILNO = #{paymentDetailNo}
 	</select>
 	
 	
@@ -82,7 +82,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 교환페이지에 있는 정보 들고오기 2  -->
 	<select id="selectPaymentNo" resultType="Payment">
 		SELECT * FROM PAYMENT
-		WHERE PAYMENTNO=${paymentNo}
+		WHERE PAYMENTNO=#{paymentNo}
 	</select>
 
 
@@ -91,7 +91,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateUserExList" parameterType="PaymentDetail">
 		UPDATE PAYMENTDETAIL
 		SET DELIVERYSTATUS = 6
-		WHERE PAYMENTDETAILNO = ${paymentDetailNo}
+		WHERE PAYMENTDETAILNO = #{paymentDetailNo}
 	</update>
 	
 	
@@ -126,10 +126,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 </update>
 	 
 	 <!--[사용자] 반품완료   -->
-	<update id="updateUserReList" parameterType="PaymentDetail">
+	<update id="updateUserReList" parameterType="_int">
 		UPDATE PAYMENTDETAIL
 		SET DELIVERYSTATUS = 5
-		WHERE PAYMENTDETAILNO = ${paymentDetailNo}
+		WHERE PAYMENTDETAILNO = #{paymentDetailNo}
 	</update>
 	
 	<select id="cancelList" resultType="PaymentDetail">
@@ -139,7 +139,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	</select>
 
-
+	<!-- 페이먼트 디테일넘버 가지고 가서 페이먼트 디테일 객체 조회하기  -->
+	<select id="selectPaymentDetail" parameterType="_int" resultType="PaymentDetail">
+	
+	SELECT * FROM PAYMENTDETAIL
+	WHERE PAYMENTDETAILNO = #{paymentDetailNo}
+	
+	</select>
+	
+	<select id="selectPayment" parameterType="Payment" resultType="Payment">
+	
+	SELECT * FROM PAYMENT
+	WHERE PAYMENTNO = #{paymentNo}
+	
+	</select>
 
 
 
@@ -170,5 +183,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="updateUserPoint" parameterType="Payment">
 	UPDATE USERS SET POINT = POINT + #{usePoint} WHERE USER_ID = #{user_Id}
 	</update>
+	
+	 <update id="updateUserReturnPoint" parameterType="Payment">
+		UPDATE USERS SET POINT = POINT - #{totalGetPoint}
+		WHERE USER_ID = #{user_Id}
+	</update> 
+	
 </mapper>
 

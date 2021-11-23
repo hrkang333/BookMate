@@ -20,6 +20,28 @@ public class Payment {
 	private int totalPayCost;
 	private int deliveryCost;
 	
+	private int paymentDetailNo;
+	private int getPoint;
+	
+	
+	
+	
+	public int getGetPoint() {
+		return getPoint;
+	}
+
+	public void setGetPoint(int getPoint) {
+		this.getPoint = getPoint;
+	}
+
+	public int getPaymentDetailNo() {
+		return paymentDetailNo;
+	}
+
+	public void setPaymentDetailNo(int paymentDetailNo) {
+		this.paymentDetailNo = paymentDetailNo;
+	}
+
 	public Payment() {
 		super();
 		// TODO Auto-generated constructor stub

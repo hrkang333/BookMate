@@ -40,6 +40,14 @@ public interface PaymentService {
 	List<PaymentDetail> cancelList();
 
 
+
+	
+
+
+	void updateReturn(int paymentDetailNo, Payment p);
+
+
+
 	
 	
 	
