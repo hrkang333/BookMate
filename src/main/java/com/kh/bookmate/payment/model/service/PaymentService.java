@@ -39,6 +39,16 @@ public interface PaymentService {
 
 	List<PaymentDetail> cancelList();
 
+	boolean checkStock(ShoppingBasket basket);
+
+
+
+	
+
+
+	void updateReturn(int paymentDetailNo, Payment p);
+
+
 
 	
 	

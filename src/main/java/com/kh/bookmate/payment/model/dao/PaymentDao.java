@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.bookmate.payment.model.vo.Payment;
 import com.kh.bookmate.payment.model.vo.PaymentDetail;
+import com.kh.bookmate.shoppingbasket.model.vo.ShoppingBasket;
 
 @Repository
 public class PaymentDao {
@@ -112,8 +113,32 @@ public class PaymentDao {
 		return (ArrayList) sqlSession.selectList("paymentMapper.cancelList");
 	}
 
-	
-	
+	//셀렉트 페이먼트디테일 객체 가져옴 
+	public PaymentDetail selectPaymentDetail(SqlSessionTemplate sqlSession,int paymentDetailNo) {
+		return sqlSession.selectOne("paymentMapper.selectPaymentDetail",paymentDetailNo);
+	}
+
+	//셀렉트 페이먼트 객체 가져옴 
+	public Payment selectPayment(SqlSessionTemplate sqlSession, Payment p) {
+		return sqlSession.selectOne("paymentMapper.selectPayment", p);
+	}
+
+
+
+//	//환불 후 유저 적립한 포인트와, 사용포인트 반환 
+//	public void updateUserReturnPoint(SqlSessionTemplate sqlSession, Payment p) {
+//		sqlSession.selectOne("paymentMapper.updateUserReturnPoint", p);
+//	}	
+	public int updateBookStock(SqlSessionTemplate sqlSession, ShoppingBasket basket) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("paymentMapper.updateBookStock",basket);
+	}
+
+	public int checkStock(SqlSessionTemplate sqlSession, String bookISBN) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("paymentMapper.checkStock",bookISBN);
+	}
+
 
  
 	

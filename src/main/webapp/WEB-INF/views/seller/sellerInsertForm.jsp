@@ -8,6 +8,7 @@
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta http-equiv="X-UA-Compatible" content="ie=edge">
             <title>[책장메이트] - 판매자 가입</title>
+<link rel="icon" href="resources/img/logo1.png" type="image/png">
             <script type="text/javascript" src="resources/js/seller.js"></script>
             <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
             <script>

@@ -19,6 +19,7 @@ public class PaymentDetail {
 	private String shippingName;//--추가 김미소 
 	private int totalPayCost;//--추가 김미소 
 	
+	
 	private List<PaymentDetail> PaymentDetailList;
 	
 	public int getTotalPayCost() {

@@ -69,6 +69,8 @@ public class PaymentController {
 	@RequestMapping("insertPayment")
 	public String insertPayment(PaymentDetail paymentDetailList, Payment payment,ShoppingBasket basketList) {
 		
+		System.out.println(basketList);
+		
 		List<ShoppingBasket> deleteBasketList = basketList.getBasketList();
 		Payment temp = payment;
 		List<PaymentDetail> list = new ArrayList<PaymentDetail>();
@@ -178,6 +180,23 @@ public class PaymentController {
 			cal.add(cal.DATE, 1);
 			return cal.getTime();
 		}
+	}
+	
+	
+	@RequestMapping("checkStockForm.pm")
+	@ResponseBody
+	public String checkStock(ShoppingBasket basketList) {
+		String checkStr = "fail";
+		List<ShoppingBasket> checkList = basketList.getBasketList();
+		
+		for(ShoppingBasket basket : checkList) {
+			if(paymentService.checkStock(basket)) {
+				checkStr = "pass";
+			}
+		}
+		
+		return checkStr;
+		
 	}
 	
 }

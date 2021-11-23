@@ -1,5 +1,6 @@
 package com.kh.bookmate.book.model.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.bookmate.book.model.dao.BookDao;
 import com.kh.bookmate.book.model.vo.Book;
+import com.kh.bookmate.ubook.model.vo.Ubook;
 
 @Service
 public class BookServiceImpl implements BookService{
@@ -99,6 +101,12 @@ public class BookServiceImpl implements BookService{
 		
 		
 		return book;
+	}
+
+	//화제의 신간
+	@Override
+	public ArrayList<Book> selectHotTopicBook() {
+		return bookDao.selectHotTopicBook(sqlSession);
 	}
 
 	

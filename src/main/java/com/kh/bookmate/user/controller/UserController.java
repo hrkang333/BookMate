@@ -1,5 +1,7 @@
 package com.kh.bookmate.user.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.kh.bookmate.book.model.service.BookService;
+import com.kh.bookmate.book.model.vo.Book;
+import com.kh.bookmate.ubook.model.vo.Ubook;
 import com.kh.bookmate.user.model.service.UserService;
 import com.kh.bookmate.user.model.vo.User;
 
@@ -22,13 +27,18 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	@Autowired
+	private BookService bookService;
 	
 //	@RequestMapping(value="/")
 //	public String home() {
 //		return "index";
 //	}
 	@RequestMapping(value="home.us")
-	public String logo() {
+	public String logo(Model model) {
+
+		ArrayList<Book> hotBook = bookService.selectHotTopicBook();
+		model.addAttribute("hotBook", hotBook);
 		return "index";
 	}
 	

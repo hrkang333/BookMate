@@ -78,7 +78,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectRandomBookList" resultMap="ubookResultSet">
 	<![CDATA[
 		SELECT *
-		FROM (SELECT * FROM UBOOK WHERE UBOOK_STATUS='Y' ORDER BY DBMS_RANDOM.VALUE)
+		FROM (SELECT * FROM UBOOK WHERE UBOOK_STOCK != 0 ORDER BY DBMS_RANDOM.VALUE)
 		WHERE ROWNUM < 25
 	]]>
 	</select>
@@ -87,7 +87,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="haveQnaUbook" resultType="Ubook" resultMap="ubookResultSet">
 	SELECT * 
 	FROM UBOOK
-	WHERE UBOOK_NO IN (SELECT UBNO FROM UBOOK_QNA) AND BSELLER_NO=#{bSellerNo};
+	WHERE UBOOK_NO IN (SELECT UBNO FROM UBOOK_QNA) AND BSELLER_NO=#{bSellerNo}
 	</select>
 	
 	<!-- 중고도서 등록 -->
@@ -107,7 +107,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		
 	</select>
 	
-	<!-- 도서 상세 -->
+	<!-- 업데이트할 도서 선택 -->
 	<select id="selectUpdateUbook" parameterType="_int" resultMap="ubookResultSet">
 		 SELECT *
       FROM UBOOK

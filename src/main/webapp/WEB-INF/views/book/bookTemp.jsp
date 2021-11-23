@@ -82,6 +82,47 @@
 		<button type="submit">도서 판매작업</button>
 
 	</form> -->
+	<br>
+	<br>
+	<br>
+	<form action="selectSearchKeyword.se" method="post">
+	검색 : <input type="text" name="keyword">
+	<input type="submit" value="검색">
+	 
+	</form>
+	<br>
+	<br>
+	<br>
+	<form action="selectCategory.ca" method="post" id="ppop">
+	<input type="hidden" name="category" value="0">
+	 
+	 <select onchange="changeCategory(this.value)">
+                	    <option value="0">카테고리 선택</option>
+                		<option value="0">소설/시/에세이</option>
+                		<option value="1">경제/경영</option>
+                		<option value="2">과학</option>
+                		<option value="3">인문</option>
+                		<option value="4">컴퓨터/IT</option>
+                		<option value="5">자기계발</option>
+                		<option value="6">정치/사회</option>
+                		<option value="7">역사/문화</option>
+                		<option value="8">취미</option>
+                		<option value="9">가정/육아</option>
+                		<option value="10">국내도서 전체</option>
+                		<option value="12">eBook 전체</option>
+                	</select>
+	
+		
+	
+	<input type="submit" value="카테고리 이동">
+	 
+	</form>
+	<script type="text/javascript">
+	function changeCategory(category) {
+		$('#category').val(category);
+		$('#ppop').submit()
+	}
+	</script>
 
 </body>
 </html>
