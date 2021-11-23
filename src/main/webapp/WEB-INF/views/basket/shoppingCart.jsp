@@ -17,6 +17,10 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <style>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
 #basketTable td {
 	vertical-align: middle;
 	border-bottom: 1px solid lightgray;
@@ -99,6 +103,19 @@ function changeQuantity(status,index) {
 	priceSum()
 }
 
+function changeQuantityInput(quantity,index) {	
+	var itemsPrice = 0;
+	if(quantity<1){
+		quantity=1
+		
+	}
+	$('#quantity'+index).val(quantity)
+	itemsPrice = parseInt($('#price'+index).val())*quantity
+	$('#itemsPriceSpan'+index).html(itemsPrice.toLocaleString('ko-KR'))
+	priceSum()
+}
+
+
 function movePayment() {
 	
 	$('.price').each(function(i,item) {
@@ -139,17 +156,24 @@ function deleteBasket(index,basketNo) {
 		priceSum();
 	}
 }
+
+function moveBookDetail(bookISBN) {
+	$('#moveBookDetailInput').val(bookISBN)
+	$('#moveBookDetailForm').submit()
+}
 </script>
 </head>
 
 <body style="width: 1200px; margin: 0 auto;">
-	<jsp:include page="../common/menubar.jsp" />
+<%-- 	<jsp:include page="../common/menubar.jsp" /> --%>
 	<hr>
 	<main>
 
 		<c:choose>
 		<c:when test="${requestScope.cartItemList != null}">
-		
+		<form action="selectBook.book" method="post" id="moveBookDetailForm">
+		<input type="hidden" id="moveBookDetailInput" value="" name="bookISBN">
+		</form>
 
 		<div class="container">
 			<div class="cart_inner">
@@ -171,18 +195,22 @@ function deleteBasket(index,basketNo) {
 							<c:forEach items="${requestScope.cartItemList}" var="list"
 								varStatus="status">
 								<tr id="basketInfoTr${status.index}">
-									<td><input type="checkbox" value=""
-										id="checkBox${status.index}" checked="checked"
-										onchange="changeCheckbox()"></td>
 									<td>
-										<div class="media">
+									<c:choose>
+									<c:when test="${list.bookStock>0}"><input type="checkbox" value=""
+										id="checkBox${status.index}" checked="checked"
+										onchange="changeCheckbox()"></c:when>
+										<c:otherwise>품절</c:otherwise>
+										</c:choose></td>
+									<td>
+										<div class="media" >
 											<div class="d-flex">
 												<img
 													src="${pageContext.servletContext.contextPath}/resources/images/book_img/${list.bookMainImg}"
-													style="height: 150px">
+													style="height: 150px;cursor: pointer;" onclick="moveBookDetail('${list.bookISBN}')" >
 											</div>
-											<div class="media-body">
-												<p>${list.bookTitle}</p>
+											<div class="media-body" >
+												<p style="cursor: pointer;" onclick="moveBookDetail('${list.bookISBN}')">${list.bookTitle}</p>
 											</div>
 										</div>
 									</td>
@@ -202,12 +230,21 @@ function deleteBasket(index,basketNo) {
 												name="basketList[${status.index}].user_Id"> <input
 												type="hidden" name="basketList[${status.index}].bookISBN"
 												value="${requestScope.basketList[status.index].bookISBN}">
-											<input type="text"
+												<c:choose>
+									<c:when test="${list.bookStock>0}"><input type="number"
 												name="basketList[${status.index}].quantity"
 												id="quantity${status.index}" class="quantity" maxlength="2"
 												value="${requestScope.basketList[status.index].quantity}"
-												style="height: 40px; width: 30px;">&nbsp;
+												style="height: 40px; width: 30px;" onchange="changeQuantityInput(this.value,'${status.index}')"></c:when>
+										<c:otherwise><input type="text"
+												name="basketList[${status.index}].quantity"
+												id="quantity${status.index}" class="quantity" maxlength="2"
+												value="0" readonly="readonly"
+												style="height: 40px; width: 30px;"></c:otherwise>
+										</c:choose>
+											&nbsp;
 											<div>
+												<c:if test="${list.bookStock>0}">
 												<button type="button"
 													style="height: 20px; width: 30px; font-size: 10px;"
 													onclick="changeQuantity(1,'${status.index}')">▲</button>
@@ -215,11 +252,12 @@ function deleteBasket(index,basketNo) {
 												<button type="button"
 													style="height: 20px; width: 30px; font-size: 10px;"
 													onclick="changeQuantity(0,'${status.index}')">▼</button>
+													</c:if>
 											</div>
 										</div>
 									</td>
 									<td><span id="itemsPriceSpan${status.index}"><fmt:formatNumber
-												value="${list.bookPrice*0.9*requestScope.basketList[status.index].quantity}" /></span>원
+												value="${list.bookPrice*0.9*requestScope.basketList[status.index].quantity}"/></span>원
 									</td>
 									<td>${requestScope.shipDate}</td>
 									<td><button type="button"
