@@ -16,7 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		                            FROM SELLDATE
 		                            WHERE SELLDATE >= SYSDATE-14  --7로 바꿔야 한다!
 		                            ORDER BY SELLQUNTITY DESC)
-		                        WHERE ROWNUM <= 13)
+		                        WHERE ROWNUM <= 30)
 		ORDER BY SELLDATE.SELLQUNTITY DESC
 		]]>
 	</select>
@@ -26,11 +26,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<![CDATA[
 		SELECT A.*
 		FROM BOOK A
-		WHERE A.BOOKISBN IN (SELECT DISTINCT BOOKISBN
-		                     FROM (SELECT BOOKISBN
-		                           FROM BOOKREVIEW
-		                           ORDER BY REVIEWDATE DESC)
-		                     WHERE ROWNUM <= 5)
+		WHERE A.BOOKISBN IN (SELECT BOOKISBN
+		                    FROM(SELECT DISTINCT BOOKISBN, MAX(REVIEWDATE)
+		                        FROM BOOKREVIEW
+		                        GROUP BY BOOKISBN
+		                        ORDER BY MAX(REVIEWDATE) DESC)
+		                    WHERE ROWNUM <= 8)
 		AND A.BOOKCATEGORY = #{category_number}
 		]]>
 	</select>
