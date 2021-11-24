@@ -902,10 +902,11 @@ $(function() {
 	
     </script>
 </head>
-<body style="width: 1000px; margin: 0 auto;">
-	<hr>
-	<main>
+<body>
+<jsp:include page="../common/menubar.jsp" />
+		<main class="site-main" style="padding-top: 180px">
 
+	<hr>
 		<div style="display: flex;">
 
 			<div style="width: 400px;">
@@ -1451,7 +1452,7 @@ $(function() {
 		
 		
 			
-	<div class="modal fade" id="reviewModal">
+	<div class="modal fade" id="reviewModal" style="z-index: 10000">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
         <!-- Modal Header -->
@@ -1501,7 +1502,7 @@ $(function() {
 	        </div>
 	    </div>
 	</div>
-					<div class="modal fade" id="qnaInsertModal">
+					<div class="modal fade" id="qnaInsertModal" style="z-index: 10000">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                     <!-- Modal Header -->
@@ -1562,7 +1563,7 @@ $(function() {
                                 </div>
                             </div>
 
-                            <div class="modal fade" id="qnaUpdateModal">
+                            <div class="modal fade" id="qnaUpdateModal" style="z-index: 10000">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                     <!-- Modal Header -->
