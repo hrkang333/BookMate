@@ -40,6 +40,8 @@
 		<tr>
 			<th>환불 상세주문 번호</th>
 			<th>환불 주문 번호</th>
+			<th>환불요청 아이디</th>
+			<th>포인트</th>
 			<th>성함</th>
 			<th>책 제목 </th>
 			<th>주문 수량</th>
@@ -58,6 +60,8 @@
 			<tr>		
 				<td><c:out value="${returnItem.returnNo}"/></td>
 			<td ><span id="pno${status.index}"><c:out value="${returnItem.paymentDetailNo}"/></span></td>
+			<td><span id="userno${status.index}"><c:out value="${returnItem.user_Id }"/></span></td>
+				<td><span id="point${status.index}"><c:out value="${pd.getPoint }"/></span></td>
 				<td><c:out value="${returnItem.returnName}"/></td>
 				<td><c:out value="${pd.bookTitle}"/></td>
 				<td><c:out value="${pd.quantity}"/>개</td> 
@@ -74,8 +78,7 @@
 				
 				
 				<td><button type="submit" id="${status.index}" onclick="reButton(this);">승인 </button></td>
-				<c:out value="${returnItem.user_Id }" />
-				<c:out  value="${pd.getPoint }"/>
+				
 		</tr>
 	</c:forEach>
 
@@ -83,6 +86,9 @@
 
 	<form action="updateReturnList.cs" method="post" id="reForm">
 	<input type="hidden" name="paymentDetailNo" id="returnThing"/>
+		<input type="hidden" name="user_Id" id="returnThing1"/>
+		<input type="hidden" name="getPoint" id="returnThing2"/>
+	
 		
 				
 	</form>
@@ -95,9 +101,17 @@
 		var index = $(e).attr('id'); //버튼을 클릭했을때 id 들고와라 
 	
 		var pno =parseInt($('#pno'+ index ).text()); //span으론 텍스트 뽑아야 온다. 
+		var user = $('#userno' + index).text();
+		var point =parseInt($('#point' + index).text());
 		console.log(index)
 		console.log(pno)
+		
+		console.log(user)
+		console.log(point)
+		
 		$('#returnThing').val(pno);
+		$('#returnThing1').val(user);
+		$('#returnThing2').val(point);
 		$('#reForm').submit();
 		
 	}

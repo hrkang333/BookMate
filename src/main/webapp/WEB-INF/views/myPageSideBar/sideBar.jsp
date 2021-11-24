@@ -61,7 +61,7 @@
                   <div class="head">중고상품</div>
                   <form action="#">
                     <ul>
-                        <li class="filter-list">  주문 리스트 조회 </li>
+                        <li class="filter-list"><a href="selectMyOrderList.ub">주문 리스트 조회</a>   </li>
                    
                     </ul>
                   </form>

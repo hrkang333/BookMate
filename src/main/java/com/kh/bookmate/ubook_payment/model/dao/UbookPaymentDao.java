@@ -104,6 +104,23 @@ public class UbookPaymentDao {
 		return sqlSession.selectList("ubookPaymentMapper.selectSoldUbookList",bSellerNo);
 	}
 
+	//[중고] 주문리스트 불러오기 
+	public List<UbookPayment> selectUbookMyOrderList(SqlSessionTemplate sqlSession, String loginUser) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("ubookPaymentMapper.selectUbookMyOrderList",loginUser);
+	}
+	
+	//[중고] 상세주문리스트 불러오기 
+	public List<UbookPaymentDetail> selectUbookMyOrderDetailList(SqlSessionTemplate sqlSession, int paymentNoUb) {
+		// TODO Auto-generated method stub
+		return (ArrayList)sqlSession.selectList("ubookPaymentMapper.selectUbookMyOrderDetailList",paymentNoUb);
+	}
+	//[중고] 배송완료 후 구매확정 
+	public void confirmOrderUbook(SqlSessionTemplate sqlSession, int paymentDetailNoUb) {
+		// TODO Auto-generated method stub
+		 sqlSession.update("paymentMapper.confirmOrder",paymentDetailNoUb);
+	}
+
 
 
 	

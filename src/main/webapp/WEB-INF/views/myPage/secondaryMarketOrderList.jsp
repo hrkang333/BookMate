@@ -1,4 +1,4 @@
-<%-- <%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt"%>
@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>중고상품 내역 보기</title>
+    <title>중고상품 주문내역 보기</title>
 
     <link rel="icon" href="img/Fevicon.png" type="image/png">
     <link rel="stylesheet" href="resources/vendors/bootstrap/bootstrap.min.css">
@@ -72,24 +72,23 @@
 				    <!--받는사람 이름이랑 날짜로 조회하기 만들기 -->	    
                         <tbody style="text-align: center;">
                       
-					<c:if test="${empty myOrderList}">
+					<c:if test="${empty ubMyOrderList}">
                            <td colspan="5"><h2>주문하신 상품이 없습니다. </h2></td>
                     </c:if>
                           
                           
                           
-                   <c:forEach var="item" items="${myOrderList}" varStatus="status">
+                   <c:forEach var="item" items="${ubMyOrderList}" varStatus="status">
                        
                       <tr>       
                        	<td>
-                    	<input type="hidden"  id="paymentNo${status.index}" value="${item.paymentNo}"/>
-                        	<p><c:out value="${item.paymentNo}"/></p></td>     
-                        	<td><fmt:formatDate value="${item.shipDate}" pattern ="yyyy-MM-dd"/></td> 
+                    	<input type="hidden"  id="paymentNo${status.index}" value="${item.paymentNoUb}"/>
+                        	<p><c:out value="${item.paymentNoUb}"/></p></td>     
+                        	<td><fmt:formatDate value="${item.payDateUb}" pattern ="yyyy-MM-dd"/></td> 
                   	   		<td class="orderListDetail"><p style="cursor:pointer" onclick="OrderListDetailGo('${status.index}')">주문내역 상세보기</p></td> 
-                  	     	<td><c:out value="${item.totalPayCost}"/>원</td>                <!--  '' 스트링으로 가져온다 -->
-                  	     	<td><c:out value="${item.shippingName}"/>님</td>
-<!--                           	<td> <input type="button" class="button button-hero" value="주문취소" onclick="orderCancle()"/> </td>
- -->                      </tr>
+                  	     	<td><c:out value="${item.totalCostUb}"/>원</td>                <!--  '' 스트링으로 가져온다 -->
+                  	     	<td><c:out value="${item.shippingNameUb}"/>님</td>
+                       </tr>
                             
                    </c:forEach>
                          
@@ -98,8 +97,8 @@
                     </div>
                 </div>
                 <!--  히든으로 숨겨져있는애 -->
-					<form id="detailForm" action="selectMyOrderListDetail.me" method="post">
-					<input type="hidden" id="detailForm1" name="paymentNo" ></form> 
+					<form id="detailForm" action="selectMyOrderListDetail.ub" method="post">
+					<input type="hidden" id="detailForm1" name="paymentNoUb" ></form> 
                       
                          
              </div> 
@@ -137,4 +136,4 @@
 	   <jsp:include page="../common/footer.jsp" />
 		
 </body>
-</html> --%>
+</html> 

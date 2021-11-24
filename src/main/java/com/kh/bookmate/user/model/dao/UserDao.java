@@ -35,10 +35,10 @@ public class UserDao {
 		return sqlSession.update("userMapper.updateUser", user);
 	}
 
-	public User selectUserPoint(SqlSessionTemplate sqlSession, User user) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("userMapper.selectUserPoint", user);
-	}
+//	public User selectUserPoint(SqlSessionTemplate sqlSession, User user) {
+//		// TODO Auto-generated method stub
+//		return sqlSession.selectOne("userMapper.selectUserPoint", user);
+//	}
 
 	public int deleteUser(SqlSessionTemplate sqlSession, String userId) {
 		// TODO Auto-generated method stub
@@ -50,9 +50,6 @@ public class UserDao {
 		return sqlSession.selectOne("userMapper.findPwd", u);
 	}
 
-//	public void returnUserPoint(SqlSessionTemplate sqlSession, User u) {
-//		sqlSession.update("userMapper.returnUserPoint", u);
-//  }
 
 	public int updatePoint(SqlSessionTemplate sqlSession, User user) {
 	      // TODO Auto-generated method stub
@@ -64,6 +61,11 @@ public class UserDao {
 		return sqlSession.update("userMapper.updateUserReturnPoint", pointAnduserId);
 
 		}
+
+	public User selectUserPoint(SqlSessionTemplate sqlSession, String loginUser) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("userMapper.selectUserPoint",loginUser);
+	}
 
 		
 	}
