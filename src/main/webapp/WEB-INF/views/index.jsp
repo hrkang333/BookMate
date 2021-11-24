@@ -77,6 +77,35 @@
 	    left: 50%;
     	transform: translate(-50%);
 	}
+	.todayLi{
+		border: 1px solid #dadada;
+	    margin: 15px !important;
+	    text-align: center !important;
+	    padding: 27.5px;
+	}
+	
+	.todayImg{
+		width: 135px;
+    	height: 205px;
+	    margin-bottom: 5px;
+	    cursor: pointer;
+	    border: 0.5px solid #a9a9a9;
+	}
+	
+	.todayArrow_left{
+	    font-size: 50px;
+	    color: gray;
+	    position: absolute;
+	    top: 160px;
+	    left: -30px;
+	}
+	
+	.todayArrow_right{
+		font-size: 50px;
+	    color: gray;
+	    position: absolute;
+	    top: 160px;
+	    right: -30px;
 	
 	
 	.hotUl{
@@ -113,6 +142,8 @@
 	<jsp:include page="common/menubar.jsp" />
 	
 	<script>
+		var todayPg = 1;  //todatList페이징처리용
+	
 		$(function(){
 			var userId = '${sessionScope.loginUser.userId}'
 			if(userId == ''){
@@ -172,9 +203,49 @@
 	         }
 	      }		
 		
+		function goToday(type, length){
+			console.log(type)
+			console.log(length)
+			console.log("전 : " + todayPg)
+			if(type == 1){ //이전으로
+				if(todayPg == 1){
+					todayPg = length;
+				}else{
+					todayPg--;
+				}
+			}else{//앞으로
+				if(todayPg == length){
+					console.log("ddddd")
+					todayPg = 1;
+				}else{
+					todayPg++;
+				}
+			}
+			console.log("후 : " + todayPg);
+
+			for(var i=1; i<=length; i++){
+				var index = (i-1)*4;
+				if(i == todayPg){
+					$('#todayDetail'+index).css('display','flex');
+				}else{
+					$('#todayDetail'+index).css('display','none');
+				}
+			}
+		}
+		
 		function moveDetail(bookISBN){
 			$('#moveDetailInput').val(bookISBN)
 			$('#moveDetailForm').submit();
+		}
+		
+		function moveToday(type){
+			if(type == 1){  //국내도서
+				$("#todayDiv_1").css('display','block');
+				$("#todayDiv_2").css('display','none');
+			}else{
+				$("#todayDiv_2").css('display','block');
+				$("#todayDiv_1").css('display','none');
+			}
 		}
 	</script>
 	
@@ -302,12 +373,70 @@
 		<section class="section-margin calc-60px">
 			<div class="container">
 				<div class="section-intro pb-60px">
-					<p>Popular Item in the market</p>
+					<p>최신 리뷰가 등록된 따끈따끈한 오늘의 책!</p>
+					<div style="display:flex">
 					<h2>
-						Trending <span class="section-intro__style">Product</span>
+						<span class="section-intro__style">오늘의</span> 책 
 					</h2>
+					<div style="font-weight: 700; margin: 13px; font-size: 20px; cursor:pointer;" onclick="moveToday(1)">국내도서</div>
+					<div style="font-weight: 700; margin: 13px; font-size: 20px; cursor:pointer" onclick="moveToday(2)">eBook</div>
+					</div>
 				</div>
-				<div class="row">
+				
+				
+				<div style="background-color: #d9e7db; position: relative;">
+					<c:if test="${fn:length(todayList_K) == 0}">
+						<div id="todayDiv_1">목록이 없습니다.</div>
+					</c:if>
+					<c:if test="${fn:length(todayList_K) != 0}">
+						<div id="todayDiv_1" style="background-color: white;">
+							<c:set var="length" value="0"/>
+							<c:forEach var="i" begin="0" end="${fn:length(todayList_K)-1}" step="4">
+								
+								<ul class="bestUl" id="todayDetail${i}" <c:if test="${i != 0}"> style="display:none" </c:if> >
+									<c:forEach begin="${i}" end="${i+3}" items="${todayList_K}" var="book">
+										<li class="todayLi">
+											<img class="todayImg" src="${pageContext.servletContext.contextPath }/resources/images/book_img/${book.bookMainImg}" class="media-photo"
+												onclick="moveDetail('${book.bookISBN}')" alt="">
+											<div class="bestTitle">${book.bookTitle}</div>
+											<div>${book.bookWriter}</div>
+										</li>
+									</c:forEach>
+								</ul>
+								<c:set var="length" value="${length+1}"/>
+							</c:forEach>
+						</div>
+						<i onclick="goToday(1,  ${length})" class="fas fa-chevron-left todayArrow_left"></i>
+						<i style="font-size: 50px; color: gray;" onclick="goToday(2, ${length})" class="fas fa-chevron-right todayArrow_right"></i>
+					</c:if>
+					
+					<c:if test="${fn:length(todayList_E) == 0}">
+						<div id="todayDiv_2" style="background-color: white; display:none">목록이 없습니다.</div>
+					</c:if>
+					<c:if test="${fn:length(todayList_E) != 0}">
+						<div id="todayDiv_2" style="background-color: white; display:none">
+							<c:set var="length" value="0"/>
+							<c:forEach var="i" begin="0" end="${fn:length(todayList_E)-1}" step="4">
+								
+								<ul class="bestUl" id="todayDetail${i}" <c:if test="${i != 0}"> style="display:none" </c:if> >
+									<c:forEach begin="${i}" end="${i+3}" items="${todayList_E}" var="book">
+										<li class="todayLi">
+											<img class="todayImg" src="${pageContext.servletContext.contextPath }/resources/images/book_img/${book.bookMainImg}" class="media-photo"
+												onclick="moveDetail('${book.bookISBN}')" alt="">
+											<div class="bestTitle">${book.bookTitle}</div>
+											<div>${book.bookWriter}</div>
+										</li>
+									</c:forEach>
+								</ul>
+								<c:set var="length" value="${length+1}"/>
+							</c:forEach>
+						</div>
+						<i onclick="goToday(1,  ${length})" class="fas fa-chevron-left todayArrow_left"></i>
+						<i style="font-size: 50px; color: gray;" onclick="goToday(2, ${length})" class="fas fa-chevron-right todayArrow_right"></i>
+					</c:if>
+				</div>
+				
+				<!-- <div class="row">
 					<div class="col-md-6 col-lg-4 col-xl-3">
 						<div class="card text-center card-product">
 							<div class="card-product__img">
@@ -508,7 +637,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 			</div>
 		</section>
 		<!-- ================ trending product section end ================= -->
