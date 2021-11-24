@@ -31,4 +31,19 @@ public class NoticeDao {
 		return sqlSession.update("noticeMapper.updateReadCount",noticeNo);
 	}
 
+	public int insertNotice(SqlSessionTemplate sqlSession, Notice notice) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("noticeMapper.insertNotice",notice);
+	}
+
+	public int updateNotice(SqlSessionTemplate sqlSession, Notice notice) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("noticeMapper.updateNotice",notice);
+	}
+
+	public int deleteNotice(SqlSessionTemplate sqlSession, int noticeNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("noticeMapper.deleteNotice",noticeNo);
+	}
+
 }

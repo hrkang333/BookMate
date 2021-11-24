@@ -8,7 +8,7 @@ SELECT COUNT(*) FROM NOTICE WHERE NOTICETITLE LIKE #{noticeTitle}
 </select>
 
 <select id="selectNoticeList" resultType="Notice">
-SELECT * FROM NOTICE WHERE NOTICETITLE LIKE #{noticeTitle}
+SELECT * FROM NOTICE WHERE NOTICETITLE LIKE #{noticeTitle} ORDER BY NOTICEDATE DESC
 </select>
 <select id="selectNoticeDetail" resultType="Notice">
 SELECT * FROM NOTICE WHERE NOTICENO = #{noticeNo}
@@ -16,4 +16,15 @@ SELECT * FROM NOTICE WHERE NOTICENO = #{noticeNo}
 <update id="updateReadCount">
 UPDATE NOTICE SET NOTICEVIEWS = NOTICEVIEWS + 1 WHERE NOTICENO = #{noticeNo}
 </update>
+<insert id="insertNotice" parameterType="Notice">
+INSERT INTO NOTICE VALUES(NOTICE_SEQ.NEXTVAL,#{noticeCategory},#{noticeTitle},#{noticeContent},#{noticeWriter},SYSDATE,#{noticeImgStatus},#{noticeImgName},0)
+</insert>
+<update id="updateNotice" parameterType="Notice">
+UPDATE NOTICE SET NOTICECATEGORY = #{noticeCategory}, NOTICETITLE= #{noticeTitle},NOTICECONTENT=#{noticeContent} WHERE NOTICENO = #{noticeNo}
+</update>
+<delete id="deleteNotice">
+DELETE FROM NOTICE WHERE NOTICENO = #{noticeNo}
+</delete>
 </mapper>
+
+	
