@@ -12,7 +12,7 @@ INSERT INTO COUPON VALUES(#{couponCode},#{couponPoint},#{couponStartDate},#{coup
 </insert>
 
 
- <select id="checkUseCoupon" resultType="Coupon">
+ <select id="checkUseCoupon" resultType="_int">
  
 	SELECT COUNT(*) FROM COUPON
  	WHERE COUPONCODE = #{couponCode}
