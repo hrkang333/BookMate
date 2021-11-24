@@ -7,7 +7,7 @@
    </settings>
 
    <typeAliases>
-
+	  <typeAlias type="com.kh.bookmate.main.model.vo.RecentView" alias="RecentView" />
       <typeAlias type="com.kh.bookmate.book.model.vo.Book" alias="Book" />
       <typeAlias type="com.kh.bookmate.club.model.vo.Club" alias="Club" />
       <typeAlias type="com.kh.bookmate.club.model.vo.ClubAttachment" alias="ClubAttachment"/>

@@ -1,7 +1,10 @@
 package com.kh.bookmate.main.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.kh.bookmate.book.model.service.BookService;
 import com.kh.bookmate.book.model.vo.Book;
 import com.kh.bookmate.main.model.service.MainService;
+import com.kh.bookmate.main.model.vo.RecentView;
+import com.kh.bookmate.user.model.vo.User;
 
 @Controller
 public class MainController {
@@ -22,7 +27,7 @@ public class MainController {
 	private BookService bookService;
 	
 	@RequestMapping("/")
-	public String selectMainBest(Model model) {
+	public String selectMainBest(HttpServletRequest request, Model model) {
 		
 		//1.이벤트
 		
@@ -42,19 +47,36 @@ public class MainController {
 		}
 		
 		//3.베스트 도서
-		List<Book> bestList = mainService.selectBestList();
-		model.addAttribute("bestList", bestList);
+		List<Book> bestBkList = mainService.selectBestList();
+		model.addAttribute("bestBkList", bestBkList);
 		
 		//4.화제의 신간
 		ArrayList<Book> hotBook = bookService.selectHotTopicBook();
 	    model.addAttribute("hotBook", hotBook);
-		
-		//5.최근본상품
-		
-		for(Book b : todayList_K) {
-			System.out.println(count +" 오늘의책 테스트 : " + b.toString());
-		}
-	
+
+		//5.최근본상품 - 조회 
+	    if((User)request.getSession().getAttribute("loginUser") != null ){
+	    	String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
+
+	    	RecentView rv = mainService.selectRecentView(userId);
+	    	String[] tempArr = null;
+	    	ArrayList<String> isbnList = null;
+	    	List<Book> viewList = new ArrayList<Book>();
+	    	
+	    	if(rv != null) {
+	    		tempArr = rv.getBooks().split(",");
+	    		isbnList = new ArrayList<String>(Arrays.asList(tempArr)); //화면에 리스트로 보내기
+
+		    	System.out.println("최근본상품 조회 : " + isbnList.toString());
+		    	viewList = mainService.selectRecentViewList(isbnList);
+	    	
+		    	System.out.println("최근본상품 조회-book객체 : " + viewList.toString());
+	    	}
+	    	
+	    	model.addAttribute("isbnList", isbnList);  //db에는 잘 저장되는데 book리스트로 조회하면 순서가 다 엉망이된다.
+			model.addAttribute("viewList", viewList);
+	    }
+
 		return "index";
 	}
 }

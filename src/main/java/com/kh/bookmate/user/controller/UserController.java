@@ -34,13 +34,13 @@ public class UserController {
 //	public String home() {
 //		return "index";
 //	}
-	@RequestMapping(value="home.us")
-	public String logo(Model model) {
-
-		ArrayList<Book> hotBook = bookService.selectHotTopicBook();
-		model.addAttribute("hotBook", hotBook);
-		return "index";
-	}
+//	@RequestMapping(value="home.us")
+//	public String logo(Model model) {
+//
+//		ArrayList<Book> hotBook = bookService.selectHotTopicBook();
+//		model.addAttribute("hotBook", hotBook);
+//		return "index";
+//	}
 	
 	@RequestMapping(value="login.me")
 	public String login() {

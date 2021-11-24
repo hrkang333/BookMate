@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page session="false"%>
+<%-- <%@ page session="false"%> --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -27,85 +27,138 @@
 	href="resources/vendors/owl-carousel/owl.carousel.min.css">
 
 <link rel="stylesheet" href="resources/css/style.css">
-<script>
-	var listIndex = 0;
-	function modiQuntity(num) {
-		var quantity = parseInt($('#orderQuantity').val());
-		if (num == 1) {
-			$('#orderQuantity').val(quantity + 1)
-		} else if (quantity > 1) {
-			$('#orderQuantity').val(quantity - 1)
-		}
+
+<style>
+	#recentViewDiv{
+		position: fixed;
+		left: 50%;
+		transform: translate(630px, 0);
+		margin-top: 5px;
+		text-align: center;
 	}
-
-	function bestListMove(checkIndex, bookSubCategory) {
-		if (checkIndex == 1) {
-			listIndex += 1;
-		} else {
-			listIndex -= 1;
-		}
-
-		if (listIndex < 0) {
-			listIndex = 10;
-		} else if (listIndex > 10) {
-			listIndex = 1;
-		}
-		$.ajax({
-			url : "bestList",
-
-			data : {
-				listIndex : listIndex,
-				bookSubCategory : bookSubCategory
-			},
-			type : "post",
-			success : function(list) {
-				$.each(list, function(i) {
-					$('#bestBookImg' + i).attr(
-							"src",
-							"${pageContext.servletContext.contextPath }/resources/images/book_img/"
-									+ list[i].bookMainImg);
-					$('#bestBookImg' + i).attr("onclick",
-							"detailbook('" + list[i].bookISBN + "')");
-					$('#bestBookTitle' + i).text(list[i].bookTitle);
-					$('#bestBookTitle' + i).attr("onclick",
-							"detailbook('" + list[i].bookISBN + "')");
-					$('#bestBookPrice' + i).text(
-							list[i].bookPrice.toLocaleString('ko-KR') + "원");
-				})
-			},
-			error : function(request, status, error) {
-
-				var errorMsg = "요청 도중 오류가 발생하였습니다. \n";
-
-				if (request.status == 0) { //offline
-					errorMsg += "네트워크 연결을 확인해주십시오.";
-				} else if (request.status == 401) {//Unauthorized
-					errorMsg += "권한이 없습니다. \n관리자에게 문의해주세요.";
-				} else if (request.status == 403) {//Forbidden
-					errorMsg += "접근이 거부되었습니다. \n관리자에게 문의해주세요.";
-				} else if (request.status == 404) {//Not Found
-					errorMsg += "요청한 페이지를 찾을 수 없습니다. \n관리자에게 문의해주세요.";
-				} else if (request.status == 500) { //Internel Server Error
-					errorMsg += "서버 내 오류가 발생하였습니다. \n관리자에게 문의해주세요.";
-				} else if (status == 'parsererror') { //Error.nParsing JSON Request failed.
-					errorMsg += "응답 본문을 정상적으로 가져올 수 없습니다. \n관리자에게 문의해주세요.";
-				} else if (status == 'timeout') { //Request Time out.
-					errorMsg += "응답 제한 시간을 초과하였습니다. 다시 조회해주세요.";
-				} else { //Unknow Error
-					errorMsg += "\n관리자에게 문의해주세요.";
-				}
-
-				alert(errorMsg);
-			}
-
-		})
+	
+	#recentViewDiv_1{
+		width: 100%;
+	    height: 6%;
+	    background-color: #505050;
+	    color: white;
+    	
+    	line-height: 40px;
 	}
-</script>
+	#recentViewDiv_3{
+		position: absolute;
+	    bottom: 10px;
+	    left: 50%;
+    	transform: translate(-50%);
+	}
+	.bestUl{
+		display: flex;
+    	flex-wrap: wrap; 
+	}
+	.bestImg{
+		width: 125px;
+	    height: 180px;
+	    margin-bottom: 5px;
+	    cursor: pointer;
+	    border: 1px solid #a9a9a9;
+	}
+	.bestUl li{
+		margin: 40px 8px;
+		text-align: center;
+		margin-bottom: 0px;
+	}
+	.bestTitle{
+		width: 190px;
+	    font-size: 19px;
+	    font-weight: 900;
+	}
+	#bestDiv_2{
+		position: absolute;
+	    left: 50%;
+    	transform: translate(-50%);
+	}
+</style>
+
 </head>
 <body>
 	<jsp:include page="common/menubar.jsp" />
-
+	
+	<script>
+		$(function(){
+			var userId = '${sessionScope.loginUser.userId}'
+			if(userId == ''){
+				$('#recentViewDiv').css('display','none');
+			}else{
+				$('#recentViewDiv').css('display','block');
+			}
+		})
+		
+		function goReview(pg, length){
+			for(var i=1; i<=length; i++){
+				var index = (i-1)*4;
+				if(i == pg){
+					$('#recentDetail'+index).css('display','block');
+				}else{
+					$('#recentDetail'+index).css('display','none');
+				}
+			}
+		}
+		
+		function goBest(pg, length){
+			for(var i=1; i<=length; i++){
+				var index = (i-1)*10;
+				if(i == pg){
+					$('#bestDetail'+index).css('display','flex');
+				}else{
+					$('#bestDetail'+index).css('display','none');
+				}
+			}
+		}
+		
+		function moveDetail(bookISBN){
+			$('#moveDetailInput').val(bookISBN)
+			$('#moveDetailForm').submit();
+		}
+	</script>
+	
+	<form action="selectBook.book" method="post" id="moveDetailForm">
+		<input type="hidden" id="moveDetailInput" name="bookISBN">
+	</form>
+	
 	<main class="site-main" style="padding-top: 180px">
+	
+		<div id="recentViewDiv" style="width: 150px; height: 650px; background-color: #F5F5F5;">
+			<div id="recentViewDiv_1">최근 본 상품 (<span style="color:red">${fn:length(viewList)}</span>)</div>
+			
+			<c:if test="${fn:length(viewList) != 0}">
+			
+				<div id="recentViewDiv_2">
+					<c:set var="length" value="0"/>
+					<c:forEach var="i" begin="0" end="${fn:length(isbnList)-1}" step="4">
+						<ul id="recentDetail${i}" <c:if test="${i != 0}"> style="display:none" </c:if> >
+							<c:forEach begin="${i}" end="${i+3}" items="${isbnList}" var="isbn">
+								<li>
+									<c:forEach var="book" items="${viewList}">
+										<c:if test="${book.bookISBN eq isbn }">
+											<img src="${pageContext.servletContext.contextPath }/resources/images/book_img/${book.bookMainImg}" class="media-photo"
+											style="width: 90px; height: 140px; cursor: pointer; padding-top: 20px;" 
+											onclick="moveDetail('${book.bookISBN}')" alt="">
+										</c:if>
+									</c:forEach>
+								</li>
+							</c:forEach>
+						</ul>
+						<c:set var="length" value="${length+1}"/>
+					</c:forEach>
+				</div>
+				<div id="recentViewDiv_3" style="cursor: pointer">
+					<c:forEach var="pg" begin="1" end="${length}"> 
+						<a onclick="goReview(${pg}, ${length})">${pg}</a>
+					</c:forEach>
+				</div>
+			</c:if>
+		</div>
+		
 
 		<!--================ 이벤트 슬라이드 start =================-->
 		<section class="hero-banner2">
@@ -446,7 +499,54 @@
 				</div>
 			</div>
 		</section>
+		<!-- ================ offer section end ================= -->
+
+		<!-- ================ Best Selling item  carousel ================= -->
+		<section class="section-margin calc-60px">
+			<div class="container">
+				<div class="section-intro pb-60px">
+					<p>Popular Item in the market</p>
+					<h2>
+						Best <span class="section-intro__style">Sellers</span>
+					</h2>
+				</div>
+				
+				
+				<div style="padding: 20px 20px 50px; background-color: #d9e7db;">
+
+					<c:if test="${fn:length(bestBkList) != 0}">
+					
+						<div id="bestDiv_1" style="background-color: white; padding: 20px;">
+							<c:set var="length" value="0"/>
+							<c:forEach var="i" begin="0" end="${fn:length(bestBkList)-1}" step="10">
+								<ul class="bestUl" id="bestDetail${i}" <c:if test="${i != 0}"> style="display:none" </c:if> >
+									<c:forEach begin="${i}" end="${i+9}" items="${bestBkList}" var="book">
+										<li>
+											<img class="bestImg" src="${pageContext.servletContext.contextPath }/resources/images/book_img/${book.bookMainImg}" class="media-photo"
+												onclick="moveDetail('${book.bookISBN}')" alt="">
+											<div class="bestTitle">${book.bookTitle}</div>
+											<div>${book.bookWriter}</div>
+										</li>
+									</c:forEach>
+								</ul>
+								<c:set var="length" value="${length+1}"/>
+							</c:forEach>
+						</div>
+						<div id="bestDiv_2" style="cursor: pointer">
+							<c:forEach var="pg" begin="1" end="${length}"> 
+								<a onclick="goBest(${pg}, ${length})">${pg}</a>
+							</c:forEach>
+						</div>
+					</c:if>
+				</div>
+				
+	
+			</div>
+		</section>
+		<!-- ================ Best Selling item  carousel end ================= -->
+
 		<!-- ================ 이벤트 슬라이드2 end ================= -->
+
 
 		<!-- ================ 화제의 신간 ================= -->
 		<section class="section-margin calc-60px"
@@ -486,7 +586,12 @@
 				</div>
 			</div>
 		</section>
+		<!-- ================ Blog section end ================= -->
+
+	
+
 		<!-- ================ 화제의 신간 end ================= -->
+
 	</main>
 
 
