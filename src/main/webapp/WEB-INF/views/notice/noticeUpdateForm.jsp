@@ -36,7 +36,15 @@ padding: 10px;
 }
 </style>
 <script>
-    function insertNoticeCheck() {
+
+$(function () {
+	var noticeCategory = "${requestScope.notice.noticeCategory}";
+	$('input[name=noticeCategory][value="'+noticeCategory+'"]').prop('checked','ture')
+	
+	
+})
+
+    function updateNoticeCheck() {
     	if(!$('input[name=noticeCategory]:checked').val()){
             alert('공지사항 구분을 선택하셔야 합니다.')
             $('input[name=noticeCategory]:checked').focus
@@ -52,30 +60,9 @@ padding: 10px;
             $('#noticeContent').focus()
             return false
         }
-        if(confirm("입력하신 내용으로 글을 등록 하시겠습니까?")){
-            $('#insertNoticeForm').submit();
+        if(confirm("입력하신 내용으로 글을 수정 하시겠습니까?")){
+            $('#updateNoticeForm').submit();
         }
-    }
-    
-    function imgCheck(img) {
-    	
-    	if(img.files&&img.files[0]){
-    		var name= img.files[0].name
-    		var ext = name.substring(name.length-3,name.length)
-    		if(!(ext.toUpperCase()=='PNG'||ext.toUpperCase()=='JPG')){
-    			alert("이미지파일을 확인해주세요. png와 jpg만 가능합니다.")
-    			$('#noticeImg').val("")
-
-
-    			return;
-    		}
-    		const imgFile = new FileReader();
-    		imgFile.readAsDataURL(img.files[0])
-    		imgFile.onload = function(e) {
-    			$('#preViewImg').attr('src',e.target.result)
-    					
-    		}		   
-    	}
     }
 </script>
 </head>
@@ -107,15 +94,17 @@ padding: 10px;
 			</div>
 <div style="margin-left: auto;margin-right: auto; width: 900px;">
 	<br><br><br>
-<span style="font-size: 30px; font-weight: bold;">공지사항 등록</span>
+	
+	<span style="font-size: 30px; font-weight: bold;">공지사항 수정</span>
 <hr>
- <form action="insertNotice.no" id="insertNoticeForm" method="post" enctype="multipart/form-data">
+ <form action="updateNotice.no" id="updateNoticeForm" method="post"  style="display: inline;">
 
         <table class="writer">
             <tbody>
             <tr>
                 <th>글제목</th>
-                <td colspan="3"><input type="text" style="width: 600px;height: 30px;" name="noticeTitle" id="noticeTitle"></td>
+                <td colspan="3">
+                <input type="text" style="width: 600px;height: 30px;" name="noticeTitle" id="noticeTitle" value="${requestScope.notice.noticeTitle}"></td>
             </tr>
             <tr>
                 <th>구분</th>
@@ -123,7 +112,7 @@ padding: 10px;
                 <th>작성자</th>
                 <td>관리자<input type="hidden" name="noticeWriter" value="관리자"></td>
             </tr>
-            <tr>
+                <tr>
             
             <th>이미지 업로드</th>
             <td colspan="2" style="border-right: none">
@@ -134,21 +123,20 @@ padding: 10px;
             <input type="file" name="noticeImg" id="noticeImg" onchange="imgCheck(this)">
             </td>
             </tr>
-            
             <tr>
                 <td colspan="4">
-                
-이미지 미리보기 :<br>
-<div style="display: flex; "><img alt="" src="" id="preViewImg" style="margin-left: auto;margin-right: auto;"></div><br><hr>
-                <textarea name="noticeContent" id="noticeContent" cols="30" rows="10" style="width: 800px; height: 500px;" ></textarea>
+                <textarea name="noticeContent" id="noticeContent" cols="30" rows="10" style="width: 800px; height: 800px;" >${requestScope.notice.noticeContent}</textarea>
             </td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
                 <td colspan="4" style="padding-left: 20px; padding-right: 20px;">
-                    <div style="display: flex;">
-                        <div style="margin-left: auto;"><button type="button" onclick="insertNoticeCheck()"  class="btn-secondary btn-sm" >글등록</button></div>
+                    <div style="display: flex;"><input type="hidden" name="noticeNo" value="${requestScope.notice.noticeNo}">
+                        <div style="margin-left: auto;"><button type="button" onclick="updateNoticeCheck()">공지 수정</button></form>
+   						 
+                        <form action="selectNoticeDetail.no" method="post" style="display: inline;">
+                        <button type="submit">돌아가기</button></form> </div>
                     
                 </div>
                 </td>
@@ -156,8 +144,6 @@ padding: 10px;
             </tr>
         </tfoot>
         </table>
-    </form>
         </div></div>
-        </main>
 </body>
 </html>
