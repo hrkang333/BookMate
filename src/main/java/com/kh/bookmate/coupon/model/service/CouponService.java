@@ -1,7 +1,5 @@
 package com.kh.bookmate.coupon.model.service;
 
-import java.util.List;
-
 import com.kh.bookmate.coupon.model.vo.Coupon;
 import com.kh.bookmate.coupon.model.vo.UseCoupon;
 
@@ -12,9 +10,13 @@ public interface CouponService {
 	int insertCoupon(Coupon coupon);
 
 	
-	//쿠폰리스트 조회하기 
-	List<UseCoupon> selectCouponList();
+	int checkUseCoupon(String couponCode);
 
-	Coupon checkCoupon(String couponCode);
+	
+//	//쿠폰리스트 조회하기 
+//	List<UseCoupon> selectCouponList();
+//
+//	Coupon checkCoupon(String couponCode);
 
+	
 }

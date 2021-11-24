@@ -7,15 +7,16 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kh.bookmate.coupon.model.service.CouponService;
-import com.kh.bookmate.coupon.model.vo.Coupon;
 import com.kh.bookmate.coupon.model.vo.UseCoupon;
 import com.kh.bookmate.exchange_item.model.service.ExchangeItemService;
 import com.kh.bookmate.exchange_item.model.vo.ExchangeItem;
@@ -283,25 +284,68 @@ public class myPageController {
 	//아이디 유효성 검사처럼 하면 될거같은데... 
 	
 	//받은 쿠폰 번호 확인하기 
-	@RequestMapping(value="checkCoupon.me", produces ="application/text; charset=utf-8" )
-	@ResponseBody
-	public String check(String couponCode) { //사용자한테 (쿠폰 코드만) 받을 수 있는 값만 적어야됨 
+	
+	//, produces ="application/text; charset=utf-8" 
+	@RequestMapping(value="/checkCu.me")
+	@ResponseBody														
+	public String checkUseCoupon(@RequestParam("couponCode") String couponCode) { 
+										//사용자한테 (쿠폰 코드만) 받을 수 있는 값만 적어야됨 
+//		String loginUser = ((User) session.getAttribute("loginUser")).getUserId(); 
+//		u.setUserId(couponCode);
+		
+		int result = couponService.checkUseCoupon(couponCode);
+			if(result > 0) {
+				return "available"; // 이미 코드가 있는경우 (사용가능한..?)
+			}else {
+				return "nope"; // 코드가 없어서 사용할 수 없음 
+			}
+			
+			
+		//쿠폰 넘버만 중복되는지 확인하면 되기에 스트링만 받아서 서비스로 보내줌 
+				
+		//1.값을 받아와서 useCoupon에 가서 해당 유저에 대한 값이 있는지 없는지 조회해 
+		
+	}
+	
+	//만약 쿠폰 중복 체크 했을때 useCoupon에 인서트하기..? 
+	@RequestMapping("insertUseCoupon.me")
+	public String insertUseCoupon() {
+		
+		return null;
+	}
+	
+	
+	
 		
 		
+	//	UseCoupon uc = couponService.searchCouponUserId(couponCode);
+		
+		
+//[반품] 신청하기 (반품테이블에 넣기) 
+//		@RequestMapping("insertReturn.me")
+//		public String insertReturn(ReturnBook returnBook,int paymentNo, Model model ) {
+//			returnBookService.insertReturnBook(returnBook);
+//			model.addAttribute("paymentNo",paymentNo);
+//
+//			return "redirect:selectMyOrderListDetail.me";
+//		}
+		
+	
 		//usecoupon 검색 해와야 유저아이드를 들고가서 쿠폰 where 절해서 count = 0 했을때만 쿠폰을 사용할수있게
 		
 		//쓴적이 있을때 없을때 판단 if count가 1이면 ? count가 0이면 쿠폰쓰고 , userCoupon 진행 
 		//if else 일때 사용을 못함 
-		//
+		
 		
 		//쿠폰테이블에 가서 쿠폰에 따른 포인트를 들고와야됨 쿠폰객체를 들고왔다면
 		//쿠폰객체에서 get.point 해서 유저포인트 업데이트 
+//		Coupon cu = new Coupon();
+//		cu.getCouponPoint(); 
 //		
 //		Coupon cu = couponService.checkCoupon(couponCode);
-//
-		return null;
+	
 
-	}
+	
 	
 	 //1. 입력값 받아오기 
 //	

@@ -1,7 +1,5 @@
 package com.kh.bookmate.coupon.model.service;
 
-import java.util.List;
-
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,18 +28,36 @@ public class CouponServiceImpl implements CouponService {
 		return couponDao.insertCoupon(sqlSession,coupon);
 	}
 
+//	@Override
+//	public List<UseCoupon> selectCouponList() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public Coupon checkCoupon(String couponCode) {
+//		
+//		return couponDao.checkCoupon(sqlSession,couponCode);
+//	}
+
+	
+//	//쿠폰 중복 찾기..? 
+//	@Override // 이 객체에 맞는 유저아이디가 있는지 
+//	public UseCoupon searchCouponUserId(String couponCode) {
+//		return couponDao.searchCouponUserId(sqlSession,couponCode);
+//	}
+
+	
+	
+	
+	
+	//쿠폰코드 중복체크 
 	@Override
-	public List<UseCoupon> selectCouponList() {
-		// TODO Auto-generated method stub
-		return null;
+	public int checkUseCoupon(String couponCode) {
+		return couponDao.checkUseCoupon(sqlSession, couponCode);
 	}
 
-	@Override
-	public Coupon checkCoupon(String couponCode) {
-		
-		return couponDao.checkCoupon(sqlSession,couponCode);
-	}
-
+	
 
 
 }

@@ -57,9 +57,13 @@ public class PaymentServiceImpl implements PaymentService {
 
 	//사용자 배송완료 후 구매확정 
 	@Override
-	public int confirmOrder(int paymentDetailNo) {
-		int confirm = paymentDao.confirmOrder(sqlSession,paymentDetailNo);
-		return confirm;
+	public void confirmOrder(int paymentDetailNo) {
+		 paymentDao.confirmOrder(sqlSession,paymentDetailNo);
+		 
+		// buyReview 테이블에 insert..?
+		 //selldata 테이블에 insert 해야된다.. 
+		
+		 
 	}
 
  
@@ -164,13 +168,6 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 
-	@Override
-	public int selectListCount(String loginUser) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
 
 
 	//여기서 트렌젝션 처리해서 하나 오류난다고 해서 다른 하나가 되지 않음 
@@ -191,7 +188,6 @@ public class PaymentServiceImpl implements PaymentService {
 		
 		//페이먼트 넘버랑, 페이먼트디테일넘버, 유저포인트 (getPoint) 
 	
-		
 		//userId랑 getpoint만 가져옴 		
 		List <Object> pointAnduserId = new ArrayList<Object>();
 		pointAnduserId.add(p.getGetPoint());
@@ -218,6 +214,13 @@ public class PaymentServiceImpl implements PaymentService {
 	public boolean checkStock(ShoppingBasket basket) {
 		int stock = paymentDao.checkStock(sqlSession,basket.getBookISBN());
 		return stock >= basket.getQuantity() ;
+	}
+
+
+	@Override
+	public int selectListCount(String loginUser) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 
