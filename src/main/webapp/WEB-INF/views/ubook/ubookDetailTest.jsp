@@ -45,7 +45,6 @@
 										</div>
 									</div>
 
-									<!--<div class="seller_info">* 중고장터 판매상품은 판매자가 직접 등록/판매하는 상품으로 판매자가 해당상품과 내용에 모든 책임을 집니다. 우측의 제품상태와 하단의 상품상세를 꼭 확인하신 후 구입해주시기 바랍니다.</div>-->
 									<div class="summary_info"
 										style="width: 250px; margin: 0px 0px 0px 0px; padding: 10px 0 0 60px; color: #000; font-size: 15px; text-align: center;">
 										ISBN-13 : ${ ubook.ubookIsbn }</div>
@@ -183,7 +182,6 @@
 										
 											}
 										</script>
-										<!-- !구매 만족도 -->
 									</div>
 									<!-- end state-lowest-new -->
 
@@ -204,9 +202,9 @@
 										<c:if test="${ ubook.ubookStock ne 0 && ubook.sellerId ne loginUser.userId}">
 										<a onclick="goCart()" class="btn_large btn_blue"
 											style="width: 124px; font-size: 12px !important; margin-right: 10px; background-image: none; background-color: #5cb85c !important; border: 1px solid #5cb85c; color: #fff !important; padding: 7px 12px 1px; box-shadow: none; height: 33px; text-align: center;">장바구니에
-											담기</a> <a href="#" class="btn_large btn_blue2"
+											담기</a> <!-- <a href="#" class="btn_large btn_blue2"
 											style="width: 124px; font-size: 12px !important; margin-right: 10px; background-image: none; background-color: #5b8a5b !important; border: 1px solid #5b8a5b; color: #fff !important; padding: 7px 12px 1px; box-shadow: none; height: 33px; text-align: center;">바로
-											구매하기</a>
+											구매하기</a> -->
 										</c:if>
 										<c:if test="${ ubook.ubookStock eq 0 && ubook.sellerId ne loginUser.userId}">
 										<a class="btn_large btn_blue"
@@ -223,7 +221,6 @@
 												</form>
 									</div>
 								</div>
-								<!--// product_detail_info  -->
 								<div class="product_detail_bottom">
 									<div class="button_buy" style="padding: 0 0 0 0; clear: both;">
 
@@ -299,7 +296,6 @@
 						</div>
 						<!--// 판매자 다른 상품 -->
 
-						<!-- detail_menu_content -->
 						<div class="detail_menu_content"
 							style="margin: 25px 0 0 10px; width: 870px; line-height: 1.3em; font-size: 15px;">
 

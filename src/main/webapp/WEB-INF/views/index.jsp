@@ -77,6 +77,35 @@
 	    left: 50%;
     	transform: translate(-50%);
 	}
+	
+	
+	.hotUl{
+		display: flex;
+    	flex-wrap: wrap; 
+	}
+	.hotImg{
+		width: 160px;
+	    height: 230px;
+	    margin-bottom: 5px;
+	    margin-left:66px;
+	    cursor: pointer;
+	    border: 1px solid #a9a9a9;
+	}
+	.hotUl li{
+		margin: 40px 8px;
+		text-align: center;
+		margin-bottom: 0px;
+	}
+	.hotTitle{
+		width: 190px;
+	    font-size: 19px;
+	    font-weight: 900;
+	}
+	#hotDiv_2{
+		position: absolute;
+	    left: 50%;
+    	transform: translate(-50%);
+	}
 </style>
 
 </head>
@@ -114,6 +143,34 @@
 				}
 			}
 		}
+		var hotPg = 1;
+		
+		function goHot(type, length){ 
+			//이전으로
+	         if(i == 1){
+	            if(hotPg == 1){
+	            	hotPg = length;
+	            }else{
+	            	hotPg--;
+	            }
+	         }else{//앞으로
+	            if(hotPg == length){
+	               console.log("ddddd")
+	               hotPg = 1;
+	            }else{
+	            	hotPg++;
+	            }
+	         }
+
+	         for(var i=1; i<=length; i++){
+	            var index = (i-1)*4;
+	            if(i == hotPg){
+	               $('#hotDetail'+index).css('display','flex');
+	            }else{
+	               $('#hotDetail'+index).css('display','none');
+	            }
+	         }
+	      }		
 		
 		function moveDetail(bookISBN){
 			$('#moveDetailInput').val(bookISBN)
@@ -545,51 +602,45 @@
 		</section>
 		<!-- ================ Best Selling item  carousel end ================= -->
 
-		<!-- ================ 이벤트 슬라이드2 end ================= -->
-
-
 		<!-- ================ 화제의 신간 ================= -->
-		<section class="section-margin calc-60px"
-			style="height: 615px; background-color: #eee; padding-left: 20px; padding-right: 20px; box-shadow: none;">
-			<div class="container text-center">
-				<div class="section-intro pb-60px" style="padding-top: 25px;">
+		<section class="section-margin calc-60px">
+			<div class="container">
+				<div class="section-intro" style="padding-top: 25px; padding-bottom: 25px;">
 					<p>화제의 도서를 모아모아</p>
 					<h2>
 						화제의 <span class="section-intro__style">신간</span>
 					</h2>
 				</div>
-				<div class="owl-carousel owl-theme" id="bestSellerCarousel"
-					style="background-color: #fff; border-radius: 15px; padding-top: 20px; width: 1125px; margin-left: -10px;">
-					<c:forEach items="${hotBook}" var="list" begin="${i}" end="${i+11}">
+					
+				<div style="padding: 20px; background-color: #eee;">
 
-						<div class="card text-center card-product"
-							onclick="location.href='selectBook.book?bookISBN=${ list.bookISBN }'"
-							style="height: 380px; width: 235px; background-color: #fbf5f5; margin-right: 25px;">
-							<div class="card-product__img">
-								<img
-									src="${pageContext.servletContext.contextPath }/resources/images/book_img/${list.bookMainImg}"
-									class="media-photo"
-									style="width: 145px; height: 215px; cursor: pointer; padding-top: 20px; margin: auto;"
-									alt="">
-							</div>
-							<div class="card-body"
-								style="word-break: break-all; padding-bottom: 20px;">
-								<h4>${list.bookTitle }</h4>
-								<h6 class="card-product__title">
-									<span>저자 | ${list.bookWriter }</span>
-								</h6>
-								<span
-									style="background-color: #b6e7c1; border: 1px solid #64d17c; color: #343a40;">${list.bookPrice }원</span>
-							</div>
+					<c:if test="${fn:length(hotBook) != 0}">
+					
+						<div id="hotDiv_1" style="background-color: white; padding: 20px;">
+							<c:set var="length" value="0"/>
+							<c:forEach var="i" begin="0" end="${fn:length(hotBook)-1}" step="4">
+								<ul class="hotUl" id="hotDetail${i}" <c:if test="${i != 0}"> style="display:none" </c:if> >
+									<c:forEach begin="${i}" end="${i+3}" items="${hotBook}" var="book">
+										<li>
+											<img class="hotImg" src="${pageContext.servletContext.contextPath }/resources/images/book_img/${book.bookMainImg}" class="media-photo"
+												onclick="moveDetail('${book.bookISBN}')" alt="">
+											<div style="text-align: center;">
+												<h6>${book.bookTitle}</h6>
+												<div>${book.bookWriter}</div>
+											</div>
+										</li>
+									</c:forEach>
+								</ul>
+								<c:set var="length" value="${length+1}"/>
+							</c:forEach>
 						</div>
-					</c:forEach>
-				</div>
+						<i style="font-size: 50px; color: gray;" onclick="goHot(1, ${length})" class="fas fa-chevron-left"></i>
+                  		<i style="font-size: 50px; color: gray;" onclick="goHot(2, ${length})" class="fas fa-chevron-right"></i>
+					</c:if>
+				</div>	
+					
 			</div>
 		</section>
-		<!-- ================ Blog section end ================= -->
-
-	
-
 		<!-- ================ 화제의 신간 end ================= -->
 
 	</main>
