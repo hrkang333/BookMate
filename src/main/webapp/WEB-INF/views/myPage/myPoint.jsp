@@ -70,13 +70,12 @@
 							<div class="sorting">
 								<div class="redeemPoint">
 								
-									<form class="" action="addCoupon.me" method="post">
+									<form id="checkCuForm" action="searchCoupon.me" method="post">
 										<div class="col-md-12 form-group">
-											<br> <input type="text" class="" id="checkCu"
-												name="couponNo" placeholder="쿠폰번호를 입력해주세요" required>
-											<button type="button" onclick="checkCoupon();"  value="확인" class="button button-tracking">쿠폰 등록하기</button>
+											<br> <input type="text"  name="couponCode" placeholder="쿠폰번호를 입력해주세요" required>
+											<button type="button" onclick="checkCoupon()" >쿠폰 등록하기</button>
 										</div>
-									</form>
+									</form> 
 								
 								</div>
 							</div>
@@ -94,13 +93,47 @@
 
 	 <script type="text/javascript">
 	 
+	 function checkCoupon(){
+		 
+		 var couponCode = $("#checkCuForm input[name=couponCode]"); 
+		 	console.log(couponCode.val());
+		 
+			if(couponCode.val() == null){
+				alert("쿠폰 번호를 입력해주세요 ");
+				return false;
+			}
+		 
+		 $.ajax({
+			url: "checkCu.me",
+			type: "post",
+			data : { 
+				couponCode : couponCode.val(),
+			},
+			
+			success : function(e){
+				if(e == "available"){
+					confirm("사용가능한 쿠폰입니다. 사용하시겠습니까? ");
+						couponCode.attr("readonly","true");
+				}else{
+					alert("해당 쿠폰번호가 없습니다 다시 입력해주세요 ")
+				}
+				console.log('ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㄹㅇㄹㅇㄹㅇ성공 ')
+				
+			},
+			error:function(){
+				alert("..에러다..  ")
+			}
+		 })
+		 
+	 };
 	 
 	 
-		 function checkCoupon(){
+	 
+/* 	 function checkCoupon(){
 			var coupon = $('#couponNo').val(); // id 값이 couponNo 입력란의 값을 저장 
 			 
 			$.ajax({
-				url:'checkCoupon.me',
+				url:'seachCuId.me',
 				type:'post',
 				data: {coupon : coupon} ,
 				
@@ -121,6 +154,72 @@
 				}
 			});
 		}; 
+	 */
+	 
+	/* 
+		$(document).ready(function(e){
+			
+			var idx = false;
+			
+			$('#signUp').click(function(){
+				if($.trim($('#userId').val()) == ''){
+					alert("아이디 입력.");
+					$('#userId').focus();
+					return;
+				}else if($.trim($('#passwd').val()) == ''){
+					alert("패스워드 입력.");
+					$('#passwd').focus();
+					return;
+				}
+				//패스워드 확인
+				else if($('#passwd').val() != $('#passwdCheck').val()){
+					alert('패스워드가 다릅니다.');
+					$('#passwd').focus();
+					return;
+				}
+				
+				if(idx==false){
+					alert("아이디 중복체크를 해주세요.");
+					return;
+				}else{
+					$('#signFrm').submit();
+				}
+			});
+			
+			$('#check').click(function(){
+				$.ajax({
+					url: "${pageContext.request.contextPath}/idCheck.do",
+					type: "GET",
+					data:{
+						"userId":$('#userId').val()
+					},
+					success: function(data){
+						if(data == 0 && $.trim($('#userId').val()) != '' ){
+							idx=true;
+							$('#userId').attr("readonly",true);
+							var html="<tr><td colspan='3' style='color: green'>사용가능</td></tr>";
+							$('#idCheck').empty();
+							$('#idCheck').append(html);
+						}else{
+
+							var html="<tr><td colspan='3' style='color: red'>사용불가능한 아이디 입니다.</td></tr>";
+							$('#idCheck').empty();
+							$('#idCheck').append(html);
+						}
+					},
+					error: function(){
+						alert("서버에러");
+					}
+				});
+				
+
+			});
+			
+		});
+	  */
 	
+	 
+	
+	 
 	</script> 
 </html>

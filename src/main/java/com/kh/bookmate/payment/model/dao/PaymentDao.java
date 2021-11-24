@@ -29,9 +29,8 @@ public class PaymentDao {
 		return sqlSession.update("paymentMapper.cancelMyOrder",paymentDetailNo);
 	}
  
-	public int confirmOrder(SqlSessionTemplate sqlSession, int paymentDetailNo) {
-		// TODO Auto-generated method stub
-		return sqlSession.update("paymentMapper.confirmOrder",paymentDetailNo);
+	public void confirmOrder(SqlSessionTemplate sqlSession, int paymentDetailNo) {
+		 sqlSession.update("paymentMapper.confirmOrder",paymentDetailNo);
 	} 
 
 
