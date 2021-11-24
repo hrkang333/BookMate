@@ -59,7 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>  
 	
 		<!-- 구매확정 상태로 변경하기 -->
-	<select id="confirmOrder" resultType="PaymentDetail" parameterType="_int" >
+	<select id="confirmOrder" resultType="PaymentDetail">
 		UPDATE PAYMENTDETAIL
 		SET DELIVERYSTATUS = 8
 		WHERE PAYMENTDETAILNO = #{paymentDetailNo}

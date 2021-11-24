@@ -47,8 +47,8 @@ function movingPageNum() {
 	
 }
 
-function changeSearch(keyword) {
-	$('#noticeKeyword').val(keyword);
+function changeSearch() {
+	$('#noticeKeyword').val($('#keywordInput').val());
 	movePage(1);
 }
 
@@ -61,7 +61,9 @@ function noteceDetail(noticeNo) {
 </head>
 
 <body>
-<div style="display: flex;width: 1200px;">
+<jsp:include page="../common/menubar.jsp" />
+		<main class="site-main" style="padding-top: 180px">
+<div style="display: flex;width: 1200px; ">
 			<div style="width: 200px;" id="adminMenuDiv">
 				<br>
 				<br>
@@ -84,7 +86,8 @@ function noteceDetail(noticeNo) {
 				<br> -쿠폰등록<br> -쿠폰수정/삭제<br>
 
 			</div>
-<div>
+<div style="margin-left: auto;margin-right: auto; width: 900px;">
+	<br><br><br>
 <form action="noticeList.no" method="post" id="pageMoveForm">
 <input type="hidden" id="noticeKeyword" name="keyword" value="${requestScope.keyword}">
 <input type="hidden" id="noticeNowPage" name="nowPage" value="${requestScope.noticePaging.nowPage}">
@@ -92,6 +95,14 @@ function noteceDetail(noticeNo) {
 <form action="selectNoticeDetail.no" id="moveNoticeDetailForm" method="post">
 <input type="hidden" id="noticeNoInput" name="noticeNo" value="">
 </form>
+<span style="font-size: 30px; font-weight: bold;">공지사항</span>
+<hr>
+<div style="display: flex;">
+<div style="margin-left: auto;">제목으로 검색 : 
+<input type="text" id="keywordInput"><button type="button" onclick="changeSearch()"  class="btn-secondary btn-sm" >검색</button>
+</div>
+</div>
+
  <table class="table table-hover notice">
             <thead>
             <tr>
@@ -119,7 +130,7 @@ function noteceDetail(noticeNo) {
             <tr>
                 	<td colspan="6">
                 	<div style="display: flex;">
-                	<div style="margin-left: auto; padding-right: 10px"> <button type="button" onclick="location.href='noticeEnrollForm.no'">글 작성</button> </div>
+                	<div style="margin-left: auto; padding-right: 10px"> <button type="button" onclick="location.href='noticeEnrollForm.no'"  class="btn-secondary btn-sm" >글 작성</button> </div>
                 	</div>
                 	</td>
                 </tr>
@@ -155,5 +166,6 @@ function noteceDetail(noticeNo) {
             </tfoot>
         </table>
         </div></div>
+        </main>
 </body>
 </html>

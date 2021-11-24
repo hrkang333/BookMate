@@ -17,7 +17,7 @@ public interface PaymentService {
 
 	int cancelMyOrder(int paymentDetailNo);
 
-	int confirmOrder(int paymentDetailNo);
+	void confirmOrder(int paymentDetailNo);
  
 	PaymentDetail applyExchange(int paymentDetailNo);
 

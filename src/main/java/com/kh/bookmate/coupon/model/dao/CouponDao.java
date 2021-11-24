@@ -21,14 +21,19 @@ public class CouponDao {
 		return sqlSession.insert("couponMapper.insertCoupon",coupon);
 	}
 
-	public List<UseCoupon> selectCouponList(SqlSessionTemplate sqlSession) {
+//	public List<UseCoupon> selectCouponList(SqlSessionTemplate sqlSession) {
+//		// TODO Auto-generated method stub
+//		return sqlSession.selectList("couponMapper.selectCouponList");
+//	}
+
+
+	
+	
+	// 중복 쿠폰 번호 있는지 확인하기 
+	public int checkUseCoupon(SqlSessionTemplate sqlSession, String couponCode) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("couponMapper.selectCouponList");
+		return sqlSession.selectOne("couponMapper.checkUseCoupon",couponCode);
 	}
 
-	public Coupon checkCoupon(SqlSessionTemplate sqlSession, String couponCode) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("couponMapper.checkCoupon",couponCode);
-	}
 
 }
