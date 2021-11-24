@@ -65,7 +65,7 @@ UPDATE BOOK SET BOOKRATING = #{bookRating} , BOOKRATINGCOUNT = #{bookRatingCount
 <select id="selectHotTopicBook" resultType="Book">
 	<![CDATA[
 	SELECT * FROM BOOK
-	WHERE ROWNUM < 25
+	WHERE ROWNUM < 13
 	ORDER BY BOOKPUBLISHEDATE DESC
 	]]>
 </select>
