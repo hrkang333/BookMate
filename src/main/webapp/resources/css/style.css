@@ -78,7 +78,10 @@ a {
 .owl-carousel .owl-stage {
 	display: flex
 }
-
+.owl-stage{
+	width: 0px !important;
+	margin-left: 20px !important;
+}
 .section-margin {
 	margin: 45px 0
 }
@@ -948,20 +951,20 @@ a {
 
 #bestSellerCarousel .owl-prev, #bestSellerCarousel .owl-next {
 	width: 40px;
-	height: 40px;
+	height: 80px;
 	background: #f1f6f7
 }
 
 #bestSellerCarousel .owl-prev i, #bestSellerCarousel .owl-prev span,
 	#bestSellerCarousel .owl-next i, #bestSellerCarousel .owl-next span {
 	font-size: 15px;
-	color: #384aeb;
+	color: #28a745;
 	line-height: 40px
 }
 
 #bestSellerCarousel .owl-prev:hover, #bestSellerCarousel .owl-next:hover
 	{
-	background: #384aeb
+	background: #64d17c
 }
 
 #bestSellerCarousel .owl-prev:hover i, #bestSellerCarousel .owl-prev:hover span,
@@ -972,27 +975,31 @@ a {
 
 #bestSellerCarousel .owl-prev {
 	position: absolute;
-	top: 30%;
+	top: 45%;
 	transform: translateY(-30%);
 	left: -20px
 }
 
+.owl-item{
+	margin-right: 29.1px !important;
+}
+
 @media ( min-width : 1340px) {
 	#bestSellerCarousel .owl-prev {
-		left: -105px
+		left: -32px
 	}
 }
 
 #bestSellerCarousel .owl-next {
 	position: absolute;
-	top: 30%;
+	top: 45%;
 	transform: translateY(-30%);
 	right: -20px
 }
 
 @media ( min-width : 1340px) {
 	#bestSellerCarousel .owl-next {
-		right: -105px
+		right: -36px
 	}
 }
 

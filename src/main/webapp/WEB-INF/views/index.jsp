@@ -28,74 +28,79 @@
 
 <link rel="stylesheet" href="resources/css/style.css">
 <script>
-  var listIndex = 0;
-        function modiQuntity(num) {
-        	var quantity = parseInt($('#orderQuantity').val());
-            if(num==1){
-                $('#orderQuantity').val(quantity+1)
-            }else if(quantity>1){
-                $('#orderQuantity').val(quantity-1)
-            }
-        }
-        
-        function bestListMove(checkIndex,bookSubCategory) {
-			if(checkIndex == 1){
-				listIndex += 1;
-			}else{
-				listIndex -= 1;
-			}
-			
-			if(listIndex < 0){
-				listIndex = 10;
-			}else if(listIndex > 10){
-				listIndex = 1;
-			}
-			$.ajax({
-					url : "bestList",
-					
-					data : {
-						listIndex : listIndex,
-						bookSubCategory : bookSubCategory
-					},
-					type : "post",
-					success : function(list) {
-							$.each(list,function(i){
-								$('#bestBookImg'+i).attr("src","${pageContext.servletContext.contextPath }/resources/images/book_img/"+list[i].bookMainImg);
-								$('#bestBookImg'+i).attr("onclick","detailbook('"+list[i].bookISBN+"')");	
-								$('#bestBookTitle'+i).text(list[i].bookTitle);	
-								$('#bestBookTitle'+i).attr("onclick","detailbook('"+list[i].bookISBN+"')");
-								$('#bestBookPrice'+i).text(list[i].bookPrice.toLocaleString('ko-KR')+"원");
-							})
-					},
-					error : function (request, status, error){
-			               
-					    var errorMsg = "요청 도중 오류가 발생하였습니다. \n";
-					   
-					    if(request.status == 0){ //offline
-					        errorMsg += "네트워크 연결을 확인해주십시오.";
-					    }else if(request.status==401){//Unauthorized
-					        errorMsg += "권한이 없습니다. \n관리자에게 문의해주세요.";
-					    }else if(request.status==403){//Forbidden
-					        errorMsg += "접근이 거부되었습니다. \n관리자에게 문의해주세요.";
-					    }else if(request.status==404){//Not Found
-					        errorMsg += "요청한 페이지를 찾을 수 없습니다. \n관리자에게 문의해주세요.";
-					    }else if(request.status==500){ //Internel Server Error
-					        errorMsg += "서버 내 오류가 발생하였습니다. \n관리자에게 문의해주세요.";
-					    }else if(status=='parsererror'){ //Error.nParsing JSON Request failed.
-					        errorMsg += "응답 본문을 정상적으로 가져올 수 없습니다. \n관리자에게 문의해주세요.";
-					    }else if(status=='timeout'){ //Request Time out.
-					        errorMsg += "응답 제한 시간을 초과하였습니다. 다시 조회해주세요.";
-					    }else { //Unknow Error
-					        errorMsg += "\n관리자에게 문의해주세요.";
-					    }
-					   
-					    alert(errorMsg);
-					}
-
-				
-				})
+	var listIndex = 0;
+	function modiQuntity(num) {
+		var quantity = parseInt($('#orderQuantity').val());
+		if (num == 1) {
+			$('#orderQuantity').val(quantity + 1)
+		} else if (quantity > 1) {
+			$('#orderQuantity').val(quantity - 1)
 		}
-		 </script>
+	}
+
+	function bestListMove(checkIndex, bookSubCategory) {
+		if (checkIndex == 1) {
+			listIndex += 1;
+		} else {
+			listIndex -= 1;
+		}
+
+		if (listIndex < 0) {
+			listIndex = 10;
+		} else if (listIndex > 10) {
+			listIndex = 1;
+		}
+		$.ajax({
+			url : "bestList",
+
+			data : {
+				listIndex : listIndex,
+				bookSubCategory : bookSubCategory
+			},
+			type : "post",
+			success : function(list) {
+				$.each(list, function(i) {
+					$('#bestBookImg' + i).attr(
+							"src",
+							"${pageContext.servletContext.contextPath }/resources/images/book_img/"
+									+ list[i].bookMainImg);
+					$('#bestBookImg' + i).attr("onclick",
+							"detailbook('" + list[i].bookISBN + "')");
+					$('#bestBookTitle' + i).text(list[i].bookTitle);
+					$('#bestBookTitle' + i).attr("onclick",
+							"detailbook('" + list[i].bookISBN + "')");
+					$('#bestBookPrice' + i).text(
+							list[i].bookPrice.toLocaleString('ko-KR') + "원");
+				})
+			},
+			error : function(request, status, error) {
+
+				var errorMsg = "요청 도중 오류가 발생하였습니다. \n";
+
+				if (request.status == 0) { //offline
+					errorMsg += "네트워크 연결을 확인해주십시오.";
+				} else if (request.status == 401) {//Unauthorized
+					errorMsg += "권한이 없습니다. \n관리자에게 문의해주세요.";
+				} else if (request.status == 403) {//Forbidden
+					errorMsg += "접근이 거부되었습니다. \n관리자에게 문의해주세요.";
+				} else if (request.status == 404) {//Not Found
+					errorMsg += "요청한 페이지를 찾을 수 없습니다. \n관리자에게 문의해주세요.";
+				} else if (request.status == 500) { //Internel Server Error
+					errorMsg += "서버 내 오류가 발생하였습니다. \n관리자에게 문의해주세요.";
+				} else if (status == 'parsererror') { //Error.nParsing JSON Request failed.
+					errorMsg += "응답 본문을 정상적으로 가져올 수 없습니다. \n관리자에게 문의해주세요.";
+				} else if (status == 'timeout') { //Request Time out.
+					errorMsg += "응답 제한 시간을 초과하였습니다. 다시 조회해주세요.";
+				} else { //Unknow Error
+					errorMsg += "\n관리자에게 문의해주세요.";
+				}
+
+				alert(errorMsg);
+			}
+
+		})
+	}
+</script>
 </head>
 <body>
 	<jsp:include page="common/menubar.jsp" />
@@ -399,17 +404,15 @@
 		<!-- ================ trending product section end ================= -->
 
 
-		<!-- ================ offer section start ================= -->
-		
 		<!--================ 이벤트 슬라이드2 start =================-->
 		<section class="hero-banner2">
 			<div class="container2">
-				<div id="myCarousel" class="carousel slide" data-ride="carousel">
+				<div id="myCarousel2" class="carousel slide" data-ride="carousel">
 					<!-- 하단 슬라이드 페이지 표시 -->
 					<ol class="carousel-indicators">
-						<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-						<li data-target="#myCarousel" data-slide-to="1"></li>
-						<li data-target="#myCarousel" data-slide-to="2"></li>
+						<li data-target="#myCarousel2" data-slide-to="0" class="active"></li>
+						<li data-target="#myCarousel2" data-slide-to="1"></li>
+						<li data-target="#myCarousel2" data-slide-to="2"></li>
 					</ol>
 					<!-- 슬라이드 content -->
 					<div class="carousel-inner">
@@ -443,320 +446,47 @@
 				</div>
 			</div>
 		</section>
-		<!-- ================ offer section end ================= -->
+		<!-- ================ 이벤트 슬라이드2 end ================= -->
 
-		<!-- ================ Best Selling item  carousel ================= -->
-		<section class="section-margin calc-60px">
-			<div class="container">
-				<div class="section-intro pb-60px">
-					<p>Popular Item in the market</p>
-					<h2>
-						Best <span class="section-intro__style">Sellers</span>
-					</h2>
-				</div>
-				<div class="owl-carousel owl-theme" id="bestSellerCarousel">
-					<div class="card text-center card-product">
-						<div class="card-product__img">
-							<img class="img-fluid" src="img/product/product1.png" alt="">
-							<ul class="card-product__imgOverlay">
-								<li><button>
-										<i class="ti-search"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-shopping-cart"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-heart"></i>
-									</button></li>
-							</ul>
-						</div>
-
-						<div class="card-body">
-
-							<span style="font-size: 20px; font-weight: bold; color: blue;">${categoryName}</span>
-							분야 주간 베스트 도서 <br> <br>
-							<div style="display: flex;">
-								<div style="margin-top: 125px">
-									<img alt=""
-										src="${pageContext.servletContext.contextPath }/resources/img/btn_prev.gif"
-										height="50px" style="margin-right: 15px; cursor: pointer;"
-										onclick="bestListMove(0,${requestScope.book.bookSubCategory})">
-								</div>
-								<c:forEach items="${requestScope.bestList}" var="list"
-									varStatus="status">
-									<div style="width: 180px; text-align: center;">
-										<img alt=""
-											src="${pageContext.servletContext.contextPath }/resources/images/book_img/${list.bookMainImg}"
-											width="170px" height="250px"
-											style="margin: 5px; cursor: pointer;"
-											onclick="detailbook('${list.bookISBN}')"
-											id="bestBookImg${status.index}"><br> <span
-											id="bestBookTitle${status.index}" style="cursor: pointer;"
-											onclick="detailbook('${list.bookISBN}')"><c:out
-												value="${list.bookTitle}"></c:out></span><br> <span
-											style="color: red;" id="bestBookPrice${status.index}"><fmt:formatNumber
-												value="${list.bookPrice}"></fmt:formatNumber>원</span>
-
-									</div>
-
-								</c:forEach>
-								<div style="margin-top: 125px">
-									<img alt=""
-										src="${pageContext.servletContext.contextPath }/resources/img/btn_next.gif"
-										height="50px" style="margin-left: 15px; cursor: pointer;"
-										onclick="bestListMove(1,${requestScope.book.bookSubCategory})">
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="card text-center card-product">
-						<div class="card-product__img">
-							<img class="img-fluid" src="img/product/product2.png" alt="">
-							<ul class="card-product__imgOverlay">
-								<li><button>
-										<i class="ti-search"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-shopping-cart"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-heart"></i>
-									</button></li>
-							</ul>
-						</div>
-						<div class="card-body">
-							<p>Beauty</p>
-							<h4 class="card-product__title">
-								<a href="single-product.html">Women Freshwash</a>
-							</h4>
-							<p class="card-product__price">$150.00</p>
-						</div>
-					</div>
-
-					<div class="card text-center card-product">
-						<div class="card-product__img">
-							<img class="img-fluid" src="img/product/product3.png" alt="">
-							<ul class="card-product__imgOverlay">
-								<li><button>
-										<i class="ti-search"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-shopping-cart"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-heart"></i>
-									</button></li>
-							</ul>
-						</div>
-						<div class="card-body">
-							<p>Decor</p>
-							<h4 class="card-product__title">
-								<a href="single-product.html">Room Flash Light</a>
-							</h4>
-							<p class="card-product__price">$150.00</p>
-						</div>
-					</div>
-
-					<div class="card text-center card-product">
-						<div class="card-product__img">
-							<img class="img-fluid" src="img/product/product4.png" alt="">
-							<ul class="card-product__imgOverlay">
-								<li><button>
-										<i class="ti-search"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-shopping-cart"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-heart"></i>
-									</button></li>
-							</ul>
-						</div>
-						<div class="card-body">
-							<p>Decor</p>
-							<h4 class="card-product__title">
-								<a href="single-product.html">Room Flash Light</a>
-							</h4>
-							<p class="card-product__price">$150.00</p>
-						</div>
-					</div>
-
-					<div class="card text-center card-product">
-						<div class="card-product__img">
-							<img class="img-fluid" src="img/product/product1.png" alt="">
-							<ul class="card-product__imgOverlay">
-								<li><button>
-										<i class="ti-search"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-shopping-cart"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-heart"></i>
-									</button></li>
-							</ul>
-						</div>
-						<div class="card-body">
-							<p>Accessories</p>
-							<h4 class="card-product__title">
-								<a href="single-product.html">Quartz Belt Watch</a>
-							</h4>
-							<p class="card-product__price">$150.00</p>
-						</div>
-					</div>
-
-					<div class="card text-center card-product">
-						<div class="card-product__img">
-							<img class="img-fluid" src="img/product/product2.png" alt="">
-							<ul class="card-product__imgOverlay">
-								<li><button>
-										<i class="ti-search"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-shopping-cart"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-heart"></i>
-									</button></li>
-							</ul>
-						</div>
-						<div class="card-body">
-							<p>Beauty</p>
-							<h4 class="card-product__title">
-								<a href="single-product.html">Women Freshwash</a>
-							</h4>
-							<p class="card-product__price">$150.00</p>
-						</div>
-					</div>
-
-					<div class="card text-center card-product">
-						<div class="card-product__img">
-							<img class="img-fluid" src="img/product/product3.png" alt="">
-							<ul class="card-product__imgOverlay">
-								<li><button>
-										<i class="ti-search"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-shopping-cart"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-heart"></i>
-									</button></li>
-							</ul>
-						</div>
-						<div class="card-body">
-							<p>Decor</p>
-							<h4 class="card-product__title">
-								<a href="single-product.html">Room Flash Light</a>
-							</h4>
-							<p class="card-product__price">$150.00</p>
-						</div>
-					</div>
-
-					<div class="card text-center card-product">
-						<div class="card-product__img">
-							<img class="img-fluid" src="img/product/product4.png" alt="">
-							<ul class="card-product__imgOverlay">
-								<li><button>
-										<i class="ti-search"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-shopping-cart"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-heart"></i>
-									</button></li>
-							</ul>
-						</div>
-						<div class="card-body">
-							<p>Decor</p>
-							<h4 class="card-product__title">
-								<a href="single-product.html">Room Flash Light</a>
-							</h4>
-							<p class="card-product__price">$150.00</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- ================ Best Selling item  carousel end ================= -->
-
-		<!-- ================ Blog section start ================= -->
-		<section class="blog" style="margin-bottom: 20px;">
-			<div class="container">
-			<div class="subscribe text-center"style="background-color: #eee; padding-left: 20px; padding-right: 20px; box-shadow: none;">
-				<div class="section-intro pb-60px">
+		<!-- ================ 화제의 신간 ================= -->
+		<section class="section-margin calc-60px"
+			style="height: 615px; background-color: #eee; padding-left: 20px; padding-right: 20px; box-shadow: none;">
+			<div class="container text-center">
+				<div class="section-intro pb-60px" style="padding-top: 25px;">
 					<p>화제의 도서를 모아모아</p>
 					<h2>
 						화제의 <span class="section-intro__style">신간</span>
 					</h2>
 				</div>
-				<div class="col-md-12"
-					style="background-color: #fff; border-radius: 15px; padding-top: 20px">
-					<c:if test="${fn:length(hotBook) > 8}">
-						<div id="myCarousel" class="carousel slide" data-ride="carousel">
-							<!-- 하단 슬라이드 페이지 표시 -->
-							<ol class="carousel-indicators">
-								<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-								<li data-target="#myCarousel" data-slide-to="1"></li>
-								<!-- <li data-target="#myCarousel" data-slide-to="2"></li> -->
-							</ol>
-							<!-- 슬라이드 content -->
-							<div class="carousel-inner">
-								<c:forEach var="i" begin="0" end="${fn:length(hotBook)-1}"
-									step="12">
-									<c:choose>
-										<c:when test="${i eq 0}">
-											<c:set var="activeD" value="carousel-item active" />
-										</c:when>
-										<c:otherwise>
-											<c:set var="activeD" value="carousel-item" />
-										</c:otherwise>
-									</c:choose>
-									<div class="${activeD}">
-										<div class="row">
-											<c:forEach items="${hotBook}" var="list" begin="${i}"
-												end="${i+11}">
+				<div class="owl-carousel owl-theme" id="bestSellerCarousel"
+					style="background-color: #fff; border-radius: 15px; padding-top: 20px; width: 1125px; margin-left: -10px;">
+					<c:forEach items="${hotBook}" var="list" begin="${i}" end="${i+11}">
 
-												<div class="col-md-6 col-lg-4 col-xl-3">
-													<div class="card text-center card-product"
-														onclick="location.href='selectBook.book?bookISBN=${ list.bookISBN }'"
-														style="height: 380px; background-color: #fbf5f5;">
-														<div class="card-product__img">
-															<img
-																src="${pageContext.servletContext.contextPath }/resources/images/book_img/${list.bookMainImg}"
-																class="media-photo"
-																style="width: 145px; height: 215px; cursor: pointer; padding-top: 20px;"
-																alt="">
-														</div>
-														<div class="card-body"
-															style="word-break: break-all; padding-bottom: 20px;">
-															<h4>${list.bookTitle }</h4>
-															<h6 class="card-product__title">
-																<span>저자 | ${list.bookWriter }</span>
-															</h6>
-															<span
-																style="background-color: #b6e7c1; border: 1px solid #64d17c; color: #343a40;">${list.bookPrice }원</span>
-														</div>
-													</div>
-												</div>
-											</c:forEach>
-										</div>
-									</div>
-								</c:forEach>
+						<div class="card text-center card-product"
+							onclick="location.href='selectBook.book?bookISBN=${ list.bookISBN }'"
+							style="height: 380px; width: 235px; background-color: #fbf5f5; margin-right: 25px;">
+							<div class="card-product__img">
+								<img
+									src="${pageContext.servletContext.contextPath }/resources/images/book_img/${list.bookMainImg}"
+									class="media-photo"
+									style="width: 145px; height: 215px; cursor: pointer; padding-top: 20px; margin: auto;"
+									alt="">
+							</div>
+							<div class="card-body"
+								style="word-break: break-all; padding-bottom: 20px;">
+								<h4>${list.bookTitle }</h4>
+								<h6 class="card-product__title">
+									<span>저자 | ${list.bookWriter }</span>
+								</h6>
+								<span
+									style="background-color: #b6e7c1; border: 1px solid #64d17c; color: #343a40;">${list.bookPrice }원</span>
 							</div>
 						</div>
-					</c:if>
-				</div>
+					</c:forEach>
 				</div>
 			</div>
 		</section>
-		<!-- ================ Blog section end ================= -->
-
-	
-
-
+		<!-- ================ 화제의 신간 end ================= -->
 	</main>
 
 

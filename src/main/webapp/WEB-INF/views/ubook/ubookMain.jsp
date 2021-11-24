@@ -121,32 +121,31 @@
 	            <section class="goseller">
 	              <div class="container">
 	              
-	                <button class="gobtn text-center" type="button" onclick="loginChk();">
+	                <button class="gobtn text-center" type="button" onclick="loginChk();"style="margin-left:15px; background-image: url(resources/img/002.png); width: 760px !important;color: #ffffff;height: 150px;border: none;">
 	                  <h3 class="subscribe__title">아직 판매자가<br>아니라면?</h3>
 	                  <h4>로그인을 하신 후에 판매자 가입해주세요</h4>
 	                </button>
 	                <script type="text/javascript">
 	                	function loginChk() {
 								alert("책구메이트 로그인 혹은 회원가입을 우선 진행해주세요!");
-								document.location.href="login.me";
 						}
 					</script>
 	              </div>
 	            </section>
-	            <section class="goseller">
+	            <!-- <section class="goseller">
 	              <div class="container">
-	                <button class="gobtn text-center" onclick="loginChk();">
+	                <button class="gobtn text-center" onclick="loginChk();" style="background-image: url(resources/img/001.png);">
 	                  <h3 class="subscribe__title">안읽는 책을<br>팔고싶다면?</h3>
 	                  <h4>로그인을 하신 후에 판매자 가입해주세요</h4>
 	                </button>
 	              </div>
-	            </section>
+	            </section> -->
             </c:if>
           <!-- ================ 판매자 가입 안했을 때 =================-->
               <c:if test="${ !empty sessionScope.loginUser && empty s.sellerId }">
 	            <section class="goseller">
 	              <div class="container">
-	                <button class="gobtn text-center" type="button" onclick="location.href='sellerInsertForm.se'">
+	                <button class="gobtn text-center" type="button" onclick="location.href='sellerInsertForm.se'" style="background-image: url(resources/img/001.png);">
 	                  <h3 class="subscribe__title">아직 판매자가<br>아니라면?</h3>
 	                  <h4>판매자 가입하기</h4>
 	                </button>
@@ -154,7 +153,7 @@
 	            </section>
 	            <section class="goseller">
 	              <div class="container">
-	                <button class="gobtn text-center" onclick="location.href='sellerInsertForm.se'">
+	                <button class="gobtn text-center" onclick="location.href='sellerInsertForm.se'" style="background-image: url(resources/img/001.png);">
 	                  <h3 class="subscribe__title">안읽는 책을<br>팔고싶다면?</h3>
 	                  <h4>도서 등록하기</h4>
 	                </button>
@@ -165,7 +164,7 @@
               <c:if test="${ !empty s.sellerId && s.status eq 'Y' }">
 	            <section class="goseller">
 	              <div class="container">
-	                <button class="gobtn text-center" type="button" onclick="location.href='sellerPage.se'">
+	                <button class="gobtn text-center" type="button" onclick="location.href='sellerPage.se'" style="background-image: url(resources/img/001.png);">
 	                  <h3 class="subscribe__title">${ s.sellerNickN }님 환영합니다</h3>
 	                  <h4>판매자 페이지로 이동</h4>
 	                </button>
@@ -173,7 +172,7 @@
 	            </section>
 	            <section class="goseller">
 	              <div class="container">
-	                <button class="gobtn text-center" onclick="location.href='sellerPage.se'">
+	                <button class="gobtn text-center" onclick="location.href='sellerPage.se'" style="background-image: url(resources/img/001.png);">
 	                  <h3 class="subscribe__title">안읽는 책을<br>팔고싶다면?</h3>
 	                  <h4>도서 등록하기</h4>
 	                </button>
@@ -184,20 +183,20 @@
               <c:if test="${ s.status eq 'N' }">
 	            <section class="goseller">
 	              <div class="container">
-	                <button class="gobtn text-center" type="button" onclick="location.href='#'">
+	                <button class="gobtn2 text-center" type="button" onclick="location.href='#'" style="margin-left:15px; background-image: url(resources/img/002.png); width: 760px !important;color: #ffffff;height: 150px;border: none;">
 	                  <h3 class="subscribe__title">현재 판매자 계정이<br>휴면 상태입니다.</h3>
 	                  <h4>고객센터에 휴면 해제를 요청해주세요.</h4>
 	                </button>
 	              </div>
 	            </section>
-	            <section class="goseller">
+	            <!-- <section class="goseller">
 	              <div class="container">
-	                <button class="gobtn text-center" onclick="location.href='#'">
+	                <button class="gobtn text-center" onclick="location.href='#'" style="background-image: url(resources/img/001.png);">
 	                  <h3 class="subscribe__title">현재 판매자 계정이<br>휴면 상태입니다.</h3>
 	                  <h4>고객센터에 휴면 해제를 요청해주세요.</h4>
 	                </button>
 	              </div>
-	            </section>         
+	            </section> -->         
             </c:if>
           </div>
               </div>

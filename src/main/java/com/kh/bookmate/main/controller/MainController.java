@@ -46,8 +46,8 @@ public class MainController {
 		model.addAttribute("bestList", bestList);
 		
 		//4.화제의 신간
-//		ArrayList<Book> hotBook = bookService.selectHotTopicBook();
-//	    model.addAttribute("hotBook", hotBook);
+		ArrayList<Book> hotBook = bookService.selectHotTopicBook();
+	    model.addAttribute("hotBook", hotBook);
 		
 		//5.최근본상품
 		
