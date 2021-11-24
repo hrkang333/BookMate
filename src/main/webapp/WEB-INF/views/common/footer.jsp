@@ -47,6 +47,7 @@
         margin: 0;
         padding:10px;
         font-size: 13px;
+        font-color: black;
     }
     #p2{
         text-align:center;
@@ -56,12 +57,12 @@
 <body style="width: 1200px;">
   <!--================ Start footer Area  =================-->   
    <footer class="footer">
-      <div class="footer-area">
+      <div class="footer-area" style="background-color: whitesmoke;">
          <div class="container">
             <div class="row section_gap">
                <div class="col-lg-3 col-md-6 col-sm-6">
                   <div class="single-footer-widget tp_widgets">
-                     <h4 class="footer_title large_title">Our Mission</h4>
+                     <h4 style="font-color:black;">Our Mission</h4>
                      <p>
                         So seed seed green that winged cattle in. Gathering thing made fly you're no 
                         divided deep moved us lan Gathering thing us land years living.
@@ -73,7 +74,10 @@
                </div>
                <div class="offset-lg-1 col-lg-2 col-md-6 col-sm-6">
                   <div class="single-footer-widget tp_widgets">
-                     <h4 class="footer_title">Quick Links</h4>
+                  
+                  
+                  
+                   <!--   <h4 style="font-color:black;">Quick Links</h4>
                      <ul class="list">
                         <li><a href="#">Home</a></li>
                         <li><a href="#">Shop</a></li>
@@ -81,10 +85,10 @@
                         <li><a href="#">Product</a></li>
                         <li><a href="#">Brand</a></li>
                         <li><a href="#">Contact</a></li>
-                     </ul>
+                     </ul> -->
                   </div>
                </div>
-               <div class="col-lg-2 col-md-6 col-sm-6">
+             <div class="col-lg-2 col-md-6 col-sm-6">
                   <div class="single-footer-widget instafeed">
                      <h4 class="footer_title">Gallery</h4>
                      <ul class="list instafeed d-flex flex-wrap">
@@ -96,7 +100,7 @@
                         <li><img src="img/gallery/r8.jpg" alt=""></li>
                      </ul>
                   </div>
-               </div>
+               </div> 
                <div class="offset-lg-1 col-lg-3 col-md-6 col-sm-6">
                   <div class="single-footer-widget tp_widgets">
                      <h4 class="footer_title">Contact Us</h4>
@@ -109,7 +113,7 @@
    
                         <p class="sm-head">
                            <span class="fa fa-phone"></span>
-                           Phone Number
+                         대표 전화번호
                         </p>
                         <p>
                            +123 456 7890 <br>
@@ -136,8 +140,8 @@
             <div class="row d-flex">
                <p class="col-lg-12 footer-text text-center">
                   <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+<!-- Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+ --><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
             </div>
          </div>
       </div>

@@ -189,10 +189,25 @@ public class UbookPaymentServiceImpl implements UbookPaymentService {
 		return ubookSoldList;
 	}
 
+	//[중고] 도서 주문리스트 불러오기 
 	@Override
 	public List<UbookPayment> selectUbookMyOrderList(String loginUser) {
-		
-		return null;
+		 List<UbookPayment> uList = ubookPaymentDao.selectUbookMyOrderList(sqlSession,loginUser);
+		return uList;
+	}
+
+	//[중고] 도서 상세 주문리스트 불러오기 
+	@Override
+	public List<UbookPaymentDetail> selectUbookMyOrderDetailList(int paymentNoUb) {
+		 List<UbookPaymentDetail>	uDetailList = ubookPaymentDao.selectUbookMyOrderDetailList(sqlSession,paymentNoUb);
+		return uDetailList;
+	}
+
+	//[중고] 배송완료 후 구매확정 
+	@Override
+	public void confirmOrderUbook(int paymentDetailNoUb) {
+		ubookPaymentDao.confirmOrderUbook(sqlSession, paymentDetailNoUb);
+	
 	}
 
 	

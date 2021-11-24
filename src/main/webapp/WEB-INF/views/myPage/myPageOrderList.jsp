@@ -103,9 +103,9 @@
 					<input type="hidden" id="detailForm1" name="paymentNo" ></form> 
                       
                          
-             </div> 
+            		 </div> 
     
-   		</div>
+   				</div>
    		
             </div>
           
@@ -115,14 +115,6 @@
 
 		<script type="text/javascript">
 		
-		// 주문리스트에서 상세보기 클릭시 해당 주문번호로 들어감 
-		/*  $(function(){
-             $("tr.OrderListTr td.orderListDetail").click(function(){
-                $("#paymentNoClick").submit();
-             });
-         }) */
-	
-         
          //히든 인풋으로 들고오는 애 
 		function OrderListDetailGo(num){
 			
@@ -131,14 +123,14 @@
 			 $("#detailForm").submit();
 		}
 		
- 		//주문 취소 버튼 
+ 	/* 	//주문 취소 버튼 
 		function orderCancle() {
 			if (confirm("정말 취소하시겠습니까? ") == true) { //확인
 				document.form.submit();
 			} else { //취소
 				return;
 			}
-		}
+		} */
 		</script>
 
     

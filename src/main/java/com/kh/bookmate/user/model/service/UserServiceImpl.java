@@ -52,12 +52,7 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
-	//회원 포인트 조회 
-	@Override
-	public User selectUserPoint(User user) {
-		User selectUserPoint = userDao.selectUserPoint(sqlSession, user);
-		return selectUserPoint;
-	}
+	
 
 	//회원 탈퇴 
 	@Override
@@ -78,11 +73,19 @@ public class UserServiceImpl implements UserService {
 		return findPwd;
 	}
 
+	
+	@Override
+	public User selectUserPoint(String loginUser) {
+		User user = userDao.selectUserPoint(sqlSession,loginUser );	
+		return user;
+	}
+
 	@Override
 	public void returnUserPoint(User u) {
-		userDao.returnUserPoint(sqlSession, u );
+		// TODO Auto-generated method stub
 		
 	}
 
+	
 	
 }

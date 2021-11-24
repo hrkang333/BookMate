@@ -42,12 +42,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		 
 	</select>
 	
-	<!-- payment list 페이징  -->
-	<select id="selectListCount"  resultType="_int">
-		SELECT COUNT(*) FROM PAYMENT
-		WHERE USER_ID =#{user_Id}
-		
-	</select>
 	
 	<!-- 나의 주문 목록 상세 조회  -->
 	<select id="selectMyOrderListDetail" resultType="PaymentDetail" parameterType="_int">

@@ -18,12 +18,6 @@ public class PaymentDao {
 		// TODO Auto-generated method stub
 		return (ArrayList)sqlSession.selectList("paymentMapper.selectMyOrderList", loginUser);
 	}
- 
-	//페이징처리 
-	public int selectListCount(SqlSessionTemplate sqlSession, String loginUser) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectOne("paymentMapper.selectListCount",loginUser);
-	}
 	 
 	//나의 주문 리스트 상세 조회  
 	public List<PaymentDetail> selectMyOrderListDetail(SqlSessionTemplate sqlSession, int paymentNo) {

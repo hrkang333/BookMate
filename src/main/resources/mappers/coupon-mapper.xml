@@ -10,4 +10,12 @@ SELECT * FROM COUPON WHERE COUPONCODE = #{couponCode}
 <insert id="insertCoupon" parameterType="Coupon">
 INSERT INTO COUPON VALUES(#{couponCode},#{couponPoint},#{couponStartDate},#{couponEndDate})
 </insert>
+
+
+<!-- <select id="checkCoupon" parameterType="String" resultType="Coupon">
+SELECT * COUPON 
+WHERE COUPONCODE = #{couponCode}
+
+</select>
+ -->
 </mapper>
