@@ -16,7 +16,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		                            FROM SELLDATE
 		                            WHERE SELLDATE >= SYSDATE-14  --7로 바꿔야 한다!
 		                            ORDER BY SELLQUNTITY DESC)
-		                        WHERE ROWNUM <= 24)
+		                        WHERE ROWNUM <= 13)
 		ORDER BY SELLDATE.SELLQUNTITY DESC
 		]]>
 	</select>
@@ -33,6 +33,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		                     WHERE ROWNUM <= 5)
 		AND A.BOOKCATEGORY = #{category_number}
 		]]>
+	</select>
+	
+	<select id="selectRecentView" resultType="RecentView">
+		SELECT *
+		FROM RECENTVIEW
+		WHERE USERID= #{userId}
+	</select>
+	
+	<insert id="insertRecentView" parameterType="hashmap">
+		INSERT INTO RECENTVIEW(USERID, BOOKS)
+		VALUES(#{userId}, #{bookISBN})
+	</insert>
+	
+	<update id="updateRecentView" parameterType="hashmap">
+		UPDATE RECENTVIEW
+		SET BOOKS = #{bookISBNS}
+		WHERE USERID = #{userId}
+	</update>
+	
+	<select id="selectRecentViewList" resultType="Book">
+		SELECT *
+		FROM BOOK
+		WHERE BOOKISBN IN
+		<foreach item="item" collection="list" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
 	</select>
 
 </mapper>
