@@ -5,36 +5,28 @@ import java.util.Date;
 public class Notice {
 	
 	private int noticeNo;
-	private int eventNo;
 	private String noticeCategory;
 	private String noticeTitle;
 	private String noticeContent;
+	private String noticeWriter;
 	private Date noticeDate;
-	private int noticeReadCount;
+	private int noticeViews;
 	
 	public Notice() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Notice(int noticeNo, int eventNo, String noticeCategory, String noticeTitle, String noticeContent,
-			Date noticeDate, int noticeReadCount) {
+	public Notice(int noticeNo, String noticeCategory, String noticeTitle, String noticeContent, String noticeWriter,
+			Date noticeDate, int noticeViews) {
 		super();
 		this.noticeNo = noticeNo;
-		this.eventNo = eventNo;
 		this.noticeCategory = noticeCategory;
 		this.noticeTitle = noticeTitle;
 		this.noticeContent = noticeContent;
+		this.noticeWriter = noticeWriter;
 		this.noticeDate = noticeDate;
-		this.noticeReadCount = noticeReadCount;
-	}
-
-	public Notice(int eventNo, String noticeCategory, String noticeTitle, String noticeContent) {
-		super();
-		this.eventNo = eventNo;
-		this.noticeCategory = noticeCategory;
-		this.noticeTitle = noticeTitle;
-		this.noticeContent = noticeContent;
+		this.noticeViews = noticeViews;
 	}
 
 	public int getNoticeNo() {
@@ -43,14 +35,6 @@ public class Notice {
 
 	public void setNoticeNo(int noticeNo) {
 		this.noticeNo = noticeNo;
-	}
-
-	public int getEventNo() {
-		return eventNo;
-	}
-
-	public void setEventNo(int eventNo) {
-		this.eventNo = eventNo;
 	}
 
 	public String getNoticeCategory() {
@@ -77,6 +61,14 @@ public class Notice {
 		this.noticeContent = noticeContent;
 	}
 
+	public String getNoticeWriter() {
+		return noticeWriter;
+	}
+
+	public void setNoticeWriter(String noticeWriter) {
+		this.noticeWriter = noticeWriter;
+	}
+
 	public Date getNoticeDate() {
 		return noticeDate;
 	}
@@ -85,21 +77,21 @@ public class Notice {
 		this.noticeDate = noticeDate;
 	}
 
-	public int getNoticeReadCount() {
-		return noticeReadCount;
+	public int getNoticeViews() {
+		return noticeViews;
 	}
 
-	public void setNoticeReadCount(int noticeReadCount) {
-		this.noticeReadCount = noticeReadCount;
+	public void setNoticeViews(int noticeViews) {
+		this.noticeViews = noticeViews;
 	}
 
 	@Override
 	public String toString() {
-		return "NoticeVo [noticeNo=" + noticeNo + ", eventNo=" + eventNo + ", noticeCategory=" + noticeCategory
-				+ ", noticeTitle=" + noticeTitle + ", noticeContent=" + noticeContent + ", noticeDate=" + noticeDate
-				+ ", noticeReadCount=" + noticeReadCount + "]";
+		return "Notice [noticeNo=" + noticeNo + ", noticeCategory=" + noticeCategory + ", noticeTitle=" + noticeTitle
+				+ ", noticeContent=" + noticeContent + ", noticeWriter=" + noticeWriter + ", noticeDate=" + noticeDate
+				+ ", noticeViews=" + noticeViews + "]";
 	}
-	
-	
+
+
 
 }

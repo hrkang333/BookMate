@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>fff</title>
+<title>장바구니</title>
 <link rel="stylesheet"
 	href="resources/vendors/bootstrap/bootstrap.min.css">
 
@@ -166,10 +166,11 @@ function moveBookDetail(bookISBN) {
 </script>
 </head>
 
-<body style="width: 1200px; margin: 0 auto;">
-<%-- 	<jsp:include page="../common/menubar.jsp" /> --%>
+<body>
+<jsp:include page="../common/menubar.jsp" />
+		<main class="site-main" style="padding-top: 180px">
+
 	<hr>
-	<main>
 
 		<c:choose>
 		<c:when test="${requestScope.cartItemList != null}">

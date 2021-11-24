@@ -603,9 +603,10 @@ cursor: pointer;
 	}
 </script>
 </head>
-<body style="width: 1200px; margin: auto;">
+<body>
+<jsp:include page="../common/menubar.jsp" />
+		<main class="site-main" style="padding-top: 180px">
 
-	<main>
 		<br>
 		<hr>
 		<br>
@@ -954,7 +955,7 @@ cursor: pointer;
 		</div>
 		<br><br><br><br><br><br><br>
 
-		 <div class="modal fade" id="inputPwdModal">
+		 <div class="modal fade" id="inputPwdModal"style="z-index: 10000">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                 <!-- Modal Header -->
@@ -986,7 +987,7 @@ cursor: pointer;
                 </div>
             </div>
         </div>
-		<div class="modal fade" id="payPwdModal">
+		<div class="modal fade" id="payPwdModal"style="z-index: 10000">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                 <!-- Modal Header -->
@@ -1020,7 +1021,7 @@ cursor: pointer;
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="payPhonePwd">
+        <div class="modal fade" id="payPhonePwd" style="z-index: 10000">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                 <!-- Modal Header -->
