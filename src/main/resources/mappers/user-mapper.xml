@@ -40,6 +40,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<update id="deleteUser" parameterType="string">
 		update USERS set status='N' where user_id=#{userId}
 	</update>
+	
 	<select id="selectUser" resultMap="userResultSet" parameterType="string">SELECT * FROM USERS WHERE USER_ID = #{userId} 
 	</select>
 	<update id="updatePwd">UPDATE USERS SET USER_PWD=#{userPwd} WHERE USER_ID=#{userId} </update>
@@ -61,13 +62,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE user_ID=#{userId}
 		
 	</update> 
+											<!-- resultMap을 안쓰면 왜 unread로 읽지?  -->
+	<select id="selectUserPoint" resultType="User" resultMap="userResultSet">
 	
-	<select id="selectUserPoint" parameterType="_int">
-	
-		select * from users
-		where user_ID = #{userId}
-		and POINT = #{point}
-		and STATUS ='y'
+		SELECT * FROM USERS
+		WHERE USER_ID = #{userId}
 		
 	</select>
 	
@@ -82,12 +81,6 @@ UPDATE USERS SET POINT = POINT+#{point} WHERE USER_ID = #{userId}
 </update>
 
 	
-	<!--페이먼트디테일 테이플에서 getPoint를 -해줘야되는데 user 에는 user_id가 없음..ㅠㅠ   -->
-	<!-- <update id="updateUserReturnPoint" parameterType="Payment">
-		UPDATE USERS SET POINT = POINT - #{totalGetPoint}
-		WHERE USER_ID = #{user_Id}
-	</update> 
-	  -->
 	  
 	<update id="updateUserReturnPoint" parameterType="list">
    		UPDATE USERS SET POINT = POINT - #{list[0]} WHERE USER_ID = #{list[1]}

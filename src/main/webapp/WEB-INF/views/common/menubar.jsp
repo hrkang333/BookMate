@@ -9,7 +9,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>책구메이트</title>
    <link rel="icon" href="resources/img/Fevicon.png" type="image/png">
-  <link rel="stylesheet" href="resources/vendors/bootstrap/bootstrap.min.css">
+
   <link rel="stylesheet" href="resources/vendors/fontawesome/css/all.min.css">
    <link rel="stylesheet" href="resources/vendors/themify-icons/themify-icons.css">
   <link rel="stylesheet" href="resources/vendors/nice-select/nice-select.css">
@@ -18,6 +18,8 @@
 
 </head> 
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+ 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> 
 <!--   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
  --><style>
 
@@ -68,32 +70,29 @@
 		</div>
 
 
-		<div class="searchingArea">
+	<div class="searchingArea">
 		
-		<a class="imgHome" href="home.us" style="margin-right: 10px"><img src="resources/img/ss2.png" alt=""></a>
-					<input class="searchingInput" type="text" placeholder="검색어를 입력하세요" >
-					<button class="btn btn-success" type="submit" style="height:50px; color: black; cursor: pointer;">검색</button>
-		</div>
+		<form action="selectSearchKeyword.se"  method="post">
+			<a class="imgHome" href="home.us" style="margin-right: 10px"><img src="resources/img/ss2.png" alt=""></a>
+				<input class="searchingInput" type="text" placeholder="검색어를 입력하세요" name="keyword">
+				<button class="btn btn-success" type="submit" style="height:50px; color: black; cursor: pointer;">검색</button>
+		</form>
+	</div>
 		
-		
-		<!--  -->
- 
 
 		<!--카테고리  -->
 		<nav style="width: 1200px; text-align: center;">
-			<ul class="navbar">
-				<li class="nav-item"><a class="nav-link" href="indexKor.book">국내도서</a></li>
-
-
-				<li class="nav-item submenu dropdown"><a href="#"
-					class="nav-link dropdown-toggle" data-toggle="dropdown"
-					role="button" aria-haspopup="true" aria-expanded="false">Ebook</a>
-
+			<ul class="navbar" id="tree">
+				<li class="nav-item"><a class="nav-link" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">국내도서</a>
 
 					<ul class="dropdown-menu">
-						<li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-						<li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
-					</ul>
+						<li class="nav-item"><a class="nav-link" >국내도서 전체</a></li>
+						<li class="nav-item"><a class="nav-link" href="single-blog.html"></a></li>
+					</ul></li>
+				<li class="nav-item submenu dropdown"><a href="#" role="button" value="12">eBook</a>
+
+
+					
 					
 				</li>
 				
@@ -102,6 +101,36 @@
 			
 
 			</ul>
+			
+			<!-- <form action="selectCategory.ca" method="post" id="ppop">
+			<input type="hidden" name="category" value="0">
+	 
+	 <select onchange="changeCategory(this.value)">
+                	    <option value="0">카테고리 선택</option>
+                		<option value="0">소설/시/에세이</option>
+                		<option value="1">경제/경영</option>
+                		<option value="2">과학</option>
+                		<option value="3">인문</option>
+                		<option value="4">컴퓨터/IT</option>
+                		<option value="5">자기계발</option>
+                		<option value="6">정치/사회</option>
+                		<option value="7">역사/문화</option>
+                		<option value="8">취미</option>
+                		<option value="9">가정/육아</option>
+                		<option value="10">국내도서 전체</option>
+                		<option value="12">eBook 전체</option>
+                	</select>
+	
+		<script type="text/javascript">
+			function changeCategory(category) {
+				$('#category').val(category);
+				$('#ppop').submit()
+			}
+			</script>
+ -->
+	 
+	</form>
+			
 		</nav>
 		<div>
 
@@ -142,6 +171,23 @@
 		</div>
 	</header>
 
+	<script type="text/javascript">
+	
+		/* $('#tree li').on('click', function(e) {
+			console.log("국내도서");})
 
+		$('#tree ul').children('li').off().on('click', function(e) {
+			console.log($(this).text());
+			}) */
+		
+		/*   $('#tree li').on('click', function(e) {
+                if($(this).parent('#tree').length > 0) {
+                    console.log("클릭하면 나오나");
+                } else {
+                    console.log($(this).text());
+                }
+            }) */
+			
+	</script>
 </body>
 </html>

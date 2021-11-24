@@ -53,7 +53,7 @@ public class MainController {
 		//4.화제의 신간
 		ArrayList<Book> hotBook = bookService.selectHotTopicBook();
 	    model.addAttribute("hotBook", hotBook);
-		
+
 		//5.최근본상품 - 조회 
 	    if((User)request.getSession().getAttribute("loginUser") != null ){
 	    	String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();

@@ -78,6 +78,7 @@
     	transform: translate(-50%);
 	}
 </style>
+
 </head>
 <body>
 	<jsp:include page="common/menubar.jsp" />
@@ -456,17 +457,15 @@
 		<!-- ================ trending product section end ================= -->
 
 
-		<!-- ================ offer section start ================= -->
-		
 		<!--================ 이벤트 슬라이드2 start =================-->
 		<section class="hero-banner2">
 			<div class="container2">
-				<div id="myCarousel" class="carousel slide" data-ride="carousel">
+				<div id="myCarousel2" class="carousel slide" data-ride="carousel">
 					<!-- 하단 슬라이드 페이지 표시 -->
 					<ol class="carousel-indicators">
-						<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-						<li data-target="#myCarousel" data-slide-to="1"></li>
-						<li data-target="#myCarousel" data-slide-to="2"></li>
+						<li data-target="#myCarousel2" data-slide-to="0" class="active"></li>
+						<li data-target="#myCarousel2" data-slide-to="1"></li>
+						<li data-target="#myCarousel2" data-slide-to="2"></li>
 					</ol>
 					<!-- 슬라이드 content -->
 					<div class="carousel-inner">
@@ -541,308 +540,57 @@
 					</c:if>
 				</div>
 				
-				
-				<%-- <div class="owl-carousel owl-theme" id="bestSellerCarousel">
-					<div class="card text-center card-product">
-						<div class="card-product__img">
-							<img class="img-fluid" src="img/product/product1.png" alt="">
-							<ul class="card-product__imgOverlay">
-								<li><button>
-										<i class="ti-search"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-shopping-cart"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-heart"></i>
-									</button></li>
-							</ul>
-						</div>
-
-						<div class="card-body">
-
-							<span style="font-size: 20px; font-weight: bold; color: blue;">${categoryName}</span>
-							분야 주간 베스트 도서 <br> <br>
-							<div style="display: flex;">
-								<div style="margin-top: 125px">
-									<img alt=""
-										src="${pageContext.servletContext.contextPath }/resources/img/btn_prev.gif"
-										height="50px" style="margin-right: 15px; cursor: pointer;"
-										onclick="bestListMove(0,${requestScope.book.bookSubCategory})">
-								</div>
-								<c:forEach items="${requestScope.bestList}" var="list"
-									varStatus="status">
-									<div style="width: 180px; text-align: center;">
-										<img alt=""
-											src="${pageContext.servletContext.contextPath }/resources/images/book_img/${list.bookMainImg}"
-											width="170px" height="250px"
-											style="margin: 5px; cursor: pointer;"
-											onclick="detailbook('${list.bookISBN}')"
-											id="bestBookImg${status.index}"><br> <span
-											id="bestBookTitle${status.index}" style="cursor: pointer;"
-											onclick="detailbook('${list.bookISBN}')"><c:out
-												value="${list.bookTitle}"></c:out></span><br> <span
-											style="color: red;" id="bestBookPrice${status.index}"><fmt:formatNumber
-												value="${list.bookPrice}"></fmt:formatNumber>원</span>
-
-									</div>
-
-								</c:forEach>
-								<div style="margin-top: 125px">
-									<img alt=""
-										src="${pageContext.servletContext.contextPath }/resources/img/btn_next.gif"
-										height="50px" style="margin-left: 15px; cursor: pointer;"
-										onclick="bestListMove(1,${requestScope.book.bookSubCategory})">
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="card text-center card-product">
-						<div class="card-product__img">
-							<img class="img-fluid" src="img/product/product2.png" alt="">
-							<ul class="card-product__imgOverlay">
-								<li><button>
-										<i class="ti-search"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-shopping-cart"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-heart"></i>
-									</button></li>
-							</ul>
-						</div>
-						<div class="card-body">
-							<p>Beauty</p>
-							<h4 class="card-product__title">
-								<a href="single-product.html">Women Freshwash</a>
-							</h4>
-							<p class="card-product__price">$150.00</p>
-						</div>
-					</div>
-
-					<div class="card text-center card-product">
-						<div class="card-product__img">
-							<img class="img-fluid" src="img/product/product3.png" alt="">
-							<ul class="card-product__imgOverlay">
-								<li><button>
-										<i class="ti-search"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-shopping-cart"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-heart"></i>
-									</button></li>
-							</ul>
-						</div>
-						<div class="card-body">
-							<p>Decor</p>
-							<h4 class="card-product__title">
-								<a href="single-product.html">Room Flash Light</a>
-							</h4>
-							<p class="card-product__price">$150.00</p>
-						</div>
-					</div>
-
-					<div class="card text-center card-product">
-						<div class="card-product__img">
-							<img class="img-fluid" src="img/product/product4.png" alt="">
-							<ul class="card-product__imgOverlay">
-								<li><button>
-										<i class="ti-search"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-shopping-cart"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-heart"></i>
-									</button></li>
-							</ul>
-						</div>
-						<div class="card-body">
-							<p>Decor</p>
-							<h4 class="card-product__title">
-								<a href="single-product.html">Room Flash Light</a>
-							</h4>
-							<p class="card-product__price">$150.00</p>
-						</div>
-					</div>
-
-					<div class="card text-center card-product">
-						<div class="card-product__img">
-							<img class="img-fluid" src="img/product/product1.png" alt="">
-							<ul class="card-product__imgOverlay">
-								<li><button>
-										<i class="ti-search"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-shopping-cart"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-heart"></i>
-									</button></li>
-							</ul>
-						</div>
-						<div class="card-body">
-							<p>Accessories</p>
-							<h4 class="card-product__title">
-								<a href="single-product.html">Quartz Belt Watch</a>
-							</h4>
-							<p class="card-product__price">$150.00</p>
-						</div>
-					</div>
-
-					<div class="card text-center card-product">
-						<div class="card-product__img">
-							<img class="img-fluid" src="img/product/product2.png" alt="">
-							<ul class="card-product__imgOverlay">
-								<li><button>
-										<i class="ti-search"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-shopping-cart"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-heart"></i>
-									</button></li>
-							</ul>
-						</div>
-						<div class="card-body">
-							<p>Beauty</p>
-							<h4 class="card-product__title">
-								<a href="single-product.html">Women Freshwash</a>
-							</h4>
-							<p class="card-product__price">$150.00</p>
-						</div>
-					</div>
-
-					<div class="card text-center card-product">
-						<div class="card-product__img">
-							<img class="img-fluid" src="img/product/product3.png" alt="">
-							<ul class="card-product__imgOverlay">
-								<li><button>
-										<i class="ti-search"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-shopping-cart"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-heart"></i>
-									</button></li>
-							</ul>
-						</div>
-						<div class="card-body">
-							<p>Decor</p>
-							<h4 class="card-product__title">
-								<a href="single-product.html">Room Flash Light</a>
-							</h4>
-							<p class="card-product__price">$150.00</p>
-						</div>
-					</div>
-
-					<div class="card text-center card-product">
-						<div class="card-product__img">
-							<img class="img-fluid" src="img/product/product4.png" alt="">
-							<ul class="card-product__imgOverlay">
-								<li><button>
-										<i class="ti-search"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-shopping-cart"></i>
-									</button></li>
-								<li><button>
-										<i class="ti-heart"></i>
-									</button></li>
-							</ul>
-						</div>
-						<div class="card-body">
-							<p>Decor</p>
-							<h4 class="card-product__title">
-								<a href="single-product.html">Room Flash Light</a>
-							</h4>
-							<p class="card-product__price">$150.00</p>
-						</div>
-					</div>
-				</div> --%>
+	
 			</div>
 		</section>
 		<!-- ================ Best Selling item  carousel end ================= -->
 
-		<!-- ================ Blog section start ================= -->
-		<section class="blog" style="margin-bottom: 20px;">
-			<div class="container">
-			<div class="subscribe text-center"style="background-color: #eee; padding-left: 20px; padding-right: 20px; box-shadow: none;">
-				<div class="section-intro pb-60px">
+		<!-- ================ 이벤트 슬라이드2 end ================= -->
+
+
+		<!-- ================ 화제의 신간 ================= -->
+		<section class="section-margin calc-60px"
+			style="height: 615px; background-color: #eee; padding-left: 20px; padding-right: 20px; box-shadow: none;">
+			<div class="container text-center">
+				<div class="section-intro pb-60px" style="padding-top: 25px;">
 					<p>화제의 도서를 모아모아</p>
 					<h2>
 						화제의 <span class="section-intro__style">신간</span>
 					</h2>
 				</div>
-				<div class="col-md-12"
-					style="background-color: #fff; border-radius: 15px; padding-top: 20px">
-					<c:if test="${fn:length(hotBook) > 8}">
-						<div id="myCarousel" class="carousel slide" data-ride="carousel">
-							<!-- 하단 슬라이드 페이지 표시 -->
-							<ol class="carousel-indicators">
-								<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-								<li data-target="#myCarousel" data-slide-to="1"></li>
-								<!-- <li data-target="#myCarousel" data-slide-to="2"></li> -->
-							</ol>
-							<!-- 슬라이드 content -->
-							<div class="carousel-inner">
-								<c:forEach var="i" begin="0" end="${fn:length(hotBook)-1}"
-									step="12">
-									<c:choose>
-										<c:when test="${i eq 0}">
-											<c:set var="activeD" value="carousel-item active" />
-										</c:when>
-										<c:otherwise>
-											<c:set var="activeD" value="carousel-item" />
-										</c:otherwise>
-									</c:choose>
-									<div class="${activeD}">
-										<div class="row">
-											<c:forEach items="${hotBook}" var="list" begin="${i}"
-												end="${i+11}">
+				<div class="owl-carousel owl-theme" id="bestSellerCarousel"
+					style="background-color: #fff; border-radius: 15px; padding-top: 20px; width: 1125px; margin-left: -10px;">
+					<c:forEach items="${hotBook}" var="list" begin="${i}" end="${i+11}">
 
-												<div class="col-md-6 col-lg-4 col-xl-3">
-													<div class="card text-center card-product"
-														onclick="location.href='selectBook.book?bookISBN=${ list.bookISBN }'"
-														style="height: 380px; background-color: #fbf5f5;">
-														<div class="card-product__img">
-															<img
-																src="${pageContext.servletContext.contextPath }/resources/images/book_img/${list.bookMainImg}"
-																class="media-photo"
-																style="width: 145px; height: 215px; cursor: pointer; padding-top: 20px;"
-																alt="">
-														</div>
-														<div class="card-body"
-															style="word-break: break-all; padding-bottom: 20px;">
-															<h4>${list.bookTitle }</h4>
-															<h6 class="card-product__title">
-																<span>저자 | ${list.bookWriter }</span>
-															</h6>
-															<span
-																style="background-color: #b6e7c1; border: 1px solid #64d17c; color: #343a40;">${list.bookPrice }원</span>
-														</div>
-													</div>
-												</div>
-											</c:forEach>
-										</div>
-									</div>
-								</c:forEach>
+						<div class="card text-center card-product"
+							onclick="location.href='selectBook.book?bookISBN=${ list.bookISBN }'"
+							style="height: 380px; width: 235px; background-color: #fbf5f5; margin-right: 25px;">
+							<div class="card-product__img">
+								<img
+									src="${pageContext.servletContext.contextPath }/resources/images/book_img/${list.bookMainImg}"
+									class="media-photo"
+									style="width: 145px; height: 215px; cursor: pointer; padding-top: 20px; margin: auto;"
+									alt="">
+							</div>
+							<div class="card-body"
+								style="word-break: break-all; padding-bottom: 20px;">
+								<h4>${list.bookTitle }</h4>
+								<h6 class="card-product__title">
+									<span>저자 | ${list.bookWriter }</span>
+								</h6>
+								<span
+									style="background-color: #b6e7c1; border: 1px solid #64d17c; color: #343a40;">${list.bookPrice }원</span>
 							</div>
 						</div>
-					</c:if>
-				</div>
+					</c:forEach>
 				</div>
 			</div>
 		</section>
 		<!-- ================ Blog section end ================= -->
 
 	
+
+		<!-- ================ 화제의 신간 end ================= -->
 
 	</main>
 

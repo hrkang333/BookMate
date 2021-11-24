@@ -134,7 +134,7 @@ font-weight: bold;
 </head>
 <body style="width: 1200px; margin: auto;">
 	<main>
-		<div style="display: flex;">
+		<div style="display: flex;width: 1200px;">
 			<div style="width: 200px;" id="adminMenuDiv">
 				<br>
 				<br>

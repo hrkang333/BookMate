@@ -11,10 +11,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kh.bookmate.coupon.model.service.CouponService;
 import com.kh.bookmate.coupon.model.vo.Coupon;
+import com.kh.bookmate.coupon.model.vo.UseCoupon;
 import com.kh.bookmate.exchange_item.model.service.ExchangeItemService;
 import com.kh.bookmate.exchange_item.model.vo.ExchangeItem;
 import com.kh.bookmate.payment.model.service.PaymentService;
@@ -58,29 +60,16 @@ public class myPageController {
 
 
 
-	//나의 포인트 조회화면 띄우기  
-	@RequestMapping("myPoint.me")
-	public String myPoint() {
-		return "myPage/myPoint";
-	}
-
 	//회원의 포인트 조회 
-	@RequestMapping("selectUserPoint.me")
-	public String selectUserPoint(@ModelAttribute User user, HttpSession session, Model model ) throws Exception {
+	@RequestMapping("myPoint.me")
+	public String selectUserPoint(User user, HttpSession session, Model model ) throws Exception {
 		
-		User userPoint = userService.selectUserPoint(user);
-		model.addAttribute("loginUser", userPoint);	
+		String loginUser = ((User) session.getAttribute("loginUser")).getUserId(); 
+		User userPoint = userService.selectUserPoint(loginUser);
+		
+		model.addAttribute("userPoint", userPoint);	
 	return "myPage/myPoint";
 
-	}
-	
-	//쿠폰 등록하기 
-	@RequestMapping("addCoupon.me")
-	public String addCoupon(String couponCode, Model model, @RequestParam("@addCoupon") String addCoupon ) {
-		
-		Coupon cu = couponService.selectCoupon(couponCode); //쿠폰 리스트를 가져온다.
-		
-		return "myPage/mayPoint";
 	}
 
 
@@ -151,7 +140,6 @@ public class myPageController {
 
 		List<PaymentDetail> myOrderListDetail = paymentService.selectMyOrderListDetail(paymentNo);
 		model.addAttribute("myOrderListDetail",myOrderListDetail);
-		//System.out.println("myOrderListDetail=확인 =================" + myOrderListDetail.toString());
 		
 		return "myPage/myOrderListDetail";
 		
@@ -243,33 +231,85 @@ public class myPageController {
 		return "myPage/cancelList";
 	}
 	
+	
 
 
-//	
-//	//[중고] 주문 리스트 
-//	@RequestMapping("selectMyOrderList.ub")
-//	public String selectUbookMyOrderList(Model model, HttpSession session) { 
-//					
-//		//주문 내역보기 
-//		String loginUser = ((User) session.getAttribute("loginUser")).getUserId(); 
-//		List<UbookPayment> ubMyOrderList = ubookPaymentService.selectUbookMyOrderList(loginUser);
-//
-//			
-//		model.addAttribute("ubMyOrderList",ubMyOrderList);
-//		return "myPage/myPageOrderList";
-//	}
-//
-//	
-//	//[중고] 주문 리스트 내역 상세보기 
-//	@RequestMapping("selectMyOrderListDetail.me")
-//	public String selectUbookMyOrderDetailList (Model model, int paymentNoUb ) {	
-//
-//		List<UbookPaymentDetail> myOrderListDetail = paymentService.selectUbookMyOrderDetailList(paymentNoUb);
-//		model.addAttribute("myOrderListDetail",myOrderListDetail);
-//		//System.out.println("myOrderListDetail=확인 =================" + myOrderListDetail.toString());
+
+	//[중고] 주문 리스트 
+	@RequestMapping("selectMyOrderList.ub")
+	public String selectUbookMyOrderList(Model model, HttpSession session) { 
+					
+		//주문 내역보기 
+		String loginUser = ((User) session.getAttribute("loginUser")).getUserId(); 
+		List<UbookPayment> ubMyOrderList = ubookPaymentService.selectUbookMyOrderList(loginUser);
+
+			
+		model.addAttribute("ubMyOrderList",ubMyOrderList);
+		return "myPage/secondaryMarketOrderList";
+	}
+
+	
+	//[중고] 주문 리스트 내역 상세보기 
+	@RequestMapping("selectMyOrderListDetail.ub")
+	public String selectUbookMyOrderDetailList (Model model, int paymentNoUb ) {	
+
+		List<UbookPaymentDetail> ubMyOrderListDetail = ubookPaymentService.selectUbookMyOrderDetailList(paymentNoUb);
+		model.addAttribute("ubMyOrderListDetail",ubMyOrderListDetail);
+		
+		return "myPage/secondaryMarketOrderDetailList";
+		
+	}
+	
+	//[중고] 배송후 사용자가 주문확정
+	@RequestMapping("confirmOrder.ub")
+	public String confirmOrderUbook(int paymentNoUb, int paymentDetailNoUb, Model model) {
+
+		ubookPaymentService.confirmOrderUbook(paymentDetailNoUb);
+		model.addAttribute("paymentNoUb",paymentNoUb); 
+		
+		
+		return "redirect:selectMyOrderListDetail.ub";
+	}
+
+	
+	
+
+	
+	//사용한 쿠폰테이블을 조회함 usecoupon  쿠폰 입력할때
+	//그 테이블에 찾아서 아이디랑 쿠폰번호가 잇으면 이미 사용한 쿠폰
+	//발행된 쿠폰 번호를 입력함 입력한 쿠폰과 발행된 쿠폰이 같을때 
+	//1. 유저테이블에 포인트를 업데이트 시킨다. 
+	
+	//아이디 유효성 검사처럼 하면 될거같은데... 
+	
+	//받은 쿠폰 번호 확인하기 
+	@RequestMapping(value="checkCoupon.me", produces ="application/text; charset=utf-8" )
+	@ResponseBody
+	public String check(String couponCode) { //사용자한테 (쿠폰 코드만) 받을 수 있는 값만 적어야됨 
+		
+		
+		//usecoupon 검색 해와야 유저아이드를 들고가서 쿠폰 where 절해서 count = 0 했을때만 쿠폰을 사용할수있게
+		
+		//쓴적이 있을때 없을때 판단 if count가 1이면 ? count가 0이면 쿠폰쓰고 , userCoupon 진행 
+		//if else 일때 사용을 못함 
+		//
+		
+		//쿠폰테이블에 가서 쿠폰에 따른 포인트를 들고와야됨 쿠폰객체를 들고왔다면
+		//쿠폰객체에서 get.point 해서 유저포인트 업데이트 
 //		
-//		return "myPage/myOrderListDetail";
+//		Coupon cu = couponService.checkCoupon(couponCode);
+//
+		return null;
+
+	}
+	
+	 //1. 입력값 받아오기 
+//	
+//	@RequestMapping("updateCoupon.me")
+//	public String updateCoupon(Model model) {
 //		
+//		
+//		return "redirect:/";
 //	}
 	
 }

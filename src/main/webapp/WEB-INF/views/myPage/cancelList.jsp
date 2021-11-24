@@ -27,40 +27,53 @@
     
     <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<body style="width:1200px">
+<body style="width: 1200px; margin: auto;">
+ <jsp:include page="../common/menubar.jsp" />
 
-	<table class="table" style="text-align: center;" border="1px;">		
-		<tr>
-			<th scope="col">상세주문번호</th>
-			<!-- <th scope="col">주문한 날짜</th> -->
-			<th scope="col">도서 제목</th>
-			<th scope="col">주문 수량</th>
-			<th scope="col">도서 가격</th>
-			<th scope="col">주문상태</th>
-			
-		</tr>	
-		
-			<c:if test="${empty cList}">
-	           <td colspan="5"><h2>취소하신 상품이 없습니다. </h2></td>
-	       	</c:if>
-                          
-		<c:forEach var="item" items="${cList }" varStatus="status" >
-		  <tr>
-			<td><c:out value="${item.paymentDetailNo }"/></td>
-			<td><c:out value="${item.bookTitle }"/></td>
-			<td><c:out value="${item.quantity}" />개</td>
-			<td><c:out value="${item.bookPrice}"/> 원</td>
-			 
-			 <td>
-			  <c:choose>
-			 	<c:when test="${item.deliveryStatus == '4' }">구매취소</c:when>
-			  </c:choose>
-			 <td>	
-		  </tr>
-		</c:forEach>
-	</table>
-	
-	
+<!-- 왼쪽 사이드바  -->
+	<section style="padding-top: 180px;">
+		<div class="container">
+			<div class="row">
+				<jsp:include page="../myPageSideBar/sideBar.jsp" />
+
+
+              <div style="text-align: center; width: 900px; height: auto; margin-left: 40px">
+              	<div class="order_details_table">
+              		<h1>취소 주문 목록 리스트 </h1>
+					<table class="table" style="text-align: center;">
+                        <thead style="text-align: center;">
+					<tr>
+						<th scope="col">상세주문번호</th>
+						<th scope="col">도서 제목</th>
+						<th scope="col">주문 수량</th>
+						<th scope="col">도서 가격</th>
+						<th scope="col">주문상태</th>
+
+					</tr>
+
+					<c:if test="${empty cList}">
+						<td colspan="5"><h2>취소하신 상품이 없습니다.</h2></td>
+					</c:if>
+
+					<c:forEach var="item" items="${cList }" varStatus="status">
+						<tr>
+							<td><c:out value="${item.paymentDetailNo }" /></td>
+							<td><c:out value="${item.bookTitle }" /></td>
+							<td><c:out value="${item.quantity}" />개</td>
+							<td><c:out value="${item.bookPrice}" /> 원</td>
+
+							<td><c:choose>
+									<c:when test="${item.deliveryStatus == '4' }">구매취소</c:when>
+								</c:choose>
+							<td>
+						</tr>
+					</c:forEach>
+				</table>
+			</div>
+		</div>
+	</section>
+
+
 
 </body>
 </html>

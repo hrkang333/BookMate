@@ -23,6 +23,8 @@
 </head>
 <body style="width: 1000px; margin: 0 auto;">
 	<jsp:include page="../common/menubar.jsp" />
+	
+	<main class="site-main" style="padding-top: 180px">
 	<hr>
 
 
@@ -123,6 +125,14 @@
 		$('#ppop').submit()
 	}
 	</script>
-
+	
+	<br>
+	<br>
+	<br>
+	<form action="noticeList.no" method="post">
+	<input type="submit" value="공지사항 이동">
+	 
+	</form>
+</main>
 </body>
 </html>
