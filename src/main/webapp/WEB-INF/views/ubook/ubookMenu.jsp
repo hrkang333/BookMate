@@ -43,7 +43,7 @@
                     <nav class="navbar1 navbar-expand-lg1 navbar-light1" style="margin-bottom: 0px !important;">
                         <div class="row" style="margin-left: 0; margin-right: 0;">
                             <!--로고링크-->
-                            <a href="home.us" class="logo_link">
+                            <a href="http://localhost:8090/spring/" class="logo_link">
                                 <img src="resources/img/logo1.png" class="logo1">
                             </a>
                             <a href="ubookMain.ub" class="logo_link2" style=" margin-top: 10px;">
@@ -85,7 +85,7 @@
                             <!--로그인 회원정보-->
                             <c:if test="${ empty sessionScope.loginUser }">
                             
-                                <a href="home.us">책구메이트 홈</a> |
+                                <a href="http://localhost:8090/spring/">책구메이트 홈</a> |
                                 <a href="register.me">회원가입</a> |
                                 <a data-toggle="modal" data-target="#loginModal">로그인</a>
 									
@@ -101,7 +101,7 @@
                                 </c:if>
                                 <a href="ubookCart.ub">장바구니</a>
                                 |
-                                <a href="home.us">책구메이트 홈</a>
+                                <a href="http://localhost:8090/spring/">책구메이트 홈</a>
                                 |
                                 <a href="logout.us">로그아웃</a>
                             </c:if>

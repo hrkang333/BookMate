@@ -67,7 +67,7 @@
                                         alt="">
                                     </div>
                                     <div class="thumb-content">
-                                      <h4>${list.ubookName }</h4>
+                                      <h5 style="text-overflow: ellipsis;">${list.ubookName }</h5>
                                       <p class="item-price"><strike>${list.ubookOPrice }원</strike> <span>${list.ubookPrice }원</span></p>
                                       <span class="grade_s"
 												style="font-size: 11px; line-height: 15px; display: inline-block; padding: 0px 2px 0px; background-color: #d4ddf8; border: 1px solid #00006d; color: #00006d;">
