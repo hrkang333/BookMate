@@ -88,7 +88,8 @@
 
 <body style="width:1200px; margin:auto">
     
-    <jsp:include page="../club/clubMenubar.jsp"/>
+    <jsp:include page="../common/menubar.jsp" />
+    <%-- <jsp:include page="../club/clubMenubar.jsp"/> --%>
 
     <main class="site-main">
     

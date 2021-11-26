@@ -53,7 +53,7 @@
 <body style="margin: auto; width: 1200px">
 	<!--================ Start Header Menu Area =================-->
 	<header class="mainHeader"
-		style="text-align: center; z-index: 9999;  background-color: #f9f1e2;width: 100vw; left:0%; position: fixed;  box-shadow: none;">
+		style="text-align: center; z-index: 9999;  background-color: #f9f1e2;width: 100vw; left:0%; position: fixed;  box-shadow: none; top:0;">
 
 <div  style="margin: auto; width: 1200px">
 		<div class="loginArea">
