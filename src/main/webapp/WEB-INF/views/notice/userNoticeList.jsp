@@ -63,36 +63,17 @@ function noteceDetail(noticeNo) {
 <body>
 <jsp:include page="../common/menubar.jsp" />
 		<main class="site-main" style="padding-top: 180px">
-<div style="display: flex;width: 1200px; ">
-			<div style="width: 200px;" id="adminMenuDiv">
-					<br>
-				<br>
-				<br><span>공지사항 관리</span><br>
-				<br> <a href="noticeList.no">-공지사항 등록/수정/삭제</a><br>
-				<br>
-				<br><span>회원 관리</span><br>
-				<br> -일반등급회원<br> -판매등급회원<br>
-				<br>
-				<br><span>도서 관리</span><br>
-				<br> -도서등록<br> -도서수정<br> -도서입고<br>
-				<br>
-				<br><span>문의 답변</span><br>
-				<br> -문의 확인/답변<br>
-				<br>
-				<br><span>쿠폰 관리</span><br>
-				<br> -쿠폰등록<br> -쿠폰수정/삭제<br>
 
-			</div>
-<div style="margin-left: auto;margin-right: auto; width: 900px;">
+<div style="margin-left: auto;margin-right: auto; width: 1000px;">
 	<br><br><br>
 <form action="noticeList.no" method="post" id="pageMoveForm">
 <input type="hidden" id="noticeKeyword" name="keyword" value="${requestScope.keyword}">
 <input type="hidden" id="noticeNowPage" name="nowPage" value="${requestScope.noticePaging.nowPage}">
-<input type="hidden" id="isUser" value="1">
+<input type="hidden" name="isUser" value="1">
 </form>
 <form action="selectNoticeDetail.no" id="moveNoticeDetailForm" method="post">
 <input type="hidden" id="noticeNoInput" name="noticeNo" value="">
-<input type="hidden" id="isUser" value="1">
+<input type="hidden" name="isUser" value="1">
 </form>
 <span style="font-size: 30px; font-weight: bold;">공지사항</span>
 <hr>
@@ -126,13 +107,7 @@ function noteceDetail(noticeNo) {
                </c:forEach> 	
             </tbody>
             <tfoot>
-            <tr>
-                	<td colspan="6">
-                	<div style="display: flex;">
-                	<div style="margin-left: auto; padding-right: 10px"> <button type="button" onclick="location.href='noticeEnrollForm.no'"  class="btn-secondary btn-sm" >글 작성</button> </div>
-                	</div>
-                	</td>
-                </tr>
+           
                 <tr>
 
 		        <td colspan="6" style="text-align: center;" id="pageNumber">
@@ -164,7 +139,7 @@ function noteceDetail(noticeNo) {
                 
             </tfoot>
         </table>
-        </div></div>
+        </div>
         </main>
 </body>
 </html>

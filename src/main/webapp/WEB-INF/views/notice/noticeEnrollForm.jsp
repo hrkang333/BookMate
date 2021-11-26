@@ -87,10 +87,7 @@ padding: 10px;
 				<br>
 				<br>
 				<br><span>공지사항 관리</span><br>
-				<br> -공지사항 등록/수정/삭제<br>
-				<br>
-				<br><span>이벤트 관리</span><br>
-				<br> -이벤트 등록<br> -이벤트 수정/삭제<br>
+				<br> <a href="noticeList.no">-공지사항 등록/수정/삭제</a><br>
 				<br>
 				<br><span>회원 관리</span><br>
 				<br> -일반등급회원<br> -판매등급회원<br>

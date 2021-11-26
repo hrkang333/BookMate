@@ -37,37 +37,12 @@ padding: 10px;
     resize: none;
 }
 </style>
-<script type="text/javascript">
-function deleteNotice(noticeNo) {
-	if(confirm("정말로 공지사항을 삭제 하시겠습니까?")){
-	location.href='deleteNotice.no?noticeNo='+noticeNo
-	}
-}
-</script>
+
 <body>
 	<jsp:include page="../common/menubar.jsp" />
 		<main class="site-main" style="padding-top: 180px">
-	<div style="display: flex;width: 1200px;">
-			<div style="width: 200px;" id="adminMenuDiv">
-					<br>
-				<br>
-				<br><span>공지사항 관리</span><br>
-				<br> <a href="noticeList.no">-공지사항 등록/수정/삭제</a><br>
-				<br>
-				<br><span>회원 관리</span><br>
-				<br> -일반등급회원<br> -판매등급회원<br>
-				<br>
-				<br><span>도서 관리</span><br>
-				<br> -도서등록<br> -도서수정<br> -도서입고<br>
-				<br>
-				<br><span>문의 답변</span><br>
-				<br> -문의 확인/답변<br>
-				<br>
-				<br><span>쿠폰 관리</span><br>
-				<br> -쿠폰등록<br> -쿠폰수정/삭제<br>
-
-			</div>
-	<div style="margin-left: auto;margin-right: auto; width: 900px;">
+	
+	<div style="margin-left: auto;margin-right: auto; width: 1000px;">
 	<br><br><br>
 	<span style="font-size: 30px; font-weight: bold;">공지사항</span>
 <hr>
@@ -110,10 +85,8 @@ function deleteNotice(noticeNo) {
                 <td colspan="4" style="padding-left: 20px; padding-right: 20px;">
                 
                     <div style="display: flex;">
-                    <c:if test="${sessionScope.loginUser.userId=='admin'}">
-                    <form action="updateNoticeForm.no" method="post"><input type="hidden" name="noticeNo" value="${requestScope.notice.noticeNo}">
-                        <div style="margin-right: auto;"><button type="submit"  class="btn-secondary btn-sm" >수정</button></form><button type="button" onclick="deleteNotice(${requestScope.notice.noticeNo})"  class="btn-secondary btn-sm" >삭제</button></div></c:if>
-                        <div style="margin-left: auto;"><button type="button" onclick="location.href='noticeList.no'"  class="btn-secondary btn-sm" >목록으로</button></div>
+
+                        <div style="margin-left: auto;"><button type="button" onclick="location.href='noticeList.no?isUser=1'"  class="btn-secondary btn-sm" >목록으로</button></div>
                     
                 </div>
                 </td>
@@ -122,7 +95,7 @@ function deleteNotice(noticeNo) {
         </tfoot>
         </table>
 	
-	</div></div>
+	</div>
 	</main>
 </body>
 </html>

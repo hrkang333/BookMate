@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.kh.bookmate.book.model.dao.BookDao;
 import com.kh.bookmate.book.model.vo.Book;
+import com.kh.bookmate.main.model.service.MainService;
 import com.kh.bookmate.ubook.model.vo.Ubook;
+import com.kh.bookmate.user.model.vo.User;
 
 @Service
 public class BookServiceImpl implements BookService{
@@ -19,6 +21,9 @@ public class BookServiceImpl implements BookService{
 	
 	@Autowired
 	private BookDao bookDao;
+	
+	@Autowired
+	private MainService mainService;
 
 	@Override
 	public Book selectBook(String bookISBN) {
@@ -109,6 +114,14 @@ public class BookServiceImpl implements BookService{
 		return bookDao.selectHotTopicBook(sqlSession);
 	}
 
+	@Override
+	public void insertRecentView(String userId, String bookISBN) {
+		
+
+	         mainService.insertRecentView(bookISBN, userId);
+	}
+
+	
 	
 
 }
