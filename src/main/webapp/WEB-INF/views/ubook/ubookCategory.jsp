@@ -28,7 +28,7 @@
     <div>
 
       <!--================ 좌측 사이드바(도서 카테고리 선택) =================-->
-      <div class="col-xl-2" style="text-align: center; position: fixed; z-index: 888; margin-top: 93px;">
+      <div class="col-xl-2" style="text-align: center; position: fixed; z-index: 888; margin-top: 189px;">
         <div class="sidebar-categories">
           <div class="head category" style="width: 175px;"><a href="ubookMain.ub">중고도서</a></div>
 		  <div class="categorybody"><a href="ubookCategory.ub?ubCategory=1">소설/시/에세이</a></div>
@@ -54,7 +54,7 @@
     z-index: 7777;
     width: 943px;
     margin-left: 205px;">
-        <section class="content" style="margin-top: 100px;float: right;">
+        <section class="content" style="margin-top: 150px;float: right;">
                     <!-- <select onchange="sortChange(this.value)">
                     	<option value="가격낮은순">가격 낮은 순</option>
                         <option value="가격높은순">가격 높은 순</option>

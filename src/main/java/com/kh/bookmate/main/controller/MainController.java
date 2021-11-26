@@ -15,6 +15,8 @@ import com.kh.bookmate.book.model.service.BookService;
 import com.kh.bookmate.book.model.vo.Book;
 import com.kh.bookmate.main.model.service.MainService;
 import com.kh.bookmate.main.model.vo.RecentView;
+import com.kh.bookmate.notice.model.service.NoticeService;
+import com.kh.bookmate.notice.model.vo.Notice;
 import com.kh.bookmate.user.model.vo.User;
 
 @Controller
@@ -25,6 +27,7 @@ public class MainController {
 	
 	@Autowired
 	private BookService bookService;
+	
 	
 	@RequestMapping("/")
 	public String selectMainBest(HttpServletRequest request, Model model) {
@@ -76,7 +79,15 @@ public class MainController {
 	    	model.addAttribute("isbnList", isbnList);  //db에는 잘 저장되는데 book리스트로 조회하면 순서가 다 엉망이된다.
 			model.addAttribute("viewList", viewList);
 	    }
-
+	    
+	    //6.이벤트
+	    List<Notice> eventImg = null; 
+	    eventImg = mainService.selectEventImg();
+	    System.out.println("이미지 이름 가져오니..."+eventImg);
+		model.addAttribute("eventImg", eventImg);
+		
+	    
+	    
 		return "index";
 	}
 }

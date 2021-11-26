@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.kh.bookmate.book.model.vo.Book;
 import com.kh.bookmate.main.model.vo.RecentView;
+import com.kh.bookmate.notice.model.vo.Notice;
 
 public interface MainService {
 
@@ -22,5 +23,8 @@ public interface MainService {
 
 	//최근본상품 select -> 위에서 조회한 isbn들로 Book 리스트 조회
 	List<Book> selectRecentViewList(ArrayList<String> isbnList);
+
+	//이벤트 사진 리스트
+	List<Notice> selectEventImg();
 	
 }
