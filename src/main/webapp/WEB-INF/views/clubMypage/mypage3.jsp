@@ -180,10 +180,10 @@
 	                                    		</c:if>
 	                                    	</c:when>
 	                                    	<c:when test="${c.condition eq 5}">
-	                                    		<td>마감</td>
+	                                    		<td>마감 <input type="button" onclick="checkApply('${c.clubNo}')" value="신청인원 확인"> </td>
 	                                    	</c:when>
 	                                    	<c:when test="${c.condition eq 6}">
-	                                    		<td>모임종료</td>
+	                                    		<td>모임종료 <input type="button" onclick="checkApply('${c.clubNo}')" value="신청인원 확인"> </td>
 	                                    	</c:when>
 	                                    </c:choose>
 	                                </tr>

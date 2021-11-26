@@ -106,7 +106,7 @@
 	    position: absolute;
 	    top: 160px;
 	    right: -30px;
-	
+	}
 	
 	.hotUl{
 		display: flex;
@@ -255,7 +255,7 @@
 	
 	<main class="site-main" style="padding-top: 180px">
 	
-		<div id="recentViewDiv" style="width: 150px; height: 650px; background-color: #F5F5F5;">
+		<div id="recentViewDiv" style="width: 200px; height: 650px; background-color: #F5F5F5;">
 			<div id="recentViewDiv_1">최근 본 상품 (<span style="color:red">${fn:length(viewList)}</span>)</div>
 			
 			<c:if test="${fn:length(viewList) != 0}">

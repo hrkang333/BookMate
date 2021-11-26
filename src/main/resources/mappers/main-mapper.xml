@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE BOOK.BOOKISBN IN (SELECT BOOKISBN
 		                        FROM(SELECT BOOKISBN, SELLQUNTITY
 		                            FROM SELLDATE
-		                            WHERE SELLDATE >= SYSDATE-14  --7로 바꿔야 한다!
+		                            WHERE SELLDATE >= SYSDATE-30  --7로 바꿔야 한다!
 		                            ORDER BY SELLQUNTITY DESC)
 		                        WHERE ROWNUM <= 30)
 		ORDER BY SELLDATE.SELLQUNTITY DESC

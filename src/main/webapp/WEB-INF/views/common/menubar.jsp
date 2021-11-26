@@ -51,7 +51,7 @@
 
 <body  style="margin: auto; width: 1200px">
   <!--================ Start Header Menu Area =================-->
-	<header class="mainHeader"  style="text-align: center; z-index: 9999; background-color:#ffff; position:fixed;  width: 1200px;  box-shadow: none; margin: ">
+	<header class="mainHeader"  style="text-align: center; z-index: 9999; background-color:#ffff; position:fixed;  width: 1200px;  box-shadow: none; top:0;">
 		
 		<div class="loginArea">
 			<c:if test="${ empty sessionScope.loginUser }">

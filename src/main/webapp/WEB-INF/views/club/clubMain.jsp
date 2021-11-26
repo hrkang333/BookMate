@@ -65,7 +65,7 @@
         }
         .titleBackImg{
         	width: 100%;
-        	height: 100%;
+        	height: 200px;
 		    background-size: cover;
 		    background-position: center center;
         }
@@ -74,24 +74,133 @@
         	height: 275px;
         	background-color: #EED8AE;
         }
+        
+        #clubMenubar{
+			position: fixed;
+			right: 50%;
+			transform: translate(-610px, 0);
+			margin-top: 5px;
+		}
+		
+		#nav-v2{
+			/* width:150px
+			;text-align:center; */
+		} 
+		.menu-v2{ 
+			line-height:2; 
+			/* border:1px solid #222;  */
+			position:relative; 
+			
+		} 
+		.menu-v2 .submenu{
+			position:absolute; 
+			width:150px; 
+			left:120px; 
+			/* border:1px solid #cfa175; */
+			background-color:#adc09c; 
+			color:white; 
+			top:-1px; 
+			display:none; 
+			z-index:9999; /*이렇게 해도 카드에는 안됨*/
+		} 
+		.menu-v2 a{
+			color:black;
+		}
+		.menu-v2:hover{ 
+			background-color:#adc09c; 
+			color:white; 
+		} 
+		.menu-v2 .submenu>li:hover{ 
+			background-color:white; 
+			color:#adc09c; 
+		}
+		
+		
+
     </style>
 </head>
 
-<body style="width:1200px; margin:auto">
-    
-    <jsp:include page="../club/clubMenubar.jsp"/>
+<body style="width:1200px; margin:auto; padding-top: 140px;">
+    <jsp:include page="../common/menubar.jsp" />
 
     <main class="site-main">
-
+	
+		<div id="clubMenubar" style="width: 220px; height: 650px; background-color: #f1e5d9;">  <!-- #f1e5d9 #faf1e6   #fcf3e0-->
+			<hr style="margin-top: 0px; height: 4px; background-color: #503535;">
+			<div style="font-size: 23px; font-weight: 800; margin-top: 35px;">
+				함께 읽고 얘기하는 <br>
+				독서메이트
+			</div>
+			<hr style="margin: 35px 0px;">
+			<nav>
+				<ul id="nav-v2">
+					<li class="menu-v2"><a href="clubMain.cl">독서모임 홈</a></li>
+					<li class="menu-v2"><a href="clubAll.cl">모든 독서모임</a></li>
+					<li class="menu-v2"><a href="searchPage.cl">나에게 맞는 독서모임</a></li>
+					<li onclick="checkUser();" class="menu-v2"><a <c:if test="${!empty sessionScope.loginUser}">href="mypage1.cl"</c:if> >마이페이지</a>
+						<ul class="submenu">
+							<li><a <c:if test="${!empty sessionScope.loginUser}">href="mypage1.cl"</c:if>>신청 목록</a></li>
+							<li><a <c:if test="${!empty sessionScope.loginUser}">href="mypage2.cl"</c:if>>찜 목록</a></li>
+							<li><a <c:if test="${!empty sessionScope.loginUser}">href="mypage3.cl"</c:if>>내 독서모임</a></li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+			<hr style="margin: 35px 0px;">
+			<div></div>
+			<div></div>
+		</div>
 
         <!-- ================ 1.인기 독서모임 ================= -->
 		<section class="section-margin calc-60px" style="margin-top: 50px;">
-			<div class="">
+			<div class="container">
 				<div class="section-intro pb-60px">
 					<p>책구메이트에서 가장 인기있는 독서모임들</p>
 					<h2>
 						<span class="section-intro__style">인기</span> 독서모임
 					</h2>
+				</div>
+				
+				<div style="padding: 20px 20px 50px; background-color: #d9e7db;">
+					<c:if test="${fn:length(popList) > 0}">
+					
+						<div style="display: flex; flex-wrap: wrap; background-color: white; padding: 30px;">
+							
+							<c:forEach var="i" begin="0" end="${fn:length(popList)-1}" step="6">
+								
+								<div class="col-md-6 col-lg-4 mb-4 mb-lg-0 pointer" style="padding-right: 7px; padding-left: 7px">
+									
+									
+									<input type="hidden" value="${list.clubNo}">
+									<div class="">  <!--  class="card card-blog" -->
+										<div class="image">  <!-- class="card-blog__img" -->
+											<c:forEach items="${list.clubAttachments}" var="ca">
+												<div class="titleBackImg" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${ca.changeName}')"></div>
+											</c:forEach>
+										</div>
+										<div class="">  <!--  class="card-body" -->
+											<ul class=""> <!-- class="card-blog__info" -->
+												<li>${list.category}&nbsp; [ ${list.onoffLine} ]</li>
+												<li><i class="ti-comments-smiley"></i> 2 Likes</li>
+											</ul>
+											<h4 class="">${list.clubTitle}</h4> <!-- class="card-blog__title" -->
+											<p>
+												<c:set var="temp" value="${list.intro}" />
+												<c:choose>
+													<c:when test="${fn:length(temp) gt 61}">
+														<c:out value="${fn:substring(temp,0,60)}"></c:out> ...
+							                                  </c:when>
+													<c:otherwise>
+														<c:out value="${temp}" />
+													</c:otherwise>
+												</c:choose>
+											</p>
+										</div>
+									</div>
+								</div>
+							</c:forEach>
+						</div>
+					</c:if>
 				</div>
 
 				<!--
@@ -107,7 +216,7 @@
 					<div style="display: flex;">
 						<c:forEach items="${popList}" var="list" begin="0" end="3">
 							<div class="col-md-6 col-lg-4 mb-4 mb-lg-0 pointer"
-								style="padding-right: 7px; padding-left: 7px">
+style="padding-right: 7px; padding-left: 7px">
 								<input type="hidden" value="${list.clubNo}">
 								<div class="card card-blog">
 									<div class="card-blog__img">
@@ -145,7 +254,7 @@
 				<!-- 3개 초과인 경우에는 슬라이딩 된다.
 					 클래스명이 carousel-item인 div에 <row>는 한개, 독서모임은 3개를 넣어줘야 하므로 아래와 같이 변수를 지정하여 했다.
 					 이렇게 하면 select 시 조회해오는 독서모임의 갯수에 상관없이 슬라이딩을 적용할 수 있다.-->
-				<c:if test="${fn:length(popList) > 4}">
+				<%-- <c:if test="${fn:length(popList) > 4}">
 					<div id="carouselExampleIndicators0" class="carousel slide"
 						data-ride="carousel">
 						<ol class="carousel-indicators">
@@ -220,7 +329,7 @@
 							class="sr-only">Next</span>
 						</a>
 					</div>
-				</c:if>
+				</c:if> --%>
 			</div>
 		</section>
 
@@ -434,7 +543,16 @@
 
 		<script>
 			var origin = 0;
+			
+			$(document).ready(function(){ 
+				 //menu v2 
+				 $(".menu-v2").mouseover(function(){ $(this).children(".submenu").show(200); }); 
+				 $(".menu-v2").mouseleave(function(){ $(this).children(".submenu").hide(200); }); 
+				 
+				 //출처: https://contentstoaster.tistory.com/6 [Contents Toaster]
+			});
 
+				
 			$(function() {
 				$(".pointer").click(function() {
 					console.log($(this).children(":first").val());
@@ -497,6 +615,15 @@
 					}
 				})
 			})
+			
+			function checkUser(){
+				var userId = '${sessionScope.loginUser.userId}';
+				if(userId == ''){
+					alert('로그인 후 이용해주세요');
+					return;
+				}
+			}
+
 		</script>
 
 		<!-- ================ Best Selling item  carousel end ================= -->
