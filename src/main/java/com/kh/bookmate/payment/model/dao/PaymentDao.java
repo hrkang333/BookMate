@@ -116,12 +116,16 @@ public class PaymentDao {
 		return sqlSession.selectOne("paymentMapper.selectPayment", p);
 	}
 
+	public List<PaymentDetail> refundAndExchangeList(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("paymentMapper.checkStock",sqlSession);
+	}
+	
+	
+	
 
 
-//	//환불 후 유저 적립한 포인트와, 사용포인트 반환 
-//	public void updateUserReturnPoint(SqlSessionTemplate sqlSession, Payment p) {
-//		sqlSession.selectOne("paymentMapper.updateUserReturnPoint", p);
-//	}	
+
 	public int updateBookStock(SqlSessionTemplate sqlSession, ShoppingBasket basket) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("paymentMapper.updateBookStock",basket);
@@ -132,6 +136,7 @@ public class PaymentDao {
 		return sqlSession.selectOne("paymentMapper.checkStock",bookISBN);
 	}
 
+	
 
  
 	

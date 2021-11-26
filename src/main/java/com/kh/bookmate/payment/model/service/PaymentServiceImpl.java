@@ -168,6 +168,13 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 
+	@Override
+	public List<PaymentDetail> refundAndExchangeList() {
+		List<PaymentDetail> rxList = paymentDao.refundAndExchangeList(sqlSession);
+		return rxList;
+	}
+
+
 
 
 	//여기서 트렌젝션 처리해서 하나 오류난다고 해서 다른 하나가 되지 않음 
@@ -216,12 +223,6 @@ public class PaymentServiceImpl implements PaymentService {
 		return stock >= basket.getQuantity() ;
 	}
 
-
-	@Override
-	public int selectListCount(String loginUser) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 
 	

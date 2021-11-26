@@ -57,94 +57,61 @@
 <body style="width: 1200px;">
   <!--================ Start footer Area  =================-->   
    <footer class="footer">
-      <div class="footer-area" style="background-color: whitesmoke;">
+      <div class="" style="background-color: white;" height="500px">
          <div class="container">
             <div class="row section_gap">
                <div class="col-lg-3 col-md-6 col-sm-6">
                   <div class="single-footer-widget tp_widgets">
-                     <h4 style="font-color:black;">Our Mission</h4>
+                   <!--   <h4 style="font-color:black; font-size: 50px">책구메이트</h4> -->
+                     <img alt="" src="resources/img/logo1.png;" width="200px;" height="auto;" >
                      <p>
-                        So seed seed green that winged cattle in. Gathering thing made fly you're no 
-                        divided deep moved us lan Gathering thing us land years living.
-                     </p>
-                     <p>
-                        So seed seed green that winged cattle in. Gathering thing made fly you're no divided deep moved 
-                     </p>
+                       도서 구매와 중고판매 독서모임까지 ❤️  &nbsp;&nbsp;&nbsp;&nbsp;책구메이트와 함께하세요! <p>
+                    <br>
                   </div>
                </div>
                <div class="offset-lg-1 col-lg-2 col-md-6 col-sm-6">
                   <div class="single-footer-widget tp_widgets">
-                  
-                  
-                  
-                   <!--   <h4 style="font-color:black;">Quick Links</h4>
-                     <ul class="list">
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Shop</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Product</a></li>
-                        <li><a href="#">Brand</a></li>
-                        <li><a href="#">Contact</a></li>
-                     </ul> -->
-                  </div>
+                  <br><br>
+                                    </div>
                </div>
-             <div class="col-lg-2 col-md-6 col-sm-6">
+      			 <div class="col-lg-2 col-md-6 col-sm-6">
                   <div class="single-footer-widget instafeed">
-                     <h4 class="footer_title">Gallery</h4>
-                     <ul class="list instafeed d-flex flex-wrap">
-                        <li><img src="img/gallery/r1.jpg" alt=""></li>
-                        <li><img src="img/gallery/r2.jpg" alt=""></li>
-                        <li><img src="img/gallery/r3.jpg" alt=""></li>
-                        <li><img src="img/gallery/r5.jpg" alt=""></li>
-                        <li><img src="img/gallery/r7.jpg" alt=""></li>
-                        <li><img src="img/gallery/r8.jpg" alt=""></li>
-                     </ul>
+                   
                   </div>
+                  <br><br><br><br>
+                 📞 전화번호<br>
+                  (+82) 123-456-789
+                  <br><br><br>
+                  🔍 주소<br>
+                  서울특별시 강남구 테헤란로14길 6
                </div> 
                <div class="offset-lg-1 col-lg-3 col-md-6 col-sm-6">
-                  <div class="single-footer-widget tp_widgets">
-                     <h4 class="footer_title">Contact Us</h4>
-                     <div class="ml-40">
-                        <p class="sm-head">
-                           <span class="fa fa-location-arrow"></span>
-                           Head Office
-                        </p>
-                        <p>123, Main Street, Your City</p>
-   
-                        <p class="sm-head">
-                           <span class="fa fa-phone"></span>
-                         대표 전화번호
-                        </p>
-                        <p>
-                           +123 456 7890 <br>
-                           +123 456 7890
-                        </p>
-   
-                        <p class="sm-head">
-                           <span class="fa fa-envelope"></span>
-                           Email
-                        </p>
-                        <p>
-                           free@infoexample.com <br>
-                           www.infoexample.com
-                        </p>
+                <br><br><br><br>  
+                ✉ 이메일<br>
+                info.kh@gmail.com
+                <br><br><br>
+               👑 대표이사 : 관리자<br>
+				사업자등록번호 : 123-123-5431
+                       
                      </div>
                   </div>
-               </div>
+               </div> 
+           
             </div>
-         </div>
-      </div>
+         
+         <hr>
+      <div ><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COPYRIGHT(C) BOOKMATE ALL RIGHTS RESERVED. 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      서비스 소개 &nbsp;&nbsp;&nbsp;&nbsp;이용약관&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;개인정보처림방침 </p></div>
+      <br>  
+     
+     
 
-      <div class="footer-bottom">
-         <div class="container">
-            <div class="row d-flex">
-               <p class="col-lg-12 footer-text text-center">
-                  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-<!-- Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
- --><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-            </div>
-         </div>
-      </div>
+     
    </footer>
    <!--================ End footer Area  =================-->
 

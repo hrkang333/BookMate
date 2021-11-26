@@ -5,6 +5,7 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.bookmate.coupon.model.vo.Coupon;
 import com.kh.bookmate.payment.model.vo.Payment;
 import com.kh.bookmate.payment.model.vo.PaymentDetail;
 import com.kh.bookmate.user.model.vo.User;
@@ -67,6 +68,10 @@ public class UserDao {
 		return sqlSession.selectOne("userMapper.selectUserPoint",loginUser);
 	}
 
+	public int updateGetUserPoint(SqlSessionTemplate sqlSession, List<Object> redeem) {
+		return sqlSession.update("userMapper.updateGetUserPoint",redeem);
 		
 	}
 
+
+}

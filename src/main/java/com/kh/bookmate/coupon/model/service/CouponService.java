@@ -13,10 +13,20 @@ public interface CouponService {
 	int checkUseCoupon(String couponCode);
 
 	
-//	//쿠폰리스트 조회하기 
-//	List<UseCoupon> selectCouponList();
-//
-//	Coupon checkCoupon(String couponCode);
 
+	UseCoupon checkAlreadyUsedCoupon(UseCoupon uc);
+
+	
+	
+	//테이블에서 포인트만 알아서 받아온다 
+	void updateCoupon(UseCoupon uc, Coupon cu);
+
+	//테이블에서 couponcode로 포인트만 알아낼려고 받아옴 
+	int selectPoint(String couponCode);
+
+	
+	void selectUseCoupon(UseCoupon uc);
+
+	
 	
 }

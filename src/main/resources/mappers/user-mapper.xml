@@ -86,5 +86,12 @@ UPDATE USERS SET POINT = POINT+#{point} WHERE USER_ID = #{userId}
    		UPDATE USERS SET POINT = POINT - #{list[0]} WHERE USER_ID = #{list[1]}
    </update>
    
+
+   <update id="updateGetUserPoint" parameterType="list">
+   	
+   	 UPDATE USERS SET POINT = POINT + #{list[0]}
+   	 WHERE USER_ID = #{list[1]}
+   
+   </update> 
    
    </mapper>

@@ -118,7 +118,7 @@ public class UbookPaymentDao {
 	//[중고] 배송완료 후 구매확정 
 	public void confirmOrderUbook(SqlSessionTemplate sqlSession, int paymentDetailNoUb) {
 		// TODO Auto-generated method stub
-		 sqlSession.update("paymentMapper.confirmOrder",paymentDetailNoUb);
+		 sqlSession.update("ubookPaymentMapper.confirmOrderUbook",paymentDetailNoUb);
 	}
 
 
