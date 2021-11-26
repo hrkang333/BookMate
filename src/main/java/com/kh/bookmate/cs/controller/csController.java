@@ -78,7 +78,7 @@ public class csController {
 		return "cs/adminExchange";
 
 	}
-		
+		 
 	//[관리자] 교환 상태값 업데이트 
 	@RequestMapping("updateExchangeList.cs")
 	public String updateExchangeList(int paymentDetailNo, Model model ) {

@@ -10,8 +10,6 @@ import com.kh.bookmate.user.model.vo.User;
 public interface PaymentService {
 
 	List<Payment> selectMyOrderList(String loginUser);
-
-	int selectListCount(String loginUser);
  
 	List<PaymentDetail> selectMyOrderListDetail(int paymentNo);
 
@@ -47,6 +45,8 @@ public interface PaymentService {
 
 
 	void updateReturn(int paymentDetailNo, Payment p);
+
+	List<PaymentDetail> refundAndExchangeList();
 
 
 

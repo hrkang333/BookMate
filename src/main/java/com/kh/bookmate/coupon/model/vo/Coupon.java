@@ -26,6 +26,10 @@ public class Coupon {
 		this.couponEndDate = couponEndDate;
 	}
 
+	public Coupon(String couponCode2, String user_Id) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public String getCouponCode() {
 		return couponCode;
 	}

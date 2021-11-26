@@ -7,16 +7,15 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.kh.bookmate.coupon.model.service.CouponService;
+import com.kh.bookmate.coupon.model.vo.Coupon;
 import com.kh.bookmate.coupon.model.vo.UseCoupon;
 import com.kh.bookmate.exchange_item.model.service.ExchangeItemService;
 import com.kh.bookmate.exchange_item.model.vo.ExchangeItem;
@@ -183,6 +182,7 @@ public class myPageController {
 		return "myPage/applyExchange";
 	}
 	
+	
 	//[교환] 신청하기 (교환테이블에 넣기) 
 	@RequestMapping("insertExchange.me")
 	public String insertExchangeItem(ExchangeItem exchangeBook,int paymentNo, Model model ) {
@@ -232,7 +232,15 @@ public class myPageController {
 		return "myPage/cancelList";
 	}
 	
+	//교환/환불 리스트 조회 
+	@RequestMapping("refundAndExchangeList.me") // 왜 bookISBN no getter가 뜨는거지..
+	public String refundAndExchangeList(Model model) {
 	
+	List<PaymentDetail> rxList = paymentService.refundAndExchangeList();
+	model.addAttribute("rxList",rxList);
+	
+		return "myPage/refundAndExchangeList";
+	}
 
 
 
@@ -267,8 +275,7 @@ public class myPageController {
 
 		ubookPaymentService.confirmOrderUbook(paymentDetailNoUb);
 		model.addAttribute("paymentNoUb",paymentNoUb); 
-		
-		
+				
 		return "redirect:selectMyOrderListDetail.ub";
 	}
 
@@ -285,33 +292,46 @@ public class myPageController {
 	
 	//받은 쿠폰 번호 확인하기 
 	
-	//, produces ="application/text; charset=utf-8" 
 	@RequestMapping(value="/checkCu.me")
 	@ResponseBody														
-	public String checkUseCoupon(@RequestParam("couponCode") String couponCode) { 
+	public String checkUseCoupon(@RequestParam("couponCode") String couponCode, String user_Id) { 
 										//사용자한테 (쿠폰 코드만) 받을 수 있는 값만 적어야됨 
-//		String loginUser = ((User) session.getAttribute("loginUser")).getUserId(); 
-//		u.setUserId(couponCode);
-		
+			
 		int result = couponService.checkUseCoupon(couponCode);
 			if(result > 0) {
-				return "available"; // 이미 코드가 있는경우 (사용가능한..?)
+				UseCoupon uc = new UseCoupon(user_Id, couponCode);	
+//					System.out.println(user_Id+"=============check Cu ====");
+				UseCoupon uc1 = couponService.checkAlreadyUsedCoupon(uc); 
+				//쿠폰코드랑 매퍼에서 꺼내서 쓸수있음 값 null 아니면 사용한
+				if(uc1 != null){
+					
+					return "usedAlready";
+				}
+				return "available"; // 이미 코드가 있는경우 (사용가능한..?)쿠폰 
 			}else {
 				return "nope"; // 코드가 없어서 사용할 수 없음 
 			}
-			
-			
-		//쿠폰 넘버만 중복되는지 확인하면 되기에 스트링만 받아서 서비스로 보내줌 
-				
-		//1.값을 받아와서 useCoupon에 가서 해당 유저에 대한 값이 있는지 없는지 조회해 
 		
 	}
 	
-	//만약 쿠폰 중복 체크 했을때 useCoupon에 인서트하기..? 
-	@RequestMapping("insertUseCoupon.me")
-	public String insertUseCoupon() {
+	//만약 쿠폰 중복 체크 했을때 useCoupon에 인서트하기/ 사용자테이블에 포인트 올려주기 
+	@RequestMapping("updateCoupon.me")
+	public String updateCoupon(String couponCode, String user_Id) { 
+
 		
-		return null;
+		UseCoupon uc = new UseCoupon(user_Id, couponCode); //usecoupon에 인서트 해줄려 이거 두개만 찍히니까		
+		couponService.selectUseCoupon(uc); 
+		
+		System.out.println(uc+"----------------uc는 잘들고오니? ");
+		
+		
+		int point = couponService.selectPoint(couponCode);//테이블에서 포인트만 받아온다.(유저업데ㅣ트할때 필요함) 
+	//	System.out.println(point + "================point 잘 들고오니 ");
+		
+		Coupon cu = couponService.selectCoupon(couponCode);
+		couponService.updateCoupon(uc,cu); //유저아이디랑, 쿠폰코드 받아옴 
+		
+		return "redirect:myPoint.me";
 	}
 	
 	

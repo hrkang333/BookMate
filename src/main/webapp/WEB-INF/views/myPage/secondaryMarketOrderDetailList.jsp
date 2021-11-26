@@ -84,19 +84,22 @@
 												<td><del><c:out value="${item.ubookPriceUb}"/></del>원 <div><c:out value="${item.ubookOPriceUb}"/>원</div></td>
 												<td>
 												<c:choose>
-													<c:when test="${item.deliveryStatusUb =='주문확인' }">준비중</c:when>
+													<c:when test="${item.deliveryStatusUb =='주문확인' }">주문확인중</c:when>
+													<c:when test="${item.deliveryStatusUb =='배송준비' }">배송준비</c:when>
+													
+													<c:when test="${item.deliveryStatusUb=='수취확인'  }">수취확인</c:when>
 												</c:choose>
 												</td>
 												<td>
 												
 												  <c:choose>
-													<c:when test="${item.deliveryStatusUb =='주문확인'}">
+													<c:when test="${item.deliveryStatusUb =='발송완료'}">
 													
 													 <div><input type="button" onclick="confirmOrder('${item.paymentDetailNoUb}','${item.paymentNoUb}')" value="수취확인" /></div>
 																				
 													</c:when>
 													
-													<c:when test="${item.deliveryStatusUb =='수취확인'}">
+													<c:when test="${item.deliveryStatusUb =='발송완료'}">
 															<input type="button" onclick="confirmOrder('${item.paymentDetailNoUb}','${item.paymentNoUb}')" value="수취확인" disabled />
 													</c:when>
 												</c:choose>
