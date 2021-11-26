@@ -41,6 +41,8 @@
       <typeAlias type="com.kh.bookmate.bookqna.model.vo.BookQnaAnswer" alias="BookQnaAnswer" />
       <typeAlias type="com.kh.bookmate.returnBook.model.vo.ReturnBook" alias="ReturnBook"/>
       <typeAlias type="com.kh.bookmate.notice.model.vo.Notice" alias="Notice"/>
+      <typeAlias type="com.kh.bookmate.coupon.model.vo.UseCoupon" alias="UseCoupon"/>
+   
    </typeAliases>
   
    <typeHandlers>
@@ -72,6 +74,7 @@
       <mapper resource="/mappers/search-mapper.xml"/>
       <mapper resource="/mappers/category-mapper.xml"/>
       <mapper resource="/mappers/notice-mapper.xml"/>
+      <mapper resource="/mappers/useCoupon-mapper.xml"/>
    </mappers>
 
 

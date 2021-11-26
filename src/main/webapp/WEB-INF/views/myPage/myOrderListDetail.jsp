@@ -218,7 +218,75 @@
 
 	</section>
  
- 
+ 	<script type="text/javascript">
+ 	  
+ 	 	 // 교환페이지로 이동
+ 	     	 function goExchange(paymentDetailNo,paymentNo){
+ 				 var answer = confirm("교환페이지로 이동합니다 ")
+
+ 				if(answer==true){ 
+ 					
+ 					var formObj=document.createElement("form");
+ 					var exchange = document.createElement("input"); 
+ 					var exchange2 = document.createElement("input"); 
+
+ 					
+ 					exchange.name = "paymentDetailNo";
+ 					exchange.value = paymentDetailNo;
+ 					
+ 					exchange2.name = "paymentNo";
+ 					exchange2.value = paymentNo;
+ 			 
+ 				    console.log( formObj );
+ 				    
+ 				    
+ 					formObj.appendChild(exchange);
+ 					formObj.appendChild(exchange2);
+ 				    
+ 				    console.log(confirmOrder)
+ 				    
+ 				    document.body.appendChild(formObj); 
+ 				    formObj.method="post";
+ 				    formObj.action="exchange.me";
+ 				    formObj.submit();
+ 				    
+ 				    
+ 				    
+ 				}
+ 			 } 
+
+ 	     	// 반품페이지로 이동
+ 	     	 function goReturn(paymentDetailNo,paymentNo){
+ 				 var answer = confirm("반품페이지로 이동합니다 ")
+ 		
+ 				if(answer==true){ 
+ 					
+ 					var formObj=document.createElement("form");
+ 					var returnBook = document.createElement("input"); 
+ 					var returnBook2 = document.createElement("input"); 
+
+ 					returnBook.name = "paymentDetailNo";
+ 					returnBook.value = paymentDetailNo;
+ 					
+ 					returnBook2.name = "paymentNo";
+ 					returnBook2.value = paymentNo;
+ 			 
+ 				    console.log( formObj );
+ 				    
+ 				    
+ 					formObj.appendChild(returnBook);
+ 					formObj.appendChild(returnBook2);
+ 				    
+ 				    console.log(confirmOrder)
+ 				    
+ 				    document.body.appendChild(formObj); 
+ 				    formObj.method="post";
+ 				    formObj.action="return.me";
+ 				    formObj.submit();
+ 				    
+ 				}
+ 			 } 
+ 			</script>
  
 
 	<jsp:include page="../common/footer.jsp" />

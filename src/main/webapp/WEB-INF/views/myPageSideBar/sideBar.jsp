@@ -48,7 +48,7 @@
                     <ul>
                         <li class="filter-list"><a href="selectMyOrderList.me">나의 주문 조회</a> </li>
                         <li class="filter-list"><a href="cancelList.me"> 취소 리스트 조회</a> </li>
-                        <li class="filter-list">  교환/반품 리스트 조회 </li>
+                        <li class="filter-list"> <a href="refundAndExchangeList.me"> 교환/반품 리스트 조회</a> </li>
                     </ul>
                   </form>
                 </div>
@@ -69,7 +69,7 @@
              </div>
 
              <div class="sidebar-filter">
-                <div class="top-filter-head">관심작가 및 찜목록</div>
+                <div class="top-filter-head">나의 목록들</div>
                 <div class="common-filter">
                   <form action="myPageOrderList.me" method="post"> </form>
                     <ul>
