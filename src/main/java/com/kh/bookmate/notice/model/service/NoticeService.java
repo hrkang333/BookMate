@@ -14,10 +14,10 @@ public interface NoticeService {
 
 	Notice selectNoticeDetail(int noticeNo);
 
-	void insertNotice(Notice notice);
+	void insertNotice(Notice notice, String path);
 
-	void updateNotice(Notice notice);
+	void updateNotice(Notice notice, String path, int deleteImg, String deletePath, String newNoticeImgName);
 
-	void deleteNotice(int noticeNo);
+	void deleteNotice(int noticeNo, String path, int fileStatus);
 
 }

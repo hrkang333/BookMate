@@ -74,6 +74,16 @@
 		<button type="submit">관리자 페이지 이동</button>
 
 	</form>
+	<br>
+	<br>
+	<br>
+	<form action="noticeList.no" method="post">
+		공지사항보기<br> <br>
+		<br> <br>
+		<input type="hidden" name="isUser" value="1">
+		<button type="submit">공지사항보기</button>
+
+	</form>
 	<!-- <br>
 	<br>
 	<br>

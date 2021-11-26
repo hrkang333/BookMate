@@ -16,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.bookmate.book.model.service.BookService;
@@ -27,6 +29,7 @@ import com.kh.bookmate.bookreview.model.vo.BookReview;
 import com.kh.bookmate.bookreview.model.vo.BookReviewReply;
 import com.kh.bookmate.common.Paging;
 import com.kh.bookmate.user.model.vo.User;
+
 
 @Controller
 public class BookController {
@@ -52,7 +55,7 @@ public class BookController {
 	@RequestMapping("selectBook.book")
 	public String selectBook(String bookISBN, Model mo,@RequestParam(name="reviewKind",defaultValue = "1") int reviewKind, 
 								@RequestParam(name="reviewNowPage",defaultValue = "1") int reviewNowPage, @RequestParam(name="questionNowPage",defaultValue = "1") int questionNowPage,
-								@RequestParam(name="questionKind",defaultValue = "5") int questionKind,@RequestParam(name="pagePosition",defaultValue = "0") int pagePosition) {
+								@RequestParam(name="questionKind",defaultValue = "5") int questionKind,@RequestParam(name="pagePosition",defaultValue = "0") int pagePosition,@SessionAttribute("loginUser") User loginUser) {
 		Paging reviewPaging; 
 		Paging qnaPaging; 
 		List<Book> bestBookList;
@@ -66,6 +69,7 @@ public class BookController {
 		int reviewCount;
 		int qnaCount;
 		
+		bookService.insertRecentView(loginUser.getUserId(),bookISBN);
 		qnaCount = bookQnaService.selectTotalCount(bookISBN,questionKind);
 		reviewCount = bookReviewService.selectTotalCount(bookISBN);
 		book = bookService.selectBook(bookISBN);

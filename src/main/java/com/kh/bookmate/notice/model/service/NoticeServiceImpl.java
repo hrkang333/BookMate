@@ -1,5 +1,6 @@
 package com.kh.bookmate.notice.model.service;
 
+import java.io.File;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
@@ -48,31 +49,66 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public void insertNotice(Notice notice) {
+	public void insertNotice(Notice notice, String path) {
 		int result = noticeDao.insertNotice(sqlSession,notice);
 		if(result<0) {
+			if(notice.getNoticeImgStatus()==1) {
+				new File(path).delete();
+			}
 			throw new RuntimeException("공지사항 등록 db 오류");
 		}
 		
 	}
 
 	@Override
-	public void updateNotice(Notice notice) {
+	public void updateNotice(Notice notice, String path, int deleteImg, String deletePath, String newNoticeImgName) {
+		int check = notice.getNoticeImgStatus();
+		if(newNoticeImgName!=null) {
+			notice.setNoticeImgStatus(1);
+			notice.setNoticeImgName(newNoticeImgName);
+		}
+		if(deleteImg==1){
+			
+			notice.setNoticeImgStatus(0);
+			notice.setNoticeImgName(null);
+		}
+		
 		int result = noticeDao.updateNotice(sqlSession,notice);
 		
 		if(result<0) {
+			if(newNoticeImgName!=null) {
+				new File(path).delete();
+			}
 			throw new RuntimeException("공지사항  업데이트 db 오류");
 		}
+		if((notice.getNoticeImgStatus()==1&&deleteImg==1)||(check==1&&newNoticeImgName!=null)) {
+			if(!(new File(deletePath).delete())) {
+					throw new RuntimeException("파일 삭제 오류");
+				
+			}
+			
+		}
+		
+		
 		
 	}
 
 	@Override
-	public void deleteNotice(int noticeNo) {
+	public void deleteNotice(int noticeNo, String path, int fileStatus) {
+		
 		int result = noticeDao.deleteNotice(sqlSession,noticeNo);
 		
 		if(result<0) {
-			throw new RuntimeException("공지사항  업데이트 db 오류");
+			throw new RuntimeException("공지사항  삭제 db 오류");
+			
 		}
+		if(fileStatus==1) {
+			if(!(new File(path).delete())) {
+				throw new RuntimeException("파일 삭제 오류");
+			}
+		}
+		
 	}
+
 
 }

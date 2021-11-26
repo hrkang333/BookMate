@@ -64,6 +64,36 @@ $(function () {
             $('#updateNoticeForm').submit();
         }
     }
+function imgCheck(img) {
+	
+	if(img.files&&img.files[0]){
+		var name= img.files[0].name
+		var ext = name.substring(name.length-3,name.length)
+		if(!(ext.toUpperCase()=='PNG'||ext.toUpperCase()=='JPG')){
+			alert("이미지파일을 확인해주세요. png와 jpg만 가능합니다.")
+			$('#noticeImg').val("")
+
+
+			return;
+		}
+		const imgFile = new FileReader();
+		imgFile.readAsDataURL(img.files[0])
+		imgFile.onload = function(e) {
+			$('#preViewImg').attr('src',e.target.result)
+					
+		}		   
+	}
+}
+    function returnNoticeDetail() {
+    	$('#returnForm').submit();
+	}
+    function deleteNoticeImg() {
+		if(confirm("수정중인 공지사항의 이미지를 삭제합니다")){
+			$('#deleteImg').val(1)
+			$('#imgTr').remove();
+			$('#preViewImg').attr('src','');
+		}
+	}
 </script>
 </head>
 <body>
@@ -71,13 +101,10 @@ $(function () {
 		<main class="site-main" style="padding-top: 180px">
 <div style="display: flex;width: 1200px;">
 			<div style="width: 200px;" id="adminMenuDiv">
-				<br>
+					<br>
 				<br>
 				<br><span>공지사항 관리</span><br>
-				<br> -공지사항 등록/수정/삭제<br>
-				<br>
-				<br><span>이벤트 관리</span><br>
-				<br> -이벤트 등록<br> -이벤트 수정/삭제<br>
+				<br> <a href="noticeList.no">-공지사항 등록/수정/삭제</a><br>
 				<br>
 				<br><span>회원 관리</span><br>
 				<br> -일반등급회원<br> -판매등급회원<br>
@@ -97,8 +124,10 @@ $(function () {
 	
 	<span style="font-size: 30px; font-weight: bold;">공지사항 수정</span>
 <hr>
- <form action="updateNotice.no" id="updateNoticeForm" method="post"  style="display: inline;">
-
+ <form action="updateNotice.no" id="updateNoticeForm" method="post"  style="display: inline;" enctype="multipart/form-data">
+		<input type="hidden" name="deleteImg" id="deleteImg" value="0">
+		<input type="hidden" name="noticeImgName" value="${requestScope.notice.noticeImgName}">
+		<input type="hidden" name="noticeImgStatus" value="${requestScope.notice.noticeImgStatus}">
         <table class="writer">
             <tbody>
             <tr>
@@ -112,19 +141,40 @@ $(function () {
                 <th>작성자</th>
                 <td>관리자<input type="hidden" name="noticeWriter" value="관리자"></td>
             </tr>
-                <tr>
+                <tr id="imgTr">
             
-            <th>이미지 업로드</th>
+            <th>이미지 등록</th>
             <td colspan="2" style="border-right: none">
             	<span style="font-size: 13px">이미지 등록(png와 jpg만 등록가능)<br>이벤트 이미지 적정사이즈는 1200px X 400px 입니다) : </span><br>
             </td>
             
             <td style="border-left: none">
-            <input type="file" name="noticeImg" id="noticeImg" onchange="imgCheck(this)">
+            <input type="file" name="noticeImg" id="noticeImg" onchange="imgCheck(this)"><br>
+            	<c:if test="${requestScope.notice.noticeImgStatus==1}">
+            	<span style="font-size: 13px">등록 이미지 삭제 : </span> <button class="btn-secondary btn-sm" type="button" onclick="deleteNoticeImg()">이미지 삭제</button></c:if>
             </td>
             </tr>
             <tr>
+            
                 <td colspan="4">
+                이미지 미리보기 :<br>
+                 <div style="text-align: center;">
+                 	
+                 	<c:if test="${requestScope.notice.noticeImgStatus==0}">
+                 		<img alt="" src="" id="preViewImg">
+                 	</c:if>
+                	<c:if test="${requestScope.notice.noticeImgStatus==1}">
+                		<c:if test="${requestScope.notice.noticeCategory==0}">
+                			<img alt="" src="${pageContext.servletContext.contextPath }/resources/images/notice/${requestScope.notice.noticeImgName}" id="preViewImg">
+                		</c:if>
+                 		<c:if test="${requestScope.notice.noticeCategory==1}">
+                 			<img alt="" src="${pageContext.servletContext.contextPath }/resources/images/event/${requestScope.notice.noticeImgName}" id="preViewImg">
+                 		</c:if>
+                	</c:if>
+                	
+                </div>
+				<br><hr>
+                
                 <textarea name="noticeContent" id="noticeContent" cols="30" rows="10" style="width: 800px; height: 800px;" >${requestScope.notice.noticeContent}</textarea>
             </td>
             </tr>
@@ -133,10 +183,10 @@ $(function () {
             <tr>
                 <td colspan="4" style="padding-left: 20px; padding-right: 20px;">
                     <div style="display: flex;"><input type="hidden" name="noticeNo" value="${requestScope.notice.noticeNo}">
-                        <div style="margin-left: auto;"><button type="button" onclick="updateNoticeCheck()">공지 수정</button></form>
+                        <div style="margin-left: auto;"><button type="button" onclick="updateNoticeCheck()" class="btn-secondary btn-sm" >공지 수정</button>
    						 
-                        <form action="selectNoticeDetail.no" method="post" style="display: inline;">
-                        <button type="submit">돌아가기</button></form> </div>
+                        
+                        <button type="button" onclick="returnNoticeDetail()" class="btn-secondary btn-sm" >돌아가기</button></div>
                     
                 </div>
                 </td>
@@ -144,6 +194,11 @@ $(function () {
             </tr>
         </tfoot>
         </table>
+        </form>
+        <form action="selectNoticeDetail.no" method="post" style="display: inline;" id="returnForm">
+        <input type="hidden" name="noticeNo" value="${requestScope.notice.noticeNo}">
+        </form>
         </div></div>
+        </main>
 </body>
 </html>

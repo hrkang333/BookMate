@@ -20,11 +20,9 @@ UPDATE NOTICE SET NOTICEVIEWS = NOTICEVIEWS + 1 WHERE NOTICENO = #{noticeNo}
 INSERT INTO NOTICE VALUES(NOTICE_SEQ.NEXTVAL,#{noticeCategory},#{noticeTitle},#{noticeContent},#{noticeWriter},SYSDATE,#{noticeImgStatus},#{noticeImgName},0)
 </insert>
 <update id="updateNotice" parameterType="Notice">
-UPDATE NOTICE SET NOTICECATEGORY = #{noticeCategory}, NOTICETITLE= #{noticeTitle},NOTICECONTENT=#{noticeContent} WHERE NOTICENO = #{noticeNo}
+UPDATE NOTICE SET NOTICECATEGORY = #{noticeCategory}, NOTICETITLE= #{noticeTitle},NOTICECONTENT=#{noticeContent},NOTICEIMGSTATUS = #{noticeImgStatus},NOTICEIMGNAME = #{noticeImgName} WHERE NOTICENO = #{noticeNo}
 </update>
 <delete id="deleteNotice">
 DELETE FROM NOTICE WHERE NOTICENO = #{noticeNo}
 </delete>
 </mapper>
-
-	

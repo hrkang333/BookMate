@@ -31,4 +31,6 @@ public interface BookService {
 	//화제의 신간
 	ArrayList<Book> selectHotTopicBook();
 
+	void insertRecentView(String userId, String bookISBN);
+
 }
