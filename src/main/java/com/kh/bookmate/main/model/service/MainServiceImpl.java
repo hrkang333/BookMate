@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.kh.bookmate.book.model.vo.Book;
 import com.kh.bookmate.main.model.dao.MainDao;
 import com.kh.bookmate.main.model.vo.RecentView;
+import com.kh.bookmate.notice.model.vo.Notice;
 
 @Service
 public class MainServiceImpl implements MainService {
@@ -91,6 +92,11 @@ public class MainServiceImpl implements MainService {
 	public List<Book> selectRecentViewList(ArrayList<String> isbnList) {
 		// TODO Auto-generated method stub
 		return  mainDao.selectRecentViewList(sqlSession, isbnList);
+	}
+
+	@Override
+	public List<Notice> selectEventImg() {
+		return  mainDao.selectEventImg(sqlSession);
 	}
 
 }

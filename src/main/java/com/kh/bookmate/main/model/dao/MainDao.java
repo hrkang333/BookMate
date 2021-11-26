@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.bookmate.book.model.vo.Book;
 import com.kh.bookmate.main.model.vo.RecentView;
+import com.kh.bookmate.notice.model.vo.Notice;
 
 @Repository
 public class MainDao {
@@ -43,6 +44,10 @@ public class MainDao {
 	public List<Book> selectRecentViewList(SqlSessionTemplate sqlSession, ArrayList<String> isbnList) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("mainMapper.selectRecentViewList", isbnList);
+	}
+
+	public List<Notice> selectEventImg(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectList("mainMapper.selectEventImg");
 	}
 
 	

@@ -9,7 +9,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>[책장메이트] 책장메이트 메인</title>
+  <title>[책구메이트] 중고장터 메인</title>
 
 <link rel="icon" href="resources/img/logo1.png" type="image/png">
 </head>
@@ -23,12 +23,12 @@
 
       <!--================ 메인 Content =================-->
       <div class="col-xl-9 col-lg-8 col-md-7 maincon" style="margin-left: 205px; width: 1060px;">
-        <div class="container" style="padding-top: 100px;">
+        <div class="container" style="padding-top: 195px;">
           <div class="row">
             <div class="col-xs-12 mainslide">
-              <nav style="width: 900px; margin-left: -15px; margin-top: -8px; height: 70px; background-color: #915549; color: #fff; text-align: center;">
+              <nav style="width: 900px; margin-left: -15px; margin-top: -8px; height: 70px; background-color: #bb937e; color: #fff; text-align: center;">
                 <div id="nav-tab" role="tablist" style="padding-top: 20px;">
-                  	책장메이트에 등록된 도서
+                  	중고장터에 등록된 도서
                 </div>
               </nav>
               <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
@@ -185,18 +185,10 @@
 	              <div class="container">
 	                <button class="gobtn2 text-center" type="button" onclick="location.href='#'" style="margin-left:15px; background-image: url(resources/img/002.png); width: 760px !important;color: #ffffff;height: 150px;border: none;">
 	                  <h3 class="subscribe__title">현재 판매자 계정이<br>휴면 상태입니다.</h3>
-	                  <h4>고객센터에 휴면 해제를 요청해주세요.</h4>
+	                  <h4>문의로 휴면 해제를 요청해주세요.</h4>
 	                </button>
 	              </div>
-	            </section>
-	            <!-- <section class="goseller">
-	              <div class="container">
-	                <button class="gobtn text-center" onclick="location.href='#'" style="background-image: url(resources/img/001.png);">
-	                  <h3 class="subscribe__title">현재 판매자 계정이<br>휴면 상태입니다.</h3>
-	                  <h4>고객센터에 휴면 해제를 요청해주세요.</h4>
-	                </button>
-	              </div>
-	            </section> -->         
+	            </section>     
             </c:if>
           </div>
               </div>

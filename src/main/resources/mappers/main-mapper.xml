@@ -61,6 +61,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			#{item}
 		</foreach>
 	</select>
-
+	<select id="selectEventImg" resultType="Notice">
+	SELECT * FROM NOTICE WHERE NOTICECATEGORY = 1
+	</select>
 </mapper>
 

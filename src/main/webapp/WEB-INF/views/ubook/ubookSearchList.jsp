@@ -21,14 +21,14 @@
     id="bootstrap-css">
 </head>
 <body style="width: 1200px; margin: auto;">
- 	<div style="margin-top: -100px;"><jsp:include page="../ubook/ubookMenu.jsp"/></div>
+ 	<div style="margin-top: -150px;"><jsp:include page="../ubook/ubookMenu.jsp"/></div>
       
   <!--================ 바디 =================-->
   <div class="f">
     <div>
 
       <!--================ 좌측 사이드바(도서 카테고리 선택) =================-->
-      <div class="col-xl-2" style="text-align: center; position: fixed; z-index: 8888; margin-top: 93px;">
+      <div class="col-xl-2" style="text-align: center; position: fixed; z-index: 8888; margin-top: 150px;">
         <div class="sidebar-categories">
           <div class="head category" style="width: 175px;"><a href="ubookMain.ub">중고도서</a></div>
 		  <div class="categorybody"><a href="ubookCategory.ub?ubCategory=1">소설/시/에세이</a></div>
@@ -48,10 +48,10 @@
       <!--================ End 좌측 사이드바(도서 카테고리 선택) =================-->
 
       <!--================ 메인 Content =================-->
-      <div class="col-xl-9 col-lg-8 col-md-7 maincon" style="margin-top: 100px;
+      <div class="col-xl-9 col-lg-8 col-md-7 maincon" style="margin-top: 150px;
     width: 943px;
     margin-left: 205px;">
-        <section class="content" style="margin-top: 100px;padding-top: 100px;">
+        <section class="content" style="margin-top: 100px;padding-top: 150px;">
 			<div class="col-md-offset-2 qnaTable">
 				<div class="panel panel-default">
 					<div class="panel-body">
