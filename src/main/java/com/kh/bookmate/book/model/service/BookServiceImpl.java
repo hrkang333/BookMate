@@ -2,6 +2,7 @@ package com.kh.bookmate.book.model.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,17 @@ public class BookServiceImpl implements BookService{
 		return book;
 	}
 
+	@Override
+	public Book selectBookStock(String bookISBN) {
+		
+		Book book = null;
+		
+		book = bookDao.selectBook(sqlSession,bookISBN);
+		
+		
+		return book;
+	}
+	
 	@Override
 	public void insertBook(Book book) {
 		
@@ -121,6 +133,15 @@ public class BookServiceImpl implements BookService{
 	         mainService.insertRecentView(bookISBN, userId);
 	}
 
+	
+	@Override
+	public void updateBookPlusStock(Map<String, Object> map) {
+		int result=bookDao.updateBookPlusStock(sqlSession,map);
+		if(result < 0) {
+			throw new RuntimeException("도서 재고 등록중 db 오류");
+		}
+		
+	}
 
 	
 

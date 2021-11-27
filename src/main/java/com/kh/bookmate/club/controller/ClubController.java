@@ -569,7 +569,7 @@ public class ClubController {
 	public String clubMain(Model model) {
 		
 		ArrayList<Club> endList = clubService.selectEndList();
-		ArrayList<Club> popList = clubService.popList("main");
+		ArrayList<Club> popList = clubService.popList();
 		
 		model.addAttribute("endList",endList);
 		model.addAttribute("popList",popList);
@@ -632,7 +632,7 @@ public class ClubController {
 		List<Club> cateList_third;
 		ArrayList<Club> cateList_third_bef = clubService.selectCateList_3(category);
 		
-		if(cateList_third_bef.size() < 5) {
+		if(cateList_third_bef.size() > 5) {
 			cateList_third = new ArrayList<Club>(cateList_third_bef.subList(0, 5));
 		}else {
 			cateList_third = cateList_third_bef;
@@ -649,6 +649,7 @@ public class ClubController {
 	}
 
 
+	//모든 독서모임 -> 페이징 처리
 	@ResponseBody
 	@RequestMapping(value="allCateListPart.cl", produces="application/json; charset=utf-8")
 	public String selectallCateListPart(@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage,
@@ -668,11 +669,6 @@ public class ClubController {
 			pi1 = Pagination.getPageInfo(listCount, currentPage, 7, 8);
 			cateList1 = clubService.selectCateList_2(category, pi1);
 		}
-
-		System.out.println("club controller - catelist " + cateList1.toString());
-		for(Club c : cateList1) {
-			System.out.println("club controller - catelist확인 : "+c.toString());
-		}
 		
 		Map<String,Object> map = new HashMap<String,Object>();
 		if(clubStatus.equals("모집중")) {
@@ -686,6 +682,7 @@ public class ClubController {
 		return new GsonBuilder().create().toJson(map);
 	}
 	
+	//카테고리 클릭시
 	@ResponseBody
 	@RequestMapping(value="allCateList.cl", produces="application/json; charset=utf-8")
 	public String selectallCateList(@RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage,

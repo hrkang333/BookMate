@@ -44,4 +44,6 @@ public interface UbookService {
 	List<Ubook> searchUbookList(String keyword);
 
 	List<Ubook> haveQnaUbook(int sellerNumber);
+
+	ArrayList<Ubook> selectRowPriceBookList();
 }

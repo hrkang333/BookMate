@@ -64,7 +64,7 @@ public class MainServiceImpl implements MainService {
 			}
 			
 			//최근본상품으로 저장된 책이 12권 이상인 경우 -> 맨 뒤 삭제하기
-			if(list.size() > 12) {
+			if(list.size() >= 12) {
 				list.remove(11);
 			}
 			//최근본 상품 -> 맨앞에 추가하기

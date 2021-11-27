@@ -75,6 +75,7 @@
       <mapper resource="/mappers/category-mapper.xml"/>
       <mapper resource="/mappers/notice-mapper.xml"/>
       <mapper resource="/mappers/useCoupon-mapper.xml"/>
+      <mapper resource="/mappers/admin-mapper.xml"/>
    </mappers>
 
 

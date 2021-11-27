@@ -45,7 +45,7 @@
  					<jsp:include page="../ubook/ubookCategory.jsp"/>
                     <!--================ End 좌측 사이드바(도서 카테고리 선택) =================-->
 			<!--판매자 페이지-->
-			<div class="col-sm-9" style="margin-left: 190px; padding-top: 83px;">
+			<div class="col-sm-9" style="margin-left: 190px; padding-top: 170px;">
 				<div class="newsInner">
 					<!--탭 시작-->
 					<div id="tabs">

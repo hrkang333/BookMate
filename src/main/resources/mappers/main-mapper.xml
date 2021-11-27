@@ -7,17 +7,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 3.베스트 도서 -->
 	<select id="selectBestList" resultType="Book">
 		<![CDATA[
-		SELECT BOOK.*
-		FROM BOOK
-		LEFT JOIN SELLDATE
-		ON BOOK.BOOKISBN = SELLDATE.BOOKISBN
-		WHERE BOOK.BOOKISBN IN (SELECT BOOKISBN
-		                        FROM(SELECT BOOKISBN, SELLQUNTITY
-		                            FROM SELLDATE
-		                            WHERE SELLDATE >= SYSDATE-30  --7로 바꿔야 한다!
-		                            ORDER BY SELLQUNTITY DESC)
-		                        WHERE ROWNUM <= 30)
-		ORDER BY SELLDATE.SELLQUNTITY DESC
+		SELECT * 
+		FROM(SELECT A.*
+		    FROM BOOK A  
+		    JOIN (SELECT BOOKISBN,SUM(SELLQUNTITY) SUM_Q
+		            FROM SELLDATE
+		            WHERE SELLDATE >= SYSDATE-30  --7로 바꿔야 한다!
+		            GROUP BY BOOKISBN) B
+		    ON A.BOOKISBN = B.BOOKISBN
+		    ORDER BY B.SUM_Q DESC)
+		WHERE ROWNUM <= 30
 		]]>
 	</select>
 	

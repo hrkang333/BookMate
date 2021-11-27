@@ -1184,8 +1184,8 @@ $(function() {
 		<c:choose>
 		<c:when test="${list.reviewReplyCount > 0}">
 		
-		<span class="replyShowSpan" style="display: inline;" id="replyShowSpan_${status.index}" onclick="selectReviewReply(${list.reviewNo},${status.index})">댓글 보기</span>
-		<span class="replyCloseSpan" id="replyCloseSpan_${status.index}" style="display: none" onclick="closeComponent(${status.index},'replyShow')">댓글 닫기</span>
+		<span class="replyShowSpan" style="display: inline;cursor: pointer;" id="replyShowSpan_${status.index}" onclick="selectReviewReply(${list.reviewNo},${status.index})">댓글 보기</span>
+		<span class="replyCloseSpan" id="replyCloseSpan_${status.index}" style="display: none;cursor: pointer;" onclick="closeComponent(${status.index},'replyShow')">댓글 닫기</span>
 		
 		</c:when>
 		<c:otherwise>

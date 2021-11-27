@@ -83,6 +83,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	]]>
 	</select>
 	
+	<!-- 중고도서 메인(최저가) -->
+	<select id="selectRowPriceBookList" resultMap="ubookResultSet">
+      <![CDATA[
+      SELECT * 
+      FROM(SELECT * FROM UBOOK
+      		WHERE UBOOK_STOCK != 0
+      		ORDER BY UBOOK_PRICE)
+		WHERE ROWNUM < 13
+      ]]>
+	</select>
 	<!-- 등록한 도서 중 문의가 있는 도서 리스트 -->
 	<select id="haveQnaUbook" resultType="Ubook" resultMap="ubookResultSet">
 	SELECT * 
@@ -120,6 +130,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectUbookCateList" resultType="Ubook">
 		SELECT * FROM UBOOK UB_CATEGORY = #{ubCategory}
 		WHERE UBOOK_STATUS = 'Y'
+		AND UBOOK_STOCK != 0
 		ORDER BY UBOOK_STOCK DESC
 	</select>
 

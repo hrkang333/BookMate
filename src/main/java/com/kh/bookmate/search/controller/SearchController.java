@@ -27,7 +27,7 @@ public class SearchController {
 	public String selectListSearchKeyword(String keyword,@RequestParam(name = "searchNowPage", defaultValue = "1") int searchNowPage, 
 										@RequestParam(name = "searchKind", defaultValue = "1") int searchKind, Model mo) {
 		String temp = null;
-		if(keyword==null||keyword=="") {
+		if(keyword==null||keyword.trim().isEmpty()) {
 			temp="%%";
 		}else {
 			temp="%"+keyword+"%";

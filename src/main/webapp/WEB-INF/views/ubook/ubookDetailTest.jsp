@@ -25,7 +25,7 @@
 			<!--================ 메인 Content =================-->
 			<div class="col-xl-9 col-lg-8 col-md-7 maincon" style="margin-left: 220px; width: 1080px; margin-top: 93px;">
 				<div
-					style="background-color: #fcfcfc; overflow: hidden; height: auto; margin: 15px 0px 20px 0px;">
+					style="background-color: #faf8f2; overflow: hidden; height: auto; margin: 100px 0px 20px 0px;">
 					<!-- detail_product  -->
 					<div class="detail_product"
 						style="float: left; margin: 13px 0 0; width: 870px; padding: 0; display: block;">
@@ -269,24 +269,36 @@
 										${sellerB.ubookName }
 										<p class="price" style="padding: 5px 0 5px 0; color: #fe6000;">${sellerB.ubookPrice }원</p>
 										<p class="quality">
-											<span class="grade_s"
-												style="font-size: 11px; line-height: 15px; display: inline-block; padding: 0px 2px 0px; background-color: #d4ddf8; border: 1px solid #00006d; color: #00006d;">
-												<c:if test="${ sellerB.ubookQual == 'S' }">
-													<c:out value="최상">최상</c:out>
-												</c:if>
-												<c:if test="${ sellerB.ubookQual == 'A' }">
-													<c:out value="상급">상급</c:out>
-												</c:if>
-												<c:if test="${ sellerB.ubookQual == 'B' }">
-													<c:out value="보통">보통</c:out>
-												</c:if>
-												<c:if test="${ sellerB.ubookQual == 'C' }">
-													<c:out value="하급">하급</c:out>
-												</c:if>
-												<c:if test="${ sellerB.ubookQual == 'D' }">
-													<c:out value="최하">최하</c:out>
-												</c:if>
-												</span>
+											<c:if test="${ sellerB.ubookQual == 'S' }">
+																							<span class="grade_s"
+																								style="font-size: 18px; line-height: 20px; display: inline-block; padding: 0px 2px 0px; background-color: #324278; border: 1px solid #22222270; color: #fff;">
+																								<c:out value="최상">최상</c:out>
+																							</span>
+																						</c:if>
+																						<c:if test="${ sellerB.ubookQual == 'A' }">
+																							<span class="grade_s"
+																								style="font-size: 18px; line-height: 20px; display: inline-block; padding: 0px 2px 0px; background-color: #28706f; border: 1px solid #22222270; color: #fff;">
+																								<c:out value="상급">상급</c:out>
+																							</span>
+																						</c:if>
+																						<c:if test="${ sellerB.ubookQual == 'B' }">
+																							<span class="grade_s"
+																								style="font-size: 18px; line-height: 20px; display: inline-block; padding: 0px 2px 0px; background-color: #fcd381; border: 1px solid #22222270; color: #563a3d;">
+																								<c:out value="보통">보통</c:out>
+																							</span>
+																						</c:if>
+																						<c:if test="${ sellerB.ubookQual == 'C' }">
+																							<span class="grade_s"
+																								style="font-size: 18px; line-height: 20px; display: inline-block; padding: 0px 2px 0px; background-color: #eb9b6a; border: 1px solid #22222270; color: #563a3d;">
+																								<c:out value="하급">하급</c:out>
+																							</span>
+																						</c:if>
+																						<c:if test="${ sellerB.ubookQual == 'D' }">
+																							<span class="grade_s"
+																								style="font-size: 18px; line-height: 20px; display: inline-block; padding: 0px 2px 0px; background-color: #9d1d16; border: 1px solid #22222270; color: #fff;">
+																								<c:out value="최하">최하</c:out>
+																							</span>
+																						</c:if>
 										</p>
 									</div>
 								</li>

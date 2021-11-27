@@ -190,36 +190,49 @@
 
 .category{
     height: 68px;
-    background-color: #d1b7a1 !important;
+    background-color: #764845 !important;
+    padding-top: 10px !important;
 }
 
 .categorybody{
-    background-color: #dcd3cc;
+    background-color: #e7e1d8;
     height: 68px;
     width: 175px;
+    font-size : 18px;
+    padding-top: 20px !important;
+}
+.categorybody:hover{
+    background-color: #764845;
+    color:#faf8f2;
+    height: 68px;
+    font-size : 18px;
+    width: 175px;
+    padding-top: 20px !important;
 }
 .categorybody a{
     font-size: 20px;
-    margin-top: 20px;
+    padding-top: 20px !important;
     color: #212529;
 }
 .category a{
     font-size: 20px;
     margin-top: 10px;
-    color: white;
+    color: #faf8f2;
+    padding-top: 20px !important;
 }
 .category a:hover{
     font-size: 20px;
     margin-top: 10px;
-    color: white;
+    color: #faf8f2 !important;
     text-decoration: none;
 }
 .categorybody a:hover{
-    color: #915549;
+    color: #faf8f2;
+    font-size : 15px;
     text-decoration: none;
 }
 .maincon{
-    background-color: #ececee;
+    background-color: #e7e1d8;
 }
 
 .searchbtn{

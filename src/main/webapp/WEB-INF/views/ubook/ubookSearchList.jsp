@@ -27,20 +27,21 @@
   <div class="f">
     <div>
 
+
       <!--================ 좌측 사이드바(도서 카테고리 선택) =================-->
-      <div class="col-xl-2" style="text-align: center; position: fixed; z-index: 8888; margin-top: 150px;">
+      <div class="col-xl-2" style="text-align: center; position: fixed; z-index: 888; margin-top: 140px;">
         <div class="sidebar-categories">
-          <div class="head category" style="width: 175px;"><a href="ubookMain.ub">중고도서</a></div>
-		  <div class="categorybody"><a href="ubookCategory.ub?ubCategory=1">소설/시/에세이</a></div>
-		      	<div class="categorybody"><a href="ubookCategory.ub?ubCategory=2">경제/경영</a></div>
-		          <div class="categorybody"><a href="ubookCategory.ub?ubCategory=3">과학</a></div>
-		      <div class="categorybody"><a href="ubookCategory.ub?ubCategory=4">인문</a></div>
-		        <div class="categorybody"><a href="ubookCategory.ub?ubCategory=5">컴퓨터/IT</a></div>
-		        <div class="categorybody"><a href="ubookCategory.ub?ubCategory=6">자기계발</a></div>
-		        <div class="categorybody"><a href="ubookCategory.ub?ubCategory=7">정치/사회</a></div>
-		      <div class="categorybody"><a href="ubookCategory.ub?ubCategory=8">역사/문화</a></div>
-		       <div class="categorybody"><a href="ubookCategory.ub?ubCategory=9">취미</a></div>
-		       <div class="categorybody"><a href="ubookCategory.ub?ubCategory=10">가정/육아</a></div>
+          <div class="head category" style="width: 175px;" onclick="location.href='ubookMain.ub'">중고도서</div>
+		  <div class="categorybody" onclick="location.href='ubookCategory.ub?ubCategory=1'">소설/시/에세이</div>
+		      	<div class="categorybody" onclick="location.href='ubookCategory.ub?ubCategory=2'">경제/경영</div>
+		      <div class="categorybody" onclick="location.href='ubookCategory.ub?ubCategory=3'">과학</div>
+		      <div class="categorybody" onclick="location.href='ubookCategory.ub?ubCategory=4'">인문</div>
+		        <div class="categorybody" onclick="location.href='ubookCategory.ub?ubCategory=5'">컴퓨터/IT</div>
+		        <div class="categorybody" onclick="location.href='ubookCategory.ub?ubCategory=6'">자기계발</div>
+		        <div class="categorybody" onclick="location.href='ubookCategory.ub?ubCategory=7'">정치/사회</div>
+		      <div class="categorybody" onclick="location.href='ubookCategory.ub?ubCategory=8'">역사/문화</div>
+		       <div class="categorybody" onclick="location.href='ubookCategory.ub?ubCategory=9'">취미</div>
+		       <div class="categorybody" onclick="location.href='ubookCategory.ub?ubCategory=10'">가정/육아</div>
 		      
           <!--background-color: #c9ae9c;-->
         </div>
@@ -48,14 +49,14 @@
       <!--================ End 좌측 사이드바(도서 카테고리 선택) =================-->
 
       <!--================ 메인 Content =================-->
-      <div class="col-xl-9 col-lg-8 col-md-7 maincon" style="margin-top: 150px;
+      <div class="col-xl-9 col-lg-8 col-md-7 maincon" style="margin-top: 190px;
     width: 943px;
     margin-left: 205px;">
-        <section class="content" style="margin-top: 100px;padding-top: 150px;">
+        <section class="content" style="margin-top: 100px;padding-top: 155px;">
 			<div class="col-md-offset-2 qnaTable">
-				<div class="panel panel-default">
+				<div class="panel panel-default" style="background-color: #e7e1d8;">
 					<div class="panel-body">
-						<div class="table-container bookListF">
+						<div class="table-container bookListF" style="background-color:  #faf8f2;">
 						<form id="myUbookListForm" action="" method="post">
 						
 								<h1>검색결과</h1>
@@ -109,7 +110,7 @@
 												<div class="tbNo1">
 													<del>${u.ubookOPrice }원</del>
 													<br>
-													<strong>${u.ubookPrice }원</strong>
+													<div style="color: #fe6000 !important;"><strong>${u.ubookPrice }원</strong></div>
 												</div>
 											</td>
 											<td>
@@ -118,19 +119,19 @@
 											<td>
 												<div class="tbNo1">
 												<c:if test="${u.ubookQual eq 'S' }">
-													<div style="background-color: red; color: white;">최상</div>
+													<div style="background-color: #324278; color: #fff;;">최상</div>
 												</c:if>
 												<c:if test="${u.ubookQual eq 'A' }">
-													<div style="background-color: orange;">상</div>
+													<div style="background-color: #28706f; color: #fff;;">상</div>
 												</c:if>
 												<c:if test="${u.ubookQual eq 'B' }">
-													<div style="background-color: yellow;">보통</div>
+													<div style="background-color: #fcd381; color: #fff;;">보통</div>
 												</c:if>
 												<c:if test="${u.ubookQual eq 'C' }">
-													<div style="background-color: green; color: white;">하</div>
+													<div style="background-color: #eb9b6a; color: #fff;">하</div>
 												</c:if>
 												<c:if test="${u.ubookQual eq 'D' }">
-													<div style="background-color: blue; color: white;">최하</div>
+													<div style="background-color: #9d1d16; color: #fff">최하</div>
 												</c:if>
 												
 												</div>

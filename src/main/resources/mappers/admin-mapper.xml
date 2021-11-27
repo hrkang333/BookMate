@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="adminMapper">
+
+
+  <resultMap id="clubResultSet" type="Club">
+		<id column="CLUB_NO" property="clubNo"/>
+		<result column="CLUB_TITLE" property="clubTitle"/>
+		<result column="ONOFF_LINE" property="onoffLine"/>
+		<result column="CLUB_CAPACITY" property="clubCapacity"/>
+		<result column="CSTART_DATE" property="clubStartDate"/>
+		<result column="CEND_DATE" property="clubEndDate"/>
+		<result column="CONDITION" property="condition"/>
+		<result column="HOST_NAME" property="hostName"/>
+		<result column="CHANGE_NAME" property="titleChangeName"/>
+</resultMap>
+
+<select id="clubListCount" resultType="_int">
+  SELECT COUNT(*) FROM CLUB C JOIN CLUB_ATTACHMENT CA ON C.CLUB_NO = CA.REF_CLUB_NO
+      WHERE C.CONDITION=2 AND C.STATUS='Y'
+          <![CDATA[AND C.CSTART_DATE <= SYSDATE AND C.CEND_DATE > SYSDATE]]>
+          AND CA.FILE_TYPE=2 
+          AND C.CLUB_TITLE LIKE #{keyword}
+</select>
+<select id="selectClubConfirmList" resultMap="clubResultSet">
+SELECT C.CLUB_NO,C.CLUB_TITLE, C.ONOFF_LINE,C.CLUB_CAPACITY, 
+             C.CSTART_DATE,C.CEND_DATE,C.CONDITION,C.HOST_NAME,CA.CHANGE_NAME
+FROM CLUB C JOIN CLUB_ATTACHMENT CA ON C.CLUB_NO = CA.REF_CLUB_NO
+WHERE C.CONDITION=2 AND C.STATUS='Y'
+           <![CDATA[AND C.CSTART_DATE <= SYSDATE AND C.CEND_DATE > SYSDATE]]>
+          AND CA.FILE_TYPE=2 
+          AND C.CLUB_TITLE LIKE #{keyword}
+ORDER BY C.CREATE_DATE
+</select>
+<update id="updateClubConfirm" parameterType="hashMap">
+UPDATE CLUB SET CONDITION = 
+<if test="confirmStatus==0">
+3 WHERE CLUB_NO = #{clubNo}
+</if>
+<if test="confirmStatus==1">
+4 WHERE CLUB_NO = #{clubNo}
+</if>
+</update>
+<select id="selectLessStockCount" resultType="_int">
+SELECT COUNT(*) FROM BOOK WHERE <![CDATA[BOOKSTOCK < #{checkStock}]]>  
+</select>
+<select id="selectLessStockBook" resultType="Book">
+SELECT * FROM BOOK WHERE <![CDATA[BOOKSTOCK < #{checkStock}]]> ORDER BY BOOKSTOCK
+</select>
+</mapper>

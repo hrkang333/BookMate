@@ -2,6 +2,7 @@ package com.kh.bookmate.book.model.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.kh.bookmate.book.model.vo.Book;
 import com.kh.bookmate.ubook.model.vo.Ubook;
@@ -33,6 +34,8 @@ public interface BookService {
 
 	void insertRecentView(String userId, String bookISBN);
 
-	
+	Book selectBookStock(String bookISBN);
+
+	void updateBookPlusStock(Map<String, Object> map);
 
 }
