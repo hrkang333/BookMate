@@ -82,7 +82,7 @@
 		<div style="display: flex;">
 			<div>
 
-				<a class="imgHome" href="http://localhost:8090/spring/" style="margin-right: 10px"><img
+				<a class="imgHome" href="${pageContext.servletContext.contextPath }/" style="margin-right: 10px"><img
 					src="resources/img/logo.png" alt="" style="width: 300px;"></a>
 			</div>
 			<div class="searchingArea">
