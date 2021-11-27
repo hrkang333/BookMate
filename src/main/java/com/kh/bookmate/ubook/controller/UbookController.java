@@ -56,9 +56,13 @@ public class UbookController {
 			//System.out.println("셀러?" + s.getSellerNo());
 			model.addAttribute("s", s);
 		}
-		
+		//등록된 도서 랜덤으로 보여주기
 		ArrayList<Ubook> randomBookList = ubookService.selectRandomBookList();
 		model.addAttribute("randomBookList", randomBookList);
+		
+		//등록된 도서 중 최저가
+		ArrayList<Ubook> rowPriceBookList = ubookService.selectRowPriceBookList();
+		model.addAttribute("rowPriceBookList", rowPriceBookList);
 		/*
 		 * List<Ubook> list = ubookService.searchUbookList(keyword);
 		 * model.addAttribute("list", list);

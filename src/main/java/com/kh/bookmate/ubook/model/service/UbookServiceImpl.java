@@ -130,6 +130,11 @@ public class UbookServiceImpl implements UbookService {
 		return ubookDao.haveQnaUbook(sqlSession, sellerNumber);
 	}
 
+	@Override
+	public ArrayList<Ubook> selectRowPriceBookList() {
+		return ubookDao.selectRowPriceBookList(sqlSession);
+	}
+
 	
 	/*@Override
 	public List<Ubook> selectbookList(String userId) {
