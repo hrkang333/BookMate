@@ -14,6 +14,16 @@ public class BookReview {
 	private int reviewStatus;
 	private int reviewReplyCount;
 	
+	private String user_Id;// 미소 추가 21-11-27
+	
+	public String getUser_Id() {
+		return user_Id;
+	}
+
+	public void setUser_Id(String user_Id) {
+		this.user_Id = user_Id;
+	}
+
 	public BookReview() {
 		super();
 		// TODO Auto-generated constructor stub

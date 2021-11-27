@@ -17,6 +17,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	AND USER_ID = #{user_Id} 
 
 </select>
+
+ <select id="selectUseCoupon" resultType="UseCoupon">
  
+	 SELECT USER_ID FROM USECOUPON
+	 WHERE COUPONCODE = #{couponCode}
+	 AND USER_ID = #{user_Id}
+	 
+ </select>
 
 </mapper>

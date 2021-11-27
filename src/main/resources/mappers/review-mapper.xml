@@ -72,5 +72,19 @@ DELETE FROM BOOKREVIEWREPLY WHERE REVIEWREPLYNO = #{reviewReplyNo}
 UPDATE BOOKREVIEWREPLY SET REVIEWREPLYSTATUS = 0 WHERE REVIEWNO = #{reviewNo} AND REVIEWREPLYINDEX = #{reviewReplyIndex} AND REVIEWREPLYLEVEL = 0
 </update>
 
+<!-- 구매확정시 구매확정자만 리뷰를 작성할 수 있게 하기  -->
+<insert id="insertConfirmOrder" parameterType="list">
+	
+	INSERT INTO BUYREVIEW VALUES( #{list[0]}, #{list[1]} , 1)
+
+</insert>
+
+<select id="selectReviewListMine" resultType="BookReview">
+SELECT REVIEWTITLE, REVIEWWRITER,REVIEWCONTENT,REVIEWDATE, REVIEWSTATUS FROM BOOKREVIEW A
+JOIN BUYREVIEW B USING(REVIEWSTATUS)
+WHERE REVIEWSTATUS = 1
+<!-- AND USER_ID = #{user_Id} -->
+
+</select>
 
 </mapper>

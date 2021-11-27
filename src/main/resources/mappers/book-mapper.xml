@@ -70,5 +70,10 @@ UPDATE BOOK SET BOOKRATING = #{bookRating} , BOOKRATINGCOUNT = #{bookRatingCount
 	]]>
 </select>
 
+<!-- 구매확인을 누를시 셀데이터에 인서트  -->
+<insert id="insertConfirmSellDate" parameterType="list">
+  INSERT INTO SELLDATE VALUES( #{list[0]}, #{list[1]}, SYSDATE)
+</insert>
+
 </mapper>
 

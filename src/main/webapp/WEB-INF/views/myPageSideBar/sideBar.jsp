@@ -74,9 +74,9 @@
                   <form action="myPageOrderList.me" method="post"> </form>
                     <ul>
                       
-                        <li class="filter-list">  최근 조회한 상품 </li>
-                        <li class="filter-list"> 나의 찜목록  </li>
-                        <li class="filter-list"> 나의 리뷰 조회  </li>
+                        
+                        <li class="filter-list"> <a href="myReview.me" >나의 리뷰조회 </a> </li>
+                        <li class="filter-list">  <a href="recentlyView.me">나의 최근 본 목록</a> </li>
                         <li class="filter-list"> <a href="myPoint.me">나의 포인트 조회</a></li>
                     </ul>
                  

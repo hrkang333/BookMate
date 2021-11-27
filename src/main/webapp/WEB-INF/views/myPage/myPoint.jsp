@@ -60,7 +60,7 @@
 							<h2>현재 <c:out value="${userPoint.userName}"/>님의 잔여 포인트는</h2>
 							<br>
 						</div>
- 						<h4> <c:out value="${userPoint.point}"/>point 입니다</h4>
+ 						<h4> <span id ="pointInsert"><c:out value="${userPoint.point}"/></span>point 입니다</h4>
 					</div>
 
 
@@ -74,7 +74,7 @@
 										<div class="col-md-12 form-group">
 											<br> <input type="text"  name="couponCode" placeholder="쿠폰번호를 입력해주세요" required>
 												<input type="hidden" value="${sessionScope.loginUser.userId}">
-											<button type="button" onclick="checkCoupon();checkCoupon2()" >쿠폰 등록하기</button>
+											<button type="button" onclick="checkCoupon();" >쿠폰 등록하기</button>
 										</div>
 									</form> 
 								
@@ -117,10 +117,10 @@
 				if(e == "available"){
 					confirm("사용가능한 쿠폰입니다. 사용하시겠습니까? ");
 						couponCode.attr("readonly","true"); //인푸에 들어온 코드 체크한 뒤에 
-					//	$('#checkCuForm').attr("action","updateCoupon.me").submit();
-					/* 	userId.attr("action","updateCoupon.me").submit(); */
+	
+					 	checkCoupon2(userId);  
 					}
-						else if(e=="usedAlready"){
+						else if(e == "usedAlready"){
 						confirm("이미사용된 쿠폰입니다. ");
 								    
 				}else {
@@ -135,9 +135,12 @@
 		 })
 		 
 	 };
-
-	 function checkCoupon2(){
-		 
+	 
+	
+	 
+	  function checkCoupon2(){
+		console.log("도는지..?")	
+		
 		 var couponCode = $("#checkCuForm input[name=couponCode]"); 
 		 var userId = '${sessionScope.loginUser.userId}'; 
 		 
@@ -149,20 +152,21 @@
 						user_Id : userId
 					},
 					success : function(e){
+						alert( "포인트등록이되었습니다");
+				var pointInsert = parseInt($('#pointInsert').text()) + parseInt(e)
+						$('#pointInsert').text(pointInsert);
 						
-						couponCode.attr("readonly","true");
-						$('#checkCuForm').submit();
-						console('성공... ')
+						console.log('성공... ')
 					},
 					error:function(){
-						alert("줠라 에러임.. ")
+						alert(" 에러임.. ")
 					}
 				
 			 });
-			
-	 };
+		 };
+ 	 
 	
-	 
+	  
 	
 	 
 	</script> 

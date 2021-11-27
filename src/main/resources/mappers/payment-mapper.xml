@@ -200,6 +200,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	
+	<select id="selectReAndExList" resultType="PaymentDetail">
+
+	SELECT * FROM PAYMENTDETAIL
+	WHERE DELIVERYSTATUS IN (5,6)
+	
+	</select>
+	
+	
+	
 	
 </mapper>
 

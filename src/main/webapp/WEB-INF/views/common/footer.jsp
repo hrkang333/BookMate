@@ -52,20 +52,24 @@
     #p2{
         text-align:center;
     }
+    
+    .tbfooter{
+    flex: 
+    
+    }
 </style>
 </head>
 <body style="width: 1200px;">
   <!--================ Start footer Area  =================-->   
    <footer class="footer">
-      <div class="" style="background-color: white;" height="500px">
+ <!--      <div class="" style="background-color: white;" height="500px">
          <div class="container">
             <div class="row section_gap">
                <div class="col-lg-3 col-md-6 col-sm-6">
                   <div class="single-footer-widget tp_widgets">
-                   <!--   <h4 style="font-color:black; font-size: 50px">책구메이트</h4> -->
+                     <h4 style="font-color:black; font-size: 50px">책구메이트</h4>
                      <img alt="" src="resources/img/logo1.png;" width="200px;" height="auto;" >
-                     <p>
-                       도서 구매와 중고판매 독서모임까지 ❤️  &nbsp;&nbsp;&nbsp;&nbsp;책구메이트와 함께하세요! <p>
+                     <p> 도서 구매와 중고판매 독서모임까지 ❤️  &nbsp;&nbsp;&nbsp;&nbsp;책구메이트와 함께하세요! <p>
                     <br>
                   </div>
                </div>
@@ -88,7 +92,7 @@
                <div class="offset-lg-1 col-lg-3 col-md-6 col-sm-6">
                 <br><br><br><br>  
                 ✉ 이메일<br>
-                info.kh@gmail.com
+                info.kh@asdfasd.com
                 <br><br><br>
                👑 대표이사 : 관리자<br>
 				사업자등록번호 : 123-123-5431
@@ -100,15 +104,29 @@
             </div>
          
          <hr>
-      <div ><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COPYRIGHT(C) BOOKMATE ALL RIGHTS RESERVED. 
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      서비스 소개 &nbsp;&nbsp;&nbsp;&nbsp;이용약관&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;개인정보처림방침 </p></div>
+  
       <br>  
-     
+      -->
+     <table class="tbfooter"  style="text-align: center;">
+     	<tr>
+     		<td><img alt="" src="resources/img/logo1.png;" width="200px;" height="auto;" ></td>
+     		<td>📞 전화번호<br>
+                  (+82) 123-456-789</td>
+     		<td>      ✉ 이메일<br>
+                info.kh@asdfasd.com    </td>
+     	</tr>
+     	<tr>
+	     	<td><p> 도서 구매와 중고판매 독서모임까지 ❤️ <br>책구메이트와 함께하세요! <p></td>
+	     	<td>   🔍 주소<br>
+                  서울특별시 강남구 테헤란로14길 6 </td>
+	     	<td>    👑 대표이사 : 관리자<br>
+				사업자등록번호 : 123-123-5431</td>
+     	</tr>
+     	<tr>
+	     	<td colspan="3">COPYRIGHT(C) BOOKMATE ALL RIGHTS RESERVED.  서비스 소개 이용약관  개인정보처림방침</td>
+	     	
+     	</tr>
+     	</table>
      
 
      

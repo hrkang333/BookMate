@@ -29,8 +29,8 @@ public class PaymentDao {
 		return sqlSession.update("paymentMapper.cancelMyOrder",paymentDetailNo);
 	}
  
-	public void confirmOrder(SqlSessionTemplate sqlSession, int paymentDetailNo) {
-		 sqlSession.update("paymentMapper.confirmOrder",paymentDetailNo);
+	public int confirmOrder(SqlSessionTemplate sqlSession, int paymentDetailNo) {
+		return sqlSession.update("paymentMapper.confirmOrder",paymentDetailNo);
 	} 
 
 
@@ -134,6 +134,16 @@ public class PaymentDao {
 	public int checkStock(SqlSessionTemplate sqlSession, String bookISBN) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("paymentMapper.checkStock",bookISBN);
+	}
+
+	public List<PaymentDetail>  selectReAndExList(SqlSessionTemplate sqlSession,PaymentDetail pd) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("paymentMapper.selectReAndExList",pd);
+	}
+
+	public PaymentDetail selectPaymentDetail(SqlSessionTemplate sqlSession, PaymentDetail pd) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("paymentMapper.checkStock",pd);
 	}
 
 	

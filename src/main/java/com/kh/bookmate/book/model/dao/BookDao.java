@@ -69,6 +69,11 @@ public class BookDao {
 
 	}
 
+	public int insertConfirmSellDate(SqlSessionTemplate sqlSession, List<Object> sell) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("bookMapper.insertConfirmSellDate", sell);
+	}
+
 	
 	
 	

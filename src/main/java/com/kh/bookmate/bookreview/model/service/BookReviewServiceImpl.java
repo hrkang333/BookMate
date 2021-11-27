@@ -139,4 +139,13 @@ public class BookReviewServiceImpl implements BookReviewService {
 		}
 	}
 
+	//마이페이지 북 리뷰 리스트 
+	@Override
+	public List<BookReview> selectReviewListMine(BookReview rb) {
+		
+		List<BookReview> list = bookReviewDao.selectReviewListMine(sqlSession,rb);
+
+		return list;
+	}
+
 }

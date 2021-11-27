@@ -65,9 +65,16 @@
 			</c:if>
 
 			<!-- 로그인 후  -->
-			<c:if test="${ !empty sessionScope.loginUser }">
+			<c:if test="${ !empty sessionScope.loginUser}">
 				<label>${ sessionScope.loginUser.userName }님 환영합니다</label> &nbsp;&nbsp;
 					                <a href="myPageMain.me">마이페이지</a>
+				<a href="logout.us">로그아웃</a>
+			</c:if>
+			
+			<!--관리자 로그인후 -->
+			<c:if test="${sessionScope.loginUser eq 'admin'  }"> 
+				<label>${ sessionScope.loginUser.userName }님 환영합니다</label> &nbsp;&nbsp;
+					                <a href="adminPageOpen.ad">관리자페이지</a>
 				<a href="logout.us">로그아웃</a>
 			</c:if>
 		</div>
@@ -96,12 +103,24 @@
 					class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">국내도서</a>
 
 					<ul class="dropdown-menu">
-						<li class="nav-item"><a class="nav-link">국내도서 전체</a></li>
-						<li class="nav-item"><a class="nav-link"
-							href="single-blog.html"></a></li>
+						<li class="nav-item"><a class="nav-link" value="">국내도서 전체</a></li>
+						<li class="nav-item"><a class="nav-link" value="">소설/시 에세이 </a></li>
+						<li class="nav-item"><a class="nav-link" value="">경제/경영</a></li>
+						<li class="nav-item"><a class="nav-link" value="">과학</a></li>
+						<li class="nav-item"><a class="nav-link" value="">인문</a></li>
+						<li class="nav-item"><a class="nav-link" value="">컴퓨터</a></li>
+						<li class="nav-item"><a class="nav-link" value="">자기계발</a></li>
+						<li class="nav-item"><a class="nav-link" value="">정치/사회</a></li>
+						<li class="nav-item"><a class="nav-link" value="">역사/문화</a></li>
+						<li class="nav-item"><a class="nav-link" value="">취미</a></li>
+						<li class="nav-item"><a class="nav-link" value="">가정/육아</a></li>
+						<li class="nav-item"><a class="nav-link" value="">경제/경영</a></li>
+						
+						
+						
+						<li class="nav-item"><a class="nav-link" href="single-blog.html"></a></li>
 					</ul></li>
-				<li class="nav-item submenu dropdown"><a href="#" role="button" style=" color: #503535; font-weight: 700; font-size: 18px;"
-					value="12">eBook</a></li>
+				<li class="nav-item submenu dropdown"><a href="#" role="button" style=" color: #503535; font-weight: 700; font-size: 18px;">eBook</a></li>
 
 				<li class="nav-item"><a class="nav-link" href="ubookMain.ub" style=" color: #503535; font-weight: 700; font-size: 18px;">중고장터</a></li>
 				<li class="nav-item"><a class="nav-link" href="clubMain.cl" style=" color: #503535; font-weight: 700; font-size: 18px;">독서모임</a></li>
@@ -134,10 +153,10 @@
 				$('#ppop').submit()
 			}
 			</script>
- -->
+
 
 			</form>
-
+ -->
 		</nav>
 		<div>
 

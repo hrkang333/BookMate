@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.bookmate.bookreview.model.vo.BookReview;
 import com.kh.bookmate.bookreview.model.vo.BookReviewReply;
+import com.kh.bookmate.payment.model.vo.PaymentDetail;
 
 @Repository
 public class BookReviewDao {
@@ -91,6 +92,19 @@ public class BookReviewDao {
 		// TODO Auto-generated method stub
 		return sqlSession.update("reviewMapper.updateReplyDeleteAnswer",reviewReply);
 	}
+
+	public int insertConfirmOrder(SqlSessionTemplate sqlSession, List<Object> ibr) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("reviewMapper.insertConfirmOrder",ibr);
+	}
+
+	//마이페이지 북 리뷰 리스트 
+	public List<BookReview> selectReviewListMine(SqlSessionTemplate sqlSession, BookReview rb) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("reviewMapper.selectReviewListMine",rb);
+	}
+
+	
 
 	
 
