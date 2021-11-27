@@ -2,6 +2,7 @@ package com.kh.bookmate.book.model.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -67,6 +68,11 @@ public class BookDao {
 	public ArrayList<Book> selectHotTopicBook(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("bookMapper.selectHotTopicBook");
 
+	}
+
+	public int updateBookPlusStock(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("bookMapper.updateBookPlusStock" ,map);
 	}
 
 	

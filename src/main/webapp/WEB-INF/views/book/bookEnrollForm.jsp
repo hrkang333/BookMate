@@ -7,6 +7,24 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" charset="UTF-8">
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style type="text/css">
+a:link { 
+color: black; 
+text-decoration: none;
+}
+a:visited { 
+color: black; 
+text-decoration: none;
+}
+a:hover { 
+color: blue; 
+text-decoration: none;
+}
+.leftTitle{
+font-size: 20px;
+font-weight: bold;
+}
+</style>
 <script type="text/javascript">
 var confirmISBN = 0;
 
@@ -143,9 +161,39 @@ function checkISBN() {
 </script>
 
 </head>
-<body style="width: 1200px; margin: 0 auto;">
-  
+<body>
+<jsp:include page="../common/menubar.jsp" />
+		<main class="site-main" style="padding-top: 180px">
+<div style="display: flex;width: 1200px; ">
+			<div style="width: 200px; padding-top: 30px; " id="adminMenuDiv">
+					
+				<br>
+				<br><span class="leftTitle">도서 재고 관리</span><br>
+				<br> <a href="adminMainBookStock.st">-재고 위험 알림&재고 입고</a><br>
+				<br>
+				<br><span class="leftTitle">공지사항&이벤트관리</span><br>
+				<br> <a href="noticeList.no">-공지사항&이벤트<br>
+				 &nbsp;&nbsp;등록/수정/삭제</a><br>
+				<br>
+				<br><span class="leftTitle">회원 관리</span><br>
+				<br> <a href="">-회원 자격 정지</a><br> <a href="">-정지 회원 복구</a><br>
+				<br>
+				<br><span class="leftTitle">도서 관리</span><br>
+				<br> <a href="bookEnrollForm.book"  style="color: blue;font-size: 16px;font-weight: bold;">-도서 등록</a><br> <a href="">-도서 수정</a><br>
+				<br>
+				<br><span class="leftTitle">문의 답변</span><br>
+				<br> <a href="adminQnaList.qa">-문의 확인&답변 등록</a><br>
+				<br>
+				<br><span class="leftTitle">쿠폰 관리</span><br>
+				<br> <a href="insertCouponForm.ad">-쿠폰 번호 등록</a><br><a href="">-쿠폰 수정&삭제</a><br>
+				<br>
+				<br><span class="leftTitle">독서모임승인</span><br>
+				<br> <a href="selectClubConfirmList.cl">-독서 모임 확인&승인</a><br><br>
 
+			</div>
+<div style="margin-left: auto;margin-right: auto; ">  <br><br><br>
+<span style="font-size: 30px; font-weight: bold;">도서 등록</span><br>
+<hr>
 <br><br><br>
 <form action="bookEnroll.book" id="bookEnroll" class="bookEnroll" method="post" enctype="multipart/form-data">
 도서 ISBN : <input type="text" name="bookISBN" data-name = "도서 ISBN" id="bookISBN" onchange="changeISBN()"> <button type="button" onclick="checkISBN()">ISBN 중복체크</button><br>
@@ -174,13 +222,11 @@ function checkISBN() {
 도서 소개 : <br>
 <textarea rows="30" cols="100" name="bookIntro" id="bookIntro"  placeholder="한글 1200자(공백포함), 영어 3600자(공백포함) 내로 작성해 주세요" onkeyup="checkText('bookIntro')" data-name = "도서 소개"></textarea><br><br>
 도서 상세소개이미지(png와 jpg만 가능) : <input type="file" name="bookDetailImgFile" onchange="imgCheck(this,'bookDetailImg')" id="bookDetailImg" data-name = "도서 입고수"><br><br>
-도서 입고 수 : <input type="number" name="bookStock"><br><br>
+도서 입고 수량 : <input type="number" name="bookStock"><br><br>
 <input type="button" onclick="submitCheck()" value="도서 입고"> 
 <br><br>
 <hr><br>
-도서 평점 : <input type="number" name="bookRating" data-name = "도서 평점"><br><br>
-도서 평점준 인원수 : <input type="number" name="bookRatingCount" data-name = "도서 평점 준 인원 수"><br><br>
-<hr><br>
+
 상세소개 이미지 미리보기<br>
 <img alt="" src="" id="prebookDetailImg">
 
@@ -193,5 +239,6 @@ function checkISBN() {
 <tr><td><input type="hidden"></td></tr>
 </table>
 </form>
+</div></div></main>
 </body>
 </html>

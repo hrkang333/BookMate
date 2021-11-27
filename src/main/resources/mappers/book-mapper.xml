@@ -70,6 +70,7 @@ UPDATE BOOK SET BOOKRATING = #{bookRating} , BOOKRATINGCOUNT = #{bookRatingCount
 		WHERE ROWNUM < 13
       ]]>
 </select>
-
+<update id="updateBookPlusStock" parameterType="hashMap">
+UPDATE BOOK SET BOOKSTOCK  = BOOKSTOCK + #{plusStock} WHERE BOOKISBN = #{bookISBN}
+</update>
 </mapper>
-

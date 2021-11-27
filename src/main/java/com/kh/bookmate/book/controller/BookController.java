@@ -55,7 +55,7 @@ public class BookController {
 	@RequestMapping("selectBook.book")
 	public String selectBook(String bookISBN, Model mo,@RequestParam(name="reviewKind",defaultValue = "1") int reviewKind, 
 								@RequestParam(name="reviewNowPage",defaultValue = "1") int reviewNowPage, @RequestParam(name="questionNowPage",defaultValue = "1") int questionNowPage,
-								@RequestParam(name="questionKind",defaultValue = "5") int questionKind,@RequestParam(name="pagePosition",defaultValue = "0") int pagePosition,@SessionAttribute("loginUser") User loginUser) {
+								@RequestParam(name="questionKind",defaultValue = "5") int questionKind,@RequestParam(name="pagePosition",defaultValue = "0") int pagePosition,@SessionAttribute(name = "loginUser",required = false ) User loginUser) {
 		Paging reviewPaging; 
 		Paging qnaPaging; 
 		List<Book> bestBookList;
@@ -69,7 +69,10 @@ public class BookController {
 		int reviewCount;
 		int qnaCount;
 		
-		bookService.insertRecentView(loginUser.getUserId(),bookISBN);
+		if(loginUser!=null) {
+			bookService.insertRecentView(loginUser.getUserId(),bookISBN);
+		}
+		
 		qnaCount = bookQnaService.selectTotalCount(bookISBN,questionKind);
 		reviewCount = bookReviewService.selectTotalCount(bookISBN);
 		book = bookService.selectBook(bookISBN);

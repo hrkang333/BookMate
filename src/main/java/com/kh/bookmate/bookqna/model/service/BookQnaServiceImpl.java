@@ -1,7 +1,9 @@
 package com.kh.bookmate.bookqna.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -94,6 +96,85 @@ public class BookQnaServiceImpl implements BookQnaService {
 		int result = bookQnaDao.qnaDelete(sqlSession,qnaNo);
 		if(result < 0) {
 			throw new RuntimeException("qna 삭제중 db오류");
+		}
+		
+	}
+
+	@Override
+	public int selectA_QnaListCount(int searchKind, String keyword, int isAnswer) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("searchKind", searchKind);
+		map.put("keyword", keyword);
+		map.put("isAnswer", isAnswer);
+		
+		return bookQnaDao.selectA_QnaListCount(sqlSession,map);
+		
+	}
+
+	@Override
+	public List<BookQna> selectB_QnaList(int searchKind, String keyword, int isAnswer, RowBounds rb) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("searchKind", searchKind);
+		map.put("keyword", keyword);
+		map.put("isAnswer", isAnswer);
+		
+		return bookQnaDao.selectB_QnaList(sqlSession,map,rb);
+	}
+
+	@Override
+	public BookQna selectA_QnaDetail(int qnaNo) {
+		BookQna qna=null;
+		
+		qna=bookQnaDao.selectA_QnaDetail(sqlSession,qnaNo);
+		if(qna==null) {
+			throw new RuntimeException("어드민 qna 상세 보기 db오류");
+		}
+		
+		return qna;
+	}
+
+	@Override
+	public BookQnaAnswer selectA_QnaAnswerDetail(int qnaNo) {
+		BookQnaAnswer qnaAnswer=null;
+		
+		qnaAnswer=bookQnaDao.selectA_QnaAnswerDetail(sqlSession,qnaNo);
+		if(qnaAnswer==null) {
+			throw new RuntimeException("어드민 qna 상세 보기 db오류");
+		}
+		
+		return qnaAnswer;
+	}
+
+	@Override
+	public void intsertQnaAnswer(BookQnaAnswer qnaAnswer) {
+		int result = bookQnaDao.intsertQnaAnswer(sqlSession,qnaAnswer);
+		if(result < 0) {
+			throw new RuntimeException("qna 답변 등록중 db오류");
+		}
+		int result2 = bookQnaDao.updateQnaInsertAnswer(sqlSession,qnaAnswer.getQnaNo());
+		if(result2 < 0) {
+			throw new RuntimeException("qna 답변 등록 업데이트중 db오류");
+		}
+	}
+
+	@Override
+	public void updateQnaAnswer(BookQnaAnswer qnaAnswer) {
+		int result = bookQnaDao.updateQnaAnswer(sqlSession,qnaAnswer);
+		if(result < 0) {
+			throw new RuntimeException("qna 답변 등록중 db오류");
+		}
+		
+	}
+
+	@Override
+	public void deleteQnaAnswer(int qnaNo) {
+		int result = bookQnaDao.deleteQnaAnswer(sqlSession,qnaNo);
+		if(result < 0) {
+			throw new RuntimeException("qna 답변 삭제중 db오류");
+		}
+		int result2 = bookQnaDao.updateQnaDeleteAnswer(sqlSession,qnaNo);
+		if(result2 < 0) {
+			throw new RuntimeException("qna 답변 삭제 업데이트중 db오류");
 		}
 		
 	}
