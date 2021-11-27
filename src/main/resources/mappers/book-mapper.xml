@@ -70,7 +70,15 @@ UPDATE BOOK SET BOOKRATING = #{bookRating} , BOOKRATINGCOUNT = #{bookRatingCount
 		WHERE ROWNUM < 13
       ]]>
 </select>
+  
+<!-- 구매확인을 누를시 셀데이터에 인서트  -->
+<insert id="insertConfirmSellDate" parameterType="list">
+  INSERT INTO SELLDATE VALUES( #{list[0]}, #{list[1]}, SYSDATE)
+</insert>
+
+  
 <update id="updateBookPlusStock" parameterType="hashMap">
 UPDATE BOOK SET BOOKSTOCK  = BOOKSTOCK + #{plusStock} WHERE BOOKISBN = #{bookISBN}
 </update>
+  
 </mapper>

@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt"%>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"/>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!DOCTYPE html>
 <html>
@@ -110,7 +110,10 @@
           <div class="row">
          <jsp:include page="../myPageSideBar/sideBar.jsp" />
 
-     
+		     
+		<form action="selectBook.book" method="post" id="moveDetailForm">
+				<input type="hidden" id="moveDetailInput" name="bookISBN">
+			</form>
 
               <!-- 주문리스트 테이블  -->
               <div style="text-align: center; width: 900px; height: auto; margin-left: 40px">
@@ -135,16 +138,14 @@
 
 
 										<c:forEach var="item" items="${myOrderListDetail}" varStatus="status">
-
+											<c:set var = "booklist" value= ""/>
 											<tr>
 												<td><p>
 														<c:out value="${item.paymentDetailNo}" />
 													</p></td>
 
-												<td style="text-align: left"><img
-													src="${pageContext.servletContext.contextPath }/resources/images/book_img/${item.bookMainImg}"
-													style="width: 40px; height: auto;" /> <c:out
-														value="${item.bookTitle}" /></td>
+												<td style="text-align: left"><img src="${pageContext.servletContext.contextPath }/resources/images/book_img/${item.bookMainImg}"
+													style="width: 40px; height: auto;" onclick="moveDetail('${item.bookISBN}')" /> <c:out value="${item.bookTitle}" /></td>
 
 												<td><c:out value="${item.quantity}" />개</td>
 												<td><del><c:out value="${item.bookPrice}"/></del>원 <div><c:out value="${item.salePrice}"/>원</div></td>
@@ -286,6 +287,13 @@
  				    
  				}
  			 } 
+ 	     	
+ 	     	
+ 	    	function moveDetail(bookISBN){
+ 				$('#moveDetailInput').val(bookISBN)
+ 				$('#moveDetailForm').submit();
+ 			}
+ 			
  			</script>
  
 

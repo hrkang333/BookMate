@@ -71,7 +71,7 @@ public class UserDao {
 	public int updateGetUserPoint(SqlSessionTemplate sqlSession, List<Object> redeem) {
 		return sqlSession.update("userMapper.updateGetUserPoint",redeem);
 		
-	}
+	} 
 
 
 }

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.bookmate.book.model.dao.BookDao;
+import com.kh.bookmate.bookreview.model.dao.BookReviewDao;
+import com.kh.bookmate.bookreview.model.vo.BuyReview;
 import com.kh.bookmate.payment.model.dao.PaymentDao;
 import com.kh.bookmate.payment.model.vo.Payment;
 import com.kh.bookmate.payment.model.vo.PaymentDetail;
@@ -33,6 +35,9 @@ public class PaymentServiceImpl implements PaymentService {
 	@Autowired
 	private BookDao bookDao;
 	
+	@Autowired
+	private BookReviewDao bookReviewDao;
+	
 	//주문 리스트 조회 
 	@Override 
 	public List<Payment> selectMyOrderList(String loginUser) {
@@ -40,7 +45,6 @@ public class PaymentServiceImpl implements PaymentService {
 		return list;
 	}  
  
-
 	//주문리스트 상세조회 
 	@Override
 	public List<PaymentDetail> selectMyOrderListDetail(int paymentNo) {
@@ -57,16 +61,46 @@ public class PaymentServiceImpl implements PaymentService {
 
 	//사용자 배송완료 후 구매확정 
 	@Override
-	public void confirmOrder(int paymentDetailNo) {
-		 paymentDao.confirmOrder(sqlSession,paymentDetailNo);
+	public void confirmOrder(int paymentDetailNo, int paymentNo) {
+		
 		 
 		// buyReview 테이블에 insert..?
 		 //selldata 테이블에 insert 해야된다.. 
-		
-		 
+	PaymentDetail pd = paymentDao.selectPaymentDetail(sqlSession, paymentDetailNo);
+	//paymentDetailNo 로 페이먼트 객체 가져오기 
+	Payment p = paymentDao.selectPaymentNo(sqlSession, paymentNo);
+	//paymentNo 로 페이먼트 객체 가져오기 
+	
+	 int result1 = paymentDao.confirmOrder(sqlSession,paymentDetailNo);
+	 //구매확정
+	 if(result1 < 0){
+		 throw new RuntimeException("paymentServiceImpl result1 오류 "); 
+	 }
+	
+	List<Object> ibr = new ArrayList<Object>();
+	ibr.add(p.getUser_Id());
+	ibr.add(pd.getBookISBN());
+	
+	List<Object> sell = new ArrayList<Object>();
+	sell.add(pd.getBookISBN());
+	sell.add(pd.getQuantity());
+	sell.add(pd.getDeliveryDate());
+	
+	int result2 = bookReviewDao.insertConfirmOrder(sqlSession,ibr);
+	//buyReview 에 인서트(구매 고객 한해서 리뷰를 작성할수있게 해놓음) 
+	
+	int result3 = bookDao.insertConfirmSellDate(sqlSession,sell);
+	
+	
+		if(result2 < 0 ) {
+			throw new RuntimeException("paymentServiceImpl result2 오류 ");
+		}
+		if(result3 < 0) {
+			throw new RuntimeException("paymentServiceImpl result3 오류 ");
+		}
+
 	}
 
- 
 	// 교환
 	@Override
 	public PaymentDetail applyExchange(int paymentDetailNo) {
@@ -134,7 +168,7 @@ public class PaymentServiceImpl implements PaymentService {
 			}
 	}
 
-	
+	 
 	
 	
 	@Override
@@ -206,23 +240,23 @@ public class PaymentServiceImpl implements PaymentService {
 			if(result < 0) {
 				throw new RuntimeException("유저 포인트 업데이트 오류");
 			}
-	
-		
+
 	} 
 
+	@Override
+	public List<PaymentDetail> selectReAndExList(PaymentDetail pd) {
+		List<PaymentDetail> result = paymentDao.selectReAndExList(sqlSession, pd);	
+		return result;
+	}
 
-	
-
-	
-	
-	
-	
 	@Override
 	public boolean checkStock(ShoppingBasket basket) {
 		int stock = paymentDao.checkStock(sqlSession,basket.getBookISBN());
 		return stock >= basket.getQuantity() ;
 	}
 
+
+	
 
 
 	

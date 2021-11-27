@@ -15,7 +15,7 @@ public interface PaymentService {
 
 	int cancelMyOrder(int paymentDetailNo);
 
-	void confirmOrder(int paymentDetailNo);
+	void confirmOrder(int paymentDetailNo, int paymentNo);
  
 	PaymentDetail applyExchange(int paymentDetailNo);
 
@@ -48,6 +48,9 @@ public interface PaymentService {
 
 	List<PaymentDetail> refundAndExchangeList();
 
+	List<PaymentDetail> selectReAndExList(PaymentDetail pd);
+
+	
 
 
 	

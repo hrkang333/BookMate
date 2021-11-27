@@ -18,20 +18,6 @@ INSERT INTO COUPON VALUES(#{couponCode},#{couponPoint},#{couponStartDate},#{coup
  	WHERE COUPONCODE = #{couponCode}
 
  </select> 
- 
- <!-- 테이블에서 포인트만 받아옴  -->
- <select id="selectPoint" resultType="_int">
- 	SELECT COUPONPOINT FROM COUPON
- 	WHERE COUPONCODE = #{couponCode}
- 	<!-- AND COUPONPOINT = #{couponPoint} 쿠폰에서 쿠폰포인트를 알아올려하는건데...ㅠ -->
- 
- </select>
- 									
-<!--   <select id="selectUseCoupon" resultType="UseCoupon">
- 
-	 SELECT USER_ID FROM USECOUPON
-	 WHERE COUPONCODE = #{couponCode}
-	 AND USER_ID = #{user_Id}
-	 
- </select>   --> 
+ 	
+
 </mapper>

@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>교환/반품 리스트 </title>
+<title>나의 리뷰 리스트 </title>
 </head>
 <link rel="icon" href="img/Fevicon.png" type="image/png">
     <link rel="stylesheet" href="resources/vendors/bootstrap/bootstrap.min.css">
@@ -39,34 +39,29 @@
 
               <div style="text-align: center; width: 900px; height: auto; margin-left: 40px">
               	<div class="order_details_table">
-              		<h1>교환/반품 목록 리스트 </h1>
+              		<h1>마이 리뷰 리스트 보기 </h1>
 					<table class="table" style="text-align: center;">
                         <thead style="text-align: center;">
 					<tr>
-						<th scope="col">상세주문번호</th>
-						<th scope="col">도서 제목</th>
-						<th scope="col">주문 수량</th>
-						<th scope="col">도서 가격</th>
-						<th scope="col">주문상태</th>
-
+						<th scope="col">제목</th>
+						<th scope="col">내용</th>
+						<th scope="col">작성일</th>
+						<th scope="col">내 리뷰 보러가기 </th>
+						
 					</tr>
 
-					<c:if test="${empty rxList}">
+					<c:if test="${empty myBrList}">
 						<td colspan="5"><h2>교환/반품 상품이 없습니다.</h2></td>
 					</c:if>
 
-					<c:forEach var="item" items="${rxList }" varStatus="status">
+					<c:forEach var="item" items="${myBrList }" varStatus="status">
 						<tr>
-							<td><c:out value="${item.paymentDetailNo }" /></td>
-							<td><c:out value="${item.bookTitle }" /></td>
-							<td><c:out value="${item.quantity}" />개</td>
-							<td><c:out value="${item.bookPrice}" /> 원</td>
+							<td><c:out value="${item.reviewTitle }" /></td>
+							<td><c:out value="${item.reviewContent }" /></td>
+							<td><fmt:formatDate value="${item.reviewDate}" pattern="yyyy-MM-dd" /></td>
+							<td><button>버튼임 상세보기로 가게 할거임 </button></td>
 
-							<td><c:choose>
-									<c:when test="${item.deliveryStatus == '5' }">반품완료</c:when>
-									<c:when test="${item.deliveryStatus == '6' }">교환완료</c:when>
-								</c:choose>
-							<td>
+							
 						</tr>
 					</c:forEach>
 				</table>

@@ -21,10 +21,6 @@ public interface CouponService {
 	//테이블에서 포인트만 알아서 받아온다 
 	void updateCoupon(UseCoupon uc, Coupon cu);
 
-	//테이블에서 couponcode로 포인트만 알아낼려고 받아옴 
-	int selectPoint(String couponCode);
-
-	
 	void selectUseCoupon(UseCoupon uc);
 
 	

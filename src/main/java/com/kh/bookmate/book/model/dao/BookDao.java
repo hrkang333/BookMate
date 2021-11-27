@@ -70,6 +70,10 @@ public class BookDao {
 
 	}
 
+	public int insertConfirmSellDate(SqlSessionTemplate sqlSession, List<Object> sell) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("bookMapper.insertConfirmSellDate", sell);
+  
 	public int updateBookPlusStock(SqlSessionTemplate sqlSession, Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return sqlSession.update("bookMapper.updateBookPlusStock" ,map);

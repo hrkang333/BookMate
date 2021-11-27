@@ -32,4 +32,8 @@ public interface BookReviewService {
 
 	void deleteAnswer(BookReviewReply reviewReply);
 
+	
+	//마이페이지 북 리뷰 리스트 
+	List<BookReview> selectReviewListMine(BookReview rb);
+
 }

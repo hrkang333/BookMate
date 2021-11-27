@@ -13,8 +13,8 @@ public class UseCouponDao {
 	}
 
 
-	public void insertUsedCouponCode(SqlSessionTemplate sqlSession, UseCoupon uc) {
-		sqlSession.insert("UseCouponMapper.insertUsedCouponCode", uc);
+	public int insertUsedCouponCode(SqlSessionTemplate sqlSession, UseCoupon uc) {
+		return sqlSession.insert("UseCouponMapper.insertUsedCouponCode", uc);
 	}
 
 	

@@ -1,7 +1,10 @@
 package com.kh.bookmate.myPage.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +17,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.kh.bookmate.book.model.service.BookService;
+import com.kh.bookmate.book.model.vo.Book;
+import com.kh.bookmate.bookreview.model.service.BookReviewService;
+import com.kh.bookmate.bookreview.model.vo.BookReview;
 import com.kh.bookmate.coupon.model.service.CouponService;
 import com.kh.bookmate.coupon.model.vo.Coupon;
 import com.kh.bookmate.coupon.model.vo.UseCoupon;
 import com.kh.bookmate.exchange_item.model.service.ExchangeItemService;
 import com.kh.bookmate.exchange_item.model.vo.ExchangeItem;
+import com.kh.bookmate.main.model.service.MainService;
+import com.kh.bookmate.main.model.vo.RecentView;
 import com.kh.bookmate.payment.model.service.PaymentService;
 import com.kh.bookmate.payment.model.vo.Payment;
 import com.kh.bookmate.payment.model.vo.PaymentDetail;
@@ -57,7 +66,14 @@ public class myPageController {
 	@Autowired
 	private UbookPaymentService ubookPaymentService;
 	
+	@Autowired 
+	private BookService bookService;
+	
+	@Autowired
+	private MainService mainService;
 
+	@Autowired
+	private BookReviewService bookReviewService;
 
 
 	//회원의 포인트 조회 
@@ -67,7 +83,8 @@ public class myPageController {
 		String loginUser = ((User) session.getAttribute("loginUser")).getUserId(); 
 		User userPoint = userService.selectUserPoint(loginUser);
 		
-		model.addAttribute("userPoint", userPoint);	
+		model.addAttribute("userPoint", userPoint);
+		model.addAttribute("user",user);
 	return "myPage/myPoint";
 
 	}
@@ -136,11 +153,14 @@ public class myPageController {
 	
 	//주문 리스트 내역 상세보기 
 	@RequestMapping("selectMyOrderListDetail.me")
-	public String selectMyOrderListDetail (Model model, int paymentNo ) {	
+	public String selectMyOrderListDetail (Model model, int paymentNo, String bookISBN ) {	
 
 		List<PaymentDetail> myOrderListDetail = paymentService.selectMyOrderListDetail(paymentNo);
-		model.addAttribute("myOrderListDetail",myOrderListDetail);
+//		Book bookList = bookService.selectBook(bookISBN);
 		
+		
+		model.addAttribute("myOrderListDetail",myOrderListDetail);
+//		model.addAttribute("bookISBN",bookISBN);
 		return "myPage/myOrderListDetail";
 		
 	}
@@ -159,7 +179,7 @@ public class myPageController {
 	@RequestMapping("confirmOrder.me")
 	public String confirmOrder(int paymentNo, int paymentDetailNo, Model model) {
 
-		paymentService.confirmOrder(paymentDetailNo);
+		paymentService.confirmOrder(paymentDetailNo, paymentNo);
 		model.addAttribute("paymentNo",paymentNo); 
 		
 		
@@ -232,16 +252,16 @@ public class myPageController {
 		return "myPage/cancelList";
 	}
 	
-	//교환/환불 리스트 조회 
+	// 교환/환불 리스트 조회
 	@RequestMapping("refundAndExchangeList.me") // 왜 bookISBN no getter가 뜨는거지..
-	public String refundAndExchangeList(Model model) {
-	
-	List<PaymentDetail> rxList = paymentService.refundAndExchangeList();
-	model.addAttribute("rxList",rxList);
-	
+	public String refundAndExchangeList(PaymentDetail pd, Model model) {
+
+		List<PaymentDetail> rxList = paymentService.selectReAndExList(pd);
+
+		model.addAttribute("rxList", rxList);
+
 		return "myPage/refundAndExchangeList";
 	}
-
 
 
 	//[중고] 주문 리스트 
@@ -283,97 +303,86 @@ public class myPageController {
 	
 
 	
-	//사용한 쿠폰테이블을 조회함 usecoupon  쿠폰 입력할때
-	//그 테이블에 찾아서 아이디랑 쿠폰번호가 잇으면 이미 사용한 쿠폰
-	//발행된 쿠폰 번호를 입력함 입력한 쿠폰과 발행된 쿠폰이 같을때 
-	//1. 유저테이블에 포인트를 업데이트 시킨다. 
-	
-	//아이디 유효성 검사처럼 하면 될거같은데... 
-	
-	//받은 쿠폰 번호 확인하기 
-	
+	//쿠폰 조회하기 
 	@RequestMapping(value="/checkCu.me")
 	@ResponseBody														
 	public String checkUseCoupon(@RequestParam("couponCode") String couponCode, String user_Id) { 
 										//사용자한테 (쿠폰 코드만) 받을 수 있는 값만 적어야됨 
 			
-		int result = couponService.checkUseCoupon(couponCode);
+		int result = couponService.checkUseCoupon(couponCode); //코드 중복체크 
 			if(result > 0) {
 				UseCoupon uc = new UseCoupon(user_Id, couponCode);	
-//					System.out.println(user_Id+"=============check Cu ====");
 				UseCoupon uc1 = couponService.checkAlreadyUsedCoupon(uc); 
 				//쿠폰코드랑 매퍼에서 꺼내서 쓸수있음 값 null 아니면 사용한
 				if(uc1 != null){
-					
+						//useCoupon의 값이 null이 아니면 이미 사용한 쿠폰 
 					return "usedAlready";
 				}
-				return "available"; // 이미 코드가 있는경우 (사용가능한..?)쿠폰 
+				return "available"; // coupon에 사용가능한 쿠폰을 체크함
 			}else {
-				return "nope"; // 코드가 없어서 사용할 수 없음 
+				return "nope"; // 없는 코드는 사용할 수 없음 
 			}
-		
 	}
 	
 	//만약 쿠폰 중복 체크 했을때 useCoupon에 인서트하기/ 사용자테이블에 포인트 올려주기 
 	@RequestMapping("updateCoupon.me")
+	@ResponseBody	
 	public String updateCoupon(String couponCode, String user_Id) { 
 
-		
 		UseCoupon uc = new UseCoupon(user_Id, couponCode); //usecoupon에 인서트 해줄려 이거 두개만 찍히니까		
 		couponService.selectUseCoupon(uc); 
 		
 		System.out.println(uc+"----------------uc는 잘들고오니? ");
-		
-		
-		int point = couponService.selectPoint(couponCode);//테이블에서 포인트만 받아온다.(유저업데ㅣ트할때 필요함) 
-	//	System.out.println(point + "================point 잘 들고오니 ");
-		
-		Coupon cu = couponService.selectCoupon(couponCode);
+	
+		Coupon cu = couponService.selectCoupon(couponCode); // 쿠폰 코드로 쿠폰객체 들고오기 
 		couponService.updateCoupon(uc,cu); //유저아이디랑, 쿠폰코드 받아옴 
 		
-		return "redirect:myPoint.me";
+		return cu.getCouponPoint() +"";
+				
 	}
 	
 	
+	//최근 본 목록 보기 (서연씨꺼 메인 참고해ㅅ) 
+	@RequestMapping("recentlyView.me")
+	public String myRecentlyView(HttpServletRequest request, Model model) {
 	
-		
-		
-	//	UseCoupon uc = couponService.searchCouponUserId(couponCode);
-		
-		
-//[반품] 신청하기 (반품테이블에 넣기) 
-//		@RequestMapping("insertReturn.me")
-//		public String insertReturn(ReturnBook returnBook,int paymentNo, Model model ) {
-//			returnBookService.insertReturnBook(returnBook);
-//			model.addAttribute("paymentNo",paymentNo);
+//		 if((User)request.getSession().getAttribute("loginUser") != null ){
+//		    	String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
 //
-//			return "redirect:selectMyOrderListDetail.me";
-//		}
-		
-	
-		//usecoupon 검색 해와야 유저아이드를 들고가서 쿠폰 where 절해서 count = 0 했을때만 쿠폰을 사용할수있게
-		
-		//쓴적이 있을때 없을때 판단 if count가 1이면 ? count가 0이면 쿠폰쓰고 , userCoupon 진행 
-		//if else 일때 사용을 못함 
-		
-		
-		//쿠폰테이블에 가서 쿠폰에 따른 포인트를 들고와야됨 쿠폰객체를 들고왔다면
-		//쿠폰객체에서 get.point 해서 유저포인트 업데이트 
-//		Coupon cu = new Coupon();
-//		cu.getCouponPoint(); 
+//		    	RecentView rv = mainService.selectRecentView(userId);
+//		    	String[] tempArr = null;
+//		    	ArrayList<String> isbnList = null;
+//		    	List<Book> viewList = new ArrayList<Book>();
+//		    	
+//		    	if(rv != null) {
+//		    		tempArr = rv.getBooks().split(",");
+//		    		isbnList = new ArrayList<String>(Arrays.asList(tempArr)); //화면에 리스트로 보내기
+//
+//			    	System.out.println("최근본상품 조회 : " + isbnList.toString());
+//			    	viewList = mainService.selectRecentViewList(isbnList);
+//		    	
+//			    	System.out.println("최근본상품 조회-book객체 : " + viewList.toString());
+//		    	}
+//		    	
+//		    	model.addAttribute("isbnList", isbnList);  
+//				model.addAttribute("viewList", viewList);
 //		
-//		Coupon cu = couponService.checkCoupon(couponCode);
+				
+		 
+		return "myPage/recentlyViewInMyPage";
+	}
 	
-
 	
-	
-	 //1. 입력값 받아오기 
-//	
-//	@RequestMapping("updateCoupon.me")
-//	public String updateCoupon(Model model) {
-//		
-//		
-//		return "redirect:/";
-//	}
-	
+	//내가 쓴 리뷰 보기 
+	@RequestMapping("myReview.me")
+	public String myReview(HttpServletRequest request, Model model, BookReview rb) {
+		
+		//리뷰 제목, 리뷰 내용, 리뷰작성 날짜 정도 내 페이지에서 보여주게 한 다음에 상세보기로 연결시키기 
+		List<BookReview> myBrList = bookReviewService.selectReviewListMine(rb);
+		System.out.println("------마이리뷰리스트 나오니?" + myBrList); //이거 왜 널임..ㅠㅠ..user_Id 넣으면 널..?
+		model.addAttribute("myBrList",myBrList);
+		
+		
+		return "myPage/myReviewList";
+	}
 }

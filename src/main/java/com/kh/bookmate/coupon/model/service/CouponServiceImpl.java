@@ -54,21 +54,24 @@ public class CouponServiceImpl implements CouponService {
 	@Override
 	public void updateCoupon(UseCoupon uc, Coupon cu) {
 		// TODO Auto-generated method stub
-		useCouponDao.insertUsedCouponCode(sqlSession, uc);
+		
+		int result1 = useCouponDao.insertUsedCouponCode(sqlSession, uc);
+	if(result1 < 0) {
+		throw new RuntimeException("유저 포인트 인서트 업데이트 오류");
+
+	}
+		System.out.println(uc.getUser_Id()+"--------------couponService 유저명확인 ");
 		//기존에 coupon 에 있던 couponcode와 user_id를 userCoupon은 다 쓴걸 넣어준다
 		
 		List<Object> redeem = new ArrayList<Object>();
 		redeem.add(cu.getCouponPoint());
 		redeem.add(uc.getUser_Id());
 		
-		int result = userDao.updateGetUserPoint(sqlSession,redeem);
-			if(result < 0) {
+		int result2 = userDao.updateGetUserPoint(sqlSession,redeem);
+			if(result2 < 0) {
 				throw new RuntimeException("유저 포인트 업데이트 오류");
 			}
-			
-		//user 테이블 포인트를 업데이트 시켜준다 
-	//	userDao.updateUserPoint1(sqlSession, uc);
-
+	
 	}
 
 
@@ -80,14 +83,6 @@ public class CouponServiceImpl implements CouponService {
 		return useCouponDao.checkAlreadyUsedCoupon(sqlSession, uc);
 	}
 
-	//테이블에서 couponcode로 포인트만 알아낼려고  받아옴 
-	@Override
-	public int selectPoint(String couponCode) {
-		int point = couponDao.selectPoint(sqlSession,couponCode);
-		return point;
-	}
-
-	
 	@Override
 	public void selectUseCoupon(UseCoupon uc) {
 		couponDao.selectUseCoupon(sqlSession, uc);
