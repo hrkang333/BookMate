@@ -222,14 +222,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectEndList" resultMap="clubResultSet">
 		<![CDATA[
 		SELECT *
-		FROM(SELECT * 
-		     FROM CLUB
-		     WHERE STATUS='Y' AND 
-		     CONDITION = 4 AND
-		     CEND_DATE > SYSDATE AND 
-     		 CSTART_DATE <= SYSDATE 
-		     ORDER BY CEND_DATE)
-		WHERE ROWNUM <= 9
+		FROM(SELECT A.* , B.CHANGE_NAME 
+		    FROM CLUB A
+		    LEFT JOIN CLUB_ATTACHMENT B
+		    ON A.CLUB_NO = B.REF_CLUB_NO
+		    WHERE A.CONDITION=4 AND A.STATUS='Y'
+		    AND CSTART_DATE <= SYSDATE
+		    AND CEND_DATE > SYSDATE
+		    AND B.FILE_TYPE=2
+		    ORDER BY CEND_DATE)
+		WHERE ROWNUM <=6
 		]]>
 	</select>
 	
@@ -245,10 +247,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		    AND CEND_DATE > SYSDATE
 		    AND B.FILE_TYPE=2
 		    ORDER BY HEART_COUNT DESC)
+		WHERE ROWNUM <=12
 		]]>
-		<if test="type == 'main'.toString()">
-			<![CDATA[WHERE ROWNUM <=9]]>
-		</if>
 	</select>
 	
 	<!-- 메인페이지 - 마감임박 리스트(2. ClubAttachment테이블에서 조회) 
