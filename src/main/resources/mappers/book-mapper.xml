@@ -63,11 +63,12 @@ UPDATE BOOK SET BOOKRATING = #{bookRating} , BOOKRATINGCOUNT = #{bookRatingCount
 	</update>
 <!-- 화제의 신간 -->
 <select id="selectHotTopicBook" resultType="Book">
-	<![CDATA[
-	SELECT * FROM BOOK
-	WHERE ROWNUM < 13
-	ORDER BY BOOKPUBLISHEDATE DESC
-	]]>
+      <![CDATA[
+      SELECT * 
+      FROM(SELECT * FROM BOOK
+      		ORDER BY BOOKPUBLISHEDATE DESC)
+		WHERE ROWNUM < 13
+      ]]>
 </select>
 
 </mapper>

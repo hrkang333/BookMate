@@ -103,4 +103,8 @@ public class UbookDao {
 		return sqlSession.selectList("ubookMapper.haveQnaUbook",sellerNumber);
 	}
 
+	public ArrayList<Ubook> selectRowPriceBookList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("ubookMapper.selectRowPriceBookList");
+	}
+
 }
