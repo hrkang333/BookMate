@@ -29,16 +29,6 @@
 
 
 	<form action="selectBook.book" method="post">
-		도서 상세보기<br>
-		<br> ISBN : <input type="text" name="bookISBN"><br>
-
-		<br>
-		<button type="submit">도서 상세 보기</button>
-	</form>
-	<br>
-	<br>
-	<br>
-	<form action="selectBook.book" method="post">
 		도서 확인용<br> ISBN : 9788964943786(8964943783)<br>
 		<br> <input type="hidden" name="bookISBN"
 			value="9788964943786(8964943783)"><br>
@@ -48,42 +38,17 @@
 	<br>
 	<br>
 	<br>
-	<form action="bookEnrollForm.book" method="post">
-		도서 입고<br>
-		<br>
+	
 
-		<button type="submit">도서 등록</button>
-
-	</form>
-	<br>
-	<br>
-	<br>
-	<form action="shoppingCart.sc" method="post" id="moveCartForm">
-		장바구니<br>
-		<br>
-		<input type="hidden" value="${sessionScope.loginUser.userId}" name="user_Id">
-		<button type="button" onclick="moveCart()">장바구니 이동</button>
-
-	</form>
-	<br>
-	<br>
-	<br>
-	<form action="adminPageOpen.ad" method="post">
+	<form action="adminMainPage.ad" method="post">
 		관리자 페이지 이동<br> <br>
 		<br> <br>
 		<button type="submit">관리자 페이지 이동</button>
 
 	</form>
-	<br>
-	<br>
-	<br>
-	<form action="noticeList.no" method="post">
-		공지사항보기<br> <br>
-		<br> <br>
-		<input type="hidden" name="isUser" value="1">
-		<button type="submit">공지사항보기</button>
-
-	</form>
+	
+	
+	
 	<!-- <br>
 	<br>
 	<br>
@@ -136,13 +101,7 @@
 	}
 	</script>
 	
-	<br>
-	<br>
-	<br>
-	<form action="noticeList.no" method="post">
-	<input type="submit" value="공지사항 이동">
-	 
-	</form>
+	
 </main>
 </body>
 </html>

@@ -23,6 +23,22 @@
 font-size: 20px;
 font-weight: bold;
 }
+a:link { 
+color: black; 
+text-decoration: none;
+}
+a:visited { 
+color: black; 
+text-decoration: none;
+}
+a:hover { 
+color: blue; 
+text-decoration: none;
+}
+.leftTitle{
+font-size: 20px;
+font-weight: bold;
+}
 </style>
 <script>
 	$(document).ready(function() {
@@ -132,33 +148,38 @@ font-weight: bold;
 	}
 </script>
 </head>
-<body style="width: 1200px; margin: auto;">
-	<main>
+<body>
+<jsp:include page="../common/menubar.jsp" />
+		<main class="site-main" style="padding-top: 180px">
 		<div style="display: flex;width: 1200px;">
-			<div style="width: 200px;" id="adminMenuDiv">
+			<div style="width: 200px; padding-top: 30px; " id="adminMenuDiv">
+					
 				<br>
+				<br><span class="leftTitle">도서 재고 관리</span><br>
+				<br> <a href="adminMainBookStock.st">-재고 위험 알림&재고 입고</a><br>
 				<br>
-				<br><span>공지사항 관리</span><br>
-				<br> -공지사항 등록/수정/삭제<br>
+				<br><span class="leftTitle">공지사항&이벤트관리</span><br>
+				<br> <a href="noticeList.no">-공지사항&이벤트<br>
+				 &nbsp;&nbsp;등록/수정/삭제</a><br>
 				<br>
-				<br><span>이벤트 관리</span><br>
-				<br> -이벤트 등록<br> -이벤트 수정/삭제<br>
+				<br><span class="leftTitle">회원 관리</span><br>
+				<br> <a href="">-회원 자격 정지</a><br> <a href="">-정지 회원 복구</a><br>
 				<br>
-				<br><span>회원 관리</span><br>
-				<br> -일반등급회원<br> -판매등급회원<br>
+				<br><span class="leftTitle">도서 관리</span><br>
+				<br> <a href="bookEnrollForm.book">-도서 등록</a><br> <a href="">-도서 수정</a><br>
 				<br>
-				<br><span>도서 관리</span><br>
-				<br> -도서등록<br> -도서수정<br> -도서입고<br>
+				<br><span class="leftTitle">문의 답변</span><br>
+				<br> <a href="adminQnaList.qa">-문의 확인&답변 등록</a><br>
 				<br>
-				<br><span>문의 답변</span><br>
-				<br> -문의 확인/답변<br>
+				<br><span class="leftTitle">쿠폰 관리</span><br>
+				<br> <a href="insertCouponForm.ad" style="color: blue;font-size: 16px;font-weight: bold;">-쿠폰 번호 등록</a><br><a href="">-쿠폰 수정&삭제</a><br>
 				<br>
-				<br><span>쿠폰 관리</span><br>
-				<br> -쿠폰등록<br> -쿠폰수정/삭제<br>
+				<br><span class="leftTitle">독서모임승인</span><br>
+				<br> <a href="selectClubConfirmList.cl">-독서 모임 확인&승인</a><br><br>
 
 			</div>
 
-			<div style="width: 1000px; background-color: blanchedalmond;">
+			<div style="width: 1000px;">
 				<div
 					style="margin: 100px; text-align: center; font-size: 35px; font-weight: bold;">
 					쿠폰 등록</div>
@@ -191,7 +212,7 @@ font-weight: bold;
 							<tr style="height: 150px;"></tr>
 							<tr>
 								<td colspan="2"><button type="button"
-										class="btn btn-info btn-lg" onclick="insertCoupon()">쿠폰
+										class="btn btn-secondary btn-lg" onclick="insertCoupon()">쿠폰
 										등록</button></td>
 							</tr>
 						</table>

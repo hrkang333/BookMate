@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,13 +15,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kh.bookmate.admin.model.service.AdminService;
+import com.kh.bookmate.book.model.service.BookService;
 import com.kh.bookmate.book.model.vo.Book;
+import com.kh.bookmate.bookqna.model.service.BookQnaService;
+import com.kh.bookmate.bookqna.model.vo.BookQna;
+import com.kh.bookmate.bookqna.model.vo.BookQnaAnswer;
+import com.kh.bookmate.club.model.vo.Club;
 import com.kh.bookmate.common.Paging;
 import com.kh.bookmate.coupon.model.service.CouponService;
 import com.kh.bookmate.coupon.model.vo.Coupon;
@@ -34,6 +43,16 @@ public class AdminController {
 	
 	@Autowired
 	private NoticeService noticeService;
+	
+	@Autowired
+	private BookQnaService bookQnaService;
+	
+	@Autowired
+	private AdminService adminService;
+	
+	@Autowired
+	private BookService bookService;
+	
 	
 	@RequestMapping(value = "checkCouponCode.cp", produces = "application/text; charset=utf-8")
 	@ResponseBody
@@ -51,7 +70,7 @@ public class AdminController {
 		
 	}
 	
-	@RequestMapping("adminPageOpen.ad")
+	@RequestMapping("insertCouponForm.ad")
 	public String adminPageOpen() {
 		return "admin/adminInsertCoupon";
 	}
@@ -71,7 +90,7 @@ public class AdminController {
 	public String selectNoticeList(Model mo,String keyword,@RequestParam(name="nowPage",defaultValue = "1")int nowPage, @RequestParam(name = "isUser",defaultValue = "0")int isUser) {
 		String temp;
 		int noticeListCount=0;
-		if(keyword==null||keyword=="") {
+		if(keyword==null||keyword.trim().isEmpty()) {
 			temp = "%%";
 		}else {
 			temp = "%"+keyword+"%";
@@ -239,5 +258,204 @@ public class AdminController {
 		return newFileName;
 	}
 
+	@RequestMapping("adminQnaList.qa")
+	public String selectQnaList(Model mo,@RequestParam(name="searchKind", defaultValue = "1") int searchKind,@RequestParam(name="searchKeyword", required = false) String searchKeyword,
+								@RequestParam(name="nowPage", defaultValue = "1") int nowPage,@RequestParam(name="isAnswer", defaultValue = "0") int isAnswer) {
+		int qnaListCount = 0;
+		Paging A_QnaPaging = null;
+		String keyword = null;
+		List<BookQna> B_QnaList = null;
+		RowBounds rb = null;
+		if(searchKeyword==null||searchKeyword.trim().isEmpty()) {
+			keyword = "%%";
+		}else {
+			keyword = "%"+searchKeyword+"%";
+		}
+		qnaListCount = bookQnaService.selectA_QnaListCount(searchKind,keyword,isAnswer);
+		A_QnaPaging = new Paging(qnaListCount, nowPage, 10, 10);
+		rb = new RowBounds(A_QnaPaging.getStart()-1, A_QnaPaging.getEnd());
+		B_QnaList = bookQnaService.selectB_QnaList(searchKind,keyword,isAnswer,rb);
+		mo.addAttribute("searchKind", searchKind);
+		mo.addAttribute("searchKeyword", searchKeyword);
+		mo.addAttribute("nowPage", nowPage);
+		mo.addAttribute("isAnswer", isAnswer);
+		mo.addAttribute("A_QnaPaging", A_QnaPaging);
+		mo.addAttribute("B_QnaList", B_QnaList);
+		return "bookQna/bookQnaList";
+		
+	}
 	
+	@RequestMapping("selectQnaDetail.no")
+	public String selectQnaDetail(Model mo,int qnaNo){
+		
+		BookQna qnaDetail = null;
+		BookQnaAnswer qnaAnswerDetail=null;
+		qnaDetail = bookQnaService.selectA_QnaDetail(qnaNo);
+		if(qnaDetail.getQnaAnswer()==1) {
+			qnaAnswerDetail = bookQnaService.selectA_QnaAnswerDetail(qnaNo);
+			mo.addAttribute("qnaAnswerDetail", qnaAnswerDetail);
+		}
+		mo.addAttribute("qnaDetail", qnaDetail);
+		return "bookQna/bookQnaDetail";
+		
+	}
+	@RequestMapping("intsertQnaAnswerForm.qa")
+	public String intsertQnaAnswer(Model mo, int qnaNo) {
+		BookQna qnaDetail = null;
+		qnaDetail = bookQnaService.selectA_QnaDetail(qnaNo);
+		mo.addAttribute("qnaDetail", qnaDetail);
+		return "bookQna/bookQnaAnswerEnrollForm";
+	}
+	@RequestMapping("intsertQnaAnswer.qa")
+	public String intsertQnaAnswer(Model mo, BookQnaAnswer qnaAnswer) {
+		qnaAnswer.setQnaAnswerContent(qnaAnswer.getQnaAnswerContent().replaceAll("\r\n", "<br>"));
+		BookQnaAnswer qnaAnswerDetail=null;
+		bookQnaService.intsertQnaAnswer(qnaAnswer);
+		BookQna qnaDetail = null;
+		qnaDetail = bookQnaService.selectA_QnaDetail(qnaAnswer.getQnaNo());
+		if(qnaDetail.getQnaAnswer()==1) {
+			qnaAnswerDetail = bookQnaService.selectA_QnaAnswerDetail(qnaDetail.getQnaNo());
+			mo.addAttribute("qnaAnswerDetail", qnaAnswerDetail);
+		}
+		mo.addAttribute("qnaDetail", qnaDetail);
+		mo.addAttribute("isJob", 1);
+		return "bookQna/bookQnaDetail";
+		
+	}
+	
+	@RequestMapping("updateQnaAnswerForm.qa")
+	public String updateQnaAnswerForm(Model mo, int qnaNo) {
+		BookQna qnaDetail = null;
+		BookQnaAnswer qnaAnswerDetail=null;
+		qnaDetail = bookQnaService.selectA_QnaDetail(qnaNo);
+		qnaAnswerDetail = bookQnaService.selectA_QnaAnswerDetail(qnaDetail.getQnaNo());
+		qnaAnswerDetail.setQnaAnswerContent(qnaAnswerDetail.getQnaAnswerContent().replaceAll("<br>","\r\n"));
+		mo.addAttribute("qnaDetail", qnaDetail);
+		mo.addAttribute("qnaAnswerDetail", qnaAnswerDetail);
+		return "bookQna/bookQnaAnswerUpdateForm";
+	}
+	
+	@RequestMapping("updateQnaAnswer.qa")
+	public String updateQnaAnswer(Model mo, BookQnaAnswer qnaAnswer) {
+		qnaAnswer.setQnaAnswerContent(qnaAnswer.getQnaAnswerContent().replaceAll("\r\n", "<br>"));
+		bookQnaService.updateQnaAnswer(qnaAnswer);
+		BookQna qnaDetail = null;
+		BookQnaAnswer qnaAnswerDetail=null;
+		qnaDetail = bookQnaService.selectA_QnaDetail(qnaAnswer.getQnaNo());
+		qnaAnswerDetail = bookQnaService.selectA_QnaAnswerDetail(qnaDetail.getQnaNo());
+		mo.addAttribute("qnaDetail", qnaDetail);
+		mo.addAttribute("qnaAnswerDetail", qnaAnswerDetail);
+		mo.addAttribute("isJob", "1");
+		return "bookQna/bookQnaDetail";
+	}
+	@RequestMapping("deleteQnaAnswer.qa")
+	public String deleteQnaAnswer(Model mo , int qnaNo ) {
+		
+		bookQnaService.deleteQnaAnswer(qnaNo);
+		
+		
+		
+		BookQna qnaDetail = null;
+		qnaDetail = bookQnaService.selectA_QnaDetail(qnaNo);
+		mo.addAttribute("qnaDetail", qnaDetail);
+		mo.addAttribute("isJob", "1");
+		return "bookQna/bookQnaDetail";
+		
+	}
+	
+	@RequestMapping("selectClubConfirmList.cl")
+	public String selectClubConfirmList(Model mo,@RequestParam(name = "nowPage",defaultValue = "1") int nowPage,@RequestParam(name = "searchKeyword",defaultValue = "") String searchKeyword) {
+		String keyword = null;
+		Paging clubPaging = null;
+		List<Club> selectClubConfirmList = null;
+		RowBounds rb = null;
+		int clubListCount = 0;
+		if(searchKeyword==null||searchKeyword.trim().isEmpty()) {
+			keyword="%%";
+		}else {
+			keyword="%"+searchKeyword+"%";
+		}
+		
+		clubListCount = adminService.clubListCount(keyword);
+		clubPaging = new Paging(clubListCount, nowPage, 10, 10);
+		rb = new RowBounds(clubPaging.getStart()-1, clubPaging.getCntPerPage());
+		selectClubConfirmList = adminService.selectClubConfirmList(keyword,rb);
+		
+		mo.addAttribute("clubPaging", clubPaging);
+		mo.addAttribute("nowPage", nowPage);
+		mo.addAttribute("searchKeyword", searchKeyword);
+		mo.addAttribute("selectClubConfirmList", selectClubConfirmList);
+		
+		return "admin/adminClubConfirm";
+	}
+	
+	@RequestMapping("updateClubConfirm.cl")
+	public String updateClubConfirm(int clubNo,int confirmStatus) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();		
+		map.put("confirmStatus",confirmStatus);
+		map.put("clubNo",clubNo);
+		adminService.updateClubConfirm(map);
+		return "forward:/selectClubConfirmList.cl";
+
+	}
+	
+	@RequestMapping("adminMainBookStock.st")
+	public String adminMainBookStock(Model mo, @RequestParam(name = "nowPage" ,defaultValue = "1") int nowPage) {
+		List<Book> list = null;
+		Paging bookStockPaging = null;
+		int lessStockBookCount = 0;
+		RowBounds rb =null;
+		int checkStock = 50;
+		lessStockBookCount = adminService.selectLessStockCount(checkStock+1);
+		bookStockPaging = new Paging(lessStockBookCount, nowPage, 5	, 10);
+		rb = new RowBounds(bookStockPaging.getStart()-1, bookStockPaging.getCntPerPage());
+		list = adminService.selectLessStockBook(rb,checkStock+1);
+		System.out.println("-----------------------------------------------------------------");
+		System.out.println(bookStockPaging);
+		System.out.println(list.size());
+		mo.addAttribute("bookStockPaging", bookStockPaging);
+		mo.addAttribute("nowPage", nowPage);
+		mo.addAttribute("bookStockList", list);
+		return "admin/adminBookStockCheck";
+		
+	}
+	
+	@RequestMapping("selectISBNStock")
+	@ResponseBody
+	public Map<String, Object> selectISBNStock(String bookISBN){
+		Book book = null;
+		Map<String, Object> map = new HashMap<String, Object>();
+		book = bookService.selectBookStock(bookISBN);
+		if(book==null) {
+			map.put("str", "fail");
+			return map;
+		}
+		map.put("str", "pass");
+		map.put("book",book);
+		System.out.println(map);
+		return map;
+		
+	}
+	
+	@RequestMapping("updateBookPlusStock")
+	@ResponseBody
+	public String updateBookPlusStock(String bookISBN, int plusStock) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("bookISBN", bookISBN);
+		map.put("plusStock",plusStock);
+		
+		bookService.updateBookPlusStock(map);
+		
+		return "pass";
+	}
+	
+	@RequestMapping("adminMainPage.ad")
+	public String adminMainPage() {
+
+		
+		return "forward:/adminMainBookStock.st";
+		
+	}
 }

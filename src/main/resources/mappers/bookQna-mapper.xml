@@ -30,5 +30,57 @@ UPDATE BOOKQNA SET QNATITLE = #{qnaTitle}, QNACONTENT =  #{qnaContent}, QNACATEG
 <delete id="qnaDelete">
 DELETE FROM BOOKQNA WHERE QNANO = #{qnaNo}
 </delete>
+<select id="selectA_QnaListCount" parameterType="hashMap" resultType="_int">
+SELECT COUNT(*) FROM BOOKQNA WHERE 
+<if test="isAnswer==1">
+QNAANSWER = 0 AND 
+</if>
+<choose>
+<when test="searchKind==1">
+QNATITLE LIKE #{keyword} ORDER BY QNADATE DESC
+</when>
+<when test="searchKind==2">
+BOOKTITLE LIKE #{keyword} ORDER BY QNADATE DESC
+</when>
+</choose>
+</select>
+<select id="selectB_QnaList" parameterType="hashMap" resultType="BookQna">
+SELECT * FROM BOOKQNA WHERE 
+<if test="isAnswer==1">
+QNAANSWER = 0 AND 
+</if>
+<choose>
+<when test="searchKind==1">
+QNATITLE LIKE #{keyword} ORDER BY QNADATE DESC
+</when>
+<when test="searchKind==2">
+BOOKTITLE LIKE #{keyword} ORDER BY QNADATE DESC
+</when>
+</choose>
+</select>
+<select id="selectA_QnaDetail" resultType="BookQna">
+SELECT * FROM BOOKQNA WHERE QNANO = #{qnaNo}
+</select>
+<select id="selectA_QnaAnswerDetail" resultType="BookQnaAnswer">
+SELECT * FROM BOOKQNAANSWER WHERE QNANO = #{qnaNo}
+</select>
+<insert id="intsertQnaAnswer" parameterType="BookQnaAnswer">
+INSERT INTO BOOKQNAANSWER VALUES (BOOKQNAANSWER_SEQ.NEXTVAL,#{qnaNo},#{qnaAnswerContent},SYSDATE)
+</insert>
+<update id="updateQnaInsertAnswer">
+UPDATE BOOKQNA SET QNAANSWER = 1 WHERE QNANO = #{qnaNo}
+</update>
+<update id="updateQnaAnswer" parameterType="BookQnaAnswer">
+UPDATE BOOKQNAANSWER SET QNAANSWERCONTENT = #{qnaAnswerContent} WHERE QNAANSWERNO = #{qnaAnswerNo}
+</update>
+<delete id="deleteQnaAnswer">
+DELETE FROM BOOKQNAANSWER WHERE QNANO = #{qnaNo}
+</delete>
+<update id="updateQnaDeleteAnswer">
+UPDATE BOOKQNA SET QNAANSWER = 0 WHERE QNANO = #{qnaNo}
+</update>
 </mapper>
+	
+
+
 

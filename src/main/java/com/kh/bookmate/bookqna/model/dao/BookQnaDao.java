@@ -1,6 +1,7 @@
 package com.kh.bookmate.bookqna.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -55,6 +56,51 @@ public class BookQnaDao {
 	public int qnaDelete(SqlSessionTemplate sqlSession, int qnaNo) {
 		// TODO Auto-generated method stub
 		return sqlSession.delete("bookQnaMapper.qnaDelete" ,qnaNo);
+	}
+
+	public int selectA_QnaListCount(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("bookQnaMapper.selectA_QnaListCount",map);
+	}
+
+	public List<BookQna> selectB_QnaList(SqlSessionTemplate sqlSession, Map<String, Object> map, RowBounds rb) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("bookQnaMapper.selectB_QnaList",map,rb);
+	}
+
+	public BookQna selectA_QnaDetail(SqlSessionTemplate sqlSession, int qnaNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("bookQnaMapper.selectA_QnaDetail",qnaNo);
+	}
+
+	public BookQnaAnswer selectA_QnaAnswerDetail(SqlSessionTemplate sqlSession, int qnaNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("bookQnaMapper.selectA_QnaAnswerDetail",qnaNo);
+	}
+
+	public int intsertQnaAnswer(SqlSessionTemplate sqlSession, BookQnaAnswer qnaAnswer) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("bookQnaMapper.intsertQnaAnswer",qnaAnswer);
+	}
+
+	public int updateQnaInsertAnswer(SqlSessionTemplate sqlSession, int qnaNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("bookQnaMapper.updateQnaInsertAnswer",qnaNo);
+	}
+
+	public int updateQnaAnswer(SqlSessionTemplate sqlSession, BookQnaAnswer qnaAnswer) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("bookQnaMapper.updateQnaAnswer",qnaAnswer);
+	}
+
+	public int deleteQnaAnswer(SqlSessionTemplate sqlSession, int qnaNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("bookQnaMapper.deleteQnaAnswer",qnaNo);
+	}
+
+	public int updateQnaDeleteAnswer(SqlSessionTemplate sqlSession, int qnaNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("bookQnaMapper.updateQnaDeleteAnswer",qnaNo);
 	}
 
 }
