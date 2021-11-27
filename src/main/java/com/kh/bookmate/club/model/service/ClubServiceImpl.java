@@ -142,9 +142,9 @@ public class ClubServiceImpl implements ClubService {
 	}
 	//메인페이지 - 인기(찜) 리스트
 	@Override
-	public ArrayList<Club> popList(String type) {
+	public ArrayList<Club> popList() {
 		// TODO Auto-generated method stub
-		return clubDao.selectPopList(sqlSession, type);
+		return clubDao.selectPopList(sqlSession);
 	}
 	
 

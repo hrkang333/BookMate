@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>책구메이트-독서모임</title>
-    <link rel="icon" href="resources/img/Fevicon.png" type="image/png">
+    <link rel="icon" href="resources/img/logo1.png" type="image/png">
     <link rel="stylesheet" href="resources/vendors/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="resources/vendors/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="resources/vendors/themify-icons/themify-icons.css">
@@ -75,6 +75,7 @@
 	        color: white;
 	        width: 50%;
 	        text-align: center;
+	        margin: 0 auto;
         }
         .closeClubImgDiv{
         	cursor: pointer; 
@@ -82,6 +83,35 @@
         	background-position: center;
         	height: 80%;
         	margin: 2%;
+        }
+        
+        [id^=c_clubTotal]{
+        	width: 24%;
+		    margin: 5.5px;
+		    border: 1px solid #dadada;
+		    height: 400px;
+        }
+        
+        .titleImg{
+            background-size: cover;
+		    background-position: center;
+		    height: 230px;
+        }
+        
+        .clubTitle{
+        	font-weight: 700;
+        }
+        
+        .noClub{
+        	padding: 80px;
+		    justify-content: center;
+		    font-size: 20px;
+		    font-weight: 700;
+        }
+        
+        .paging{
+	         justify-content: center; 
+	         margin-top: 35px;
         }
     </style>
 </head>
@@ -91,171 +121,158 @@
     <jsp:include page="../common/menubar.jsp" />
     <%-- <jsp:include page="../club/clubMenubar.jsp"/> --%>
 
-    <main class="site-main">
+    <main class="site-main" style="margin-top: 200px;">
     
     	<!-- 카테고리별 헤더 만들기 -->
         <ul class="navbar" style="width: 100%; margin-top: 20px;">
             <li class="nav-item">
-                <h5 class="clickCategory fontBold" style="color: orange;"><a style="cursor:pointer">인문/과학/심리</a></h5>
+                <h5 id="cate1" onclick="clickCategory(1, this)" class="clickCategory fontBold" style="color: orange;"><a style="cursor:pointer">인문/과학/심리</a></h5>
             </li>
             <li class="nav-item">
-                <h5 class="clickCategory fontBold"><a style="cursor:pointer">문학/에세이</a></h5>
+                <h5 id="cate2" onclick="clickCategory(2, this)" class="clickCategory fontBold"><a style="cursor:pointer">문학/에세이</a></h5>
             </li>
             <li class="nav-item">
-                <h5 class="clickCategory fontBold"><a style="cursor:pointer">예술/음악</a></h5>
+                <h5 id="cate3" onclick="clickCategory(3, this)"  class="clickCategory fontBold"><a style="cursor:pointer">예술/음악</a></h5>
             </li>
             <li class="nav-item">
-                <h5 class="clickCategory fontBold"><a style="cursor:pointer">경영/경제/마케팅</a></h5>
+                <h5 id="cate4" onclick="clickCategory(4, this)"  class="clickCategory fontBold"><a style="cursor:pointer">경영/경제/마케팅</a></h5>
             </li>
             <li class="nav-item">
-                <h5 class="clickCategory fontBold"><a style="cursor:pointer">글쓰기</a></h5>
+                <h5 id="cate5" onclick="clickCategory(5, this)"  class="clickCategory fontBold"><a style="cursor:pointer">글쓰기</a></h5>
             </li>
             <li class="nav-item">
-                <h5 class="clickCategory fontBold"><a style="cursor:pointer">강연</a></h5>
+                <h5 id="cate6" onclick="clickCategory(6, this)"  class="clickCategory fontBold"><a style="cursor:pointer">강연</a></h5>
             </li>
         </ul>
 
 
-        <!-- ================ 1.인기 독서모임 ================= -->
+        <!-- ================ 1.모집중================= -->
         <section class="section-margin calc-60px" style="margin-top:50px;">
-            <div class="">  <!-- container -->
-                <div class="section-intro pb-60px" style="text-align:center;">  <!-- pb-60px -->
+            <div class="container">
+                <div class="section-intro" style="text-align:center;  padding:30px;">  <!-- pb-60px -->
                     <h2>모집<span class="section-intro__style">중</span></h2>
                 </div>
-
-            <div class="row" id="categoryList1_1" style="display:none;">
-                                해당 카테고리에 독서모임은 없습니다.
-            </div>
-                               
-                <div class="row" id="categoryList1_2"  style="display:none;">
-                     <c:forEach begin="0" end="7" varStatus="s">
-                        <div id="c_clubTotal${s.index}" class="col-md-6 col-lg-3 mb-3 mb-lg-0  pointer" style="display:flex;" <c:if test="${s.index >= fn:length(cateList_first) }"><c:out value="style=display:none;"/></c:if>>
-	                        <input id="c_clubNo${s.index}" type="hidden" value="${cateList_first[s.index].clubNo}">
-	                        <div class="card card-blog">
-	                             <div class="card-blog__img">
-	                                 <img id="c_clubImg${s.index}" class="card-img rounded-0" src="${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${cateList_first[s.index].clubAttachments[0].changeName}" alt="">
-	                             </div>
-	                             <div class="card-body">
-	                                 <ul class="card-blog__info">
-	                                     <li><span id="c_category${s.index}">${cateList_first[s.index].category}</span> &nbsp; [<span style="margin-right:0px;" id="c_onoffLine${s.index}">${cateList_first[s.index].onoffLine}</span>] </li>
-	                                     <li><i class="ti-comments-smiley"></i> <span id="c_likes${s.index}">${cateList_first[s.index].heartCount }</span> Likes</li>
-	                                 </ul>
-	                                 <h4 id="c_title${s.index}" class="card-blog__title">${cateList_first[s.index].clubTitle}</h4>
-	                                 <p>
-	                                 	<c:forEach items="${cateList_first[s.index].clubTimes}" var="at" varStatus="s_at">
-	                                 		
-	                                 		<c:choose>
-	                                 			<c:when test="${s_at.index eq 0}">
-	                                 				<c:set var="firstStart" value="${at.clubDate}"/>
-	                                 			</c:when>
-	                                 			<c:otherwise>
-	                                 				<c:if test="${firstStart > at.clubDate }">
-	                                 					<c:set var="firstStart" value="${at.clubDate}"/>
-	                                 				</c:if>
-	                                 			</c:otherwise>
-	                                 		</c:choose>
-	            
-	                                 	</c:forEach>	
-	                                   	     시작 : <span id="c_startDate${s.index}">${firstStart}</span> &nbsp; | <span id="c_manyTimes${s.index}">${fn:length(cateList_first[s.index].clubTimes)}</span>번
-	                                 </p>
-	                             </div>
-	                        </div>
-	                     </div> 
-                      </c:forEach>
-                 </div>
-                 
-                 <div >	
-			          <ul id="pagingArea1" class="pagination" style="display: none;">  	
-			             
-			             <c:choose>
-			                	<c:when test="${ pi_first.currentPage ne 1 }">
-			                		<li id="bb" class="page-item"><div class="page-link pagelink1">이전</div></li>
-			                	</c:when>
-			                	<c:otherwise>
-			                		<li  id="bb" class="page-item disabled"><div class="page-link">이전</div></li>
-			                	</c:otherwise>
-			              </c:choose> 
-			              
-			             <c:forEach begin="1" end="${ pi_first.pageLimit}" var="p">
-			             	<li id="cc${p}" class="page-item" style="display:none" value="0"><div id="ccc${p}" class="page-link"></div></li>
-			             </c:forEach>
-			             
-			             <c:forEach begin="${ pi_first.startPage }" end="${ pi_first.endPage }" var="p">
-			                    <c:choose>
-				                	<c:when test="${ pi_first.currentPage ne p }">
-			                    		<li class="page-item" value="${p}"><div class="page-link cc1" >${ p }</div></li>
-				                	</c:when>
-				                	<c:otherwise>
-				                		<li class="page-item disabled"><a class="page-link cc1" href="">${ p }</a></li>
-				                	</c:otherwise>
-				                </c:choose>
-			             </c:forEach>
-			                    
-			             <c:choose>
-			                 <c:when test="${ pi_first.currentPage ne pi_first.maxPage }">
-			                	 <li id="dd" class="page-item"><div class="page-link pagelink1">다음</div></li>
-			                 </c:when>
-			                 <c:otherwise>
-			                	 <li id="dd" class="page-item disabled"><div class="page-link">다음</div></li>
-			                 </c:otherwise>
-			              </c:choose> 
-			              
-			          </ul>
-			     </div>
+	            <div class="row noClub" id="categoryList1_1" style="display:none;">
+	                                해당 카테고리에 독서모임은 없습니다.
+	            </div>
+	                          
+	            <div class="row" id="categoryList1_2"  style="display:none;">
+	            	<c:forEach begin="0" end="7" varStatus="s">
+	            		<div id="c_clubTotal${s.index}" class="pointer" style="display:block;" <c:if test="${s.index >= fn:length(cateList_first) }"><c:out value="style=display:none;"/></c:if>>
+		                	<input id="c_clubNo${s.index}" type="hidden" value="${cateList_first[s.index].clubNo}">
+		                    <div class="">
+		                         <div id="c_clubImg${s.index}" class="titleImg" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${cateList_first[s.index].titleChangeName}')"></div>
+		                    </div>
+		                    <div style="margin-top:15px; text-align: center;">
+		                    	<ul class="card-blog__info">
+			                    	<li><span id="c_category${s.index}">${cateList_first[s.index].category}</span> &nbsp; [<span style="margin-right:0px;" id="c_onoffLine${s.index}">${cateList_first[s.index].onoffLine}</span>] </li>
+			                        <li><i class="ti-comments-smiley"></i> <span id="c_likes${s.index}">${cateList_first[s.index].heartCount }</span> Likes</li>
+			                    </ul>
+			                    <h4 id="c_title${s.index}" class="clubTitle card-blog__title">${cateList_first[s.index].clubTitle}</h4>
+			                    <p>
+			                    	<c:forEach items="${cateList_first[s.index].clubTimes}" var="at" varStatus="s_at">
+			                           <c:choose>
+			                               <c:when test="${s_at.index eq 0}">
+			                                 	<c:set var="firstStart" value="${at.clubDate}"/>
+			                               </c:when>
+			                               <c:otherwise>
+			                                 	<c:if test="${firstStart > at.clubDate }">
+			                                 		<c:set var="firstStart" value="${at.clubDate}"/>
+			                                 	</c:if>
+			                               </c:otherwise>
+			                           </c:choose>
+			                       </c:forEach>	
+			                                                   시작 : <span id="c_startDate${s.index}">${firstStart}</span> &nbsp; | <span id="c_manyTimes${s.index}">${fn:length(cateList_first[s.index].clubTimes)}</span>번
+			                   </p>
+			               </div>
+		                </div> 
+	                </c:forEach>
+	            </div>
+            
+	            <div>	
+	            	<ul id="pagingArea1" class="pagination paging" style="display: none;">  	
+				    	<c:choose>
+				    		<c:when test="${ pi_first.currentPage ne 1 }">
+				                <li id="bb" class="page-item"><div class="page-link pagelink1">이전</div></li>
+				            </c:when>
+				            <c:otherwise>
+				                <li id="bb" class="page-item disabled"><div class="page-link">이전</div></li>
+				            </c:otherwise>
+				        </c:choose> 
+				              
+				        <c:forEach begin="1" end="${ pi_first.pageLimit}" var="p">
+				             <li id="cc${p}" class="page-item" style="display:none" value="0"><div id="ccc${p}" class="page-link"></div></li>
+				        </c:forEach>
+				             
+				        <c:forEach begin="${ pi_first.startPage }" end="${ pi_first.endPage }" var="p">
+				        	 <c:choose>
+					         	 <c:when test="${ pi_first.currentPage ne p }">
+				                    <li class="page-item" value="${p}"><div class="page-link cc1" >${ p }</div></li>
+					             </c:when>
+					             <c:otherwise>
+					                <li class="page-item disabled"><a class="page-link cc1" href="">${ p }</a></li>
+					             </c:otherwise>
+					         </c:choose>
+				        </c:forEach>
+				                    
+				        <c:choose>
+				        	<c:when test="${ pi_first.currentPage ne pi_first.maxPage }">
+				                <li id="dd" class="page-item"><div class="page-link pagelink1">다음</div></li>
+				            </c:when>
+				            <c:otherwise>
+				                <li id="dd" class="page-item disabled"><div class="page-link">다음</div></li>
+				            </c:otherwise>
+				        </c:choose>    
+				    </ul>
+				 </div>
 			</div>
-		</section>
-
-				
+		</section>				
 	
     <!-- ================ 2. 모집완료  ================= -->
 	<section class="section-margin calc-60px">
-     	<div class="">
-     		<div class="section-intro pb-60px" style="text-align:center;">  <!-- pb-60px -->
+     	<div class="container">
+     		<div class="section-intro" style="text-align:center; padding:30px;"> 
                 <h2>모집<span class="section-intro__style">완료</span></h2>
             </div>
             
-            <div class="row" id="categoryList2_1" style="display:none;">
+            <div class="row noClub" id="categoryList2_1" style="display:none;">
                                      해당 카테고리에 독서모임은 없습니다.
             </div>
             	     
             <div class="row" id="categoryList2_2" style="display:none;">   
                 <c:forEach begin="0" end="7" varStatus="s">
-                     <div id="c_clubTotal2${s.index}" class="col-md-6 col-lg-3 mb-3 mb-lg-0  pointer" <c:if test="${s.index >= fn:length(cateList_second)}"><c:out value="style=display:none;"/></c:if> >
-	                      <input id="c_clubNo2${s.index}" type="hidden" value="${cateList_second[s.index].clubNo}">
-	                      <div class="card card-blog"  >  
-	                           <div class="card-blog__img">
-	                          	    <img id="c_clubImg2${s.index}" class="card-img rounded-0" src="${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${cateList_second[s.index].clubAttachments[0].changeName}" alt="">
-	                           </div>
-	                           <div class="card-body">
-	                                <ul class="card-blog__info">
-	                                    <li><span id="c_category2${s.index}">${cateList_second[s.index].category}</span> &nbsp; [<span style="margin-right:0px;" id="c_onoffLine${s.index}">${cateList_second[s.index].onoffLine}</span>] </li>
-	                                    <li><i class="ti-comments-smiley"></i> ${cateList_second[s.index].heartCount } Likes</li>
-	                                 </ul>
-	                                 <div class="closeClub"><span>마감되었습니다</span></div>
-	                                 <h4 id="c_title2${s.index}" class="card-blog__title">${cateList_second[s.index].clubTitle}</h4>
-	                                 <p>
-	                                 	<c:forEach items="${cateList_second[s.index].clubTimes}" var="at" varStatus="s_at">
-	                                 		<c:choose>
-	                                 			<c:when test="${s_at.index eq 0}">
-	                                 				<c:set var="firstStart" value="${at.clubDate}"/>
-	                                 			</c:when>
-	                                 			<c:otherwise>
-	                                 				<c:if test="${firstStart > at.clubDate }">
-	                                 					<c:set var="firstStart" value="${at.clubDate}"/>
-	                                 				</c:if>
-	                                 			</c:otherwise>
-	                                 		</c:choose>
-	                                 	</c:forEach>	
-	                                                                               시작 : <span id="c_startDate2${s.index}">${firstStart}</span> &nbsp; | <span id="c_manyTimes2${s.index}">${fn:length(cateList_second[s.index].clubTimes)}</span>번
-	                                </p>
-	                           </div>
+                     <div id="c_clubTotal2${s.index}" class="pointer" <c:if test="${s.index >= fn:length(cateList_second)}"><c:out value="style=display:none;"/></c:if> >
+	                      <input id="c_clubNo2${s.index}" type="hidden" value="${cateList_second[s.index].clubNo}"> 
+	                      <div id="c_clubImg2${s.index}" class="titleImg" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${cateList_second[s.index].titleChangeName}')"></div>
+	                      <div style="margin-top:15px; text-align: center;">
+	                          <ul class="card-blog__info">
+	                              <li><span id="c_category2${s.index}">${cateList_second[s.index].category}</span> &nbsp; [<span style="margin-right:0px;" id="c_onoffLine2${s.index}">${cateList_second[s.index].onoffLine}</span>] </li>
+	                              <li><i class="ti-comments-smiley"></i> ${cateList_second[s.index].heartCount } Likes</li>
+	                          </ul>
+	                          <div class="closeClub"><span>마감되었습니다</span></div>
+	                          <h4 id="c_title2${s.index}" class="card-blog__title">${cateList_second[s.index].clubTitle}</h4>
+	                          <p>
+	                          	  <c:forEach items="${cateList_second[s.index].clubTimes}" var="at" varStatus="s_at">
+	                                 <c:choose>
+	                                 	<c:when test="${s_at.index eq 0}">
+	                                 		<c:set var="firstStart" value="${at.clubDate}"/>
+	                                 	</c:when>
+	                                 	<c:otherwise>
+	                                 		<c:if test="${firstStart > at.clubDate }">
+	                                 			<c:set var="firstStart" value="${at.clubDate}"/>
+	                                 		</c:if>
+	                                 	</c:otherwise>
+	                                 </c:choose>
+	                             </c:forEach>	
+	                                                                시작 : <span id="c_startDate2${s.index}">${firstStart}</span> &nbsp; | <span id="c_manyTimes2${s.index}">${fn:length(cateList_second[s.index].clubTimes)}</span>번
+	                          </p>
 	                      </div>
 	                  </div> 
                  </c:forEach>
             </div>
                
             <div>
-			    <ul id="pagingArea2" class="pagination" style="display: none;">  	
+			    <ul id="pagingArea2" class="pagination paging" style="display: none;">  	
 			         <c:choose>
 			             <c:when test="${ pi_second.currentPage ne 1 }">
 			                <li id="bb2" class="page-item"><div class="page-link pagelink1">이전</div></li>
@@ -299,7 +316,7 @@
                  </div>
                  		
                  		
-                 <div class="row" id="categoryList3_1" style="display:none;">
+                 <div class="row noClub" id="categoryList3_1" style="display:none;">
 			                       해당 카테고리에 독서모임은 없습니다.
 			     </div>
 			            
@@ -336,13 +353,6 @@
         var nowPage1 = 1;
         var nowPage2 = 1;
         var listIndex = 0;  //모집종료 용
-                	
-        /* $(function(){ 아래로 옮김
-            $(".pointer").click(function(){
-                 console.log($(this).children(":first").val());
-                 location.href="detail.cl?clubNo=" + $(this).children(":first").val();
-            });
-        }) */
                     
         $(document).ready(function() {
         	$(".pointer").click(function(){
@@ -375,7 +385,8 @@
             }else{
                 $('#categoryList3_2').css('display','flex');
             }
-                    	
+             
+            //페이징 처리
 		    $(".page-item").click(function(){
 		        //disabled된 이전, 다음으로 등 페이징바 눌렀을 때 ajax통신하지 않도록 막기
 		        if($(this).hasClass('disabled')){
@@ -427,37 +438,36 @@
 		        } 
 		        
 		        $.ajax({
-		                     url:"allCateListPart.cl",
-		                     data:{
-		                        category : category,
-		                        clubStatus : clubStatus,
-		                        currentPage : currentPage
-		                     },
-		                     type : "post",
-		                     success:function(map){
-		                        console.log("ajax 통신성공");
+		        	url:"allCateListPart.cl",
+		            data:{
+		            	category : category,
+		                clubStatus : clubStatus,
+		                currentPage : currentPage
+		            },
+		            type : "post",
+		            success:function(map){
+		            console.log("ajax 통신성공");
+		            console.log("clubStatus : " + clubStatus)
 		                        
-		                        console.log("clubStatus : " + clubStatus)
-		                        
-		                        if(clubStatus == '모집중'){
-		                        	list1(map);
-		                        }else{
-		                        	list2(map);
-		                        }
+		            if(clubStatus == '모집중'){
+		                list1(map);
+		            }else{
+		                list2(map);
+		            }
 		                                                
 		                        
-		                    },error:function(){
-		                         console.log("ajax 통신실패")
-		                    }
+		            },error:function(){
+		                 console.log("ajax 통신실패")
+		            }
 		       })
 		    })
 		})
-  
-        $(".clickCategory").click(function(){
-						
-	    	category = $(this).text();
+		
+		function clickCategory(num, e){
 
-			$.ajax({
+        	category = $(e).text();
+        	
+        	$.ajax({
 				url:"allCateList.cl",
 				data:{category:category},
 				type : "post",
@@ -468,216 +478,225 @@
 					list1(map);
 					list2(map);
 					list3(map);
+					
+					//2. 클릭한 카테고리 색 바꾸기
+					for(var i=1; i<=6; i++){
+						if(i == num){
+							$('#cate'+i).css('color','orange');
+						}else{
+							$('#cate'+i).css('color','black');
+						}
+					}
 				},error:function(){
 					console.log("ajax 통신실패")
 				}
 			})
-	   })
-	                
-	   function list1(map){
-                    	var cateList1 = map.cateList1;
+        }
+  
+	   function list1(map){  //1.모집중 목록 붙이기
+		    var cateList1 = map.cateList1;
                     	
-                    	var listView1 = document.getElementById("categoryList1_1");
-						var listView = document.getElementById("categoryList1_2");
-						var pagingArea = document.getElementById("pagingArea1");
+            var listView1 = document.getElementById("categoryList1_1"); //없습니다.
+			var listView = document.getElementById("categoryList1_2");  //리스트 뿌리기
+			var pagingArea = document.getElementById("pagingArea1");
 						
-						console.log("list길이 : " + cateList1.length)
-						
-						if(cateList1.length == 0){  //1.리스트 빈 경우
-							listView.style.display = 'none';
-							listView1.style.display = 'flex';
-							pagingArea.style.display = 'none';
-						}else{				  //2. 리스트 값 있는 경우
-							$.each(cateList1,function(i){
+			if(cateList1.length == 0){  //1.리스트 빈 경우
+				listView.style.display = 'none';
+				listView1.style.display = 'flex';
+				pagingArea.style.display = 'none';
+			}else{	
+				//2. 리스트 값 있는 경우
+				$.each(cateList1,function(i){
 								
-								$('#c_clubImg'+i).attr("src","${pageContext.servletContext.contextPath }/resources/upload_files/club_img/"+cateList1[i].clubAttachments[0].changeName);
-								$('#c_clubNo'+i).val(cateList1[i].clubNo);	
-								$('#c_category'+i).text(cateList1[i].category);	
-								$('#c_onoffLine'+i).text(cateList1[i].onoffLine);
-								$('#c_title'+i).text(cateList1[i].clubTitle);
-								$('#c_likes'+i).text(cateList1[i].heartCount);
+					/* $('#c_clubImg'+i).attr("src","${pageContext.servletContext.contextPath }/resources/upload_files/club_img/"+cateList1[i].clubAttachments[0].changeName); */
+					
+					$('#c_clubImg'+i).css("background-image","url(${pageContext.servletContext.contextPath }/resources/upload_files/club_img/"+cateList1[i].titleChangeName+")"); 
+					$('#c_clubNo'+i).val(cateList1[i].clubNo);	
+					$('#c_category'+i).text(cateList1[i].category);	
+					$('#c_onoffLine'+i).text(cateList1[i].onoffLine);
+					$('#c_title'+i).text(cateList1[i].clubTitle);
+					$('#c_likes'+i).text(cateList1[i].heartCount);
 								
-								var dateCount = 0;
-								var startD;
+					var dateCount = 0;
+					var startD;
 								
-								for(var ct of cateList1[i].clubTimes){
+					for(var ct of cateList1[i].clubTimes){
 									
-									if(dateCount == 0){
-										startD = ct.clubDate
-									}else{
-										if(startD > ct.clubDate){
-											startD = ct.clubDate
-										}
-									}
-									dateCount +=1;
-								}
+						if(dateCount == 0){
+							startD = ct.clubDate
+						}else{
+							if(startD > ct.clubDate){
+								startD = ct.clubDate
+							}
+						}
+						dateCount +=1;
+					} 
 								
-								$('#c_startDate'+i).text(startD);
-								$('#c_manyTimes'+i).text(cateList1[i].clubTimes.length);
-								$('#c_clubTotal'+i).css('display','flex');  //none풀어주기
+					$('#c_startDate'+i).text(startD);
+					$('#c_manyTimes'+i).text(cateList1[i].clubTimes.length);
+					$('#c_clubTotal'+i).css('display','block');  //none풀어주기
 								
-							})
+				})
 		
-							listView1.style.display = 'none';
-							listView.style.display = 'flex';
-							pagingArea.style.display = 'flex';
-							
-							for(var i=cateList1.length; i<8; i++){
-								$('#c_clubTotal'+i).css('display','none');
-							}							
-						}
+				listView1.style.display = 'none';
+				listView.style.display = 'flex';
+				pagingArea.style.display = 'flex';
+					
+				//8개보다 적으면 display를 none으로 해서 안보이게 해야함
+				for(var i=cateList1.length; i<8; i++){
+					$('#c_clubTotal'+i).css('display','none');
+				}							
+			}
 						
-						//2.페이징바 처리하기
-						//list내용 없으면 페이징바 안보이게 하기
-						if(cateList1.length == 0){
-							$('#pagingArea1').css("display", "none");
-						}else{
-							$('#pagingArea1').css("display", "block");
-						}
+			//2.페이징바 처리하기
+			//list내용 없으면 페이징바 안보이게 하기
+			if(cateList1.length == 0){
+				$('#pagingArea1').css("display", "none");
+			}else{
+				$('#pagingArea1').css("display", "flex");
+			}
 						
-						//0) 맨 처음에 뜨는 페이징바-1,2,3... 안보이게 처리
-						$(".cc1").css("display", "none");
+			//0) 맨 처음에 뜨는 페이징바-1,2,3... 안보이게 처리
+			$(".cc1").css("display", "none");
 			
-						//1)이전으로
-						var pi1 = map.pi1;
-						if(pi1.currentPage != 1){
-							$('#bb').removeClass("disabled");
-						}else{
-							$('#bb').addClass("disabled");
-						}
+			//1)이전으로
+			var pi1 = map.pi1;
+			if(pi1.currentPage != 1){
+				$('#bb').removeClass("disabled");
+			}else{
+				$('#bb').addClass("disabled");
+			}
 						
-						//2)1,2,3...
-						//2-1) 페이지갯수만큼 보이게 하기
-						var p_index = 0;
-						for(var p=pi1.startPage; p<=pi1.endPage; p++){
-							$("#cc" + p).removeClass("disabled");  //현재페이지 아닌곳은 다 갈 수 있어야 하므로
-							$("#cc" + p).css("display", "block");
-			                $("#cc" + p).val(p);
-			                $("#ccc" + p).text(p);
+			//2)1,2,3...
+			//2-1) 페이지갯수만큼 보이게 하기
+			var p_index = 0;
+			for(var p=pi1.startPage; p<=pi1.endPage; p++){
+				$("#cc" + p).removeClass("disabled");  //현재페이지 아닌곳은 다 갈 수 있어야 하므로
+				$("#cc" + p).css("display", "block");
+			    $("#cc" + p).val(p);
+			    $("#ccc" + p).text(p);
 			                
-			                if(pi1.currentPage == p){
-			                	$("#cc" + p).addClass("disabled");
-			                }
-			                p_index += 1;
-						}
+			    if(pi1.currentPage == p){
+			         $("#cc" + p).addClass("disabled");
+			    }
+			    p_index += 1;
 						
-						//2-2) 페이지갯수 초과 -> 안보이게 하기
-						for(var dp=p_index+1; dp<=pi1.pageLimit; dp++){
-							$("#cc" + dp).css("display", "none");
-						}
+				//2-2) 페이지갯수 초과 -> 안보이게 하기
+				for(var dp=p_index+1; dp<=pi1.pageLimit; dp++){
+					$("#cc" + dp).css("display", "none");
+				}
 						
-						//3)다음으로
-						if(pi1.currentPage != pi1.maxPage){
-							$('#dd').removeClass("disabled");
-						}else{
-							$('#dd').addClass("disabled");
-						}
+				//3)다음으로
+				if(pi1.currentPage != pi1.maxPage){
+					$('#dd').removeClass("disabled");
+				}else{
+					$('#dd').addClass("disabled");
+				}
+	        }
        }
 	                
 	   function list2(map){
-                    	var cateList2 = map.cateList2;
+       		var cateList2 = map.cateList2;
                     	
-                    	var listView1 = document.getElementById("categoryList2_1");
-						var listView = document.getElementById("categoryList2_2");
-						var pagingArea = document.getElementById("pagingArea2");
+            var listView1 = document.getElementById("categoryList2_1");
+			var listView = document.getElementById("categoryList2_2");
+			var pagingArea = document.getElementById("pagingArea2");
 						
-						console.log("list길이2 : " + cateList2.length)
+			console.log("list길이2 : " + cateList2.length)
 						
-						if(cateList2.length == 0){  //1.리스트 빈 경우
-							listView.style.display = 'none';
-							listView1.style.display = 'flex';
-							pagingArea.style.display = 'none';
-						}else{				  //2. 리스트 값 있는 경우
-							$.each(cateList2,function(i){
+			if(cateList2.length == 0){  //1.리스트 빈 경우
+				listView.style.display = 'none';
+				listView1.style.display = 'flex';
+				pagingArea.style.display = 'none';
+			}else{				  
+				//2. 리스트 값 있는 경우
+				$.each(cateList2,function(i){
+					$('#c_clubImg2'+i).css("background-image","url(${pageContext.servletContext.contextPath }/resources/upload_files/club_img/"+cateList2[i].titleChangeName+")"); 
+					$('#c_clubNo2'+i).val(cateList2[i].clubNo);	
+					$('#c_category2'+i).text(cateList2[i].category);	
+					$('#c_onoffLine2'+i).text(cateList2[i].onoffLine);
+					$('#c_title2'+i).text(cateList2[i].clubTitle);
+					$('#c_likes2'+i).text(cateList2[i].heartCount);
 								
-								$('#c_clubImg2'+i).attr("src","${pageContext.servletContext.contextPath }/resources/upload_files/club_img/"+cateList2[i].clubAttachments[0].changeName);
-								$('#c_clubNo2'+i).val(cateList2[i].clubNo);	
-								$('#c_category2'+i).text(cateList2[i].category);	
-								$('#c_onoffLine2'+i).text(cateList2[i].onoffLine);
-								$('#c_title2'+i).text(cateList2[i].clubTitle);
-								$('#c_likes2'+i).text(cateList2[i].heartCount);
+					var dateCount = 0;
+					var startD;
 								
-								var dateCount = 0;
-								var startD;
-								
-								for(var ct of cateList2[i].clubTimes){
+					for(var ct of cateList2[i].clubTimes){
 									
-									if(dateCount == 0){
-										startD = ct.clubDate
-									}else{
-										if(startD > ct.clubDate){
-											startD = ct.clubDate
-										}
-									}
-									dateCount +=1;
-								}
-								
-								$('#c_startDate2'+i).text(startD);
-								$('#c_manyTimes2'+i).text(cateList2[i].clubTimes.length);
-								$('#c_clubTotal2'+i).css('display','flex');  //none풀어주기
-								
-							})
-		
-							listView1.style.display = 'none';
-							listView.style.display = 'flex';
-							pagingArea.style.display = 'flex';
-							
-							//다시 지워줘야 함
-							for(var i=cateList2.length; i<8; i++){
-								$('#c_clubTotal2'+i).css('display','none');
+						if(dateCount == 0){
+							startD = ct.clubDate
+						}else{
+							if(startD > ct.clubDate){
+								startD = ct.clubDate
 							}
 						}
+						dateCount +=1;
+					}
+								
+					$('#c_startDate2'+i).text(startD);
+					$('#c_manyTimes2'+i).text(cateList2[i].clubTimes.length);
+					$('#c_clubTotal2'+i).css('display','block');  //none풀어주기			
+				})
+		
+				listView1.style.display = 'none';
+				listView.style.display = 'flex';
+				pagingArea.style.display = 'flex';
+							
+				//다시 지워줘야 함
+				for(var i=cateList2.length; i<8; i++){
+					$('#c_clubTotal2'+i).css('display','none');
+				}
+			}
 						
-						//list내용 없으면 페이징바 안보이게 하기
-						if(cateList2.length == 0){
-							$('#pagingArea2').css("display", "none");
-						}else{
-							$('#pagingArea2').css("display", "block");
-						}
-						//2.페이징바 처리하기
-						//0) 맨 처음에 뜨는 페이징바-1,2,3... 안보이게 처리
-						$(".cc12").css("display", "none");
+			//list내용 없으면 페이징바 안보이게 하기
+			if(cateList2.length == 0){
+				$('#pagingArea2').css("display", "none");
+			}else{
+				$('#pagingArea2').css("display", "flex");
+			}
+			//2.페이징바 처리하기
+			//0) 맨 처음에 뜨는 페이징바-1,2,3... 안보이게 처리
+			$(".cc12").css("display", "none");
 			
-						//1)이전으로
-						var pi2 = map.pi2;
-						if(pi2.currentPage != 1){
-							$('#bb2').removeClass("disabled");
-						}else{
-							$('#bb2').addClass("disabled");
-						}
+			//1)이전으로
+			var pi2 = map.pi2;
+			if(pi2.currentPage != 1){
+				$('#bb2').removeClass("disabled");
+			}else{
+				$('#bb2').addClass("disabled");
+			}
 						
-						//2)1,2,3...
-						//2-1) 페이지갯수만큼 보이게 하기
-						var p_index = 0;
+			//2)1,2,3...
+			//2-1) 페이지갯수만큼 보이게 하기
+			var p_index = 0;
 						
+			console.log("cateList2 - 길이 : " + cateList2.length)
+			console.log("cateList2 - pi2.startPage : " + pi2.startPage)
+			console.log("cateList2 - pi2.endPage : " + pi2.endPage)
 						
-						console.log("cateList2 - 길이 : " + cateList2.length)
-						console.log("cateList2 - pi2.startPage : " + pi2.startPage)
-						console.log("cateList2 - pi2.endPage : " + pi2.endPage)
-						
-						for(var p=pi2.startPage; p<=pi2.endPage; p++){
-							$("#cc2" + p).removeClass("disabled");  //현재페이지 아닌곳은 다 갈 수 있어야 하므로
-							$("#cc2" + p).css("display", "block");
-			                $("#cc2" + p).val(p);
-			                $("#ccc2" + p).text(p);
+			for(var p=pi2.startPage; p<=pi2.endPage; p++){
+				$("#cc2" + p).removeClass("disabled");  //현재페이지 아닌곳은 다 갈 수 있어야 하므로
+				$("#cc2" + p).css("display", "block");
+			    $("#cc2" + p).val(p);
+			    $("#ccc2" + p).text(p);
 			                
-			                if(pi2.currentPage == p){
-			                	$("#cc2" + p).addClass("disabled");
-			                }
-			                p_index += 1;
-						}
+			    if(pi2.currentPage == p){
+			        $("#cc2" + p).addClass("disabled");
+			    }
+			    p_index += 1;
+			}
 						
-						//2-2) 페이지갯수 초과 -> 안보이게 하기
-						for(var dp=p_index+1; dp<=pi2.pageLimit; dp++){
-							$("#cc2" + dp).css("display", "none");
-						}
+			//2-2) 페이지갯수 초과 -> 안보이게 하기 : 이전카테고리에서 3페이지였고 이번카테고리가 2페이지까지면 3페이지는 안나와야하기때문
+			for(var dp=p_index+1; dp<=pi2.pageLimit; dp++){
+				$("#cc2" + dp).css("display", "none");
+			}
 						
-						//3)다음으로
-						if(pi2.currentPage != pi2.maxPage){
-							$('#dd2').removeClass("disabled");
-						}else{
-							$('#dd2').addClass("disabled");
-						}							
+			//3)다음으로
+			if(pi2.currentPage != pi2.maxPage){
+				$('#dd2').removeClass("disabled");
+			}else{
+				$('#dd2').addClass("disabled");
+			}							
        }
 	                 
 	   function list3(map){
@@ -776,96 +795,9 @@
 	    }
 	                 
     </script>
-    <!--================ Start footer Area  =================-->
-    <footer class="footer">
-        <div class="footer-area">
-            <div class="container">
-                <div class="row section_gap">
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="single-footer-widget tp_widgets">
-                            <h4 class="footer_title large_title">Our Mission</h4>
-                            <p>
-                                So seed seed green that winged cattle in. Gathering thing made fly you're no divided deep moved us lan Gathering thing us land years living.
-                            </p>
-                            <p>
-                                So seed seed green that winged cattle in. Gathering thing made fly you're no divided deep moved
-                            </p>
-                        </div>
-                    </div>
-                    <div class="offset-lg-1 col-lg-2 col-md-6 col-sm-6">
-                        <div class="single-footer-widget tp_widgets">
-                            <h4 class="footer_title">Quick Links</h4>
-                            <ul class="list">
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Shop</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Product</a></li>
-                                <li><a href="#">Brand</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-6 col-sm-6">
-                        <div class="single-footer-widget instafeed">
-                            <h4 class="footer_title">Gallery</h4>
-                            <ul class="list instafeed d-flex flex-wrap">
-                                <li><img src="img/gallery/r1.jpg" alt=""></li>
-                                <li><img src="img/gallery/r2.jpg" alt=""></li>
-                                <li><img src="img/gallery/r3.jpg" alt=""></li>
-                                <li><img src="img/gallery/r5.jpg" alt=""></li>
-                                <li><img src="img/gallery/r7.jpg" alt=""></li>
-                                <li><img src="img/gallery/r8.jpg" alt=""></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="offset-lg-1 col-lg-3 col-md-6 col-sm-6">
-                        <div class="single-footer-widget tp_widgets">
-                            <h4 class="footer_title">Contact Us</h4>
-                            <div class="ml-40">
-                                <p class="sm-head">
-                                    <span class="fa fa-location-arrow"></span> Head Office
-                                </p>
-                                <p>123, Main Street, Your City</p>
-
-                                <p class="sm-head">
-                                    <span class="fa fa-phone"></span> Phone Number
-                                </p>
-                                <p>
-                                    +123 456 7890 <br> +123 456 7890
-                                </p>
-
-                                <p class="sm-head">
-                                    <span class="fa fa-envelope"></span> Email
-                                </p>
-                                <p>
-                                    free@infoexample.com <br> www.infoexample.com
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer-bottom ">
-            <div class="container ">
-                <div class="row d-flex ">
-                    <p class="col-lg-12 footer-text text-center ">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Copyright &copy;
-                        <script>
-                            document.write(new Date().getFullYear());
-                        </script> All rights reserved | This template is made with <i class="fa fa-heart " aria-hidden="true "></i> by <a href="https://colorlib.com " target="_blank ">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </p>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!--================ End footer Area  =================-->
-
-
-
+    
+    <jsp:include page="../common/footer.jsp" />
+    
     <script src="resources/vendors/jquery/jquery-3.2.1.min.js "></script>
     <script src="resources/vendors/bootstrap/bootstrap.bundle.min.js "></script>
     <script src="resources/vendors/skrollr.min.js "></script>

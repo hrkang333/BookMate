@@ -39,7 +39,7 @@ public interface ClubService {
 
 	ArrayList<Club> selectEndList();
 	
-	ArrayList<Club> popList(String type);
+	ArrayList<Club> popList();
 
 	//상세페이지
 	Club selectClub(int cno);

@@ -3,7 +3,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page session="false" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>책구메이트-독서모임</title>
-    <link rel="icon" href="resources/img/Fevicon.png" type="image/png">
+    <link rel="icon" href="resources/img/logo1.png" type="image/png">
     <link rel="stylesheet" href="resources/vendors/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="resources/vendors/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="resources/vendors/themify-icons/themify-icons.css">
@@ -26,23 +25,9 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <style>
-        /* carousel 부트스트랩 슬라이드쇼 요소 -> 화살표(next) 색, 크기 바꾸기 */
-        
-        .nextIcon{
-            width: 40px;
-            height: 40px;
-            background-size: cover;
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23384aeb' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M2.75 0l-1.5 1.5L3.75 4l-2.5 2.5L2.75 8l4-4-4-4z'/%3e%3c/svg%3e");
-        }
-        /* carousel 부트스트랩 슬라이드쇼 요소 -> 화살표(prev) 색, 크기 바꾸기 */
-        
-        .prevIcon {
-            width: 40px;
-            height: 40px;
-            background-size: cover;
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23384aeb' width='8' height='8' viewBox='0 0 8 8'%3e%3cpath d='M5.25 0l-4 4 4 4 1.5-1.5L4.25 4l2.5-2.5L5.25 0z'/%3e%3c/svg%3e");
-        }
-        
+       .mainTitle{
+       		padding:30px 0px;
+       }        
         .reviewTable {
             display: table;
             width: 100%;
@@ -65,7 +50,7 @@
         }
         .titleBackImg{
         	width: 100%;
-        	height: 200px;
+        	height: 100%;
 		    background-size: cover;
 		    background-position: center center;
         }
@@ -115,8 +100,44 @@
 			color:#adc09c; 
 		}
 		
-		
+		.popTotal_2{
+		     display: flex; 
+		     flex-wrap: wrap;
+		}
+		.popOne{
+		 	width: 327px;
+		 	/* width: 31.78%; */
+		    height: 470px;
+		    margin: 8px;
+		    border: 1px solid #dadada;
+		    padding: 10px;
+		    cursor: pointer;
+		}
 
+	    .clickCategory{
+	    	cursor: pointer;
+	    	font-weight: 700;
+	    }
+	    
+	    [id^=endTotal_2]{
+	    	justify-content: center;
+	    }
+	    
+	    #endArrow_left {
+			font-size: 50px;
+			color: gray;
+			position: absolute;
+			top: 220px;
+			left: 0px;
+		}
+		
+		#endArrow_right {
+			font-size: 50px;
+			color: gray;
+			position: absolute;
+			top: 220px;
+			right: 0px;
+		}
     </style>
 </head>
 
@@ -154,7 +175,7 @@
         <!-- ================ 1.인기 독서모임 ================= -->
 		<section class="section-margin calc-60px" style="margin-top: 50px;">
 			<div class="container">
-				<div class="section-intro pb-60px">
+				<div class="section-intro mainTitle">
 					<p>책구메이트에서 가장 인기있는 독서모임들</p>
 					<h2>
 						<span class="section-intro__style">인기</span> 독서모임
@@ -164,183 +185,60 @@
 				<div style="padding: 20px 20px 50px; background-color: #d9e7db;">
 					<c:if test="${fn:length(popList) > 0}">
 					
-						<div style="display: flex; flex-wrap: wrap; background-color: white; padding: 30px;">
-							
+						<div class="popTotal_1" style="background-color: white; padding: 20px; height: 1010px;">
 							<c:forEach var="i" begin="0" end="${fn:length(popList)-1}" step="6">
-								
-								<div class="col-md-6 col-lg-4 mb-4 mb-lg-0 pointer" style="padding-right: 7px; padding-left: 7px">
+							
+								<div id="popTotal_2${i}" class="popTotal_2" <c:if test="${i != 0}">style="display: none;"</c:if> > 
+									<c:forEach var="list" items="${popList}" begin="${i}" end="${i+5}">
 									
-									
-									<input type="hidden" value="${list.clubNo}">
-									<div class="">  <!--  class="card card-blog" -->
-										<div class="image">  <!-- class="card-blog__img" -->
+									<div class="popOne" onclick="goDetail(${list.clubNo})" >
+										<input type="hidden" value="${list.clubNo}">
+										<div class="image" style="height:280px;">
 											<c:forEach items="${list.clubAttachments}" var="ca">
 												<div class="titleBackImg" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${ca.changeName}')"></div>
 											</c:forEach>
 										</div>
-										<div class="">  <!--  class="card-body" -->
-											<ul class=""> <!-- class="card-blog__info" -->
+										<div class="">  
+											<ul class="card-blog__info"> 
 												<li>${list.category}&nbsp; [ ${list.onoffLine} ]</li>
-												<li><i class="ti-comments-smiley"></i> 2 Likes</li>
+												<li><i class="ti-comments-smiley"></i> ${list.heartCount} Likes</li>
 											</ul>
-											<h4 class="">${list.clubTitle}</h4> <!-- class="card-blog__title" -->
+											<h4 class="">${list.clubTitle}</h4> 
 											<p>
-												<c:set var="temp" value="${list.intro}" />
-												<c:choose>
-													<c:when test="${fn:length(temp) gt 61}">
-														<c:out value="${fn:substring(temp,0,60)}"></c:out> ...
-							                                  </c:when>
-													<c:otherwise>
-														<c:out value="${temp}" />
-													</c:otherwise>
-												</c:choose>
+												<c:forEach items="${list.clubTimes}" var="at" varStatus="s_at">
+	                                 		
+		                                 		<c:choose>
+		                                 			<c:when test="${s_at.index eq 0}">
+		                                 				<c:set var="firstStart" value="${at.clubDate}"/>
+		                                 			</c:when>
+		                                 			<c:otherwise>
+		                                 				<c:if test="${firstStart > at.clubDate }">
+		                                 					<c:set var="firstStart" value="${at.clubDate}"/>
+		                                 				</c:if>
+		                                 			</c:otherwise>
+		                                 		</c:choose>
+		            
+		                                 	</c:forEach>	
+		                                   	     시작 : ${firstStart} &nbsp; | <span>${fn:length(list.clubTimes)}</span>번
 											</p>
 										</div>
 									</div>
+									
+									</c:forEach>
+									
 								</div>
 							</c:forEach>
 						</div>
 					</c:if>
 				</div>
-
-				<!--
-                  1. carousel : carousel 컨베이어 벨트처럼 현재 사진에서 다른 사진으로 넘어갈 수 있게 해준다.
-                  2. slide : 다른 사진으로 넘어갈 때 슬라이딩되는 효과를 제공한다.
-                  3. data-ride="carousel" : 
-                   attribute is used to mark a carousel as animating starting at page load. It cannot be used in combination with (redundant and unnecessary) explicit JavaScript initialization of the same carousel.
-                  4. carousel - id는 꼭 유일하게 해줘야함
-                -->
-				<!-- 마감임박 독서모임 리스트 갯수가 3개 이하인 경우에는 carousel로 슬라이딩되지 않도록 설정했다.
-                                       ㅅ슬라이딩되도록 하면 다음 페이지로 넘어간 후 다시 앞 페이지로 돌아오지 않기 때문이다. -->
-				<c:if test="${fn:length(popList) <= 4}">
-					<div style="display: flex;">
-						<c:forEach items="${popList}" var="list" begin="0" end="3">
-							<div class="col-md-6 col-lg-4 mb-4 mb-lg-0 pointer"
-style="padding-right: 7px; padding-left: 7px">
-								<input type="hidden" value="${list.clubNo}">
-								<div class="card card-blog">
-									<div class="card-blog__img">
-										<c:forEach items="${list.clubAttachments}" var="ca">
-											<div class="titleBackImg"
-												style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${ca.changeName}')">
-											</div>
-											<%-- <img class="card-img rounded-0" src="${pageContext.servletContext.contextPath}/resources/upload_files/club_img/${ca.changeName}" alt=""> --%>
-										</c:forEach>
-									</div>
-									<div class="card-body">
-										<ul class="card-blog__info">
-											<li>${list.category}&nbsp; [ ${list.onoffLine} ]</li>
-											<li><i class="ti-comments-smiley"></i> 2 Comments</li>
-										</ul>
-										<h4 class="card-blog__title">${list.clubTitle}</h4>
-										<p>
-											<c:set var="temp" value="${list.intro}" />
-											<c:choose>
-												<c:when test="${fn:length(temp) gt 61}">
-													<c:out value="${fn:substring(temp,0,60)}"></c:out> ...
-						                                  </c:when>
-												<c:otherwise>
-													<c:out value="${temp}" />
-												</c:otherwise>
-											</c:choose>
-										</p>
-									</div>
-								</div>
-							</div>
-						</c:forEach>
-					</div>
-				</c:if>
-
-				<!-- 3개 초과인 경우에는 슬라이딩 된다.
-					 클래스명이 carousel-item인 div에 <row>는 한개, 독서모임은 3개를 넣어줘야 하므로 아래와 같이 변수를 지정하여 했다.
-					 이렇게 하면 select 시 조회해오는 독서모임의 갯수에 상관없이 슬라이딩을 적용할 수 있다.-->
-				<%-- <c:if test="${fn:length(popList) > 4}">
-					<div id="carouselExampleIndicators0" class="carousel slide"
-						data-ride="carousel">
-						<ol class="carousel-indicators">
-							<li data-target="#carouselExampleIndicators" data-slide-to="0"
-								class="active"></li>
-							<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-							<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-						</ol>
-						<div class="carousel-inner">
-
-							<c:forEach var="i" begin="0" end="${fn:length(popList)}" step="4">
-
-								<c:choose>
-									<c:when test="${i eq 0}">
-										<c:set var="activeD" value="carousel-item active" />
-									</c:when>
-									<c:otherwise>
-										<c:set var="activeD" value="carousel-item" />
-									</c:otherwise>
-								</c:choose>
-
-								<div id="activeOrNot" class="${activeD}" style="width: 100%;">
-									<div class="row">
-
-										<c:forEach items="${popList}" var="club" begin="${i}"
-											end="${i+3}">
-											<div class="col-md-6 col-lg-3 mb-3 mb-lg-0 pointer">
-												<input type="hidden" value="${club.clubNo}">
-												<div class="card card-blog">
-													<div class="card-blog__img cardImg">
-														<c:forEach items="${club.clubAttachments}" var="ca">
-															<div class="titleBackImg"
-																style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${ca.changeName}')"></div>
-														</c:forEach>
-
-													</div>
-													<div class="card-body">
-														<ul class="card-blog__info">
-															<li>${club.category}&nbsp; [ ${club.onoffLine} ]</li>
-															<li><i class="ti-comments-smiley"></i> 2 Likes</li>
-														</ul>
-														<h4 class="card-blog__title">${club.clubTitle}</h4>
-														<p>
-															<c:set var="temp" value="${club.intro}" />
-															<c:choose>
-																<c:when test="${fn:length(temp) gt 61}">
-																	<c:out value="${fn:substring(temp,0,60)}"></c:out> ...
-						                                        	</c:when>
-																<c:otherwise>
-																	<c:out value="${temp}" />
-																</c:otherwise>
-															</c:choose>
-														</p>
-													</div>
-												</div>
-											</div>
-										</c:forEach>
-									</div>
-								</div>
-							</c:forEach>
-						</div>
-
-						<a class="carousel-control-prev"
-							href="#carouselExampleIndicators0" role="button"
-							data-slide="prev" style="width:50px; left: 20px;">
-							<span class="prevIcon" aria-hidden="true"></span> <span
-							class="sr-only">Previous</span>
-						</a> <a class="carousel-control-next"
-							href="#carouselExampleIndicators0" role="button"
-							data-slide="next" style="width:50px; right: 20px;">
-							<span class="nextIcon" aria-hidden="true"></span> <span
-							class="sr-only">Next</span>
-						</a>
-					</div>
-				</c:if> --%>
 			</div>
 		</section>
 
 
-
-
-
 		<!-- ================ 2. 분야별 독서모임 확인  ================= -->
 		<section class="section-margin calc-60px">
-			<div class="">
-				<div class="section-intro pb-60px">
+			<div class="container">
+				<div class="section-intro mainTitle">
 					<p>분야별 독서모임을 확인해보세요</p>
 					<h2>
 						<span class="section-intro__style">분야별</span> 독서모임
@@ -348,54 +246,48 @@ style="padding-right: 7px; padding-left: 7px">
 				</div>
 
 				<!-- 카테고리별 헤더 만들기 -->
-				<ul class="navbar" style="width: 80%;">
+				<ul class="navbar" style="width: 100%; background-color: #d9e7db;">
 					<li class="nav-item">
-						<h5 class="clickCategory"><a style="cursor: pointer">인문/과학/심리</a></h5>
+						<h5 class="clickCategory"><a>인문/과학/심리</a></h5>
 					</li>
 					<li class="nav-item">
-						<h5 class="clickCategory"><a style="cursor: pointer">문학/에세이</a></h5>
+						<h5 class="clickCategory"><a>문학/에세이</a></h5>
 					</li>
 					<li class="nav-item">
-						<h5 class="clickCategory"><a style="cursor: pointer">예술/음악</a></h5>
+						<h5 class="clickCategory"><a>예술/음악</a></h5>
 					</li>
 					<li class="nav-item">
-						<h5 class="clickCategory"><a style="cursor: pointer">경영/경제/마케팅</a></h5>
+						<h5 class="clickCategory"><a>경영/경제/마케팅</a></h5>
 					</li>
 					<li class="nav-item">
-						<h5 class="clickCategory"><a style="cursor: pointer">글쓰기</a></h5>
+						<h5 class="clickCategory"><a>글쓰기</a></h5>
 					</li>
 					<li class="nav-item">
-						<h5 class="clickCategory"><a style="cursor: pointer">강연</a></h5>
+						<h5 class="clickCategory"><a>강연</a></h5>
 					</li>
 				</ul>
 
-				<div class="row" id="categoryList1" style="display: none;">해당
-					카테고리에 독서모임은 없습니다.</div>
+				<div class="row" id="categoryList1" style="display: none; padding: 70px;">
+					<p style="text-align: center; font-size:20px; font-weight: 550;">해당 카테고리에 독서모임은 없습니다.</p>
+				</div>
 
-				<div class="row" id="categoryList">
+				<div class="row popTotal_2" id="categoryList">
 					<c:forEach begin="0" end="5" varStatus="s">
-						<div id="c_clubTotal${s.index}"
-							class="col-md-6 col-lg-4 mb-4 mb-lg-0  pointer"
-							style="display: none;">
+						<div id="c_clubTotal${s.index}" class="col-md-6 col-lg-4 mb-4 pointer" style="display: none;">
 							<input id="c_clubNo${s.index}" type="hidden" value="22">
-							<div class="card card-blog">
-								<div class="card-blog__img">
-									<img id="c_clubImg${s.index}" class="card-img rounded-0" src="resources/img/blog/blog1.png" alt="">
+								<div class="image" style="height:250px;">
+									<div id="c_clubImg${s.index}" class="titleBackImg"></div> 
 								</div>
-								<div class="card-body">
+								<div class="">
 									<ul class="card-blog__info">
-										<li><span id="c_category${s.index}">22</span> &nbsp; <span
-											id="c_onoffLine${s.index}">[22]</span></li>
+										<li><span id="c_category${s.index}">22</span> &nbsp; <span id="c_onoffLine${s.index}">[22]</span></li>
 										<li><i class="ti-comments-smiley"></i> 2 Comments</li>
 									</ul>
-									<h4 id="c_title${s.index}" class="card-blog__title">독서모임
-										제목</h4>
+									<h4 id="c_title${s.index}" class="card-blog__title">독서모임 제목</h4>
 									<p>
-										<span id="c_intro${s.index}"> 독서모임 소개 독서모임 소개 독서모임 소개
-											독서모임 소개 독서모임 소개 독서모임 소개</span>
+										<span id="c_intro${s.index}"> 독서모임 소개 독서모임 소개 독서모임 소개 독서모임 소개 독서모임 소개 독서모임 소개</span>
 									</p>
 								</div>
-							</div>
 						</div>
 					</c:forEach>
 				</div>
@@ -404,144 +296,66 @@ style="padding-right: 7px; padding-left: 7px">
 
 		<!-- ================ 3. 마감임박 독서모임 ================= -->
 		<section class="section-margin calc-60px">
-			<div class="">
-				<div class="section-intro pb-60px">
+			<div class="container">
+				<div class="section-intro mainTitle">
 					<p>마감이 임박한 독서모임</p>
 					<h2>
 						<span class="section-intro__style">마감 임박</span> 독서모임
 					</h2>
 				</div>
-
-				<!--
-                  1. carousel : carousel 컨베이어 벨트처럼 현재 사진에서 다른 사진으로 넘어갈 수 있게 해준다.
-                  2. slide : 다른 사진으로 넘어갈 때 슬라이딩되는 효과를 제공한다.
-                  3. data-ride="carousel" : 
-                   attribute is used to mark a carousel as animating starting at page load. It cannot be used in combination with (redundant and unnecessary) explicit JavaScript initialization of the same carousel.
-                  4. carousel - id는 꼭 유일하게 해줘야함
-                -->
-
-				<!-- 마감임박 독서모임 리스트 갯수가 3개 이하인 경우에는 carousel로 슬라이딩되지 않도록 설정했다.
-                                       ㅅ슬라이딩되도록 하면 다음 페이지로 넘어간 후 다시 앞 페이지로 돌아오지 않기 때문이다. -->
-				<c:if test="${fn:length(endList) <= 3}">
-					<div style="display: flex;">
-						<c:forEach items="${endList}" var="list" begin="0" end="2">
-							<div class="col-md-6 col-lg-4 mb-4 mb-lg-0 pointer">
-								<input type="hidden" value="${list.clubNo}">
-								<div class="card card-blog">
-									<div class="card-blog__img">
+				
+				<c:if test="${fn:length(endList) > 0}">
+					<div class="popTotal_1" style="background-color: white; padding: 20px; height: 550px; position:relative;">
+						
+						<c:set var="length" value="0" />
+						<c:forEach var="i" begin="0" end="${fn:length(endList)-1}" step="3">
+							<div id="endTotal_2${i}" class="popTotal_2" <c:if test="${i != 0}">style="display: none;"</c:if> > 
+								
+								<c:forEach var="list" items="${endList}" begin="${i}" end="${i+2}">	
+								<div class="popOne" onclick="goDetail(${list.clubNo})" >
+									<div class="image" style="height:280px;">
 										<c:forEach items="${list.clubAttachments}" var="ca">
-											<img class="card-img rounded-0"
-												src="${pageContext.servletContext.contextPath}/resources/upload_files/club_img/${ca.changeName}"
-												alt="">
+											<div class="titleBackImg" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${ca.changeName}')"></div>
 										</c:forEach>
 									</div>
-									<div class="card-body">
-										<ul class="card-blog__info">
+									<div class="">  
+										<ul class="card-blog__info"> 
 											<li>${list.category}&nbsp; [ ${list.onoffLine} ]</li>
-											<li><i class="ti-comments-smiley"></i> 2 Comments</li>
+											<li><i class="ti-comments-smiley"></i> ${list.heartCount} Likes</li>
 										</ul>
-										<h4 class="card-blog__title">${list.clubTitle}</h4>
+										<h4 class="">${list.clubTitle}</h4> 
 										<p>
-											<c:set var="temp" value="${list.intro}" />
-											<c:choose>
-												<c:when test="${fn:length(temp) gt 41}">
-													<c:out value="${fn:substring(temp,0,40)}"></c:out> ...
-						                                  </c:when>
-												<c:otherwise>
-													<c:out value="${temp}" />
-												</c:otherwise>
-											</c:choose>
+											<c:forEach items="${list.clubTimes}" var="at" varStatus="s_at">
+	                                		
+		                                		<c:choose>
+		                                			<c:when test="${s_at.index eq 0}">
+		                                				<c:set var="firstStart" value="${at.clubDate}"/>
+		                                 			</c:when>
+		                                 			<c:otherwise>
+		                                 				<c:if test="${firstStart > at.clubDate }">
+		                                 					<c:set var="firstStart" value="${at.clubDate}"/>
+		                                 				</c:if>
+		                                 			</c:otherwise>
+		                                 		</c:choose>
+		                                 	</c:forEach>	
+		                                   	 시작 : ${firstStart} &nbsp; | <span>${fn:length(list.clubTimes)}</span>번
 										</p>
 									</div>
 								</div>
+							  </c:forEach>	
 							</div>
+							<c:set var="length" value="${length+1}" />
 						</c:forEach>
-					</div>
-				</c:if>
-
-				<!-- 3개 초과인 경우에는 슬라이딩 된다.
-					 클래스명이 carousel-item인 div에 <row>는 한개, 독서모임은 3개를 넣어줘야 하므로 아래와 같이 변수를 지정하여 했다.
-					 이렇게 하면 select 시 조회해오는 독서모임의 갯수에 상관없이 슬라이딩을 적용할 수 있다.-->
-				<c:if test="${fn:length(endList) > 3}">
-					<div id="carouselExampleIndicators2" class="carousel slide"
-						data-ride="carousel">
-						<ol class="carousel-indicators">
-							<li data-target="#carouselExampleIndicators" data-slide-to="0"
-								class="active"></li>
-							<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-							<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-						</ol>
-						<div class="carousel-inner">
-
-							<c:forEach var="i" begin="0" end="${fn:length(endList)}" step="3">
-
-								<c:choose>
-									<c:when test="${i eq 0}">
-										<c:set var="activeD" value="carousel-item active" />
-									</c:when>
-									<c:otherwise>
-										<c:set var="activeD" value="carousel-item" />
-									</c:otherwise>
-								</c:choose>
-
-								<div id="activeOrNot" class="${activeD}" style="width: 100%;">
-									<div class="row">
-
-										<c:forEach items="${endList}" var="club" begin="${i}"
-											end="${i+2}">
-											<div class="col-md-6 col-lg-4 mb-4 mb-lg-0 pointer">
-												<input type="hidden" value="${club.clubNo}">
-												<div class="card card-blog">
-													<div class="card-blog__img">
-														<c:forEach items="${club.clubAttachments}" var="ca">
-															<img class="card-img rounded-0"
-																src="${pageContext.servletContext.contextPath}/resources/upload_files/club_img/${ca.changeName}"
-																alt="">
-														</c:forEach>
-													</div>
-													<div class="card-body">
-														<ul class="card-blog__info">
-															<li>${club.category}&nbsp; [ ${club.onoffLine} ]</li>
-															<li><i class="ti-comments-smiley"></i> 2 Comments</li>
-														</ul>
-														<h4 class="card-blog__title">${club.clubTitle}</h4>
-														<p>
-															<c:set var="temp" value="${club.intro}" />
-															<c:choose>
-																<c:when test="${fn:length(temp) gt 41}">
-																	<c:out value="${fn:substring(temp,0,40)}"></c:out> ...
-						                                        	</c:when>
-																<c:otherwise>
-																	<c:out value="${temp}" />
-																</c:otherwise>
-															</c:choose>
-														</p>
-													</div>
-												</div>
-											</div>
-										</c:forEach>
-									</div>
-								</div>
-							</c:forEach>
-						</div>
-
-						<a class="carousel-control-prev"
-							href="#carouselExampleIndicators2" role="button"
-							data-slide="prev" style="justify-content: left; left: 20px;">
-							<span class="prevIcon" aria-hidden="true"></span> <span
-							class="sr-only">Previous</span>
-						</a> <a class="carousel-control-next"
-							href="#carouselExampleIndicators2" role="button"
-							data-slide="next" style="justify-content: right; right: 20px;">
-							<span class="nextIcon" aria-hidden="true"></span> <span
-							class="sr-only">Next</span>
-						</a>
+						<i onclick="goEnd(1,  ${length})" id="endArrow_left" class="fas fa-chevron-left"></i>
+						<i onclick="goEnd(2, ${length})" id="endArrow_right" class="fas fa-chevron-right"></i>
 					</div>
 				</c:if>
 			</div>
 		</section>
 
 		<script>
+			var endPg = 1; //마감임박 독서모임 움직이기
+			
 			var origin = 0;
 			
 			$(document).ready(function(){ 
@@ -559,6 +373,11 @@ style="padding-right: 7px; padding-left: 7px">
 					location.href = "detail.cl?clubNo="+ $(this).children(":first").val();
 				});
 			})
+			
+			function goDetail(clubNo){
+				console.log("번호 안들어와? " + clubNo)
+				location.href = "detail.cl?clubNo="+ clubNo;
+			}
 
 			$(".clickCategory").click(function() {
 				var category = $(this).text();
@@ -570,19 +389,21 @@ style="padding-right: 7px; padding-left: 7px">
 					},
 					type : "get",
 					success : function(list) {
-						console.log("ajax 통신성공")
+						console.log("ajax 통신성공");
 
-						var listView = document.getElementById("categoryList");
-						var listView1 = document.getElementById("categoryList1");
+						var listView = document.getElementById("categoryList");   //리스트 뿌리는 곳
+						var listView1 = document.getElementById("categoryList1"); //없습니다.
 						var intro;
 						
-						if (list.length == 0) { //1.리스트 빈 경우
+						if (list.length == 0) { 			//1.리스트 빈 경우
 							console.log("리스트 빈 값");
 							listView.style.display = 'none';
-							listView1.style.display = 'flex';
-						} else { //2. 리스트 값 있는 경우
+							listView1.style.display = 'block';
+						} else { 							//2. 리스트 값 있는 경우
 							$.each(list,function(i) {
-								$('#c_clubImg'+ i).attr("src","${pageContext.servletContext.contextPath }/resources/upload_files/club_img/"+ list[i].clubAttachments[0].changeName);
+								/* $('#c_clubImg'+ i).attr("src","${pageContext.servletContext.contextPath }/resources/upload_files/club_img/"+ list[i].clubAttachments[0].changeName); */
+								
+								$('#c_clubImg'+i).css("background-image","url(${pageContext.servletContext.contextPath }/resources/upload_files/club_img/"+list[i].clubAttachments[0].changeName+")");
 								$('#c_clubNo'+ i).val(list[i].clubNo);
 								$('#c_category'+ i).text(list[i].category);
 								$('#c_onoffLine'+ i).text(list[i].onoffLine);
@@ -595,19 +416,14 @@ style="padding-right: 7px; padding-left: 7px">
 								}
 
 								$('#c_intro'+ i).text(intro);
-								$('#c_clubTotal'+ i).css('display','flex'); //none풀어주기
+								$('#c_clubTotal'+ i).css('display','block'); //none풀어주기
 
 							})
-
-							console.log("test")
 							listView1.style.display = 'none';
-
-							if (listView.style.display == 'none') { //리스트 없는 경우 none으로 되어있어서 clubTotal이 보이려면 풀어줘야 함
-								listView.style.display = 'flex';
-							}
+							listView.style.display = 'flex';
 
 							for (var i = list.length; i < 6; i++) {
-								$('#c_clubTotal' + i).css('display','none');
+								$('#c_clubTotal' + i).css('display','none');  //6개 모두 보이면 안되고 길이만큼 보여야 하기때문
 							}
 						}
 					},error : function() {
@@ -621,6 +437,33 @@ style="padding-right: 7px; padding-left: 7px">
 				if(userId == ''){
 					alert('로그인 후 이용해주세요');
 					return;
+				}
+			}
+			
+			//마감임박 독서모임 움직이기
+			function goEnd(type, length){
+				if(type == 1){ //이전으로
+					if(endPg == 1){
+						endPg = length;
+					}else{
+						endPg--;
+					}
+				}else{//앞으로
+					if(endPg == length){
+						console.log("ddddd")
+						endPg = 1;
+					}else{
+						endPg++;
+					}
+				}
+
+				for(var i=1; i<=length; i++){
+					var index = (i-1)*3;
+					if(i == endPg){
+						$('#endTotal_2'+index).css('display','flex');
+					}else{
+						$('#endTotal_2'+index).css('display','none');
+					}
 				}
 			}
 
@@ -660,95 +503,7 @@ style="padding-right: 7px; padding-left: 7px">
     </main>
 
 
-    <!--================ Start footer Area  =================-->
-    <footer class="footer">
-        <div class="footer-area">
-            <div class="container">
-                <div class="row section_gap">
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="single-footer-widget tp_widgets">
-                            <h4 class="footer_title large_title">Our Mission</h4>
-                            <p>
-                                So seed seed green that winged cattle in. Gathering thing made fly you're no divided deep moved us lan Gathering thing us land years living.
-                            </p>
-                            <p>
-                                So seed seed green that winged cattle in. Gathering thing made fly you're no divided deep moved
-                            </p>
-                        </div>
-                    </div>
-                    <div class="offset-lg-1 col-lg-2 col-md-6 col-sm-6">
-                        <div class="single-footer-widget tp_widgets">
-                            <h4 class="footer_title">Quick Links</h4>
-                            <ul class="list">
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Shop</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Product</a></li>
-                                <li><a href="#">Brand</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-6 col-sm-6">
-                        <div class="single-footer-widget instafeed">
-                            <h4 class="footer_title">Gallery</h4>
-                            <ul class="list instafeed d-flex flex-wrap">
-                                <li><img src="img/gallery/r1.jpg" alt=""></li>
-                                <li><img src="img/gallery/r2.jpg" alt=""></li>
-                                <li><img src="img/gallery/r3.jpg" alt=""></li>
-                                <li><img src="img/gallery/r5.jpg" alt=""></li>
-                                <li><img src="img/gallery/r7.jpg" alt=""></li>
-                                <li><img src="img/gallery/r8.jpg" alt=""></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="offset-lg-1 col-lg-3 col-md-6 col-sm-6">
-                        <div class="single-footer-widget tp_widgets">
-                            <h4 class="footer_title">Contact Us</h4>
-                            <div class="ml-40">
-                                <p class="sm-head">
-                                    <span class="fa fa-location-arrow"></span> Head Office
-                                </p>
-                                <p>123, Main Street, Your City</p>
-
-                                <p class="sm-head">
-                                    <span class="fa fa-phone"></span> Phone Number
-                                </p>
-                                <p>
-                                    +123 456 7890 <br> +123 456 7890
-                                </p>
-
-                                <p class="sm-head">
-                                    <span class="fa fa-envelope"></span> Email
-                                </p>
-                                <p>
-                                    free@infoexample.com <br> www.infoexample.com
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer-bottom ">
-            <div class="container ">
-                <div class="row d-flex ">
-                    <p class="col-lg-12 footer-text text-center ">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Copyright &copy;
-                        <script>
-                            document.write(new Date().getFullYear());
-                        </script> All rights reserved | This template is made with <i class="fa fa-heart " aria-hidden="true "></i> by <a href="https://colorlib.com " target="_blank ">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </p>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!--================ End footer Area  =================-->
-
-
+    <jsp:include page="../common/footer.jsp" />
 
     <script src="resources/vendors/jquery/jquery-3.2.1.min.js "></script>
     <script src="resources/vendors/bootstrap/bootstrap.bundle.min.js "></script>
