@@ -101,9 +101,9 @@ public class PaymentDao {
 		sqlSession.update("paymentMapper.updateUserReList",paymentDetailNo);		
 	}
 
-	public List<PaymentDetail> cancelList(SqlSessionTemplate sqlSession) {
+	public List<PaymentDetail> cancelList(SqlSessionTemplate sqlSession,String loginUser) {
 		
-		return (ArrayList) sqlSession.selectList("paymentMapper.cancelList");
+		return (ArrayList) sqlSession.selectList("paymentMapper.cancelList",loginUser);
 	}
 
 	//셀렉트 페이먼트디테일 객체 가져옴 
@@ -136,9 +136,9 @@ public class PaymentDao {
 		return sqlSession.selectOne("paymentMapper.checkStock",bookISBN);
 	}
 
-	public List<PaymentDetail>  selectReAndExList(SqlSessionTemplate sqlSession,PaymentDetail pd) {
+	public List<PaymentDetail>  selectReAndExList(SqlSessionTemplate sqlSession,String loginUser) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("paymentMapper.selectReAndExList",pd);
+		return sqlSession.selectList("paymentMapper.selectReAndExList", loginUser);
 	}
 
 	public PaymentDetail selectPaymentDetail(SqlSessionTemplate sqlSession, PaymentDetail pd) {

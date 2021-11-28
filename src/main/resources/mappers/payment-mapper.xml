@@ -128,15 +128,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<select id="cancelList" resultType="PaymentDetail">
 		
-		SELECT * FROM PAYMENTDETAIL
+		SELECT * FROM PAYMENTDETAIL A
+		JOIN PAYMENT B USING(PAYMENTNO)
 		WHERE DELIVERYSTATUS = 4  
+		AND USER_ID = #{user_Id}
 	
 	</select>
 	
-	<select id="refundAndExchangeList" resultType="PaymentDetail" >
+	<select id="selectReAndExList" resultType="PaymentDetail" >
 	
-		SELECT * FROM PAYMENTDETAIL
-		WHERE DELIVERYSTATUS IN(5,6)
+		
+		SELECT * FROM PAYMENTDETAIL A
+		JOIN PAYMENT B USING(PAYMENTNO)
+		WHERE DELIVERYSTATUS IN(5,6)  
+		AND USER_ID = #{user_Id}
 	
 	
 	</select>
@@ -198,15 +203,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="checkStock" resultType="_int">
 	SELECT BOOKSTOCK FROM BOOK WHERE BOOKISBN = #{bookISBN}
 	</select>
-	
-	
-	<select id="selectReAndExList" resultType="PaymentDetail">
-
-	SELECT * FROM PAYMENTDETAIL
-	WHERE DELIVERYSTATUS IN (5,6)
-	
-	</select>
-	
 	
 	
 	

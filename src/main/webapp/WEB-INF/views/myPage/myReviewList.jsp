@@ -37,39 +37,57 @@
 				<jsp:include page="../myPageSideBar/sideBar.jsp" />
 
 
-              <div style="text-align: center; width: 900px; height: auto; margin-left: 40px">
-              	<div class="order_details_table">
-              		<h1>마이 리뷰 리스트 보기 </h1>
-					<table class="table" style="text-align: center;">
-                        <thead style="text-align: center;">
-					<tr>
-						<th scope="col">제목</th>
-						<th scope="col">내용</th>
-						<th scope="col">작성일</th>
-						<th scope="col">내 리뷰 보러가기 </th>
-						
-					</tr>
+				<div
+					style="text-align: center; width: 900px; height: auto; margin-left: 40px">
+					<div class="order_details_table">
+						<h1>마이 리뷰 리스트 보기</h1>
+						<table class="table" style="text-align: center;">
+							<thead style="text-align: center;">
+								<tr>
+									<th scope="col">내가 쓴 리뷰 가기</th>
+								 	<th scope="col">제목</th>
+								 	<th scope="col">내용</th>
+									<th scope="col">작성일</th>
+									
 
-					<c:if test="${empty myBrList}">
-						<td colspan="5"><h2>교환/반품 상품이 없습니다.</h2></td>
-					</c:if>
+								</tr>
 
-					<c:forEach var="item" items="${myBrList }" varStatus="status">
-						<tr>
-							<td><c:out value="${item.reviewTitle }" /></td>
-							<td><c:out value="${item.reviewContent }" /></td>
-							<td><fmt:formatDate value="${item.reviewDate}" pattern="yyyy-MM-dd" /></td>
-							<td><button>버튼임 상세보기로 가게 할거임 </button></td>
+								<c:if test="${empty myBrList}">
+									<td colspan="5"><h2>작성한 리뷰가 없습니다.</h2></td>
+								</c:if>
 
-							
-						</tr>
-					</c:forEach>
-				</table>
+								<c:forEach var="item" items="${myBrList}" varStatus="status">
+									<tr>											
+										<td><input type="button" value ="내가 쓴 리뷰 가기" onclick="moveDetail('${item.bookISBN }')"/></td>
+										
+										<td><c:out value="${item.reviewTitle }"/></td>
+										<td><c:out value="${item.reviewContent }"/></td>
+										<td><fmt:formatDate value="${item.reviewDate}"
+												pattern="yyyy-MM-dd" /></td>
+									</tr>
+								</c:forEach>
+						</table>
+					</div>
+				</div>
 			</div>
 		</div>
 	</section>
+	
+	<form action="selectBook.book" method="post" id="moveDetailForm">
+			<input type="hidden" id="moveDetailInput" name="bookISBN">
+		</form>
 
 <jsp:include page="../common/footer.jsp" />
 
+
 </body>
+
+
+<script type="text/javascript">
+
+	function moveDetail(bookISBN) {
+		$('#moveDetailInput').val(bookISBN)
+		$('#moveDetailForm').submit();
+	}
+</script>
 </html>

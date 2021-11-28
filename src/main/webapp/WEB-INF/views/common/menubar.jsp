@@ -67,7 +67,7 @@
 			<!-- 로그인 후  -->
 			<c:if test="${ !empty sessionScope.loginUser}">
 				<label>${ sessionScope.loginUser.userName }님 환영합니다</label> &nbsp;&nbsp;
-					                <a href="myPageMain.me">마이페이지</a>
+					                <a href="selectMyOrderList.me">마이페이지</a>
 				<a href="logout.us">로그아웃</a>
 			</c:if>
 			
@@ -153,8 +153,6 @@
 				$('#ppop').submit()
 			}
 			</script>
-
-
 			</form>
  -->
 		</nav>

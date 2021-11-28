@@ -72,6 +72,8 @@
 				</table>
 			</div>
 		</div>
+		</div>
+		</div>
 	</section>
 
 <jsp:include page="../common/footer.jsp" />

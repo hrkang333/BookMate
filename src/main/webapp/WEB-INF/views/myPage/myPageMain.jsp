@@ -46,57 +46,19 @@
  <jsp:include page="../common/menubar.jsp" />
 
 
-     <section  style="padding-top: 180px;" >
-        <div class="container">
-          <div class="row">
-         <jsp:include page="../myPageSideBar/sideBar.jsp" />
+	<section style="padding-top: 180px;">
+		<div class="container">
+			<div class="row">
+				<jsp:include page="../myPageSideBar/sideBar.jsp" />
 
-     
 
-            <!-- 기간조회 페이지  -->
-            <div class="col-xl-9 col-lg-8 col-md-7">
-              <div class="filter-bar d-flex flex-wrap align-items-center">
-                <div class="sorting">
-                  <select>
-                    <option value="1">상품명 </option>
-                    <option value="2">주문상품명</option>
-                  </select>
-                </div>
-                <div class="sorting mr-auto">
-                  <input type="date" name="publicheDate" data-name="날짜 조 ">
-                 ~
-                  <input type="date" name="publicheDate" data-name="도서 출간일">
-                </div>
-                <div>
-                  <div class="input-group filter-bar-search">
-                    <input type="text" placeholder="Search">
-                    <div class="input-group-append">
-                      <button type="button"><i class="ti-search"></i></button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
 
-              <!-- 주문리스트 테이블  -->
-              <div class="filter-bar d-flex flex-wrap align-items-center">
-                <div class="order_details_table">
-          
-                   
-                		<h1>여기 마이페이지 메인 </h1>
-                  
-                </div>
-             </div>
-        
-        
-   		</div>
-   	
-            </div>
-          </div>
-	 </section>
+			</div>
+		</div>
+	</section>
 
-    
-	   <jsp:include page="../common/footer.jsp" />
+
+	<jsp:include page="../common/footer.jsp" />
 		
     
     
