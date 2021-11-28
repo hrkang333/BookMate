@@ -80,6 +80,11 @@ public class BookDao {
 		return sqlSession.update("bookMapper.updateBookPlusStock" ,map);
 	}
 
+	public int updateBook(SqlSessionTemplate sqlSession, Book book) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("bookMapper.updateBook" ,book);
+	}
+
 	
 	
 	

@@ -80,5 +80,13 @@ UPDATE BOOK SET BOOKRATING = #{bookRating} , BOOKRATINGCOUNT = #{bookRatingCount
 <update id="updateBookPlusStock" parameterType="hashMap">
 UPDATE BOOK SET BOOKSTOCK  = BOOKSTOCK + #{plusStock} WHERE BOOKISBN = #{bookISBN}
 </update>
-  
+
+<update id="updateBook" parameterType="Book">
+UPDATE BOOK SET 
+BOOKMAINIMG = #{bookMainImg},BOOKTITLE = #{bookTitle},BOOKSUBTITLE = #{bookSubTitle}, 
+BOOKWRITER = #{bookWriter},BOOKTRANSLATOR =#{bookTranslator} ,BOOKCATEGORY =#{bookCategory} ,BOOKSUBCATEGORY =#{bookSubCategory} ,
+BOOKPUBLISHER = #{bookPublisher},BOOKPUBLISHEDATE =#{bookPublicheDate} ,BOOKPRICE = #{bookPrice},
+BOOKCONTENTS =#{bookContents} , BOOKINTRO =#{bookIntro} , BOOKDETAILIMG = #{bookDetailImg},BOOKSTOCK =  #{bookStock}   
+WHERE BOOKISBN = #{bookISBN}
+</update>  
 </mapper>

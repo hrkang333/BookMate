@@ -199,4 +199,24 @@ public class PaymentController {
 		
 	}
 	
+	@RequestMapping("insertSinglePayment")
+	public String insertSinglePayment(PaymentDetail paymentDetail, Payment payment) {
+		
+		
+		Payment temp = payment;
+		temp.setShippingAddress(payment.getShippingPostCode()+"/"+payment.getShippingAddress()+"/"+payment.getShippingAddressDetail());
+		paymentDetail.setDeliveryDate(ShipDate());
+		
+	
+		paymentService.insertSinglePayment(temp,paymentDetail);
+		
+		
+		return "payment/orderComplete";
+		
+		
+		
+	}
+	
+	
+	
 }

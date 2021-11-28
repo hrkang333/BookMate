@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,8 +27,12 @@ font-weight: bold;
 }
 </style>
 <script type="text/javascript">
-var confirmISBN = 0;
 
+
+$(function() {	
+	$('input[name=bookCategory][value=${requestScope.book.bookCategory}]').prop('checked',true);
+	$('input[name=bookSubCategory][value=${requestScope.book.bookSubCategory}]').prop('checked',true);
+})
 function imgCheck(img,inputId) {
 	
 	if(img.files&&img.files[0]){
@@ -55,7 +60,7 @@ function imgCheck(img,inputId) {
 function submitCheck(){
 	
 	var check = true;
-	$('#bookEnroll').find('input[type!=button]').each(function(){
+	$('#bookEnroll').find('input[type!=file]').each(function(){
 	    if(!$(this).val()) {
 	        alert($(this).data("name") +" 항목을 작성하지 않으셨습니다.")
 	        $(this).focus();
@@ -86,16 +91,11 @@ function submitCheck(){
     	$('#bookIntro').focus();
     	return;
 	}
-	if(confirmISBN == 0){
-		alert("ISBN 중복체크를 하지 않으셨습니다.")
-		$('#bookISBN').focus();
-		return;
-	}
 	
 	
-	if(confirm("도서 부제목과 역자를 다시 한번 확인해주세요. 도서를 입고 하시겠습니까?")){
+	if(confirm("도서 부제목과 역자를 다시 한번 확인해주세요. 도서를 수정 하시겠습니까?")){
 		
-		$('#bookEnroll').submit();
+		$('#bookUpdateForm').submit();
 	}
 	
 }
@@ -125,39 +125,10 @@ function checkText(obj) {
 	}
 }
 
-function changeISBN() {
-	
-	confirmISBN=0;
-	alert(confirmISBN);
-	$('#checkedISBN').html("ISBN 중복확인을 해주십시오");
+function goBack() {
+	history.back()
 }
-function checkISBN() {
-	
-	var bookISBN = $('#bookISBN').val();
-	
-	$.ajax({
-		
-		url:"checkISBN",
-		type : "post",
-		data : {
-			bookISBN : bookISBN
-		},
-		success : function(str) {
-			if(str=='pass'){
-				alert("입력하신 "+bookISBN+"은 사용 가능한 ISBN 입니다.")
-				confirmISBN = 1;
-				$('#checkedISBN').html("ISBN 중복확인 완료");
-			}else{
-				alert("입력하신 ISBN "+bookISBN+"은 '"+str+"'이라는 제목의 도서가 이미 사용중인 ISBN 입니다. 확인해주세요.")
-				$('#bookISBN').focus();
-			}
-			
-		}
-		
-		
-	})
-	
-}
+
 </script>
 
 </head>
@@ -165,21 +136,21 @@ function checkISBN() {
 <jsp:include page="../common/menubar.jsp" />
 		<main class="site-main" style="padding-top: 180px">
 <div style="display: flex;width: 1200px; ">
-			<jsp:include page="../admin/adminLeftMenu.jsp" />
 <div style="margin-left: auto;margin-right: auto; ">  <br><br><br>
-<span style="font-size: 30px; font-weight: bold;">도서 등록</span><br>
+<span style="font-size: 30px; font-weight: bold;">도서 정보 수정</span><br>
 <hr>
 <br><br><br>
-<form action="bookEnroll.book" id="bookEnroll" class="bookEnroll" method="post" enctype="multipart/form-data">
-도서 ISBN : <input type="text" name="bookISBN" data-name = "도서 ISBN" id="bookISBN" onchange="changeISBN()"> <button type="button" onclick="checkISBN()">ISBN 중복체크</button><br>
-<span style="color: red" id="checkedISBN">ISBN 중복확인을 해주십시오</span><br><br>
+<form action="bookUpdate.book" id="bookUpdateForm" class="bookEnroll" method="post" enctype="multipart/form-data">
+<input type="hidden" name="exBookISBN" value="${requestScope.book.bookISBN}">
+도서 ISBN : <input type="text" name="bookISBN" data-name = "도서 ISBN" id="bookISBN" readonly="readonly" value="${requestScope.book.bookISBN}"> <br>
+<br><br>
 도서 메인이미지(png와 jpg만 가능) : <input type="file" name="bookMainImgFile" id="bookMainImg" onchange="imgCheck(this,'bookMainImg')" data-name = "도서 메인이미지"><br>
 메인이미지 미리보기 :<br>
-<img alt="" src="" id="prebookMainImg" ><br><br>
-도서 제목 : <input type="text" name="bookTitle" data-name = "도서 제목"><br><br>
-도서 부제목 : <input type="text" name="bookSubTitle" value="없음" ><br><br>
-도서 저자 : <input type="text" name="bookWriter" data-name = "도서 저자"><br><br>
-도서 역자 : <input type="text" name="bookTranslator" value="없음"><br><br>
+<img src="${pageContext.servletContext.contextPath }/resources/images/book_img/${requestScope.book.bookMainImg}" id="prebookMainImg" ><br><br>
+도서 제목 : <input type="text" name="bookTitle" data-name = "도서 제목" value="${requestScope.book.bookTitle}"><br><br>
+도서 부제목 : <input type="text" name="bookSubTitle" value="${requestScope.book.bookSubTitle}"><br><br>
+도서 저자 : <input type="text" name="bookWriter" data-name = "도서 저자" value="${requestScope.book.bookWriter}"><br><br>
+도서 역자 : <input type="text" name="bookTranslator" value="${requestScope.book.bookTranslator}"><br><br>
 도서 메인 카테고리 : <input type="radio" id="bookCategory"  name="bookCategory" value="0" data-name = "도서 메인 카테고리"> 국내도서 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 <!-- <input type="radio" name="bookCategory" id="bookCategory"  value="1"> 외국도서 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  -->
 <input type="radio" name="bookCategory" id="bookCategory" value="2"> ebook <br><br>
@@ -189,31 +160,32 @@ function checkISBN() {
 <input type="radio" name="bookSubCategory" value="${status.index}" data-name = "도서 서브 카테고리" id="bookSubCategory"> <c:out value="${list}"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <c:if test="${status.index==4}"><br></c:if>
 </c:forEach><br><br>
-도서 출판사 : <input type="text" name="bookPublisher" data-name = "도서 출판사"><br><br>
-도서 출간일 : <input type="date" name="publicheDate" data-name = "도서 출간일"><br><br>
-도서 정가 : <input type="number" name="bookPrice" data-name = "도서 정가"><br><br>
+도서 출판사 : <input type="text" name="bookPublisher" data-name = "도서 출판사" value="${requestScope.book.bookPublisher}"><br><br>
+도서 출간일 : <input type="date" name="publicheDate" id="publicheDate" data-name = "도서 출간일"  value="<fmt:formatDate value='${requestScope.book.bookPublisheDate}' pattern='yyyy-MM-dd'/>"><br><br>
+도서 정가 : <input type="number" name="bookPrice" data-name = "도서 정가" value="${requestScope.book.bookPrice}"><br><br>
 도서 목차 : <br>
-<textarea rows="30" cols="100" name="bookContents" id="bookContents" placeholder="한글 1200자(공백포함), 영어 3600자(공백포함) 내로 작성해 주세요" onkeyup="checkText('bookContents')" data-name = "도서 목차"></textarea><br><br>
+<textarea rows="30" cols="100" name="bookContents" id="bookContents" placeholder="한글 1200자(공백포함), 영어 3600자(공백포함) 내로 작성해 주세요" onkeyup="checkText('bookContents')" data-name = "도서 목차">
+${requestScope.book.bookContents}
+</textarea><br><br>
 도서 소개 : <br>
-<textarea rows="30" cols="100" name="bookIntro" id="bookIntro"  placeholder="한글 1200자(공백포함), 영어 3600자(공백포함) 내로 작성해 주세요" onkeyup="checkText('bookIntro')" data-name = "도서 소개"></textarea><br><br>
-도서 상세소개이미지(png와 jpg만 가능) : <input type="file" name="bookDetailImgFile" onchange="imgCheck(this,'bookDetailImg')" id="bookDetailImg" data-name = "도서 입고수"><br><br>
-도서 입고 수량 : <input type="number" name="bookStock"><br><br>
-<input type="button" onclick="submitCheck()" value="도서 입고"> 
+<textarea rows="30" cols="100" name="bookIntro" id="bookIntro"  placeholder="한글 1200자(공백포함), 영어 3600자(공백포함) 내로 작성해 주세요" onkeyup="checkText('bookIntro')" data-name = "도서 소개">
+${requestScope.book.bookIntro}
+</textarea><br><br>
+도서 상세소개이미지(png와 jpg만 가능) : <input type="file" name="bookDetailImgFile" onchange="imgCheck(this,'bookDetailImg')" id="bookDetailImg" data-name = "도서 상세 이미지"><br><br>
+도서 수량 : <input type="number" name="bookStock" data-name = "도서 입고수" value="${requestScope.book.bookStock}"><br><br>
+<div style="display: flex;">
+<button type="button" onclick="submitCheck()" style="margin-right: auto;" class="btn btn-secondary btn-sm"> 도서 수정</button>
+<button type="button" onclick="goBack()" style="margin-left: auto;" class="btn btn-secondary btn-sm"> 돌아가기</button>
+</div>
 <br><br>
 <hr><br>
 
 상세소개 이미지 미리보기<br>
-<img alt="" src="" id="prebookDetailImg">
+<img src="${pageContext.servletContext.contextPath }/resources/images/book_img/${requestScope.book.bookDetailImg}" id="prebookDetailImg">
 
 
 </form>
 <br><br><br><br><br><br><br><br>
-<form>
-<table>
-
-<tr><td><input type="hidden"></td></tr>
-</table>
-</form>
 </div></div></main>
 </body>
 </html>

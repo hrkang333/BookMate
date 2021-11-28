@@ -25,28 +25,35 @@ public class BookQnaServiceImpl implements BookQnaService {
 	private SqlSessionTemplate sqlSession;
 
 	@Override
-	public int selectTotalCount(String bookISBN,int questionKind) {
+	public int selectTotalCount(String bookISBN,int questionKind, String user_Id) {
 		// TODO Auto-generated method stub
-		
-		if(questionKind==5) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(questionKind==6) {
+			map.put("bookISBN", bookISBN);
+			map.put("user_Id", user_Id);
+			return bookQnaDao.selectMyQnaCount(sqlSession,map);
+		}else if(questionKind==5){
+
 			return bookQnaDao.selectTotalCount(sqlSession,bookISBN);
-		}else {
-		
+		}else {	
 		List<Object> list=new ArrayList<Object>();
 		list.add(bookISBN);
 		list.add(questionKind);
 		return bookQnaDao.selectKindCount(sqlSession,list);
 		}
 	}
-
 	@Override
-	public List<BookQna> selectList(String bookISBN, Paging qnaPaging, int questionKind) {
-
+	public List<BookQna> selectList(String bookISBN, Paging qnaPaging, int questionKind, String user_Id) {
+		Map<String, Object> map = new HashMap<String, Object>();
 		RowBounds rb = new RowBounds(qnaPaging.getStart()-1, qnaPaging.getCntPerPage());
-		if(questionKind==5) {
+		if(questionKind==6) {
+			map.put("bookISBN", bookISBN);
+			map.put("user_Id", user_Id);
+			return bookQnaDao.selectMyQnaList(sqlSession,map,rb);
+		}else if(questionKind==5){
+
 			return bookQnaDao.selectListAll(sqlSession,bookISBN,rb);
-		}else {
-		
+		}else {		
 		List<Object> list=new ArrayList<Object>();
 		list.add(bookISBN);
 		list.add(questionKind);

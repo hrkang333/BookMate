@@ -17,7 +17,7 @@
 	<jsp:include page="../common/menubar.jsp" />
 	<hr>
 	<main>
-	
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 	결제 완료 페이지
 	
 	

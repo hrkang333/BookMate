@@ -103,4 +103,14 @@ public class BookQnaDao {
 		return sqlSession.update("bookQnaMapper.updateQnaDeleteAnswer",qnaNo);
 	}
 
+	public int selectMyQnaCount(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("bookQnaMapper.selectMyQnaCount",map);
+	}
+
+	public List<BookQna> selectMyQnaList(SqlSessionTemplate sqlSession, Map<String, Object> map, RowBounds rb) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("bookQnaMapper.selectMyQnaList",map,rb);
+	}
+	
 }
