@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,7 +21,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kh.bookmate.addressBook.model.vo.AddressBook;
 import com.kh.bookmate.book.model.service.BookService;
 import com.kh.bookmate.book.model.vo.Book;
 import com.kh.bookmate.bookqna.model.service.BookQnaService;
@@ -28,7 +32,14 @@ import com.kh.bookmate.bookreview.model.service.BookReviewService;
 import com.kh.bookmate.bookreview.model.vo.BookReview;
 import com.kh.bookmate.bookreview.model.vo.BookReviewReply;
 import com.kh.bookmate.common.Paging;
+import com.kh.bookmate.payment.model.vo.Payment;
+import com.kh.bookmate.payment.model.vo.PaymentDetail;
+import com.kh.bookmate.paymentmethod.model.vo.PaymentMethod;
+import com.kh.bookmate.paymentmethod.model.vo.PaymentMethodDetail;
+import com.kh.bookmate.shoppingbasket.model.vo.ShoppingBasket;
 import com.kh.bookmate.user.model.vo.User;
+import com.kh.bookmate.wishlist.model.service.WishListService;
+import com.kh.bookmate.wishlist.model.vo.WishList;
 
 
 @Controller
@@ -43,6 +54,8 @@ public class BookController {
 	@Autowired
 	private BookQnaService bookQnaService;
 	
+	@Autowired
+	private WishListService wishListService;
 	
 
 	private String[] categoryNameArr = {"소설/시/에세이" , "경제/경영" , "과학" , "인문",  "컴퓨터/IT", "자기계발" ,  "정치/사회", "역사/문화", "취미" ,  "가정/육아" };
@@ -68,12 +81,13 @@ public class BookController {
 		int categoryBestRank;
 		int reviewCount;
 		int qnaCount;
-		
+		String user_Id = null;
 		if(loginUser!=null) {
-			bookService.insertRecentView(loginUser.getUserId(),bookISBN);
+			user_Id = loginUser.getUserId();
+			bookService.insertRecentView(loginUser.getUserId(),bookISBN);			
 		}
 		
-		qnaCount = bookQnaService.selectTotalCount(bookISBN,questionKind);
+		qnaCount = bookQnaService.selectTotalCount(bookISBN,questionKind,user_Id);
 		reviewCount = bookReviewService.selectTotalCount(bookISBN);
 		book = bookService.selectBook(bookISBN);
 		book.setBookReviewCount(reviewCount);
@@ -87,7 +101,7 @@ public class BookController {
 		reviewPaging = new Paging(reviewCount, reviewNowPage, 5, 10);
 		reviewList = bookReviewService.selectReviewList(bookISBN,reviewPaging,reviewKind);
 		qnaPaging = new Paging(qnaCount, questionNowPage, 10, 10);
-		qnaList = bookQnaService.selectList(bookISBN,qnaPaging,questionKind);
+		qnaList = bookQnaService.selectList(bookISBN,qnaPaging,questionKind,user_Id);
 	
 
 		mo.addAttribute("pagePosition", pagePosition);
@@ -102,7 +116,8 @@ public class BookController {
 		mo.addAttribute("book", book);
 		mo.addAttribute("categoryName", categoryNameArr[book.getBookSubCategory()]);
 		mo.addAttribute("bestListIndex", 0);
-
+		mo.addAttribute("checkWishList", checkWishList(user_Id, bookISBN));
+		
 		return "book/bookDetail";
 
 	}
@@ -132,14 +147,51 @@ public class BookController {
 		
 		mo.addAttribute("book", bookDetail);
 		
-		
 
 		return "book/bookDetail";
 
-//		return "book/bookEnrollForm";
-
 	}
+	
+	@RequestMapping("bookUpdate.book")
+	public String bookUpdate(Book book,@DateTimeFormat(pattern = "yyyy-MM-dd") Date publicheDate,@RequestParam("bookMainImgFile") MultipartFile bookMainImgFile, 
+							MultipartFile bookDetailImgFile, HttpServletRequest request,String exBookISBN,RedirectAttributes ra) {
+		String bookDetailImg;
+		String bookMainImg;
+		int imgDeleteCheck = 0;
+		String directoryPath = request.getSession().getServletContext().getRealPath("resources") + File.separator+"images"+File.separator+"book_img"+File.separator;
+		Book temp = bookService.selectBook(exBookISBN);
+		if(bookMainImgFile.getOriginalFilename().length() > 0) {
+			bookMainImg = changeFileNameAndSave(request, bookMainImgFile);
+			book.setBookMainImg(bookMainImg);
+			imgDeleteCheck += 1;
+		}else {
+			book.setBookMainImg(temp.getBookMainImg());
+		}
+		if(bookDetailImgFile.getOriginalFilename().length() > 0) {
+			bookDetailImg = changeFileNameAndSave(request, bookDetailImgFile);
+			book.setBookDetailImg(bookDetailImg);
+			imgDeleteCheck += 2;
+		}else {
+			book.setBookDetailImg(temp.getBookDetailImg());
+		}
+		
+		
+		book.setBookContents(book.getBookContents().replaceAll("\r\n", "<br>"));
+		book.setBookIntro(book.getBookIntro().replaceAll("\r\n", "<br>"));
+		
+		
+		book.setBookPublicheDate(publicheDate);
+	
+		bookService.updateBook(book,temp,imgDeleteCheck,directoryPath);
+		
+		Book bookDetail = bookService.selectBook(book.getBookISBN());
+		
+		ra.addAttribute("bookISBN", bookDetail.getBookISBN());
+		
 
+		return "redirect:/selectBook.book";
+		
+	}
 	public String changeFileNameAndSave(HttpServletRequest request, MultipartFile file) {
 
 		String originName = file.getOriginalFilename();
@@ -367,4 +419,42 @@ public class BookController {
 		
 		
 	}
+	
+	
+	public String checkWishList(String user_Id,String bookISBN) {
+		if(user_Id==null) {
+			return "pass";
+		}
+		WishList wish = new WishList(user_Id, bookISBN);
+		WishList temp = null; 
+		temp = wishListService.selectWish(wish);
+		if(temp!=null) {
+			return "already";
+		}
+		return "pass";
+		
+	}
+	
+	@RequestMapping("updateWishList.wl")
+	@ResponseBody
+	public String updateWishList(String bookISBN,int wishListStatus,@SessionAttribute("loginUser") User loginUser) {
+		
+		WishList wish = new WishList(loginUser.getUserId(), bookISBN);
+		
+		wishListService.updateWishList(wish,wishListStatus);
+		
+		return "pass";
+		
+	}
+	
+	@RequestMapping("updateBook.book")
+	public String updateBook(String bookISBN, Model mo) {
+		Book book = bookService.selectBook(bookISBN);
+		book.setBookContents(book.getBookContents().replaceAll("<br>","\r\n"));
+		book.setBookIntro(book.getBookIntro().replaceAll("<br>","\r\n" ));
+		mo.addAttribute("book", book);
+		
+		return "book/bookUpdateForm";
+	}
+	
 }

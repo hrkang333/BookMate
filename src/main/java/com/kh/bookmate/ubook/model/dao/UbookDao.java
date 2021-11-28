@@ -2,10 +2,13 @@ package com.kh.bookmate.ubook.model.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.bookmate.ubook.model.vo.PageInfo;
 import com.kh.bookmate.ubook.model.vo.Ubook;
 import com.kh.bookmate.ubook.model.vo.Ubook_Qna;
 
@@ -52,13 +55,21 @@ public class UbookDao {
 /*
 	public List<Ubook> ubookCateList1(SqlSession sqlSession) {
 		return sqlSession.selectList("ubookMapper.ubookCateList1");
-	}*/
+	}
 
 	public List<Ubook> selectCategory(SqlSessionTemplate sqlSession, int ubCategory) {
 		System.out.println("dao----" + ubCategory);
 		return sqlSession.selectList("ubookMapper.selectCategory",ubCategory);
 	}
-
+*/
+	public List<Ubook> selectCategory(SqlSessionTemplate sqlSession,int ubCategory, PageInfo pi) {
+		System.out.println("dao----" + pi);
+		int offset = (pi.getCurrentPage() -1)*pi.getBoardLimit();
+		
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("ubookMapper.selectCategory",ubCategory,rowBounds);
+	}
+	
 	public int ubookUpdate(SqlSessionTemplate sqlSession, Ubook ubook) {
 	return sqlSession.update("ubookMapper.updateUbook", ubook);
 	}
@@ -105,6 +116,10 @@ public class UbookDao {
 
 	public ArrayList<Ubook> selectRowPriceBookList(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("ubookMapper.selectRowPriceBookList");
+	}
+
+	public int selectListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("ubookMapper.selectListCount");
 	}
 
 }

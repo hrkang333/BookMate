@@ -17,71 +17,98 @@
   <link rel="stylesheet" href="resources/vendors/owl-carousel/owl.carousel.min.css">
 
   <link rel="stylesheet" href="resources/css/style.css">
-  
-  <!-- 11.09 추가 괜찮은가? -->
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  
+  <style>
+       #clubMenubar{
+			position: fixed;
+			right: 50%;
+			transform: translate(-610px, 0);
+			margin-top: 5px;
+		}
+		
+		#nav-v2{
+			/* width:150px
+			;text-align:center; */
+		} 
+		.menu-v2{ 
+			line-height:2; 
+			position:relative; 
+			
+		} 
+		.menu-v2 .submenu{
+			position:absolute; 
+			width:150px; 
+			left:120px; 
+			/* border:1px solid #cfa175; */
+			background-color:#adc09c; 
+			color:white; 
+			top:-1px; 
+			display:none; 
+			z-index:9999; /*이렇게 해도 카드에는 안됨*/
+		} 
+		.menu-v2 a{
+			color:black;
+		}
+		
+		.menu-v2_2:hover{  /*위가 먹히지 않아서 새로 만들었다.*/
+			background-color:#adc09c; 
+			color:white; 
+			text-decoration: none;
+		}
+		.menu-v2:hover{ 
+			background-color:#adc09c; 
+			color:white; 
+		} 
+		.menu-v2 .submenu>li:hover{ 
+			background-color:white; 
+			color:#adc09c; 
+		}  
+  </style>
 </head>
 <body>
-  <!--================ Start Header Menu Area =================-->
-   <header class="header_area">
-    <div class="main_menu">
-      <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
-           <a class="navbar-brand logo_h" href="home.us"><img src="resources/img/ss2.png" alt=""></a>
-          <!-- <a class="navbar-brand logo_h" href="home.us">
-          	<img src="resources/img/logo1.png" alt="">
-          </a> -->
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
-            <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
-             
-              <li class="nav-item"><a class="nav-link" href="clubMain.cl">독서모임 홈</a></li>
-              <li class="nav-item"><a class="nav-link" href="clubAll.cl">모든 독서모임</a></li>
-              
-              <li class="nav-item"><a class="nav-link" href="searchPage.cl">나에게 맞는 독서모임</a></li>
-              
-              
-                    <c:if test="${ empty sessionScope.loginUser }">
-	                <a href="register.me">회원가입</a> | 
-	                
-	                <br>
-	                <a href="login.me"">로그인</a>  
-	                  <br>
+	<script>
+		$(document).ready(function(){ 
+			 //menu v2 
+			 $(".menu-v2").mouseover(function(){ $(this).children(".submenu").show(200); }); 
+			 $(".menu-v2").mouseleave(function(){ $(this).children(".submenu").hide(200); }); 
+			 
+			 //출처: https://contentstoaster.tistory.com/6 [Contents Toaster]
+		});
+		
+		function goSearch_menu(){
+			$('#searchForm_menu').submit();
+		}
+	</script>
 
-                </c:if>
-                
-                <!-- 로그인 후  -->
-                <c:if test="${ !empty sessionScope.loginUser }">
-                
-	                <li class="nav-item submenu dropdown">
-		                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-		                  aria-expanded="false">마이페이지</a>
-		                <ul class="dropdown-menu">
-		                  <li class="nav-item"><a class="nav-link" href="mypage1.cl">독서모임 신청내역</a></li>
-		                  <li class="nav-item"><a class="nav-link" href="mypage2.cl">찜한 독서모임</a></li>
-		                  <li class="nav-item"><a class="nav-link" href="mypage3.cl">내 독서모임 관리</a></li>
-		                </ul>
-		              </li>
-                
-	                <label>${ sessionScope.loginUser.userName }님 환영합니다</label> &nbsp;&nbsp;
-	                <a href="logout.us">로그아웃</a>
-	                
- 	           
-                </c:if>  
-            </ul>
-
-
-          </div>
-        </div>
-      </nav>
-    </div>
-  </header>
+	<div id="clubMenubar" style="width: 220px; height: 650px;">  <!-- background-color: #f1e5d9; #f1e5d9 #faf1e6   #fcf3e0-->
+			<hr style="margin-top: 0px; height: 4px; background-color: #503535;">
+			<div style="font-size: 23px; font-weight: 800; margin-top: 35px;">
+				함께 읽고 얘기하는 <br>
+				독서메이트
+			</div>
+			<hr style="margin: 35px 0px;">
+			<nav>
+				<ul id="nav-v2">
+					<li class="menu-v2"><a class="menu-v2_2" href="clubMain.cl">독서모임 홈</a></li>
+					<li class="menu-v2"><a class="menu-v2_2" href="clubAll.cl">모든 독서모임</a></li>
+					<li class="menu-v2"><a class="menu-v2_2" href="searchPage.cl">나에게 맞는 독서모임</a></li>
+					<li onclick="checkUser();" class="menu-v2"><a <c:if test="${!empty sessionScope.loginUser}">href="mypage1.cl"</c:if> >마이페이지</a>
+						<ul class="submenu">
+							<li><a <c:if test="${!empty sessionScope.loginUser}">href="mypage1.cl"</c:if>>신청 목록</a></li>
+							<li><a <c:if test="${!empty sessionScope.loginUser}">href="mypage2.cl"</c:if>>찜 목록</a></li>
+							<li><a <c:if test="${!empty sessionScope.loginUser}">href="mypage3.cl"</c:if>>내 독서모임</a></li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+			<hr style="margin: 35px 0px;">
+			<div style="position: relative">
+				<form id="searchForm_menu" action="search_menu.cl">
+					<input type="search" name="keyword" placeholder="독서모임을 검색해보세요" style="width: 100%; border: 1px solid lightgray; height: 40px;">
+				</form> 
+				<img alt="" onclick=" goSearch_menu();" src="resources/img/club/magnifier.png" style="width: 22px; position: absolute; right: 5px; top: 10px; cursor: pointer">
+			</div>
+			<div></div>
+		</div>
+   
 </body>
 </html>

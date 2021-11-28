@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.kh.bookmate.book.model.vo.Book;
 import com.kh.bookmate.ubook.model.vo.Ubook;
+import com.kh.bookmate.user.model.vo.User;
 
 public interface BookService {
 
@@ -37,5 +38,7 @@ public interface BookService {
 	Book selectBookStock(String bookISBN);
 
 	void updateBookPlusStock(Map<String, Object> map);
+
+	void updateBook(Book book, Book temp, int imgDeleteCheck, String directoryPath);
 
 }

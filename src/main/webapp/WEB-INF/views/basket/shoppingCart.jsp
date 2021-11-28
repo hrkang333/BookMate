@@ -46,13 +46,11 @@ function priceSum() {
 	var savePoint = 0;
 	$('.price').each(function(i,item) {
 		if($("input:checkbox[id=checkBox"+i+"]").is(":checked")==true){
-		alert(item.value)
 		price.push(item.value)
 		}
 	})
 	$('.quantity').each(function(i,item) {
 		if($("input:checkbox[id=checkBox"+i+"]").is(":checked")==true){
-			alert(item.value)
 		quantity.push(item.value)
 		}
 	})
@@ -131,7 +129,10 @@ function movePayment() {
 }
 function deleteBasket(index,basketNo) {
 	if(confirm("이 항목을 장바구니에서 삭제하시겠습니까?")){
-		$('#basketInfoTr'+index).remove();
+		/* $('#basketInfoTr'+index).remove(); */
+		$("input:checkbox[id=checkBox"+index+"]").prop("checked",false)
+		$('#basketInfoTr'+index).css('display','none');
+		
 		$.ajax({
 			
 			url : "deleteBasket.sc",

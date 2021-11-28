@@ -7,19 +7,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>Insert title here</title>
-<link rel="icon" href="resources/img/Fevicon.png" type="image/png">
-<link rel="stylesheet"
-	href="resources/vendors/bootstrap/bootstrap.min.css">
-<link rel="stylesheet"
-	href="resources/vendors/fontawesome/css/all.min.css">
-<link rel="stylesheet"
-	href="resources/vendors/themify-icons/themify-icons.css">
-<link rel="stylesheet"
-	href="resources/vendors/nice-select/nice-select.css">
-<link rel="stylesheet"
-	href="resources/vendors/owl-carousel/owl.theme.default.min.css">
-<link rel="stylesheet"
-	href="resources/vendors/owl-carousel/owl.carousel.min.css">
 <style>
 /* div{border:1px solid red;} */
 #footer {
@@ -102,7 +89,5 @@ table {
 		<div><br><br><br><br><br><br></div>
 	</footer>
 	<!--================ End footer Area  =================-->
-
-
 </body>
 </html>

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.kh.bookmate.addressBook.model.service.AddressBookService;
 import com.kh.bookmate.addressBook.model.vo.AddressBook;
+import com.kh.bookmate.book.model.service.BookService;
 import com.kh.bookmate.book.model.vo.Book;
 import com.kh.bookmate.common.AES;
 import com.kh.bookmate.payment.model.vo.Payment;
@@ -47,6 +48,9 @@ public class BasketController {
 	
 	@Autowired
 	private PaymentMethodService paymentMethodService;
+	
+	@Autowired
+	private BookService bookService;
 
 	@RequestMapping("insertBasket.ba")
 	@ResponseBody
@@ -229,4 +233,82 @@ public class BasketController {
 	
 	}
 
+	
+
+	@RequestMapping("moveS_OrderPayment.sc")
+	public String moveS_OrderPayment(String bookISBN, int quantity,@SessionAttribute("loginUser") User user,Model mo) {
+
+		
+				
+		Payment order = null;
+		PaymentDetail orderItem = null;
+		Book tempBook = null;
+		AddressBook abook = null;
+		PaymentMethod paymentMethod = null;
+		List<PaymentMethodDetail> PMDetailList = null;
+		int totalCost = 0;
+	
+		int totalGetPoint = 0;
+		String shippingName, shippingAddress, shippingPhone;
+		String[] shippingAddressArr;
+	
+
+		//주문 페이지로 가져갈 장바구니 상품들과 주문테이블에 표시될 금액 정보 처리
+	
+			tempBook = bookService.selectBook(bookISBN);
+			orderItem = new PaymentDetail(tempBook.getBookISBN(), tempBook.getBookMainImg(), tempBook.getBookTitle(),
+					quantity, tempBook.getBookPrice(), (int) (tempBook.getBookPrice() * 0.9),
+					(int) (tempBook.getBookPrice() * 0.05));
+			orderItem.setDeliveryDate(ShipDate());
+			totalCost += (int) (tempBook.getBookPrice() * 0.9 * quantity);
+			totalGetPoint += (int) ((tempBook.getBookPrice()  * quantity)* 0.05);
+		
+		
+		//주문 페이지로 가져갈 주소록 처리
+		abook = addressBookService.selcetAddressBook(user.getUserId());
+		if (abook != null) {
+			String[] arrTemp = abook.getMainAddress().split("_");
+			shippingName = arrTemp[0];
+			shippingAddress = arrTemp[1];
+			shippingPhone = arrTemp[2];
+		} else {
+			shippingName = user.getUserName();
+			shippingAddress = user.getAddress();
+			shippingPhone = user.getPhone();
+			String strTemp = shippingName + "_" + shippingAddress + "_" + shippingPhone;
+			abook = new AddressBook(user.getUserId(), strTemp);
+			addressBookService.insertAddressBook(abook);
+		}
+		
+		//주문 페이지로 가져갈 저장된 결제수단 처리
+		paymentMethod = paymentMethodService.selectPaymentMethod(user.getUserId());
+		if(paymentMethod==null) {
+			paymentMethodService.insertPaymentMethod(user.getUserId());
+		}else {
+			if(paymentMethod.getMainPayment()!=0) {
+			
+				PMDetailList = paymentMethodService.selectPMDetailList(paymentMethod);
+
+				int savedMethodLength = PMDetailList.size();
+				
+				PaymentMethodDetail PMDetail = new PaymentMethodDetail();
+				
+				PMDetail = AESDecodeJob(PMDetailList.get(0));
+								
+			
+				
+				mo.addAttribute("savedMethodLength", savedMethodLength);
+				mo.addAttribute("PMDetail", PMDetail);
+			}
+		}
+
+		shippingAddressArr = shippingAddress.split("/");
+		
+		order = new Payment(user.getUserId(), shippingName, shippingAddressArr[0], shippingAddressArr[1],shippingAddressArr[2],shippingPhone, totalCost, totalGetPoint);
+		
+		mo.addAttribute("order", order);
+		mo.addAttribute("orderItem", orderItem);
+		return "payment/singleOrderDetail";
+
+	}
 }

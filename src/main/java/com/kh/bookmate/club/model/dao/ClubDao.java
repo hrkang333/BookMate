@@ -306,6 +306,8 @@ public class ClubDao {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		
 		List<Club> list = (ArrayList)sqlSession.selectList("clubMapper.selectList_search", sc, rowBounds);
+		list = put_clubTime((ArrayList<Club>) list, sqlSession);
+		
 		return list;
 	}
 

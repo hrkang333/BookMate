@@ -1,5 +1,6 @@
 package com.kh.bookmate.book.model.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -141,6 +142,30 @@ public class BookServiceImpl implements BookService{
 			throw new RuntimeException("도서 재고 등록중 db 오류");
 		}
 		
+	}
+
+	@Override
+	public void updateBook(Book book, Book temp, int imgDeleteCheck, String directoryPath) {
+
+		
+		int reulst = bookDao.updateBook(sqlSession,book);
+		
+		if(reulst < 0 ) {
+			throw new RuntimeException("도서 수정 오류");
+						
+		}
+		try {
+			if(imgDeleteCheck==1) {
+				new File(directoryPath+temp.getBookMainImg()).delete();
+			}else if(imgDeleteCheck==2){
+				new File(directoryPath+temp.getBookDetailImg()).delete();
+			}else if(imgDeleteCheck==3){
+				new File(directoryPath+temp.getBookMainImg()).delete();
+				new File(directoryPath+temp.getBookDetailImg()).delete();
+			}
+		}catch (Exception e) {
+			throw new RuntimeException("도서 이미지 삭제 오류");
+		}
 	}
 
 	

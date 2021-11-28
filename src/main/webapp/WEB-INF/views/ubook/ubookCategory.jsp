@@ -5,20 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>[책장메이트]</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<link rel="icon" href="resources/img/logo1.png" type="image/png">
-  <link rel="stylesheet" href="resources/vendors/bootstrap/bootstrap.min.css">
-  <link rel="stylesheet" href="resources/vendors/fontawesome/css/all.min.css">
-  <link rel="stylesheet" href="resources/vendors/themify-icons/themify-icons.css">
-  <link rel="stylesheet" href="resources/vendors/owl-carousel/owl.theme.default.min.css">
-  <link rel="stylesheet" href="resources/vendors/owl-carousel/owl.carousel.min.css">
-
-  <link rel="stylesheet" href="resources/css/style.css">
-  <link rel="stylesheet" href="resources/css/used.css">
-  <script type="text/javascript" src="resources/js/seller.js"></script>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet"
-    id="bootstrap-css">
+<title>책구메이트 - 중고장터</title>
 </head>
 <body style="width: 1200px; margin: auto;">
  	<jsp:include page="../ubook/ubookMenu.jsp"/>
@@ -52,15 +39,9 @@
       <div class="col-xl-9 col-lg-8 col-md-7 maincon" style="position: absolute;
        margin-bottom: 100px;
     z-index: 7777;
-    width: 943px;
+    width: 1010px;
     margin-left: 205px;">
         <section class="content" style="margin-top: 190px;float: right;">
-                    <!-- <select onchange="sortChange(this.value)">
-                    	<option value="가격낮은순">가격 낮은 순</option>
-                        <option value="가격높은순">가격 높은 순</option>
-                        <option value="상태좋은순">상태 좋은 순</option>
-                	</select> -->
-			
 			<div class="col-md-offset-2 qnaTable">
 				<div class="panel panel-default" style="background-color: #e7e1d8;">
 					<div class="panel-body">
@@ -169,32 +150,44 @@
 												
 												</div>
 											</td>
-											<!-- <td>
-												<c:if test="${ s.sellerNo eq u.BSellerNo }">
-													<div class="tbNo1">
-														<button type="button" style="background-color: #BB937E;color:#ffffff; border:none; width: 100%; margin-bottom:10px; border-radius: 0.3rem;">나의 등록 도서</button>	
-													</div>
-												</c:if>
-												<c:if test="${ empty s.sellerNo || s.sellerNo ne u.BSellerNo }">
-													<div class="tbNo1">
-														<button style="background-color: #5cb85c; color:#ffffff; border:none; width: 100%; margin-bottom:10px; border-radius: 0.3rem;" onclick="updateUbook()">장바구니</button>
-	                                        			<button style="background-color: #5b8a5b; color:#ffffff; border:none;width: 100%; border-radius: 0.3rem;" onclick="deleteUbook()">바로구매</button>
-													</div>
-												</c:if>
-											</td> -->
 										</tr>
 									</c:forEach>
 								</tbody>
 							</table>
+            <br>
+
+            <div id="pagingArea">
+                <ul class="pagination" style="justify-content: center; font-size: 15px;">
+                	<c:choose>
+                		<c:when test="${ pi.currentPage ne 1 }">
+                			<li class="page-item"><a class="page-link" href="ubookCategory.ub?ubCategory=${list[0].ubCategory }&currentPage=${ pi.currentPage-1 }" style="color: #764845; background-color: #f7ddcb;">이전</a></li>
+                		</c:when>
+                		<c:otherwise>
+                			<li class="page-item disabled"><a class="page-link" href="">이전</a></li>
+                		</c:otherwise>
+                	</c:choose>
+                    <c:choose>
+                		<c:when test="${ pi.currentPage ne pi.endPage }">
+                			<li class="page-item"><a class="page-link" href="ubookCategory.ub?ubCategory=${list[0].ubCategory }&currentPage=${ pi.currentPage+1 }" style="color: #764845; background-color: #f7ddcb;">다음</a></li>
+                		</c:when>
+                		<c:otherwise>
+                			<li class="page-item disabled"><a class="page-link" href="ubookCategory.ub?ubCategory=${list[0].ubCategory }&currentPage=${ pi.currentPage+1 }">다음</a></li>
+                		</c:otherwise>
+                	</c:choose>
+                </ul>
+            </div>
+           
+            <br clear="both">
 						</div>
 					</div>
 				</div>
 			</div>
+            <br>
 		</section>
       </div>
     </div>
   </div>
- 	<div style="padding-top: 3500px;"><jsp:include page="../common/footer.jsp"/></div>
+ 	<div style="padding-top: 1600px;"><jsp:include page="../common/footer.jsp"/></div>
 </c:if>
 </body>
 </html>

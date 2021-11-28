@@ -26,7 +26,7 @@
 
     <style>
        .mainTitle{
-       		padding:30px 0px;
+       		padding:0px 0px 30px;
        }        
         .reviewTable {
             display: table;
@@ -59,47 +59,7 @@
         	height: 275px;
         	background-color: #EED8AE;
         }
-        
-        #clubMenubar{
-			position: fixed;
-			right: 50%;
-			transform: translate(-610px, 0);
-			margin-top: 5px;
-		}
-		
-		#nav-v2{
-			/* width:150px
-			;text-align:center; */
-		} 
-		.menu-v2{ 
-			line-height:2; 
-			/* border:1px solid #222;  */
-			position:relative; 
-			
-		} 
-		.menu-v2 .submenu{
-			position:absolute; 
-			width:150px; 
-			left:120px; 
-			/* border:1px solid #cfa175; */
-			background-color:#adc09c; 
-			color:white; 
-			top:-1px; 
-			display:none; 
-			z-index:9999; /*이렇게 해도 카드에는 안됨*/
-		} 
-		.menu-v2 a{
-			color:black;
-		}
-		.menu-v2:hover{ 
-			background-color:#adc09c; 
-			color:white; 
-		} 
-		.menu-v2 .submenu>li:hover{ 
-			background-color:white; 
-			color:#adc09c; 
-		}
-		
+
 		.popTotal_2{
 		     display: flex; 
 		     flex-wrap: wrap;
@@ -144,36 +104,11 @@
 <body style="width:1200px; margin:auto; padding-top: 140px;">
     <jsp:include page="../common/menubar.jsp" />
 
-    <main class="site-main">
-	
-		<div id="clubMenubar" style="width: 220px; height: 650px; background-color: #f1e5d9;">  <!-- #f1e5d9 #faf1e6   #fcf3e0-->
-			<hr style="margin-top: 0px; height: 4px; background-color: #503535;">
-			<div style="font-size: 23px; font-weight: 800; margin-top: 35px;">
-				함께 읽고 얘기하는 <br>
-				독서메이트
-			</div>
-			<hr style="margin: 35px 0px;">
-			<nav>
-				<ul id="nav-v2">
-					<li class="menu-v2"><a href="clubMain.cl">독서모임 홈</a></li>
-					<li class="menu-v2"><a href="clubAll.cl">모든 독서모임</a></li>
-					<li class="menu-v2"><a href="searchPage.cl">나에게 맞는 독서모임</a></li>
-					<li onclick="checkUser();" class="menu-v2"><a <c:if test="${!empty sessionScope.loginUser}">href="mypage1.cl"</c:if> >마이페이지</a>
-						<ul class="submenu">
-							<li><a <c:if test="${!empty sessionScope.loginUser}">href="mypage1.cl"</c:if>>신청 목록</a></li>
-							<li><a <c:if test="${!empty sessionScope.loginUser}">href="mypage2.cl"</c:if>>찜 목록</a></li>
-							<li><a <c:if test="${!empty sessionScope.loginUser}">href="mypage3.cl"</c:if>>내 독서모임</a></li>
-						</ul>
-					</li>
-				</ul>
-			</nav>
-			<hr style="margin: 35px 0px;">
-			<div></div>
-			<div></div>
-		</div>
-
+    <main class="site-main" style="margin-top: 70px;">
+		<jsp:include page="../club/clubMenubar.jsp"/>
+		
         <!-- ================ 1.인기 독서모임 ================= -->
-		<section class="section-margin calc-60px" style="margin-top: 50px;">
+		<section>  <!-- class="section-margin calc-60px" -->
 			<div class="container">
 				<div class="section-intro mainTitle">
 					<p>책구메이트에서 가장 인기있는 독서모임들</p>
