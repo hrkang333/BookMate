@@ -758,28 +758,28 @@ public class ClubController {
 		return "club/searchClub";
 	}
 	
-	@RequestMapping("search.cl")
-	public String selectSearch(SearchCondition sc, Model model, 
+	@RequestMapping(value= {"search.cl","search_menu.cl"})
+	public String selectSearch(SearchCondition sc, Model model, HttpServletRequest request,
 							   @RequestParam(value="currentPage", required=false, defaultValue="1") int currentPage) {
 
-		System.out.println("서치 StartDate : " + sc.getStartDate());
-		System.out.println("서치 EndDate : " + sc.getEndDate());
-		//사용자가 지정하지 않은경우 controller에서 null로 처리해서 mapper에서 처리해주게 했다.
-		java.sql.Date nullDate =  java.sql.Date.valueOf("2000-01-01");
-		if(sc.getStartDate().equals(nullDate)) {
+		if(request.getServletPath().equals("/search.cl")) {
+			//사용자가 지정하지 않은경우 controller에서 null로 처리해서 mapper에서 처리해주게 했다.
+			java.sql.Date nullDate =  java.sql.Date.valueOf("2000-01-01");
+			if(sc.getStartDate().equals(nullDate)) {
+				sc.setStartDate(null);
+			}
+			if(sc.getEndDate().equals(nullDate)) {
+				sc.setEndDate(null);
+			}
+		}else {
 			sc.setStartDate(null);
-		}
-		if(sc.getEndDate().equals(nullDate)) {
 			sc.setEndDate(null);
 		}
 		
 		int listCount = clubService.selectListCount_search(sc);  //모집중인 것만 뽑아야지
 
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 7, 9);
-		List<Club> clubList = clubService.selectList_search(sc, pi);
-		
-		System.out.println("서치 listCount : " + listCount);
-		System.out.println("서치 clubList : " + clubList.toString());		
+		List<Club> clubList = clubService.selectList_search(sc, pi);	
 		
 		model.addAttribute("clubList",clubList);
 		model.addAttribute("pi",pi);

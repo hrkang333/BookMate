@@ -76,20 +76,20 @@
 	        width: 50%;
 	        text-align: center;
 	        margin: 0 auto;
+	        margin-bottom: 10px;
         }
         .closeClubImgDiv{
         	cursor: pointer; 
         	background-size: cover;
         	background-position: center;
-        	height: 80%;
-        	margin: 2%;
+        	height: 65%;
         }
         
         [id^=c_clubTotal]{
         	width: 24%;
 		    margin: 5.5px;
 		    border: 1px solid #dadada;
-		    height: 400px;
+		    height: 410px;
         }
         
         .titleImg{
@@ -113,16 +113,23 @@
 	         justify-content: center; 
 	         margin-top: 35px;
         }
+        
+        [id^=closeClubTotal]{
+        	width: 19%; 
+        	margin: 5.5px; 
+        	height: 350px; 
+        	text-align: center;
+        	border: 1px solid #dadada;
+        }
     </style>
 </head>
 
 <body style="width:1200px; margin:auto">
     
     <jsp:include page="../common/menubar.jsp" />
-    <%-- <jsp:include page="../club/clubMenubar.jsp"/> --%>
-
     <main class="site-main" style="margin-top: 200px;">
-    
+    	<jsp:include page="../club/clubMenubar.jsp"/>
+    	
     	<!-- 카테고리별 헤더 만들기 -->
         <ul class="navbar" style="width: 100%; margin-top: 20px;">
             <li class="nav-item">
@@ -250,7 +257,7 @@
 	                              <li><i class="ti-comments-smiley"></i> ${cateList_second[s.index].heartCount } Likes</li>
 	                          </ul>
 	                          <div class="closeClub"><span>마감되었습니다</span></div>
-	                          <h4 id="c_title2${s.index}" class="card-blog__title">${cateList_second[s.index].clubTitle}</h4>
+	                          <h4 id="c_title2${s.index}" class="clubTitle card-blog__title">${cateList_second[s.index].clubTitle}</h4>
 	                          <p>
 	                          	  <c:forEach items="${cateList_second[s.index].clubTimes}" var="at" varStatus="s_at">
 	                                 <c:choose>
@@ -310,7 +317,7 @@
 
     <!-- ================ 3. 마감임박 독서모임 ================= -->
     <section class="section-margin calc-60px">
-              <div class="">
+              <div class="container">
                  <div class="section-intro pb-60px" style="text-align:center;">  <!-- pb-60px -->
                      <h2>모집<span class="section-intro__style">종료</span></h2>
                  </div>
@@ -322,25 +329,17 @@
 			            
 			     <div id="categoryList3_2" style="display:none;">   
                  	    <div style="display: flex; width:100%;">
-							<div style="margin-top: 125px">
-								<img alt="" src="${pageContext.servletContext.contextPath }/resources/img/btn_prev.gif" height="50px" style="margin-right: 15px; cursor: pointer;" onclick="closeListMove(0)">
-							</div>
 							<c:forEach begin="0" end="4" varStatus="status">
-								<%-- <c:forEach items="${cateList_third}" var="list" varStatus="status"> --%>
-								<div style="width: 18%; height: 300px; text-align: center;">
-									<div class="closeClubImgDiv" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${cateList_third[status.index].clubAttachments[0].changeName}')"onclick="detailbook('${cateList_third[status.index].clubNo}')" id="close_ClubImg${status.index}"></div>
+								<div id="closeClubTotal${status.index}" onclick='goDetail(${cateList_third[status.index].clubNo})' <c:if test="${status.index >= fn:length(cateList_third)}"><c:out value="style=display:none;"/></c:if> >
+									<div class="closeClubImgDiv" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${cateList_third[status.index].clubAttachments[0].changeName}')" id="close_ClubImg${status.index}"></div>
 									<ul class="card-blog__info">
 		                                <li><span id="close_category${status.index}">${cateList_third[status.index].category}</span> &nbsp;</li>
-		                                <li><i class="ti-comments-smiley"></i> <span id="close_likes${status.index}">${cateList_third[status.index].heartCount }</span> Likes</li>
+		                                <li><i class="ti-comments-smiley"></i> <span id="close_likes${status.index}">${cateList_third[status.index].heartCount}</span> Likes</li>
 		                            </ul>
 		                            <div class="closeClub" style="width:70%; margin:auto;"><span>모집종료되었습니다</span></div>
-		                            <h4 id="close_title${status.index}" class="card-blog__title">${cateList_third[status.index].clubTitle}</h4>
+		                            <h4 id="close_title${status.index}" class="clubTitle card-blog__title">${cateList_third[status.index].clubTitle}</h4>
 								</div>
-								<%-- </c:forEach> --%>
 							</c:forEach>
-							<div style="margin-top: 125px">
-								<img alt=""src="${pageContext.servletContext.contextPath }/resources/img/btn_next.gif"height="50px" style="margin-left: 15px; cursor: pointer;"onclick="closeListMove(1)">
-							</div>
 						</div>
                    </div>
               </div>
@@ -700,99 +699,37 @@
        }
 	                 
 	   function list3(map){
-	                    	var cateList1 = map.cateList3;
+	   		var cateList1 = map.cateList3;
 	                    	
-	                    	var listView1 = document.getElementById("categoryList3_1");
-							var listView = document.getElementById("categoryList3_2");
-							
-							console.log("list3길이3 : " + cateList1.length)
-							
-							if(cateList1.length == 0){  //1.리스트 빈 경우
-								listView.style.display = 'none';
-								listView1.style.display = 'flex';
-							}else{				  //2. 리스트 값 있는 경우
-								
-								$.each(cateList1,function(i){
-     								$('#close_ClubImg'+i).css("background-image","url(${pageContext.servletContext.contextPath }/resources/upload_files/club_img/"+cateList1[i].clubAttachments[0].changeName+")"); 
-     								/* $('#close_category'+i).attr("onclick","detailbook('"+list[i].bookISBN+"')"); */	
-     								$('#close_category'+i).text(cateList1[i].category);
-     								$('#close_likes'+i).text(cateList1[i].heartCount);	
-     								$('#close_title'+i).text(cateList1[i].clubTitle);
-     							})
+	        var listView1 = document.getElementById("categoryList3_1");
+			var listView = document.getElementById("categoryList3_2");
+			var length3 = cateList1.length
 			
-								listView1.style.display = 'none';
-								listView.style.display = 'flex';
-								
-								/* for(var i=cateList1.length; i<8; i++){
-									$('#c_clubTotal'+i).css('display','none');
-								} */							
-							}
+			if(length3 == 0){  //1.리스트 빈 경우
+				listView.style.display = 'none';
+				listView1.style.display = 'flex';
+			}else{				 
+				//2. 리스트 값 있는 경우
+				$.each(cateList1,function(i){
+     				$('#close_ClubImg'+i).css("background-image","url(${pageContext.servletContext.contextPath }/resources/upload_files/club_img/"+cateList1[i].clubAttachments[0].changeName+")"); 
+     				$('#close_category'+i).text(cateList1[i].category);
+     				$('#close_likes'+i).text(cateList1[i].heartCount);	
+     				$('#close_title'+i).text(cateList1[i].clubTitle);
+     			})
+			
+				listView1.style.display = 'none';
+				listView.style.display = 'flex';
+					
+				for(var i=0; i<length3; i++){
+					$('#closeClubTotal'+i).css('display','block')
+				} 
+				for(var i=length3; i<5; i++){
+					$('#closeClubTotal'+i).css('display','none')
+				} 
+			}
 	    }
 	               
-	    function closeListMove(checkIndex) {
-	         			if(checkIndex == 1){
-	         				listIndex += 1;
-	         			}else{
-	         				listIndex -= 1;
-	         			}
-	         			
-	         			if(listIndex < 0){
-	         				listIndex = 10;
-	         			}else if(listIndex > 10){
-	         				listIndex = 1;
-	         			}
-	         			
-	         			console.log("listIndex : " +listIndex)
-	         			
-	         			$.ajax({
-	         					url : "closeListMove.cl",
-	         					
-	         					data : {
-	         						listIndex : listIndex,
-	         						category : category
-	         					},
-	         					type : "post",
-	         					success : function(list) {
-	         						console.log("ajax 통신성공");
-	         						
-	         						console.log("list길이  : " + list.length)
-	         						
-	         							$.each(list,function(i){
-	         								$('#close_ClubImg'+i).css("background-image","url(${pageContext.servletContext.contextPath }/resources/upload_files/club_img/"+list[i].clubAttachments[0].changeName+")"); 
-	         								/* $('#close_category'+i).attr("onclick","detailbook('"+list[i].bookISBN+"')"); */	
-	         								$('#close_category'+i).text(list[i].category);
-	         								$('#close_likes'+i).text(list[i].heartCount);	
-	         								$('#close_title'+i).text(list[i].clubTitle);
-	         							})
-	         					},
-	         					error : function (request, status, error){
-	         			               
-	         					    var errorMsg = "요청 도중 오류가 발생하였습니다. \n";
-	         					   
-	         					    if(request.status == 0){ //offline
-	         					        errorMsg += "네트워크 연결을 확인해주십시오.";
-	         					    }else if(request.status==401){//Unauthorized
-	         					        errorMsg += "권한이 없습니다. \n관리자에게 문의해주세요.";
-	         					    }else if(request.status==403){//Forbidden
-	         					        errorMsg += "접근이 거부되었습니다. \n관리자에게 문의해주세요.";
-	         					    }else if(request.status==404){//Not Found
-	         					        errorMsg += "요청한 페이지를 찾을 수 없습니다. \n관리자에게 문의해주세요.";
-	         					    }else if(request.status==500){ //Internel Server Error
-	         					        errorMsg += "서버 내 오류가 발생하였습니다. \n관리자에게 문의해주세요.";
-	         					    }else if(status=='parsererror'){ //Error.nParsing JSON Request failed.
-	         					        errorMsg += "응답 본문을 정상적으로 가져올 수 없습니다. \n관리자에게 문의해주세요.";
-	         					    }else if(status=='timeout'){ //Request Time out.
-	         					        errorMsg += "응답 제한 시간을 초과하였습니다. 다시 조회해주세요.";
-	         					    }else { //Unknow Error
-	         					        errorMsg += "\n관리자에게 문의해주세요.";
-	         					    }
-	         					   
-	         					    alert(errorMsg);
-	         					}
 
-	         				
-	         				})
-	    }
 	                 
     </script>
     

@@ -44,7 +44,7 @@
         
         .left {
             flex: 0 0 auto;
-            margin: 16px 28px;
+            margin: 16px 40px;
         }
         
         .right {
@@ -130,24 +130,46 @@
 			width: 25%;
 			padding-left: 4%
 		}
+		
+		.timeTotal2{
+			overflow: auto;
+		    height: 248px;
+		    background-color: white;
+		    margin: 0 auto;
+		}
+		
+		#applyClub{
+			background-color: #503535 !important;
+		    border: 0px !important;
+		    border-radius: 5px !important;
+		    padding: 12px 30px !important;
+		    width: 100%;
+		}
+		
+		.navbarMenu{
+		    width: 33.3%;
+		    text-align: center;
+		    font-size: 18px;
+		    font-weight: 550;
+		}
     </style>
 </head>
 
 <body style="width:1200px; margin:auto">
     
     <jsp:include page="../common/menubar.jsp" />
-    
-    <!--================ 독서모임 디테일 =================-->
-    <div class="product_image_area" style="margin-top: 150px;">
-        <div class="container">
 
+    <!--================ 독서모임 디테일 =================-->
+    <div class="product_image_area" style="margin-top: 100px;">
+    	<jsp:include page="../club/clubMenubar.jsp"/>
+        
+        <div class="container" style="padding-top: 30px; padding-bottom: 30px;">
             <div class="row s_product_inner">
                 <div class="col-lg-5">
                     <div class="titleDiv">
                         <c:forEach var="ca" items="${club.clubAttachments}">
                         	<c:if test="${ca.fileType eq 2}">
                         		<div class="titleBackImg" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${ca.changeName}')">
-                        			
                         			<c:choose>
                         				<c:when test="${befHeart eq 0}">
                         					<img  id="heartClub" class="heartImg" src="resources/img/club/hearts_empty.png">
@@ -156,9 +178,7 @@
                         					<img  id="heartClub" class="heartImg" src="resources/img/club/hearts_full.png">
                         				</c:otherwise>
                         			</c:choose>
-                        			
                         		</div>
-                        		<!-- background-image 뒤에 넣기 : linear-gradient( rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1) ), -->
                         	</c:if>         		
                         </c:forEach> 
                     </div>
@@ -168,49 +188,53 @@
                     	<input type="hidden" id="clubNo" value="${club.clubNo}">
                         <h3 style="font-size: 37px;">${club.clubTitle}</h3>
                         <h2 style="font-size: 17px;">#${club.category} &nbsp; #${club.onoffLine} &nbsp; #${club.times} </h2>
-
-						<div style="overflow:auto; width:80%; height:258px; margin:40px 0px 30px; border:3px solid #FFAE42">
-							<c:forEach var="ct" items="${club.clubTimes}" varStatus="status">
-								<div class="times">
-	                            <div class="left">
-	                                <p class="time">
-	                                    <span>
-	                                    	<fmt:parseDate var="clubD" value="${ct.clubDate}" pattern="yyyy-MM-dd" /> <!-- string -> Date로 -->	
-											<fmt:parseDate value="${ct.clubDate}" var="dateK" pattern="yyyy-MM-dd"/>
-											<fmt:formatDate value="${dateK}" pattern="yyyy년 MM월 dd일"/>
-	                                    	(<fmt:formatDate value="${clubD}" pattern="E"/>)
-	                                    	</span>
-	                                    <span>|</span>
-	                                    <span>${ct.startTime} ~ ${ct.endTime}</span>
-	                                </p>
-	                                <p class="apply" style="display:flex">
-	                                    <span style="margin-left: auto;">신청 <span id="applyCount${status.index}">${ct.apply_count}</span> / 정원 <span id="clubCapacity${status.index}">${club.clubCapacity}</span></span>
-	                                </p>
-	                            </div>
-	                            <div class="right">
-	                            	<c:if test="${club.times eq '한 번 만나요'}">
-	                            		<!-- 오늘 날짜 이전은 신청되지 않게 한다. -->
-	                            		<fmt:parseDate var="clubDate" value="${ct.clubDate}"  pattern="yyyy-MM-dd"/>
-										<fmt:parseNumber value="${clubDate.time / (1000*60*60*24)}" integerOnly="true" var="clubDate1"></fmt:parseNumber>
-	                            		
-	                            		<jsp:useBean id="today" class="java.util.Date" />
-			                            <fmt:formatDate var="today2" value="${today}" pattern="yyyy-MM-dd"/> 
-			                            <fmt:parseDate var="now"  value="${today2}" pattern="yyyy-MM-dd"/>
-										<fmt:parseNumber value="${now.time / (1000*60*60*24)}" integerOnly="true" var="now1"></fmt:parseNumber>
-
-	                            		<c:if test="${ clubDate1 >= now1 }">
-	                            			<input type="checkbox" class="applys" id="checkbox${status.index}" name="applys" value="${ct.timeNo}">
-	                            		</c:if>	
-	                            	</c:if>
-	                            	<c:if test="${club.times eq '여러 번 만나요'}">
-	                            		<input type="hidden" class="applys" name="applys" value="${ct.timeNo}">
-	                            	</c:if>
-	                            </div>
-	                        </div>
-							</c:forEach>
-						</div>	
-	                    <div class="">
-	                        <!-- <button id="heartClub" class="button primary-btn">찜하기</button> -->
+	
+						<hr> 
+						
+						<div class="timeTotal" style="background-color: #d1e7d1; padding: 10px;">
+							<div class="timeTotal2">
+								<c:forEach var="ct" items="${club.clubTimes}" varStatus="status">
+									<div class="times">
+		                            <div class="left">
+		                                <p class="time" style="font-weight:600;">
+		                                    <span>
+		                                    	<fmt:parseDate var="clubD" value="${ct.clubDate}" pattern="yyyy-MM-dd" /> <!-- string -> Date로 -->	
+												<fmt:parseDate value="${ct.clubDate}" var="dateK" pattern="yyyy-MM-dd"/>
+												<fmt:formatDate value="${dateK}" pattern="yyyy년 MM월 dd일"/>
+		                                    	(<fmt:formatDate value="${clubD}" pattern="E"/>)
+		                                    	</span>
+		                                    <span>&nbsp;|&nbsp;</span>
+		                                    <span>${ct.startTime} ~ ${ct.endTime}</span>
+		                                </p>
+		                                <p class="apply" style="display:flex">
+		                                    <span style="margin-left: auto;">신청 <span id="applyCount${status.index}">${ct.apply_count}</span> / 정원 <span id="clubCapacity${status.index}">${club.clubCapacity}</span></span>
+		                                </p>
+		                            </div>
+		                            <div class="right">
+		                            	<c:if test="${club.times eq '한 번 만나요'}">
+		                            		<!-- 오늘 날짜 이전은 신청되지 않게 한다. -->
+		                            		<fmt:parseDate var="clubDate" value="${ct.clubDate}"  pattern="yyyy-MM-dd"/>
+											<fmt:parseNumber value="${clubDate.time / (1000*60*60*24)}" integerOnly="true" var="clubDate1"></fmt:parseNumber>
+		                            		
+		                            		<jsp:useBean id="today" class="java.util.Date" />
+				                            <fmt:formatDate var="today2" value="${today}" pattern="yyyy-MM-dd"/> 
+				                            <fmt:parseDate var="now"  value="${today2}" pattern="yyyy-MM-dd"/>
+											<fmt:parseNumber value="${now.time / (1000*60*60*24)}" integerOnly="true" var="now1"></fmt:parseNumber>
+	
+		                            		<c:if test="${ clubDate1 >= now1 }">
+		                            			<input type="checkbox" class="applys" id="checkbox${status.index}" name="applys" value="${ct.timeNo}">
+		                            		</c:if>	
+		                            	</c:if>
+		                            	<c:if test="${club.times eq '여러 번 만나요'}">
+		                            		<input type="hidden" class="applys" name="applys" value="${ct.timeNo}">
+		                            	</c:if>
+		                            </div>
+		                        </div>
+								</c:forEach>
+							</div>	
+						</div>
+						
+	                    <div style="text-align: center; margin: 15px 0px 0px;">
 	                        <c:choose>
 	                        	<c:when test="${club.condition eq 4 }">
 	                        		<button id="applyClub" class="button primary-btn">신청하기</button>
@@ -227,15 +251,12 @@
     </div>
     <!--================End Single Product Area =================-->
 
-	<section class="club_detail" style="margin-top:30px;">
+	<section class="club_detail" style="margin-top:40px;">
 		<div class="container">
 			<ul class="nav nav-tabs">
-				<li class="nav-item"><a class="nav-link active"
-					data-toggle="tab" href="#qwe">상세내용</a></li>
-				<li class="nav-item"><a class="nav-link" data-toggle="tab"
-					href="#asd">모임리뷰</a></li>
-				<li class="nav-item"><a class="nav-link" data-toggle="tab"
-					href="#zxc">문의하기</a></li>
+				<li class="nav-item navbarMenu"><a class="nav-link active" data-toggle="tab" href="#qwe" style="color: black;">상세내용</a></li>
+				<li class="nav-item navbarMenu"><a class="nav-link" data-toggle="tab" href="#asd" style="color: black;">모임리뷰</a></li>
+				<li class="nav-item navbarMenu"><a class="nav-link" data-toggle="tab" href="#zxc" style="color: black;">문의하기</a></li>
 			</ul>
 			<div class="tab-content">
 				<div class="tab-pane fade show active m_contents" id="qwe">
