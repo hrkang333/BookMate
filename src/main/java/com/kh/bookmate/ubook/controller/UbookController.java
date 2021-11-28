@@ -2,7 +2,6 @@ package com.kh.bookmate.ubook.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,13 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.GsonBuilder;
-import com.kh.bookmate.book.model.vo.Book;
 import com.kh.bookmate.seller.model.service.SellerService;
 import com.kh.bookmate.seller.model.vo.Seller;
 import com.kh.bookmate.ubook.model.service.UbookService;
+import com.kh.bookmate.ubook.model.vo.PageInfo;
+import com.kh.bookmate.ubook.model.vo.Pagination;
 import com.kh.bookmate.ubook.model.vo.Ubook;
 import com.kh.bookmate.ubook.model.vo.Ubook_Qna;
 import com.kh.bookmate.user.model.vo.User;
@@ -129,7 +128,9 @@ public class UbookController {
 
 	//도서 카테고리
 	@RequestMapping("ubookCategory.ub")
-	public String selectCategory(@RequestParam("ubCategory") int ubCategory, HttpServletRequest request, Model model) {
+	public String selectCategory(@RequestParam("ubCategory") int ubCategory,
+			@RequestParam(value="currentPage", required = false, defaultValue="1") int currentPage,
+								HttpServletRequest request, Model model) {
 
 		if((User)request.getSession().getAttribute("loginUser") != null) {
 			String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
@@ -137,8 +138,14 @@ public class UbookController {
 			//System.out.println("셀러?" + s.getSellerNo());
 			model.addAttribute("s", s);
 		}
-		List<Ubook> list = ubookService.selectCategory(ubCategory);
+		int listCount = ubookService.selectListCount();
+		System.out.println(listCount);
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 3, 5);
+		
+		List<Ubook> list = ubookService.selectCategory(ubCategory, pi);
 		model.addAttribute("list", list);
+		model.addAttribute("pi", pi);
 		/*
 		 * for(int i=0; i < list.size(); i++) { Ubook str = list.get(i);
 		 * System.out.println("셀러 번호 보이려나 모르겠네" + str.getSellerNickN()); }

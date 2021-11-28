@@ -8,12 +8,8 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>Insert title here</title>
    <link rel="icon" href="resources/img/Fevicon.png" type="image/png">
-  <link rel="stylesheet" href="resources/vendors/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="resources/vendors/fontawesome/css/all.min.css">
    <link rel="stylesheet" href="resources/vendors/themify-icons/themify-icons.css">
-  <link rel="stylesheet" href="resources/vendors/nice-select/nice-select.css">
-  <link rel="stylesheet" href="resources/vendors/owl-carousel/owl.theme.default.min.css">
-  <link rel="stylesheet" href="resources/vendors/owl-carousel/owl.carousel.min.css">
 <style>
     /* div{border:1px solid red;} */
     #footer{
@@ -133,15 +129,5 @@
    </footer>
    <!--================ End footer Area  =================-->
 
-
- 
-  <script src="resources/vendors/jquery/jquery-3.2.1.min.js"></script>
-  <script src="resources/vendors/bootstrap/bootstrap.bundle.min.js"></script>
-  <script src="resources/vendors/skrollr.min.js"></script>
-  <script src="resources/vendors/owl-carousel/owl.carousel.min.js"></script>
-  <script src="resources/vendors/nice-select/jquery.nice-select.min.js"></script>
-  <script src="resources/vendors/jquery.ajaxchimp.min.js"></script>
-  <script src="resources/vendors/mail-script.js"></script>
-  <script src="resources/js/main.js"></script>
 </body>
 </html>

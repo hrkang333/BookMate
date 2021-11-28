@@ -20,7 +20,7 @@
 
 			<jsp:include page="../ubook/ubookCategory.jsp" />
 	<div >
-		<div class="row">
+		<div class="row" style="width: 1325px;">
 			<!-- s:html -->
 			<!--================ 메인 Content =================-->
 			<div class="col-xl-9 col-lg-8 col-md-7 maincon" style="margin-left: 220px; width: 1080px; margin-top: 93px;">
