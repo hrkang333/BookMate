@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.kh.bookmate.book.model.dao.BookDao;
 import com.kh.bookmate.book.model.vo.Book;
-import com.kh.bookmate.common.PageInfo;
 import com.kh.bookmate.ubook.model.dao.UbookDao;
+import com.kh.bookmate.ubook.model.vo.PageInfo;
 import com.kh.bookmate.ubook.model.vo.Ubook;
 import com.kh.bookmate.ubook.model.vo.Ubook_Qna;
 
@@ -66,13 +66,13 @@ public class UbookServiceImpl implements UbookService {
 	@Override
 	public List<Ubook> ubookCateList1() {
 		return ubookDao.ubookCateList1(sqlSession);
-	}*/
+	}
 
 	@Override
 	public List<Ubook> selectCategory(int ubCategory) {
 		return ubookDao.selectCategory(sqlSession, ubCategory);
 	}
-
+*/
 	@Override
 	public Ubook selectUbook(Ubook ub) {
 		Ubook u = null;
@@ -133,6 +133,16 @@ public class UbookServiceImpl implements UbookService {
 	@Override
 	public ArrayList<Ubook> selectRowPriceBookList() {
 		return ubookDao.selectRowPriceBookList(sqlSession);
+	}
+
+	@Override
+	public int selectListCount() {
+		return ubookDao.selectListCount(sqlSession);
+	}
+
+	@Override
+	public List<Ubook> selectCategory(int ubCategory, PageInfo pi) {
+		return ubookDao.selectCategory(sqlSession,ubCategory, pi);
 	}
 
 	

@@ -8,10 +8,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>[책장메이트] - 온라인 중고도서장터</title>
+<title>책구메이트 - 중고장터</title>
 <link rel="icon" href="resources/img/logo1.png" type="image/png">
-<link rel="stylesheet"
-	href="resources/vendors/bootstrap/bootstrap.min.css">
 <link rel="stylesheet"
 	href="resources/vendors/fontawesome/css/all.min.css">
 <link rel="stylesheet"
@@ -20,19 +18,19 @@
 	href="resources/vendors/owl-carousel/owl.theme.default.min.css">
 <link rel="stylesheet"
 	href="resources/vendors/owl-carousel/owl.carousel.min.css">
-
 <link rel="stylesheet" href="resources/css/style.css">
 <link rel="stylesheet" href="resources/css/used.css">
+
 
 <link
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
 	rel="stylesheet" id="bootstrap-css">
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
-
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
-	integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
-	crossorigin="anonymous">
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <style type="text/css">
 .fixed {
@@ -60,7 +58,29 @@
 	padding-right: 20px;
 	color: brown;
 }
+
+.nav-item:hover .dropdown-menu {
+	display: block;
+}
+
+.nav-item:hover .dropdown-menu>li:hover {
+	background-color: #e7e1d8;
+}
+
+.nav-item:hover .dropdown-menu>li a {
+	color: black;
+}
+.nav-item{
+height: 40px;
+font-size: 15px;
+}
 </style>
+<script type="text/javascript">
+	function moveCategory(category) {
+		$('#moveCategoryInput').val(category);
+		$('#moveCategoryForm').submit()
+	}
+</script>
 </head>
 
 <body style="margin: auto; width: 1200px">
@@ -78,7 +98,8 @@
                                 <a data-toggle="modal"
 						data-target="#loginModal">로그인</a> | 
 									<a href="findId.us">아이디찾기</a> |
-									<a href="findPwd.us">비밀번호찾기</a>
+									<a href="findPwd.us">비밀번호찾기</a> |
+									<a href="noticeList.no?isUser=1">공지사항</a>
 
 				</c:if>
 
@@ -91,17 +112,17 @@
                                 |
                                 </c:if>
 					<a href="ubookCart.ub">장바구니</a>
-					<!-- |
-                                <a href="http://localhost:8090/spring/">책구메이트 홈</a> -->
                                 |
-                                <a href="logout.us">로그아웃</a>
+                                <a href="logout.us">로그아웃</a> |
+									<a href="noticeList.no?isUser=1">공지사항</a>
 				</c:if>
 			</div>
 
 			<div style="display: flex;">
 				<div>
 
-					<a class="imgHome" href="${pageContext.servletContext.contextPath }/"
+					<a class="imgHome"
+						href="${pageContext.servletContext.contextPath }/"
 						style="margin-right: 10px"><img src="resources/img/logo.png"
 						alt="" style="width: 300px;"></a>
 				</div>
@@ -113,12 +134,13 @@
 							<div class="col">
 								<input
 									class="form-control form-control-lg form-control-borderless"
-									name="keyword" type="search" placeholder="도서명 혹은 저자를 입력하세요">
+									style="font-size: 18px;" name="keyword" type="search"
+									placeholder="도서명 혹은 저자를 입력하세요">
 							</div>
 							<!--검색버튼-->
 							<div class="col-auto">
 								<button class="btn btn-lg searchbtn" type="button"
-									onclick="searchChk()">검색</button>
+									style="font-size: 18px; background-color: #5cb85c; color: #ffffff;" onclick="searchChk()">검색</button>
 							</div>
 							<script>
 								function searchChk() {
@@ -144,20 +166,45 @@
 
 			<!--카테고리  -->
 			<nav style="width: 1175px; text-align: center; margin-left: 11px;">
-				<ul class="navbar" id="tree" style="margin-top: 4px;">
+				<ul class="navbar" id="tree" style="margin-top: 9px;">
 					<li class="nav-item"><a class="nav-link"
 						style="color: #503535; font-weight: 700; font-size: 18px;"
-						class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">국내도서</a>
-
-						<ul class="dropdown-menu">
-							<li class="nav-item"><a class="nav-link">국내도서 전체</a></li>
-							<li class="nav-item"><a class="nav-link"
-								href="single-blog.html"></a></li>
+						class="nav-link dropdown-toggle" data-toggle="dropdown">국내도서</a>
+						<form action="selectCategory.ca" method="post"
+							id="moveCategoryForm">
+							<input type="hidden" id="moveCategoryInput" name="category"
+								value="0">
+						</form>
+						<ul class="dropdown-menu" style="margin-top: -10px;">
+							<li class="nav-item" value="10"
+								onclick="moveCategory(this.value)"><a class="nav-link">국내도서
+									전체</a></li>
+							<li class="nav-item" value="0" onclick="moveCategory(this.value)"><a
+								class="nav-link">소설/시 에세이 </a></li>
+							<li class="nav-item" value="1" onclick="moveCategory(this.value)"><a
+								class="nav-link">경제/경영</a></li>
+							<li class="nav-item" value="2" onclick="moveCategory(this.value)"><a
+								class="nav-link">과학</a></li>
+							<li class="nav-item" value="3" onclick="moveCategory(this.value)"><a
+								class="nav-link">인문</a></li>
+							<li class="nav-item" value="4" onclick="moveCategory(this.value)"><a
+								class="nav-link">컴퓨터</a></li>
+							<li class="nav-item" value="5" onclick="moveCategory(this.value)"><a
+								class="nav-link">자기계발</a></li>
+							<li class="nav-item" value="6" onclick="moveCategory(this.value)"><a
+								class="nav-link">정치/사회</a></li>
+							<li class="nav-item" value="7" onclick="moveCategory(this.value)"><a
+								class="nav-link">역사/문화</a></li>
+							<li class="nav-item" value="8" onclick="moveCategory(this.value)"><a
+								class="nav-link">취미</a></li>
+							<li class="nav-item" value="9" onclick="moveCategory(this.value)"><a
+								class="nav-link">가정/육아</a></li>
 						</ul></li>
-					<li class="nav-item submenu dropdown"><a href="#"
+					<li class="nav-item submenu dropdown"
+						value="12"
+						onclick="moveCategory(this.value)"><a href="#" class="nav-link"
 						role="button"
-						style="color: #503535; font-weight: 700; font-size: 18px;"
-						value="12">eBook</a></li>
+						style="color: #503535; font-weight: 700; font-size: 18px; text-decoration: none;">eBook</a></li>
 
 					<li class="nav-item"><a class="nav-link" href="ubookMain.ub"
 						style="color: #503535; font-weight: 700; font-size: 18px;">중고장터</a></li>

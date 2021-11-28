@@ -3,6 +3,7 @@ package com.kh.bookmate.ubook.model.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.kh.bookmate.ubook.model.vo.PageInfo;
 import com.kh.bookmate.ubook.model.vo.Ubook;
 import com.kh.bookmate.ubook.model.vo.Ubook_Qna;
 
@@ -22,7 +23,8 @@ public interface UbookService {
 
 	//List<Ubook> ubookCateList1();
 
-	List<Ubook> selectCategory(int ubCategory);
+	//List<Ubook> selectCategory(int ubCategory);
+	List<Ubook> selectCategory(int ubCategory, PageInfo pi);
 
 	Ubook selectUbook(Ubook ub);
 
@@ -46,4 +48,6 @@ public interface UbookService {
 	List<Ubook> haveQnaUbook(int sellerNumber);
 
 	ArrayList<Ubook> selectRowPriceBookList();
+
+	int selectListCount();
 }

@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>[책구메이트] 중고장터 메인</title>
+<title>책구메이트 - 중고장터</title>
 
 <link rel="icon" href="resources/img/logo1.png" type="image/png">
 
@@ -95,6 +95,10 @@ function goHot(type, length){
 .card-product {
 	background-color: #e7e1d8 !important;
 }
+
+.carousel-indicators li{
+	background-color: #764845 !important;
+}
 </style>
 </head>
 
@@ -130,8 +134,7 @@ function goHot(type, length){
 														style="padding: 0 0 0 0px !important;">
 														<!-- 하단 슬라이드 페이지 표시 -->
 														<ol class="carousel-indicators">
-															<li data-target="#myCarousel" data-slide-to="0"
-																class="active"></li>
+															<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
 															<li data-target="#myCarousel" data-slide-to="1"></li>
 															<li data-target="#myCarousel" data-slide-to="2"></li>
 														</ol>

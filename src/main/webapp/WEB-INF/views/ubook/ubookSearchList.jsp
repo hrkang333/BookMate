@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>[책장메이트]</title>
+<title>책구메이트 - 중고장터</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link rel="icon" href="resources/img/logo1.png" type="image/png">
   <link rel="stylesheet" href="resources/vendors/bootstrap/bootstrap.min.css">
@@ -49,8 +49,8 @@
       <!--================ End 좌측 사이드바(도서 카테고리 선택) =================-->
 
       <!--================ 메인 Content =================-->
-      <div class="col-xl-9 col-lg-8 col-md-7 maincon" style="margin-top: 190px;
-    width: 943px;
+      <div class="maincon" style="margin-top: 190px;
+    width: 1010px;
     margin-left: 205px;">
         <section class="content" style="margin-top: 100px;padding-top: 155px;">
 			<div class="col-md-offset-2 qnaTable">

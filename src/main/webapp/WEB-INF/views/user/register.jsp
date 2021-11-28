@@ -8,7 +8,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Aroma Shop - Login</title>
+  <title>책구메이트 회원가입</title>
   <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
   <script>
  function sample4_execDaumPostcode() {
@@ -76,15 +76,15 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6" style="background-color: #5b8a5b; text-align: center; color:#fff;">
-					<div class="login_box_img" style="margin-top: 300px;">
+					<div style="margin-top: 460px;">
 						<div class="hover">
-							<h2>책구메이트 회원가입</h2><br>
-							<h4>책구메이트에 가입하시면<br>보다 더 많은 서비스를 이용하실 수 있어요</h4>
+							<h2 style="color: #fff;">책구메이트 회원가입</h2><br>
+							<h4 style="color: #fff;">책구메이트에 가입하시면<br>보다 더 많은 서비스를 이용하실 수 있어요</h4>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-6" style="background-color: #EAFAF1; padding:40px;">
-					<div class="login_form_inner register_form_inner">
+					<div class="login_form_inner register_form_inner" style="box-shadow: none;">
 						<h3 style="text-align: center;">책구메이트 회원가입</h3>
 						<form class="row login_form" action="insert.us" id="register_form" >
 							<div class="col-md-12 form-group">

@@ -13,20 +13,20 @@
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <title>책구메이트</title>
 
-<link rel="icon" href="resources/img/logo1.png" type="image/png">
-<link rel="stylesheet"
-	href="resources/vendors/bootstrap/bootstrap.min.css">
-<link rel="stylesheet"
-	href="resources/vendors/fontawesome/css/all.min.css">
-<link rel="stylesheet"
-	href="resources/vendors/themify-icons/themify-icons.css">
 
-<link rel="stylesheet"
-	href="resources/vendors/owl-carousel/owl.theme.default.min.css">
-<link rel="stylesheet"
-	href="resources/vendors/owl-carousel/owl.carousel.min.css">
 
-<link rel="stylesheet" href="resources/css/style.css">
+    <link rel="icon" href="resources/img/logo1.png" type="image/png">
+    <link rel="stylesheet" href="resources/vendors/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="resources/vendors/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="resources/vendors/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="resources/vendors/nice-select/nice-select.css">
+    <link rel="stylesheet" href="resources/vendors/owl-carousel/owl.theme.default.min.css">
+    <link rel="stylesheet" href="resources/vendors/owl-carousel/owl.carousel.min.css">
+
+    <link rel="stylesheet" href="resources/css/style.css">
+    
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <style>
 #recentViewDiv {
@@ -348,10 +348,10 @@
 
 								<div class="${activeD}">
 							<c:forEach items="${eventImg}" var="list" begin="${i}" end="${ i }">
-										<div class="img-box">
+										<div class="img-box" onclick="location.href='noticeList.no?isUser=1'">
 											<img
 												src="${pageContext.servletContext.contextPath }/resources/images/event/${list.noticeImgName }"
-												class="media-photo" style="width: 1200px; height: 400px;"">
+												class="media-photo" style="width: 1200px; height: 400px;">
 										</div>
 							</c:forEach>
 								</div>
@@ -363,7 +363,7 @@
 		</section>
 		<!--================ Hero banner start =================-->
 
-		<a class="button button-hero" href="bookTemp.book">Browse Now</a>
+	<!-- 	<a class="button button-hero" href="bookTemp.book">Browse Now</a> -->
 
 		<!-- ================ trending product section start ================= -->
 		<section class="section-margin calc-60px">
