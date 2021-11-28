@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>책구메이트-독서모임</title>
-    <link rel="icon" href="resources/img/Fevicon.png" type="image/png">
+    <link rel="icon" href="resources/img/logo1.png" type="image/png">
     <link rel="stylesheet" href="resources/vendors/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="resources/vendors/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="resources/vendors/themify-icons/themify-icons.css">
@@ -51,21 +51,68 @@
         	float: left;
     		width: 31.2%;
     		margin : 1.05%;
+    		border: 1px solid #dadada;
+    		height: 400px;
         }
         
         .titleBackImg{
-        	height:100%;
+        	height:250px;
         	background-position: center;
     		background-size: cover;
         }
+        
+        .titleContent{
+        	padding-top: 10px;
+        	text-align: center;
+        }
+        
+        #pagingArea{
+		 	text-align: center;
+		 	position: absolute;
+		 	bottom: 0px;
+    		margin-top: 30px;
+    		left: 50%;
+    		transform: translate(-50%, -50%);
+		}
+        
+        .searchTitle{
+	        font-size: 19px;
+	    	font-weight: 600;
+        }
+        
+        /*체크박스, 레이블 높이 맞추기*/
+        input[class="checkbox-search"] {
+		  position: relative;
+		  top: 4px;
+		  zoom: 1.4;
+		}
+		label[class="label-search"] {
+		  /* position: relative;
+		  top: -16px; */
+		  font-size: 18px;
+		  margin: 0px 15px 0px 4px;
+		}
+		input[class="checkbox-date"]{
+		  	top: -4px;
+		  	position: relative;
+		  	margin: 0px 10px;
+    		zoom: 1.1;
+		}
+		
+		#keyword{
+			width: 350px;
+		    height: 40px;
+		    border: 1px solid lightgray;
+		    border-radius: 5px;
+		    margin: 0px 10px;
+		}
     </style>
 </head>
 
 <body style="width:1200px; margin:auto">
     
-    <jsp:include page="../club/clubMenubar.jsp"/>
-    
-        
+    <jsp:include page="../common/menubar.jsp" />
+  
     <script>
     	var currentPage = ${pi.currentPage};
     	
@@ -106,18 +153,20 @@
         }
     </script>
 
-    <main class="site-main">
+    <main class="site-main" style="margin-top: 200px;">
+    	<jsp:include page="../club/clubMenubar.jsp"/>
+    	
 	    <div class="container">
 	        <section class="searchSection">
-				<div style="margin-bottom: 50px;">
-	                <h3 style="font-size: 30px; ">나에게 맞는 독서 모임을 선택해 보세요!</h3>
+				<div style="padding: 30px 0px">
+	                <h3 style="font-size: 30px; font-weight: 700;">나에게 맞는 독서 모임을 선택해 보세요!</h3>
 	            </div>
 	
-	            <div class="searchBox" style="background-color: #FAFAD2">
+	            <div class="searchBox" style="background-color: #FAFAD2; margin-bottom: 20px">
 	                <form id="searchForm" action="search.cl">
 	                	<input type="hidden" name="currentPage" id="searchCPage">
 	                    <ul>
-	                       <li>지역</li>
+	                       <li class="searchTitle">지역</li>
 	                       <li>
 	                           <div class="type_wrap">
 	                           	   <!-- input마다 forEach를 돌게 하면 비효율적일 것 같아서 이렇게 해주었다. -->
@@ -130,16 +179,16 @@
 	                           	       </c:if>
 	                           	   </c:forEach>
 	                           	   
-	                           	   <input id="s1_1" type="checkbox" name="onoffLines" value="온라인" <c:if test="${on eq 'true'}"><c:out value="checked"/></c:if> >
-		                           <div><label for="s1_1">온라인</label></div>
-		                           <input id="s1_2" type="checkbox" name="onoffLines" value="오프라인" <c:if test="${off eq 'true'}"><c:out value="checked"/></c:if> >
-		                           <div><label for="s1_2">오프라인</label></div>
+	                           	   <input class="checkbox-search" id="s1_1" type="checkbox" name="onoffLines" value="온라인" <c:if test="${on eq 'true'}"><c:out value="checked"/></c:if> >
+		                           <div><label class="label-search" for="s1_1">온라인</label></div>
+		                           <input class="checkbox-search" id="s1_2" type="checkbox" name="onoffLines" value="오프라인" <c:if test="${off eq 'true'}"><c:out value="checked"/></c:if> >
+		                           <div><label class="label-search" for="s1_2">오프라인</label></div>
 	                           	   
 	                           </div>
 	                       </li>
 	                     </ul>
 	                     <ul>
-	                        <li>독서모임 테마</li>
+	                        <li class="searchTitle">독서모임 테마</li>
 	                        <li>
 	                           <div class="type_wrap">
 	                           		<c:forEach items="${sc.categories}" var="categories">
@@ -163,23 +212,23 @@
 	                           	       </c:if>
 	                           	    </c:forEach>
 	                           	    
-	                                <input id="s2_1" type="checkbox" name="categories" value="인문/과학/심리"  <c:if test="${s21 eq 'true'}"><c:out value="checked"/></c:if> >
-	                                <div><label for="s2_1">인문/과학/심리</label></div>
-	                                <input id="s2_2" type="checkbox" name="categories" value="문학/에세이" <c:if test="${s22 eq 'true'}"><c:out value="checked"/></c:if> >
-	                                <div><label for="s2_2">문학/에세이</label></div>
-	                                <input id="s2_3" type="checkbox" name="categories" value="예술/음악" <c:if test="${s23 eq 'true'}"><c:out value="checked"/></c:if> >
-	                                <div><label for="s2_3">예술/음악</label></div>
-	                                <input id="s2_4" type="checkbox" name="categories" value="경영/경제/마케팅" <c:if test="${s24 eq 'true'}"><c:out value="checked"/></c:if> >
-	                                <div><label for="s2_4">경영/경제/마케팅</label></div>
-	                                <input id="s2_5" type="checkbox" name="categories" value="글쓰기" <c:if test="${s25 eq 'true'}"><c:out value="checked"/></c:if> >
-	                                <div><label for="s2_5">글쓰기</label></div>
-	                                <input id="s2_6" type="checkbox" name="categories" value="강연" <c:if test="${s26 eq 'true'}"><c:out value="checked"/></c:if> >
-	                                <div><label for="s2_6">강연</label></div>
+	                                <input class="checkbox-search" id="s2_1" type="checkbox" name="categories" value="인문/과학/심리"  <c:if test="${s21 eq 'true'}"><c:out value="checked"/></c:if> >
+	                                <div><label class="label-search" for="s2_1">인문/과학/심리</label></div>
+	                                <input class="checkbox-search" id="s2_2" type="checkbox" name="categories" value="문학/에세이" <c:if test="${s22 eq 'true'}"><c:out value="checked"/></c:if> >
+	                                <div><label class="label-search" for="s2_2">문학/에세이</label></div>
+	                                <input class="checkbox-search" id="s2_3" type="checkbox" name="categories" value="예술/음악" <c:if test="${s23 eq 'true'}"><c:out value="checked"/></c:if> >
+	                                <div><label class="label-search" for="s2_3">예술/음악</label></div>
+	                                <input class="checkbox-search" id="s2_4" type="checkbox" name="categories" value="경영/경제/마케팅" <c:if test="${s24 eq 'true'}"><c:out value="checked"/></c:if> >
+	                                <div><label class="label-search" for="s2_4">경영/경제/마케팅</label></div>
+	                                <input class="checkbox-search" id="s2_5" type="checkbox" name="categories" value="글쓰기" <c:if test="${s25 eq 'true'}"><c:out value="checked"/></c:if> >
+	                                <div><label class="label-search" for="s2_5">글쓰기</label></div>
+	                                <input class="checkbox-search" id="s2_6" type="checkbox" name="categories" value="강연" <c:if test="${s26 eq 'true'}"><c:out value="checked"/></c:if> >
+	                                <div><label class="label-search" for="s2_6">강연</label></div>
 	                            </div>
 	                        </li>
 	                    </ul>
 	                    <ul>
-	                        <li>독서모임 횟수</li>
+	                        <li class="searchTitle">독서모임 횟수</li>
 	                        <li>
 	                            <div class="type_wrap">
 	                            	<c:forEach items="${sc.times}" var="times">
@@ -191,76 +240,85 @@
 	                           	       </c:if>
 	                           	    </c:forEach>
 	                            
-	                                <input id="s3_1" type="checkbox" name="times" value="한 번 만나요" <c:if test="${s31 eq 'true'}"><c:out value="checked"/></c:if> >
-	                                <div><label for="s3_1">한 번 만나요</label></div>
-	                                <input id="s3_2" type="checkbox" name="times" value="여러 번 만나요" <c:if test="${s32 eq 'true'}"><c:out value="checked"/></c:if> >
-	                                <div><label for="s3_2">여러 번 만나요</label></div>
+	                                <input class="checkbox-search" id="s3_1" type="checkbox" name="times" value="한 번 만나요" <c:if test="${s31 eq 'true'}"><c:out value="checked"/></c:if> >
+	                                <div><label for="s3_1" class="label-search">한 번 만나요</label></div>
+	                                <input class="checkbox-search" id="s3_2" type="checkbox" name="times" value="여러 번 만나요" <c:if test="${s32 eq 'true'}"><c:out value="checked"/></c:if> >
+	                                <div><label for="s3_2" class="label-search">여러 번 만나요</label></div>
 	                            </div>
 	                        </li>
 	                    </ul>
 	                    <ul>
-	                        <li>독서모임 날짜</li>
+	                        <li class="searchTitle">독서모임 날짜</li>
 	                        <li>
 	                            <div class="type_wrap">
 	                                <div><label for="s4_1">시작</label></div>
 	                                <c:if test="${empty sc.startDate}">
-	                                	<input id="s4_1" type="date" min="2021-01-01"> ~
+	                                	<input class="checkbox-date" id="s4_1" type="date" min="2021-01-01"> ~
 	                                </c:if>
 	                                <c:if test="${!empty sc.startDate}">
-	                                	<input id="s4_1" type="date" min="2021-01-01" value="${sc.startDate }"> ~
+	                                	<input class="checkbox-date" id="s4_1" type="date" min="2021-01-01" value="${sc.startDate }"> ~
 	                                </c:if>
 	                                <input id="s4_1_name" name="startDate" type="hidden">
 	                                <div><label for="s4_2">끝</label></div>
 	                                <c:if test="${empty sc.endDate}">
-	                                	<input id="s4_2" type="date"  min="2021-01-01">
+	                                	<input class="checkbox-date" id="s4_2" type="date"  min="2021-01-01">
 	                                </c:if>
 	                                <c:if test="${!empty sc.endDate}">
-	                                	<input id="s4_2" type="date"  min="2021-01-01" value="${sc.endDate}">
+	                                	<input class="checkbox-date" id="s4_2" type="date"  min="2021-01-01" value="${sc.endDate}">
 	                                </c:if>
 	                                <input id="s4_2_name" name="endDate" type="hidden">
 	                            </div>
 	                        </li>
 	                    </ul>
 	                    <div style="text-align: right;">
-	                        <input type="search" name="keyword" <c:if test="${!empty sc.keyword}"><c:out value="value='${sc.keyword}'"/></c:if>> 
+	                        <input type="search" id="keyword" name="keyword" <c:if test="${!empty sc.keyword}"><c:out value="value=${sc.keyword}"/></c:if>> 
 	                        <button onclick="goSearch()">검색</button>
 	                    </div>
 	                </form>
 	            </div>
 	       </section>
 	       
-	       <section id="clubs" style="overflow:hidden; position: relative; ">
+	       <section id="clubs" style="overflow:hidden; position: relative;  padding-bottom: 130px;">
 	    	   <c:if test="${fn:length(clubList) == 0}">
 		   		   <div class="row" id="categoryList1">해당카테고리에 독서모임은 없습니다.</div>
 			   </c:if>
+			   
 			   <c:if test="${fn:length(clubList)>0}">
 				  <div id="categoryList">
 					<c:forEach items="${clubList}" var="club" varStatus="s">
-						<div id="c_clubTotal${s.index}" class="clubTotal"  onclick="goDetail(${club.clubNo})" style="cursor:pointer;">
-							<input id="c_clubNo${s.index}" type="hidden" value="${club.clubNo}">
-							<div class="card card-blog">
-								<div class="card-blog__img" style="height: 190px">
-									<div class="titleBackImg" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${club.titleChangeName}')"></div>
-								</div>
-								<div class="card-body">
-									<ul class="card-blog__info">
-										<li>
-											<span id="c_category${s.index}"><c:out value="${club.category}"/></span> &nbsp; 
-											<span id="c_onoffLine${s.index}">[<c:out value="${club.onoffLine}"/>]</span>
-										</li>
-										<li>
-											<i class="ti-comments-smiley"></i> <c:out value="${club.heartCount}"/> Likes
-										</li>
-									</ul>
-									<h4 id="c_title${s.index}" class="card-blog__title"><c:out value="${club.clubTitle}"/></h4>
-									<p><span id="c_intro${s.index}"> 독서모임 소개 독서모임 소개 독서모임 소개독서모임 소개 독서모임 소개 독서모임 소개</span></p>
-								</div>
+						<div class="clubTotal" onclick="goDetail(${club.clubNo})" style="cursor:pointer;">
+							<div class="titleBackImg" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${club.titleChangeName}')"></div>
+							<div class="titleContent">
+								<ul class="card-blog__info">
+									<li>
+										<span id="c_category${s.index}"><c:out value="${club.category}"/></span> &nbsp; 
+										<span id="c_onoffLine${s.index}">[<c:out value="${club.onoffLine}"/>]</span>
+									</li>
+									<li>
+										<i class="ti-comments-smiley"></i> <c:out value="${club.heartCount}"/> Likes
+									</li>
+								</ul>
+								<h4 id="c_title${s.index}" class="card-blog__title"><c:out value="${club.clubTitle}"/></h4>
+								<p>
+									<c:forEach items="${club.clubTimes}" var="clubTime" varStatus="status">
+										<c:if test="${status.index eq 0}">
+											<c:set var="startD" value="${clubTime.clubDate}"/>
+										</c:if>
+										<c:if test="${status.index ne 0}">
+											<c:if test="${startD > clubTime.clubDate}">
+												<c:set var="startD" value="${clubTime.clubDate}"/>
+											</c:if>
+										</c:if>
+									</c:forEach>
+									시작 : <c:out value="${startD}"></c:out> &nbsp;
+									| <c:out value="${fn:length(club.clubTimes)}"></c:out> 번
+								</p>
 							</div>
 						</div>
 					</c:forEach>
 				</div>
 
-				<div id="pagingArea" style="text-align: center; position: absolute; bottom: 0px; left: 44%;">
+				<div id="pagingArea">
 					<div style="display: inline-block;">
 						<ul class="pagination">
 				        	<c:choose>
@@ -301,97 +359,8 @@
 	   </div>
     </main>
 
-
-    <!--================ Start footer Area  =================-->
-    <footer class="footer">
-        <div class="footer-area">
-            <div class="container">
-                <div class="row section_gap">
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="single-footer-widget tp_widgets">
-                            <h4 class="footer_title large_title">Our Mission</h4>
-                            <p>
-                                So seed seed green that winged cattle in. Gathering thing made fly you're no divided deep moved us lan Gathering thing us land years living.
-                            </p>
-                            <p>
-                                So seed seed green that winged cattle in. Gathering thing made fly you're no divided deep moved
-                            </p>
-                        </div>
-                    </div>
-                    <div class="offset-lg-1 col-lg-2 col-md-6 col-sm-6">
-                        <div class="single-footer-widget tp_widgets">
-                            <h4 class="footer_title">Quick Links</h4>
-                            <ul class="list">
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Shop</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Product</a></li>
-                                <li><a href="#">Brand</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-6 col-sm-6">
-                        <div class="single-footer-widget instafeed">
-                            <h4 class="footer_title">Gallery</h4>
-                            <ul class="list instafeed d-flex flex-wrap">
-                                <li><img src="img/gallery/r1.jpg" alt=""></li>
-                                <li><img src="img/gallery/r2.jpg" alt=""></li>
-                                <li><img src="img/gallery/r3.jpg" alt=""></li>
-                                <li><img src="img/gallery/r5.jpg" alt=""></li>
-                                <li><img src="img/gallery/r7.jpg" alt=""></li>
-                                <li><img src="img/gallery/r8.jpg" alt=""></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="offset-lg-1 col-lg-3 col-md-6 col-sm-6">
-                        <div class="single-footer-widget tp_widgets">
-                            <h4 class="footer_title">Contact Us</h4>
-                            <div class="ml-40">
-                                <p class="sm-head">
-                                    <span class="fa fa-location-arrow"></span> Head Office
-                                </p>
-                                <p>123, Main Street, Your City</p>
-
-                                <p class="sm-head">
-                                    <span class="fa fa-phone"></span> Phone Number
-                                </p>
-                                <p>
-                                    +123 456 7890 <br> +123 456 7890
-                                </p>
-
-                                <p class="sm-head">
-                                    <span class="fa fa-envelope"></span> Email
-                                </p>
-                                <p>
-                                    free@infoexample.com <br> www.infoexample.com
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer-bottom ">
-            <div class="container ">
-                <div class="row d-flex ">
-                    <p class="col-lg-12 footer-text text-center ">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Copyright &copy;
-                        <script>
-                            document.write(new Date().getFullYear());
-                        </script> All rights reserved | This template is made with <i class="fa fa-heart " aria-hidden="true "></i> by <a href="https://colorlib.com " target="_blank ">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </p>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!--================ End footer Area  =================-->
-
-
-
+	<jsp:include page="../common/footer.jsp" />
+    
     <script src="resources/vendors/jquery/jquery-3.2.1.min.js "></script>
     <script src="resources/vendors/bootstrap/bootstrap.bundle.min.js "></script>
     <script src="resources/vendors/skrollr.min.js "></script>
