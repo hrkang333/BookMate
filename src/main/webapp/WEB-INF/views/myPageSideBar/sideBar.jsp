@@ -24,13 +24,29 @@
     
  
     <link rel="stylesheet" href="resources/css/style.css">
+    
+    <style>
+
+	li a {
+		text-decoration: none;
+		display: block;
+		color: #000;
+		padding: 8px 15px 8px 15px;
+		font-weight: bold;
+	}
+    
+  	li a:hover {
+		background-color: darkgray;
+		color: #fff;
+	}
+    </style>
 <body>
 
     <div class="" style="width: 200px; height:auto">
-              <div class="sidebar-categories">
-                <div class="head">마이페이지</div>
+              <div class="sidebar-categories" >
+                <div class="head" style="background-color: darkgray;"> 마이페이지</div>
                 <ul class="main-categories">
-                  <li class="common-filter">
+                  <li class="">
                     <form action="#">
                       <ul>
                         <li><a href="myPage.me">내 정보 수정하기 </a> </li>
@@ -41,7 +57,7 @@
                 </ul>
               </div>
               <div class="sidebar-filter">
-                <div class="top-filter-head">일반상품 주문관리</div>
+                <div class="top-filter-head"style="background-color: darkgray;">일반상품 주문관리</div>
                 <div class="common-filter">
                   <div class="head">일반상품</div>
                   <form action="#">
@@ -56,7 +72,7 @@
 
 
              <div class="sidebar-filter">
-                <div class="top-filter-head">중고상품 주문관리</div>
+                <div class="top-filter-head"style="background-color: darkgray;">중고상품 주문관리</div>
                 <div class="common-filter">
                   <div class="head">중고상품</div>
                   <form action="#">
@@ -69,15 +85,14 @@
              </div>
 
              <div class="sidebar-filter">
-                <div class="top-filter-head">나의 목록들</div>
+                <div class="top-filter-head"style="background-color: darkgray;">나의 목록들</div>
                 <div class="common-filter">
                   <form action="myPageOrderList.me" method="post"> </form>
                     <ul>
-                      
-                        
                         <li class="filter-list"> <a href="myReview.me" >나의 리뷰조회 </a> </li>
                         <li class="filter-list">  <a href="recentlyView.me">나의 최근 본 목록</a> </li>
                         <li class="filter-list"> <a href="myPoint.me">나의 포인트 조회</a></li>
+                         <li class="filter-list"> <a href="myAddressMange.me">나의 주소록 관리</a></li>
                     </ul>
                  
                 </div>

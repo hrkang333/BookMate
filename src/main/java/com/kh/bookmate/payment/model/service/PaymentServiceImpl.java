@@ -63,9 +63,7 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public void confirmOrder(int paymentDetailNo, int paymentNo) {
 		
-		 
-		// buyReview 테이블에 insert..?
-		 //selldata 테이블에 insert 해야된다.. 
+
 	PaymentDetail pd = paymentDao.selectPaymentDetail(sqlSession, paymentDetailNo);
 	//paymentDetailNo 로 페이먼트 객체 가져오기 
 	Payment p = paymentDao.selectPaymentNo(sqlSession, paymentNo);
@@ -196,18 +194,10 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 	@Override
-	public List<PaymentDetail> cancelList() {
-		List<PaymentDetail> cList = paymentDao.cancelList(sqlSession);
+	public List<PaymentDetail> cancelList(String loginUser) {
+		List<PaymentDetail> cList = paymentDao.cancelList(sqlSession,loginUser);
 		return cList;
 	}
-
-
-	@Override
-	public List<PaymentDetail> refundAndExchangeList() {
-		List<PaymentDetail> rxList = paymentDao.refundAndExchangeList(sqlSession);
-		return rxList;
-	}
-
 
 
 
@@ -244,8 +234,14 @@ public class PaymentServiceImpl implements PaymentService {
 	} 
 
 	@Override
-	public List<PaymentDetail> selectReAndExList(PaymentDetail pd) {
-		List<PaymentDetail> result = paymentDao.selectReAndExList(sqlSession, pd);	
+	public List<PaymentDetail> selectReAndExList(String loginUser) {
+		List<PaymentDetail> result = paymentDao.selectReAndExList(sqlSession, loginUser);
+		
+//		List<Object> list = new ArrayList<Object>();
+//		list.add(pay.getUser_Id());
+//		list.add(pd.getPaymentDetailNo());
+//		list.add(pd.getBookTitle());
+		
 		return result;
 	}
 

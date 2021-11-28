@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.kh.bookmate.addressBook.model.vo.AddressBook;
 import com.kh.bookmate.book.model.service.BookService;
 import com.kh.bookmate.book.model.vo.Book;
 import com.kh.bookmate.bookreview.model.service.BookReviewService;
@@ -28,6 +28,7 @@ import com.kh.bookmate.exchange_item.model.service.ExchangeItemService;
 import com.kh.bookmate.exchange_item.model.vo.ExchangeItem;
 import com.kh.bookmate.main.model.service.MainService;
 import com.kh.bookmate.main.model.vo.RecentView;
+import com.kh.bookmate.myPage.model.service.MyPageService;
 import com.kh.bookmate.payment.model.service.PaymentService;
 import com.kh.bookmate.payment.model.vo.Payment;
 import com.kh.bookmate.payment.model.vo.PaymentDetail;
@@ -74,7 +75,11 @@ public class myPageController {
 
 	@Autowired
 	private BookReviewService bookReviewService;
+	
+	@Autowired
+	private MyPageService myPageService;
 
+	
 
 	//회원의 포인트 조회 
 	@RequestMapping("myPoint.me")
@@ -89,12 +94,12 @@ public class myPageController {
 
 	}
 
-
-	//마이페이지 이동 
-	@RequestMapping("myPage.me")
-	public String updateUser() {
-		return "myPage/updateMyPage";
-	}
+//
+//	//마이페이지 이동 
+//	@RequestMapping("myPage.me")
+//	public String updateUser() {
+//		return "myPage/updateMyPage";
+//	}
 	
 
 	//회원정보 수정 
@@ -243,9 +248,10 @@ public class myPageController {
 
 	//구매취소 리스트 
 	@RequestMapping("cancelList.me")
-	public String cancelList(Model model) {
+	public String cancelList(Model model,HttpSession session) {
 		
-		List<PaymentDetail> cList = paymentService.cancelList();
+		String loginUser = ((User) session.getAttribute("loginUser")).getUserId(); 
+		List<PaymentDetail> cList = paymentService.cancelList(loginUser);
 		model.addAttribute("cList",cList);
 		System.out.println("cList=확인 =================" + cList.toString());
 
@@ -254,9 +260,11 @@ public class myPageController {
 	
 	// 교환/환불 리스트 조회
 	@RequestMapping("refundAndExchangeList.me") // 왜 bookISBN no getter가 뜨는거지..
-	public String refundAndExchangeList(PaymentDetail pd, Model model) {
-
-		List<PaymentDetail> rxList = paymentService.selectReAndExList(pd);
+	public String selectReAndExList(PaymentDetail pd, Model model,HttpSession session) {
+		
+		String loginUser = ((User) session.getAttribute("loginUser")).getUserId();
+		System.out.println("=======================" + loginUser);
+		List<PaymentDetail> rxList = paymentService.selectReAndExList(loginUser);
 
 		model.addAttribute("rxList", rxList);
 
@@ -342,47 +350,59 @@ public class myPageController {
 	}
 	
 	
-	//최근 본 목록 보기 (서연씨꺼 메인 참고해ㅅ) 
+	//최근 본 목록 보기 (서연씨꺼 메인 마이페이지에 연결) 
 	@RequestMapping("recentlyView.me")
-	public String myRecentlyView(HttpServletRequest request, Model model) {
+	public String myRecentlyView(HttpSession session, Model model) {
 	
-//		 if((User)request.getSession().getAttribute("loginUser") != null ){
-//		    	String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
-//
-//		    	RecentView rv = mainService.selectRecentView(userId);
-//		    	String[] tempArr = null;
-//		    	ArrayList<String> isbnList = null;
-//		    	List<Book> viewList = new ArrayList<Book>();
-//		    	
-//		    	if(rv != null) {
-//		    		tempArr = rv.getBooks().split(",");
-//		    		isbnList = new ArrayList<String>(Arrays.asList(tempArr)); //화면에 리스트로 보내기
-//
-//			    	System.out.println("최근본상품 조회 : " + isbnList.toString());
-//			    	viewList = mainService.selectRecentViewList(isbnList);
-//		    	
-//			    	System.out.println("최근본상품 조회-book객체 : " + viewList.toString());
-//		    	}
-//		    	
-//		    	model.addAttribute("isbnList", isbnList);  
-//				model.addAttribute("viewList", viewList);
-//		
-				
-		 
+		String loginUser = ((User) session.getAttribute("loginUser")).getUserId(); 
+
+    	RecentView rv = mainService.selectRecentView(loginUser);
+    	String[] tempArr = null;
+    	ArrayList<String> isbnList = null;
+    	List<Book> viewList = new ArrayList<Book>();
+    	
+    	if(rv != null) {
+    		tempArr = rv.getBooks().split(",");
+    		isbnList = new ArrayList<String>(Arrays.asList(tempArr)); //화면에 리스트로 보내기
+	    	viewList = mainService.selectRecentViewList(isbnList);
+    	
+    	}
+    	
+    	model.addAttribute("isbnList", isbnList); 
+		model.addAttribute("viewList", viewList);		
+		
 		return "myPage/recentlyViewInMyPage";
 	}
 	
 	
 	//내가 쓴 리뷰 보기 
 	@RequestMapping("myReview.me")
-	public String myReview(HttpServletRequest request, Model model, BookReview rb) {
+	public String selectReviewListMine(HttpSession session, Model model, BookReview rb) {
 		
+		String loginUser = ((User) session.getAttribute("loginUser")).getUserId(); 
 		//리뷰 제목, 리뷰 내용, 리뷰작성 날짜 정도 내 페이지에서 보여주게 한 다음에 상세보기로 연결시키기 
-		List<BookReview> myBrList = bookReviewService.selectReviewListMine(rb);
-		System.out.println("------마이리뷰리스트 나오니?" + myBrList); //이거 왜 널임..ㅠㅠ..user_Id 넣으면 널..?
+		List<BookReview> myBrList = bookReviewService.selectReviewListMine(loginUser);
 		model.addAttribute("myBrList",myBrList);
-		
 		
 		return "myPage/myReviewList";
 	}
+	
+	
+	
+	//나의 주소록 관리
+	@RequestMapping("myAddressMange.me")
+	public String myAddressManage(HttpSession session, Model model) {
+		
+		String loginUser = ((User) session.getAttribute("loginUser")).getUserId(); 
+	
+		List<AddressBook> myAdressBookList = myPageService.selectMyAddressList(loginUser);
+		model.addAttribute("myAdressBookList",myAdressBookList);
+		
+		
+		return"myPage/myAddressManageList";
+	}
+	
+	
+	
+	
 }

@@ -38,75 +38,15 @@
     
  
 </head>
-<body>
+<body style="width: 1200px; margin: auto;">
+ <jsp:include page="../common/menubar.jsp" />
 
- <!-- 왼쪽 사이드바  -->
-   <section class="section-margin--small mb-5">
-    <div class="container">
-			<div class="row">
-				<div class="col-xl-3 col-lg-4 col-md-5">
-					<div class="sidebar-categories">
-						<div class="head">마이페이지</div>
-						<ul class="main-categories">
-							<li class="common-filter">
-								<form action="#">
-									<ul>
-										<li>내 정보 수정하기</li>
-										<li>내 비밀번호 변경하기</li>
-									</ul>
-								</form>
-							</li>
-						</ul>
-					</div>
-					<div class="sidebar-filter">
-						<div class="top-filter-head">일반상품 주문관리</div>
-						<div class="common-filter">
-							<div class="head">일반상품</div>
-							<form action="#">
-								<ul>
-									<li class="filter-list">주문 리스트 조회</li>
-									<li class="filter-list">취소 리스트 조회</li>
-									<li class="filter-list">교환 리스트 조회</li>
-								</ul>
-							</form>
-						</div>
-					</div>
-
-
-					<div class="sidebar-filter">
-						<div class="top-filter-head">중고상품 주문관리</div>
-						<div class="common-filter">
-							<div class="head">중고상품</div>
-							<form action="#">
-								<ul>
-									<li class="filter-list">주문 리스트 조회</li>
-
-								</ul>
-							</form>
-						</div>
-					</div>
-
-					<div class="sidebar-filter">
-						<div class="top-filter-head">관심작가 및 찜목록</div>
-						<div class="common-filter">
-							<form action="#">
-								<ul>
-									<br>
-									<li class="filter-list">관심작가 리스트</li>
-									<li class="filter-list">최근 조회한 상품</li>
-									<li class="filter-list">나의 찜목록</li>
-									<li class="filter-list">나의 리뷰 조회</li>
-									<li class="filter-list"><a href="myPoint.me">나의 포인트 조회</a></li>
-								</ul>
-							</form>
-						</div>
-					</div>
-
-
-				</div>
-				
-				
-				
+<!-- 왼쪽 사이드바  -->
+    <section  style="padding-top: 180px;" >
+        <div class="container">
+          <div class="row">
+         <jsp:include page="../myPageSideBar/sideBar.jsp" />
+					
 
 				<!-- 회원정보 수정할수 있는 곳  -->
 	<div class="col-xl-9 col-lg-8 col-md-7">
@@ -183,29 +123,6 @@
 				<input class="form-control" type="hidden" id="sample4_engAddress" placeholder="영문주소"  size="30">
 				</div>
 
-				<%-- 
-					얘는 도대체 왜 안되는지.. ?
-					<div class="form-inline">
-					<label> &nbsp; 우편번호 : &nbsp;</label>
-					<input type="text"  name="post" class="form-control sample4_postcode" value="${ post }" size="6" readonly>
-					<button type="button" class="btn btn-primary" id="postcodify_search_button" onclick="sample4_execDaumPostcode()">검색</button>
-					</div>
-					<br>
-					<label> &nbsp; 도로명주소 : </label>
-					<input type="text" name="address1" class="form-control sample4_roadAddress" value="${ address1 }" size="30">
-					<br>
-				    <label> &nbsp; 상세주소 : </label>
-					<input type="text" name="address2" class="form-control sample4_detailAddress" value="${ address2 }" size="30">
-				 	
-				 	<input class="form-control" type="hidden" id="sample4_jibunAddress" placeholder="지번주소" size="60" disabled>
-					<input class="form-control" type="hidden" id="sample4_extraAddress" placeholder="참고항목"  size="60">
-					<input class="form-control" type="hidden" id="sample4_engAddress" placeholder="영문주소"  size="60">
-   					<input class="form-control" id="guide" style="color:#999;display:none">
-
-			 --%>
-			 
-
-				<!-- 너 왜 못가져오는지..?  -->
           	        <label > &nbsp; Gender : </label> &nbsp;&nbsp;
                     <input type="radio" name="gender" id="Male" value="M">
                     <label for="Male">남자</label> &nbsp;&nbsp;
@@ -246,8 +163,11 @@
 				</div>
 			</div>
 		</div>
+		</div>
+		</div>
     
   </section>
+  <jsp:include page="../common/footer.jsp" />
 
 <!-- 다음 우편번호 api  -->
 	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>

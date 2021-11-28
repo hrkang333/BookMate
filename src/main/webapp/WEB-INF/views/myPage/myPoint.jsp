@@ -88,7 +88,7 @@
     
   </section>
     
- 
+ <jsp:include page="../common/footer.jsp" />
 
 </body>
 
@@ -126,7 +126,7 @@
 				}else {
 					alert("해당 쿠폰번호가 없습니다 다시 입력해주세요 ")
 				}
-				console.log('ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㄹㅇㄹㅇㄹㅇ성공 ')
+				console.log('성공 ')
 				
 			},
 			error:function(){

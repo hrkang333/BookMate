@@ -99,9 +99,9 @@ public class BookReviewDao {
 	}
 
 	//마이페이지 북 리뷰 리스트 
-	public List<BookReview> selectReviewListMine(SqlSessionTemplate sqlSession, BookReview rb) {
+	public List<BookReview> selectReviewListMine(SqlSessionTemplate sqlSession, String loginUser) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("reviewMapper.selectReviewListMine",rb);
+		return sqlSession.selectList("reviewMapper.selectReviewListMine",loginUser);
 	}
 
 	

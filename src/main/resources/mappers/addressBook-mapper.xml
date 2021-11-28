@@ -10,4 +10,9 @@ SELECT * FROM ADDRESSBOOK WHERE USER_ID = #{user_Id}
 <insert id="insertAddressBook">
 INSERT INTO ADDRESSBOOK(USER_ID,MAINADDRESS) VALUES(#{user_Id},#{mainAddress})
 </insert>
+
+<select id="selectMyAddressList" resultType="AddressBook">
+SELECT * FROM ADDRESSBOOK WHERE USER_ID = #{user_Id}
+</select>
+
 </mapper>

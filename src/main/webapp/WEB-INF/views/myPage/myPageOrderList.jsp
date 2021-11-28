@@ -37,7 +37,12 @@
            text-align: center;
             padding-left: 10%;
            padding-right: 12%; 
+           
+           
         }
+  #tr_hover:hover {
+    background-color:#CCCCCC;
+}
         
     </style>
 </head>
@@ -81,7 +86,7 @@
                           
                    <c:forEach var="item" items="${myOrderList}" varStatus="status">
                        
-                      <tr>       
+                      <tr id="tr_hover">       
                        	<td>
                     	<input type="hidden"  id="paymentNo${status.index}" value="${item.paymentNo}"/>
                         	<p><c:out value="${item.paymentNo}"/></p></td>     

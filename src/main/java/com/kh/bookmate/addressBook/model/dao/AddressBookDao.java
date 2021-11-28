@@ -1,5 +1,7 @@
 package com.kh.bookmate.addressBook.model.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +18,13 @@ public class AddressBookDao {
 	public AddressBook selcetAddressBook(SqlSessionTemplate sqlSession, String user_Id) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("addressBookMapper.selcetAddressBook",user_Id);
+	}
+
+	
+	// 마이페이지 주소록 리스트 
+	public List<AddressBook> selectMyAddressList(SqlSessionTemplate sqlSession, String loginUser) {
+		
+		return sqlSession.selectList("addressBookMapper.selectMyAddressList",loginUser);
 	}
 
 }

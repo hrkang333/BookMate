@@ -35,7 +35,7 @@ public interface PaymentService {
 
 	void updateUserReList(int paymentDetailNo);
 
-	List<PaymentDetail> cancelList();
+	List<PaymentDetail> cancelList(String loginUser);
 
 	boolean checkStock(ShoppingBasket basket);
 
@@ -46,9 +46,9 @@ public interface PaymentService {
 
 	void updateReturn(int paymentDetailNo, Payment p);
 
-	List<PaymentDetail> refundAndExchangeList();
+//	List<PaymentDetail> refundAndExchangeList();
 
-	List<PaymentDetail> selectReAndExList(PaymentDetail pd);
+	List<PaymentDetail> selectReAndExList(String loginUser);
 
 	void insertSinglePayment(Payment temp, PaymentDetail paymentDetail);
 

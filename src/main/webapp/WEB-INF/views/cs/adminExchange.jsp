@@ -62,10 +62,6 @@
 	 			 <td><c:out value="${pd.bookTitle }"/></td>
 				<td><c:out value="${pd.quantity}"/>개</td> 
 			 	
-			 	
-			 	<td><span id="pno${status.index}"><c:out value="${returnItem.user_Id }"/></span></td>
-				<td><span id="pno${status.index}"><c:out value="${pd.getPoint }"/></span></td>
-				
 				
 				<td>
 			
