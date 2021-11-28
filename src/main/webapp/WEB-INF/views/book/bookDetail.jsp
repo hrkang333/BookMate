@@ -63,10 +63,23 @@ margin-left: 100px;
 #qnaViewTable th{
     background-color: rgba(166, 219, 240, 0.233);
 }
+.infoTable{
+    border: 1px solid;
+}
+.infoTable th{
+    background-color: rgb(228, 201, 166);
+    height: 100px;
+}
+.infoTable th,.infoTable td{
+   border: 1px solid;
+   padding-left: 10px;
+   padding-right: 10px;
+}
 </style>    
 <script>
 var listIndex = 0;
 var updateQnaIndex = 0;
+var wishListStatus = "${requestScope.checkWishList}"=='pass' ? 1 : 2;
 $(function() {
 	var pagePosition = "${requestScope.pagePosition}"
 	if(pagePosition==2){
@@ -180,6 +193,21 @@ $(function() {
         	
 			
 		}
+        
+        function singleOrder() {
+        	if(!loginCheck()){
+        		return false
+        	}
+        	
+        	$('#S_Order_Quantity').val($('#orderQuantity').val());
+        	$('#moveSingleOrderForm').submit();
+        	
+        	
+			
+		}
+                
+        
+
         function reviewScore(num) {
             for(var i=1;i<=5;i++){
                 $('#scoreImg_'+i).attr('src',"${pageContext.servletContext.contextPath }/resources/img/fHeart.jpg")
@@ -900,11 +928,50 @@ $(function() {
 			
 		}
 	
+		function updateWishList(bookISBN) {
+			var path = "${pageContext.servletContext.contextPath}/resources/img/";
+			if(!loginCheck()){
+				return false;
+			}
+			if(parseInt(wishListStatus)==1){
+				if(!confirm("이 상품을 찜 목록에 추가하시겠습니까?")){
+					return false;
+				}
+			}else{
+				if(!confirm("이미 찜목록에 있는 상품입니다.\n찜목록에서 제외하시겠습니까?")){
+					return false;
+				}
+			}
+			$.ajax({
+			
+				url : "updateWishList.wl",
+				type : "post",
+				data : {
+					bookISBN : bookISBN,
+					wishListStatus : wishListStatus
+				},
+				success : function(str) {
+					if(parseInt(wishListStatus)==1){
+						$('#wishListImg').attr('src',path+'fWishList.png')
+						wishListStatus = 2;
+						alert("이 상품을 찜목록에 추가하였습니다.")
+					}else{
+						$('#wishListImg').attr('src',path+'eWishList.png')
+						wishListStatus = 1;
+						alert("이 상품을 찜목록에서 제외하였습니다.")
+					}
+				},
+				error : function(e) {
+					alert("찜 목록 업데이트중 ajax 통신 오류")
+				}
+			})
+			
+		}
     </script>
 </head>
-<body>
+<body style="display: flex;">
 <jsp:include page="../common/menubar.jsp" />
-		<main class="site-main" style="padding-top: 180px">
+		<main class="site-main" style="padding-top: 180px;margin: auto;">
 
 	<hr>
 		<div style="display: flex;">
@@ -990,8 +1057,8 @@ $(function() {
 
 				주문수량 : <input type="text" style="width: 30px; text-align: right;"
 					value="1" id="orderQuantity" name="QUANTITY">권
-				<button type="button" onclick="modiQuntity(1)">+</button>
-				<button type="button" onclick="modiQuntity(0)">-</button>
+				<button type="button" onclick="modiQuntity(1)" class="btn btn-secondary btn-sm" style="width: 30px">+</button>
+				<button type="button" onclick="modiQuntity(0)" class="btn btn-secondary btn-sm"style="width: 30px"> - </button>
 
 
 
@@ -999,10 +1066,22 @@ $(function() {
 
 			</div>
 			<div>
-				<button onclick="basketMove()" type="button">장바구니</button>
-				<button>바로주문</button>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a
-					href="bookEnrollForm.book">도서 입고로 이동</a>
+				<button onclick="basketMove()" type="button" class="btn btn-secondary btn-sm">장바구니</button>
+				<button type="button" onclick="singleOrder()" class="btn btn-secondary btn-sm">바로주문</button>
+				<c:if test="${requestScope.checkWishList eq 'pass'}">
+					<img src="${pageContext.servletContext.contextPath }/resources/img/eWishList.png"
+						width="45px" height="50px" style="cursor: pointer;margin-left: 50px"
+						onclick="updateWishList('${requestScope.book.bookISBN}')"
+						id="wishListImg">
+				</c:if>
+				<c:if test="${requestScope.checkWishList eq 'already'}">
+					<img src="${pageContext.servletContext.contextPath }/resources/img/fWishList.png"
+						width="45px" height="50px" style="cursor: pointer; margin-left: 50px"
+						onclick="updateWishList('${requestScope.book.bookISBN}')"
+						id="wishListImg">
+				</c:if>
+				<c:if test="${sessionScope.loginUser.userId eq 'admin'}">
+				<button type="button" onclick="location.href='updateBook.book?bookISBN=${requestScope.book.bookISBN}'" class="btn btn-secondary btn-sm">수정하기</button></c:if>
 			</div>
 			</c:if>
 		</div>
@@ -1239,7 +1318,7 @@ $(function() {
 		궁금하거나 알고 싶은 정보가 있으시면 문의 해주세요. <button type="button" class="btn btn-secondary btn-sm" onclick="qnaInsertForm()">문의하기</button><br>
 		<hr></div>
     <div id="selectQnaKindDiv" style="display: flex; width: 800px">
-    <button type="button" class="btn btn-secondary btn-sm">내 글보기</button>
+    <button type="button" class="btn btn-secondary btn-sm" onclick="changeKind(2,6)">내 글보기</button>
 		<div style="margin-left: auto;">
 		
 		<select onchange="changeKind(2,this.value)">
@@ -1278,10 +1357,10 @@ $(function() {
 	                                        <input type="hidden" id="qnaWriter" value="${list.user_Id}">
 	                                        <c:choose>
 	                                        <c:when test="${list.qnaSecret==0}">
-	                                        <img src="${pageContext.servletContext.contextPath }/resources/img/fHeart.jpg" style="display: none;width:15px"  id="qnaSecretImg">
+	                                        <img src="${pageContext.servletContext.contextPath }/resources/img/lock.png" style="display: none;width:15px"  id="qnaSecretImg">
 	                                        </c:when>
 	                                        <c:otherwise>
-	                                        <img src="${pageContext.servletContext.contextPath }/resources/img/fHeart.jpg" style="display: inline;width:15px" id="qnaSecretImg">
+	                                        <img src="${pageContext.servletContext.contextPath }/resources/img/lock.png" style="display: inline;width:15px" id="qnaSecretImg">
 	                                        </c:otherwise>
 	                                        </c:choose>
                                         </td>
@@ -1359,11 +1438,60 @@ $(function() {
         </button><button type="button" onclick="pagePositionMove('reviewPosition')">도서리뷰
         </button><button type="button" onclick="pagePositionMove('qnaPosition')">도서1:1문의
         </button><button type="button" onclick="pagePositionMove('noticePosition')" style="border-bottom: none;">교환/환불</button>
-		</div><br><br>
+		</div><br><br><br>
+		<div>
+		<span style="font-size: 20px;font-weight: bold;">교환/반품/품절안내</span><br><br>
+		※ 상품 설명에 반품/교환 관련 안내가 있는 경우 그 내용을 우선으로 합니다.(업체 사정에 따라 달라질 수 있습니다.)
+		</div>
+		
+
     
+		<table style="width: 800px;" class="infoTable">
+		<tbody>
+		<tr>
+		    <th style="width: 200px;">반품/교환방법</th>
+		    <td>마이페이지 > 주문관리 > 주문/배송내역 > 주문조회 > 반품/교환신청<br>
+		        [1:1상담>반품/교환/환불] 또는 고객센터 (####-####)</td>
+		</tr>
+		<tr>
+		    <th>반품/교환가능 기간</th>
+		    <td>변심반품의 경우 수령 후 7일 이내,
+		        상품의 결함 및 계약내용과 다를 경우 문제점 발견 후 30일 이내</td>
+		</tr>
+		<tr>
+		    <th>반품/교환비용</th>
+		    <td>변심 혹은 구매착오로 인한 반품/교환은 반송료 고객 부담</td>
+		</tr>
+		<tr>
+		    <th>반품/교환 불가 사유</th>
+		    <td>-소비자의 책임 있는 사유로 상품 등이 손실 또는 훼손된 경우<br>
+		        (단지 확인을 위한 포장 훼손은 제외)<br>
+		        -소비자의 사용, 포장 개봉에 의해 상품 등의 가치가 현저히 감소한 경우<br>
+		        -복제가 가능한 상품 등의 포장을 훼손한 경우<br>        
+		        -디지털 컨텐츠인 eBook을 1회 이상 다운로드를 받았을 경우<br>
+		       -시간의 경과에 의해 재판매가 곤란한 정도로 가치가 현저히 감소한 경우<br>
+		        -전자상거래 등에서의 소비자보호에 관한 법률이 정하는 소비자 청약철회 제한 내용에
+		        해당되는 경우</td>
+		</tr>
+		<tr>
+		    <th>상품 품절</th>
+		    <td>공급사(출판사) 재고 사정에 의해 품절/지연될 수 있으며, 품절 시 관련 사항에 대해서는
+		        이메일과 문자로 안내드리겠습니다.</td>
+		</tr>
+		<tr>
+		    <th>소비자 피해보상<br>
+		        환불지연에 따른 배상</th>
+		    <td>-상품의 불량에 의한 교환, A/S, 환불, 품질보증 및 피해보상 등에 관한 사항은
+		        소비자분쟁해결 기준 (공정거래위원회 고시)에 준하여 처리됨<br>
+		        -대금 환불 및 환불지연에 따른 배상금 지급 조건, 절차 등은 전자상거래 등에서의
+		        소비자 보호에 관한 법률에 따라 처리함</td>
+		</tr>
+		</tbody>
+		
+		
+		</table>
     
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br><br>
     
     
     
@@ -1425,6 +1553,11 @@ $(function() {
 		
 		<input type="hidden" value="${sessionScope.loginUser.userId}" name="user_Id">
 
+	</form>
+	<form action="moveS_OrderPayment.sc" method="post" id="moveSingleOrderForm">
+		
+		<input type="hidden" name="bookISBN" value="${requestScope.book.bookISBN}">
+		<input type="hidden" name="quantity" id="S_Order_Quantity">
 	</form>
 	
 	</div>

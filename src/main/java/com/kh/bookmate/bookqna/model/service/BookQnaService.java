@@ -10,9 +10,9 @@ import com.kh.bookmate.common.Paging;
 
 public interface BookQnaService {
 
-	int selectTotalCount(String bookISBN, int questionKind);
+	int selectTotalCount(String bookISBN, int questionKind, String user_Id);
 
-	List<BookQna> selectList(String bookISBN, Paging qnaPaging, int questionKind);
+	List<BookQna> selectList(String bookISBN, Paging qnaPaging, int questionKind, String user_Id);
 
 	List<String> selectQnaDetail(int qnaNo);
 

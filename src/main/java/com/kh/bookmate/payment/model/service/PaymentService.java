@@ -50,6 +50,8 @@ public interface PaymentService {
 
 	List<PaymentDetail> selectReAndExList(PaymentDetail pd);
 
+	void insertSinglePayment(Payment temp, PaymentDetail paymentDetail);
+
 	
 
 

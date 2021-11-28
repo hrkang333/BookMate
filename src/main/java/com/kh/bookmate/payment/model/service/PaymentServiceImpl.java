@@ -155,7 +155,7 @@ public class PaymentServiceImpl implements PaymentService {
 			}
 		}
 		
-			temp.setUsePoint(temp.getTotalGetPoint()-temp.getUsePoint());
+			temp.setUsePoint(-temp.getUsePoint());
 			int result4 = paymentDao.updateUserPoint(sqlSession,temp);
 			if(result4 < 0) {
 				throw new RuntimeException("유저 포인트 업데이트 오류");
@@ -253,6 +253,37 @@ public class PaymentServiceImpl implements PaymentService {
 	public boolean checkStock(ShoppingBasket basket) {
 		int stock = paymentDao.checkStock(sqlSession,basket.getBookISBN());
 		return stock >= basket.getQuantity() ;
+	}
+
+	@Override
+	public void insertSinglePayment(Payment temp, PaymentDetail paymentDetail) {
+		int result = paymentDao.insertPayment(sqlSession,temp);
+		ShoppingBasket basket = new ShoppingBasket();
+		basket.setBookISBN(paymentDetail.getBookISBN());
+		basket.setQuantity(paymentDetail.getQuantity());
+		
+		if(result < 0) {
+			throw new RuntimeException("결제 정보 저장 오류");
+		}
+		int paymentNo = temp.getPaymentNo();
+		
+			paymentDetail.setPaymentNo(paymentNo);
+			int result2 = paymentDao.insertPaymentDetail(sqlSession,paymentDetail);
+			if(result2 < 0) {
+				throw new RuntimeException("세부 결제 정보 저장 오류");
+			}
+			temp.setUsePoint(-temp.getUsePoint());
+			int result4 = paymentDao.updateUserPoint(sqlSession,temp);
+			if(result4 < 0) {
+				throw new RuntimeException("유저 포인트 업데이트 오류");
+			}
+			
+				int result5 = paymentDao.updateBookStock(sqlSession,basket);
+				if(result5 < 0) {
+					throw new RuntimeException("결제후 재고 감소 오류");
+				}
+			
+		
 	}
 
 

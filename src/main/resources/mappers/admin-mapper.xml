@@ -24,6 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
           AND CA.FILE_TYPE=2 
           AND C.CLUB_TITLE LIKE #{keyword}
 </select>
+
 <select id="selectClubConfirmList" resultMap="clubResultSet">
 SELECT C.CLUB_NO,C.CLUB_TITLE, C.ONOFF_LINE,C.CLUB_CAPACITY, 
              C.CSTART_DATE,C.CEND_DATE,C.CONDITION,C.HOST_NAME,CA.CHANGE_NAME
@@ -34,6 +35,7 @@ WHERE C.CONDITION=2 AND C.STATUS='Y'
           AND C.CLUB_TITLE LIKE #{keyword}
 ORDER BY C.CREATE_DATE
 </select>
+
 <update id="updateClubConfirm" parameterType="hashMap">
 UPDATE CLUB SET CONDITION = 
 <if test="confirmStatus==0">
@@ -43,10 +45,73 @@ UPDATE CLUB SET CONDITION =
 4 WHERE CLUB_NO = #{clubNo}
 </if>
 </update>
+
 <select id="selectLessStockCount" resultType="_int">
 SELECT COUNT(*) FROM BOOK WHERE <![CDATA[BOOKSTOCK < #{checkStock}]]>  
 </select>
+
 <select id="selectLessStockBook" resultType="Book">
 SELECT * FROM BOOK WHERE <![CDATA[BOOKSTOCK < #{checkStock}]]> ORDER BY BOOKSTOCK
 </select>
+
+<select id="selectAllUserCount" parameterType="hashMap" resultType="_int">
+SELECT COUNT(*) FROM USERS U LEFT JOIN SELLER S ON U.USER_ID = S.SELLER_ID WHERE U.STATUS = 'Y' 
+<if test="searchKind==1">
+AND U.USER_ID LIKE #{keyword}
+</if>
+<if test="searchKind==2">
+AND S.SELLER_NICKN LIKE #{keyword}
+</if>
+</select>
+
+<select id="selectAllUserList" resultType="AdminUser">
+SELECT U.USER_ID,U.USER_NAME,U.EMAIL,U.ENROLL,S.STATUS,S.SELLER_NICKN FROM USERS U LEFT JOIN SELLER S ON U.USER_ID = S.SELLER_ID WHERE U.STATUS = 'Y' 
+<if test="searchKind==1">
+AND U.USER_ID LIKE #{keyword}  ORDER BY U.ENROLL
+</if>
+<if test="searchKind==2">
+AND S.SELLER_NICKN LIKE #{keyword}  ORDER BY U.ENROLL
+</if>
+</select>
+
+<select id="selectBannedUserCount" parameterType="hashMap" resultType="_int">
+SELECT COUNT(*) FROM USERS U LEFT JOIN SELLER S ON U.USER_ID = S.SELLER_ID WHERE U.STATUS = 'N' 
+<if test="searchKind==1">
+AND U.USER_ID LIKE #{keyword}
+</if>
+<if test="searchKind==2">
+AND S.SELLER_NICKN LIKE #{keyword}
+</if>
+</select>
+
+<select id="selectBannedUserList" resultType="AdminUser">
+SELECT U.USER_ID,U.USER_NAME,U.EMAIL,U.ENROLL,S.STATUS,S.SELLER_NICKN FROM USERS U LEFT JOIN SELLER S ON U.USER_ID = S.SELLER_ID WHERE U.STATUS = 'N' 
+<if test="searchKind==1">
+AND U.USER_ID LIKE #{keyword}  ORDER BY U.ENROLL
+</if>
+<if test="searchKind==2">
+AND S.SELLER_NICKN LIKE #{keyword}  ORDER BY U.ENROLL
+</if>
+</select>
+
+<update id="updateUserRestore">
+UPDATE USERS SET STATUS = 'Y' WHERE USER_ID = #{user_Id}
+</update>
+
+<select id="selectBanUser" parameterType="hashMap" resultType="AdminUser">
+SELECT U.USER_ID,U.USER_NAME,U.EMAIL,U.ENROLL,S.STATUS,S.SELLER_NICKN FROM USERS U LEFT JOIN SELLER S ON U.USER_ID = S.SELLER_ID WHERE U.STATUS = 'Y' 
+<if test="searchKind==1">
+AND U.USER_ID = #{keyword}  ORDER BY U.ENROLL
+</if>
+<if test="searchKind==2">
+AND S.SELLER_NICKN = #{keyword}  ORDER BY U.ENROLL
+</if>
+</select>
+
+<update id="updateUserBan">
+UPDATE USERS SET STATUS = 'N' WHERE USER_ID = #{user_Id}
+</update>
+
 </mapper>
+
+

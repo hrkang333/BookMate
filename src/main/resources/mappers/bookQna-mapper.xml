@@ -79,8 +79,12 @@ DELETE FROM BOOKQNAANSWER WHERE QNANO = #{qnaNo}
 <update id="updateQnaDeleteAnswer">
 UPDATE BOOKQNA SET QNAANSWER = 0 WHERE QNANO = #{qnaNo}
 </update>
+
+<select id="selectMyQnaList" resultType="BookQna" parameterType="hashMap">
+SELECT * FROM BOOKQNA WHERE BOOKISBN = #{bookISBN} AND USER_ID = #{user_Id}
+</select>
+<select id="selectMyQnaCount" parameterType="hashMap" resultType="_int">
+SELECT COUNT(*) FROM BOOKQNA WHERE BOOKISBN = #{bookISBN} AND USER_ID = #{user_Id}
+</select>
+
 </mapper>
-	
-
-
-

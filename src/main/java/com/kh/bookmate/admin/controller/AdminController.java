@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.bookmate.admin.model.service.AdminService;
+import com.kh.bookmate.admin.model.vo.AdminUser;
 import com.kh.bookmate.book.model.service.BookService;
 import com.kh.bookmate.book.model.vo.Book;
 import com.kh.bookmate.bookqna.model.service.BookQnaService;
@@ -34,6 +35,7 @@ import com.kh.bookmate.coupon.model.service.CouponService;
 import com.kh.bookmate.coupon.model.vo.Coupon;
 import com.kh.bookmate.notice.model.service.NoticeService;
 import com.kh.bookmate.notice.model.vo.Notice;
+import com.kh.bookmate.user.model.vo.User;
 
 @Controller
 public class AdminController {
@@ -273,7 +275,7 @@ public class AdminController {
 		}
 		qnaListCount = bookQnaService.selectA_QnaListCount(searchKind,keyword,isAnswer);
 		A_QnaPaging = new Paging(qnaListCount, nowPage, 10, 10);
-		rb = new RowBounds(A_QnaPaging.getStart()-1, A_QnaPaging.getEnd());
+		rb = new RowBounds(A_QnaPaging.getStart()-1, A_QnaPaging.getCntPerPage());
 		B_QnaList = bookQnaService.selectB_QnaList(searchKind,keyword,isAnswer,rb);
 		mo.addAttribute("searchKind", searchKind);
 		mo.addAttribute("searchKeyword", searchKeyword);
@@ -458,4 +460,118 @@ public class AdminController {
 		return "forward:/adminMainBookStock.st";
 		
 	}
+	
+	@RequestMapping("selectAllUser.ad")
+	public String selectAllUser(Model mo,@RequestParam(name="searchKind", defaultValue = "1") int searchKind,@RequestParam(name="searchKeyword", required = false) String searchKeyword,
+								@RequestParam(name="nowPage", defaultValue = "1") int nowPage){
+		
+		int userListCount = 0;
+		Paging A_UserListPaging = null;
+		String keyword = null;
+		List<AdminUser> allUserList = null;
+		RowBounds rb = null;
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(searchKeyword==null||searchKeyword.trim().isEmpty()) {
+			keyword = "%%";
+		}else {
+			keyword = "%"+searchKeyword+"%";
+		}
+		map.put("searchKind", searchKind);
+		map.put("keyword", keyword);
+		userListCount = adminService.selectAllUserCount(map);
+		A_UserListPaging = new Paging(userListCount, nowPage, 10, 10);
+		rb = new RowBounds(A_UserListPaging.getStart()-1, A_UserListPaging.getCntPerPage());
+		allUserList = adminService.selectAllUserList(map,rb);
+		mo.addAttribute("searchKind", searchKind);
+		mo.addAttribute("searchKeyword", searchKeyword);
+		mo.addAttribute("nowPage", nowPage);
+		mo.addAttribute("A_UserListPaging", A_UserListPaging);
+		mo.addAttribute("allUserList", allUserList);		
+		
+		
+		return "admin/adminAllUserList";
+		
+	}
+	@RequestMapping("selectBannedUser.ad")
+	public String selectBannedUser(Model mo,@RequestParam(name="searchKind", defaultValue = "1") int searchKind,@RequestParam(name="searchKeyword", required = false) String searchKeyword,
+									@RequestParam(name="nowPage", defaultValue = "1") int nowPage){
+		int userListCount = 0;
+		Paging A_BUserListPaging = null;
+		String keyword = null;
+		List<AdminUser> bannedUserList = null;
+		RowBounds rb = null;
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(searchKeyword==null||searchKeyword.trim().isEmpty()) {
+			keyword = "%%";
+		}else {
+			keyword = "%"+searchKeyword+"%";
+		}
+		map.put("searchKind", searchKind);
+		map.put("keyword", keyword);
+		userListCount = adminService.selectBannedUserCount(map);
+		A_BUserListPaging = new Paging(userListCount, nowPage, 10, 10);
+		rb = new RowBounds(A_BUserListPaging.getStart()-1, A_BUserListPaging.getCntPerPage());
+		bannedUserList = adminService.selectBannedUserList(map,rb);
+		mo.addAttribute("searchKind", searchKind);
+		mo.addAttribute("searchKeyword", searchKeyword);
+		mo.addAttribute("nowPage", nowPage);
+		mo.addAttribute("A_BUserListPaging", A_BUserListPaging);
+		mo.addAttribute("bannedUserList", bannedUserList);		
+		
+		
+		return "admin/adminUserRestore";
+		
+		
+	}
+	
+	@RequestMapping("updateUserRestore.ad")
+	public String updateUserRestore(String user_Id) {
+		adminService.updateUserRestore(user_Id);
+		return "forward:/selectBannedUser.ad";
+		
+		
+	}
+	
+	@RequestMapping("adminUserBan.ad")
+	public String adminUserBan() {
+		return "admin/adminUserBan";
+		
+		
+	}
+	
+	@RequestMapping("selectBanUser")
+	@ResponseBody
+	public Map<String, Object> selectBanUser(int searchKind,  String searchKeyword) {
+		Map<String, Object> map = new HashMap<String, Object>();		
+		Map<String, Object> data = new HashMap<String, Object>();		
+		AdminUser user = null;
+		map.put("searchKind", searchKind);
+		map.put("keyword", searchKeyword);
+		user = adminService.selectBanUser(map);
+		
+		System.out.println(user);
+		if(user==null) {
+			data.put("str", "fail");
+			return data;
+		}
+		
+		data.put("str", "pass");
+		data.put("user",user);
+		
+		return data;
+		
+		
+	
+	}
+	
+	@RequestMapping("updateUserBan.ad")
+	public String updateUserBan(String user_Id,Model mo) {
+		adminService.updateUserBan(user_Id);
+		mo.addAttribute("check", "1");
+		return "admin/adminUserBan";
+		
+		
+	}
+	
+	
 }
