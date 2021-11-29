@@ -6,6 +6,37 @@ public class WishList {
 	private String user_Id;
 	private String bookISBN;
 	
+	//미소 추가함 21-11-29 
+	private String bookTitle;
+	private String bookMainImg;
+	private String bookWriter;
+	
+	
+	public String getBookWriter() {
+		return bookWriter;
+	}
+
+	public void setBookWriter(String bookWriter) {
+		this.bookWriter = bookWriter;
+	}
+
+	public String getBookTitle() {
+		return bookTitle;
+	}
+
+	public void setBookTitle(String bookTitle) {
+		this.bookTitle = bookTitle;
+	}
+
+	public String getBookMainImg() {
+		return bookMainImg;
+	}
+
+	public void setBookMainImg(String bookMainImg) {
+		this.bookMainImg = bookMainImg;
+	}
+
+
 	public WishList() {
 		super();
 		// TODO Auto-generated constructor stub

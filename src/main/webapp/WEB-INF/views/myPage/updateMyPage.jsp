@@ -61,7 +61,7 @@
             <h2>내 정보 수정하기 </h2>
             <br>
 
-            <form action="update.me" method="post" onsubmit="">
+            <form action="update.me" method="post">
                 <div class="form-group">
                     <label>* ID :</label>
                     <input type="text" class="form-control" name="userId" value="${ loginUser.userId }" readonly><br>

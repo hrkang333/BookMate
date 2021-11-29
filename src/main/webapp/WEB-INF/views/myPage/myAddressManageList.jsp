@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>포인트 조회 </title>
+    <title>포인트 등록 및 조회 </title>
     
  	<link rel="icon" href="img/Fevicon.png" type="image/png">
     <link rel="stylesheet" href="resources/vendors/bootstrap/bootstrap.min.css">
@@ -72,10 +72,8 @@
 
 									<c:forEach var="item" items="${myAdressBookList }" varStatus="status">
 										<tr>
-											<td><c:out value="${item.mainAddress }" /></td>
-											<%-- <td><c:out value="${item.bookTitle }" /></td>
-											<td><c:out value="${item.quantity}" />개</td>
-											<td><c:out value="${item.bookPrice}" /> 원</td> --%>
+										<td><c:out value="${item.mainAddress }" /></td>
+											
 
 								
 										</tr>

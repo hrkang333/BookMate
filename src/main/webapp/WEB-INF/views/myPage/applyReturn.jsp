@@ -29,12 +29,12 @@
 </head>
 <body>
 
-	<h1>반품 신청 페이지 </h1>
+	<h1 style="text-align: center;">반품 신청 페이지 </h1>
 	
 	
  	<form action="insertReturn.me" method="post">
 
-	  	<table border="1px;" style="text-align: center;">
+	  	<table border="1px;" style="text-align: center; margin-left: 400px">
 	  	
 	  		<tr>
 	  		<th>상세상품번호</th>
@@ -68,8 +68,8 @@
 	  			<td>
 	  			
 	  			<c:choose>
-	  			<c:when test="${payNo.paymentMethod == '0' }">카드</c:when>
-	  		
+	  			<c:when test="${payNo.paymentMethod == '1' }">카드</c:when>
+	  			<%-- <c:when test="${payNo.paymentMethod == '2' }">카드</c:when> --%>
 	  			</c:choose>
 	  
 	  			

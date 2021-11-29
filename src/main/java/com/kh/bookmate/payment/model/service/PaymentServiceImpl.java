@@ -13,6 +13,7 @@ import com.kh.bookmate.addressBook.model.dao.AddressBookDao;
 import com.kh.bookmate.book.model.dao.BookDao;
 import com.kh.bookmate.bookreview.model.dao.BookReviewDao;
 import com.kh.bookmate.bookreview.model.vo.BuyReview;
+import com.kh.bookmate.common.PageInfo;
 import com.kh.bookmate.payment.model.dao.PaymentDao;
 import com.kh.bookmate.payment.model.vo.Payment;
 import com.kh.bookmate.payment.model.vo.PaymentDetail;
@@ -46,8 +47,8 @@ public class PaymentServiceImpl implements PaymentService {
 	
 	//주문 리스트 조회 
 	@Override 
-	public List<Payment> selectMyOrderList(String loginUser) {
-		List<Payment> list = paymentDao.selectMyOrderList(sqlSession, loginUser);
+	public List<Payment> selectMyOrderList(String loginUser, PageInfo pi) {
+		List<Payment> list = paymentDao.selectMyOrderList(sqlSession, loginUser, pi);
 		return list;
 	}  
  
@@ -208,8 +209,8 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 	@Override
-	public List<PaymentDetail> cancelList(String loginUser) {
-		List<PaymentDetail> cList = paymentDao.cancelList(sqlSession,loginUser);
+	public List<PaymentDetail> cancelList(String loginUser,PageInfo pi) {
+		List<PaymentDetail> cList = paymentDao.cancelList(sqlSession,loginUser,pi);
 		return cList;
 	}
 
@@ -248,14 +249,9 @@ public class PaymentServiceImpl implements PaymentService {
 	} 
 
 	@Override
-	public List<PaymentDetail> selectReAndExList(String loginUser) {
-		List<PaymentDetail> result = paymentDao.selectReAndExList(sqlSession, loginUser);
-		
-//		List<Object> list = new ArrayList<Object>();
-//		list.add(pay.getUser_Id());
-//		list.add(pd.getPaymentDetailNo());
-//		list.add(pd.getBookTitle());
-		
+	public List<PaymentDetail> selectReAndExList(String loginUser, PageInfo pi) {
+		List<PaymentDetail> result = paymentDao.selectReAndExList(sqlSession, loginUser,pi);
+
 		return result;
 	}
 
