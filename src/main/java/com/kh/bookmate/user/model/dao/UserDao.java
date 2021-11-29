@@ -1,5 +1,6 @@
 package com.kh.bookmate.user.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -71,6 +72,10 @@ public class UserDao {
 	public int updateGetUserPoint(SqlSessionTemplate sqlSession, List<Object> redeem) {
 		return sqlSession.update("userMapper.updateGetUserPoint",redeem);
 		
+	}
+
+	public void updatePwd(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		sqlSession.update("userMapper.updatePwd",map);
 	} 
 
 

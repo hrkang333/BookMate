@@ -5,12 +5,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>내 정보 수정하기 </title>
 
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>포인트 조회 </title>
+    <title>내 정보 수정하기  </title>
     
  	<link rel="icon" href="img/Fevicon.png" type="image/png">
     <link rel="stylesheet" href="resources/vendors/bootstrap/bootstrap.min.css">
@@ -33,6 +33,37 @@
     		padding-left: 200px;
     	
     	}
+    	
+    	
+    	.modal-container {
+  background: rgba(0,0,0,.5);
+  display: none;
+  /* this is how we cover the entire page */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.modal-container.show-modal {
+  display: block;
+}
+
+.modal {
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0,0,0,.3);
+  position: absolute;
+  overflow: hidden;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 100%;
+  width: 400px;
+
+  animation-name: modalopen;
+  animation-duration: var(--modal-duration);
     
     </style>
     
@@ -55,6 +86,9 @@
 				<div class="sorting mr-auto">
 
 					
+					
+					
+					
      <div class="content">
         <br><br>
         <div class="innerOuter">
@@ -67,7 +101,8 @@
                     <input type="text" class="form-control" name="userId" value="${ loginUser.userId }" readonly><br>
                     
                     <label>* PW :</label>
-                    <input type="text" class="form-control" name="userPwd" value="" placeholder="비밀번호변경하기"><br>
+                    <input type="text" class="form-control" name="userPwd" value="" placeholder="비밀번호변경하기" onclick ="goUpPwd()"><br>
+                   
                     
                     
                     <label for="userName">* Name :</label>
@@ -158,16 +193,33 @@
 		     <form action="delete.me" method="post" id="postForm">
     	<input type="hidden" name="userId" value="${ loginUser.userId }">
 		    </form>
-	  	
+
 					
+					
+					</div>
 				</div>
 			</div>
 		</div>
-		</div>
-		</div>
+	</div>
     
   </section>
+  
+  
+  
+  
   <jsp:include page="../common/footer.jsp" />
+  
+  <script>
+  
+  function goUpPwd(){
+	  
+ 
+	window.open("updatePwdForm.me", "비밀번호변경하기" ,"width=500, height=500");
+  
+	  
+  }
+  
+  </script>
 
 <!-- 다음 우편번호 api  -->
 	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>

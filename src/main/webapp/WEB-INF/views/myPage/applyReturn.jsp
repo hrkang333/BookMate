@@ -27,6 +27,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     
 </head>
+
+<style>
+
+th{
+
+background-color: yellow;
+
+
+}
+</style>
 <body>
 
 	<h1 style="text-align: center;">반품 신청 페이지 </h1>
@@ -34,7 +44,7 @@
 	
  	<form action="insertReturn.me" method="post">
 
-	  	<table border="1px;" style="text-align: center; margin-left: 400px">
+	  	<table border="1px;" style="text-align: center; margin-left: 200px">
 	  	
 	  		<tr>
 	  		<th>상세상품번호</th>
@@ -86,10 +96,11 @@
 	  			
 	  			<select id="changeReason" onchange="selectBoxChange(this.value);" name="returnReason">
 	  			
-	  			 <option value="1">단순변심 (+5000원)</option> 
-	  			 <option value="2">주문실수 (+5000원) </option> 
+	  		
 	  			 <option value="3">파본</option>
 	  			 <option value="4">배송중 파손 </option>
+	  			 <option value="1">단순변심 (+5000원)</option> 
+	  			 <option value="2">주문실수 (+5000원) </option> 
 	  			</select>
 
 	  			
@@ -107,17 +118,17 @@
 	  				<input type="hidden" value="${payNo.paymentMethod }"name ="returnPaymentMethod"> 
 	  				<input type="hidden" value="${payNo.usePoint +payNo.totalGetPoint }"name ="returnPoint">
 	  				<input type="hidden" value="${payNo.deliveryCost }"name ="returnDeliveryPrice"> 
-	  				<input type="hidden" value="${payNo.totalPayCost }"name ="returnTotalPrice" id="returnTotal"> 
+	  				<input type="hidden" value="${returnDetail.bookPrice }"name ="returnTotalPrice" id="returnTotal"> 
 	  				
 	  	<br>
-		  <button type="submit" onclick="returnSubmit()"> 반품 신청 </button>
+		  <button type="submit" onclick="returnSubmit()" style="margin-left: 200px;"> 반품 신청 </button>
 		  <input type="hidden" value="${returnDetail.paymentNo }" name="paymentNo"> 
 		  
 	  </form>
 	  
 	    <script>
 	    
-	  		var originTotalCast ='<c:out value="${payNo.totalPayCost }"/>'; //가격 등락이 있을수있으니 전역변수로 잡아둔다 
+	  		var originTotalCast ='<c:out value="${returnDetail.bookPrice }"/>'; //가격 등락이 있을수있으니 전역변수로 잡아둔다 
 	  		
 	    	function returnSubmit(){
 	  		

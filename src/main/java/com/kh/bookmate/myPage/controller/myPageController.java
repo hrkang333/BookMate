@@ -2,8 +2,10 @@ package com.kh.bookmate.myPage.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
+import javax.management.RuntimeErrorException;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,9 +130,34 @@ public class myPageController {
 				return "myPage/updateMyPage"; 
 	}
 	
+	@RequestMapping("updatePwdForm.me")
+	public String updatePw() {
+		return "user/updatePwd"; 
+	}
 	
-	//
 	
+	//회원 비밀번호 변경하기
+	@RequestMapping("updatePwd.me")
+	public String UpdateMemberPwd(@ModelAttribute User user,HttpSession session,
+			@RequestParam("userPwd") String pwd,
+			@RequestParam("newPwd") String newPwd, Model model) {
+
+		String userId = user.getUserId(); 
+		String userPwd = user.getUserPwd();
+
+		String encPwd = bCryptPasswordEncoder.encode(newPwd);
+
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("userId", userId);
+		map.put("newPwd", encPwd);
+
+		if (bCryptPasswordEncoder.matches(pwd, userPwd)) {
+			//새로 입력한 비번과, 유저의 기존 패스워드가 같다면 업뎃  
+			userService.updatePwd(map);
+		}
+		return "redirect:myPage.me";
+		
+	}
 	
 	
 	//회원 탈퇴 

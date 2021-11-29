@@ -31,6 +31,17 @@
     <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
   
 </head>
+
+<style>
+
+th{
+
+background-color: yellow;
+
+
+}
+
+</style>
 <body>
 
 	<h1>교환 신청 페이지 </h1>
@@ -39,7 +50,7 @@
 	  	<table border="1px;" style="text-align: center;">
 	  	
 	  		<tr>
-	  		<th>상세상품번호</th>
+	  	 	  <th>상세상품번호</th>
 	  		  <th>상품정보</th>
 	  		  <th>교환수량</th>
 	  		  <th>받으실 분 </th>
@@ -55,9 +66,9 @@
 	  			<td><c:out value="${exchangeDetail.quantity}"/>개</td>
 	  			<td><c:out value="${payNo.shippingName}"></c:out></td>
 	  			<td><c:out value="${payNo.shippingPhone}"></c:out></td>
- 	  			<td><%-- <c:out value="${payNo.shippingPostCode}"/> --%>
-	  			<br><c:out value="${payNo.shippingAddress}"/>
- 	  			<br><%-- <c:out value="${payNo.shippingAddressDetail}"/> --%>
+ 	  			<td>
+	  			<c:out value="${payNo.shippingAddress}"/>
+ 	  			
 	  			</td>
 	  		
 	  		</tr>
