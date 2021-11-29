@@ -6,10 +6,6 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!-- 11.07
-	디자인 수정 필요
-	이력 화면에 나타내기 필요 -->
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,28 +54,30 @@
         }
         
         .detail_title1 {
-            font-size: 26px;
+            font-size: 32px;
             font-weight: 900;
             color: #FFAE42;
+            margin-top: 70px;
+    		margin-bottom: 20px;
         }
         
         .detail_title2 {
-            font-size: 19px;
+            font-size: 22px;
             font-weight: bold;
+            margin: 40px 0px 20px;
         }
-        /*div 반으로 나누기*/
         
         .left_1 {
             width: 20%;
             float: left;
             box-sizing: border-box;
             margin-left: 5%;
-    		margin-top: 3%;
+    		margin-top: 2%;
         }
         
         .right_1 {
-            width: 60%;
-            padding-top: 4%;
+            width: 70%;
+            margin: auto 0;
             box-sizing: border-box;
         }
         
@@ -94,7 +92,6 @@
 		    width: 100%;
 		    height: 100%;
 		    background-position: center center;
-		    /* opacity:0.85; */
 	    }
 	    
 	    .heartImg{
@@ -124,6 +121,7 @@
 		.reviewTableCell1{
 			display: table-cell; 
 			width: 75%;
+			padding: 5px 15px 15px;
 		}
 		.reviewTableCell2{
 			display: table-cell; 
@@ -151,6 +149,33 @@
 		    text-align: center;
 		    font-size: 18px;
 		    font-weight: 550;
+		}
+		
+		.tab-content p{
+			font-size: 18px;
+		}
+		
+		#hostP{
+			background-size: cover;
+		    background-position: center;
+		    height: 250px;
+		    width: 250px;
+		    border-radius: 50%;
+		}
+		
+		.detail_host_2{
+		    padding: 30px 40px 0px;
+		    border: 1px solid #dadada;
+		    margin-left: 25px;
+		}
+		
+		.reviewQnaBtn{
+		    background-color: #503535;
+		    color: white;
+		    border: 0px;
+		    border-radius: 5px;
+		    padding: 5px 15px;
+		    margin-bottom: 15px;
 		}
     </style>
 </head>
@@ -196,7 +221,7 @@
 								<c:forEach var="ct" items="${club.clubTimes}" varStatus="status">
 									<div class="times">
 		                            <div class="left">
-		                                <p class="time" style="font-weight:600;">
+		                                <p class="time" style="font-weight:580;">
 		                                    <span>
 		                                    	<fmt:parseDate var="clubD" value="${ct.clubDate}" pattern="yyyy-MM-dd" /> <!-- string -> Date로 -->	
 												<fmt:parseDate value="${ct.clubDate}" var="dateK" pattern="yyyy-MM-dd"/>
@@ -262,40 +287,39 @@
 				<div class="tab-pane fade show active m_contents" id="qwe">
 					<div class="detail_club">
 						<h4 class="detail_title1">모임 소개</h4>
-						<span><c:out value="${club.intro}" /></span> <br>
-						<br>
+						<p>
+							${club.intro}
+						</p>
 						<h5 class="detail_title2">우리모임에서 할 활동들</h5>
 						<p>
-							<c:out value="${club.intro}" />
+							${club.activity}
 						</p>
 						<h5 class="detail_title2">이런 멤버들을 만나고 싶어요</h5>
 						<p>
-							<c:out value="${club.want}" />
+							${club.want}
 						</p>
 						<h5 class="detail_title2">이런 분과는 맞지 않아요</h5>
 						<p>
-							<c:out value="${club.notwant}" />
+							${club.notwant}
 						</p>
 					</div>
 
 					<div class="detail_onoff">
 						<h4 class="detail_title1">참여 안내</h4>
-						<p>이 모임은 [<c:out value="${club.times}" />]</p>
+						<p style="font-size: 20px; font-weight: bold; color: #324278;">이 모임은 [<span style="text-decoration: underline; text-underline-position: under;"><c:out value="${club.times}" /></span>]</p>
 
 						<h5 class="detail_title2">모임 일정</h5>
-						<p>
-						<ul>
+						<ul style="font-size: 18px; margin-bottom: 1rem;">
 							<c:forEach var="ct" items="${club.clubTimes}">
 								<li><fmt:parseDate var="clubD" value="${ct.clubDate}"
 										pattern="yyyy-MM-dd" /> <!-- string -> Date로 --> <fmt:parseDate
 										value="${ct.clubDate}" var="dateK" pattern="yyyy-MM-dd" /> <fmt:formatDate
 										value="${dateK}" pattern="yyyy년 MM월 dd일" /> (<fmt:formatDate
 										value="${clubD}" pattern="E" />) | ${ct.startTime} ~
-									${ct.endTime}</li>
-								<li></li>
+										${ct.endTime}
+								</li>
 							</c:forEach>
 						</ul>
-						</p>
 						<h5 class="detail_title2">장소</h5>
 						<p><c:out value="${club.onoffLine}" /></p>
 						<h5 class="detail_title2">모집 정원</h5>
@@ -304,35 +328,56 @@
 
 					<div class="detail_book">
 						<h4 class="detail_title1">함께 읽을 책 소개</h4>
-						<div style="width: 100%; height: 270px; background-color: darksalmon;">
+						<div style="width: 100%; height: 250px; background-color:#f8f8f8; display:flex;">
 							<div class="left_1">
 								<c:forEach var="ca" items="${club.clubAttachments}">
 									<c:if test="${ca.fileType eq 3}">
-										<img class="img-fluid" src="resources/upload_files/club_img/${ca.changeName}" style="height: 200px;" alt="">
+										<div style="background-image: url('resources/upload_files/club_img/${ca.changeName}'); height: 200px; width: 145px; background-size:cover; background-position:center;"></div> 
 									</c:if>
 								</c:forEach>
 							</div>
 
 							<div class="right_1">
-								<p><c:out value="${club.bkName}" /></p>
-								<p><c:out value="${club.bkWriter}" /></p>
-								<p><c:out value="${club.bkPublisher}" /></p>
+								<p style="font-size: 30px; font-weight: 540;"><c:out value="${club.bkName}" /></p>
+								<p style="color: gray"><c:out value="${club.bkWriter}" />&nbsp; | &nbsp;<c:out value="${club.bkPublisher}" /> </p>
 							</div>
 						</div>
 					</div>
 
 					<div class="detail_host">
 						<h4 class="detail_title1">Host 소개</h4>
-						<c:forEach var="ca" items="${club.clubAttachments}">
-							<c:if test="${ca.fileType eq 1}">
-								<img class="img-fluid" src="resources/upload_files/club_img/${ca.changeName}" style="width: 400px;"  alt="">
-							</c:if>
-						</c:forEach>
-						<h5><c:out value="${club.hostName}" /></h5>
-						<h5 class="detail_title2">약력</h5>
-						<P><c:out value="${club.clubCapacity}" /></P>
+						<div class="detail_host_1" style="display:flex; margin-top:30px;">
+							<c:forEach var="ca" items="${club.clubAttachments}">
+								<c:if test="${ca.fileType eq 1}">
+									<div id="hostP" style="background-image: url('resources/upload_files/club_img/${ca.changeName}'); margin: 0% 1.5% 0% 4%;" ></div>
+								</c:if>
+							</c:forEach>
+							<div class="detail_host_2">
+								<h5 style="font-size: 28px;font-weight: 600;"><c:out value="${club.hostName}" /></h5>
+								<h5 class="detail_title2">이력</h5>
+								<P>	
+									<c:choose>
+										<c:when test="${empty club.hstartDate == true}">
+											호스트가 작성한 이력이 없습니다😥							
+										</c:when>
+										<c:otherwise>
+											<c:set var="hstartD" value="${fn:split(club.hstartDate, ',')}"/>
+											<c:set var="hendD" value="${fn:split(club.hendDate, ',')}"/>
+											<c:set var="hwhatTodo" value="${fn:split(club.hwhatTodo, '|')}"/>
+											
+											<c:out value="${fn:length(hstartD)}"></c:out>
+		
+											<c:forEach var="i" begin="0" end="${fn:length(hstartD)-1}" varStatus="status">
+												${hstartD[i]} ~ ${hendD[i]} ${hwhatTodo[i]} <br>
+											</c:forEach>
+										</c:otherwise>
+									</c:choose>
+								</P>
+							</div>
+						</div>
+						
 						<h5 class="detail_title2">Comment</h5>
-						<p><c:out value="${club.hostComment}" /></p>
+						<p>${club.hostComment}</p>
 					</div>
 
 					<div class="detail_notice">
@@ -346,14 +391,14 @@
 				</div>
 				<div class="tab-pane fade m_contents" id="asd">
 					<div style="border-bottom: 2px solid gray;">
-						<button onclick="checkReview(${club.clubNo})">리뷰 남기기</button>
+						<button class="reviewQnaBtn" onclick="checkReview(${club.clubNo})">리뷰 남기기</button>
 					</div>
 					<ul class="reviewArea"></ul>					
 				</div>
 				
 				<div class="tab-pane fade m_contents" id="zxc">
 					<div style="border-bottom: 2px solid gray;">
-						<button onclick="insertQnaForm(${club.clubNo})">문의 남기기</button>
+						<button class="reviewQnaBtn" onclick="insertQnaForm(${club.clubNo})">문의 남기기</button>
 					</div>
 					
 					<table id="qnaTable" class="table table-hover">
@@ -388,7 +433,7 @@
 	      <form id="reviewEnrollForm" action="insertReview.cl" method="post" enctype="multipart/form-data">
 	        <div class="modal-body">
 	          <div class="content_scroll" style="overflow: auto; max-height:400px;">
-	          	<input type="hidden" id="refClubNo" name="refClubNo" value="${club.clubNo }">
+	          	<input type="hidden" id="refClubNo_review" name="refClubNo" value="${club.clubNo }">
 	          	<input type="hidden" id="reviewRate" name="reviewRate" value="10">
 
 	          	<div style="margin-bottom:20px;">
@@ -431,8 +476,8 @@
 	      <form id="qnaEnrollForm" action="insertQna.cl" method="post">
 	        <div class="modal-body" style="color:black;">
 	          <div class="content_scroll" style="overflow: auto; max-height:400px;">
-	          	<input type="hidden" id="refClubNo" name="refClubNo" value="${club.clubNo }">
-	          	<input type="hidden" id="userId" name="userId" value="${ loginUser.userId }">
+	          	<input type="hidden" id="refClubNo_qna" name="refClubNo" value="${club.clubNo }">
+	          	<input type="hidden" id="userId_qna" name="userId" value="${ loginUser.userId }">
 	          	<div style="font-size:22px; margin-bottom: 30px;"><c:out value="${club.clubTitle}"/></div>
 				<input type="text" id="qnaTitleInsert" name="qnaTitle" maxlength="30" style="margin-bottom: 15px; width: 100%; border: 0px; border-bottom: 1px solid gray;" placeholder="문의 제목(최대30자)"> 
 	          	<textarea maxlength="200" id="qnaContentInsert" name="qnaContent" class="form-control" rows="7" style="resize: none;" placeholder="내용을 입력해주세요(최대 200자)"></textarea>
@@ -488,10 +533,6 @@
 	          </div>
 	        </div>
 		  </form>
-	        <!-- Modal footer -->
-	        <!-- <div class="modal-footer">
-	          <a class="btn btn-primary" onclick="insertQna()">문의작성</a>
-	        </div> -->
 	      </div>
 	    </div>
 	  </div>
@@ -1087,7 +1128,8 @@
     				
     				})
     			} 
-    		}	
+    		}
+    	} //11/29 넣어야한다고 빨간거 떠서 넣었는데 일단 지켜봐야할듯
     	})
 
     </script>

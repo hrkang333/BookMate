@@ -3,7 +3,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page session="false" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -89,7 +88,7 @@
         	width: 24%;
 		    margin: 5.5px;
 		    border: 1px solid #dadada;
-		    height: 410px;
+		    min-height: 400px;
         }
         
         .titleImg{
@@ -117,7 +116,7 @@
         [id^=closeClubTotal]{
         	width: 19%; 
         	margin: 5.5px; 
-        	height: 350px; 
+        	min-height: 350px; 
         	text-align: center;
         	border: 1px solid #dadada;
         }
@@ -200,21 +199,21 @@
 	            	<ul id="pagingArea1" class="pagination paging" style="display: none;">  	
 				    	<c:choose>
 				    		<c:when test="${ pi_first.currentPage ne 1 }">
-				                <li id="bb" class="page-item"><div class="page-link pagelink1">이전</div></li>
+				                <li id="bb" class="page-item" onclick="movePage(this)"><div class="page-link pagelink1">이전</div></li>
 				            </c:when>
 				            <c:otherwise>
-				                <li id="bb" class="page-item disabled"><div class="page-link">이전</div></li>
+				                <li id="bb" class="page-item disabled" onclick="movePage(this)" ><div class="page-link">이전</div></li>
 				            </c:otherwise>
 				        </c:choose> 
 				              
 				        <c:forEach begin="1" end="${ pi_first.pageLimit}" var="p">
-				             <li id="cc${p}" class="page-item" style="display:none" value="0"><div id="ccc${p}" class="page-link"></div></li>
+				             <li id="cc${p}" class="page-item" onclick="movePage(this)" style="display:none" value="0"><div id="ccc${p}" class="page-link"></div></li>
 				        </c:forEach>
 				             
 				        <c:forEach begin="${ pi_first.startPage }" end="${ pi_first.endPage }" var="p">
 				        	 <c:choose>
 					         	 <c:when test="${ pi_first.currentPage ne p }">
-				                    <li class="page-item" value="${p}"><div class="page-link cc1" >${ p }</div></li>
+				                    <li class="page-item" onclick="movePage(this)" value="${p}"><div class="page-link cc1" >${ p }</div></li>
 					             </c:when>
 					             <c:otherwise>
 					                <li class="page-item disabled"><a class="page-link cc1" href="">${ p }</a></li>
@@ -224,10 +223,10 @@
 				                    
 				        <c:choose>
 				        	<c:when test="${ pi_first.currentPage ne pi_first.maxPage }">
-				                <li id="dd" class="page-item"><div class="page-link pagelink1">다음</div></li>
+				                <li id="dd" class="page-item" onclick="movePage(this)"><div class="page-link pagelink1">다음</div></li>
 				            </c:when>
 				            <c:otherwise>
-				                <li id="dd" class="page-item disabled"><div class="page-link">다음</div></li>
+				                <li id="dd" class="page-item disabled" onclick="movePage(this)"><div class="page-link">다음</div></li>
 				            </c:otherwise>
 				        </c:choose>    
 				    </ul>
@@ -279,22 +278,24 @@
             </div>
                
             <div>
-			    <ul id="pagingArea2" class="pagination paging" style="display: none;">  	
+			    <ul id="pagingArea2" class="pagination paging" style="display: none;">  
+
 			         <c:choose>
 			             <c:when test="${ pi_second.currentPage ne 1 }">
-			                <li id="bb2" class="page-item"><div class="page-link pagelink1">이전</div></li>
+			                <li id="bb2" class="page-item" onclick="movePage(this)"><div class="page-link pagelink1">이전</div></li>
 			             </c:when>
 			             <c:otherwise>
-			             	<li  id="bb2" class="page-item disabled"><div class="page-link">이전</div></li>
+			             	<li id="bb2" class="page-item disabled" onclick="movePage(this)"><div class="page-link">이전</div></li>
 			             </c:otherwise>
 			         </c:choose> 
 			         <c:forEach begin="1" end="${ pi_second.pageLimit}" var="p">
-			             <li id="cc2${p}" class="page-item" style="display:none" value="0"><div id="ccc2${p}" class="page-link"></div></li>
+			             <li id="cc2${p}" class="page-item" style="display:none" onclick="movePage(this)"><div id="ccc2${p}" class="page-link"></div></li>
 			         </c:forEach>
+			         
 			         <c:forEach begin="${ pi_second.startPage }" end="${ pi_second.endPage }" var="p">
 			             <c:choose>
 				             <c:when test="${ pi_second.currentPage ne p }">
-			                    <li class="page-item" value="${p}"><div  class="page-link cc12" >${ p }</div></li>
+			                    <li class="page-item" value="${p}" onclick="movePage(this)"><div  class="page-link cc12" >${ p }</div></li>
 				             </c:when>
 				             <c:otherwise>
 				                <li class="page-item disabled"><a  class="page-link cc12" href="">${ p }</a></li>
@@ -304,10 +305,10 @@
 			                    
 			         <c:choose>
 			            <c:when test="${ pi_second.currentPage ne pi_second.maxPage }">
-			               <li id="dd2" class="page-item"><div class="page-link pagelink1">다음</div></li>
+			               <li id="dd2" class="page-item" onclick="movePage(this)"><div class="page-link pagelink1">다음</div></li>
 			            </c:when>
 			            <c:otherwise>
-			               <li id="dd2" class="page-item disabled"><div class="page-link">다음</div></li>
+			               <li id="dd2" class="page-item disabled" onclick="movePage(this)"><div class="page-link">다음</div></li>
 			            </c:otherwise>
 			         </c:choose>       
 			    </ul>
@@ -332,7 +333,7 @@
 							<c:forEach begin="0" end="4" varStatus="status">
 								<div id="closeClubTotal${status.index}" onclick='goDetail(${cateList_third[status.index].clubNo})' <c:if test="${status.index >= fn:length(cateList_third)}"><c:out value="style=display:none;"/></c:if> >
 									<div class="closeClubImgDiv" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${cateList_third[status.index].clubAttachments[0].changeName}')" id="close_ClubImg${status.index}"></div>
-									<ul class="card-blog__info">
+									<ul class="card-blog__info" style="margin-top: 10px;">
 		                                <li><span id="close_category${status.index}">${cateList_third[status.index].category}</span> &nbsp;</li>
 		                                <li><i class="ti-comments-smiley"></i> <span id="close_likes${status.index}">${cateList_third[status.index].heartCount}</span> Likes</li>
 		                            </ul>
@@ -352,6 +353,10 @@
         var nowPage1 = 1;
         var nowPage2 = 1;
         var listIndex = 0;  //모집종료 용
+        
+        function goDetail(clubNo){
+        	location.href="detail.cl?clubNo=" + clubNo;
+        }
                     
         $(document).ready(function() {
         	$(".pointer").click(function(){
@@ -384,86 +389,83 @@
             }else{
                 $('#categoryList3_2').css('display','flex');
             }
-             
-            //페이징 처리
-		    $(".page-item").click(function(){
-		        //disabled된 이전, 다음으로 등 페이징바 눌렀을 때 ajax통신하지 않도록 막기
-		        if($(this).hasClass('disabled')){
-		            return;
-		        } 
-		            	   
-		        var currentPage;
-		        var clubStatus = '';
-		            	   
-		        var parentId = $(this).parent().attr('id');
-		                     
-		        if(parentId == 'pagingArea1'){
-		            clubStatus='모집중'
-		        }else{
-		            clubStatus='모집완료'
-		        }
-		            	   
-		        //다음, 이전 눌렀을 때 처리해줘야 함
-		        if($(this).val() == ''){  //1.이전, 다음으로 클릭
-		        	if(clubStatus == '모집중'){
-		        		if($(this).attr('id').substring(0,2) == 'bb'){
-		                	console.log("이전으로 클릭");
-		                	currentPage = nowPage1 -1;
-			                nowPage1 = currentPage;  //현재 페이지 저장해두기
-		                }else{
-		                	console.log("다음으로 클릭");
-		                	currentPage = nowPage1 +1;
-			                nowPage1 = currentPage;  //현재 페이지 저장해두기
-		                }
-		           }else{
-		                if($(this).attr('id').substring(0,2) == 'bb'){
-		                	console.log("이전으로 클릭");
-		                	currentPage = nowPage2 -1;
-			                nowPage2 = currentPage;  //현재 페이지 저장해두기
-		                }else{
-		                	console.log("다음으로 클릭");
-		                	currentPage = nowPage2 +1;
-			                nowPage2 = currentPage;  //현재 페이지 저장해두기
-		                }
-		          }      	   
-		        }else{  //2.숫자 페이지 누르기
-		        	currentPage = $(this).val();
-		                	   
-		            if(clubStatus == '모집중'){
+		})
+
+		//페이징 처리
+        function movePage(e){
+        	
+        	//disabled된 이전, 다음으로 등 페이징바 눌렀을 때 ajax통신하지 않도록 막기
+	        if($(e).hasClass('disabled')){
+	            return;
+	        } 
+        	
+        	var currentPage;
+	        var clubStatus = '';
+
+           	var parentId = $(e).parent().attr('id');          
+	        if(parentId == 'pagingArea1'){
+	            clubStatus='모집중';
+	        }else{
+	            clubStatus='모집완료';
+	        }
+	        
+	        //다음, 이전 눌렀을 때 처리해줘야 함
+	        if($(e).val() == ''){  //1.이전, 다음으로 클릭
+	        	if(clubStatus == '모집중'){
+	        		if($(e).attr('id').substring(0,2) == 'bb'){
+	                	console.log("이전으로 클릭");
+	                	currentPage = nowPage1 -1;
 		                nowPage1 = currentPage;  //현재 페이지 저장해두기
-		            }else{
+	                }else{
+	                	console.log("다음으로 클릭");
+	                	currentPage = nowPage1 +1;
+		                nowPage1 = currentPage;  //현재 페이지 저장해두기
+	                }
+	           }else{
+	                if($(e).attr('id').substring(0,2) == 'bb'){
+	                	console.log("이전으로 클릭");
+	                	currentPage = nowPage2 -1;
 		                nowPage2 = currentPage;  //현재 페이지 저장해두기
-		            }    	   
-		        } 
-		        
-		        $.ajax({
-		        	url:"allCateListPart.cl",
-		            data:{
-		            	category : category,
-		                clubStatus : clubStatus,
-		                currentPage : currentPage
-		            },
-		            type : "post",
-		            success:function(map){
-		            console.log("ajax 통신성공");
-		            console.log("clubStatus : " + clubStatus)
-		                        
+	                }else{
+	                	console.log("다음으로 클릭");
+	                	currentPage = nowPage2 +1;
+		                nowPage2 = currentPage;  //현재 페이지 저장해두기
+	                }
+	          }      	   
+	        }else{  //2.숫자 페이지 누르기
+	        	currentPage = $(e).val();
+	                	   
+	            if(clubStatus == '모집중'){
+	                nowPage1 = currentPage;  //현재 페이지 저장해두기
+	            }else{
+	                nowPage2 = currentPage;  //현재 페이지 저장해두기
+	            }    	   
+	        } 
+	        
+	        $.ajax({
+	        	url:"allCateListPart.cl",
+	            data:{
+	            	category : category,
+	                clubStatus : clubStatus,
+	                currentPage : currentPage
+	            },
+	            type : "post",
+	            success:function(map){        
 		            if(clubStatus == '모집중'){
 		                list1(map);
 		            }else{
 		                list2(map);
-		            }
-		                                                
-		                        
-		            },error:function(){
-		                 console.log("ajax 통신실패")
-		            }
-		       })
-		    })
-		})
+		            }           
+	            },error:function(){
+	                 console.log("ajax 통신실패")
+	            }
+	       })
+        }
 		
 		function clickCategory(num, e){
 
+			nowPage1 = 1;  //카테고리 클릭시 페이징처리 새로 할 수 있게 1로 저장하기
+			nowPage2 = 1;
         	category = $(e).text();
         	
         	$.ajax({
@@ -568,30 +570,30 @@
 						
 			//2)1,2,3...
 			//2-1) 페이지갯수만큼 보이게 하기
-			var p_index = 0;
+			var p_index = 1;
 			for(var p=pi1.startPage; p<=pi1.endPage; p++){
-				$("#cc" + p).removeClass("disabled");  //현재페이지 아닌곳은 다 갈 수 있어야 하므로
-				$("#cc" + p).css("display", "block");
-			    $("#cc" + p).val(p);
-			    $("#ccc" + p).text(p);
+				$("#cc" + p_index).removeClass("disabled");  //현재페이지 아닌곳은 다 갈 수 있어야 하므로
+				$("#cc" + p_index).css("display", "block");
+			    $("#cc" + p_index).val(p);
+			    $("#ccc" + p_index).text(p);
 			                
 			    if(pi1.currentPage == p){
 			         $("#cc" + p).addClass("disabled");
 			    }
 			    p_index += 1;
-						
-				//2-2) 페이지갯수 초과 -> 안보이게 하기
-				for(var dp=p_index+1; dp<=pi1.pageLimit; dp++){
-					$("#cc" + dp).css("display", "none");
-				}
-						
-				//3)다음으로
-				if(pi1.currentPage != pi1.maxPage){
-					$('#dd').removeClass("disabled");
-				}else{
-					$('#dd').addClass("disabled");
-				}
 	        }
+			
+			//2-2) 페이지갯수 초과 -> 안보이게 하기
+			for(var dp=p_index; dp<=pi1.pageLimit; dp++){
+				$("#cc" + dp).css("display", "none");
+			}
+
+			//3)다음으로
+			if(pi1.currentPage != pi1.maxPage){
+				$('#dd').removeClass("disabled");
+			}else{
+				$('#dd').addClass("disabled");
+			}
        }
 	                
 	   function list2(map){
@@ -667,17 +669,13 @@
 						
 			//2)1,2,3...
 			//2-1) 페이지갯수만큼 보이게 하기
-			var p_index = 0;
-						
-			console.log("cateList2 - 길이 : " + cateList2.length)
-			console.log("cateList2 - pi2.startPage : " + pi2.startPage)
-			console.log("cateList2 - pi2.endPage : " + pi2.endPage)
-						
+			var p_index = 1;
+
 			for(var p=pi2.startPage; p<=pi2.endPage; p++){
-				$("#cc2" + p).removeClass("disabled");  //현재페이지 아닌곳은 다 갈 수 있어야 하므로
-				$("#cc2" + p).css("display", "block");
-			    $("#cc2" + p).val(p);
-			    $("#ccc2" + p).text(p);
+				$("#cc2" + p_index).removeClass("disabled");  //현재페이지 아닌곳은 다 갈 수 있어야 하므로
+				$("#cc2" + p_index).css("display", "block");
+			    $("#cc2" + p_index).val(p);
+			    $("#ccc2" + p_index).text(p);
 			                
 			    if(pi2.currentPage == p){
 			        $("#cc2" + p).addClass("disabled");
@@ -686,7 +684,7 @@
 			}
 						
 			//2-2) 페이지갯수 초과 -> 안보이게 하기 : 이전카테고리에서 3페이지였고 이번카테고리가 2페이지까지면 3페이지는 안나와야하기때문
-			for(var dp=p_index+1; dp<=pi2.pageLimit; dp++){
+			for(var dp=p_index; dp<=pi2.pageLimit; dp++){
 				$("#cc2" + dp).css("display", "none");
 			}
 						

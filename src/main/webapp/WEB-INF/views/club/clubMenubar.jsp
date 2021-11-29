@@ -38,7 +38,6 @@
 			position:absolute; 
 			width:150px; 
 			left:120px; 
-			/* border:1px solid #cfa175; */
 			background-color:#adc09c; 
 			color:white; 
 			top:-1px; 
@@ -76,6 +75,14 @@
 		
 		function goSearch_menu(){
 			$('#searchForm_menu').submit();
+		}
+		
+		function checkUser(){
+			var userId = '${sessionScope.loginUser.userId}';
+			if(userId == ''){
+				alert('로그인 후 이용해주세요');
+				return;
+			}
 		}
 	</script>
 

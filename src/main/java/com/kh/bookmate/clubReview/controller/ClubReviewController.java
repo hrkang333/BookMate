@@ -151,6 +151,7 @@ public class ClubReviewController {
 	@ResponseBody
 	@RequestMapping(value = "insertQnaAnswer.cl", method = RequestMethod.POST)
 	public String insertQnaAnswer(ClubQnaAnswer cqa) {
+
 		//1.qnaAnswer테이블에 insert
 		clubReviewService.insertQnaAnswer(cqa);
 		//2.qna테이블에 update하기(qnaanswer = 'y'로)
