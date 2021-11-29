@@ -193,10 +193,10 @@
 													<button class="btn btn-lg btn-success" type="submit" style="font-size: 15px;">
 														<i class="glyphicon glyphicon-ok-sign"></i>저장
 													</button>
-													<button class="btn btn-lg" type="button" style="font-size: 15px;"
+													<button class="btn btn-lg" type="button" style="font-size: 15px; background-color: #6a816b; color: #ffff;"
 														data-toggle="modal" id="dormancyBtn"
 														data-target="#dormancy">
-														<i class="glyphicon glyphicon-remove"></i> 판매자 휴면 신청
+														<i class="glyphicon glyphicon-remove"></i> 판매자 탈퇴 신청
 													</button>
 												</center>
 											</div>
@@ -211,7 +211,7 @@
 									style="margin-left: 16%;">
 									<div class="modal-content">
 										<div class="modal-header">
-											<h5 class="modal-title" id="exampleModalLabel" style="font-size: 15px;">판매자 휴면 신청</h5>
+											<h5 class="modal-title" id="exampleModalLabel" style="font-size: 15px;">판매자 탈퇴</h5>
 											<button type="button" class="close" data-dismiss="modal"
 												aria-label="Close">
 												<span aria-hidden="true">×</span>
@@ -224,7 +224,7 @@
 													<h4>비밀번호 입력</h4>
 												</label> <input type="password" class="form-control" name="userPwd"
 													id="userPwd" placeholder="현재 비밀번호를 입력해주세요" style="font-size: 15px;"> <input
-													type="text" id="userPwd2" name="userPwd2" hidden="hidden"
+													type="text" id="userPwd2" name="userPwd2"
 													value="${ loginUser.userPwd }"> <input type="text"
 													id="sellerId" name="sellerId" value="${ s.sellerId }" hidden="hidden">
 												<script>
@@ -233,8 +233,9 @@
 																.getElementById("userPwd").value;
 														var Pwd = document
 																.getElementById("userPwd2").value;
+														confirm("판매자 탈퇴 후 정보 복구가 불가능합니다. \n 정말 판매자 탈퇴를 하시겠습니까?"){
 														if (inputPwd == Pwd) {
-															alert("판매자 휴면 처리가 완료되었습니다.");
+															alert("판매자 탈퇴가 완료되었습니다.");
 															return true;
 														} else {
 															alert("비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
@@ -242,12 +243,12 @@
 															inputPwd.focus();
 															return false;
 														}
+														}
 													}
 												</script>
 
 												<h6 style="font-size: 12px;">
-													※ 비밀번호를 입력하면 판매자 계정이 휴면 상태로 전환됩니다. <br> 판매자 계정 활성화를
-													원하시면 문의를 해주세요.
+													※ 판매자 탈퇴 진행 시 판매자 정보 복구가 불가능합니다.
 												</h6>
 
 											</div>
@@ -255,7 +256,7 @@
 												<button type="button" class="btn btn-secondary" style="font-size: 15px;"
 													data-dismiss="modal">취소</button>
 												<button type="submit" class="btn btn-primary" style="font-size: 15px;"
-													onclick="PwdChk()">휴면 전환</button>
+													onclick="PwdChk()">판매자 탈퇴</button>
 											</div>
 										</form>
 									</div>

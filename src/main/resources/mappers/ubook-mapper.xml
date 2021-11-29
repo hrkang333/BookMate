@@ -64,6 +64,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		VALUES(SEQ_QNANO.NEXTVAL, #{ubno}, #{qnaGroupNo}, (SELECT NVL(MAX(QNA_GROUPNO_ORDER),0) + 1 FROM UBOOK_QNA), #{qnaWriter}, #{qnaContent}, sysdate)
 	</insert>
 	
+	<!-- 상품문의 삭제 -->
+	<delete id="deleteQna" parameterType="_int">
+		DELETE FROM UBOOK_QNA
+		WHERE QNA_NO = #{qnaNo}
+	</delete>
 	<!-- 내가 등록한 도서 리스트 -->
 	<select id="selectbookList" resultMap="ubookResultSet">
 		SELECT DISTINCT *

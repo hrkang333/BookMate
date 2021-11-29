@@ -122,4 +122,9 @@ public class UbookDao {
 		return sqlSession.selectOne("ubookMapper.selectListCount");
 	}
 
+	public int deleteQna(SqlSessionTemplate sqlSession, int qnaNo) {
+		System.out.println("qnaNo????" + qnaNo);
+		return sqlSession.delete("ubookMapper.deleteQna",qnaNo);
+	}
+
 }

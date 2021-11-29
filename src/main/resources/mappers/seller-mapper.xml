@@ -51,11 +51,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			WHERE SELLER_NICKN = #{sellerNickN}
 		</select>
 		
-		<!-- 판매자 휴면 -->
+		<!-- 판매자 휴면
 		<update id="deleteSeller" parameterType="Seller">
 			UPDATE SELLER SET STATUS='N'
 			WHERE SELLER_ID = #{sellerId}
-		</update>
+		</update> -->
+		<delete id="deleteSeller" parameterType="Seller">
+			DELETE FROM SELLER
+			WHERE SELLER_ID = #{sellerId}
+		</delete>
+	
 	
 		<!-- 판매자 가입 -->
 		<insert id="insertSeller" parameterType="Seller">
