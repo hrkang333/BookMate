@@ -161,10 +161,11 @@
 	            <div class="row noClub" id="categoryList1_1" style="display:none;">
 	                                해당 카테고리에 독서모임은 없습니다.
 	            </div>
-	                          
+	                
+	            <c:out value="${fn:length(cateList_first)}"></c:out>          
 	            <div class="row" id="categoryList1_2"  style="display:none;">
 	            	<c:forEach begin="0" end="7" varStatus="s">
-	            		<div id="c_clubTotal${s.index}" class="pointer" style="display:block;" <c:if test="${s.index >= fn:length(cateList_first) }"><c:out value="style=display:none;"/></c:if>>
+	            		<div id="c_clubTotal${s.index}" class="pointer" <c:if test="${s.index >= fn:length(cateList_first) }"><c:out value="style=display:none;"/></c:if>>
 		                	<input id="c_clubNo${s.index}" type="hidden" value="${cateList_first[s.index].clubNo}">
 		                    <div class="">
 		                         <div id="c_clubImg${s.index}" class="titleImg" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${cateList_first[s.index].titleChangeName}')"></div>

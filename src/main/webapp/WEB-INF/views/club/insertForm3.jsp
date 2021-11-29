@@ -66,12 +66,28 @@
             top: 4px;
             left: 5px;
         }
+        
+        .club_contents{
+	        font-size: 18px;
+        }
+
+        .answer_contents{
+	        border-color: lightgray !important;
+		    font-size: 17px !important;
+		    color: black !important;
+        }
+        
+        .example{
+	        background-color: #ecf4f1;
+		    padding: 20px 40px;
+		    margin: 10px 0px 30px;
+        }
     </style>
 </head>
 
 <body style="width:1200px; margin:auto; margin-top: 200px;">
     <jsp:include page="../common/menubar.jsp" />
-
+	<jsp:include page="../club/clubMenubar.jsp"/>
     <!--================ step3 독서모임 정보 입력창 =================-->
     <section class="checkout_area section-margin--small">
         <div class="container">

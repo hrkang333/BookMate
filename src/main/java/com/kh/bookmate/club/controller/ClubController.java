@@ -123,6 +123,11 @@ public class ClubController {
 		}
 	}
 	
+	@RequestMapping("test.cl")
+	public String test() {
+		return "club/insertForm3";
+	}
+	
 	public ClubAttachment preSaveFile(ClubAttachment ca, MultipartFile file, HttpServletRequest request, int imageType) {
 		
 		if(!file.getOriginalFilename().equals("")) {
