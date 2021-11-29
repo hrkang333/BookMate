@@ -5,9 +5,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>도서 등록</title>
+<title>책구메이트 - 중고장터</title>
 <link rel="icon" href="resources/img/logo1.png" type="image/png">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
 <script type="text/javascript">
 $(document).ready(function() {
     $('#ubookDetail').on('keyup', function() {
@@ -146,10 +146,15 @@ function checkText(obj) {
 	}
 }
 </script>
+<style type="text/css">
+.info{
+ background-color: #d1e7d1 !important;
+}
+</style>
 </head>
 <body>
 	<!-- 도서 등록 -->
-	<div class="tabContent3">
+	<div class="tabContent3" style="margin: auto !important; width: 930px;">
 		<div class="container2" id="sell_book">
 			<div class="row2">
 				<h2>도서 등록</h2>
@@ -184,6 +189,7 @@ function checkText(obj) {
 							<tr>
 								<th class="info">카테고리</th>
 								<td><select id="ubCategory" name="ubCategory" required="required"
+								style="font-size: 15px;"
 									class="form-control" data-name = "도서 카테고리">
 										<option value="" selected>== 카테고리 선택 ==</option>
 										<option value="1">소설/시/에세이</option>
@@ -248,6 +254,7 @@ function checkText(obj) {
 							<tr>
 								<th class="info">도서 품질</th>
 								<td><select id="bookQual" name="ubookQual" required="required"
+								style="font-size: 15px;"
 									class="form-control" data-name = "도서 품질">
 										<option value="" selected>== 도서 품질 선택 ==</option>
 										<option value="S">S</option>
@@ -261,6 +268,7 @@ function checkText(obj) {
 							<tr>
 								<th class="info">도서 상세</th>
 								<td><textarea name="ubookDetail" id="ubookDetail" cols="54" required="required" maxlength="3600"
+								style="width: 100%;"
 										rows="10" placeholder="도서의 줄거리, 도서 품질 상세 정보 등을 입력해주세요" data-name = "도서 상세"></textarea>
 										<div id="test_cnt">(0 / 3600)</div>
 								</td>
@@ -268,6 +276,7 @@ function checkText(obj) {
 							<tr>
 								<th class="info">도서 목차</th>
 								<td><textarea name="ubookContent" id="ubookContent" cols="54" required="required" maxlength="3600"
+								style="width: 100%;"
 										rows="10" placeholder="도서의 목차를 입력해주세요" data-name = "도서 목차"></textarea>
 										<div id="test_cnt1">(0 / 3600)</div>
 								</td>
@@ -279,7 +288,7 @@ function checkText(obj) {
 									class="text-center center-block file-upload" data-name = "도서 이미지"></td>
 							</tr>
 							<tr>
-									<th class="info">도서 이미지 미리보기</th>
+									<th class="info">도서 이미지<br>미리보기</th>
 								<td>
 									<img alt="" src="" id="preubookImg" >
 								</td>
@@ -287,11 +296,13 @@ function checkText(obj) {
 						</thead>
 					</table>
 					<center>
-						<input type="submit" id="approve_btn" class="btn btn-info"
+						<input type="submit" id="approve_btn" class="btn"
+								style="font-size: 15px; background-color: #28a745; color: #fff;"
 							name="approve_btn" onclick="submitCheck()" value="등록하기"> 
 							
 							<input type="button"
-							id="approve_btn" class="btn btn-warning" name="approve_btn"
+								style="font-size: 15px; background-color: #6a816b; color: #fff;"
+							id="approve_btn" class="btn" name="approve_btn"
 							 onclick="resetForm()"
 							value="취소하기">
 					</center>

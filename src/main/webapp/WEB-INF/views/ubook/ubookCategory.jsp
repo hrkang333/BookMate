@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>책구메이트 - 중고장터</title>
+<link rel="icon" href="resources/img/logo1.png" type="image/png">
 </head>
 <body style="width: 1200px; margin: auto;">
  	<jsp:include page="../ubook/ubookMenu.jsp"/>
@@ -17,17 +18,17 @@
       <!--================ 좌측 사이드바(도서 카테고리 선택) =================-->
       <div class="col-xl-2" style="text-align: center; position: fixed; z-index: 888; margin-top: 180px;">
         <div class="sidebar-categories">
-          <div class="head category" style="width: 175px;" onclick="location.href='ubookMain.ub'">중고도서</div>
-		  <div class="categorybody" onclick="location.href='ubookCategory.ub?ubCategory=1'">소설/시/에세이</div>
-		      	<div class="categorybody" onclick="location.href='ubookCategory.ub?ubCategory=2'">경제/경영</div>
-		      <div class="categorybody" onclick="location.href='ubookCategory.ub?ubCategory=3'">과학</div>
-		      <div class="categorybody" onclick="location.href='ubookCategory.ub?ubCategory=4'">인문</div>
-		        <div class="categorybody" onclick="location.href='ubookCategory.ub?ubCategory=5'">컴퓨터/IT</div>
-		        <div class="categorybody" onclick="location.href='ubookCategory.ub?ubCategory=6'">자기계발</div>
-		        <div class="categorybody" onclick="location.href='ubookCategory.ub?ubCategory=7'">정치/사회</div>
-		      <div class="categorybody" onclick="location.href='ubookCategory.ub?ubCategory=8'">역사/문화</div>
-		       <div class="categorybody" onclick="location.href='ubookCategory.ub?ubCategory=9'">취미</div>
-		       <div class="categorybody" onclick="location.href='ubookCategory.ub?ubCategory=10'">가정/육아</div>
+          <div class="head category" style="width: 175px; cursor: pointer;" onclick="location.href='ubookMain.ub'">중고도서</div>
+		  <div class="categorybody" style="cursor: pointer;" onclick="location.href='ubookCategory.ub?ubCategory=1'">소설/시/에세이</div>
+		      	<div class="categorybody" style="cursor: pointer;" onclick="location.href='ubookCategory.ub?ubCategory=2'">경제/경영</div>
+		      <div class="categorybody" style="cursor: pointer;" onclick="location.href='ubookCategory.ub?ubCategory=3'">과학</div>
+		      <div class="categorybody" style="cursor: pointer;" onclick="location.href='ubookCategory.ub?ubCategory=4'">인문</div>
+		        <div class="categorybody" style="cursor: pointer;" onclick="location.href='ubookCategory.ub?ubCategory=5'">컴퓨터/IT</div>
+		        <div class="categorybody" style="cursor: pointer;" onclick="location.href='ubookCategory.ub?ubCategory=6'">자기계발</div>
+		        <div class="categorybody" style="cursor: pointer;" onclick="location.href='ubookCategory.ub?ubCategory=7'">정치/사회</div>
+		      <div class="categorybody" style="cursor: pointer;" onclick="location.href='ubookCategory.ub?ubCategory=8'">역사/문화</div>
+		       <div class="categorybody" style="cursor: pointer;" onclick="location.href='ubookCategory.ub?ubCategory=9'">취미</div>
+		       <div class="categorybody" style="cursor: pointer;" onclick="location.href='ubookCategory.ub?ubCategory=10'">가정/육아</div>
 		      
           <!--background-color: #c9ae9c;-->
         </div>

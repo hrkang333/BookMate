@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>판매내역</title>
+<title>책구메이트 - 중고장터</title>
 <link rel="icon" href="resources/img/logo1.png" type="image/png">
 </head>
 <body>
@@ -13,7 +13,7 @@
 	<div class="tabContent2">
 		<div class="container">
 			<h2>판매내역</h2>
-			<div class="table-wrapper2" style="margin-left: 10px !important; width: 800px;">
+			<div class="table-wrapper2" style="margin: auto !important; width: 930px;">
 				<table class="table table-bordered tbtxtAlign" id="soldBookList">
 					
 					<thead>
@@ -32,6 +32,7 @@
 								</tr>
 					</tbody>
 				</table>
+				<br style="clear: both;">
 			</div>
 		</div>
 	</div>

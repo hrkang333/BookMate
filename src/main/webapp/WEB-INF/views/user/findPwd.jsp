@@ -7,7 +7,7 @@
 <meta name="viewport" content="width-device-width,initial-scale=1">
 <title>비밀번호 찾기</title>
 
-    <link rel="icon" href="resources/img/Fevicon.png" type="image/png">
+<link rel="icon" href="resources/img/logo1.png" type="image/png">
   <link rel="stylesheet" href="resources/vendors/bootstrap/bootstrap.min.css">
   <link rel="stylesheet" href="resources/vendors/fontawesome/css/all.min.css">
    <link rel="stylesheet" href="resources/vendors/themify-icons/themify-icons.css">

@@ -22,9 +22,6 @@
 <link rel="stylesheet" href="resources/css/used.css">
 
 
-<link
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
-	rel="stylesheet" id="bootstrap-css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet"
@@ -111,9 +108,10 @@ font-size: 15px;
                                 <a href="sellerPage.se">판매자페이지</a>
                                 |
                                 </c:if>
+					<a href="selectMyOrderList.me">마이페이지</a> |
+                                <a href="logout.us">로그아웃</a> |
 					<a href="ubookCart.ub">장바구니</a>
                                 |
-                                <a href="logout.us">로그아웃</a> |
 									<a href="noticeList.no?isUser=1">공지사항</a>
 				</c:if>
 			</div>
@@ -168,14 +166,14 @@ font-size: 15px;
 			<nav style="width: 1175px; text-align: center; margin-left: 11px;">
 				<ul class="navbar" id="tree" style="margin-top: 9px;">
 					<li class="nav-item"><a class="nav-link"
-						style="color: #503535; font-weight: 700; font-size: 18px;"
+						style="color: #503535; font-weight: 700; font-size: 18px; cursor: pointer;"
 						class="nav-link dropdown-toggle" data-toggle="dropdown">국내도서</a>
 						<form action="selectCategory.ca" method="post"
 							id="moveCategoryForm">
 							<input type="hidden" id="moveCategoryInput" name="category"
 								value="0">
 						</form>
-						<ul class="dropdown-menu" style="margin-top: -10px;">
+						<ul class="dropdown-menu" style="margin-top: -10px; cursor: pointer;">
 							<li class="nav-item" value="10"
 								onclick="moveCategory(this.value)"><a class="nav-link">국내도서
 									전체</a></li>
