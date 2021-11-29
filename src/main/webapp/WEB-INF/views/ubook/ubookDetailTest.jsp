@@ -811,7 +811,33 @@
 										
 									});
 								});
-								
+							 	function deleteQna(qnaNo){
+							 		//var paramData = {qnaNo: qnaNo};
+              						console.log(qnaNo);
+	              		            if(confirm("등록하신 도서를 삭제하시겠습니까?")){
+										$.ajax({
+	
+											url: "deleteQna.ub",
+											data : {qnaNo: qnaNo},
+											type : 'POST', 
+											dataType : 'json',
+											success: function(data){
+												if(data > 0){
+													alert("성공적으로 삭제되었습니다.");
+												selectQnaList();
+												}else{
+													console.log(data);
+													alert("왤까요");
+												}
+											},
+											error: function(){
+						                    	alert("통신실패");
+	
+											}
+	
+										});
+									}
+							 	}
 							 	//문의 리스트 보기
 								function selectQnaList(){
 						    		var ubookNo = ${ubook.ubookNo};
@@ -822,7 +848,7 @@
 										success:function(list){
 											$("#qnaCount").text(list.length);
 											
-											var value="";
+											var value="<tr>";	
 											$.each(list, function(i, obj){
 												//현재로그인한 회원이랑 문의 작성자랑 같으면 배경색 바꾸기
 												if("${loginUser.userId}" == obj.qnaWriter){
@@ -839,9 +865,15 @@
 												 			"<td  hidden='hidden'><input hidden='hidden' name='qnaGroupNo' id='qnaGroupNo' value='"+obj.qnaGroupNo+"'/>" + obj.qnaGroupNo + "</td>" + 
 												 			"<td hidden='hidden'>" + obj.qnaGroupNoOrder + "</td>" + 
 															 "<td id='widthQna'><input hidden='hidden' name='qnaContent' value='"+obj.qnaContent+"'/>" + obj.qnaContent + "</td>" + 
-															 "<td id='widthQna'><input hidden='hidden' name='createDate' value='"+obj.createDate+"'/>" + obj.createDate +"</td>" +
-															 "<c:if test='${ loginUser.userId eq ubook.sellerId }'><td><button onclick='reply()' style='background-color:#5b8a5b; color:#fff; border:none; border-radius:3px; width:80px; height:35px;'>답글달기</button></td></c:if>"+
-													 "</tr>";
+															 "<td id='widthQna'><input hidden='hidden' name='qnaNo' id='qnaNo' value='"+obj.qnaNo+"'/><input hidden='hidden' name='createDate' value='"+obj.createDate+"'/>" + obj.createDate +"</td>" +
+															 "<c:if test='${ loginUser.userId eq ubook.sellerId }'><td><button onclick='reply()' style='background-color:#5b8a5b; color:#fff; border:none; border-radius:3px; width:80px; height:35px;'>답글달기</button></td></c:if>";
+															 
+
+												if("${loginUser.userId}" == obj.qnaWriter ){
+													value += "<td><button onclick='deleteQna("+obj.qnaNo+")' style='background-color:red; color:#fff; border:none; border-radius:3px; width:80px; height:35px;'>삭제하기</button></td></tr>";
+												}else{
+													value += "</tr>";
+												}
 													
 											});
 											$("#qnaArea tbody").html(value);

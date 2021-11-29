@@ -25,7 +25,8 @@ public class SellerDao {
 
 	public int deleteSeller(SqlSessionTemplate sqlSession, Seller s) {
 		System.out.println("-------dao -----------s" + s);
-		return sqlSession.update("sellerMapper.deleteSeller", s);
+		//return sqlSession.update("sellerMapper.deleteSeller", s);
+		return sqlSession.delete("sellerMapper.deleteSeller", s);
 	}
 /*
 	public List<Ubook> selectMyUbook(SqlSessionTemplate sqlSession, String userId) {

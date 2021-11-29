@@ -83,12 +83,12 @@
                     <!--================ End 좌측 사이드바(도서 카테고리 선택) =================-->
 
                     <!--================ 메인 Content =================-->
-                    <div class="col-xl-9 col-lg-8 col-md-7 maincon" style="margin-left: 203px; padding-top: 93px;">
+                    <div class="col-xl-9 col-lg-8 col-md-7 maincon" style="margin-left: 203px; padding-top: 180px;">
                         <!--================ 메인 Content 헤더 =================-->
-                        <nav id="header" class="maintab">
+                        <nav id="header" class="maintab" style="margin-bottom: 45px; background-color: #563a3d;">
                             <div id="header-container" class="container navbar-container">
                                 <div class="navbar-header">
-                                    <h2 class="signuptitle" style="text-align: center;">책장메이트 판매자 가입</h2>
+                                    <h2 class="signuptitle" style="text-align: center; padding-top: 20px;">책장메이트 판매자 가입</h2>
                                 </div>
                             </div>
                         </nav>

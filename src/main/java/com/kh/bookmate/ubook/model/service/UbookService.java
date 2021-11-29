@@ -50,4 +50,6 @@ public interface UbookService {
 	ArrayList<Ubook> selectRowPriceBookList();
 
 	int selectListCount();
+
+	int deleteQna(int qnaNo);
 }

@@ -89,6 +89,7 @@
 					<label>${ sessionScope.loginUser.userName }님 환영합니다</label> &nbsp;&nbsp;|
 					                <a href="selectMyOrderList.me">마이페이지</a> |
 									<a href="logout.us">로그아웃</a> |
+									<a href="shoppingCart.sc">장바구니</a> |
 									<a href="noticeList.no?isUser=1">공지사항</a>
 				</c:if>
 
@@ -164,6 +165,7 @@
 							<li class="nav-item" value="9" onclick="moveCategory(this.value)"><a
 								class="nav-link">가정/육아</a></li>
 						</ul></li>
+						
 					<li class="nav-item submenu dropdown" value="12"
 						onclick="moveCategory(this.value)"><a
 						style="color: #503535; font-weight: 700; font-size: 18px; text-decoration: none;">eBook</a></li>

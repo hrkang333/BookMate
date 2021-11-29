@@ -266,6 +266,17 @@ public class UbookController {
 		int result = ubookService.insertAnswer(qna2);
 			return String.valueOf(result);
 	}
+	
+	
+	//도서 답변 삭제
+	@RequestMapping("deleteQna.ub")
+	@ResponseBody
+	public int deleteQna(int qnaNo, HttpServletResponse response) throws IOException {
+		int result = ubookService.deleteQna(qnaNo);
+		System.out.println("답변삭제 " + result);
+		return result;
+	}
+	
 	/*
 	//도서 문의 리스트
 		@ResponseBody

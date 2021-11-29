@@ -139,7 +139,7 @@ function deleteCart(index,cartNo) {
 <body style="width: 1200px; margin: 0 auto;">
  	<jsp:include page="../ubook/ubookMenu.jsp"/>
 	<hr>
-	<main style="margin-top:100px;">
+	<main style="margin-top:195px;">
 
 		<c:choose>
 		<c:when test="${requestScope.cartItemList != null}">

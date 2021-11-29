@@ -145,6 +145,11 @@ public class UbookServiceImpl implements UbookService {
 		return ubookDao.selectCategory(sqlSession,ubCategory, pi);
 	}
 
+	@Override
+	public int deleteQna(int qnaNo) {
+		return ubookDao.deleteQna(sqlSession, qnaNo);
+	}
+
 	
 	/*@Override
 	public List<Ubook> selectbookList(String userId) {
