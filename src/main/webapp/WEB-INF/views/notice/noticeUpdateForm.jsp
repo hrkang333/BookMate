@@ -198,5 +198,6 @@ function imgCheck(img) {
         </form>
         </div></div>
         </main>
+        <jsp:include page="../common/footer.jsp" />
 </body>
 </html>

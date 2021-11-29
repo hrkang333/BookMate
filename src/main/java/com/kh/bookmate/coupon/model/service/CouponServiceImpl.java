@@ -3,6 +3,7 @@ package com.kh.bookmate.coupon.model.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -87,6 +88,18 @@ public class CouponServiceImpl implements CouponService {
 	public void selectUseCoupon(UseCoupon uc) {
 		couponDao.selectUseCoupon(sqlSession, uc);
 		
+	}
+
+	@Override
+	public int selectCouponListCount(String keyword) {
+		// TODO Auto-generated method stub
+		return couponDao.selectCouponListCount(sqlSession, keyword);
+	}
+
+	@Override
+	public List<Coupon> selectCouponList(String keyword, RowBounds rb) {
+		// TODO Auto-generated method stub
+		return couponDao.selectCouponList(sqlSession, keyword,rb);
 	}
 
 	

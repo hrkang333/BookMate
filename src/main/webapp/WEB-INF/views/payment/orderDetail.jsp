@@ -102,6 +102,10 @@
 .cursorP{
 cursor: pointer;
 }
+.orderTitleSpan{
+font-size: 25px;
+font-weight: bold;
+}
 </style>
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -190,7 +194,7 @@ cursor: pointer;
 		return phone;
 	}
 
-	function name111() {
+	function requestDelivery() {
 
 		if ($('#deliveryRequest').css("display") == 'none') {
 
@@ -297,11 +301,11 @@ cursor: pointer;
 				alert("결제 정보가 등록되었습니다.")
 				$('#selectPayMethod').val(number);
 				if(methodStatus==1){
-					$('#methodNameSpan').html($('input[name=cardCompany]:checked').val()+'카드')
-					$('#methodNumSpan').html($('#cardNo').val().substring(0,4))
+					$('#methodNameSpan').html($('input[name=cardCompany]:checked').val()+'카드');
+					$('#methodNumSpan').html($('#cardNo').val().substring(0,4));
 				}else if(methodStatus==2){
-					$('#methodNameSpan').html($('input[name=bankName]:checked').val()+'은행')
-					$('#methodNumSpan').html($('#bankAccount').val().substring(0,6))
+					$('#methodNameSpan').html($('input[name=bankName]:checked').val()+'은행');
+					$('#methodNumSpan').html($('#bankAccount').val().substring(0,6));
 				}else{
 					$('#methodNameSpan').html('휴대폰 결제')
 					$('#methodNumSpan').html('뒷번호 : '+$('#phoneNum_2').val().substring($('#phoneNum_2').val().length-4,$('#phoneNum_2').val().length))
@@ -602,6 +606,18 @@ cursor: pointer;
 	        }); 
 	        return check;
 	}
+ function inputAddress(index) {
+
+		   
+		   $('#shippingNameInput').val($('#abookName'+index).text());
+		   $('#postcode').val($('#abookPostcode'+index).text());
+		   $('#address').val($('#abookAddress'+index).text());
+		   $('#detailAddress').val($('#abookAddressDetail'+index).text());
+		   $('#phoneNum_1').val($('#abookPhone'+index).text());
+		   $('#addressModal').modal("hide");
+		   $('#closeAddressModal').click();
+      
+	}
 </script>
 </head>
 <body>
@@ -615,7 +631,7 @@ cursor: pointer;
 		<div id="paymentWrap" style="display: flex;">
 			<div id="paymentInnerWrap_1">
 				<div id="userAccountWrap" class="paymentInnerWrap_1">
-					배송지 정보 <br>
+					<span class="orderTitleSpan">배송지 정보 </span><br>
 					<br>
 					<hr>
 					<br>
@@ -647,9 +663,9 @@ cursor: pointer;
 					
 					<div id="userAccountDiv">
 						<input type="text" placeholder="이름"
-							value="${requestScope.order.shippingName}" name="shippingName"> <input
-							type="button" onclick="daumPostcode()" value="새 주소 입력"> <input
-							type="button" onclick="" value="주소록 불러오기"> <br>
+							value="${requestScope.order.shippingName}" name="shippingName" id="shippingNameInput"> <input
+							type="button" onclick="daumPostcode()" value="새 주소 입력"> 
+							<button type="button" data-toggle="modal" data-target="#addressModal">주소록 불러오기</button> <br>
 						<br> <input type="text" id="postcode" placeholder="우편번호"
 							value="${requestScope.order.shippingPostCode}" name="shippingPostCode"><br>
 						<input type="text" id="address" placeholder="주소"
@@ -662,7 +678,7 @@ cursor: pointer;
 							value="${requestScope.order.shippingPhone}" name="shippingPhone"><br>
 						<br>
 						<div style="text-align: right;">
-							<span style="cursor: pointer;" onclick="name111()">배송요청사항</span><br>
+							<span style="cursor: pointer; font-weight: bold;" onclick="requestDelivery()">배송요청사항☜</span><br>
 							<br>
 							<textarea name="deliveryRequest" id="deliveryRequest" cols="30"
 								rows="5" placeholder="100자 이하로 입력해주세요" maxlength="100">배달 수고하십니다.</textarea>
@@ -682,7 +698,7 @@ cursor: pointer;
 				<br>
 				<br>
 				<div id="buyingBookWrap" class="paymentInnerWrap_1">
-					주문상품<br>
+					<span class="orderTitleSpan">주문상품</span><br>
 					<br>
 					<hr>
 					<br>
@@ -726,7 +742,7 @@ cursor: pointer;
 				<br>
 				<br>
 				<div id="usePointWrap" class="paymentInnerWrap_1">
-					포인트사용<br>
+					<span class="orderTitleSpan">포인트사용</span><br>
 					<br>
 					<hr>
 					<br>
@@ -751,7 +767,7 @@ cursor: pointer;
 				<br>
 
 				<div id="paymentMethodWrap" class="paymentInnerWrap_1">
-					결제정보<br>
+					<span class="orderTitleSpan">결제정보</span><br>
 					<br>
 					<hr>
 					<br>
@@ -1051,10 +1067,10 @@ cursor: pointer;
                 </div>
             </div>
         </div>
-         <button type="button" data-toggle="modal" data-target="#addressModal">asfsfasf</button>
-    <a data-toggle="modal" data-target="#addressModal">주소록</a> 
-    <div class="modal fade" id="addressModal">
-        <div class="modal-dialog modal-sm">
+        
+    
+    <div class="modal fade" id="addressModal" style="z-index: 10000">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
@@ -1064,34 +1080,47 @@ cursor: pointer;
 
                 <!-- Modal Body -->
                 <div class="modal-body" >
-                	<c:set var="tempAbookAddress">${requestScope.abook.address1},${requestScope.abook.address2},${requestScope.abook.address3},${requestScope.abook.address4},${requestScope.abook.address5}</c:set>
+                	
                     <table class="abookTable">
                         <tbody>
+                        	<c:forEach var="list" items="${requestScope.abook}" varStatus="status">
+                        	<tr>
+                        	<th colspan="3" style="font-size: 25px;font-weight: bold; height: 80px;">
+                        	<c:choose>
+                        	<c:when test="${status.index==0}">대표 주소</c:when>
+                        	<c:when test="${status.index==1}">이전 결제 주소</c:when>
+                        	<c:otherwise>저장된 주소 ${status.index-1}</c:otherwise>
+                        	</c:choose>
+                        	</th>
+                        	</tr>
                             <tr>
-                                <th>대표 주소</th>
+                            
+                            <td style="font-weight: bold; width: 25%;">
+                            이름 : <br><br> 우편번호 : <br> 주소 : <br> 상세주소 : <br><br> 전화번호 : <br>
+                            
+                            </td>
+                                
                                 <td>
-                                <span id="abookMainName"></span><br>
-                                <span id="abookMainPostcode"></span><br>
-                                <span id="abookMainAddress"></span><br>
-                                <span id="abookMainAddressDetail"></span><br>
-                                <span id="abookMainPhone"></span><br>
+                                <c:if test="${!empty list}">
+                                <span id="abookName${status.index}">${list[0]}</span><br><br>
+                                <span id="abookPostcode${status.index}">${list[1]}</span><br>
+                                <span id="abookAddress${status.index}">${list[2]}</span><br>
+                                <span id="abookAddressDetail${status.index}">${list[3]}</span><br><br>
+                                 <span id="abookPhone${status.index}">${list[4]}</span><br>
+                                </c:if>
+                                <c:if test="${empty list}">
+                                		저장된 주소 없음
+                                </c:if>
+                                </td>                                
+                                <td style="width: 20%;text-align: center;">
+                                <c:if test="${!empty list}">
+                                <button type="button" class="btn btn-secondary btn-sm" onclick="inputAddress(${status.index})">주소 불러오기</button>
+                                </c:if>
                                 </td>
-                                <td></td>
                             </tr>
-                            <tr>
-                                <th>이전 결제 주소</th>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <c:forEach begin="0" end="4" varStatus="status">
-                            <tr>
-                                <th>저장 주소 ${status.count}</th>
-                                <td>
-                               
-                                </td>
-                                <td><button type="button" onclick="djek(${status.count})">입력</button></td>
-                            </tr>
-                           </c:forEach>
+                            <tr><td colspan="3"><hr></td></tr>
+                            </c:forEach>
+                           
                             
 
                         </tbody>
@@ -1103,13 +1132,14 @@ cursor: pointer;
 
                 <!-- Modal footer -->
                 <div class="modal-footer" >
-                    <button type="button" class="btn btn-primary mr-auto" onclick="inputPwd()">비밀번호 등록</button>
-                    <button type="button" class="btn btn-danger" id="closeModal"data-dismiss="modal">취소</button>
+                
+                        <button type="button" class="btn btn-danger" id="closeAddressModal" data-dismiss="modal">닫기</button>
                 </div>
             
             </div>
         </div>
     </div>
 	</main>
+	<jsp:include page="../common/footer.jsp" />
 </body>
 </html>

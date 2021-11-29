@@ -1,5 +1,8 @@
 package com.kh.bookmate.coupon.model.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -33,6 +36,16 @@ public class CouponDao {
 	public void selectUseCoupon(SqlSessionTemplate sqlSession, UseCoupon uc) {
 		sqlSession.selectOne("UseCouponMapper.selectUseCoupon", uc);
 		
+	}
+
+	public int selectCouponListCount(SqlSessionTemplate sqlSession, String keyword) {
+		// TODO Auto-generated method stub
+		return 	sqlSession.selectOne("couponMapper.selectCouponListCount", keyword);
+	}
+
+	public List<Coupon> selectCouponList(SqlSessionTemplate sqlSession, String keyword, RowBounds rb) {
+		// TODO Auto-generated method stub
+		return 	sqlSession.selectList("couponMapper.selectCouponList", keyword,rb);
 	}
 
  

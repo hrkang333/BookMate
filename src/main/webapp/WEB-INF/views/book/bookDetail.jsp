@@ -969,10 +969,10 @@ $(function() {
 		}
     </script>
 </head>
-<body style="display: flex;">
+<body>
 <jsp:include page="../common/menubar.jsp" />
-		<main class="site-main" style="padding-top: 180px;margin: auto;">
-
+		<main class="site-main" style="padding-top: 180px;display: flex;">
+		<div id="bodyWrap" style="margin: auto;">
 	<hr>
 		<div style="display: flex;">
 
@@ -1334,9 +1334,9 @@ $(function() {
         </div>
         <br>
 	
-    <div id="qnaWrap">
+    <div id="qnaWrap" style=" margin-right: auto;width: 800px; ">
     	<c:set var="array">상품, 배송, 교환, 반품/환불, 기타</c:set>
-        <table id="qnaViewTable" class="table table-hover" style="width: 800px; text-align: center;">
+        <table id="qnaViewTable" class="table table-hover" style="width: 800px; text-align: center; ">
                                 <thead>
                                     <tr>
                                     	<th style="width: 50px;"></th>
@@ -1420,12 +1420,12 @@ $(function() {
                                 </tfoot>
 								
                             </table>
-                            <c:if test="${empty requestScope.qnaList}">
+                          
+					    </div>
+					      <c:if test="${empty requestScope.qnaList}">
        						 <br><br>
 					       	<div style="font-size: 30px;display: flex;width: 800px "><p style="margin: auto;">등록된 글이 없습니다.</p></div>
 					        </c:if>
-					    </div>
-					    
     
     
     <br><br><br><br><br><br>
@@ -1444,7 +1444,7 @@ $(function() {
 		※ 상품 설명에 반품/교환 관련 안내가 있는 경우 그 내용을 우선으로 합니다.(업체 사정에 따라 달라질 수 있습니다.)
 		</div>
 		
-
+		<div  style=" margin-right: auto;width: 800px; " id="infoWrap">
     
 		<table style="width: 800px;" class="infoTable">
 		<tbody>
@@ -1490,7 +1490,7 @@ $(function() {
 		
 		
 		</table>
-    
+    </div>
     <br><br><br><br><br><br><br><br><br><br><br><br>
     
     
@@ -1757,7 +1757,8 @@ $(function() {
                             </div>
 	
 	
-	
+	</div>
 	</main>
 	
+	<jsp:include page="../common/footer.jsp" />
 </html>

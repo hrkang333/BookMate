@@ -19,5 +19,12 @@ INSERT INTO COUPON VALUES(#{couponCode},#{couponPoint},#{couponStartDate},#{coup
 
  </select> 
  	
+<select id="selectCouponListCount" resultType="_int">
+SELECT COUNT(*) FROM COUPON WHERE COUPONCODE LIKE #{keyword}
+</select>
 
+<select id="selectCouponList" resultType="Coupon">
+SELECT * FROM COUPON WHERE COUPONCODE LIKE #{keyword}
+</select>
 </mapper>
+

@@ -1,5 +1,9 @@
 package com.kh.bookmate.coupon.model.service;
 
+import java.util.List;
+
+import org.apache.ibatis.session.RowBounds;
+
 import com.kh.bookmate.coupon.model.vo.Coupon;
 import com.kh.bookmate.coupon.model.vo.UseCoupon;
 
@@ -22,6 +26,10 @@ public interface CouponService {
 	void updateCoupon(UseCoupon uc, Coupon cu);
 
 	void selectUseCoupon(UseCoupon uc);
+
+	int selectCouponListCount(String keyword);
+
+	List<Coupon> selectCouponList(String keyword, RowBounds rb);
 
 	
 	

@@ -26,7 +26,7 @@
 				<br> <a href="adminQnaList.qa">-문의 확인&답변 등록</a><br>
 				<br>
 				<br><span class="leftTitle">쿠폰 관리</span><br>
-				<br> <a href="insertCouponForm.ad">-쿠폰 번호 등록</a><br><a href="">-쿠폰 수정&삭제</a><br>
+				<br> <a href="insertCouponForm.ad">-쿠폰 번호 등록</a><br><a href="selectCouponList.cu">-쿠폰 수정&삭제</a><br>
 				<br>
 				<br><span class="leftTitle">독서모임승인</span><br>
 				<br> <a href="selectClubConfirmList.cl">-독서 모임 확인&승인</a><br><br>

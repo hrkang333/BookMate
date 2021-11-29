@@ -91,8 +91,9 @@ function moveDetail(bookISBN) {
 }
 </script>
 </head>
-<body style="width: 1200px; margin: auto;">
-<main>
+<body>
+<jsp:include page="../common/menubar.jsp" />
+		<main class="site-main" style="padding-top: 180px">
 
 	<form action="selectCategory.ca" method="post" id="pageMoveForm">
 	<input type="hidden" id="categoryNowPageInput" name="categoryNowPage" value="${requestScope.categoryNowPage}">
@@ -152,7 +153,7 @@ function moveDetail(bookISBN) {
             	<c:forEach items="${requestScope.categoryList}" var="list" varStatus="status">
                 <td>
                     <div class="categoryItemDiv">
-                        <img src="${pageContext.servletContext.contextPath }/resources/images/book_img/${list.bookMainImg}" alt="" style="width: 180px; height: auto; cursor: pointer;" onclick="moveDetail('${list.bookISBN}')"><br>
+                        <img src="${pageContext.servletContext.contextPath }/resources/images/book_img/${list.bookMainImg}" alt="" style="width: 180px; height: 255px; cursor: pointer;" onclick="moveDetail('${list.bookISBN}')"><br>
                         <span id="bookTitleSpan" style="font-size: 20px; font-weight: bold; color: dodgerblue; cursor: pointer;" onclick="moveDetail('${list.bookISBN}')">${list.bookTitle}</span><br><br>
                         <span style="font-size: 14px;" id="bookWriterSpan">${list.bookWriter} 지음</span>  | <span id="bookPublisherSpan" style="font-size: 14px;">${list.bookPublisher}</span><br>
                         <span id="bookSalePriceSpan"  style="color: red; font-weight: bold;"><fmt:formatNumber value="${list.bookPrice*0.9}"/>원</span> [10%↓] | <span id="bookPriceSpan" style="font-size: 14px;"><fmt:formatNumber value="${list.bookPrice*0.02}"/> Pt적립</span>
@@ -171,7 +172,7 @@ function moveDetail(bookISBN) {
         </tbody>
         <tfoot>
         	<tr>
-		        <td colspan="4" id="pageNumber">
+		        <td colspan="5" id="pageNumber">
 		        <div style="margin : 10px">
 			        <c:if test="${requestScope.categoryPaging.prePage==1}">
 			        <span class="sizeUpBtn"  onclick="movePage(1)"><<</span>&nbsp;&nbsp;
@@ -202,5 +203,6 @@ function moveDetail(bookISBN) {
 	
         	
 </main>
+<jsp:include page="../common/footer.jsp" />
 </body>
 </html>
