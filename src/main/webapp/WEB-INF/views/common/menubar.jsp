@@ -132,7 +132,7 @@
 			<nav style="width: 1200px; text-align: center;">
 				<ul class="navbar" id="tree">
 					<li class="nav-item"><a class="nav-link"
-						style="color: #503535; font-weight: 700; font-size: 18px;"
+						style="color: #503535; font-weight: 700; font-size: 18px; cursor: pointer;"
 						class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">국내도서</a>
 
 						<form action="selectCategory.ca" method="post"
@@ -140,7 +140,7 @@
 							<input type="hidden" id="moveCategoryInput" name="category"
 								value="0">
 						</form>
-						<ul class="dropdown-menu" style="margin-top: -10px;">
+						<ul class="dropdown-menu" style="margin-top: -10px; cursor: pointer;">
 							<li class="nav-item" value="10"
 								onclick="moveCategory(this.value)"><a class="nav-link">국내도서
 									전체</a></li>
@@ -168,7 +168,7 @@
 						
 					<li class="nav-item submenu dropdown" value="12"
 						onclick="moveCategory(this.value)"><a
-						style="color: #503535; font-weight: 700; font-size: 18px; text-decoration: none;">eBook</a></li>
+						style="color: #503535; font-weight: 700; font-size: 18px; text-decoration: none; cursor: pointer;">eBook</a></li>
 
 					<li class="nav-item"><a class="nav-link" href="ubookMain.ub"
 						style="color: #503535; font-weight: 700; font-size: 18px;">중고장터</a></li>

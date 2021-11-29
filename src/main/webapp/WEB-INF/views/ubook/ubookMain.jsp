@@ -78,7 +78,7 @@ function goHot(type, length){
 
 .hotArrow_left {
 	font-size: 50px;
-	color: gray;
+	color: #b7a4a3 !important;
 	position: absolute;
 	top: 200px;
 	left: 45px;
@@ -86,7 +86,7 @@ function goHot(type, length){
 
 .hotArrow_right {
 	font-size: 50px;
-	color: gray;
+	color: #b7a4a3 !important;
 	position: absolute;
 	top: 200px;
 	right: 45px;
@@ -316,10 +316,10 @@ function goHot(type, length){
 												<button class="gobtn text-center" type="button"
 													onclick="loginChk();"
 													style="margin-left: 15px; background-image: url(resources/img/002.png); width: 760px !important; color: #ffffff; height: 150px; border: none;">
-													<h3 class="subscribe__title">
+													<h3 class="subscribe__title" style="color: #fff;">
 														아직 판매자가<br>아니라면?
 													</h3>
-													<h4>로그인을 하신 후에 판매자 가입해주세요</h4>
+													<h4 style="color: #fff;">로그인을 하신 후에 판매자 가입해주세요</h4>
 												</button>
 												<script type="text/javascript">
 													function loginChk() {
@@ -337,10 +337,10 @@ function goHot(type, length){
 												<button class="gobtn text-center" type="button"
 													onclick="location.href='sellerInsertForm.se'"
 													style="width: 180px; background-image: url(resources/img/001.png);width: 380px;">
-													<h3 class="subscribe__title">
+													<h3 class="subscribe__title" style="color: #fff;">
 														아직 판매자가<br>아니라면?
 													</h3>
-													<h4>판매자 가입하기</h4>
+													<h4 style="color: #fff;">판매자 가입하기</h4>
 												</button>
 											</div>
 										</section>
@@ -349,10 +349,10 @@ function goHot(type, length){
 												<button class="gobtn text-center"
 													onclick="location.href='sellerInsertForm.se'"
 													style="background-image: url(resources/img/001.png);width: 380px;">
-													<h3 class="subscribe__title">
+													<h3 class="subscribe__title" style="color: #fff;">
 														안읽는 책을<br>팔고싶다면?
 													</h3>
-													<h4>도서 등록하기</h4>
+													<h4 style="color: #fff;">도서 등록하기</h4>
 												</button>
 											</div>
 										</section>
@@ -364,10 +364,10 @@ function goHot(type, length){
 												<button class="gobtn text-center" type="button"
 													onclick="location.href='sellerPage.se'"
 													style="background-image: url(resources/img/001.png);width: 380px; ">
-													<h3 class="subscribe__title">${ s.sellerNickN }님
+													<h3 class="subscribe__title" style="color: #fff;">${ s.sellerNickN }님
 														<br>환영합니다
 													</h3>
-													<h4>판매자 페이지로 이동</h4>
+													<h4 style="color: #fff;">판매자 페이지로 이동</h4>
 												</button>
 											</div>
 										</section>
@@ -376,15 +376,15 @@ function goHot(type, length){
 												<button class="gobtn text-center"
 													onclick="location.href='sellerPage.se'"
 													style="background-image: url(resources/img/001.png);width: 380px;">
-													<h3 class="subscribe__title">
+													<h3 class="subscribe__title" style="color: #fff;">
 														안읽는 책을<br>팔고싶다면?
 													</h3>
-													<h4>도서 등록하기</h4>
+													<h4 style="color: #fff;">도서 등록하기</h4>
 												</button>
 											</div>
 										</section>
 									</c:if>
-									<!-- ================ 판매자 휴면한 상태일 때 ================= -->
+									<!-- ================ 판매자 휴면한 상태일 때 ================= 
 									<c:if test="${ s.status eq 'N' }">
 										<section class="goseller">
 											<div class="container">
@@ -398,7 +398,7 @@ function goHot(type, length){
 												</button>
 											</div>
 										</section>
-									</c:if>
+									</c:if>-->
 								</div>
 							</div>
 						</div>

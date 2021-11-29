@@ -7,10 +7,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>등록 도서 조회</title>
+<title>책구메이트 - 중고장터</title>
 <link rel="icon" href="resources/img/logo1.png" type="image/png">
         <script>
-            //선택한 독서모임 multiple 삭제하기
             function deleteUbook(ubookNo){
               console.log(ubookNo);
                if(confirm("등록하신 도서를 삭제하시겠습니까?")){
@@ -77,7 +76,7 @@
 </head>
 <body>
 	<!-- 등록 도서 조회 -->
-	<div class="tabContent3 active">
+	<div class="tabContent3 active" style="margin: auto !important; width: 930px;">
 		<section class="content">
 			<h2>등록 도서 조회</h2>
 			<input hidden="hidden" value="${ s.sellerNo }" name="sellerNo">
@@ -117,6 +116,7 @@
 						</div>
 					</div>
 				</div>
+				<br style="clear: both;">
 			</div>
 		</section>
 	</div>

@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<title>[책장메이트] - 장바구니</title>
+<title>책구메이트 - 중고장터</title>
 <link rel="icon" href="resources/img/logo1.png" type="image/png">
 <link rel="stylesheet"
 	href="resources/vendors/bootstrap/bootstrap.min.css">
@@ -139,7 +139,7 @@ function deleteCart(index,cartNo) {
 <body style="width: 1200px; margin: 0 auto;">
  	<jsp:include page="../ubook/ubookMenu.jsp"/>
 	<hr>
-	<main style="margin-top:195px;">
+	<main style="margin-top:215px;">
 
 		<c:choose>
 		<c:when test="${requestScope.cartItemList != null}">
@@ -257,7 +257,7 @@ function deleteCart(index,cartNo) {
 		<center><button type="button" onclick="movePayment()" style="background-color: #5cb85c; width: 460px; border: none; border-radius: 5px; margin-bottom: 50px; height: 50px; color: #fff; font-size: 17px;">결제하기</button></center>
 		</c:when>
 		<c:otherwise>
-		<div style="margin-top: 300px;font-size: 30px;font-weight: bold; text-align: center; margin-bottom: 200px;">장바구니에 등록된 상품이 없습니다.</div>
+		<div style="margin-top: 360px;font-size: 30px;font-weight: bold; text-align: center; margin-bottom: 200px;">장바구니에 등록된 상품이 없습니다.</div>
 		</c:otherwise>
 		</c:choose>
 	</main>

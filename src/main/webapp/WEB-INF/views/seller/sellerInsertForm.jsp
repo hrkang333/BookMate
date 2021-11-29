@@ -7,7 +7,7 @@
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta http-equiv="X-UA-Compatible" content="ie=edge">
-            <title>[책장메이트] - 판매자 가입</title>
+            <title>책구메이트 - 중고장터</title>
 <link rel="icon" href="resources/img/logo1.png" type="image/png">
             <script type="text/javascript" src="resources/js/seller.js"></script>
             <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
@@ -83,16 +83,16 @@
                     <!--================ End 좌측 사이드바(도서 카테고리 선택) =================-->
 
                     <!--================ 메인 Content =================-->
-                    <div class="col-xl-9 col-lg-8 col-md-7 maincon" style="margin-left: 203px; padding-top: 180px;">
+                    <div class="maincon" style="margin-left: 203px; padding-top: 180px; width: 1010px;">
                         <!--================ 메인 Content 헤더 =================-->
-                        <nav id="header" class="maintab" style="margin-bottom: 45px; background-color: #563a3d;">
+                        <nav id="header" class="maintab" style="margin-left: 0px !important; background-color: #563a3d; width: 1010px;">
                             <div id="header-container" class="container navbar-container">
                                 <div class="navbar-header">
-                                    <h2 class="signuptitle" style="text-align: center; padding-top: 20px;">책장메이트 판매자 가입</h2>
+                                    <h2 class="signuptitle" style="text-align: center; padding-top: 20px; color: #fff;">책장메이트 판매자 가입</h2>
                                 </div>
                             </div>
                         </nav>
-                        <main class="site-main sellerCon">
+                        <main class="site-main sellerCon" style=" width: 980px; margin: auto;">
                             <!--================ 판매자 가입 폼 =================-->
                             <div class="container mt-5">
                                 <div class="row d-flex justify-content-center align-items-center">
@@ -104,7 +104,7 @@
                                         </div>
 
                                         <!--================ 판매자 이용약관 동의 =================-->
-                                        <div class="tab">
+                                        <div class="tab" style="padding: inherit;">
                                             <h1 id="register" style="text-align: center;">책장메이트 판매자 이용약관 동의</h1>
                                             <br><br>
                                             <div class="form-group">
@@ -116,7 +116,7 @@
                                             </div>
                                             <textarea style="resize: none; height: 300px;" class="txtarea" readonly="readonly">
 
-제1조(목적) 이 약관은 책장메이트(전자상거래 사업자)가 운영하는 책장메이트(이하 "책장메이트"이라 한다)에서 제공하는 인터넷 관련 서비스(이하 “서비스”라 한다)를 이용함에 있어 사이버 몰과 이용자의 권리․의무 및 책임사항을 규정함을 목적으로 합니다.
+제1조(목적) 이 약관은 책장메이트(전자상거래 사업자)가 운영하는 책장메이트(이하 "책장메이트"이라 한다)에서 제공하는 인터넷 관련 서비스(이하 “서비스”라 한다)를 이용함에 있어 책장메이트와 이용자의 권리․의무 및 책임사항을 규정함을 목적으로 합니다.
 
   ※「PC통신, 무선 등을 이용하는 전자상거래에 대해서도 그 성질에 반하지 않는 한 이 약관을 준용합니다.」
 

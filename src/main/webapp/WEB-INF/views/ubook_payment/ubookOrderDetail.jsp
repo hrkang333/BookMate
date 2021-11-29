@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>[책장메이트] - 결제</title>
+<title>책구메이트 - 중고장터</title>
 <link rel="icon" href="resources/img/logo1.png" type="image/png">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -590,7 +590,7 @@ cursor: pointer;
 	}
 </script>
 </head>
-<body style="width: 1200px; margin: auto;">
+<body style="width: 1200px; margin: auto; margin-top: 160px;">
 <jsp:include page="../ubook/ubookMenu.jsp"/>
 
 	<main>

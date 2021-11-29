@@ -16,8 +16,6 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<script type="text/javascript"
-	src="/sysaccount/js/jquery.dateFormat-1.0.js"></script>
 
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -32,20 +30,18 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 	rel="stylesheet" id="bootstrap-css">
 <link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet"
 	href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 
-<body>
+<body style="width: 1200px; margin: auto;">
 
-	<div class="container bootstrap snippet">
-		<div class="row">
                     <!--================ 좌측 사이드바(도서 카테고리 선택) =================-->
  					<jsp:include page="../ubook/ubookCategory.jsp"/>
                     <!--================ End 좌측 사이드바(도서 카테고리 선택) =================-->
+	<div class="container bootstrap snippet">
+		<div style="width: 1350px;">
 			<!--판매자 페이지-->
-			<div class="col-sm-9" style="margin-left: 190px; padding-top: 170px;">
+			<div class="col-sm-9" style="margin-left: 145px; padding-top: 170px;">
 				<div class="newsInner">
 					<!--탭 시작-->
 					<div id="tabs">
@@ -57,11 +53,11 @@
 						</ul>
 						<!-- 판매자 정보관리 -->
 						<div class="tabContent active">
-							<div class="tabContentInner">
+							<div class="tabContentInner" style="margin-top: -30px;">
 								<div id="sellerInfo">
 									<form class="form" action="sellerUpdate.se" method="post"
 										id="registrationForm">
-										<div class="form-group sellerForm">
+										<div class="form-group sellerForm" style="margin: auto;">
 											<div class="col-xs-6">
 												<label>
 													<h4>아이디</h4>
@@ -199,6 +195,7 @@
 														<i class="glyphicon glyphicon-remove"></i> 판매자 탈퇴 신청
 													</button>
 												</center>
+												<br style="clear: both;">
 											</div>
 										</div>
 									</form>
@@ -218,34 +215,15 @@
 											</button>
 										</div>
 
-										<form class="form" method="post" action="deleteSeller.se">
+										<form class="form" method="post" action="deleteSeller.se" id="deleteSellerForm">
 											<div class="modal-body">
 												<label>
 													<h4>비밀번호 입력</h4>
-												</label> <input type="password" class="form-control" name="userPwd"
-													id="userPwd" placeholder="현재 비밀번호를 입력해주세요" style="font-size: 15px;"> <input
-													type="text" id="userPwd2" name="userPwd2"
-													value="${ loginUser.userPwd }"> <input type="text"
-													id="sellerId" name="sellerId" value="${ s.sellerId }" hidden="hidden">
-												<script>
-													function PwdChk() {
-														var inputPwd = document
-																.getElementById("userPwd").value;
-														var Pwd = document
-																.getElementById("userPwd2").value;
-														confirm("판매자 탈퇴 후 정보 복구가 불가능합니다. \n 정말 판매자 탈퇴를 하시겠습니까?"){
-														if (inputPwd == Pwd) {
-															alert("판매자 탈퇴가 완료되었습니다.");
-															return true;
-														} else {
-															alert("비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
-															inputPwd.val = '';
-															inputPwd.focus();
-															return false;
-														}
-														}
-													}
-												</script>
+												</label>
+												<input type="text" class="form-control" name="userPwd" id="userPwd" placeholder="현재 비밀번호를 입력해주세요" style="font-size: 15px;">
+												<input type="text" id="userPwd2" name="userPwd2" value="${ loginUser.userPwd }">
+												<input type="text" id="sellerId" name="sellerId" value="${ s.sellerId }" hidden="hidden">
+												
 
 												<h6 style="font-size: 12px;">
 													※ 판매자 탈퇴 진행 시 판매자 정보 복구가 불가능합니다.
@@ -255,7 +233,8 @@
 											<div class="modal-footer">
 												<button type="button" class="btn btn-secondary" style="font-size: 15px;"
 													data-dismiss="modal">취소</button>
-												<button type="submit" class="btn btn-primary" style="font-size: 15px;"
+													
+												<button type="button" class="btn btn-primary" style="font-size: 15px;"
 													onclick="PwdChk()">판매자 탈퇴</button>
 											</div>
 										</form>
@@ -703,7 +682,7 @@
 			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
 				aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog" role="document"
-					style="max-width: none; width: 1000px; margin-top: 100px;">
+					style="max-width: none; width: 1000px; margin-top: 205px;">
 					<div class="modal-content">
 						<div class="modal-header">
 							<h5 class="modal-title" id="exampleModalLabel">도서 수정</h5>
@@ -828,6 +807,7 @@
 											<th class="info">도서 상세</th>
 											<td><textarea name="ubookDetail" id="ubookDetail"
 													cols="54" required="required" rows="10" maxlength="3600"
+													style="width: 100%;"
 													placeholder="도서의 줄거리, 도서 품질 상세 정보 등을 입력해주세요"
 													data-name="도서 상세"></textarea>
 										<div id="test_cnt_2">(0 / 3600)</div></td>
@@ -836,6 +816,7 @@
 											<th class="info">도서 목차</th>
 											<td><textarea name="ubookContent" id="ubookContent"
 													cols="54" required="required" rows="10" maxlength="3600"
+													style="width: 100%;"
 													placeholder="도서의 목차를 입력해주세요" data-name="도서 목차"></textarea>
 													<div id="test_cnt1_2">(0 / 3600)</div>
 											</td>

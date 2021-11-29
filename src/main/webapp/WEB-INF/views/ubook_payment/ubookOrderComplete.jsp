@@ -10,11 +10,11 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>[책장메이트] - 결제완료</title>
+<title>책구메이트 - 중고장터</title>
 <link rel="icon" href="resources/img/logo1.png" type="image/png">
 
 </head>
-<body style="width: 1000px; margin: 0 auto;">
+<body style="width: 1200px; margin: 0 auto; margin-top: 25px;">
  	<jsp:include page="../ubook/ubookMenu.jsp"/>
 	<hr>
 	<main style="margin-top: 100px; margin-bottom: 100px;">

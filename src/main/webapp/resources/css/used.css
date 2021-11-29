@@ -1041,12 +1041,12 @@ clear
 	line-height: 1.7;
 }
 .tab li span:hover {
-	background: #ebf1f4;
-	border: 1px solid #ebf1f4;;
+	background: #c1b9b9;
+	border: 1px solid #c1b9b9;;
 }
 .tab .active span {
-	background: #dde3e7;
-	border: 1px solid #dde3e7;;
+	background: #e7e1d8;
+	border: 1px solid #e7e1d8;;
 }
 
 /* tab2 */
@@ -1093,16 +1093,16 @@ clear
 	content: none;
 }
 .tab1 li span:hover{
-	background: #118ce2;
+	background: #ad8885;
 }
 .tab2 li span:hover {
-	background: #118ce2;
+	background: #ad8885;
 }
 .tab1 .active span{
-	background: #005da1;
+	background: #a39290;
 }
 .tab2 .active span {
-	background: #005da1;
+	background: #a39290;
 }
 
 
@@ -1128,7 +1128,7 @@ clear
 	display: none;
 	overflow: hidden;
 	padding: 30px 0;
-	background: #dde3e7;
+	background: #e7e1d8;
 }
 .active {
 	display: block;

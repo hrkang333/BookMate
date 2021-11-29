@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>[책장메이트] - 도서 상세</title>
+<title>책구메이트 - 중고장터</title>
 <link rel="icon" href="resources/img/logo1.png" type="image/png">
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -30,7 +30,7 @@
 					<div class="detail_product"
 						style="float: left; margin: 13px 0 0; width: 870px; padding: 0; display: block;">
 						<div class="detail_content type_2"
-							style="width: 100%; padding: 0; background: none; border: 2px solid #5b8a5b; margin-left: 10px;">
+							style="width: 108%; padding: 0; background: none; border: 2px solid #5b8a5b; margin-left: 10px;">
 							<div class="inner" style="padding: 43px 0 0 0;">
 								<!-- product_image -->
 								<div class="product_image"
@@ -63,7 +63,7 @@
 											[중고] </span>
 									</div>
 									<div class="issue"
-										style="padding: 0 70px 14px 30px; font-size: 11px; color: #8e8e8e;">
+										style="padding: 0 70px 14px 30px; font-size: 15px; color: #8e8e8e;">
 										저자 ${ ubook.ubookWriter } | 출판사 ${ ubook.ubookPub }</div>
 
 									<dl class="basic"
@@ -226,7 +226,7 @@
 
 									</div>
 									<div class="detail_information"
-										style="margin: 0; padding: 20px 43px 25px; font-size: 12px; letter-spacing: -1px; line-height: 1.4em; border: 1px solid #EDEDED; background: #fafafa;">
+										style="margin: 0; padding: 20px 43px 25px; font-size: 15px; letter-spacing: -1px; line-height: 1.4em; border: 1px solid #EDEDED; background: #fafafa;">
 										<p style="padding: 10px 0 0 5px;">
 											책장메이트에 등록된 판매상품과 제품의 상태는 개별 판매자들이 등록, 판매하는 것으로<br>중개시스템만을
 											제공하는 책구메이트는 해당 상품과 내용에 대해 일체 책임을 지지 않습니다.<br> 상단 제품상태와
@@ -246,7 +246,7 @@
 
 						<!-- 판매자 다른 상품 -->
 						<div class="seller_another_product"
-							style="position: relative; margin: 10px 0 10px 10px; border: 1px solid #5b8a5b; width: 870px;">
+							style="position: relative; margin: 10px 0 10px 10px; border: 1px solid #5b8a5b; width: 940px;">
 							<h2
 								style="color: #333; font-size: 13px; letter-spacing: -0.05em; padding: 8px 15px; background-color: #d1e7d1;">
 								중고책 추천 (판매자 <span>다른</span> 상품)
@@ -315,7 +315,7 @@
 
 
 							<div id="used_info_content" class="detail_menu"
-								style="width: 100%; height: 60px; letter-spacing: -0.03em; margin: 0 0 10px 0;">
+								style="width: 108%; height: 60px; letter-spacing: -0.03em; margin: 0 0 10px 0;">
 								<ul class="main"
 									style="width: 100%; padding: 1px 0 0 0; height: 30px; border-bottom: 2px solid #5b8a5b;">
 									<li class="on"
@@ -360,13 +360,12 @@
 
 							<!-- 중고 도서 정보 -->
 							<div class="used_info_content"
-								style="padding: 20px 20px 20px 20px; margin: 0 0 20px 0; border: 1px solid #e3e3e3; background: #fafafa;">
+								style="padding: 20px 20px 20px 20px; margin: 0 0 20px 0; border: 1px solid #e3e3e3; background: #fafafa; width: 108%;">
 								<div id="seller_product_info" class="seller_product_info">
 									<h2
 										style="font-size: 16px; padding: 0px 0px 0px 8px; margin: 0 0 10px 0px; color: #333; text-align: left;">판매자
 										상품 소개</h2>
-									<div style="margin-left: 20px;">※ 해당 상품은 교보문고에서 제공하는 정보를
-										활용하여 안내하는 상품으로제품 상태를 반드시 확인하신 후 구입하여주시기 바랍니다.</div>
+									<div style="margin-left: 20px;">※ 해당 상품은 중고 상품으로서 제품 상태를 반드시 확인하신 후 구입하여주시기 바랍니다.</div>
 								</div>
 
 								<div id="seller_delivery" class="seller_delivery"
@@ -375,15 +374,14 @@
 										style="font-size: 16px; padding: 0px 0px 0px 8px; margin: 0 0 10px 0; color: #333; text-align: left;">판매자
 										배송 정책</h2>
 									<ul style="padding: 0px 0 25px 0px; margin-left: 20px;">
-										<li style="padding: 0 0 0 6px;">토/일, 공휴일을 제외한 영업일 기준으로
-											배송이 진행됩니다. 판매자가 주문을 수락하기 전까지만 주문 취소가 가능하며 이후에는 취소가 불가능합니다.</li>
+										<li style="padding: 0 0 0 6px;">판매자의 일정에 따라 배송이 진행됩니다.</li>
 									</ul>
 								</div>
 							</div>
 							<!--// 중고 도서 정보 -->
 							<!-- 탭메뉴 -->
 							<div id="used_info_content" class="detail_menu"
-								style="width: 100%; height: 60px; letter-spacing: -0.03em; margin: 0 0 10px 0;">
+								style="width: 108%; height: 60px; letter-spacing: -0.03em; margin: 0 0 10px 0;">
 								<ul class="main"
 									style="width: 100%; padding: 1px 0 0 0; height: 30px; border-bottom: 2px solid #5b8a5b;">
 									<li
@@ -432,7 +430,7 @@
 								<div id="info_content02"
 									style="margin: 25px 0 0 0; width: 717px; line-height: 1.3em;">
 									<div class="book_info_content dot_line" id="book_info_detail"
-										style="margin: 0 0 20px 0; padding-bottom: 20px; width: 870px;">
+										style="margin: 0 0 20px 0; padding-bottom: 20px; width: 131%;">
 										<table summary="도서 줄거리 및 내용"
 											style="width: 100%; border-collapse: collapse; border-spacing: 0; table-layout: fixed; border-top: 1px solid #e2e2e2; width: 100%; border-bottom: 1px solid #e2e2e2; border-right: 1px solid #e2e2e2; text-align: center; font-size: 11px;">
 											<caption
@@ -443,19 +441,19 @@
 												<tr
 													style="display: table-row; vertical-align: inherit; border-color: inherit;">
 													<th scope="col"
-														style="background-color: #edefed; padding: 6px 0 5px 0; border-bottom: 1px solid #e2e2e2; border-left: 1px solid #e2e2e2; color: #666; font-size: 11px; letter-spacing: -0.03em;">도서
+														style="background-color: #edefed; padding: 6px 0 5px 0; border-bottom: 1px solid #e2e2e2; border-left: 1px solid #e2e2e2; color: #666; font-size: 15px; letter-spacing: -0.03em;">도서
 														줄거리 및 내용</th>
 												</tr>
 											</thead>
 											<tbody>
 											</tbody>
 										</table>
-										<p class="txt" style="margin: 15px 0 0 0; padding: 0;">${ ubook.ubookDetail }</p>
+										<p class="txt" style="margin: 15px 0 0 0; padding: 0; font-size: 15px;">${ ubook.ubookDetail }</p>
 									</div>
 								</div>
 								<div id="info_content04">
 									<div class="book_info_content dot_line" id="book_info_content"
-										style="margin: 0 0 20px 0; padding-bottom: 20px; width: 870px;">
+										style="margin: 0 0 20px 0; padding-bottom: 20px; width: 108%;">
 										<table summary="도서 목차"
 											style="width: 100%; border-collapse: collapse; border-spacing: 0; table-layout: fixed; border-top: 1px solid #e2e2e2; width: 100%; border-bottom: 1px solid #e2e2e2; border-right: 1px solid #e2e2e2; text-align: center; font-size: 11px;">
 											<caption
@@ -466,7 +464,7 @@
 												<tr
 													style="display: table-row; vertical-align: inherit; border-color: inherit;">
 													<th scope="col"
-														style="background-color: #edefed; padding: 6px 0 5px 0; border-bottom: 1px solid #e2e2e2; border-left: 1px solid #e2e2e2; color: #666; font-size: 11px; letter-spacing: -0.03em;">도서
+														style="background-color: #edefed; padding: 6px 0 5px 0; border-bottom: 1px solid #e2e2e2; border-left: 1px solid #e2e2e2; color: #666; font-size: 15px; letter-spacing: -0.03em;">도서
 														목차</th>
 												</tr>
 											</thead>
@@ -481,7 +479,7 @@
 
 							<!-- 탭메뉴 -->
 							<div id="used_info_content" class="detail_menu"
-								style="width: 100%; height: 60px; letter-spacing: -0.03em; margin: 0 0 10px 0;">
+								style="width: 108%; height: 60px; letter-spacing: -0.03em; margin: 0 0 10px 0;">
 								<ul class="main"
 									style="width: 100%; padding: 1px 0 0 0; height: 30px; border-bottom: 2px solid #5b8a5b;">
 									<li
@@ -523,12 +521,12 @@
 							<!--// 탭메뉴 -->
 							<!-- 교환/반품안내 -->
 							<div class="member_refund" id="member_refund">
-								<p class="info" style="margin: 0 0 5px 0;">
+								<p class="info" style="margin: 0 0 5px 0; width: 108%;">
 									※ 상품 설명에 반품/교환 관련한 안내가 있는 경우 그 내용을 우선으로 합니다.<br> (업체 사정에
 									따라 달라질 수 있습니다.)
 								</p>
 								<table summary="교환/반품안내"
-									style="border-collapse: collapse; border-spacing: 0; table-layout: fixed; border-top: 1px solid #5b8a5b; border-right: 1px solid #d1e7d1; border-bottom: 1px solid #e1e1e1; width: 100%; text-align: left; font-size: 15px; margin-bottom: 20px;">
+									style="border-collapse: collapse; border-spacing: 0; table-layout: fixed; border-top: 1px solid #5b8a5b; border-right: 1px solid #d1e7d1; border-bottom: 1px solid #e1e1e1; width: 108%; text-align: left; font-size: 15px; margin-bottom: 20px;">
 
 									<colgroup>
 										<col width="130px">
@@ -694,7 +692,7 @@
 							
 							<!-- 탭메뉴 -->
 							<div id="used_info_content" class="detail_menu"
-								style="width: 100%; height: 60px; letter-spacing: -0.03em; margin: 0 0 10px 0;">
+								style="width: 108%; height: 60px; letter-spacing: -0.03em; margin: 0 0 10px 0;">
 								<ul class="main"
 									style="width: 100%; padding: 1px 0 0 0; height: 30px; border-bottom: 2px solid #5b8a5b;">
 									<li
@@ -741,7 +739,7 @@
 								id="question"
 								style="margin: 0 0 20px 0; padding: 0;">
 								
-					            <table id="qnaArea" class="table" style="text-align:center;">
+					            <table id="qnaArea" class="table" style="text-align:center; width: 108%;">
 					                <thead>
 					                    <tr>
 					                    	<c:if test="${ !empty loginUser }">
