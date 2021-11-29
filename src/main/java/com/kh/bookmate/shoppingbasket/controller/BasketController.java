@@ -167,7 +167,12 @@ public class BasketController {
 		shippingAddressArr = shippingAddress.split("/");
 		
 		order = new Payment(user.getUserId(), shippingName, shippingAddressArr[0], shippingAddressArr[1],shippingAddressArr[2],shippingPhone, totalCost, totalGetPoint);
-		
+		if(totalCost < 10000) {
+			order.setDeliveryCost(2500);
+		}else {
+			order.setDeliveryCost(0);
+		}
+		mo.addAttribute("abook", abook);
 		mo.addAttribute("deleteBasketList", newBasketList);
 		mo.addAttribute("order", order);
 		mo.addAttribute("orderList", orderList);
@@ -305,7 +310,12 @@ public class BasketController {
 		shippingAddressArr = shippingAddress.split("/");
 		
 		order = new Payment(user.getUserId(), shippingName, shippingAddressArr[0], shippingAddressArr[1],shippingAddressArr[2],shippingPhone, totalCost, totalGetPoint);
-		
+		if(totalCost < 10000) {
+			order.setDeliveryCost(2500);
+		}else {
+			order.setDeliveryCost(0);
+		}
+		mo.addAttribute("abook", abook);
 		mo.addAttribute("order", order);
 		mo.addAttribute("orderItem", orderItem);
 		return "payment/singleOrderDetail";

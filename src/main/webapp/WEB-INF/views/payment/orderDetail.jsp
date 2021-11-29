@@ -406,6 +406,7 @@ cursor: pointer;
 	  //보유 포인트 입력시 정보 변화
 	  function checkUsePoint() {
 		  var itemsPrise = parseInt('${requestScope.order.totalCost}');
+		  var deliveryCost = parseInt('${requestScope.order.deliveryCost}');
 		  var keepPoint = parseInt($('#hiddenPoint').val());
 		  var usePoint = $('#usePointInput').val();
 		  if(usePoint > keepPoint){
@@ -418,10 +419,10 @@ cursor: pointer;
 		  if($('#userPointP').html()=='' ){
 			  $('#userPointP').html(0) 
 		  }
-		  $('#totalPrice').html((itemsPrise-usePoint).toLocaleString('ko-KR')+" 원")
+		  $('#totalPrice').html((itemsPrise-usePoint+deliveryCost).toLocaleString('ko-KR')+" 원")
 		  
 		  $('#usePointInput_2').val(usePoint)
-		  $('#totalPayCost').val(itemsPrise-usePoint)
+		  $('#totalPayCost').val(itemsPrise-usePoint+deliveryCost)
 	}
 	  
 	  // 보유 포인트 모두 사용시
@@ -623,6 +624,7 @@ cursor: pointer;
 					<input type="hidden" id="usePointInput_2" name="usePoint" value="0" >
 					<input type="hidden" name="totalGetPoint" value="${requestScope.order.totalGetPoint}">
 					<input type="hidden" id="totalPayCost" name="totalPayCost" value="${requestScope.order.totalCost}">
+					<input type="hidden" name="deliveryCost" value="${requestScope.order.deliveryCost}">
 					<input type="hidden" id="paymentMethod" name="paymentMethod" value="">
 				<!-- 	<input type="hidden" id="" name="deliveryCost" value=""> -->
 					<input type="hidden" name="totalCost" value="${requestScope.order.totalCost}">
@@ -910,7 +912,7 @@ cursor: pointer;
 						</div>
 						<div class="innerInfo">
 							<p>배송비</p>
-							<p class="rightValue">0</p>원
+							<p class="rightValue" id="userDeliveryCost">${requestScope.order.deliveryCost}</p>원
 						</div>
 						<div class="innerInfo">
 							<p>사용포인트</p>
@@ -921,7 +923,7 @@ cursor: pointer;
 							<p>최종 결제 금액</p>
 							<p class="rightValue"
 								style="font-size: 25px; color: red; font-weight: bold" id="totalPrice">
-								<fmt:formatNumber value="${requestScope.order.totalCost}" />
+								<fmt:formatNumber value="${requestScope.order.totalCost+requestScope.order.deliveryCost}" />
 								원
 							</p>
 						</div>
@@ -1049,6 +1051,65 @@ cursor: pointer;
                 </div>
             </div>
         </div>
+         <button type="button" data-toggle="modal" data-target="#addressModal">asfsfasf</button>
+    <a data-toggle="modal" data-target="#addressModal">주소록</a> 
+    <div class="modal fade" id="addressModal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">저장 주소 불러오기</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button> 
+            </div>
+
+                <!-- Modal Body -->
+                <div class="modal-body" >
+                	<c:set var="tempAbookAddress">${requestScope.abook.address1},${requestScope.abook.address2},${requestScope.abook.address3},${requestScope.abook.address4},${requestScope.abook.address5}</c:set>
+                    <table class="abookTable">
+                        <tbody>
+                            <tr>
+                                <th>대표 주소</th>
+                                <td>
+                                <span id="abookMainName"></span><br>
+                                <span id="abookMainPostcode"></span><br>
+                                <span id="abookMainAddress"></span><br>
+                                <span id="abookMainAddressDetail"></span><br>
+                                <span id="abookMainPhone"></span><br>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>이전 결제 주소</th>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <c:forEach begin="0" end="4" varStatus="status">
+                            <tr>
+                                <th>저장 주소 ${status.count}</th>
+                                <td>
+                               
+                                </td>
+                                <td><button type="button" onclick="djek(${status.count})">입력</button></td>
+                            </tr>
+                           </c:forEach>
+                            
+
+                        </tbody>
+
+
+                    </table>
+                </div>
+                
+
+                <!-- Modal footer -->
+                <div class="modal-footer" >
+                    <button type="button" class="btn btn-primary mr-auto" onclick="inputPwd()">비밀번호 등록</button>
+                    <button type="button" class="btn btn-danger" id="closeModal"data-dismiss="modal">취소</button>
+                </div>
+            
+            </div>
+        </div>
+    </div>
 	</main>
 </body>
 </html>

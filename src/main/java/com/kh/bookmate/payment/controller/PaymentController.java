@@ -69,20 +69,19 @@ public class PaymentController {
 	@RequestMapping("insertPayment")
 	public String insertPayment(PaymentDetail paymentDetailList, Payment payment,ShoppingBasket basketList) {
 		
-		System.out.println(basketList);
-		
+		String latelyAddress = null;		
 		List<ShoppingBasket> deleteBasketList = basketList.getBasketList();
 		Payment temp = payment;
 		List<PaymentDetail> list = new ArrayList<PaymentDetail>();
 		temp.setShippingAddress(payment.getShippingPostCode()+"/"+payment.getShippingAddress()+"/"+payment.getShippingAddressDetail());
 		
-		
+		latelyAddress = temp.getShippingName()+"_"+temp.getShippingPostCode()+"/"+temp.getShippingAddress()+"/"+temp.getShippingAddressDetail()+"_"+temp.getShippingPhone();
 		for(int i= 0 ; i < paymentDetailList.getPaymentDetailList().size();i++ ) {
 			paymentDetailList.getPaymentDetailList().get(i).setDeliveryDate(ShipDate());
 			list.add(paymentDetailList.getPaymentDetailList().get(i));
 			
 		}
-		paymentService.insertPayment(temp,list,deleteBasketList);
+		paymentService.insertPayment(temp,list,deleteBasketList,latelyAddress);
 		
 		
 		return "payment/orderComplete";
@@ -202,13 +201,13 @@ public class PaymentController {
 	@RequestMapping("insertSinglePayment")
 	public String insertSinglePayment(PaymentDetail paymentDetail, Payment payment) {
 		
-		
+		String latelyAddress = null;
 		Payment temp = payment;
 		temp.setShippingAddress(payment.getShippingPostCode()+"/"+payment.getShippingAddress()+"/"+payment.getShippingAddressDetail());
 		paymentDetail.setDeliveryDate(ShipDate());
-		
+		latelyAddress = temp.getShippingName()+"_"+temp.getShippingPostCode()+"/"+temp.getShippingAddress()+"/"+temp.getShippingAddressDetail()+"_"+temp.getShippingPhone();
 	
-		paymentService.insertSinglePayment(temp,paymentDetail);
+		paymentService.insertSinglePayment(temp,paymentDetail,latelyAddress);
 		
 		
 		return "payment/orderComplete";

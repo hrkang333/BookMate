@@ -1,12 +1,15 @@
 package com.kh.bookmate.payment.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.bookmate.addressBook.model.dao.AddressBookDao;
 import com.kh.bookmate.book.model.dao.BookDao;
 import com.kh.bookmate.bookreview.model.dao.BookReviewDao;
 import com.kh.bookmate.bookreview.model.vo.BuyReview;
@@ -37,6 +40,9 @@ public class PaymentServiceImpl implements PaymentService {
 	
 	@Autowired
 	private BookReviewDao bookReviewDao;
+	
+	@Autowired
+	private AddressBookDao addressBookDao;
 	
 	//주문 리스트 조회 
 	@Override 
@@ -129,10 +135,13 @@ public class PaymentServiceImpl implements PaymentService {
 	
 
 	@Override
-	public void insertPayment(Payment temp, List<PaymentDetail> list, List<ShoppingBasket> deleteBasketList) {
+	public void insertPayment(Payment temp, List<PaymentDetail> list, List<ShoppingBasket> deleteBasketList, String latelyAddress) {
 		
 		//결제 정보 등록, 결제 세부(도서)정보 등록, 결제후 장바구니 삭제, 결제후 유저 포인트 업데이트, 결제후 도서 재고 변동
 		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("user_Id", temp.getUser_Id());
+		map.put("latelyAddress", latelyAddress);
 		int result = paymentDao.insertPayment(sqlSession,temp);
 		if(result < 0) {
 			throw new RuntimeException("결제 정보 저장 오류");
@@ -164,6 +173,11 @@ public class PaymentServiceImpl implements PaymentService {
 					throw new RuntimeException("결제후 재고 감소 오류");
 				}
 			}
+			int result6 = addressBookDao.updateLatelyAddress(sqlSession,map);
+			if(result6 < 1) {
+				throw new RuntimeException("이전 결제 주소 업데이트 오류");
+			}	
+			
 	}
 
 	 
@@ -252,7 +266,10 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 	@Override
-	public void insertSinglePayment(Payment temp, PaymentDetail paymentDetail) {
+	public void insertSinglePayment(Payment temp, PaymentDetail paymentDetail, String latelyAddress) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("user_Id", temp.getUser_Id());
+		map.put("latelyAddress", latelyAddress);
 		int result = paymentDao.insertPayment(sqlSession,temp);
 		ShoppingBasket basket = new ShoppingBasket();
 		basket.setBookISBN(paymentDetail.getBookISBN());
@@ -279,6 +296,10 @@ public class PaymentServiceImpl implements PaymentService {
 					throw new RuntimeException("결제후 재고 감소 오류");
 				}
 			
+		int result3 = addressBookDao.updateLatelyAddress(sqlSession,map);
+		if(result3 < 1) {
+			throw new RuntimeException("이전 결제 주소 업데이트 오류");
+		}	
 		
 	}
 

@@ -401,6 +401,7 @@ cursor: pointer;
 	  function checkUsePoint() {
 		  var itemsPrise = parseInt('${requestScope.order.totalCost}');
 		  var keepPoint = parseInt($('#hiddenPoint').val());
+		  var deliveryCost = parseInt('${requestScope.order.deliveryCost}');
 		  var usePoint = $('#usePointInput').val();
 		  if(usePoint > keepPoint){
 			  $('#usePointInput').val(keepPoint);
@@ -412,10 +413,10 @@ cursor: pointer;
 		  if($('#userPointP').html()=='' ){
 			  $('#userPointP').html(0) 
 		  }
-		  $('#totalPrice').html((itemsPrise-usePoint).toLocaleString('ko-KR')+" 원")
+		  $('#totalPrice').html((itemsPrise-usePoint+deliveryCost).toLocaleString('ko-KR')+" 원")
 		  
 		  $('#usePointInput_2').val(usePoint)
-		  $('#totalPayCost').val(itemsPrise-usePoint)
+		  $('#totalPayCost').val(itemsPrise-usePoint+deliveryCost)
 	}
 	  
 	  // 보유 포인트 모두 사용시
@@ -617,6 +618,7 @@ cursor: pointer;
 					<input type="hidden" id="usePointInput_2" name="usePoint" value="0" >
 					<input type="hidden" name="totalGetPoint" value="${requestScope.order.totalGetPoint}">
 					<input type="hidden" id="totalPayCost" name="totalPayCost" value="${requestScope.order.totalCost}">
+					<input type="hidden" name="deliveryCost" value="${requestScope.order.deliveryCost}">
 					<input type="hidden" id="paymentMethod" name="paymentMethod" value="">
 				<!-- 	<input type="hidden" id="" name="deliveryCost" value=""> -->
 					<input type="hidden" name="totalCost" value="${requestScope.order.totalCost}">
@@ -894,7 +896,7 @@ cursor: pointer;
 						</div>
 						<div class="innerInfo">
 							<p>배송비</p>
-							<p class="rightValue">0</p>원
+							<p class="rightValue" id="userDeliveryCost">${requestScope.order.deliveryCost}</p>원
 						</div>
 						<div class="innerInfo">
 							<p>사용포인트</p>
@@ -905,7 +907,7 @@ cursor: pointer;
 							<p>최종 결제 금액</p>
 							<p class="rightValue"
 								style="font-size: 25px; color: red; font-weight: bold" id="totalPrice">
-								<fmt:formatNumber value="${requestScope.order.totalCost}" />
+								<fmt:formatNumber value="${requestScope.order.totalCost+requestScope.order.deliveryCost}" />
 								원
 							</p>
 						</div>

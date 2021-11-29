@@ -1600,11 +1600,11 @@ $(function() {
                 <div>
                     <span style="font-weight: bold;">도서평점</span> - 책에 대한 점수를 표시해 주세요<br>
                     <br>
-                    <img src="${pageContext.servletContext.contextPath }/resources/img/eHeart.jpg" alt="" id="scoreImg_1" onclick="reviewScore(1)" > 
-                    <img src="${pageContext.servletContext.contextPath }/resources/img/eHeart.jpg"  id="scoreImg_2" alt="" onclick="reviewScore(2)" > 
-                    <img src="${pageContext.servletContext.contextPath }/resources/img/eHeart.jpg"  id="scoreImg_3" alt="" onclick="reviewScore(3)" >
-                    <img src="${pageContext.servletContext.contextPath }/resources/img/eHeart.jpg" alt=""  id="scoreImg_4" onclick="reviewScore(4)" > 
-                    <img src="${pageContext.servletContext.contextPath }/resources/img/eHeart.jpg"  id="scoreImg_5" alt="" onclick="reviewScore(5)" >
+                    <img src="${pageContext.servletContext.contextPath }/resources/img/eHeart.jpg"  id="scoreImg_1" onclick="reviewScore(1)" style="width: 35px"> 
+                    <img src="${pageContext.servletContext.contextPath }/resources/img/eHeart.jpg"  id="scoreImg_2" onclick="reviewScore(2)" style="width: 35px" > 
+                    <img src="${pageContext.servletContext.contextPath }/resources/img/eHeart.jpg"  id="scoreImg_3" onclick="reviewScore(3)" style="width: 35px" >
+                    <img src="${pageContext.servletContext.contextPath }/resources/img/eHeart.jpg"  id="scoreImg_4" onclick="reviewScore(4)" style="width: 35px" > 
+                    <img src="${pageContext.servletContext.contextPath }/resources/img/eHeart.jpg"  id="scoreImg_5" onclick="reviewScore(5)" style="width: 35px" >
 
                 </div>
 
@@ -1650,7 +1650,7 @@ $(function() {
                                             <table id="qnaTable">
                                                 <thead>
                                                     <tr>
-                                                    <th colspan="2">상품명 : </th>
+                                                    <th colspan="2">상품명 : ${requestScope.book.bookTitle }</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>

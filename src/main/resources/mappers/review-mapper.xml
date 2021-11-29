@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 <insert id="insertReview" parameterType="BookReview">
-INSERT INTO BOOKREVIEW VALUES(BOOKREVIEW_SEQ.NEXTVAL,#{bookISBN},#{bookRating},#{reviewTitle},#{reviewWriter},#{reviewContent},SYSDATE,DEFAULT)
+INSERT INTO BOOKREVIEW VALUES(BOOKREVIEW_SEQ.NEXTVAL,#{bookISBN},#{bookRating},#{reviewTitle},#{reviewWriter},#{reviewContent},SYSDATE,DEFAULT,DEFAULT)
 </insert> 
 <update id="updateReviewWriter" parameterType="BookReview">
 UPDATE BUYREVIEW SET REVIEWSTATUS = 2 WHERE USER_ID = #{reviewWriter}
