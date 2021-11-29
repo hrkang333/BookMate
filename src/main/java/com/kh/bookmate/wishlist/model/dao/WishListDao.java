@@ -1,5 +1,7 @@
 package com.kh.bookmate.wishlist.model.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +23,11 @@ public class WishListDao {
 	public int insertWishList(SqlSessionTemplate sqlSession, WishList wish) {
 		// TODO Auto-generated method stub
 		return sqlSession.insert("wishListMapper.insertWishList",wish);
+	}
+
+	public List<WishList> selectMyWishList(SqlSessionTemplate sqlSession, String loginUser) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("wishListMapper.selectMyWishList",loginUser);
 	}
 
 }

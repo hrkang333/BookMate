@@ -50,7 +50,7 @@
                     <form action="#">
                       <ul>
                         <li><a href="myPage.me">내 정보 수정하기 </a> </li>
-                        <li>내 비밀번호 변경하기 </li>
+                     <!--    <li><a href="update.me">내 비밀번호 변경하기 </a></li> -->
                      </ul>
                     </form>
                   </li>
@@ -90,9 +90,11 @@
                   <form action="myPageOrderList.me" method="post"> </form>
                     <ul>
                         <li class="filter-list"> <a href="myReview.me" >나의 리뷰조회 </a> </li>
-                        <li class="filter-list">  <a href="recentlyView.me">나의 최근 본 목록</a> </li>
+                        <li class="filter-list"> <a href="recentlyView.me">나의 최근 본 목록</a> </li>
                         <li class="filter-list"> <a href="myPoint.me">나의 포인트 조회</a></li>
-                         <li class="filter-list"> <a href="myAddressMange.me">나의 주소록 관리</a></li>
+                        <li class="filter-list"> <a href="myAddressMange.me">나의 주소록 관리</a></li>
+                        <li class="filter-list"> <a href="wishList.me">나의 찜목록 관리</a></li>
+                    
                     </ul>
                  
                 </div>

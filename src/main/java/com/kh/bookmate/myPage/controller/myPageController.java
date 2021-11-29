@@ -21,6 +21,8 @@ import com.kh.bookmate.book.model.service.BookService;
 import com.kh.bookmate.book.model.vo.Book;
 import com.kh.bookmate.bookreview.model.service.BookReviewService;
 import com.kh.bookmate.bookreview.model.vo.BookReview;
+import com.kh.bookmate.common.PageInfo;
+import com.kh.bookmate.common.Pagination;
 import com.kh.bookmate.coupon.model.service.CouponService;
 import com.kh.bookmate.coupon.model.vo.Coupon;
 import com.kh.bookmate.coupon.model.vo.UseCoupon;
@@ -39,6 +41,7 @@ import com.kh.bookmate.ubook_payment.model.vo.UbookPayment;
 import com.kh.bookmate.ubook_payment.model.vo.UbookPaymentDetail;
 import com.kh.bookmate.user.model.service.UserService;
 import com.kh.bookmate.user.model.vo.User;
+import com.kh.bookmate.wishlist.model.vo.WishList;
 
 @SessionAttributes("loginUser") // 로그인 유저 세션 유지 
 @Controller
@@ -94,12 +97,12 @@ public class myPageController {
 
 	}
 
-//
-//	//마이페이지 이동 
-//	@RequestMapping("myPage.me")
-//	public String updateUser() {
-//		return "myPage/updateMyPage";
-//	}
+
+	//마이페이지 이동 
+	@RequestMapping("myPage.me")
+	public String updateUser() {
+		return "myPage/updateMyPage"; 
+	}
 	
 
 	//회원정보 수정 
@@ -125,6 +128,11 @@ public class myPageController {
 				return "myPage/updateMyPage"; 
 	}
 	
+	
+	//
+	
+	
+	
 	//회원 탈퇴 
 	@RequestMapping("delete.me")
 	public String deleteUser (String userId) {
@@ -143,14 +151,21 @@ public class myPageController {
 	
 	//주문리스트 조회 
 	@RequestMapping("selectMyOrderList.me")
-	public String selectMyOrderList(Model model, HttpSession session) { 
+	public String selectMyOrderList(@RequestParam(value="currentPage",
+					required = false, defaultValue="1")
+					int currentPage,Model model, HttpSession session) { 
 					
 		//주문 내역보기 
+		int listCount = myPageService.selectListCount();
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 10);
+		
+		
 		String loginUser = ((User) session.getAttribute("loginUser")).getUserId(); 
-		List<Payment> myOrderList = paymentService.selectMyOrderList(loginUser);
+		List<Payment> myOrderList = paymentService.selectMyOrderList(loginUser, pi);
 
 			
 		model.addAttribute("myOrderList",myOrderList);
+		model.addAttribute("pi",pi);
 		return "myPage/myPageOrderList";
 	
 	}
@@ -248,25 +263,41 @@ public class myPageController {
 
 	//구매취소 리스트 
 	@RequestMapping("cancelList.me")
-	public String cancelList(Model model,HttpSession session) {
+	public String cancelList(@RequestParam(value="currentPage",
+			required = false, defaultValue="1")
+			int currentPage, Model model,HttpSession session) {
 		
-		String loginUser = ((User) session.getAttribute("loginUser")).getUserId(); 
-		List<PaymentDetail> cList = paymentService.cancelList(loginUser);
-		model.addAttribute("cList",cList);
-		System.out.println("cList=확인 =================" + cList.toString());
+
+		int listCount = myPageService.selectCancelListCount();
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 10);
+
+		String loginUser = ((User) session.getAttribute("loginUser")).getUserId();
+		List<PaymentDetail> cList = paymentService.cancelList(loginUser, pi);
+		model.addAttribute("cList", cList);
+		model.addAttribute("pi ", pi);
+		// System.out.println("cList=확인 =================" + cList.toString());
 
 		return "myPage/cancelList";
 	}
 	
 	// 교환/환불 리스트 조회
 	@RequestMapping("refundAndExchangeList.me") // 왜 bookISBN no getter가 뜨는거지..
-	public String selectReAndExList(PaymentDetail pd, Model model,HttpSession session) {
+	public String selectReAndExList(@RequestParam(value="currentPage",
+			required = false, defaultValue="1")
+			int currentPage, PaymentDetail pd, Model model,HttpSession session) {
+		
+
+		int listCount = myPageService.selectrefundAndExchangeListCount();
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 10);
+
 		
 		String loginUser = ((User) session.getAttribute("loginUser")).getUserId();
-		System.out.println("=======================" + loginUser);
-		List<PaymentDetail> rxList = paymentService.selectReAndExList(loginUser);
+		//System.out.println("=======================" + loginUser);
+		List<PaymentDetail> rxList = paymentService.selectReAndExList(loginUser,pi);
 
 		model.addAttribute("rxList", rxList);
+		model.addAttribute("pi ", pi);
+
 
 		return "myPage/refundAndExchangeList";
 	}
@@ -340,7 +371,7 @@ public class myPageController {
 		UseCoupon uc = new UseCoupon(user_Id, couponCode); //usecoupon에 인서트 해줄려 이거 두개만 찍히니까		
 		couponService.selectUseCoupon(uc); 
 		
-		System.out.println(uc+"----------------uc는 잘들고오니? ");
+		//System.out.println(uc+"----------------uc는 잘들고오니? ");
 	
 		Coupon cu = couponService.selectCoupon(couponCode); // 쿠폰 코드로 쿠폰객체 들고오기 
 		couponService.updateCoupon(uc,cu); //유저아이디랑, 쿠폰코드 받아옴 
@@ -377,16 +408,23 @@ public class myPageController {
 	
 	//내가 쓴 리뷰 보기 
 	@RequestMapping("myReview.me")
-	public String selectReviewListMine(HttpSession session, Model model, BookReview rb) {
+	public String selectReviewListMine(@RequestParam(value="currentPage",
+			required = false, defaultValue="1")
+			int currentPage,HttpSession session, Model model, BookReview rb) {
+		
+
+		int listCount = myPageService.selectReviewListMineCount();
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 10, 10);
 		
 		String loginUser = ((User) session.getAttribute("loginUser")).getUserId(); 
 		//리뷰 제목, 리뷰 내용, 리뷰작성 날짜 정도 내 페이지에서 보여주게 한 다음에 상세보기로 연결시키기 
-		List<BookReview> myBrList = bookReviewService.selectReviewListMine(loginUser);
+		List<BookReview> myBrList = bookReviewService.selectReviewListMine(loginUser,pi);
 		model.addAttribute("myBrList",myBrList);
+		model.addAttribute("pi",pi);
+	
 		
 		return "myPage/myReviewList";
 	}
-	
 	
 	
 	//나의 주소록 관리
@@ -400,6 +438,17 @@ public class myPageController {
 		
 		
 		return"myPage/myAddressManageList";
+	}
+	
+	//나의 찜목록 리스트 
+	@RequestMapping("wishList.me")
+	public String myWishList(HttpSession session, Model model) {
+
+		String loginUser = ((User) session.getAttribute("loginUser")).getUserId();
+		List<WishList> wList = myPageService.selectMyWishList(loginUser);
+		model.addAttribute("wList",wList);
+		
+		return "myPage/myWishList";
 	}
 	
 	

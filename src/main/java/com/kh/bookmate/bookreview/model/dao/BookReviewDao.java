@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.bookmate.bookreview.model.vo.BookReview;
 import com.kh.bookmate.bookreview.model.vo.BookReviewReply;
+import com.kh.bookmate.common.PageInfo;
 import com.kh.bookmate.payment.model.vo.PaymentDetail;
 
 @Repository
@@ -99,9 +100,16 @@ public class BookReviewDao {
 	}
 
 	//마이페이지 북 리뷰 리스트 
-	public List<BookReview> selectReviewListMine(SqlSessionTemplate sqlSession, String loginUser) {
+	public List<BookReview> selectReviewListMine(SqlSessionTemplate sqlSession, String loginUser, PageInfo pi) {
+				int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("reviewMapper.selectReviewListMine",loginUser,rowBounds);
+	}
+
+	//마이페이지 북리뷰 페이징 처리용 
+	public int selectReviewListMineCount(SqlSessionTemplate sqlSession) {
 		// TODO Auto-generated method stub
-		return sqlSession.selectList("reviewMapper.selectReviewListMine",loginUser);
+		return sqlSession.selectOne("reviewMapper.selectReviewListMineCount");
 	}
 
 	

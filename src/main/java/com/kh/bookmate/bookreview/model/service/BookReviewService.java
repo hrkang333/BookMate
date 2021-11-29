@@ -5,6 +5,7 @@ import java.util.List;
 import com.kh.bookmate.book.model.vo.Book;
 import com.kh.bookmate.bookreview.model.vo.BookReview;
 import com.kh.bookmate.bookreview.model.vo.BookReviewReply;
+import com.kh.bookmate.common.PageInfo;
 import com.kh.bookmate.common.Paging;
 import com.kh.bookmate.user.model.vo.User;
 
@@ -34,6 +35,6 @@ public interface BookReviewService {
 
 	
 	// 마이페이지 북 리뷰 리스트
-	List<BookReview> selectReviewListMine(String selectReviewListMine);
+	List<BookReview> selectReviewListMine(String selectReviewListMine, PageInfo pi);
 
 }

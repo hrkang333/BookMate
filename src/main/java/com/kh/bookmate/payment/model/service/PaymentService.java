@@ -2,6 +2,7 @@ package com.kh.bookmate.payment.model.service;
 
 import java.util.List;
 
+import com.kh.bookmate.common.PageInfo;
 import com.kh.bookmate.payment.model.vo.Payment;
 import com.kh.bookmate.payment.model.vo.PaymentDetail;
 import com.kh.bookmate.shoppingbasket.model.vo.ShoppingBasket;
@@ -9,7 +10,7 @@ import com.kh.bookmate.user.model.vo.User;
 
 public interface PaymentService {
 
-	List<Payment> selectMyOrderList(String loginUser);
+	List<Payment> selectMyOrderList(String loginUser,PageInfo pi);
  
 	List<PaymentDetail> selectMyOrderListDetail(int paymentNo);
 
@@ -35,7 +36,7 @@ public interface PaymentService {
 
 	void updateUserReList(int paymentDetailNo);
 
-	List<PaymentDetail> cancelList(String loginUser);
+	List<PaymentDetail> cancelList(String loginUser,PageInfo pi);
 
 	boolean checkStock(ShoppingBasket basket);
 
@@ -46,11 +47,13 @@ public interface PaymentService {
 
 	void updateReturn(int paymentDetailNo, Payment p);
 
-//	List<PaymentDetail> refundAndExchangeList();
-
-	List<PaymentDetail> selectReAndExList(String loginUser);
+	List<PaymentDetail> selectReAndExList(String loginUser, PageInfo pi);
 
 	void insertSinglePayment(Payment temp, PaymentDetail paymentDetail);
+
+	
+
+	
 
 	
 

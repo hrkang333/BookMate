@@ -3,9 +3,11 @@ package com.kh.bookmate.payment.model.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.bookmate.common.PageInfo;
 import com.kh.bookmate.payment.model.vo.Payment;
 import com.kh.bookmate.payment.model.vo.PaymentDetail;
 import com.kh.bookmate.shoppingbasket.model.vo.ShoppingBasket;
@@ -14,9 +16,12 @@ import com.kh.bookmate.shoppingbasket.model.vo.ShoppingBasket;
 public class PaymentDao {
 
 	//나의 주문 리스트 조회 
-	public ArrayList<Payment> selectMyOrderList(SqlSessionTemplate sqlSession, String loginUser) {
+	public List <Payment> selectMyOrderList(SqlSessionTemplate sqlSession, String loginUser, PageInfo pi) {
 		// TODO Auto-generated method stub
-		return (ArrayList)sqlSession.selectList("paymentMapper.selectMyOrderList", loginUser);
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("paymentMapper.selectMyOrderList", loginUser, rowBounds);
 	}
 	 
 	//나의 주문 리스트 상세 조회  
@@ -101,9 +106,11 @@ public class PaymentDao {
 		sqlSession.update("paymentMapper.updateUserReList",paymentDetailNo);		
 	}
 
-	public List<PaymentDetail> cancelList(SqlSessionTemplate sqlSession,String loginUser) {
+	public List<PaymentDetail> cancelList(SqlSessionTemplate sqlSession,String loginUser,PageInfo pi) {
 		
-		return (ArrayList) sqlSession.selectList("paymentMapper.cancelList",loginUser);
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return sqlSession.selectList("paymentMapper.cancelList",loginUser,rowBounds);
 	}
 
 	//셀렉트 페이먼트디테일 객체 가져옴 
@@ -136,14 +143,35 @@ public class PaymentDao {
 		return sqlSession.selectOne("paymentMapper.checkStock",bookISBN);
 	}
 
-	public List<PaymentDetail>  selectReAndExList(SqlSessionTemplate sqlSession,String loginUser) {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList("paymentMapper.selectReAndExList", loginUser);
+	public List<PaymentDetail>  selectReAndExList(SqlSessionTemplate sqlSession,String loginUser, PageInfo pi) {
+	
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());	
+		return sqlSession.selectList("paymentMapper.selectReAndExList", loginUser,rowBounds);
 	}
 
 	public PaymentDetail selectPaymentDetail(SqlSessionTemplate sqlSession, PaymentDetail pd) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("paymentMapper.checkStock",pd);
+	}
+
+	
+	
+	
+	//주문리스트 페이징 처리용 
+	public int selectListCount(SqlSessionTemplate sqlSession) {	
+		return sqlSession.selectOne("paymentMapper.selectListCount");
+	}
+	
+	//취소리스트 페이징 처리용 
+	public int selectCancelListCount(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("paymentMapper.selectCancelListCount");
+	}
+	//반품, 교환 환불 리스트 페이징 처리용 
+	public int selectrefundAndExchangeListCount(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("paymentMapper.selectrefundAndExchangeListCount");
 	}
 
 	

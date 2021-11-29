@@ -31,20 +31,20 @@
 
     
     <style>
-   
-        
-        .order_details_table{
-           text-align: center;
-            padding-left: 10%;
-           padding-right: 12%; 
-           
-           
-        }
-  #tr_hover:hover {
-    background-color:#CCCCCC;
+.order_details_table {
+	text-align: center;
+	padding-left: 10%;
+	padding-right: 12%;
 }
-        
-    </style>
+
+#tr_hover:hover {
+	background-color: #CCCCCC;
+}
+
+    #pagingArea{width:fit-content;margin:auto;}
+    /* #pagingArea a{color:black} */
+   
+</style>
 </head>
 <body style="width: 1200px; margin: auto;">
  <jsp:include page="../common/menubar.jsp" />
@@ -101,6 +101,41 @@
                          
                         </tbody>
                       </table>
+                      <br><br>
+                      
+	  <div id="pagingArea" >
+                <ul class="pagination">
+                	<c:choose>
+                		<c:when test="${ pi.currentPage ne 1 }">
+                			<li class="page-item"><a class="page-link" href="selectMyOrderList.me?currentPage=${ pi.currentPage-1 }">이전</a></li>
+                		</c:when>
+                		<c:otherwise>
+                			<li class="page-item disabled"><a class="page-link" href="">이전</a></li>
+                		</c:otherwise>
+                	</c:choose>
+                	
+                    <c:forEach begin="${ pi.startPage }" end="${ pi.endPage }" var="p">
+                    	<c:choose>
+	                		<c:when test="${ pi.currentPage ne p }">
+                    			<li class="page-item"><a class="page-link" href="selectMyOrderList.me?currentPage=${ p }">${ p }</a></li>
+	                		</c:when>
+	                		<c:otherwise>
+	                			<li class="page-item disabled"><a class="page-link" href="">${ p }</a></li>
+	                		</c:otherwise>
+	                	</c:choose>
+                    </c:forEach>
+                    
+                    
+                    <c:choose>
+                		<c:when test="${ pi.currentPage ne pi.maxPage }">
+                			<li class="page-item"><a class="page-link" href="selectMyOrderList.me?currentPage=${ pi.currentPage+1 }">다음</a></li>
+                		</c:when>
+                		<c:otherwise>
+                			<li class="page-item disabled"><a class="page-link" href="selectMyOrderList.me?currentPage=${ pi.currentPage+1 }">다음</a></li>
+                		</c:otherwise>
+                	</c:choose>
+                </ul>
+            </div>
                     </div>
                 </div>
                 <!--  히든으로 숨겨져있는애 -->

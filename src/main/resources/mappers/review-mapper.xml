@@ -89,4 +89,12 @@ AND USER_ID = #{user_Id}
 
 </select>
 
+<select id="selectReviewListMineCount" resultType="_int" parameterType="BookReview">
+ 
+    SELECT COUNT(*) FROM BOOKREVIEW
+    JOIN BUYREVIEW USING(REVIEWSTATUS)
+    WHERE REVIEWSTATUS = 1
+	AND USER_ID = #{user_Id}
+</select>
+
 </mapper>

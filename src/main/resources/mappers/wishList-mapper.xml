@@ -15,4 +15,14 @@ INSERT INTO WISHLIST VALUES(WISHLIST_SEQ.NEXTVAL,#{user_Id},#{bookISBN})
 DELETE FROM WISHLIST WHERE USER_ID = #{user_Id} AND BOOKISBN = #{bookISBN} 
 </delete>
 
+<!-- 마이페이지에서 찜목록 조회하는 것  -->
+<select id="selectMyWishList" resultType="WishList">
+
+   SELECT USER_ID, BOOKISBN,BOOKMAINIMG,
+   BOOKTITLE,BOOKWRITER FROM WISHLIST
+   JOIN BOOK USING(BOOKISBN)
+   WHERE USER_ID = #{user_Id}
+   
+</select>
+
 </mapper>

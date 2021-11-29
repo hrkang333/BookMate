@@ -30,6 +30,9 @@
 				<br>
 				<br><span class="leftTitle">독서모임승인</span><br>
 				<br> <a href="selectClubConfirmList.cl">-독서 모임 확인&승인</a><br><br>
+				<br>
+				<br><span class="leftTitle">CS 처리관련</span><br>
+				<br> <a href="goAdminMain.cs">-CS 처리 메인 </a><br><br>
 
 			</div>
 </body>

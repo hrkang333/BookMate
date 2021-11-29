@@ -13,6 +13,7 @@ import com.kh.bookmate.book.model.vo.Book;
 import com.kh.bookmate.bookreview.model.dao.BookReviewDao;
 import com.kh.bookmate.bookreview.model.vo.BookReview;
 import com.kh.bookmate.bookreview.model.vo.BookReviewReply;
+import com.kh.bookmate.common.PageInfo;
 import com.kh.bookmate.common.Paging;
 import com.kh.bookmate.user.model.dao.UserDao;
 import com.kh.bookmate.user.model.vo.User;
@@ -141,9 +142,9 @@ public class BookReviewServiceImpl implements BookReviewService {
 
 	//마이페이지 북 리뷰 리스트 
 	@Override
-	public List<BookReview> selectReviewListMine(String loginUser) {
+	public List<BookReview> selectReviewListMine(String loginUser, PageInfo pi) {
 
-		List<BookReview> list = bookReviewDao.selectReviewListMine(sqlSession, loginUser);
+		List<BookReview> list = bookReviewDao.selectReviewListMine(sqlSession, loginUser,pi);
 
 		return list;
 	}
