@@ -75,13 +75,13 @@
                 }
             }
         }
-           	
-        //새로운 독서모임 개설하기
+        
+      //새로운 독서모임 개설하기 - 기존 리스트 없을때 & 있을때
         function newClub(){
-           var insertC = confirm("독서모임을 개설하시겠습니까?");
-           if(insertC){
-               $("#mypageForm3").attr("action","insertForm1.cl").submit();
-           }
+        	var insertC = confirm("독서모임을 개설하시겠습니까?");
+        	if(insertC){
+            	location.href="insertForm1.cl";
+        	}
         }
                         	
         //독서모임 수정하기
@@ -123,6 +123,10 @@
                 <div class="col-xl-12 col-lg-12 col-md-12">
                 
 				<c:if test="${fn:length(list) <= 0}">
+					<div class="bottom2" style="margin-top: 15px;">
+                        <button class="button button-login" onclick="newClub()">독서모임 개설</button>
+                    </div>
+                    
 					<div style="padding: 200px; font-size: 22px; font-weight: 600; text-align: center;">개설한 독서모임이 없습니다.</div>
 				</c:if>
 			

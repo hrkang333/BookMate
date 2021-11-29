@@ -897,7 +897,7 @@
 					
 				}
 			})
-		}
+		};
 	    
 	    //리뷰작성
 	    function insertReview() {
@@ -925,7 +925,7 @@
 	                console.log("ERROR : ", e);
 	            }
 	        });
-	    }
+	    };
 	    
 	    //이미지 미리보기
 		function imgCheck(img,inputId) {
@@ -949,7 +949,7 @@
 	    			}			
 	    		}		   
 	    	}
-	    }
+	    };
     
 		//독서모임 찜하기
     	$("#heartClub").click(function() {
@@ -1012,7 +1012,7 @@
         		})
     		}
     		
-		})
+		});
     
 		//독서모임 신청하기
     	$("#applyClub").click(function(){
@@ -1068,12 +1068,12 @@
             			console.log("한번만나요 index : " + indexs)
         			}    			
         		})
-    		}
+    		};
 
     		if(!chkApply){
     			alert("정원을 초과하여 신청이 불가능합니다.");
     			return;
-    		}
+    		};
     		
 			//3.참여신청 확인 메세지 yes후 진행
     		if(confirm("해당 독서모임에 참여신청하시겠습니까?")){
@@ -1092,6 +1092,7 @@
             			});
                     }
         		}
+    			
     			
     			if(times.length != 0){
 					console.log(times)
@@ -1127,10 +1128,12 @@
     					}
     				
     				})
-    			} 
+    			}
+    			
+    			 
     		}
-    	} //11/29 넣어야한다고 빨간거 떠서 넣었는데 일단 지켜봐야할듯
-    	})
+    		
+    	});
 
     </script>
 
