@@ -139,5 +139,6 @@ function insertAnswerCheck() {
 	
 	</div></div>
 	</main>
+	<jsp:include page="../common/footer.jsp" />
 </body>
 </html>

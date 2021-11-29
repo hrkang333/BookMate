@@ -97,5 +97,6 @@ padding: 10px;
 	
 	</div>
 	</main>
+	<jsp:include page="../common/footer.jsp" />
 </body>
 </html>

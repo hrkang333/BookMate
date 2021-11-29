@@ -25,6 +25,13 @@ input::-webkit-inner-spin-button {
 	vertical-align: middle;
 	border-bottom: 1px solid lightgray;
 }
+#basketTable {
+text-align: center;
+}
+#basketTable th{
+font-weight: bold;
+font-size: 20px;
+}
 </style>
 <script type="text/javascript">
 
@@ -190,7 +197,7 @@ function moveBookDetail(bookISBN) {
 								<th style="width: 15%;">판매가(권당)</th>
 								<th style="width: 10%;">수량</th>
 								<th style="width: 10%;">합계</th>
-								<th style="width: 15%;">예상출고일정<br>
+								<th style="width: 15%;">예상출고일<br>
 								<span style="font-size: 5px">(오후4시 이전 당일출고)</span></th>
 								<th style="width: 10%;">선택</th>
 							</tr>
@@ -213,7 +220,7 @@ function moveBookDetail(bookISBN) {
 													src="${pageContext.servletContext.contextPath}/resources/images/book_img/${list.bookMainImg}"
 													style="height: 150px;cursor: pointer;" onclick="moveBookDetail('${list.bookISBN}')" >
 											</div>
-											<div class="media-body" >
+											<div class="media-body" style="text-align: left;">
 												<p style="cursor: pointer;" onclick="moveBookDetail('${list.bookISBN}')">${list.bookTitle}</p>
 											</div>
 										</div>
@@ -264,14 +271,14 @@ function moveBookDetail(bookISBN) {
 												value="${list.bookPrice*0.9*requestScope.basketList[status.index].quantity}"/></span>원
 									</td>
 									<td>${requestScope.shipDate}</td>
-									<td><button type="button"
-											onclick="deleteBasket(${status.index},${requestScope.basketList[status.index].basketNo})">장바구니
+									<td><button type="button" class="btn btn-secondary btn-sm"
+											onclick="deleteBasket(${status.index},${requestScope.basketList[status.index].basketNo})">
 											삭제</button></td>
 								</tr>
 							</c:forEach>
 						</tbody>
 					</table>
-				</form>
+				</form><br>
 				<div style="width: 80%; margin: auto;">
 					<table class="table">
 						<thead class="thead-light">
@@ -301,16 +308,19 @@ function moveBookDetail(bookISBN) {
 
 
 				</div>
-			</div>
+			</div><br><br>
+			
+			<div style="display: flex;">
+			<button type="button" onclick="movePayment()" class="btn btn-secondary btn-lg" style="margin-left: auto;margin-right: 100px;">결제하기</button></div>
 		</div>
-		<button type="button" onclick="movePayment()">결제하기</button>
+		
 		</c:when>
 		<c:otherwise>
-		<div style="margin-top: 300px;font-size: 30px;font-weight: bold; text-align: center;">장바구니에 등록된 상품이 없습니다.</div>
+		<div style="margin-top: 300px;font-size: 30px;font-weight: bold; text-align: center;margin-bottom: 300px">장바구니에 등록된 상품이 없습니다.</div>
 		</c:otherwise>
 		</c:choose>
 	</main>
-
+<jsp:include page="../common/footer.jsp" />
 </body>
 
 </html>

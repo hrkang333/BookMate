@@ -99,6 +99,7 @@ public class BasketController {
 		PaymentMethod paymentMethod = null;
 		List<PaymentMethodDetail> PMDetailList = null;
 		int totalCost = 0;
+		List<String[]> abookCheck = null;
 	
 		int totalGetPoint = 0;
 		String shippingName, shippingAddress, shippingPhone;
@@ -165,14 +166,14 @@ public class BasketController {
 		}
 
 		shippingAddressArr = shippingAddress.split("/");
-		
+		abookCheck = abookCheck(abook);
 		order = new Payment(user.getUserId(), shippingName, shippingAddressArr[0], shippingAddressArr[1],shippingAddressArr[2],shippingPhone, totalCost, totalGetPoint);
 		if(totalCost < 10000) {
 			order.setDeliveryCost(2500);
 		}else {
 			order.setDeliveryCost(0);
 		}
-		mo.addAttribute("abook", abook);
+		mo.addAttribute("abook", abookCheck);
 		mo.addAttribute("deleteBasketList", newBasketList);
 		mo.addAttribute("order", order);
 		mo.addAttribute("orderList", orderList);
@@ -252,7 +253,7 @@ public class BasketController {
 		PaymentMethod paymentMethod = null;
 		List<PaymentMethodDetail> PMDetailList = null;
 		int totalCost = 0;
-	
+		List<String[]> abookCheck = null;		
 		int totalGetPoint = 0;
 		String shippingName, shippingAddress, shippingPhone;
 		String[] shippingAddressArr;
@@ -307,6 +308,7 @@ public class BasketController {
 			}
 		}
 
+		abookCheck = abookCheck(abook);
 		shippingAddressArr = shippingAddress.split("/");
 		
 		order = new Payment(user.getUserId(), shippingName, shippingAddressArr[0], shippingAddressArr[1],shippingAddressArr[2],shippingPhone, totalCost, totalGetPoint);
@@ -315,10 +317,48 @@ public class BasketController {
 		}else {
 			order.setDeliveryCost(0);
 		}
-		mo.addAttribute("abook", abook);
+		mo.addAttribute("abook", abookCheck);
 		mo.addAttribute("order", order);
 		mo.addAttribute("orderItem", orderItem);
 		return "payment/singleOrderDetail";
 
+	}
+	
+	public List<String[]> abookCheck(AddressBook abook){
+		List<String[]> list = new ArrayList<String[]>();
+		List<String> strList = new ArrayList<String>();
+		strList.add(abook.getLatelyAddress());
+		strList.add(abook.getAddress1());
+		strList.add(abook.getAddress2());
+		strList.add(abook.getAddress3());
+		strList.add(abook.getAddress4());
+		strList.add(abook.getAddress5());
+		String[] str = new String[5];
+		String[] temp = null;
+		temp = abook.getMainAddress().split("_");
+		str[0] = temp[0];
+		str[4] = temp[2];
+		temp = temp[1].split("/");
+		str[1] = temp[0];
+		str[2] = temp[1];
+		str[3] = temp[2];
+		list.add(str);
+		for(String s : strList) {
+			if(s!=null) {
+				str = new String[5];
+				temp = s.split("_");
+				str[0] = temp[0];
+				str[4] = temp[2];
+				temp = temp[1].split("/");
+				str[1] = temp[0];
+				str[2] = temp[1];
+				str[3] = temp[2];
+				list.add(str);
+			}else {
+				list.add(null);
+			}
+		}
+		return list;
+		
 	}
 }

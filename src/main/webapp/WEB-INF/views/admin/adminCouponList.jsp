@@ -20,13 +20,13 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
-.users{
-width: 1000px;
+.coupon{
+width: 900px;
 }
-.users th{
+.coupon th{
     background-color:  rgba(166, 219, 240, 0.233);
 }
-.users td , .users th{
+.coupon td , .coupon th{
 text-align: center;
 }
 a:link { 
@@ -51,8 +51,8 @@ font-weight: bold;
 
 var lastPage = parseInt("${requestScope.A_BUserListPaging.lastPage}")
 
-function movePage(qnaNowPage) {
-	$('#nowPage').val(qnaNowPage);
+function movePage(nowPage) {
+	$('#nowPage').val(nowPage);
 	$('#pageMoveForm').submit();
 }
 
@@ -68,9 +68,7 @@ function movingPageNum() {
 
 function changeSearch() {
 	
-	var searchKind = $('input[name=checkSearchKind]:checked').val()
 	$('#searchKeyword').val($('#keywordInput').val());
-	$('#searchKind').val(searchKind);
 	movePage(1);
 }
 
@@ -82,7 +80,9 @@ function userRestore(user_Id){
 		}
 	}
 }
-
+function updateCouponForm(index) {
+	$('#updateTr'+index).css('display','');
+}
 
 </script>
 </head>
@@ -95,69 +95,60 @@ function userRestore(user_Id){
 <div style="margin-left: auto;margin-right: auto; width: 900px;">
 	<br><br><br>
 
-<form action="selectBannedUser.ad" method="post" id="pageMoveForm">
+<form action="selectCouponList.cu" method="post" id="pageMoveForm">
 <input type="hidden" id="searchKeyword" name="searchKeyword" value="${requestScope.searchKeyword}">
-<input type="hidden" id="searchKind" name="searchKind" value="${requestScope.searchKind}">
 <input type="hidden" id="nowPage" name="nowPage" value="${requestScope.nowPage}">
 </form>
-<form action="updateUserRestore.ad" method="post" id="updateUserRestoreForm">
+<form action="updateCoupon.cu" method="post" id="updateCouponForm">
 <input type="hidden" name="user_Id" id="user_Id">
 </form>
 <span style="font-size: 30px; font-weight: bold;">정지 회원 리스트</span>
 <hr>
 <div style="display: flex;">
-<div style="margin-left: auto;"><input type="radio" name="checkSearchKind" value="1" checked="checked"> ID로 검색  <input type="radio" name="checkSearchKind" value="2"> 판매 닉네임으로 검색
+<div style="margin-left: auto;"> 쿠폰 코드로 검색
 <input type="text" id="keywordInput"><button type="button" onclick="changeSearch()"  class="btn-secondary btn-sm" >검색</button>
 </div>
 </div>
 
- <table class="table table-hover users">
+ <table class="table table-hover coupon">
             <thead>
             <tr>           
-                 <th style="width: 100px">ID</th>
-                <th style="width: 100px">이름</th>
-                <th style="width: 250px">E-mail</th>
-                <th style="width: 120px">가입일</th>
-                <th style="width: 110px">판매자여부</th>
-                <th style="width: 120px">판매 닉네임</th>
-                <th>정지해제</th>
+                 <th style="width: 150px">쿠폰코드</th>
+                <th style="width: 150px">지급 포인트</th>
+                <th style="width: 220px">쿠폰 시작일</th>
+                <th style="width: 220px">쿠폰 마감일</th>
+                <th style="width: 160px">수정/삭제</th>
                 </tr>
             </thead>
             <tbody>
-            	<c:forEach items="${requestScope.bannedUserList}" var="list" varStatus="status">
+            
+	
+            
+            	<c:forEach items="${requestScope.couponList}" var="list" varStatus="status">
                 <tr>
-                    <td>${list.user_Id}</td>
-                    <td>${list.user_Name}</td>
-                    <td>${list.email}</td>
-                    <td><fmt:formatDate value="${list.enroll}" pattern="yyyy-MM-dd"/></td>
+                    <td>${list.couponCode}</td>
+                    <td>${list.couponPoint}</td>
+                    <td><fmt:formatDate value="${list.couponStartDate}" pattern="yyyy-MM-dd"/></td>
+                    <td><fmt:formatDate value="${list.couponEndDate}" pattern="yyyy-MM-dd"/></td>
+                    
                     <td>
-                    <c:choose>
-                    <c:when test="${list.status eq 'Y'}">
-                    Y
-                    </c:when>
-                    <c:otherwise>
-                    N
-                    </c:otherwise>
-                    </c:choose>                   
-                    </td>
-                    <td>
-                    <c:choose>
-                    <c:when test="${list.status eq 'Y'}">
-                    ${list.seller_Nickn}
-                    </c:when>
-                    <c:otherwise>
-                    - 
-                    </c:otherwise>
-                    </c:choose> 
-                    </td>
-                    <td>
-                    <button type="button" class="btn btn-secondary btn-sm" onclick="userRestore('${list.user_Id}')">정지해제</button>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="updateCouponForm(${status.index})">수정</button><button type="button" class="btn btn-secondary btn-sm" onclick="">삭제</button>
                     </td>
                 </tr>
+                
+                <tr id="updateTr${status.index}" style="display:none; background-color: appworkspace;;;">
+                
+                 <form action="updateCoupon" id="updateForm${status.index}" method="post">
+                	<td><input type="hidden" name="couponCode" value="${list.couponCode}">${list.couponCode}</td>
+                    <td><input type="number" name="couponPoint" value="${list.couponPoint}" style="width: 100px"></td>
+                    <td><input type="date" name="couponStartDate" id="couponStartDate" value="<fmt:formatDate value='${list.couponStartDate}' pattern='yyyy-MM-dd'/>"></td>
+                  	<td><input type="date" name="couponEndDate" id="couponEndDate" value="<fmt:formatDate value='${list.couponEndDate}' pattern='yyyy-MM-dd'/>"></td>
+                  </form>
+                  <td><button type="button" onclick="updateCoupon(${status.index})">수정 등록</button></td>
+                </tr>
+                
                </c:forEach> 	
-               <c:if test="${empty requestScope.bannedUserList}">
-               <tr><td colspan="6" style="padding: 100px;"><span style="font-size: 25px;font-weight: bold;">자격 정지중인 회원이 없습니다.</span></td></tr>
-               </c:if>
+              
             </tbody>
             <tfoot>
            
@@ -165,12 +156,12 @@ function userRestore(user_Id){
 
 		        <td colspan="6" style="text-align: center;" id="pageNumber">
 		        <div style="margin : 10px">
-			        <c:if test="${requestScope.A_BUserListPaging.prePage==1}">
+			        <c:if test="${requestScope.couponPaging.prePage==1}">
 			        <span class="sizeUpBtn"  onclick="movePage(1)"><<</span>&nbsp;&nbsp;
-			        <span class="sizeUpBtn"  onclick="movePage(${requestScope.A_BUserListPaging.startPage-10})"><</span></c:if>&nbsp;&nbsp;
-					<c:forEach begin="${requestScope.A_BUserListPaging.startPage}" end="${requestScope.A_BUserListPaging.endPage}" varStatus="status">
+			        <span class="sizeUpBtn"  onclick="movePage(${requestScope.couponPaging.startPage-10})"><</span></c:if>&nbsp;&nbsp;
+					<c:forEach begin="${requestScope.couponPaging.startPage}" end="${requestScope.couponPaging.endPage}" varStatus="status">
 					<c:choose>
-					<c:when test="${status.current==requestScope.A_BUserListPaging.nowPage}">
+					<c:when test="${status.current==requestScope.couponPaging.nowPage}">
 					&nbsp;${status.current}&nbsp;
 					</c:when>
 					<c:otherwise>
@@ -179,12 +170,12 @@ function userRestore(user_Id){
 					</c:otherwise>
 					</c:choose>
 					</c:forEach>
-					&nbsp;&nbsp;<c:if test="${requestScope.A_BUserListPaging.nextPage==1}"><span class="sizeUpBtn" onclick="movePage(${requestScope.A_BUserListPaging.startPage+10})">></span>
-					&nbsp;&nbsp;<span class="sizeUpBtn"  onclick="movePage(${requestScope.A_BUserListPaging.lastPage})">>></span>
+					&nbsp;&nbsp;<c:if test="${requestScope.couponPaging.nextPage==1}"><span class="sizeUpBtn" onclick="movePage(${requestScope.couponPaging.startPage+10})">></span>
+					&nbsp;&nbsp;<span class="sizeUpBtn"  onclick="movePage(${requestScope.couponPaging.lastPage})">>></span>
 					</c:if><br></div>
 					<div>
 					<input type="number" id="movingPageNum" style="width: 30px"> 페이지로 
-					<button type="button" onclick="movingPageNum()" class="btn-secondary btn-sm" style="width: 50px">이동</button> / 총 ${requestScope.A_BUserListPaging.lastPage} 페이지
+					<button type="button" onclick="movingPageNum()" class="btn-secondary btn-sm" style="width: 50px">이동</button> / 총 ${requestScope.couponPaging.lastPage} 페이지
 					</div>
 		        </td>
        		 </tr>

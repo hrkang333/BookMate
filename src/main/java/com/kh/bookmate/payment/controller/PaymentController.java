@@ -75,7 +75,7 @@ public class PaymentController {
 		List<PaymentDetail> list = new ArrayList<PaymentDetail>();
 		temp.setShippingAddress(payment.getShippingPostCode()+"/"+payment.getShippingAddress()+"/"+payment.getShippingAddressDetail());
 		
-		latelyAddress = temp.getShippingName()+"_"+temp.getShippingPostCode()+"/"+temp.getShippingAddress()+"/"+temp.getShippingAddressDetail()+"_"+temp.getShippingPhone();
+		latelyAddress = temp.getShippingName()+"_"+temp.getShippingAddress()+"_"+temp.getShippingPhone();
 		for(int i= 0 ; i < paymentDetailList.getPaymentDetailList().size();i++ ) {
 			paymentDetailList.getPaymentDetailList().get(i).setDeliveryDate(ShipDate());
 			list.add(paymentDetailList.getPaymentDetailList().get(i));
@@ -205,8 +205,8 @@ public class PaymentController {
 		Payment temp = payment;
 		temp.setShippingAddress(payment.getShippingPostCode()+"/"+payment.getShippingAddress()+"/"+payment.getShippingAddressDetail());
 		paymentDetail.setDeliveryDate(ShipDate());
-		latelyAddress = temp.getShippingName()+"_"+temp.getShippingPostCode()+"/"+temp.getShippingAddress()+"/"+temp.getShippingAddressDetail()+"_"+temp.getShippingPhone();
-	
+
+		latelyAddress = temp.getShippingName()+"_"+temp.getShippingAddress()+"_"+temp.getShippingPhone();
 		paymentService.insertSinglePayment(temp,paymentDetail,latelyAddress);
 		
 		

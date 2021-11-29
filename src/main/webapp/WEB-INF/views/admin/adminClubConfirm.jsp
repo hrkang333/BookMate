@@ -188,5 +188,6 @@ function clubConfirm(clubNo,status) {
         </table>
         </div></div>
         </main>
+        <jsp:include page="../common/footer.jsp" />
 </body>
 </html>

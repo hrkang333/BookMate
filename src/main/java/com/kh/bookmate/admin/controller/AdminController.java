@@ -3,6 +3,7 @@ package com.kh.bookmate.admin.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -573,5 +574,33 @@ public class AdminController {
 		
 	}
 	
+	@RequestMapping("selectCouponList.cu")
+	public String selectCouponList(Model mo, @RequestParam(name="searchKeyword", required = false) String searchKeyword,
+									@RequestParam(name="nowPage", defaultValue = "1") int nowPage){
+		
+		int couponListCount = 0;
+		Paging couponPaging = null;		
+		List<Coupon> couponList = new ArrayList<Coupon>();
+		String keyword = null;
+		RowBounds rb = null;
+		
+		if(searchKeyword==null||searchKeyword.trim().isEmpty()) {
+			keyword = "%%";
+		}else {
+			keyword = "%"+searchKeyword+"%";
+		}
+		couponListCount = couponService.selectCouponListCount(keyword);
+		couponPaging = new Paging(couponListCount, nowPage, 10, 10);
+		rb = new RowBounds(couponPaging.getStart()-1, couponPaging.getCntPerPage());
+		couponList = couponService.selectCouponList(keyword,rb);
+		
+		mo.addAttribute("searchKeyword", searchKeyword);
+		mo.addAttribute("nowPage", nowPage);
+		mo.addAttribute("couponPaging", couponPaging);
+		mo.addAttribute("couponList", couponList);
+		
+		return "admin/adminCouponList";
+		
+	}
 	
 }
