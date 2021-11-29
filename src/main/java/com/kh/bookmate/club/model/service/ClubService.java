@@ -18,11 +18,11 @@ public interface ClubService {
 
 	int checkHost(String hostName);
 
-	int saveStep1(Club c, ClubAttachment ca);
+	int insertStep1(Club c, ClubAttachment ca);
 
-	void saveStep2(Club c, ClubAttachment ca);
+	void insertStep2(Club c, ClubAttachment ca);
 
-	void saveStep3(Club c, ClubAttachment ca, Map<String, Object> map);
+	void insertStep3(Club c, ClubAttachment ca, Map<String, Object> map);
 
 	void insertClub(Club c, ClubAttachment ca, Map<String, Object> map);
 
@@ -39,7 +39,7 @@ public interface ClubService {
 
 	ArrayList<Club> selectEndList();
 	
-	ArrayList<Club> popList();
+	ArrayList<Club> selectpopList();
 
 	//상세페이지
 	Club selectClub(int cno);

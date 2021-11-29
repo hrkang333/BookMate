@@ -40,9 +40,9 @@ public class ClubApplyServiceImpl implements ClubApplyService {
 			return "fail";
 		}
 		//3-1)club_apply : insert
-		int result1;
-		int result2;
-		int result3 = 0;
+		int result1 ;
+		int result2 ;
+		int result3 = 1;
 		
 		if(c_times.equals("한 번 만나요")) {
 			result1 = clubApplyDao.insertApply(sqlSession, times, userId,clubNo);
@@ -72,9 +72,8 @@ public class ClubApplyServiceImpl implements ClubApplyService {
 			result3 = clubDao.updateCondition(sqlSession, clubNo, condition);
 		}
 		
-		//예외처리
-		if(result1 < 0 || result2 < 0 || result3 < 0) {
-			//예외처리
+		if(result1 < 0 || result2 < 0 || result3 <= 0) {  //11/29 update 에러 -> 결과값:0이어서 이렇게 처리
+			throw new RuntimeException("독서모임 신청 오류");
 		}
 		return "success";
 	}
@@ -124,8 +123,8 @@ public class ClubApplyServiceImpl implements ClubApplyService {
 		int result1 = clubApplyDao.insertHeart(sqlSession, userId, clubNo);
 		int result2 = clubApplyDao.updateHeartCount(sqlSession,clubNo);
 		
-		if(result1 < 0 || result2 < 0) {
-			//예외처리
+		if(result1 < 0 || result2 <= 0) {  //11/29 update 에러 -> 결과값:0이어서 이렇게 처리
+			throw new RuntimeException("독서모임 찜 오류");
 		}
 		
 		return "success";
@@ -153,16 +152,14 @@ public class ClubApplyServiceImpl implements ClubApplyService {
 //	}
 
 	@Override  //5.찜 : 찜 삭제
-	public int deleteHeart(String userId, List<Integer> clubNoList) {
+	public void deleteHeart(String userId, List<Integer> clubNoList) {
 		// TODO Auto-generated method stub
 		int result1 = clubApplyDao.deleteHeart(sqlSession, userId, clubNoList);
 		int result2 = clubApplyDao.updateHeartCount2(sqlSession, clubNoList);
 		
-		if(result1 < 0 || result2 < 0) {
-			//예외처리
+		if(result1 <= 0 || result2 <= 0) {  //11/29 update 에러 -> 결과값:0이어서 이렇게 처리
+			throw new RuntimeException("독서모임 찜 삭제 오류");
 		}
-		
-		return result1*result2;
 	}
 
 	//마이페이지1 - 신청목록 조회
@@ -180,11 +177,11 @@ public class ClubApplyServiceImpl implements ClubApplyService {
 	}
 
 
-	
+	//마이페이지1 - 신청취소하기
 	@Override
 	public String updateCancelTotal(String userId, int timeNo, String times) {
 		int result = updateCancel(userId, timeNo, times);
-		
+
 		boolean status = true;
 		
 		Club club = clubDao.selectClub(sqlSession, result);
@@ -197,13 +194,14 @@ public class ClubApplyServiceImpl implements ClubApplyService {
 		}
 		if(!status) {
 			int condition = 4; //5:모집완료  (4:모집중-관리자페이지에서 아래 메소드 활용가능) 
-			clubDao.updateCondition(sqlSession, result, condition);
+			int result2 = clubDao.updateCondition(sqlSession, result, condition);
+			
+			if(result2 <= 0) {  //11/29 update 에러 -> 결과값:0이어서 이렇게 처리
+				throw new RuntimeException("독서모임 취소 오류_condition변경 오류");
+			}
 		}
-		
 		return "success";
 	}
-	
-	
 
 	public int updateCancel(String userId, int timeNo, String times) {
 		
@@ -215,7 +213,7 @@ public class ClubApplyServiceImpl implements ClubApplyService {
 		int result1 = clubApplyDao.updateCancel(sqlSession,map);
 
 		//2) club_time테이블 apply_count컬럼 -1해주기
-		int result2 = 0;
+		int result2 = 1;
 		if(times.equals("여러 번 만나요")) {
 			map.put("columnValue", map.get("clubNo"));
 			map.put("column", "REF_CLUB_NO");
@@ -225,10 +223,9 @@ public class ClubApplyServiceImpl implements ClubApplyService {
 			map.put("column", "CLUB_TIME_NO");
 			result2 = clubApplyDao.updateCancelTime(sqlSession,map);
 		}
-		
-		
-		if(result1<0 || result2<0) {
-			//ㅇ예외처리
+
+		if(result1<=0 || result2<=0) {  //11/29 update 에러 -> 결과값:0이어서 이렇게 처리
+			throw new RuntimeException("독서모임 신청 취소 오류");
 		}
 		return (int) map.get("clubNo");
 	}
@@ -240,9 +237,11 @@ public class ClubApplyServiceImpl implements ClubApplyService {
 	}
 
 	@Override
-	public int updateUserApply(List<Integer> applyNoList) {
-		// TODO Auto-generated method stub
-		return clubApplyDao.updateUserApply(sqlSession, applyNoList);
+	public void updateUserApply(List<Integer> applyNoList) {
+		int result = clubApplyDao.updateUserApply(sqlSession, applyNoList);
+		if(result <= 0) {  //11/29 update 에러 -> 결과값:0이어서 이렇게 처리
+			throw new RuntimeException("독서모임 참여확정 중 오류");
+		}
 	}
 
 

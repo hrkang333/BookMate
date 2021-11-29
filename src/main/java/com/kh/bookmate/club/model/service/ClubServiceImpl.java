@@ -37,7 +37,7 @@ public class ClubServiceImpl implements ClubService {
 	}
 
 	@Override
-	public int saveStep1(Club c, ClubAttachment ca) {
+	public int insertStep1(Club c, ClubAttachment ca) {
 		// TODO Auto-generated method stub
 		int result = 0;
 		result = clubDao.saveStep1(sqlSession, c);  	 //1) Club테이블에 넣기
@@ -46,38 +46,38 @@ public class ClubServiceImpl implements ClubService {
 		}
 		
 		if(result < 0) {
-			//오류처리
+			throw new RuntimeException("독서모임 개설 1단계 중 저장 중 오류");
 		}
 		
 		return c.getClubNo(); //바로 앞에 추가한 행 clubNo컨트롤러로
 	}
 
 	@Override
-	public void saveStep2(Club c, ClubAttachment ca) {
+	public void insertStep2(Club c, ClubAttachment ca) {
 		// TODO Auto-generated method stub
 
 		int result1 = clubDao.saveStep2(sqlSession, c);  	 //1) Club테이블에 넣기
-		int result2=0;
+		int result2 = 1;
 		if(ca != null) {
 			result2 = clubDao.saveStep2(sqlSession, ca);  //2) Club_attachment 테이블에 넣기
 		}
 
-		if(result1 < 0 || result2 < 0) {
-			//오류처리
+		if(result1 <= 0 || result2 <= 0) {  //11/29 update 에러 -> 결과값:0이어서 이렇게 처리
+			throw new RuntimeException("독서모임 개설 2단계 중 저장 중 오류");
 		}
 	}
 
 	@Override
-	public void saveStep3(Club c, ClubAttachment ca, Map<String, Object> map) {
+	public void insertStep3(Club c, ClubAttachment ca, Map<String, Object> map) {
 		int result1 = clubDao.saveStep3(sqlSession, c);  	 //1) Club테이블에 넣기
 		int result2 = clubDao.saveStep3(sqlSession, map);    //2) ClubTime테이블에 넣기
-		int result3 =0;
+		int result3 =1;
 		if(ca != null) {
 			result3 = clubDao.saveStep2(sqlSession, ca);  //3) Club_attachment 테이블에 넣기
 		}
 
-		if(result1 < 0 || result2 < 0 || result3 < 0) {
-			//오류처리
+		if(result1 <= 0 || result2 <= 0 || result3 <= 0) {  //11/29 update 에러 -> 결과값:0이어서 이렇게 처리
+			throw new RuntimeException("독서모임 개설 3단계 중 저장 중 오류");
 		}
 		
 	}
@@ -86,13 +86,13 @@ public class ClubServiceImpl implements ClubService {
 	public void insertClub(Club c, ClubAttachment ca, Map<String, Object> map) {
 		int result1 = clubDao.insertClub(sqlSession, c);  	 //1) Club테이블에 넣기
 		int result2 = clubDao.saveStep3(sqlSession, map);    //2) ClubTime테이블에 넣기
-		int result3 =0;
+		int result3 =1;
 		if(ca != null) {
 			result3 = clubDao.saveStep2(sqlSession, ca);  //3) Club_attachment 테이블에 넣기
 		}
 
-		if(result1 < 0 || result2 < 0 || result3 < 0) {
-			//오류처리
+		if(result1 < 0 || result2 <= 0 || result3 <= 0) { //11/29 update 에러 -> 결과값:0이어서 이렇게 처리
+			throw new RuntimeException("독서모임 개설 신청 중 오류");
 		}		
 	}
 
@@ -117,7 +117,7 @@ public class ClubServiceImpl implements ClubService {
 		
 		int result = clubDao.deleteClub3(sqlSession, clubNo);
 		if(result < 0) {
-			//오류처리
+			throw new RuntimeException("독서모임 삭제 오류");
 		}
 		
 	}
@@ -142,7 +142,7 @@ public class ClubServiceImpl implements ClubService {
 	}
 	//메인페이지 - 인기(찜) 리스트
 	@Override
-	public ArrayList<Club> popList() {
+	public ArrayList<Club> selectpopList() {
 		// TODO Auto-generated method stub
 		return clubDao.selectPopList(sqlSession);
 	}
@@ -160,8 +160,8 @@ public class ClubServiceImpl implements ClubService {
 		int result = clubDao.updateStep1(sqlSession, c);  //update
 		int result2 = clubDao.updateStep1_2(sqlSession, ca);  //update
 		
-		if(result < 0 || result2 < 0) {
-			//오류처리
+		if(result <= 0 || result2 <= 0) {  //11/29 update 에러 -> 결과값:0이어서 이렇게 처리
+			throw new RuntimeException("독서모임 1단계 수정 오류");
 		}
 	}
 
@@ -170,14 +170,14 @@ public class ClubServiceImpl implements ClubService {
 	public void updateStep1_2(Club c, ClubAttachment ca) {
 		// TODO Auto-generated method stub
 		
-		int result = 0;
+		int result = 1;
 		result = clubDao.updateStep1(sqlSession, c);  	 //1) Club테이블에 넣기
 		if(ca != null) {
 			result = clubDao.updateInsertAttach(sqlSession, ca);  //2) Club_attachment 테이블에 넣기
 		}
 		
-		if(result < 0) {
-			//오류처리
+		if(result <= 0) {
+			throw new RuntimeException("독서모임 2단계 수정 오류");
 		}
 		
 	}
@@ -187,8 +187,8 @@ public class ClubServiceImpl implements ClubService {
 		int result = clubDao.saveStep2(sqlSession, c);  //update
 		int result2 = clubDao.updateStep1_2(sqlSession, ca); //update
 		
-		if(result < 0 || result2 < 0) {
-			//오류처리
+		if(result <= 0 || result2 <= 0) {
+			throw new RuntimeException("독서모임 2단계 수정 오류");
 		}
 	}
 
@@ -229,8 +229,8 @@ public class ClubServiceImpl implements ClubService {
 		
 		int result = clubDao.updateCondition(sqlSession, clubNo, condition);
 		
-		if(result < 0) {
-			//오류처리
+		if(result <= 0) {
+			throw new RuntimeException("독서모임 condition 수정오류 - updateCondtion메소드");
 		}
 	}
 
@@ -238,10 +238,7 @@ public class ClubServiceImpl implements ClubService {
 	public int selectListCount_1(String category, int type) {
 		
 		int result = clubDao.selectListCount_1(sqlSession, category, type);
-		
-		if(result < 0) {
-			//예외처리
-		}
+
 		return result;
 	}
 
@@ -268,10 +265,7 @@ public class ClubServiceImpl implements ClubService {
 	public int selectListCount_search(SearchCondition sc) {
 		// TODO Auto-generated method stub
 		int result = clubDao.selectListCount_search(sqlSession, sc);
-		
-		if(result < 0) {
-			//예외처리
-		}
+
 		return result;
 	}
 
@@ -284,7 +278,7 @@ public class ClubServiceImpl implements ClubService {
 	//테스트용도 1123
 	@Override
 	public ArrayList<Club> selectMypageList1_2(List<Integer> clubNoList) {
-		// TODO Auto-generated method stub
+		
 		return clubDao.selectMypageList1_2(sqlSession,clubNoList);
 	}
 

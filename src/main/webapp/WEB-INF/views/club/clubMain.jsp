@@ -66,8 +66,7 @@
 		}
 		.popOne{
 		 	width: 327px;
-		 	/* width: 31.78%; */
-		    height: 470px;
+		    height: 450px;
 		    margin: 8px;
 		    border: 1px solid #dadada;
 		    padding: 10px;
@@ -98,13 +97,18 @@
 			top: 220px;
 			right: 0px;
 		}
+		
+		.contents{
+		    margin-top: 15px;
+    		text-align: center;
+		}
     </style>
 </head>
 
 <body style="width:1200px; margin:auto; padding-top: 140px;">
     <jsp:include page="../common/menubar.jsp" />
 
-    <main class="site-main" style="margin-top: 70px;">
+    <main class="site-main" style="margin-top: 60px;">
 		<jsp:include page="../club/clubMenubar.jsp"/>
 		
         <!-- ================ 1.인기 독서모임 ================= -->
@@ -120,7 +124,7 @@
 				<div style="padding: 20px 20px 50px; background-color: #d9e7db;">
 					<c:if test="${fn:length(popList) > 0}">
 					
-						<div class="popTotal_1" style="background-color: white; padding: 20px; height: 1010px;">
+						<div class="popTotal_1" style="background-color: white; padding: 20px; min-height: 910px;">
 							<c:forEach var="i" begin="0" end="${fn:length(popList)-1}" step="6">
 							
 								<div id="popTotal_2${i}" class="popTotal_2" <c:if test="${i != 0}">style="display: none;"</c:if> > 
@@ -133,7 +137,7 @@
 												<div class="titleBackImg" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${ca.changeName}')"></div>
 											</c:forEach>
 										</div>
-										<div class="">  
+										<div class="contents">  
 											<ul class="card-blog__info"> 
 												<li>${list.category}&nbsp; [ ${list.onoffLine} ]</li>
 												<li><i class="ti-comments-smiley"></i> ${list.heartCount} Likes</li>
@@ -203,26 +207,26 @@
 				</ul>
 
 				<div class="row" id="categoryList1" style="display: none; padding: 70px;">
-					<p style="text-align: center; font-size:20px; font-weight: 550;">해당 카테고리에 독서모임은 없습니다.</p>
+					<p style="text-align: center; font-size:20px; font-weight: 550;">해당 카테고리에 진행중인 독서모임이 없습니다.</p>
 				</div>
 
-				<div class="row popTotal_2" id="categoryList">
+				<div class="row popTotal_2" id="categoryList" style="margin-top:10px;">
 					<c:forEach begin="0" end="5" varStatus="s">
 						<div id="c_clubTotal${s.index}" class="col-md-6 col-lg-4 mb-4 pointer" style="display: none;">
 							<input id="c_clubNo${s.index}" type="hidden" value="22">
-								<div class="image" style="height:250px;">
-									<div id="c_clubImg${s.index}" class="titleBackImg"></div> 
-								</div>
-								<div class="">
-									<ul class="card-blog__info">
-										<li><span id="c_category${s.index}">22</span> &nbsp; <span id="c_onoffLine${s.index}">[22]</span></li>
-										<li><i class="ti-comments-smiley"></i> 2 Comments</li>
-									</ul>
-									<h4 id="c_title${s.index}" class="card-blog__title">독서모임 제목</h4>
-									<p>
-										<span id="c_intro${s.index}"> 독서모임 소개 독서모임 소개 독서모임 소개 독서모임 소개 독서모임 소개 독서모임 소개</span>
-									</p>
-								</div>
+							<div class="image" style="height:250px;">
+								<div id="c_clubImg${s.index}" class="titleBackImg"></div> 
+							</div>
+							<div class="contents">
+								<ul class="card-blog__info">
+									<li><span id="c_category${s.index}">22</span> &nbsp; <span id="c_onoffLine${s.index}">[22]</span></li>
+									<li><i class="ti-comments-smiley"></i> 2 Comments</li>
+								</ul>
+								<h4 id="c_title${s.index}" class="card-blog__title">독서모임 제목</h4>
+								<p>
+		                                                           시작 : <span id="c_startDate${s.index}"></span>&nbsp; | <span id="c_manyTimes${s.index}"></span>번
+								</p>
+							</div>
 						</div>
 					</c:forEach>
 				</div>
@@ -253,7 +257,7 @@
 											<div class="titleBackImg" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${ca.changeName}')"></div>
 										</c:forEach>
 									</div>
-									<div class="">  
+									<div class="contents">  
 										<ul class="card-blog__info"> 
 											<li>${list.category}&nbsp; [ ${list.onoffLine} ]</li>
 											<li><i class="ti-comments-smiley"></i> ${list.heartCount} Likes</li>
@@ -261,7 +265,6 @@
 										<h4 class="">${list.clubTitle}</h4> 
 										<p>
 											<c:forEach items="${list.clubTimes}" var="at" varStatus="s_at">
-	                                		
 		                                		<c:choose>
 		                                			<c:when test="${s_at.index eq 0}">
 		                                				<c:set var="firstStart" value="${at.clubDate}"/>
@@ -336,8 +339,7 @@
 							listView1.style.display = 'block';
 						} else { 							//2. 리스트 값 있는 경우
 							$.each(list,function(i) {
-								/* $('#c_clubImg'+ i).attr("src","${pageContext.servletContext.contextPath }/resources/upload_files/club_img/"+ list[i].clubAttachments[0].changeName); */
-								
+						
 								$('#c_clubImg'+i).css("background-image","url(${pageContext.servletContext.contextPath }/resources/upload_files/club_img/"+list[i].clubAttachments[0].changeName+")");
 								$('#c_clubNo'+ i).val(list[i].clubNo);
 								$('#c_category'+ i).text(list[i].category);
@@ -350,7 +352,23 @@
 									intro = list[i].intro;
 								}
 
-								$('#c_intro'+ i).text(intro);
+								var dateCount = 0;
+								var startD;
+											
+								for(var ct of list[i].clubTimes){
+												
+									if(dateCount == 0){
+										startD = ct.clubDate
+									}else{
+										if(startD > ct.clubDate){
+											startD = ct.clubDate
+										}
+									}
+									dateCount +=1;
+								} 
+								
+								$('#c_startDate'+i).text(startD);
+								$('#c_manyTimes'+i).text(list[i].clubTimes.length);
 								$('#c_clubTotal'+ i).css('display','block'); //none풀어주기
 
 							})
@@ -366,15 +384,7 @@
 					}
 				})
 			})
-			
-			function checkUser(){
-				var userId = '${sessionScope.loginUser.userId}';
-				if(userId == ''){
-					alert('로그인 후 이용해주세요');
-					return;
-				}
-			}
-			
+
 			//마감임박 독서모임 움직이기
 			function goEnd(type, length){
 				if(type == 1){ //이전으로

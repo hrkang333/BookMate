@@ -68,9 +68,9 @@
     		margin-top: 3%;
         }
         
-        .right_1 {
-            width: 60%;
-            padding-top: 4%;
+       	.right_1 {
+            width: 70%;
+            margin: auto 0;
             box-sizing: border-box;
         }
         
@@ -90,12 +90,19 @@
 	    	margin: 40px 0px 100px;
 	    }
 	    
+	    .timeTotal2{
+			overflow: auto;
+		    height: 248px;
+		    background-color: white;
+		    margin: 0 auto;
+		}
+	    
     </style>
 </head>
 
 <body style="width:1200px; margin:auto">
     
-    <jsp:include page="../club/clubMenubar.jsp"/>
+    <jsp:include page="../common/menubar.jsp" />
     
     <script>
     	function checkUserApply(){
@@ -134,9 +141,10 @@
     
     
     <!--================ 독서모임 디테일 =================-->
-    <div class="product_image_area">
-        <div class="container">
-
+    <div class="product_image_area" style="margin-top: 100px;">
+    	<jsp:include page="../club/clubMenubar.jsp"/>
+        
+        <div class="container" style="padding-top: 30px; padding-bottom: 30px;">
             <div class="row s_product_inner">
                 <div class="col-lg-5">
                     <div class="titleDiv">
@@ -153,7 +161,9 @@
                         <h3 style="font-size: 37px;">${club.clubTitle}</h3>
                         <h2 style="font-size: 17px;">#${club.category} &nbsp; #${club.onoffLine} &nbsp; #${club.times} </h2>
 
-						<div style="overflow:auto; width:80%; height:258px; margin:40px 0px 30px; border:3px solid #FFAE42">
+						<hr> 
+						
+						<%-- <div style="overflow:auto; width:80%; height:258px; margin:40px 0px 30px; border:3px solid #FFAE42">
 							<c:forEach var="ct" items="${club.clubTimes}" varStatus="status">
 								<div class="times">
 	                            <div class="left">
@@ -173,7 +183,31 @@
 	                            </div>
 	                        </div>
 							</c:forEach>
-						</div>	
+						</div>	 --%>
+						
+						<div class="timeTotal" style="background-color: #d1e7d1; padding: 10px;">
+							<div class="timeTotal2">
+								<c:forEach var="ct" items="${club.clubTimes}" varStatus="status">
+									<div class="times">
+		                            <div class="left">
+		                                <p class="time" style="font-weight:580;">
+		                                    <span>
+		                                    	<fmt:parseDate var="clubD" value="${ct.clubDate}" pattern="yyyy-MM-dd" /> <!-- string -> Date로 -->	
+												<fmt:parseDate value="${ct.clubDate}" var="dateK" pattern="yyyy-MM-dd"/>
+												<fmt:formatDate value="${dateK}" pattern="yyyy년 MM월 dd일"/>
+		                                    	(<fmt:formatDate value="${clubD}" pattern="E"/>)
+		                                    	</span>
+		                                    <span>&nbsp;|&nbsp;</span>
+		                                    <span>${ct.startTime} ~ ${ct.endTime}</span>
+		                                </p>
+		                                <p class="apply" style="display:flex">
+		                                    <span style="margin-left: auto;">신청 <span id="applyCount${status.index}">${ct.apply_count}</span> / 정원 <span id="clubCapacity${status.index}">${club.clubCapacity}</span></span>
+		                                </p>
+		                            </div>
+		                        </div>
+								</c:forEach>
+							</div>	
+						</div>
                     </div>
                 </div>
             </div>
@@ -260,96 +294,7 @@
         </div>
     </section>
 
-    <!--================ Start footer Area  =================-->
-    <footer>
-        <div class="footer-area footer-only">
-            <div class="container">
-                <div class="row section_gap">
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="single-footer-widget tp_widgets ">
-                            <h4 class="footer_title large_title">Our Mission</h4>
-                            <p>
-                                So seed seed green that winged cattle in. Gathering thing made fly you're no divided deep moved us lan Gathering thing us land years living.
-                            </p>
-                            <p>
-                                So seed seed green that winged cattle in. Gathering thing made fly you're no divided deep moved
-                            </p>
-                        </div>
-                    </div>
-                    <div class="offset-lg-1 col-lg-2 col-md-6 col-sm-6">
-                        <div class="single-footer-widget tp_widgets">
-                            <h4 class="footer_title">Quick Links</h4>
-                            <ul class="list">
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Shop</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Product</a></li>
-                                <li><a href="#">Brand</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-6 col-sm-6">
-                        <div class="single-footer-widget instafeed">
-                            <h4 class="footer_title">Gallery</h4>
-                            <ul class="list instafeed d-flex flex-wrap">
-                                <li><img src="img/gallery/r1.jpg" alt=""></li>
-                                <li><img src="img/gallery/r2.jpg" alt=""></li>
-                                <li><img src="img/gallery/r3.jpg" alt=""></li>
-                                <li><img src="img/gallery/r5.jpg" alt=""></li>
-                                <li><img src="img/gallery/r7.jpg" alt=""></li>
-                                <li><img src="img/gallery/r8.jpg" alt=""></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="offset-lg-1 col-lg-3 col-md-6 col-sm-6">
-                        <div class="single-footer-widget tp_widgets">
-                            <h4 class="footer_title">Contact Us</h4>
-                            <div class="ml-40">
-                                <p class="sm-head">
-                                    <span class="fa fa-location-arrow"></span> Head Office
-                                </p>
-                                <p>123, Main Street, Your City</p>
-
-                                <p class="sm-head">
-                                    <span class="fa fa-phone"></span> Phone Number
-                                </p>
-                                <p>
-                                    +123 456 7890 <br> +123 456 7890
-                                </p>
-
-                                <p class="sm-head">
-                                    <span class="fa fa-envelope"></span> Email
-                                </p>
-                                <p>
-                                    free@infoexample.com <br> www.infoexample.com
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <div class="container">
-                <div class="row d-flex">
-                    <p class="col-lg-12 footer-text text-center">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Copyright &copy;
-                        <script>
-                            document.write(new Date().getFullYear());
-                        </script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </p>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!--================ End footer Area  =================-->
-
-
+  	<jsp:include page="../common/footer.jsp" />
 
     <script src="resources/vendors/jquery/jquery-3.2.1.min.js"></script>
     <script src="resources/vendors/bootstrap/bootstrap.bundle.min.js"></script>

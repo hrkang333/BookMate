@@ -85,24 +85,23 @@ public class ClubApplyController {
 		return result;
 	}
 	
-	//3.찜 삭제
+	//3.찜 삭제 - 독서모임 상세페이지
 	@ResponseBody
 	@RequestMapping("heartCancle.cl")
 	public String deleteHeart(String userId, int clubNo) {
 		List<Integer> clubNoList = new ArrayList<>();
 		clubNoList.add(clubNo);
 		
-		int result = clubApplyService.deleteHeart(userId, clubNoList);
+		clubApplyService.deleteHeart(userId, clubNoList);
 		
-		return String.valueOf(result);
+		return "success";
 	}
 	
-	//3-6.마이페이지2(찜목록)에서 찜 삭제
+	//3-6. 찜 삭제 - 마이페이지2(찜목록)에서
 	//clubController에 있었는데 복잡해서 여기로 뺐다.
 	@RequestMapping("deleteClub2.cl")
 	public String deleteClub2(int[] clubNo, HttpServletRequest request) {
-	
-		System.out.println("clubapply컨트롤러 - clubNo확인 : " + Arrays.toString(clubNo));
+
 		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
 		List<Integer> clubNos = Arrays.stream(clubNo).boxed().collect(Collectors.toList());
 				
@@ -115,7 +114,7 @@ public class ClubApplyController {
 	//mypage3 - 신청 취소하기
 	@ResponseBody
 	@RequestMapping(value = "updateCancel.cl",method = RequestMethod.POST)
-	public String updateCancel(String userId, int timeNo, String times) {
+	public String updateCancel(String userId, int timeNo, String times) { //times:한번만나요/여러번만나요
 		
 		String result = clubApplyService.updateCancelTotal(userId, timeNo, times);
 		
@@ -142,14 +141,14 @@ public class ClubApplyController {
 		return result;
 	}
 	
-	
+	//독서모임 개설자 -> 참여완료 확정
 	@ResponseBody
 	@RequestMapping(value = "checkUserApply.cl",method = RequestMethod.POST)
 	public String updateUserApply(@RequestParam(value="applyNoList[]") List<Integer> applyNoList) {
 		
-		int result = clubApplyService.updateUserApply(applyNoList);
+		clubApplyService.updateUserApply(applyNoList);
 		
-		return String.valueOf(result);
+		return "success";
 	}
 
 	

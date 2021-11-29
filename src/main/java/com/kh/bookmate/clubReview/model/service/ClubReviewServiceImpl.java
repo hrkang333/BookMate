@@ -45,8 +45,8 @@ public class ClubReviewServiceImpl implements ClubReviewService {
 		//2) clubapply테이블 review_status 필드 update
 		int result2 = clubApplyDao.updateReviewStatus(sqlSession, cr);
 		
-		if(result < 0 || result2<0) {
-			//error
+		if(result < 0 || result2<=0) {
+			throw new RuntimeException("독서모임 리뷰 추가 오류");
 		}
 	}
 
@@ -65,8 +65,8 @@ public class ClubReviewServiceImpl implements ClubReviewService {
 		int result = clubReviewDao.deleteReview(sqlSession,map);
 		int result2 = clubApplyDao.updateReviewStatus_del(sqlSession, map);
 		
-		if(result < 0 || result2<0) {
-			//error
+		if(result < 0 || result2<=0) {
+			throw new RuntimeException("독서모임 리뷰 삭제 오류");
 		}
 	}
 
@@ -74,7 +74,7 @@ public class ClubReviewServiceImpl implements ClubReviewService {
 	public void insertQna(ClubQna cq) {
 		int result = clubReviewDao.insertQna(sqlSession,cq);
 		if(result < 0) {
-			//error
+			throw new RuntimeException("독서모임 qna 추가 오류");
 		}
 	}
 
@@ -94,22 +94,22 @@ public class ClubReviewServiceImpl implements ClubReviewService {
 	public void insertQnaAnswer(ClubQnaAnswer cqa) {
 		int result = clubReviewDao.insertQnaAnswer(sqlSession,cqa);
 		if(result < 0) {
-			//error
+			throw new RuntimeException("독서모임 qna 답변 추가 오류");
 		}
 	}
 
 	@Override
 	public void updateQna(int qnaNo) {
 		int result = clubReviewDao.updateQna(sqlSession,qnaNo);
-		if(result < 0) {
-			//error
+		if(result <= 0) {
+			throw new RuntimeException("독서모임 qna 추가 오류");
 		}
 	}
 
 	@Override
 	public void deleteQna(int qnaNo, int type) {
 		int result;
-		int result2 = -1;
+		int result2 = 1;
 		if(type == 1) {
 			result = clubReviewDao.deleteQna(sqlSession,qnaNo);
 		}else {
@@ -117,8 +117,8 @@ public class ClubReviewServiceImpl implements ClubReviewService {
 			result = clubReviewDao.deleteQnaAnswer(sqlSession,qnaNo);
 			result2 = clubReviewDao.updateQnaAnswerStatus(sqlSession,qnaNo);
 		}
-		if(result < 0 || result2 < 0) {
-			//error
+		if(result < 0 || result2 <= 0) {
+			throw new RuntimeException("독서모임 qna 삭제 오류");
 		}
 	}
 

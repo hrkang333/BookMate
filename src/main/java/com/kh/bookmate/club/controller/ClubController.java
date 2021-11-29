@@ -86,7 +86,7 @@ public class ClubController {
 	//2. 개설신청 1단계 저장 : c, ca, userId 총 3개 보내기
 	/* 1) value에 기본값 넣기 & required=false로 받기 2가지 중 후자로 해봄 */	
 	@RequestMapping(value={"saveStep1.cl", "insertClub1.cl"}) 
-	public String saveStep1(HttpServletRequest request, @ModelAttribute Club c,
+	public String insertStep1(HttpServletRequest request, @ModelAttribute Club c,
 							@RequestParam(name="hostPhoto", required=false) MultipartFile file,
 							@RequestParam(name="phwhatTodo", required=false) String[] phwhatTodo){
 		
@@ -113,7 +113,7 @@ public class ClubController {
 		
 		ca = preSaveFile(ca, file, request, imageType);
 
-		keyClubNo = clubService.saveStep1(c, ca);  //1단계에서 insert한 clubNo
+		keyClubNo = clubService.insertStep1(c, ca);  //1단계에서 insert한 clubNo
 		
 		//다중 매핑 (10.30) 후 url판별하여 분기처리
 		if(request.getServletPath().equals("/saveStep1.cl")) {
@@ -168,7 +168,7 @@ public class ClubController {
 
 	//3. 개설신청 2단계 저장 후 다음단계로
 	@RequestMapping(value={"saveStep2.cl", "insertClub2.cl"}) 
-	public String saveStep2(HttpServletRequest request, @ModelAttribute Club c,
+	public String insertStep2(HttpServletRequest request, @ModelAttribute Club c,
 							@RequestParam(name="coverPhoto", required=false) MultipartFile file,
 							@RequestParam(name="capacity", required=false, defaultValue="0") int capacity) {
 		ClubAttachment ca = null;
@@ -188,7 +188,7 @@ public class ClubController {
 			ca.setClubNo(keyClubNo);
 		}
 
-		clubService.saveStep2(c, ca);
+		clubService.insertStep2(c, ca);
 
 		if(request.getServletPath().equals("/saveStep2.cl")) {
 			return "redirect:mypage3.cl";
@@ -199,7 +199,7 @@ public class ClubController {
 	
 	//4. 개설신청 3단계 저장 후 다음단계로
 	@RequestMapping(value={"saveStep3.cl", "insertClub3.cl"}) 
-	public String saveStep3(HttpServletRequest request, @ModelAttribute Club c, @ModelAttribute ClubTime ct,
+	public String insertStep3(HttpServletRequest request, @ModelAttribute Club c, @ModelAttribute ClubTime ct,
 							@RequestParam(name="bookPhoto", required=false) MultipartFile file,
 							@RequestParam(name="newClubDate", required=false) String[] newClubDate) { 
 		ClubAttachment ca = null;
@@ -244,7 +244,7 @@ public class ClubController {
 		map.put("list", list);
 
 		if(request.getServletPath().equals("/saveStep3.cl")) {
-			clubService.saveStep3(c, ca, map);
+			clubService.insertStep3(c, ca, map);
 			//return "redirect:mypage3.cl";  //msg 다르게 처리해야한다.
 		}else {
 			clubService.insertClub(c, ca, map);  //condition컬럼 값 2로 바꾼다.
@@ -476,11 +476,11 @@ public class ClubController {
 				clubService.updateStep2_1(c, ca);  //c:update, ca:update	
 			}else {
 				//INSERT
-				clubService.saveStep2(c,ca);  //c:update, ca:insert
+				clubService.insertStep2(c,ca);  //c:update, ca:insert
 			}
 		}else {
 			ca = preSaveFile(ca, file, request, imageType);
-			clubService.saveStep2(c,ca);  //c:update (impl에서 ca null처리해줌)
+			clubService.insertStep2(c,ca);  //c:update (impl에서 ca null처리해줌)
 		}
 
 		//업데이트 후 club 다시 조회해와서 저장하고 화면 넘어가기
@@ -569,7 +569,7 @@ public class ClubController {
 	public String clubMain(Model model) {
 		
 		ArrayList<Club> endList = clubService.selectEndList();
-		ArrayList<Club> popList = clubService.popList();
+		ArrayList<Club> popList = clubService.selectpopList();
 		
 		model.addAttribute("endList",endList);
 		model.addAttribute("popList",popList);
@@ -582,14 +582,7 @@ public class ClubController {
 	public String categoryList(String category) {
 		
 		ArrayList<Club> catelist = clubService.selectCateList(category);
-		
-		System.out.println("catelist뭐야? " + catelist);
-		
-		for(Club c : catelist) {
-			System.out.println("catelist확인 : "+c.toString());
-		}
-		
-		
+
 		return new GsonBuilder().create().toJson(catelist);
 	}
 	
@@ -598,6 +591,12 @@ public class ClubController {
 	public ModelAndView clubDetail(HttpServletRequest request, int clubNo, ModelAndView mv) {
 		int befHeart = 0;
 		Club club = clubService.selectClub(clubNo);
+		
+		/* club.setHostComment(club.getHostComment().replaceAll("<br>","\r\n"));
+		club.setIntro(club.getIntro().replaceAll("<br>","\r\n"));
+		club.setActivity(club.getActivity().replaceAll("<br>","\r\n")); 
+		club.setWant(club.getWant().replaceAll("<br>","\r\n"));
+		club.setNotwant(club.getNotwant().replaceAll("<br>","\r\n"));*/
 
 		if((User)request.getSession().getAttribute("loginUser") != null) {
 			String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
@@ -621,6 +620,8 @@ public class ClubController {
 		//- listcount세기
 		int listCount  = clubService.selectListCount_1(category,4);
 		int listCount2  = clubService.selectListCount_1(category,5);
+		
+		System.out.println("catelist_2길이얼만데? : " + listCount2);
 		
 		//2.
 		PageInfo pi_first = Pagination.getPageInfo(listCount, 1, 7, 8);

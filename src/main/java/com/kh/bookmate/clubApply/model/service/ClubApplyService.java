@@ -20,7 +20,7 @@ public interface ClubApplyService {
 //
 //	int insertHeart(String userId, int clubNo);
 
-	int deleteHeart(String userId, List<Integer> clubNoList);
+	void deleteHeart(String userId, List<Integer> clubNoList);
 
 	//마이페이지1 - 신청목록 조회
 	List<ClubApply> selectApplyList(String userId, PageInfo pi);
@@ -34,7 +34,7 @@ public interface ClubApplyService {
 
 	List<ClubApply> selectApplyList(int clubNo);
 
-	int updateUserApply(List<Integer> applyNoList);
+	void updateUserApply(List<Integer> applyNoList);
 
 	
 

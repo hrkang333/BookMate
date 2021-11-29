@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>독서모임/개설신청step1</title>
-    <link rel="icon" href="img/Fevicon.png" type="image/png">
+    <link rel="icon" href="resources/img/logo1.png" type="image/png">
 
     <link rel="stylesheet" href="resources/vendors/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="resources/vendors/fontawesome/css/all.min.css">
@@ -71,8 +71,8 @@
     </style>
 </head>
 
-<body style="width:1200px; margin:auto">
-     <jsp:include page="../club/clubMenubar.jsp"/>
+<body style="width:1200px; margin:auto; margin-top: 200px;">
+    <jsp:include page="../common/menubar.jsp" />
 
     <!--================ 호스트 정보 입력창 =================-->
     <section class="checkout_area section-margin--small">
@@ -89,47 +89,11 @@
                                 호스트명*
                             </div>
                             <div class="col-md-5 form-group p_star">
-                                <input type="text" class="form-control must" name="hostName" required>
+                                <input type="text" class="form-control must" name="hostName" maxlength="10" required>
                             </div>
                             <div class="col-md-4 form-group p_star">
                                 <button type="button" class="button button-login check_button" onclick="checkHostName()">중복 확인</button>
                             </div>
-
-                            <script>
-                                //호스트명 중복 확인
-                                function checkHostName() {
-                                    var hostName = $("#hostEnrollForm input[name=hostName]");
-                                    console.log(hostName.val());
-
-                                    if (hostName.val() == "") {
-                                        alert("이름을 입력해주세요!");
-                                        return false;
-                                    }
-
-                                    $.ajax({
-                                        url: "hostCheck.cl",
-                                        type: "post",
-                                        data: {
-                                            hostName: hostName.val()
-                                        },
-                                        success: function(result) {
-                                            if (result == "duplicate") {
-                                                confirm("이미 존재하는 이름입니다.사용하실 수 없습니다.");
-                                                hostName.focus();
-                                            } else {
-                                                if (confirm("사용가능한 이름입니다. 사용하시겠습니까?")) {
-                                                    hostName.attr("readonly", "true");
-                                                } else {
-                                                    hostName.focus();
-                                                }
-                                            }
-                                        },
-                                        error: function() {
-                                            console.log("서버통신실패");
-                                        }
-                                    })
-                                }
-                            </script>
 
                             <div class="col-md-3 applicate_guide">
                                 프로필 사진*
@@ -168,75 +132,7 @@
                                 <button type="button" class="button button-login check_button" id="addHis" onclick="addHistory()">추가하기</button>
                             </div>
 
-                            <script>
-                                //datePicker
-                                // $(function() {
-                                //     $('#hendDate').datepicker({
-
-                                //     });
-                                // })
-
-                                //호스트 이력 갯수 정하기 위해서 전역변수 cnt, maxField 선언
-                                var cnt = 1;
-                                var maxField = 15;
-                                var add = '<div><ul class="history_total"><li class="s"><input type="date" class="form-control my-input history " id="hstartDate" name="hstartDate"></li><li class="s"><input type="date" class="form-control my-input history " id="hendDate " name="hendDate"></li><li class="w"><input type="text " class="form-control my-input1 history " id="phwhatTodo " name="phwhatTodo"></li><li class="d"><img src="resources/img/delete.png " class="history my-input2 " onclick="delHistory(this)"></li></ul> </div>'
-
-                                //호스트 이력 추가하기 버튼
-                                function addHistory() {
-                                    cnt++;
-
-                                    if (cnt <= maxField) {
-                                        $("#history").append(add)
-                                        console.log(cnt + "개")
-
-                                    } else {
-                                        alert("호스트 이력은 최대 15개까지 입력가능합니다.")
-                                    }
-                                }
-
-                                //호스트 이력 삭제하기 버튼 
-                                //$(this).parent().remove() 는 안된다.
-                                function delHistory(obj) {
-                                    if (cnt > 1) {
-                                        cnt--;
-                                        $(obj).parent().parent().remove();
-                                    } else {
-                                        //전체 input 창 값 비게해주기
-                                    }
-                                }
-                                
-                                //저장후 2단계로 넘어가기
-                                function goStep2(){
-                                	var is_empty = false;
-
-                                	//children -> 바로 아래 요소만
-                                    //find -> 자식 및 하위태그모두
-                                	$('#hostEnrollForm').find('.must').each(function(){
-                                		if(!$(this).val()){
-                                			is_empty = true;
-                                		}
-                                	})
-                                	
-                                	//javascript에서는 빈값 그리고 null값을 NOT 연산자로 처리한다.
-                                	if(is_empty){
-                                		alert("모든 필수 입력창을 입력해주세요");
-                                		//submit 막기
-                                		$('#hostEnrollForm').attr('action','javascript://')
-                                		//$('#hostEnrollForm').attr("onsubmit", "event.preventDefault();")
-                                	}else{
-                                		$('#hostEnrollForm').attr('action','insertClub1.cl').submit();
-                                	}
-                                }
-                                
-                                //$('#hostEnrollForm').attr('action','javascript://') 막은 후 작동안함,,
-                                function saveStep1(){
-                                	if($('#hostEnrollForm').find('input[name="hostName"]').val()){
-                                		$('#hostEnrollForm').submit();
-                                	}else{
-                                		alert("호스트명은 입력해주세요~")
-                                	}
-                                }
-                            </script>
+   
 
                             <div class="col-md-3 applicate_guide ">
                                 호스트 Comment*
@@ -255,99 +151,105 @@
             </div>
         </div>
     </section>
+    
+    <script>
+		//호스트 이력 갯수 정하기 위해서 전역변수 cnt, maxField 선언
+        var cnt = 1;
+        var maxField = 15;
+        var add = '<div><ul class="history_total"><li class="s"><input type="date" class="form-control my-input history " id="hstartDate" name="hstartDate"></li><li class="s"><input type="date" class="form-control my-input history " id="hendDate " name="hendDate"></li><li class="w"><input type="text " class="form-control my-input1 history " id="phwhatTodo " name="phwhatTodo"></li><li class="d"><img src="resources/img/delete.png " class="history my-input2 " onclick="delHistory(this)"></li></ul> </div>'
+
+        //호스트명 중복 확인
+        function checkHostName() {
+        	var hostName = $("#hostEnrollForm input[name=hostName]");
+            console.log(hostName.val());
+
+            if (hostName.val() == "") {
+            	alert("이름을 입력해주세요!");
+                return false;
+            }
+
+            $.ajax({
+            	url: "hostCheck.cl",
+                type: "post",
+                data: {
+                	hostName: hostName.val()
+                },
+                success: function(result) {
+                	if (result == "duplicate") {
+                    	confirm("이미 존재하는 이름입니다.사용하실 수 없습니다.");
+                        hostName.focus();
+                    } else {
+                        if (confirm("사용가능한 이름입니다. 사용하시겠습니까?")) {
+                           hostName.attr("readonly", "true");
+                        } else {
+                           hostName.focus();
+                        }
+                    }
+                },
+                error: function() {
+                   console.log("서버통신실패");
+                }
+            })
+        }
+        
+        //호스트 이력 추가하기 버튼
+        function addHistory() {
+        	cnt++;
+
+            if (cnt <= maxField) {
+                $("#history").append(add)
+                console.log(cnt + "개")
+            } else {
+            	alert("호스트 이력은 최대 15개까지 입력가능합니다.")
+            }
+        }
+
+        //호스트 이력 삭제하기 버튼 
+        //$(this).parent().remove() 는 안된다.
+        function delHistory(obj) {
+        	if (cnt > 1) {
+                cnt--;
+                $(obj).parent().parent().remove();
+            } else {
+                //전체 input 창 값 비게해주기
+            }
+        }
+                                
+        //저장후 2단계로 넘어가기
+        function goStep2(){
+        	var is_empty = false;
+
+            //children -> 바로 아래 요소만
+            //find -> 자식 및 하위태그모두
+            $('#hostEnrollForm').find('.must').each(function(){
+            	if(!$(this).val()){
+                    is_empty = true;
+                }
+            })
+                                	
+            //javascript에서는 빈값 그리고 null값을 NOT 연산자로 처리한다.
+            if(is_empty){
+               alert("모든 필수 입력창을 입력해주세요");
+               //submit 막기
+               $('#hostEnrollForm').attr('action','javascript://')
+               //$('#hostEnrollForm').attr("onsubmit", "event.preventDefault();")
+            }else{
+               $('#hostEnrollForm').attr('action','insertClub1.cl').submit();
+            }
+         }
+                                
+         //$('#hostEnrollForm').attr('action','javascript://') 막은 후 작동안함,,
+         function saveStep1(){
+         	if($('#hostEnrollForm').find('input[name="hostName"]').val()){
+            	$('#hostEnrollForm').submit();
+            }else{
+                alert("호스트명은 입력해주세요~");
+            }
+         }
+	</script>
     <!--================End 호스트정보 입력창 =================-->
 
-
-
-    <!--================ Start footer Area  =================-->
-    <footer>
-        <div class="footer-area footer-only ">
-            <div class="container ">
-                <div class="row section_gap ">
-                    <div class="col-lg-3 col-md-6 col-sm-6 ">
-                        <div class="single-footer-widget tp_widgets ">
-                            <h4 class="footer_title large_title ">Our Mission</h4>
-                            <p>
-                                So seed seed green that winged cattle in. Gathering thing made fly you're no divided deep moved us lan Gathering thing us land years living.
-                            </p>
-                            <p>
-                                So seed seed green that winged cattle in. Gathering thing made fly you're no divided deep moved
-                            </p>
-                        </div>
-                    </div>
-                    <div class="offset-lg-1 col-lg-2 col-md-6 col-sm-6 ">
-                        <div class="single-footer-widget tp_widgets ">
-                            <h4 class="footer_title ">Quick Links</h4>
-                            <ul class="list ">
-                                <li><a href="# ">Home</a></li>
-                                <li><a href="# ">Shop</a></li>
-                                <li><a href="# ">Blog</a></li>
-                                <li><a href="# ">Product</a></li>
-                                <li><a href="# ">Brand</a></li>
-                                <li><a href="# ">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-6 col-sm-6 ">
-                        <div class="single-footer-widget instafeed ">
-                            <h4 class="footer_title ">Gallery</h4>
-                            <ul class="list instafeed d-flex flex-wrap ">
-                                <li><img src="img/gallery/r1.jpg " alt=" "></li>
-                                <li><img src="img/gallery/r2.jpg " alt=" "></li>
-                                <li><img src="img/gallery/r3.jpg " alt=" "></li>
-                                <li><img src="img/gallery/r5.jpg " alt=" "></li>
-                                <li><img src="img/gallery/r7.jpg " alt=" "></li>
-                                <li><img src="img/gallery/r8.jpg " alt=" "></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="offset-lg-1 col-lg-3 col-md-6 col-sm-6 ">
-                        <div class="single-footer-widget tp_widgets ">
-                            <h4 class="footer_title ">Contact Us</h4>
-                            <div class="ml-40 ">
-                                <p class="sm-head ">
-                                    <span class="fa fa-location-arrow "></span> Head Office
-                                </p>
-                                <p>123, Main Street, Your City</p>
-
-                                <p class="sm-head ">
-                                    <span class="fa fa-phone "></span> Phone Number
-                                </p>
-                                <p>
-                                    +123 456 7890 <br> +123 456 7890
-                                </p>
-
-                                <p class="sm-head ">
-                                    <span class="fa fa-envelope "></span> Email
-                                </p>
-                                <p>
-                                    free@infoexample.com <br> www.infoexample.com
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer-bottom ">
-            <div class="container ">
-                <div class="row d-flex ">
-                    <p class="col-lg-12 footer-text text-center ">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Copyright &copy;
-                        <script>
-                            document.write(new Date().getFullYear());
-                        </script> All rights reserved | This template is made with <i class="fa fa-heart " aria-hidden="true "></i> by <a href="https://colorlib.com " target="_blank ">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </p>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!--================ End footer Area  =================-->
-
-
+	<jsp:include page="../common/footer.jsp" />
 
     <script src="resources/vendors/jquery/jquery-3.2.1.min.js "></script>
     <script src="resources/vendors/bootstrap/bootstrap.bundle.min.js "></script>

@@ -106,6 +106,13 @@
 		    border-radius: 5px;
 		    margin: 0px 10px;
 		}
+		
+		#categoryList1{
+		    padding: 130px;
+		    justify-content: center;
+		    font-size: 25px;
+		    font-weight: 600;
+		}
     </style>
 </head>
 
@@ -280,7 +287,7 @@
 	       
 	       <section id="clubs" style="overflow:hidden; position: relative;  padding-bottom: 130px;">
 	    	   <c:if test="${fn:length(clubList) == 0}">
-		   		   <div class="row" id="categoryList1">해당카테고리에 독서모임은 없습니다.</div>
+		   		   <div class="row" id="categoryList1">검색된 독서모임이 없습니다.</div>
 			   </c:if>
 			   
 			   <c:if test="${fn:length(clubList)>0}">
