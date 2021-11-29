@@ -1,5 +1,6 @@
 package com.kh.bookmate.user.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,13 +20,15 @@ public interface UserService {
 
 	User updateUser(User user) throws Exception;
 
-//	User selectUserPoint(User user);
+
 
 	void deleteUser(String userId) ;
 
-	void returnUserPoint(User u);
+
 
 	User selectUserPoint(String loginUser);
+
+	void updatePwd(HashMap<String, String> map);
 
 
 }

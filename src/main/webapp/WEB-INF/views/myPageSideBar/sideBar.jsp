@@ -50,7 +50,7 @@
                     <form action="#">
                       <ul>
                         <li><a href="myPage.me">내 정보 수정하기 </a> </li>
-                     <!--    <li><a href="update.me">내 비밀번호 변경하기 </a></li> -->
+                       <!--  <li><a href="update.me">내 비밀번호 변경하기 </a></li>  -->
                      </ul>
                     </form>
                   </li>

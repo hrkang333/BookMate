@@ -92,6 +92,14 @@ UPDATE USERS SET POINT = POINT+#{point} WHERE USER_ID = #{userId}
    	 UPDATE USERS SET POINT = POINT + #{list[0]}
    	 WHERE USER_ID = #{list[1]}
    
-   </update> 
+   </update>
    
+   
+<!-- <update id="updatePwd" parameterType="hashmap">
+  
+   		UPDATE USERS SET USER_PWD = #{newPwd}
+   		WHERE USER_ID = #{userId} 
+   		AND USER_PWD= #{userPwd}
+ </update> 
+  -->
    </mapper>

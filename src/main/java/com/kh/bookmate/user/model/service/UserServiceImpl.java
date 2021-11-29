@@ -1,5 +1,7 @@
 package com.kh.bookmate.user.model.service;
 
+import java.util.HashMap;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -80,9 +82,10 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
+	
 	@Override
-	public void returnUserPoint(User u) {
-		// TODO Auto-generated method stub
+	public void updatePwd(HashMap<String, String> map) {
+		 userDao.updatePwd(sqlSession, map);
 		
 	}
 

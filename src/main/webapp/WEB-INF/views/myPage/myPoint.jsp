@@ -51,7 +51,7 @@
          <jsp:include page="../myPageSideBar/sideBar.jsp" />
 
 				<!-- 회원의 포인트 조회를 할 수 있는 란  -->
-				<div class="col-xl-9 col-lg-8 col-md-7">
+				<div class="col-xl-9 col-lg-8 col-md-7" style="margin-top: 20px; margin-left: 20px">
 					<div class="filter-bar d-flex flex-wrap align-items-center">
 						<div class="sorting"></div>
 						<div class="sorting mr-auto">
@@ -72,9 +72,9 @@
 								
 									<form id="checkCuForm" action="updateCoupon.me" method="post">
 										<div class="col-md-12 form-group">
-											<br> <input type="text"  name="couponCode" placeholder="쿠폰번호를 입력해주세요" required>
+											<br> <input type="text"  name="couponCode" placeholder="쿠폰번호를 입력해주세요" required style="width: 300px;">
 												<input type="hidden" value="${sessionScope.loginUser.userId}">
-											<button type="button" onclick="checkCoupon();" >쿠폰 등록하기</button>
+											<button type="button" onclick="checkCoupon();"  >쿠폰 등록하기</button>
 										</div>
 									</form> 
 								
