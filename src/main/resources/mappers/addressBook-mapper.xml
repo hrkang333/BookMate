@@ -15,4 +15,8 @@ INSERT INTO ADDRESSBOOK(USER_ID,MAINADDRESS) VALUES(#{user_Id},#{mainAddress})
 SELECT * FROM ADDRESSBOOK WHERE USER_ID = #{user_Id}
 </select>
 
+<update id="updateLatelyAddress" parameterType="hashMap">
+UPDATE ADDRESSBOOK SET LATELYADDRESS = #{latelyAddress} WHERE USER_ID = #{user_Id}
+</update>
+
 </mapper>

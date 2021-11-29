@@ -21,7 +21,7 @@ public interface PaymentService {
 
 	Payment selectPaymentNo(int paymentNo);
 
-	void insertPayment(Payment temp, List<PaymentDetail> list, List<ShoppingBasket> deleteBasketList);
+	void insertPayment(Payment temp, List<PaymentDetail> list, List<ShoppingBasket> deleteBasketList, String latelyAddress);
 
 	
 	//사용자 화면 deliveryStatus 상태값 업데이트 
@@ -50,7 +50,7 @@ public interface PaymentService {
 
 	List<PaymentDetail> selectReAndExList(String loginUser);
 
-	void insertSinglePayment(Payment temp, PaymentDetail paymentDetail);
+	void insertSinglePayment(Payment temp, PaymentDetail paymentDetail, String latelyAddress);
 
 	
 

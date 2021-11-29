@@ -1,6 +1,7 @@
 package com.kh.bookmate.addressBook.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -25,6 +26,11 @@ public class AddressBookDao {
 	public List<AddressBook> selectMyAddressList(SqlSessionTemplate sqlSession, String loginUser) {
 		
 		return sqlSession.selectList("addressBookMapper.selectMyAddressList",loginUser);
+	}
+
+	public int updateLatelyAddress(SqlSessionTemplate sqlSession, Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("addressBookMapper.updateLatelyAddress",map);
 	}
 
 }
