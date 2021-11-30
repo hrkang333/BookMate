@@ -29,12 +29,13 @@ function PwdChk() {
 		alert("비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
 		inputPwd.val = '';
 		return false;
-	}
+	}else{
 	
 	if(confirm("판매자 탈퇴 후 정보 복구가 불가능합니다. \n 정말 판매자 탈퇴를 하시겠습니까?")){
 		alert("판매자 탈퇴가 완료되었습니다.");
 		$("#deleteSellerForm").submit();
 		return true;
+	}
 	}
 }
 

@@ -78,7 +78,7 @@
 						<c:if test="${ list[0].ubCategory eq 10 }">
 							<h1 style="float: left;">가정/육아</h1>
 						</c:if>
-							<table class="table table-filter" id="ubookListTb">
+							<table class="table table-filter" id="ubookListTb" style="background-color: #faf8f2;">
 								<colgroup>
 									<col width="45px" style="text-align: center;">
 									<col width="150px" style="text-align: center;">

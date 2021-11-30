@@ -136,8 +136,8 @@ public class UbookServiceImpl implements UbookService {
 	}
 
 	@Override
-	public int selectListCount() {
-		return ubookDao.selectListCount(sqlSession);
+	public int selectListCount(int ubCategory) {
+		return ubookDao.selectListCount(sqlSession,ubCategory);
 	}
 
 	@Override

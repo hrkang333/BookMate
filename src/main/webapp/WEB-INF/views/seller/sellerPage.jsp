@@ -41,6 +41,10 @@
 	<div class="container bootstrap snippet">
 		<div style="width: 1350px;">
 			<!--판매자 페이지-->
+			<c:if test="${empty s.sellerNo }">
+			판매자 가입하셈
+			</c:if>
+			
 			<div class="col-sm-9" style="margin-left: 145px; padding-top: 170px;">
 				<div class="newsInner">
 					<!--탭 시작-->
@@ -220,8 +224,8 @@
 												<label>
 													<h4>비밀번호 입력</h4>
 												</label>
-												<input type="text" class="form-control" name="userPwd" id="userPwd" placeholder="현재 비밀번호를 입력해주세요" style="font-size: 15px;">
-												<input type="text" id="userPwd2" name="userPwd2" value="${ loginUser.userPwd }">
+												<input type="text" hidden="hidden" class="form-control" name="userPwd" id="userPwd">
+												<input type="password" id="userPwd2" class="form-control"name="userPwd2" placeholder="로그인 시 입력한 비밀번호를 입력해주세요" style="font-size: 15px;">
 												<input type="text" id="sellerId" name="sellerId" value="${ s.sellerId }" hidden="hidden">
 												
 

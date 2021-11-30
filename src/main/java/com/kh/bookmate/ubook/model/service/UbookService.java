@@ -49,7 +49,7 @@ public interface UbookService {
 
 	ArrayList<Ubook> selectRowPriceBookList();
 
-	int selectListCount();
+	int selectListCount(int ubCategory);
 
 	int deleteQna(int qnaNo);
 }
