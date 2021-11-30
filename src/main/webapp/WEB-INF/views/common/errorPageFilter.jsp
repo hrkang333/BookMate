@@ -19,6 +19,10 @@
 		</c:if>
 
 		
+		<c:if test="${requestScope['javax.servlet.error.status_code'] == 400}">
+			<p>잘못된 요청입니다.</p>    
+		</c:if>
+		
 		<c:if test="${requestScope['javax.servlet.error.status_code'] == 500}">
 			<p>서버에 오류가 발생하여 요청을 수행할 수 없습니다.</p>
 		</c:if>

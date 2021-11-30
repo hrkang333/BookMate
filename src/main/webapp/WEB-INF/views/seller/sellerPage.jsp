@@ -125,8 +125,8 @@
 													</label>
 												</c:if>
 											</div>
-											<div class="col-xs-12">
-												<br> <label class="inputlabel">출고지</label> <br> <br>
+											<div class="col-xs-12" style="margin-top: 120px;">
+												<br> <label class="inputlabel">출고지</label>
 												<c:forTokens var="addr" items="${ s.sellerAddress }"
 													delims="/" varStatus="status">
 													<c:if
@@ -146,15 +146,15 @@
 												</c:forTokens>
 
 
-												<div class="col-md-12 form-group" style="width: 70%;">
-													<input class="form-control" type="text" style="font-size: 15px;"
+												<div class="col-md-12 form-group" style="width: 100%; margin-top: 50px;">
+													<input class="form-control" type="text" style="font-size: 15px; width: 77%; float: left; margin-bottom: 30px;"
 														id="sample4_postcode" name="post" placeholder="우편번호"
 														value="${ post }" readonly>
+													<button type="button" class="postBtn" style="border-radius: 5px; width: 22%; float: right; height: 50px;"
+														onclick="sample4_execDaumPostcode()">우편번호 검색</button>
 												</div>
 												<div class="col-md-12 form-group" style="width: 30%; margin-top: 2px;">
 
-													<button type="button" class="postBtn" style="border-radius: 5px;"
-														onclick="sample4_execDaumPostcode()">우편번호 검색</button>
 												</div>
 												<div class="col-md-12 form-group">
 													<input class="form-control" type="text" style="font-size: 15px;"

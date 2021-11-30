@@ -114,9 +114,20 @@
 										style="padding: 180px 0 0 36px; width: 350px; font-size: 15px; line-height: 1.3em; color: #000000;">
 										<span class="release" style="color: #212529;"><strong>출판연도</strong>
 											&nbsp; <fmt:formatDate value="${ubook.ubookPubDate}"
-												pattern="yyyy년 MM월 dd일" /> </span> <br> <br> <span
-											class="release" style="color: #212529;"><strong>판매자</strong>
-											&nbsp; <strong style="color: #09992f">${ubook.sellerNickN}</strong>
+												pattern="yyyy년 MM월 dd일" /> </span> <br> <br> 
+											<span class="release" style="color: #212529;"><strong>판매자</strong>
+											&nbsp; <strong style="color: #09992f">${ubook.sellerNickN}</strong></span>
+											<br><br>
+											<span class="release" style="color: #212529;"><strong>배송방법</strong>
+											
+											&nbsp; <strong style="color: #09992f">
+											<c:if test="${ ubook.sellerDel == 'conveni' }">
+													<c:out value="편의점 택배">편의점 택배</c:out>
+												</c:if>
+												<c:if test="${ ubook.sellerDel == 'self' }">
+													<c:out value="판매자가 직접 택배사 선택">판매자가 택배사 선택</c:out>
+												</c:if>
+												</strong>
 										</span>
 
 									</div>

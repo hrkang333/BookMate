@@ -37,4 +37,5 @@ public class Ubook {
 	private String sellerNickN;
 	private int sellerNo;
 	private String sellerId;
+	private String sellerDel;
 }

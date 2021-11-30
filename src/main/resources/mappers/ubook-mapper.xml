@@ -24,6 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result property="sellerNickN" column="SELLER_NICKN"/>
 		<result property="sellerNo" column="SELLER_NO"/>
 		<result property="sellerId" column="SELLER_ID"/>
+		<result property="sellerDel" column="SELLER_DEL"/>
 	</resultMap>
 	
 	<resultMap id="ubookQnaResultSet" type="Ubook_Qna">
@@ -75,6 +76,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT DISTINCT *
 		FROM UBOOK
 		WHERE BSELLER_NO = #{bSellerNo}
+		AND UBOOK_STOCK != 0
 	</select>
 	
 	<!-- 판매자의 다른 도서 -->
@@ -123,7 +125,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 	<!-- 도서 상세 -->
 	<select id="selectUbook" parameterType="Ubook" resultMap="ubookResultSet">
-		SELECT U.*, S.SELLER_NICKN, S.SELLER_ID
+		SELECT U.*, S.SELLER_NICKN, S.SELLER_ID, S.SELLER_DEL
 	      FROM UBOOK U, SELLER S
 	      WHERE UBOOK_NO = #{ubookNo}
 		AND S.SELLER_NO = #{BSellerNo}
@@ -182,6 +184,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		FROM UBOOK
 		WHERE UBOOK_STATUS = 'Y'
 		AND UB_CATEGORY = #{ubCategory}
+		AND UBOOK_STOCK != 0
 		ORDER BY UBOOK_NO DESC
 	</select>
 		
@@ -190,6 +193,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		SELECT * FROM UBOOK
 		WHERE UB_CATEGORY=#{ubCategory}
 		AND UBOOK_STATUS = 'Y'
+		AND UBOOK_STOCK != 0
 	</select>
 	
 	<!-- 도서 검색 -->
@@ -203,6 +207,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE (UBOOK_NAME LIKE '%'||#{keyword}||'%' 
 		OR UBOOK_WRITER LIKE '%'||#{keyword}||'%')
 		AND UBOOK_STATUS = 'Y'
+		AND UBOOK_STOCK != 0
 	</sql>
 	
 </mapper>
