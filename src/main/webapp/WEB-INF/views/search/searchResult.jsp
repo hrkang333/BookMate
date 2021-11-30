@@ -82,8 +82,9 @@ function moveDetail(bookISBN) {
 }
 </script>
 </head>
-<body style="width: 1200px; margin: auto;">
-<main>
+<body>
+<jsp:include page="../common/menubar.jsp" />
+		<main class="site-main" style="padding-top: 180px;display: flex; margin-top: 50px;margin-bottom: 50px">
 	<form action="selectSearchKeyword.se" method="post" id="pageMoveForm">
 	<input type="hidden" id="searchNowPageInput" name="searchNowPage" value="${requestScope.searchNowPage}">
 	<input type="hidden" id="searchKindInput" name="searchKind" value="${requestScope.searchKind}">
@@ -180,5 +181,7 @@ function moveDetail(bookISBN) {
         </tfoot>
     </table>
 </main>
+<br><br><br>
+	<jsp:include page="../common/footer.jsp" />
 </body>
 </html>

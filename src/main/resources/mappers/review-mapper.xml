@@ -10,7 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 INSERT INTO BOOKREVIEW VALUES(BOOKREVIEW_SEQ.NEXTVAL,#{bookISBN},#{bookRating},#{reviewTitle},#{reviewWriter},#{reviewContent},SYSDATE,DEFAULT,DEFAULT)
 </insert> 
 <update id="updateReviewWriter" parameterType="BookReview">
-UPDATE BUYREVIEW SET REVIEWSTATUS = 2 WHERE USER_ID = #{reviewWriter}
+UPDATE BUYREVIEW SET REVIEWSTATUS = 2 WHERE USER_ID = #{reviewWriter} AND bookISBN = #{bookISBN}
 </update>
 <select id="selectTotalCount" resultType="_int">
 SELECT COUNT(*) FROM BOOKREVIEW WHERE BOOKISBN = #{bookISBN}

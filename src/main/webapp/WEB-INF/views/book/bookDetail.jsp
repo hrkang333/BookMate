@@ -436,7 +436,7 @@ $(function() {
 					success : function(str) {
 						$('#reviewNowPage').val(1);
 						$('#reviewKind').val(1);
-						$('#pagePosition').val(1);
+						$('#pagePosition').val(2);
 						$('#detailBookPageForm').submit();
 					},
 					error : function(e) {
@@ -1034,7 +1034,8 @@ $(function() {
 							type="number" value="${price*0.9}" /></a>원 [10%↓ <fmt:formatNumber
 						type="number" value="${price*0.1}" />원 할인]
 				</span><br>
-				<br> <span>배송비 : 0 원</span>&nbsp;&nbsp;&nbsp;
+				<br> <span>배송비 : <c:if test="${price<10000}"><fmt:formatNumber value="2500"/> 원</c:if>
+				<c:if test="${price>=10000}">0 원</c:if></span>&nbsp;&nbsp;&nbsp;
 				<button id="">배송비 안내</button>
 				<br>
 				<br> <span>혜택 : [기본혜택] <fmt:formatNumber type="number"
