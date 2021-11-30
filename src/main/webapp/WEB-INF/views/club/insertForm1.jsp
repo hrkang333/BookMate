@@ -128,7 +128,7 @@
                             </div>
                             <div class="col-md-9 form-group" id="history">
                             	<span style="font-size: 18px; font-weight: 550; margin-bottom: 15px;">호스트님의 특별한 경험을 공유해주세요!</span>
-                            	<div class="example" style="background-color: #d9e7db">
+                            	<div class="example">
                             		<ul style="list-style : disc">
 										<li> [ 책과 관련된 경험 ] 2019-01-01 2021-01-01 독립출판 동아리 진행</li>
                             			<li> [ 일/직무 관련 경험 ] 2019-01-01 2021-01-01 오이마켓 Product Manager</li>
@@ -272,6 +272,7 @@
         	if(!chkDuplicate){
         		alert("호스트명 중복 확인을 해주세요");
         		$('#hostEnrollForm').attr('action','javascript://')
+        		return;
         	}
 
             //children -> 바로 아래 요소만
@@ -295,8 +296,11 @@
                                 
          //$('#hostEnrollForm').attr('action','javascript://') 막은 후 작동안함,,
          function saveStep1(){
-         	if($('#hostEnrollForm').find('input[name="hostName"]').val()){
-            	$('#hostEnrollForm').submit();
+         	if($('#hostEnrollForm').find('input[name="hostName"]').val()){ 
+         		if("임시저장하시겠습니까?"){
+         			$('#hostEnrollForm').attr('action','saveStep1.cl');
+             		$('#hostEnrollForm').submit();
+         		}
             }else{
                 alert("호스트명은 입력해주세요~");
             }
