@@ -27,7 +27,7 @@
     
     <style>
 
-	li a {
+	.filter-list a {
 		text-decoration: none;
 		display: block;
 		color: #000;
@@ -35,22 +35,22 @@
 		font-weight: bold;
 	}
     
-  	li a:hover {
+  	.filter-list a:hover {
 		background-color: darkgray;
 		color: #fff;
 	}
     </style>
 <body>
 
-    <div class="" style="width: 200px; height:auto">
+    <div  style="width: 200px; height:auto">
               <div class="sidebar-categories" >
                 <div class="head" style="background-color: darkgray;"> 마이페이지</div>
                 <ul class="main-categories">
                   <li class="">
                     <form action="#">
                       <ul>
-                        <li><a href="myPage.me">내 정보 수정하기 </a> </li>
-                       <!--  <li><a href="update.me">내 비밀번호 변경하기 </a></li>  -->
+                        <li class="filter-list"><a href="myPage.me">내 정보 수정하기 </a> </li>
+                   
                      </ul>
                     </form>
                   </li>
@@ -61,7 +61,7 @@
                 <div class="common-filter">
                   <div class="head">일반상품</div>
                   <form action="#">
-                    <ul>
+                    <ul >
                         <li class="filter-list"><a href="selectMyOrderList.me">나의 주문 조회</a> </li>
                         <li class="filter-list"><a href="cancelList.me"> 취소 리스트 조회</a> </li>
                         <li class="filter-list"> <a href="refundAndExchangeList.me"> 교환/반품 리스트 조회</a> </li>
@@ -92,8 +92,8 @@
                         <li class="filter-list"> <a href="myReview.me" >나의 리뷰조회 </a> </li>
                         <li class="filter-list"> <a href="recentlyView.me">나의 최근 본 목록</a> </li>
                         <li class="filter-list"> <a href="myPoint.me">나의 포인트 조회</a></li>
-                        <li class="filter-list"> <a href="myAddressMange.me">나의 주소록 관리</a></li>
-                        <li class="filter-list"> <a href="wishList.me">나의 찜목록 관리</a></li>
+<!--                         <li class="filter-list"> <a href="myAddressMange.me">나의 주소록 관리</a></li>
+ -->                        <li class="filter-list"> <a href="wishList.me">나의 찜목록 관리</a></li>
                     
                     </ul>
                  

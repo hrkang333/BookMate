@@ -104,36 +104,16 @@
 								<button type="button" class="close" data-dismiss="modal">&times;</button>
 							</div>
 
-							<form action="updatePwd.me" method="post">
-								
-								<div class="modal-body">
-									<label for="userId" class="mr-sm-2">ID :</label> <input
-										type="text" class="form-control mb-2 mr-sm-2"
-										placeholder="아이디를 입력해주세요" id="userId" name="userId"> <br>
-									<label for="userPwd" class="mr-sm-2">Password:</label> <input
-										type="password" class="form-control mb-2 mr-sm-2"
-										placeholder="비밀번호를 입력해주세요" id="newPwd" name="newPwd">
-								</div>
 
-							
-								<div class="modal-footer">
-									<button type="submit" class="btn btn-primary">로그인</button>
-									<button type="button" class="btn btn-danger"
-										data-dismiss="modal">취소</button>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-            <form action="update.me" method="post">
+            <form action="update.me" method="post" id="modi">
                 <div class="form-group">
                     <label>* ID :</label>
                     <input type="text" class="form-control" name="userId" value="${ loginUser.userId }" readonly><br>
                     
-                    <label>* PW :</label>
-                    <input type="text" class="form-control" name="userPwd" value="" placeholder="비밀번호변경하기" onclick ="goUpPwd()"><br>
-                   
-                    
+                    <label>* PW :</label> <!--  onclick ="goUpPwd()" -->
+                    <input type="password" class="form-control" name="userPwd" value="" placeholder="비밀번호변경하기" readonly="readonly"><br>
+                   	<div><a data-toggle="modal" data-target="#updatePwd" style="color: red;">비밀번호 변경을 원하시면 '이곳'을 클릭해주세요 </a></div>
+                    <br>
                     
                     <label for="userName">* Name :</label>
                     <input type="text" class="form-control" id="userName" name="userName" value="${ loginUser.userName }" readonly><br>
@@ -193,6 +173,8 @@
                     <label for="Male">남자</label> &nbsp;&nbsp;
                     <input type="radio" name="gender" id="Female" value="F">
                     <label for="Female">여자</label><br>
+   
+                    
                   
                	<script>
                     	$(function(){
@@ -212,10 +194,44 @@
                 <br>
                 
                 <div class="btns" align="center">
-                    <button type="submit" class="btn btn-primary">수정하기</button>
-                    <button type="button" onclick="$('#postForm').submit();" class="btn btn-danger">탈퇴하기</button>
+                    <button type="submit" class="btn btn-primary" onclick="modify();">수정하기</button>
+                    <button type="button" onclick="ask()" class="btn btn-danger">탈퇴하기</button>
                 </div>
             </form>
+            <br><br>
+            
+                         
+         <div class="modal fade" id="updatePwd" style="margin-top: 30%; margin-left: 50%; width: 300px; height: 300px">
+					<div class="modal-dialog modal-sm">
+						<div class="modal-content">
+						
+							<div class="modal-header">
+								<h4 class="modal-title">비밀번호 변경 창 </h4>
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
+
+							<form action="updatePwd.me" method="post">
+								
+								<div class="modal-body">
+									<label for="userId" class="mr-sm-2"></label> <input
+										type="hidden" class="form-control mb-2 mr-sm-2"
+										placeholder="아이디를 입력해주세요" id="userId" name="userId" value="${loginUser.userId }"> <br>
+									<label for="userPwd" class="mr-sm-2">변경하실 비밀번호를 입력해주세요 </label> <input
+										type="password" class="form-control mb-2 mr-sm-2"
+										placeholder="변경하실 비밀번호를 입력해주세요" id="userPwd" name="userPwd" required="required">
+								</div>
+
+							
+								<div class="modal-footer">
+									<button type="submit" class="btn btn-primary" onclick="cha();">비밀번호변경</button>
+									<button type="button" class="btn btn-danger"
+										data-dismiss="modal">취소</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div> 
+                    
 
         </div>
     </div>
@@ -224,7 +240,6 @@
     	<input type="hidden" name="userId" value="${ loginUser.userId }">
 		    </form>
 
-					
 					
 					</div>
 				</div>
@@ -239,17 +254,31 @@
   
   <jsp:include page="../common/footer.jsp" />
   
+  
+  
   <script>
   
-  function goUpPwd(){
-	  
- 
-	window.open("updatePwdForm.me", "비밀번호변경하기" ,"width=500, height=500");
-  
-	  
-  }
-  
-  </script>
+			function cha() {
+				alert("비밀번호가 변경 되었습니다.");
+			}
+
+			function ask() {
+
+				if (confirm("정말 탈퇴하시겠습니까??") == true) {
+					$('#postForm').submit();
+				} else {
+
+					return;
+
+				}
+
+			}
+
+			function modify() {
+				alert("정보가 변경 되었습니다.");
+
+			}
+		</script>
 
 <!-- 다음 우편번호 api  -->
 	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
