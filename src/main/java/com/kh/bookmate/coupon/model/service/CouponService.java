@@ -31,6 +31,10 @@ public interface CouponService {
 
 	List<Coupon> selectCouponList(String keyword, RowBounds rb);
 
+	void updateCoupon(Coupon coupon);
+
+	void deleteCoupon(int couponCode);
+
 	
 	
 }

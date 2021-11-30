@@ -24,11 +24,8 @@ public class AddressBookServiceImpl implements AddressBookService {
 
 	@Override
 	public void insertAddressBook(AddressBook abook) {
-		int result = addressBookDao.insertAddressBook(sqlSession, abook);
-		if(result<0) {
-			
-			throw new RuntimeException("주소록 등록 실패!");
-		}
+		addressBookDao.insertAddressBook(sqlSession, abook);
+		
 		
 	}
 

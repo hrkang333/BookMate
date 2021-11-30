@@ -399,7 +399,7 @@ public class AdminController {
 		map.put("confirmStatus",confirmStatus);
 		map.put("clubNo",clubNo);
 		adminService.updateClubConfirm(map);
-		return "forward:/selectClubConfirmList.cl";
+		return "redirect:/selectClubConfirmList.cl";
 
 	}
 	
@@ -458,7 +458,7 @@ public class AdminController {
 	public String adminMainPage() {
 
 		
-		return "forward:/adminMainBookStock.st";
+		return "redirect:/adminMainBookStock.st";
 		
 	}
 	
@@ -528,7 +528,7 @@ public class AdminController {
 	@RequestMapping("updateUserRestore.ad")
 	public String updateUserRestore(String user_Id) {
 		adminService.updateUserRestore(user_Id);
-		return "forward:/selectBannedUser.ad";
+		return "redirect:/selectBannedUser.ad";
 		
 		
 	}
@@ -599,8 +599,27 @@ public class AdminController {
 		mo.addAttribute("couponPaging", couponPaging);
 		mo.addAttribute("couponList", couponList);
 		
+		
 		return "admin/adminCouponList";
 		
+	}
+	
+	@RequestMapping("updateCoupon.cu")
+	@ResponseBody
+	public String updateCoupon(Coupon formdata) {
+		
+		couponService.updateCoupon(formdata);
+		
+		return "pass";
+		
+	}
+	
+	@RequestMapping("deleteCoupon.cu")
+	public String deleteCoupon(int couponCode) {
+		
+		couponService.deleteCoupon(couponCode);
+		
+		return "redirect:/selectCouponList.cu";
 	}
 	
 }

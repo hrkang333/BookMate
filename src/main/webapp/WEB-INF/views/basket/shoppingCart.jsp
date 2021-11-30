@@ -32,6 +32,12 @@ text-align: center;
 font-weight: bold;
 font-size: 20px;
 }
+.mainTitleSpan{
+font-size: 35px;
+font-weight: bold;
+margin-left: 50px;
+margin-right: 50px;
+}
 </style>
 <script type="text/javascript">
 
@@ -179,6 +185,11 @@ function moveBookDetail(bookISBN) {
 		<main class="site-main" style="padding-top: 180px">
 
 	<hr>
+
+<div style="text-align: center; background-color: lightgray;">
+<span class="mainTitleSpan" style="font-size: 40px;color: olive;">장바구니</span><span class="mainTitleSpan"> 〉</span><span class="mainTitleSpan">결제</span><span class="mainTitleSpan"> 〉</span><span class="mainTitleSpan">주문완료</span>
+</div>
+<br><br><br>
 
 		<c:choose>
 		<c:when test="${requestScope.cartItemList != null}">

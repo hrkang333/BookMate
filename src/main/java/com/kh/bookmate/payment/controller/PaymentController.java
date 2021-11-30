@@ -14,6 +14,7 @@ import java.util.TimeZone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -67,7 +68,7 @@ public class PaymentController {
 	}
 	
 	@RequestMapping("insertPayment")
-	public String insertPayment(PaymentDetail paymentDetailList, Payment payment,ShoppingBasket basketList) {
+	public String insertPayment(PaymentDetail paymentDetailList, Payment payment,ShoppingBasket basketList,Model mo) {
 		
 		String latelyAddress = null;		
 		List<ShoppingBasket> deleteBasketList = basketList.getBasketList();
@@ -83,7 +84,8 @@ public class PaymentController {
 		}
 		paymentService.insertPayment(temp,list,deleteBasketList,latelyAddress);
 		
-		
+		mo.addAttribute("paymentDetailList", paymentDetailList.getPaymentDetailList());
+		mo.addAttribute("payment", payment);
 		return "payment/orderComplete";
 		
 		
@@ -199,7 +201,7 @@ public class PaymentController {
 	}
 	
 	@RequestMapping("insertSinglePayment")
-	public String insertSinglePayment(PaymentDetail paymentDetail, Payment payment) {
+	public String insertSinglePayment(PaymentDetail paymentDetail, Payment payment,Model mo) {
 		
 		String latelyAddress = null;
 		Payment temp = payment;
@@ -208,8 +210,10 @@ public class PaymentController {
 
 		latelyAddress = temp.getShippingName()+"_"+temp.getShippingAddress()+"_"+temp.getShippingPhone();
 		paymentService.insertSinglePayment(temp,paymentDetail,latelyAddress);
-		
-		
+		List<PaymentDetail> paymentDetailList = new ArrayList<PaymentDetail>();
+		paymentDetailList.add(paymentDetail);
+		mo.addAttribute("paymentDetailList", paymentDetailList);
+		mo.addAttribute("payment", payment);
 		return "payment/orderComplete";
 		
 		

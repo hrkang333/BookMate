@@ -55,12 +55,9 @@ public class BookServiceImpl implements BookService{
 	@Override
 	public void insertBook(Book book) {
 		
-		int reulst = bookDao.insertBook(sqlSession,book);
+		bookDao.insertBook(sqlSession,book);
 		
-		if(reulst < 0 ) {
-			throw new RuntimeException("도서 입고 오류");
-						
-		}
+	
 		
 	}
 
@@ -78,10 +75,8 @@ public class BookServiceImpl implements BookService{
 		
 		for(Book book : bookList) {
 			
-			int result = bookDao.sellDateInsert(sqlSession,book);
-			if(result < 0) {
-				throw new RuntimeException("판매부수 입력 오류"); 
-			}
+			bookDao.sellDateInsert(sqlSession,book);
+			
 			
 		}
 		
@@ -138,7 +133,7 @@ public class BookServiceImpl implements BookService{
 	@Override
 	public void updateBookPlusStock(Map<String, Object> map) {
 		int result=bookDao.updateBookPlusStock(sqlSession,map);
-		if(result < 0) {
+		if(result < 1) {
 			throw new RuntimeException("도서 재고 등록중 db 오류");
 		}
 		
@@ -150,7 +145,7 @@ public class BookServiceImpl implements BookService{
 		
 		int reulst = bookDao.updateBook(sqlSession,book);
 		
-		if(reulst < 0 ) {
+		if(reulst < 1 ) {
 			throw new RuntimeException("도서 수정 오류");
 						
 		}
