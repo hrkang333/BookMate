@@ -387,7 +387,10 @@ public class ClubController {
 	public String updateForm(int clubNo, Model model) {
 		
 		Club club = clubService.selectClub(clubNo);
-		club.setHostComment(club.getHostComment().replaceAll("<br>", "\r\n"));
+
+		if(club.getHostComment() != null) {  //안해주면 nullpointer 난다.
+			club.setHostComment(club.getHostComment().replaceAll("<br>", "\r\n"));
+		}
 		
 		model.addAttribute("club", club);
 		return "clubMypage/updateForm3_1";
