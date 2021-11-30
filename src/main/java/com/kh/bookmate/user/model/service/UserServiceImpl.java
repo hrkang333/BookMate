@@ -1,7 +1,5 @@
 package com.kh.bookmate.user.model.service;
 
-import java.util.HashMap;
-
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -32,41 +30,16 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
-
-
 	@Override
 	public String findId(User u) {
 		String findId = userDao.findId(sqlSession, u);
 		return findId;
 	}
 
-
-	// 회원정보 수정
-	@Override
-	public User updateUser(User user) throws Exception {
-		int result = userDao.updateUser(sqlSession, user);
-
-		if (result > 0) {
-			User loginUser = userDao.loginUser(sqlSession, user);
-			return loginUser;
-		} else {
-			throw new Exception("회원 수정 실패 ");
-		}
-	}
-
-	
-
 	//회원 탈퇴 
 	@Override
 	public void deleteUser(String userId){
-		
-		int result = userDao.deleteUser(sqlSession, userId);
-		
-//		if(result < 0) {
-//			throw new Exception("회원삭제 실패 ");
-//		}
-		
-		
+		userDao.deleteUser(sqlSession, userId);
 	}
 	
 	@Override
@@ -84,11 +57,26 @@ public class UserServiceImpl implements UserService {
 
 	
 	@Override
-	public void updatePwd(HashMap<String, String> map) {
-		 userDao.updatePwd(sqlSession, map);
+	public void updatePwd(User user) {
+		 userDao.updatePwd(sqlSession, user);
 		
 	}
 
-	
-	
+	@Override
+	public User updateUser(User user) {
+		
+		int result = userDao.updateUser(sqlSession, user);
+		//	memberDao.insertMember(sqlSession, m);
+			
+			//예외로 타고 있어서 부등호 반대로 해봄 result < 0 일부러 예외 발생 
+			if(result > 0) {
+				//로그인 멤버를 반환해서 다시 조회를해서 보여주면됨
+				User loginUser = userDao.loginUser(sqlSession, user);
+				
+				return loginUser;
+			}else {
+				throw new RuntimeException("회원수정 실패");
+
+			}
+	}
 }
