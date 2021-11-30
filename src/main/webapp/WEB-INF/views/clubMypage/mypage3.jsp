@@ -91,7 +91,13 @@
             }else if($("input:checkBox[name=clubNo]:checked").length > 1){
                 alert("수정할 독서모임은 한 개만 선택해 주세요")
             }else{
-                $("#mypageForm3").attr("action", "updateForm3_1.cl");
+            	var index = $("input:checkBox[name=clubNo]:checked").attr('id').slice(-1);
+            	var condition = $("#condition"+index).val();
+            	if(condition <= 3){
+            		$("#mypageForm3").attr("action", "updateForm3_1.cl").submit();
+            	}else{
+            		alert("독서모임이 모집중이거나 모집이 끝난 후에는 수정할 수 없습니다.");	
+            	}
             }
         } 
             
@@ -152,15 +158,18 @@
 	                                </tr>
 	                            </thead>
 	                            <tbody>
-	                            	<c:forEach items="${list}" var="c">
+	                            	<c:forEach items="${list}" var="c" varStatus="status">
 		                                <tr>
-		                                    <td><input name="clubNo" type="checkBox" value="${c.clubNo}"></td>
+		                                    <td><input id="clubNo${status.index}" name="clubNo" type="checkBox" value="${c.clubNo}"></td>
 		                                    <td><c:out value="${c.category}"/></td>
 		                                    <td><c:out value="${c.hostName}"/></td>
 		                                    <td><span class="clubTitle" onclick="goDetail(${c.clubNo}, ${c.condition});">${c.clubTitle}</span>
 		                                    	<p>(모집기간 : <c:out value="${c.clubStartDate}"/> ~ <c:out value="${c.clubEndDate}"/>)</p>
 		                                    </td>
-		                                    <td><c:out value="${c.onoffLine}"/></td>   
+		                                    <td>
+		                                    	<c:out value="${c.onoffLine}"/>
+		                                    	<input type="hidden" id="condition${status.index}" value="${c.condition}">
+		                                    </td>   
 		                                    <td>
 		                                    	<input name="clNo1" type="hidden" value="${c.clubNo}">
 			                                    <c:forEach items="${c.clubTimes}" var="ct">

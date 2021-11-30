@@ -215,7 +215,10 @@
     	//2. 저장하기
 	    function saveStep2(){
 	    	if($('#club2Form').find('input[name="clubTitle"]').val()){
-	        	$('#club2Form').submit();
+	    		
+	    		if(confirm("임시저장하시겠습니까? ")){
+	    			$('#club2Form').attr('action','saveStep2.cl').submit();  //저장하기부터 누르면 막혀서 이렇게 해줘야 한다.
+	    		}
 	        }else{
 	        	alert("독서모임 제목은 입력해주세요~")
 	        }

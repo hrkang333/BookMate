@@ -85,7 +85,7 @@
 
 .todayLi {
 	border: 1px solid #dadada;
-	margin: 15px !important;
+	margin: auto !important;
 	text-align: center !important;
 	padding: 27.5px;
 }
