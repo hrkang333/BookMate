@@ -27,10 +27,8 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
 	@Override
 	public void insertPaymentMethod(String user_Id) {
-		int result = paymentMethodDao.insertPaymentMethod(sqlSession,user_Id);
-		if(result < 0) {
-			throw new RuntimeException("저장된 결제수단 최초 생성 실패"); 
-		}
+		paymentMethodDao.insertPaymentMethod(sqlSession,user_Id);
+		
 		
 	}
 
@@ -50,7 +48,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 		if(paymentMethod.getMainPayment()==0) {
 			result2 = paymentMethodDao.updateMainMethod(sqlSession,PMDetail.getUser_Id());
 		}
-		if(paymentMethodDetailNo*result2 < 0) {
+		if(paymentMethodDetailNo*result2 < 1) {
 			throw new RuntimeException("결제 저장수단 등록 실패");
 		}
 		return paymentMethodDetailNo;

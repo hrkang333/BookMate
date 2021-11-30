@@ -37,11 +37,11 @@ public class BookReviewServiceImpl implements BookReviewService {
 	public void insertReview(BookReview bookReview, Book book,User user) {
 		
 		// TODO Auto-generated method stub
-		int result = bookReviewDao.insertReview(sqlSession,bookReview);
+		bookReviewDao.insertReview(sqlSession,bookReview);
 		int result2 = bookReviewDao.updateReviewWriter(sqlSession,bookReview);
 		int result3 = bookDao.updateBookRating(sqlSession,book);
-		int result4 = userDao.updatePoint(sqlSession,user);
-		if(result*result2*result3*result4 < 0) {
+		int result = userDao.updatePoint(sqlSession,user);
+		if(result*result2*result3 < 1) {
 			throw new RuntimeException("리뷰 등록 실패");
 		}
 	}
@@ -79,7 +79,7 @@ public class BookReviewServiceImpl implements BookReviewService {
 	@Override
 	public void updateReview(BookReview review) {
 		int result = bookReviewDao.updateReview(sqlSession,review);
-		if(result < 0) {
+		if(result < 1) {
 			throw new RuntimeException("리뷰 업데이트중 db 오류");
 		}
 		
@@ -93,9 +93,9 @@ public class BookReviewServiceImpl implements BookReviewService {
 		temp.setReviewNo(reviewReply.getReviewNo());
 		int result = bookReviewDao.updateReviewReplyInsert(sqlSession,temp);
 		tempReply.setReviewReplyIndex(temp.getReviewStatus());
-		int result2 = bookReviewDao.insertReviewReply(sqlSession,tempReply);
+		bookReviewDao.insertReviewReply(sqlSession,tempReply);
 		
-		if(result*result2 < 0) {
+		if(result < 1) {
 			throw new RuntimeException("리뷰 댓글 등록 db 오류");
 		}
 		
@@ -105,7 +105,7 @@ public class BookReviewServiceImpl implements BookReviewService {
 	public void deleteReply(BookReviewReply reviewReply) {
 		int result = bookReviewDao.deleteReply(sqlSession,reviewReply);
 		int result2 = bookReviewDao.updateDeleteReply(sqlSession,reviewReply);
-		if(result * result2 <0) {
+		if(result * result2 <1) {
 			throw new RuntimeException("댓글 삭제 db 오류");
 		}
 	}
@@ -113,7 +113,7 @@ public class BookReviewServiceImpl implements BookReviewService {
 	@Override
 	public void updateReply(BookReviewReply reviewReply) {
 		int result = bookReviewDao.updateReply(sqlSession,reviewReply);
-		if(result < 0) {
+		if(result < 1) {
 			throw new RuntimeException("리뷰 업데이트중 db 오류");
 		}
 		
@@ -122,10 +122,10 @@ public class BookReviewServiceImpl implements BookReviewService {
 
 	@Override
 	public void insertAnswer(BookReviewReply reviewReply) {
-		int result = bookReviewDao.insertAnswer(sqlSession,reviewReply);
-		int result2 = bookReviewDao.updateReplyAnswerInsert(sqlSession,reviewReply);
+		bookReviewDao.insertAnswer(sqlSession,reviewReply);
+		int result = bookReviewDao.updateReplyAnswerInsert(sqlSession,reviewReply);
 		
-		if(result*result2 <0 ) {
+		if(result <1 ) {
 			throw new RuntimeException("리뷰 답글 등록중 db오류");
 		}
 		
@@ -135,7 +135,7 @@ public class BookReviewServiceImpl implements BookReviewService {
 	public void deleteAnswer(BookReviewReply reviewReply) {
 		int result = bookReviewDao.deleteAnswer(sqlSession,reviewReply);
 		int result2 = bookReviewDao.updateReplyDeleteAnswer(sqlSession,reviewReply);
-		if(result * result2 <0) {
+		if(result * result2 <1) {
 			throw new RuntimeException("댓글 삭제 db 오류");
 		}
 	}

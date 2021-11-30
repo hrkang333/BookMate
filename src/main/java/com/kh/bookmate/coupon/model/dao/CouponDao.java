@@ -48,5 +48,15 @@ public class CouponDao {
 		return 	sqlSession.selectList("couponMapper.selectCouponList", keyword,rb);
 	}
 
+	public int updateCoupon(SqlSessionTemplate sqlSession, Coupon coupon) {
+		// TODO Auto-generated method stub
+		return sqlSession.update("couponMapper.updateCoupon", coupon);
+	}
+
+	public int deleteCoupon(SqlSessionTemplate sqlSession, int couponCode) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("couponMapper.deleteCoupon", couponCode);
+	}
+
  
 }

@@ -82,10 +82,8 @@ public class BookQnaServiceImpl implements BookQnaService {
 
 	@Override
 	public void qnaInsert(BookQna bookQna) {
-		int result = bookQnaDao.qnaInsert(sqlSession,bookQna);
-		if(result < 0) {
-			throw new RuntimeException("qna 등록중 db오류");
-		}
+		bookQnaDao.qnaInsert(sqlSession,bookQna);
+		
 		
 	}
 
@@ -93,7 +91,7 @@ public class BookQnaServiceImpl implements BookQnaService {
 	public void qnaUpdate(BookQna bookQna) {
 		// TODO Auto-generated method stub
 		int result = bookQnaDao.qnaUpdate(sqlSession,bookQna);
-		if(result < 0) {
+		if(result < 1) {
 			throw new RuntimeException("qna 수정중 db오류");
 		}
 	}
@@ -101,7 +99,7 @@ public class BookQnaServiceImpl implements BookQnaService {
 	@Override
 	public void qnaDelete(int qnaNo) {
 		int result = bookQnaDao.qnaDelete(sqlSession,qnaNo);
-		if(result < 0) {
+		if(result < 1) {
 			throw new RuntimeException("qna 삭제중 db오류");
 		}
 		
@@ -154,12 +152,10 @@ public class BookQnaServiceImpl implements BookQnaService {
 
 	@Override
 	public void intsertQnaAnswer(BookQnaAnswer qnaAnswer) {
-		int result = bookQnaDao.intsertQnaAnswer(sqlSession,qnaAnswer);
-		if(result < 0) {
-			throw new RuntimeException("qna 답변 등록중 db오류");
-		}
-		int result2 = bookQnaDao.updateQnaInsertAnswer(sqlSession,qnaAnswer.getQnaNo());
-		if(result2 < 0) {
+		bookQnaDao.intsertQnaAnswer(sqlSession,qnaAnswer);
+		
+		int result = bookQnaDao.updateQnaInsertAnswer(sqlSession,qnaAnswer.getQnaNo());
+		if(result < 1) {
 			throw new RuntimeException("qna 답변 등록 업데이트중 db오류");
 		}
 	}
@@ -167,7 +163,7 @@ public class BookQnaServiceImpl implements BookQnaService {
 	@Override
 	public void updateQnaAnswer(BookQnaAnswer qnaAnswer) {
 		int result = bookQnaDao.updateQnaAnswer(sqlSession,qnaAnswer);
-		if(result < 0) {
+		if(result < 1) {
 			throw new RuntimeException("qna 답변 등록중 db오류");
 		}
 		
@@ -176,11 +172,11 @@ public class BookQnaServiceImpl implements BookQnaService {
 	@Override
 	public void deleteQnaAnswer(int qnaNo) {
 		int result = bookQnaDao.deleteQnaAnswer(sqlSession,qnaNo);
-		if(result < 0) {
+		if(result < 1) {
 			throw new RuntimeException("qna 답변 삭제중 db오류");
 		}
 		int result2 = bookQnaDao.updateQnaDeleteAnswer(sqlSession,qnaNo);
-		if(result2 < 0) {
+		if(result2 < 1) {
 			throw new RuntimeException("qna 답변 삭제 업데이트중 db오류");
 		}
 		

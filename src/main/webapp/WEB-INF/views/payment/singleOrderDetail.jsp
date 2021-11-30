@@ -114,6 +114,12 @@ padding-right: 10px;
 font-size: 25px;
 font-weight: bold;
 }
+.mainTitleSpan{
+font-size: 35px;
+font-weight: bold;
+margin-left: 50px;
+margin-right: 50px;
+}
 </style>
 <script
 	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -401,7 +407,7 @@ font-weight: bold;
 				user_Id : $('#user_Id').val()
 			},
 			success : function(map) {
-				console.log(map['pop'].bankAccount)
+				console.log(map['pop'].bankAccount);
 				console.log(map['11'])
 			}
 			
@@ -567,11 +573,10 @@ font-weight: bold;
 	   
 	   function inputPhonePwd() {
 		if($('#inputPhonePwd').val()=='1111'){
-			alert("성공")
 			$('#closeModal3').click();
 			$('#insertPaymentForm').submit();
 		}else{
-			alert("휴대폰 결제 번호를 다시 확인해 주십시오")
+			alert("휴대폰 결제 번호를 다시 확인해 주십시오\n테스트 설정비밀번호 1111")
 			return false;
 		}
 	}
@@ -630,7 +635,10 @@ font-weight: bold;
 		<br>
 		<hr>
 		<br>
-		<br>
+			<div style="text-align: center; background-color: lightgray;">
+<span class="mainTitleSpan" >장바구니</span><span class="mainTitleSpan"> 〉</span><span class="mainTitleSpan" style="font-size: 40px;color: olive;">결제</span><span class="mainTitleSpan"> 〉</span><span class="mainTitleSpan">주문완료</span>
+</div>
+<br><br><br>
 		<div id="paymentWrap" style="display: flex;">
 			<div id="paymentInnerWrap_1">
 				<div id="userAccountWrap" class="paymentInnerWrap_1">
@@ -642,7 +650,7 @@ font-weight: bold;
 					<input type="hidden" id="user_Id" name="user_Id" value="${sessionScope.loginUser.userId}">
 					<input type="hidden" id="usePointInput_2" name="usePoint" value="0" >
 					<input type="hidden" name="totalGetPoint" value="${requestScope.order.totalGetPoint}">
-					<input type="hidden" id="totalPayCost" name="totalPayCost" value="${requestScope.order.totalCost}">
+					<input type="hidden" id="totalPayCost" name="totalPayCost" value="${requestScope.order.totalCost+requestScope.order.deliveryCost}">
 					<input type="hidden" name="deliveryCost" value="${requestScope.order.deliveryCost}">
 					<input type="hidden" id="paymentMethod" name="paymentMethod" value="">
 				<!-- 	<input type="hidden" id="" name="deliveryCost" value=""> -->
@@ -906,7 +914,7 @@ font-weight: bold;
 					<div id="paymentInfo">
 						<div
 							style="text-align: center; font-weight: bold; font-size: 20px;">
-							<br> xxxx월 xx일 출고 예정
+							<br> <fmt:formatDate value="${requestScope.orderItem.deliveryDate}" pattern="yyyy년 MM월 dd일"/> 출고 예정
 						</div>
 						<br>
 						<div>상품별 출고일정이 다른경우 가장 늦은 상품 기준으로 함께 출고됩니다.</div>

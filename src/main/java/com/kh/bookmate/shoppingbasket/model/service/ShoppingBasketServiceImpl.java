@@ -22,12 +22,8 @@ public class ShoppingBasketServiceImpl implements ShoppingBasketService {
 	@Override
 	public void insertBasket(ShoppingBasket basket) {
 
-
-		int result = shoppingBasketDao.insertBasket(sqlSession,basket);
+		shoppingBasketDao.insertBasket(sqlSession,basket);
 		
-		if(result < 0) {
-			throw new RuntimeException("장바구니 등록 실패");
-		}
 		
 	}
 

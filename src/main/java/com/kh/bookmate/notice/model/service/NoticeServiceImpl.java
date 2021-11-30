@@ -50,8 +50,9 @@ public class NoticeServiceImpl implements NoticeService {
 
 	@Override
 	public void insertNotice(Notice notice, String path) {
-		int result = noticeDao.insertNotice(sqlSession,notice);
-		if(result<0) {
+		try {
+		noticeDao.insertNotice(sqlSession,notice);
+		}catch (Exception e) {
 			if(notice.getNoticeImgStatus()==1) {
 				new File(path).delete();
 			}
@@ -75,7 +76,7 @@ public class NoticeServiceImpl implements NoticeService {
 		
 		int result = noticeDao.updateNotice(sqlSession,notice);
 		
-		if(result<0) {
+		if(result<1) {
 			if(newNoticeImgName!=null) {
 				new File(path).delete();
 			}
@@ -98,7 +99,7 @@ public class NoticeServiceImpl implements NoticeService {
 		
 		int result = noticeDao.deleteNotice(sqlSession,noticeNo);
 		
-		if(result<0) {
+		if(result<1) {
 			throw new RuntimeException("공지사항  삭제 db 오류");
 			
 		}

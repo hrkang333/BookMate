@@ -26,5 +26,14 @@ SELECT COUNT(*) FROM COUPON WHERE COUPONCODE LIKE #{keyword}
 <select id="selectCouponList" resultType="Coupon">
 SELECT * FROM COUPON WHERE COUPONCODE LIKE #{keyword}
 </select>
+
+<update id="updateCoupon" parameterType="Coupon">
+UPDATE COUPON SET COUPONPOINT =#{couponPoint} ,COUPONSTARTDATE =#{couponStartDate} , COUPONENDDATE = #{couponEndDate} WHERE COUPONCODE = #{couponCode}
+</update>
+
+<delete id="deleteCoupon">
+DELETE FROM COUPON WHERE COUPONCODE = #{couponCode}
+</delete>
+
 </mapper>
 

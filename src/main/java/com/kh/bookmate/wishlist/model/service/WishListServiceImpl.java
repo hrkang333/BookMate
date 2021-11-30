@@ -24,7 +24,7 @@ public class WishListServiceImpl implements WishListService {
 
 	@Override
 	public void updateWishList(WishList wish, int wishListStatus) {
-		int result = -1;
+		int result = 0;
 		if(wishListStatus==1) {
 
 			result = wishListDao.insertWishList(sqlSession,wish);
@@ -32,7 +32,7 @@ public class WishListServiceImpl implements WishListService {
 
 			result = wishListDao.deleteWishList(sqlSession,wish);
 		}
-		if(result < 0) {
+		if(result < 1) {
 			throw new RuntimeException("찜목록 업데이트중 db 오류");
 		}
 	}

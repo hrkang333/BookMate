@@ -72,16 +72,51 @@ function changeSearch() {
 	movePage(1);
 }
 
-function userRestore(user_Id){
-	if(confirm("주의! 회원 자격을 변동하는 중입니다!")){
-		if(confirm("정말 "+user_Id+" 회원의 자격정지를 해제 하시겠습니까?")){
-			$('#user_Id').val(user_Id);
-			$('#updateUserRestoreForm').submit();
+function deleteCoupon(couponCode){
+	if(confirm("주의! 쿠폰을 삭제하는 중입니다!")){
+		if(confirm("정말 "+couponCode+" 쿠폰을 삭제하시겠습니까?")){
+			$('#delCouponCode').val(couponCode);
+			$('#deleteCouponForm').submit();
 		}
 	}
 }
 function updateCouponForm(index) {
+	$('.updateTr').css('display','none');
 	$('#updateTr'+index).css('display','');
+}
+function cancleUpdate() {
+	$('.updateTr').css('display','none');
+}
+
+function updateCoupon(index) {
+	$('#updateTr'+index).find('input[type!=button]').each(function(){
+	    if(!$(this).val()) {
+	        alert("모든 항목을 작성하지 않으셨습니다.")
+	        $(this).focus();
+	        return false;
+	    }
+	 });
+	
+	var formdata = $('#updateForm'+index).serialize();
+	alert(formdata)
+	$.ajax({
+	
+		url : "updateCoupon.cu",
+		type : "post",
+        cache: false,
+		data : formdata,
+		success : function(str) {
+			$('#couponPointSpan'+index).text($('#updateTr'+index+' #couponPoint').val())
+			$('#couponStartDateSpan'+index).text($('#updateTr'+index+' #couponStartDate').val())
+			$('#couponEndDateSpan'+index).text($('#updateTr'+index+' #couponEndDate').val())
+			$('.updateTr').css('display','none');
+		},
+		error : function(e) {
+			alert("쿠폰 업데이트중 ajax 오류")
+		}
+		
+	})
+	
 }
 
 </script>
@@ -99,10 +134,10 @@ function updateCouponForm(index) {
 <input type="hidden" id="searchKeyword" name="searchKeyword" value="${requestScope.searchKeyword}">
 <input type="hidden" id="nowPage" name="nowPage" value="${requestScope.nowPage}">
 </form>
-<form action="updateCoupon.cu" method="post" id="updateCouponForm">
-<input type="hidden" name="user_Id" id="user_Id">
+<form action="deleteCoupon.cu" method="post" id="deleteCouponForm">
+<input type="hidden" name="couponCode" id="delCouponCode">
 </form>
-<span style="font-size: 30px; font-weight: bold;">정지 회원 리스트</span>
+<span style="font-size: 30px; font-weight: bold;">쿠폰 리스트</span>
 <hr>
 <div style="display: flex;">
 <div style="margin-left: auto;"> 쿠폰 코드로 검색
@@ -127,24 +162,26 @@ function updateCouponForm(index) {
             	<c:forEach items="${requestScope.couponList}" var="list" varStatus="status">
                 <tr>
                     <td>${list.couponCode}</td>
-                    <td>${list.couponPoint}</td>
-                    <td><fmt:formatDate value="${list.couponStartDate}" pattern="yyyy-MM-dd"/></td>
-                    <td><fmt:formatDate value="${list.couponEndDate}" pattern="yyyy-MM-dd"/></td>
+                    <td><span id="couponPointSpan${status.index}">${list.couponPoint}</span></td>
+                    <td><span id="couponStartDateSpan${status.index}"><fmt:formatDate value="${list.couponStartDate}" pattern="yyyy-MM-dd"/></span></td>
+                    <td><span id="couponEndDateSpan${status.index}"><fmt:formatDate value="${list.couponEndDate}" pattern="yyyy-MM-dd"/></span></td>
                     
                     <td>
-                    <button type="button" class="btn btn-secondary btn-sm" onclick="updateCouponForm(${status.index})">수정</button><button type="button" class="btn btn-secondary btn-sm" onclick="">삭제</button>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="updateCouponForm(${status.index})">수정</button>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="deleteCoupon(${list.couponCode})">삭제</button>
                     </td>
                 </tr>
                 
-                <tr id="updateTr${status.index}" style="display:none; background-color: appworkspace;;;">
+                <tr id="updateTr${status.index}" class="updateTr" style="display:none; background-color: silver;">
                 
                  <form action="updateCoupon" id="updateForm${status.index}" method="post">
-                	<td><input type="hidden" name="couponCode" value="${list.couponCode}">${list.couponCode}</td>
-                    <td><input type="number" name="couponPoint" value="${list.couponPoint}" style="width: 100px"></td>
+                	<td><input type="hidden" name="couponCode" id="couponCode" value="${list.couponCode}">${list.couponCode}</td>
+                    <td><input type="number" name="couponPoint" id="couponPoint" value="${list.couponPoint}" style="width: 100px"></td>
                     <td><input type="date" name="couponStartDate" id="couponStartDate" value="<fmt:formatDate value='${list.couponStartDate}' pattern='yyyy-MM-dd'/>"></td>
                   	<td><input type="date" name="couponEndDate" id="couponEndDate" value="<fmt:formatDate value='${list.couponEndDate}' pattern='yyyy-MM-dd'/>"></td>
                   </form>
-                  <td><button type="button" onclick="updateCoupon(${status.index})">수정 등록</button></td>
+                  <td><button type="button" class="btn btn-secondary btn-sm" onclick="updateCoupon(${status.index})">등록</button>
+                  <button type="button" class="btn btn-secondary btn-sm" onclick="cancleUpdate()">취소</button></td>
                 </tr>
                 
                </c:forEach> 	

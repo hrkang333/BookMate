@@ -102,6 +102,23 @@ public class CouponServiceImpl implements CouponService {
 		return couponDao.selectCouponList(sqlSession, keyword,rb);
 	}
 
+	@Override
+	public void updateCoupon(Coupon coupon) {
+		int result = couponDao.updateCoupon(sqlSession,coupon);
+		if(result < 1) {
+			throw new RuntimeException("쿠폰 수정중 db 오류");
+		}
+		
+	}
+
+	@Override
+	public void deleteCoupon(int couponCode) {
+		int result = couponDao.deleteCoupon(sqlSession,couponCode);
+		if(result < 1) {
+			throw new RuntimeException("쿠폰 삭제중 db 오류");
+		}
+	}
+
 	
 
 	

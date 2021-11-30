@@ -41,7 +41,7 @@ public class AdminServiceImpl implements AdminService {
 		
 		
 		int result =  adminDao.updateClubConfirm(sqlSession,map);
-		if(result<0) {
+		if(result<1) {
 			throw new RuntimeException("독서모임 승인업데이트중 db 오류");
 		}
 		
@@ -89,7 +89,7 @@ public class AdminServiceImpl implements AdminService {
 
 		
 		int result =  adminDao.updateUserRestore(sqlSession,user_Id);
-		if(result<0) {
+		if(result<1) {
 			throw new RuntimeException("유저 정지 해제 업데이트중 db 오류");
 		}
 	}
@@ -103,7 +103,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public void updateUserBan(String user_Id) {
 		int result =  adminDao.updateUserBan(sqlSession,user_Id);
-		if(result<0) {
+		if(result<1) {
 			throw new RuntimeException("유저 자격 정지 업데이트중 db 오류");
 		}
 		
