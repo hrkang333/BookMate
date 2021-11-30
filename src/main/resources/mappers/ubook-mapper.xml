@@ -40,7 +40,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM UBOOK
-		WHERE UBOOK_STATUS = 'Y'
+		WHERE UB_CATEGORY = #{ubCategory}
+		AND UBOOK_STATUS = 'Y'
 		AND UBOOK_STOCK != 0
 	</select>
 	

@@ -118,8 +118,8 @@ public class UbookDao {
 		return (ArrayList)sqlSession.selectList("ubookMapper.selectRowPriceBookList");
 	}
 
-	public int selectListCount(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("ubookMapper.selectListCount");
+	public int selectListCount(SqlSessionTemplate sqlSession, int ubCategory) {
+		return sqlSession.selectOne("ubookMapper.selectListCount", ubCategory);
 	}
 
 	public int deleteQna(SqlSessionTemplate sqlSession, int qnaNo) {

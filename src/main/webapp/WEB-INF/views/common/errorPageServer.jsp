@@ -4,13 +4,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>책구메이트 - 에러</title>
+<link rel="icon" href="resources/img/logo1.png" type="image/png">
 </head>
 <body>
 	<jsp:include page="menubar.jsp"/>
 	
 	<br>
-	<div align="center">	
+	<div align="center" style="margin-top: 230px;">	
 		<br><br>
 		<h1 style="font-weight:bold">${ msg }</h1>
 		<h5 style="color: red;">${ requestScope['javax.servlet.error.message'] }</h2>

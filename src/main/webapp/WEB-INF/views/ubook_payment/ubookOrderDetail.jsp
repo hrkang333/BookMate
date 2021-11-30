@@ -630,8 +630,9 @@ cursor: pointer;
 					<div id="userAccountDiv">
 						<input type="text" placeholder="이름"
 							value="${requestScope.order.shippingNameUb}" name="shippingNameUb"> <input
-							type="button" onclick="daumPostcode()" value="새 주소 입력"> <input
-							type="button" onclick="" value="주소록 불러오기"> <br>
+							type="button" onclick="daumPostcode()" value="새 주소 입력"> 
+							<!-- <input
+							type="button" onclick="" value="주소록 불러오기"> --> <br>
 						<br> <input type="text" id="postcode" placeholder="우편번호"
 							value="${requestScope.order.shippingPostCodeUb}" name="shippingPostCodeUb"><br>
 						<input type="text" id="address" placeholder="주소"

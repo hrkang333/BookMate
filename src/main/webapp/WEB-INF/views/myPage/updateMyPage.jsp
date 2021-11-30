@@ -94,7 +94,37 @@
         <div class="innerOuter">
             <h2>내 정보 수정하기 </h2>
             <br>
+<a data-toggle="modal" data-target="#updatePwd">비밀번호변경하기 </a> 
+<div class="modal fade" id="updatePwd" style="margin-left: 815px; margin-top: 518px; width: 300px; height: 400px;">
+					<div class="modal-dialog modal-sm">
+						<div class="modal-content">
+						
+							<div class="modal-header">
+								<h4 class="modal-title">Login</h4>
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+							</div>
 
+							<form action="updatePwd.me" method="post">
+								
+								<div class="modal-body">
+									<label for="userId" class="mr-sm-2">ID :</label> <input
+										type="text" class="form-control mb-2 mr-sm-2"
+										placeholder="아이디를 입력해주세요" id="userId" name="userId"> <br>
+									<label for="userPwd" class="mr-sm-2">Password:</label> <input
+										type="password" class="form-control mb-2 mr-sm-2"
+										placeholder="비밀번호를 입력해주세요" id="newPwd" name="newPwd">
+								</div>
+
+							
+								<div class="modal-footer">
+									<button type="submit" class="btn btn-primary">로그인</button>
+									<button type="button" class="btn btn-danger"
+										data-dismiss="modal">취소</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
             <form action="update.me" method="post">
                 <div class="form-group">
                     <label>* ID :</label>

@@ -5,13 +5,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>책구메이트 - 에러</title>
+<link rel="icon" href="resources/img/logo1.png" type="image/png">
 </head>
 <body>
 	<jsp:include page="menubar.jsp"/>
 	
 	<br>
-	<div align="center">	
+	<div align="center" style="margin-top: 230px;">	
 
 		<c:if test="${requestScope['javax.servlet.error.status_code'] == 404}">
 			<p>요청하신 페이지를 찾을 수 없습니다.</p>    

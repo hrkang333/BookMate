@@ -69,27 +69,6 @@ public class UbookController {
 		
 		return "ubook/ubookMain";
 	}
-	/*
-	//카테고리 리스트 - 소설/시/에세이
-	@RequestMapping("ubookCateList1.ub")
-	public String ubookCateList1(HttpServletRequest request, Model model) {	
-		//11.4 - 해결... (원인 : .getUserId() 때문이였음 -> if문으로 비교할 때에는 .getUserId()없이 해야한다)
-		if((User)request.getSession().getAttribute("loginUser") != null) {
-			String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
-			Seller s = sellerService.loginSeller(userId);
-			//System.out.println("셀러?" + s.getSellerNo());
-			model.addAttribute("s", s);
-		}
-		List<Ubook> list = ubookService.ubookCateList1();
-		model.addAttribute("list", list);
-		for(int i=0; i < list.size(); i++) {
-			Ubook str = list.get(i);
-			System.out.println("셀러 번호 보이려나 모르겠네" + str.getBSellerNo());
-		}
-		
-		return "ubook/ubookCateList1";
-	}*/
-	
 	//판매자 페이지 - 내가 등록한 도서 리스트
 	@RequestMapping("ubookList.ub")
 	@ResponseBody
@@ -138,7 +117,8 @@ public class UbookController {
 			//System.out.println("셀러?" + s.getSellerNo());
 			model.addAttribute("s", s);
 		}
-		int listCount = ubookService.selectListCount();
+		//int listCount = ubookService.selectListCount();
+		int listCount = ubookService.selectListCount(ubCategory);
 		System.out.println(listCount);
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 3, 5);
