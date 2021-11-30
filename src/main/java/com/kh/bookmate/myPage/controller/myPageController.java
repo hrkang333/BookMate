@@ -106,7 +106,6 @@ public class myPageController {
 		return "myPage/updateMyPage"; 
 	}
 	
-
 	//회원정보 수정 
 	@RequestMapping("update.me") 
 	public String updateUser(@ModelAttribute User user, @RequestParam("post") String post,
@@ -383,8 +382,6 @@ public class myPageController {
 
 		UseCoupon uc = new UseCoupon(user_Id, couponCode); //usecoupon에 인서트 해줄려 이거 두개만 찍히니까		
 		couponService.selectUseCoupon(uc); 
-		
-		//System.out.println(uc+"----------------uc는 잘들고오니? ");
 	
 		Coupon cu = couponService.selectCoupon(couponCode); // 쿠폰 코드로 쿠폰객체 들고오기 
 		couponService.updateCoupon(uc,cu); //유저아이디랑, 쿠폰코드 받아옴 
@@ -448,7 +445,6 @@ public class myPageController {
 	
 		List<AddressBook> myAdressBookList = myPageService.selectMyAddressList(loginUser);
 		model.addAttribute("myAdressBookList",myAdressBookList);
-		
 		
 		return"myPage/myAddressManageList";
 	}
