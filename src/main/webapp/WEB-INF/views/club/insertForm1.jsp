@@ -297,7 +297,7 @@
          //$('#hostEnrollForm').attr('action','javascript://') 막은 후 작동안함,,
          function saveStep1(){
          	if($('#hostEnrollForm').find('input[name="hostName"]').val()){ 
-         		if("임시저장하시겠습니까?"){
+         		if(confirm("임시저장하시겠습니까?")){
          			$('#hostEnrollForm').attr('action','saveStep1.cl');
              		$('#hostEnrollForm').submit();
          		}
