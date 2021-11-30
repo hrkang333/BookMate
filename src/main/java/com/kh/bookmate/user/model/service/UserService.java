@@ -18,7 +18,7 @@ public interface UserService {
 	String findPwd(User u);
 
 
-	User updateUser(User user) throws Exception;
+//	User updateUser(User user) throws Exception;
 
 
 
@@ -28,7 +28,9 @@ public interface UserService {
 
 	User selectUserPoint(String loginUser);
 
-	void updatePwd(HashMap<String, String> map);
+	void updatePwd(User user);
+
+	User updateUser(User user);
 
 
 }

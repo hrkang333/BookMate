@@ -74,9 +74,11 @@ public class UserDao {
 		
 	}
 
-	public void updatePwd(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
-		sqlSession.update("userMapper.updatePwd",map);
-	} 
+	public void updatePwd(SqlSessionTemplate sqlSession,User user) {
+		sqlSession.update("userMapper.updatePwd",user);
+	}
+
+	
 
 
 }

@@ -89,10 +89,10 @@
 										<li class="page-item"><a class="page-link"
 											href="cancelList.me?currentPage=${ pi.currentPage-1 }">이전</a></li>
 									</c:when>
-									<c:otherwise>
+								 <c:otherwise>
 										<li class="page-item disabled"><a class="page-link"
 											href="">이전</a></li>
-									</c:otherwise>
+									</c:otherwise> 
 								</c:choose>
 
 								<c:forEach begin="${ pi.startPage }" end="${ pi.endPage }"
@@ -126,6 +126,7 @@
 				</div>
 			</div>
 				</div></section>
+	   <jsp:include page="../common/footer.jsp" />
 
 
 

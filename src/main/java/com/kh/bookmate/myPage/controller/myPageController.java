@@ -125,40 +125,31 @@ public class myPageController {
 		User userInfo = userService.updateUser(user);
 		model.addAttribute("loginUser", userInfo); 
 
-
-		session.setAttribute("msg", "회원정보 수정 성공");
 				return "myPage/updateMyPage"; 
 	}
 	
-	@RequestMapping("updatePwdForm.me")
-	public String updatePw() {
-		return "user/updatePwd"; 
-	}
 	
 	
 	//회원 비밀번호 변경하기
 	@RequestMapping("updatePwd.me")
 	public String UpdateMemberPwd(@ModelAttribute User user,HttpSession session,
-			@RequestParam("userPwd") String pwd,
-			@RequestParam("newPwd") String newPwd, Model model) {
+			@RequestParam("userPwd") String userPwd, Model model) {
 
+		//스프링엔 암호 복구화가 없다 
+		
 		String userId = user.getUserId(); 
-		String userPwd = user.getUserPwd();
 
-		String encPwd = bCryptPasswordEncoder.encode(newPwd);
+		String encPwd = bCryptPasswordEncoder.encode(userPwd);
+		
+		user.setUserId(userId);
+		user.setUserPwd(encPwd);
+		
+		userService.updatePwd(user);
 
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("userId", userId);
-		map.put("newPwd", encPwd);
-
-		if (bCryptPasswordEncoder.matches(pwd, userPwd)) {
-			//새로 입력한 비번과, 유저의 기존 패스워드가 같다면 업뎃  
-			userService.updatePwd(map);
-		}
 		return "redirect:myPage.me";
 		
 	}
-	
+
 	
 	//회원 탈퇴 
 	@RequestMapping("delete.me")
@@ -204,8 +195,7 @@ public class myPageController {
 
 		List<PaymentDetail> myOrderListDetail = paymentService.selectMyOrderListDetail(paymentNo);
 //		Book bookList = bookService.selectBook(bookISBN);
-		
-		
+	
 		model.addAttribute("myOrderListDetail",myOrderListDetail);
 //		model.addAttribute("bookISBN",bookISBN);
 		return "myPage/myOrderListDetail";
@@ -319,7 +309,6 @@ public class myPageController {
 
 		
 		String loginUser = ((User) session.getAttribute("loginUser")).getUserId();
-		//System.out.println("=======================" + loginUser);
 		List<PaymentDetail> rxList = paymentService.selectReAndExList(loginUser,pi);
 
 		model.addAttribute("rxList", rxList);
@@ -364,9 +353,6 @@ public class myPageController {
 				
 		return "redirect:selectMyOrderListDetail.ub";
 	}
-
-	
-	
 
 	
 	//쿠폰 조회하기 
