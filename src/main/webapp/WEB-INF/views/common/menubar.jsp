@@ -89,7 +89,7 @@
 					<label>${ sessionScope.loginUser.userName }님 환영합니다</label> &nbsp;&nbsp;|
 					                <a href="selectMyOrderList.me">마이페이지</a> |
 									<a href="logout.us">로그아웃</a> |
-									<a href="shoppingCart.sc">장바구니</a> |
+									<a href="shoppingCart.sc?user_Id=${ sessionScope.loginUser.userId }">장바구니</a> |
 									<a href="noticeList.no?isUser=1">공지사항</a>
 				</c:if>
 
