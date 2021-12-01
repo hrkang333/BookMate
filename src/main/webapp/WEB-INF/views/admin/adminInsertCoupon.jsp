@@ -41,10 +41,15 @@ font-weight: bold;
 }
 </style>
 <script>
-	$(document).ready(function() {
-		$('#startDate').val(new Date().toISOString().slice(0, 10));
-
-	})
+	
+	$(function() {
+	$('#startDate').val(new Date().toISOString().slice(0, 10));
+	var loginUserId = "${sessionScope.loginUser.userId}"
+	if(loginUserId!='admin'){
+		alert("잘못된 접근입니다.")
+		location.href = '${pageContext.servletContext.contextPath }/';
+	}
+})
 	$.fn.serializeObject = function () {
 		"use strict";
 

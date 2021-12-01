@@ -54,6 +54,11 @@ font-weight: bold;
 <script>
 
 $(function () {
+	var loginUserId = "${sessionScope.loginUser.userId}"
+		if(loginUserId!='admin'){
+			alert("잘못된 접근입니다.")
+			location.href = '${pageContext.servletContext.contextPath }/';
+		}
 	var noticeCategory = "${requestScope.notice.noticeCategory}";
 	$('input[name=noticeCategory][value="'+noticeCategory+'"]').prop('checked','ture')
 	
@@ -106,7 +111,8 @@ function imgCheck(img) {
     function deleteNoticeImg() {
 		if(confirm("수정중인 공지사항의 이미지를 삭제합니다")){
 			$('#deleteImg').val(1)
-			$('#imgTr').remove();
+			$('#noticeImg').val("");
+			$('#noticeImg').css("display","none");
 			$('#preViewImg').attr('src','');
 		}
 	}

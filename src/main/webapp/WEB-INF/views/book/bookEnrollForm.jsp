@@ -27,7 +27,13 @@ font-weight: bold;
 </style>
 <script type="text/javascript">
 var confirmISBN = 0;
-
+$(function() {
+	var loginUserId = "${sessionScope.loginUser.userId}"
+	if(loginUserId!='admin'){
+		alert("잘못된 접근입니다.")
+		location.href = '${pageContext.servletContext.contextPath }/';
+	}
+})
 function imgCheck(img,inputId) {
 	
 	if(img.files&&img.files[0]){
@@ -128,7 +134,6 @@ function checkText(obj) {
 function changeISBN() {
 	
 	confirmISBN=0;
-	alert(confirmISBN);
 	$('#checkedISBN').html("ISBN 중복확인을 해주십시오");
 }
 function checkISBN() {

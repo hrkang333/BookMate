@@ -28,8 +28,12 @@ font-weight: bold;
 </style>
 <script type="text/javascript">
 
-
 $(function() {	
+	var loginUserId = "${sessionScope.loginUser.userId}"
+		if(loginUserId!='admin'){
+			alert("잘못된 접근입니다.")
+			location.href = '${pageContext.servletContext.contextPath }/';
+		}
 	$('input[name=bookCategory][value=${requestScope.book.bookCategory}]').prop('checked',true);
 	$('input[name=bookSubCategory][value=${requestScope.book.bookSubCategory}]').prop('checked',true);
 })

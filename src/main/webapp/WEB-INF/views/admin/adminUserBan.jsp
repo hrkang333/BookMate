@@ -50,6 +50,11 @@ font-weight: bold;
 <script type="text/javascript">
 
 $(function() {
+	var loginUserId = "${sessionScope.loginUser.userId}"
+		if(loginUserId!='admin'){
+			alert("잘못된 접근입니다.")
+			location.href = '${pageContext.servletContext.contextPath }/';
+	}
 	var check = parseInt("${requestScope.check}");
 	if(check==1){
 		alert("회원 자격정지가 성공적으로 끝났습니다.")

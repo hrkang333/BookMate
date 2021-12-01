@@ -50,7 +50,13 @@ font-weight: bold;
 <script type="text/javascript">
 
 var lastPage = parseInt("${requestScope.A_BUserListPaging.lastPage}")
-
+$(function() {
+	var loginUserId = "${sessionScope.loginUser.userId}"
+	if(loginUserId!='admin'){
+		alert("잘못된 접근입니다.")
+		location.href = '${pageContext.servletContext.contextPath }/';
+	}
+})
 function movePage(nowPage) {
 	$('#nowPage').val(nowPage);
 	$('#pageMoveForm').submit();
@@ -98,7 +104,6 @@ function updateCoupon(index) {
 	 });
 	
 	var formdata = $('#updateForm'+index).serialize();
-	alert(formdata)
 	$.ajax({
 	
 		url : "updateCoupon.cu",

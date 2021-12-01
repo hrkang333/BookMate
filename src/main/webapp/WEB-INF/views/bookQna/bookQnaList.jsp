@@ -50,6 +50,13 @@ font-weight: bold;
 <script type="text/javascript">
 
 var lastPage = parseInt("${requestScope.A_QnaPaging.lastPage}")
+$(function() {
+	var loginUserId = "${sessionScope.loginUser.userId}"
+	if(loginUserId!='admin'){
+		alert("잘못된 접근입니다.")
+		location.href = '${pageContext.servletContext.contextPath }/';
+	}
+})
 
 function movePage(qnaNowPage) {
 	$('#nowPage').val(qnaNowPage);
