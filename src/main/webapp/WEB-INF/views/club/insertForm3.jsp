@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="resources/vendors/linericon/style.css">
     <link rel="stylesheet" href="resources/vendors/owl-carousel/owl.theme.default.min.css">
     <link rel="stylesheet" href="resources/vendors/owl-carousel/owl.carousel.min.css">
-<!--     <link rel="stylesheet" href="resources/vendors/nice-select/nice-select.css"> -->
+	<link rel="stylesheet" href="resources/vendors/nice-select/nice-select.css">
     <link rel="stylesheet" href="resources/vendors/nouislider/nouislider.min.css">
 
     <link rel="stylesheet" href="resources/css/style.css">
@@ -149,7 +149,7 @@
                             		<span style="font-weight: 550; font-size: 17px; margin-bottom: 10px;">많이 참여할 수 있는 시간 꿀팁!</span>
                             		<ul style="list-style : disc">
 										<li>멤버들의 라이프스타일에 따라서 선호하는 시간대가 다를 수 있습니다!</li>
-                            			<li>직장인 : 월요일과 금요일은 되도록 모임을 피해주세요! 화요일, 수요일, 목요일 저녁 7시 30분 이후가 모임 시간으로 적당합니다. 주말은 오전 11시 이후가 좋습니다😊</li>
+                            			<li>직장인 : 월요일과 금요일은 되도록 모임을 피해주세요! 화요일, 수요일, 목요일 저녁 7시 이후가 모임 시간으로 적당합니다. 주말은 오전 11시 이후가 좋습니다😊</li>
                             			<li>홈워커 : 평일 오전 11시나 오후 2시 이후가 적당합니다.</li>
                             			<li>모임개설이 완료된 상태에서는 모임날짜를 변경 할 수 없습니다.</li>
                             		</ul>
@@ -238,38 +238,6 @@
                                 <button class="check_button" onclick="saveStep3()">저장하기</button> 
                                 <button class="check_button" onclick="goStepFinal()">개설신청하기</button>
                             </div>
-                            
-							<script>
-                            	//2. 저장하기
-	                            function saveStep3(){
-	                            	if($('#club3Form').find('input[name="onoffLine"]').val()){
-	                            		$('#club3Form').submit();
-	                            	}else{
-	                            		alert("온라인/오프라인 여부는 체크해주세요~")
-	                            	}
-	                            }
-	                            
-	                            //저장후 3단계로 넘어가기
-	                            function goStepFinal(){
-	                            	var is_empty = false;
-	                            	
-	                            	$('#club3Form').find('.must').each(function(){
-	                            		if(!$(this).val()){
-	                            			console.log($(this))
-	                            			is_empty = true;
-	                            		}
-	                            	})
-
-	                            	//javascript에서는 빈값 그리고 null값을 NOT 연산자로 처리한다.
-	                            	if(is_empty){
-	                            		alert("모든 필수 입력창을 입력해주세요");
-	                            		$('#club3Form').attr('action','javascript://')  //submit 막기
-	                            	}else{
-	                            		$('#club3Form').attr('action','insertClub3.cl').submit();
-	                            	}
-	                            }
-
-                            </script>
                         </form>
                     </div>
                 </div>
@@ -284,8 +252,8 @@
         /* var add = '<ul class="history_total"><li class="s"><input type="date" class="form-control must" id="date" name="newClubDate"></li><li class="w"><input type="text " class="form-control must" id="startTime" name="startTime"></li><li class="w"><input type="text " class="form-control must" id="endTime" name="endTime"></li><li class="d"><img src="resources/img/delete.png " onclick="delHistory(this)"></li></ul>' */
 
         var add= '<ul class="history_total"><li class="s"><input type="date" class="form-control answer_contents must" id="date" name="newClubDate"></li>'
-    	add += '<li class="w"><select class="answer_contents must" id="startTime" name="startTime" style="width:135px; height:38px;"><c:forEach var="i"  begin="5" end="23"><option value="${i}">${i<10? ('0'+= '' += i +=':00') : (i +=':00')}</option></c:forEach></select></li>'
-    	add += '<li class="w"><select class="answer_contents must" id="endTime" name="endTime" style="width:135px; height:38px;"><c:forEach var="i"  begin="5" end="23"><option value="${i}">${i<10? ('0'+= '' += i +=':00') : (i +=':00')}</option></c:forEach></select></li>'
+    	add += '<li class="w"><select class="answer_contents must" id="startTime" name="startTime" style="width:135px; height:38px;"><c:forEach var="i"  begin="5" end="23"><option value="${i}">${i<10? ("0"+= '' += i +=":00") : (i +=":00")}</option></c:forEach></select></li>'
+    	add += '<li class="w"><select class="answer_contents must" id="endTime" name="endTime" style="width:135px; height:38px;"><c:forEach var="i"  begin="5" end="23"><option value="${i}">${i<10? ("0"+= '' += i +=":00") : (i +=":00")}</option></c:forEach></select></li>'
     	add += '<li class="d"><img src="resources/img/delete.png" onclick="delHistory(this)"></li></ul>';
     	
     	$("#bkName").keyup(function(e){
@@ -336,6 +304,43 @@
             } else {
                 //전체 input 창 값 비게해주기
             }
+        }
+        
+      //2. 저장하기
+        function saveStep3(){
+        	if($('#club3Form').find('input[name="onoffLine"]').val()){
+        		if(confirm("임시저장하시겠습니까?")){
+        			$('#club3Form').attr('action','saveStep3.cl').submit();
+        		}else{
+        			$('#club3Form').attr('action','javascript://');
+        		}
+        	}else{
+        		alert("온라인/오프라인 여부는 체크해주세요~")
+        	}
+        }
+        
+        //저장후 3단계로 넘어가기
+        function goStepFinal(){
+        	var is_empty = false;
+        	
+        	$('#club3Form').find('.must').each(function(){
+        		if(!$(this).val()){
+        			console.log($(this))
+        			is_empty = true;
+        		}
+        	})
+
+        	//javascript에서는 빈값 그리고 null값을 NOT 연산자로 처리한다.
+        	if(is_empty){
+        		alert("모든 필수 입력창을 입력해주세요");
+        		$('#club3Form').attr('action','javascript://')  //submit 막기
+        	}else{
+        		if(confirm("개설 신청하시겠습니까?")){
+        			$('#club3Form').attr('action','insertClub3.cl').submit();
+        		}else{
+        			$('#club3Form').attr('action','javascript://');
+        		}
+        	}
         }
     </script>
     <!--================End step3 독서모임 정보 입력창 =================-->

@@ -218,6 +218,8 @@
 	    		
 	    		if(confirm("임시저장하시겠습니까? ")){
 	    			$('#club2Form').attr('action','saveStep2.cl').submit();  //저장하기부터 누르면 막혀서 이렇게 해줘야 한다.
+	    		}else{
+	    			$('#club2Form').attr('action','javascript://');
 	    		}
 	        }else{
 	        	alert("독서모임 제목은 입력해주세요~")

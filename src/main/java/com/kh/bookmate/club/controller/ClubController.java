@@ -72,7 +72,7 @@ public class ClubController {
 	
 	//1. 호스트명 중복 확인
 	@ResponseBody
-	@RequestMapping(value="/hostCheck.cl", method=RequestMethod.POST)
+	@RequestMapping(value="/hostCheck.cl")
 	public String checkHost(String hostName) {
 
 		int result = clubService.checkHost(hostName);
@@ -93,13 +93,6 @@ public class ClubController {
 		String userId = ((User)request.getSession().getAttribute("loginUser")).getUserId();
 		c.setUserId(userId);
 		c.setHostComment(c.getHostComment().replaceAll("\r\n", "<br>"));
-		
-		System.out.println("=========테스트===========");
-		System.out.println(c.getHostName());
-		System.out.println(c.getHostComment());
-		System.out.println(c.getHstartDate());  //2021-09-28,2021-10-19
-		System.out.println(c.getHendDate());    //2021-10-13,2021-10-28
-		System.out.println(file);
 		
 		String hwhatTodo = "";
 		for(int i=0; i< phwhatTodo.length; i++) {
@@ -335,14 +328,7 @@ public class ClubController {
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, 7, 5);
 		
 		ArrayList<Club> list = clubService.selectList3(userId, pi);		
-		
-		System.out.println("list크기 : " + list.size());
-		
-		for(Club c : list) {
-			System.out.println("list크기 : " + c.toString());
-		}
-		
-		
+
 		model.addAttribute("list", list);
 		model.addAttribute("pi",pi);
 
@@ -443,6 +429,21 @@ public class ClubController {
 
 		//업데이트 후 club 다시 조회해와서 저장하고 화면 넘어가기
 		Club club = clubService.selectClub(c.getClubNo());
+		
+		//1201_수정폼 <br>고치기
+		if(club.getIntro() != null) {  
+			club.setIntro(club.getIntro().replaceAll("<br>", "\r\n"));
+		}
+		if(club.getActivity() != null) { 
+			club.setActivity(club.getActivity().replaceAll("<br>", "\r\n"));
+		}
+		if(club.getWant() != null) {  
+			club.setWant(club.getWant().replaceAll("<br>", "\r\n"));
+		}
+		if(club.getNotwant() != null) { 
+			club.setNotwant(club.getNotwant().replaceAll("<br>", "\r\n"));
+		}
+		
 		model.addAttribute("club", club);
 		
 		//다중 매핑 (11.09) 후 url 판별하여 분기처리
@@ -452,6 +453,8 @@ public class ClubController {
 			return "clubMypage/updateForm3_2";
 		}
 	}
+	
+	
 	
 	//6.6 마이페이지3 - 독서모임 수정2
 	@RequestMapping(value={"updateClub2.cl", "updateClubNext2.cl"})
@@ -471,7 +474,10 @@ public class ClubController {
 		 * */
 		ClubAttachment ca = null;
 		int imageType = 2;
-
+		
+		System.out.println("업데이트 수정2 : "+ c.toString());
+		System.out.println("업데이트 수정2 : "+ c.getClubNo());
+		
 		if(!file.getOriginalFilename().equals("")) {  
 			
 			ca = preSaveFile(ca, file, request, imageType);
@@ -505,7 +511,7 @@ public class ClubController {
 	}
 	
 	
-	//6.7 마이페이지3 - 독서모임 수정3
+	//6.7 마이페이지3 - 독서모임 수정3 - 임시저장
 	@RequestMapping(value={"updateClub3.cl", "updateClubNext3.cl"})
 	public String updateClub3_3(HttpServletRequest request, @ModelAttribute Club c, @ModelAttribute ClubTime ct,
 								@RequestParam(name="old_changeName", required=false, defaultValue="없음") String old_changeName,
@@ -517,15 +523,9 @@ public class ClubController {
 		for(int i=0; i<newClubDate.length; i++) {
 			nDates[i] = java.sql.Date.valueOf(newClubDate[i]);
 		}
-		
-		System.out.println("수정3 - clubDate길이 : " + newClubDate.length);
-		
 		String[] startTimes = ct.getStartTime().split(",");
 		String[] endTimes = ct.getEndTime().split(",");
-		
-		System.out.println("수정3 - startTimes길이 : " + startTimes.length);
-		System.out.println("수정3 - endTimes길이 : " + endTimes.length);
-				
+
 		List<ClubTime> list = new ArrayList<ClubTime>();
 		
 		//clubTime 객체에 값들 set하고 list에 add하기 -> mapper에서 foreach로 insert하기
@@ -538,7 +538,7 @@ public class ClubController {
 			
 			list.add(inputCt);
 		}
-		
+
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", list);
 
@@ -570,6 +570,8 @@ public class ClubController {
 
 		return "redirect:mypage3.cl";
 	}
+	
+	
 
 
 
@@ -579,9 +581,11 @@ public class ClubController {
 		
 		ArrayList<Club> endList = clubService.selectEndList();
 		ArrayList<Club> popList = clubService.selectpopList();
-		
+		List<ClubReview> reviewList = clubReviewService.selectReviewList();
+ 		
 		model.addAttribute("endList",endList);
 		model.addAttribute("popList",popList);
+		model.addAttribute("reviewList",reviewList);
 		return "club/clubMain";
 	}
 	

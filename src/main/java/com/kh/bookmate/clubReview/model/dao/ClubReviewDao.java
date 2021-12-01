@@ -82,4 +82,9 @@ public class ClubReviewDao {
 		// TODO Auto-generated method stub
 		return sqlSession.update("clubReviewMapper.updateQnaAnswerStatus", qnaNo);
 	}
+
+	public List<ClubReview> selectReviewList(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("clubReviewMapper.selectReviewList_all");
+	}
 }

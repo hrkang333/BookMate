@@ -63,7 +63,6 @@
      <jsp:include page="../common/menubar.jsp" />
     
     <script>
-    	
         //선택한 독서모임 multiple 삭제하기
         function deleteClub(){
            	var deleteC = confirm("독서모임을 삭제하시겠습니까?");
@@ -71,7 +70,59 @@
                 if($("input:checkBox[name=clubNo]:checked").length == 0){
                     alert("삭제할 독서모임을 선택해주세요!!");
                 }else{
-                    $("#mypageForm3").attr("action", "deleteClub3.cl");
+			
+                    /* $("input:checkBox[name=clubNo]:checked").forEach(function(e){  --> 안됨
+                    	console.log(e.attr('id'))
+                    }) */
+                    
+                    var delAble = true;                    
+                    var chkArray = new Array(); // 배열 선언
+                    
+                    $('input:checkbox[name=clubNo]:checked').each(function() { 
+                        chkArray.push(this.getAttribute('id').slice(-1))
+                        console.log(this.getAttribute('id').slice(-1))
+                    });
+
+					console.log(chkArray);
+					
+					if(chkArray.length == 1){  //삭제 체크박스 한개만 클릭한 경우
+						chkArray.forEach(function(e){  
+	                    	var condition = $("#condition"+e).val();
+	                    	if(condition == 4 || condition == 5){
+	                    		alert("아직 진행중인 모임이므로 삭제가 불가능합니다. \n모임종료 후 삭제 또는 관리자에게 문의바랍니다.");
+	                    		delAble = false;
+	                    	}else if(condition == 6){
+	                    		if(confirm("삭제 시 해당 모임에 작성된 리뷰 및 문의가 모두 삭제됩니다. 삭제하시겠습니까?")){
+	                    			delAble = true;
+	                    		}else{
+	                    			delAble = false;
+	                    		}
+	                    	}
+	                    })
+					}else{  //foreach에서는 break를 쓸 수 없다. 그래서 일반적이 for문으로 바꿨다.
+						for(var i=0; i<chkArray.length; i++){
+							var condition = $("#condition"+chkArray[i]).val();
+	                    	if(condition == 4 || condition == 5){
+	                    		alert("체크하신 독서모임들 중 아직 진행중인 모임이 있어 삭제가 불가능합니다. \n모임종료 후 삭제 또는 관리자에게 문의바랍니다.");
+	                    		delAble = false;
+	                    		break;
+	                    	}else if(condition == 6){
+	                    		if(confirm("삭제 시 해당 모임에 작성된 리뷰 및 문의가 모두 삭제됩니다. 삭제하시겠습니까?")){
+	                    			delAble = true;  //break해버리면 뒤에 있는 모집중이 걸리지 조건에 걸리지 않아 삭제되어 버린다. 그래서 반복적인 메세지를 띄워야 해도 띄워주자,,,
+	                    		}else{
+	                    			delAble = false;
+	                    			break;
+	                    		}
+	                    	}
+						}
+					}
+                    console.log(delAble)
+                    
+                    if(delAble){
+                    	$('#mypageForm3').attr('action','deleteClub3.cl').submit();
+                    }else{
+                    	$('#mypageForm3').attr('action','javascript://');
+                    }
                 }
             }
         }
@@ -97,6 +148,7 @@
             		$("#mypageForm3").attr("action", "updateForm3_1.cl").submit();
             	}else{
             		alert("독서모임이 모집중이거나 모집이 끝난 후에는 수정할 수 없습니다.");	
+            		//$('#mypageForm3').attr('action','javascript://');
             	}
             }
         } 
@@ -138,7 +190,7 @@
 			
 				<c:if test="${fn:length(list) > 0}">
 				<section>
-					 	<form id="mypageForm3" action="" method="post"> 
+					 	<form id="mypageForm3" action="updateForm3_1.cl" method="post"> 
 	                        <div style="float: right;">
 	                            <button class="button button-login" style="margin-bottom: 20px;" onclick="updateClub()">수정하기</button>
 	                            <button class="button button-login" style="margin-bottom: 20px;" onclick="deleteClub()">삭제하기</button>
@@ -174,10 +226,15 @@
 		                                    	<input name="clNo1" type="hidden" value="${c.clubNo}">
 			                                    <c:forEach items="${c.clubTimes}" var="ct">
 			                                    	<c:if test="${ !empty ct.clubDate}">
-			                                    		${fn:substring(ct.clubDate,0,11)} | ${ct.startTime} ~ ${ct.endTime}<br>
+			                                    		<c:if test="${fn:length(ct.startTime) > 3}">
+			                                    			${fn:substring(ct.clubDate,0,11)} | ${ct.startTime} ~ ${ct.endTime}<br>
+			                                    		</c:if>
+			                                    		<c:if test="${fn:length(ct.startTime) <= 2}">
+			                                    			${fn:substring(ct.clubDate,0,11)} | ${ct.startTime}:00 ~ ${ct.endTime}:00<br>
+			                                    		</c:if>
 			                                    	</c:if>
 			                                    	<c:if test="${ empty ct.clubDate}">
-			                                    		${ct.clubDate} | ${ct.startTime} ~ ${ct.endTime}<br>
+			                                    		${ct.clubDate} | ${ct.startTime}:00 ~ ${ct.endTime}:00<br>
 			                                    	</c:if>
 				                                </c:forEach>
 			                                </td>

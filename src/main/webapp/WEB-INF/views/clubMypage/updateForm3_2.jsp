@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,8 +9,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>독서모임/개설신청step1</title>
-    <link rel="icon" href="img/Fevicon.png" type="image/png">
+    <title>독서모임/개설수정step2</title>
+    <link rel="icon" href="resources/img/logo1.png" type="image/png">
 
     <link rel="stylesheet" href="resources/vendors/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="resources/vendors/fontawesome/css/all.min.css">
@@ -42,11 +41,37 @@
             display: inline-block;
             width: 54%;
         }
+        
+         .club_contents{
+	        font-size: 18px;
+        }
+
+        .answer_contents{
+	        border-color: lightgray !important;
+		    font-size: 17px !important;
+		    color: black !important;
+        }
+        
+        .example{
+	        background-color: #ecf4f1;
+		    padding: 20px 40px;
+		    margin: 0px 0px 20px;
+        }
+        
+        .check_button {
+            font-size: 14px !important;
+		    background-color: #503535 !important;
+		    border: 0 !important;
+		    border-radius: 5% !important;
+		    color: white;
+		    padding: 5px 25px;
+        }
     </style>
 </head>
 
-<body style="width:1200px; margin:auto">
+<body style="width:1200px; margin:auto; margin-top: 200px;">
 
+	<jsp:include page="../common/menubar.jsp" />
 	<jsp:include page="../club/clubMenubar.jsp"/>
    
     <!--================ step2 독서모임 정보 입력창 =================-->
@@ -54,14 +79,16 @@
         <div class="container">
             <div class="billing_details">
                 <div class="row">
-                    <div class="col-lg-12" style="margin-bottom: 50px;">
-                        <h3 style="font-size: 30px; ">독서모임 개설 신청서</h3>
+                    <div class="col-lg-12" style="margin-bottom: 40px;">
+                        <h3 style="font-size: 30px; padding: 10px 0px 20px; border-bottom: 2px solid gray;">독서모임 개설 신청서  
+                        	<span style="float:right; font-size: 15px; font-weight: 550;"><img alt="1" style="width: 20px;" src="resources/img/club/one_b.png"> 기본정보&nbsp;&nbsp;···&nbsp;&nbsp;<img alt="2" style="width: 20px;" src="resources/img/club/two_blue.png"> 모임테마&nbsp;&nbsp;···&nbsp;&nbsp;<img alt="3" style="width: 20px;" src="resources/img/club/three_b.png"> 책/일정</span> 
+                        </h3>
                     </div>
                     <div class="col-lg-12">
 	
                         <form id="club2Form" class="row contact_form" action="updateClub2.cl" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="clubNo" value="${club.clubNo}">
-                            <div class="col-md-3 applicate_guide">
+                            <div class="col-md-3 applicate_guide club_contents">
                                 독서모임 테마*
                             </div>
                             <div class="col-md-9 form-group p_star">
@@ -75,30 +102,59 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-3 applicate_guide">
+                            <div class="col-md-3 applicate_guide club_contents">
                                 독서모임 제목*
                             </div>
-                            <div class="col-md-6 form-group p_star">
-                                <input type="text" class="form-control must" name="clubTitle" value="${club.clubTitle}" required>
+                            <div class="col-md-9 form-group p_star">
+                            	<div class="example">
+                            		<span style="font-weight: 550; font-size: 17px; margin-bottom: 10px;">멤버 마음을 사로잡는 모임 이름 짓기 꿀팁!</span>
+                            		<ul style="list-style : disc">
+										<li>여러 독서 모임 중에서 내 모임이 눈에 띄게 하려면?! 네이밍에 신경 써야 합니다.😉</li>
+                            			<li>멤버들은 ‘내가 독서 모임에 참여해서 무엇을 얻을 수 있는가?’를 가장 많이 생각합니다. 모임에서 멤버들에게 줄 수 있는 가치가 무엇인지 생각해 보시고 이름을 지어주세요~</li>
+                            			<li>독서 모임명은 25글자를 넘지 않게 지어주세요!</li>
+                            		</ul>
+                            	</div>
+                            	
+                            	<div class="example">
+                            		<span style="font-weight: 550; font-size: 17px; margin-bottom: 10px;">예시</span>
+                            		<ul style="list-style : disc">
+										<li>‘미라클을 넘은 파라클 모닝! 새벽 4시 독서 모임’</li>
+                            			<li>‘끝장토론 시리즈1 ‘자유주의는 진정한 답인가?’</li>
+                            			<li>‘궁금하다 그 놈의 MBTI. 함께 MBTI 궁예해요’</li>
+                            			<li>‘유발 하라리 인류 3부작 도장 깨기’</li>
+                            			<li>‘책과 함께 비거니즘! 조금씩 바꾸는 비건인의 삶’</li>
+                            			<li>‘Do it! 파이썬’ 책 한달 안에 뽀개기</li>
+                            			<li>‘회계사와 함께하는 왕초보 주식 독서 모임’</li>
+                            		</ul>
+                            	</div>
+            
+                                <input type="text" class="form-control answer_contents must" id="clubTitle" name="clubTitle" value="${club.clubTitle}" required>
                             </div>
-                            <div class="col-md-3 form-group p_star"> </div>
 
-                            <div class="col-md-3 applicate_guide">
+                            <div class="col-md-3 applicate_guide club_contents">
                                 모임 소개*
                             </div>
                             <div class="col-md-9 form-group">
-                                <textarea class="form-control must" name="intro" rows="1" placeholder="독서모임에 참여할 멤버들에게 comment를 남겨주세요!" style="margin-top: 0px;">${club.intro}</textarea>
+                            	<div class="example">
+                            		<span style="font-weight: 550; font-size: 17px; margin-bottom: 10px;">모임 소개는 어떻게?🧐</span>
+                            		<ul style="list-style : disc">
+										<li>독서모임 페이지에서 가장 먼저 보이는 부분인만큼 개설할 모임에 대해 가장 잘 설명한 문장을 써주세요!</li>
+                            			<li>모임이 추구하는 목표를 구체적으로 적어주면 좋아요</li>
+                            		</ul>
+                            	</div>
+                                <textarea maxlength="1000" class="form-control answer_contents must" name="intro" rows="1" placeholder="독서모임에 대한 소개를 남겨주세요!" style="margin-top: 0px; resize: none; height: 180px;">${club.intro}</textarea>
                             </div>
 
-                            <div class="col-md-3 applicate_guide">
+                            <div class="col-md-3 applicate_guide club_contents">
                                 커버 사진*
                             </div>
                             <div class="col-md-9 form-group p_star">
                                 <input type="file" id="coverPhoto" name="coverPhoto" class="must" style="margin-bottom: 5px;" onchange="imgCheck(this,'coverPhoto')"> <br>
                             </div>
                             
-                            <div class="col-md-3 applicate_guide">
-                 <label for="coverPhoto">프로필 사진 미리보기</label>
+                            
+                            <div class="col-md-3 applicate_guide club_contents">
+                 				<label for="coverPhoto">커버 사진 미리보기</label>
                             </div>
                             
                             <div class="col-md-9 form-group p_star">
@@ -113,7 +169,7 @@
 	                                	<input type="hidden" name="old_changeName" id="old_changeName" value="${ at.changeName }">
 	                                	
 		                            	<br>
-	                            		<img alt="" src="${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${at.changeName}" id="precoverPhoto" style="width:260px; height:300px;" >
+	                            		<img alt="" src="${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${at.changeName}" id="precoverPhoto" style="width:350px; height:300px;" >
                                 	
                                 		<c:set var="s" value="${s+1}"/>
                                 	</c:if>
@@ -125,209 +181,158 @@
                                 </c:if>
                                                                
                             </div>
+                            
+                            
 
-                            <div class="col-md-3 applicate_guide">
+                            <div class="col-md-3 applicate_guide club_contents">
                                 우리 모임에서 할 활동들*
                             </div>
                             <div class="col-md-9 form-group">
-                                <textarea class="form-control" name="activity" rows="1" placeholder="독서모임에 참여할 멤버들에게 comment를 남겨주세요!" style="margin-top: 0px;">${club.activity}</textarea>
+                                <textarea maxlength="1000" class="form-control answer_contents must" name="activity" rows="1" placeholder="독서모임에서 하게 될 활동들에 대해 얘기해주세요. 자세히 나와있을수록 참여율이 더 높아져요!" style="margin-top: 0px; resize: none; height: 180px;">${club.activity}</textarea>
                             </div>
 
-                            <div class="col-md-3 applicate_guide">
+                            <div class="col-md-3 applicate_guide club_contents">
                                 이런 멤버들을 만나고 싶어요*
                             </div>
                             <div class="col-md-9 form-group">
-                                <textarea class="form-control must" name="want" rows="1" placeholder="독서모임에 참여할 멤버들에게 comment를 남겨주세요!" style="margin-top: 0px;">${club.want}</textarea>
+                            	<span style="font-size: 16px; font-weight: 550;">우리독서 모임에 잘 어울리는 멤버들은 누구일까요? 어떤 멤버에게 우리 모임을 추천하나요?</span>
+                                <textarea maxlength="1000" class="form-control answer_contents must" name="want" rows="1" placeholder="함께 독서모임을 하고 싶은 분들에 대해 적어주세요" style="margin-top: 20px; resize: none; height: 180px;">${club.want}</textarea>
                             </div>
 
-                            <div class="col-md-3 applicate_guide">
+                            <div class="col-md-3 applicate_guide club_contents">
                                 이런 멤버는 만나고 싶지 않아요*
                             </div>
                             <div class="col-md-9 form-group">
-                                <textarea class="form-control must" name="notwant" rows="1" placeholder="독서모임에 참여할 멤버들에게 comment를 남겨주세요!" style="margin-top: 0px;">${club.notwant}</textarea>
+                                <textarea maxlength="1000" class="form-control answer_contents must" name="notwant" rows="1" placeholder="함께 독서모임을 하고 싶지 않은 분들에 대해 적어주세요" style="margin-top: 0px; resize: none; height: 180px;">${club.notwant}</textarea>
                             </div>
 
-                            <div class="col-md-3 applicate_guide">
+                            <div class="col-md-3 applicate_guide club_contents">
                                 독서모임 정원*
                             </div>
                             <div class="col-md-9 form-group p_star">
-                                <input type="text" class="form-control must" name="capacity" style="width: 200px;" placeholder="3명 ~ 20명까지 가능합니다" value="${club.clubCapacity}">
+                                <input type="text" class="form-control answer_contents must" id="capacity" name="capacity" style="width: 200px;" placeholder="3명 ~ 15명까지 가능합니다" value="${club.clubCapacity}">
                             </div>
 
                             <div class="col-md-12 " style="text-align: center; ">
-                                <button class="button button-login ">이전 단계로</button>
-                                <button class="button button-login" onclick="saveStep2()">저장하기</button> 
-                                <button class="button button-login" onclick="goStep3()">저장 후 다음 단계로!</button> 
+                                <button class="check_button" onclick="saveStep2()">저장하기</button> 
+                                <button class="check_button" onclick="goStep3()">저장 후 다음 단계로!</button> 
                             </div>
-                            
-                            <script>
-	                          //2. 저장하기
-	                            function saveStep2(){
-	                            	if($('#club2Form').find('input[name="clubTitle"]').val()){
-	                            		$('#club2Form').submit();
-	                            	}else{
-	                            		alert("독서모임 제목은 입력해주세요~")
-	                            	}
-	                            }
-	                            
-	                            //저장후 3단계로 넘어가기
-	                            function goStep3(){
-	                            	var is_empty = false;
-	                            	
-	                            	$('#club2Form').find('.must').each(function(){
-	                            		if(!$(this).val()){
-	                            			console.log($(this))
-	                            			is_empty = true;
-	                            		}
-	                            	})
-	
-	                            	
-	                            	//javascript에서는 빈값 그리고 null값을 NOT 연산자로 처리한다.
-	                            	if(is_empty){
-	                            		alert("모든 필수 입력창을 입력해주세요");
-	                            		$('#club2Form').attr('action','javascript://')  //submit 막기
-	                            	}else{
-	                            		$('#club2Form').attr('action','updateClubNext2.cl').submit();
-	                            	}
-	                            }
-                            
-	                            $(function(){
-	                            	//요소가 있는지 확인하고 val()값 뽑아야 한다.
-	                            	if(document.getElementById("old_changeName")){
-	                            		var old = document.getElementById("old_changeName").value;
-		                        		
-		                        		if(old != ""){
-		                        			$("#coverPhoto").attr('class','notMust');
-		                        		}
-	                            	}
-	                        		
-	                        	});
-
-	                            //이미지 체크, 미리보기
-								function imgCheck(img,inputId) {
-                                	
-                                	if(img.files&&img.files[0]){
-                                		var name= img.files[0].name
-                                		var ext = name.substring(name.length-3,name.length)
-                                		if(!(ext.toUpperCase()=='PNG'||ext.toUpperCase()=='JPG')){
-                                			alert("이미지파일을 확인해주세요. png와 jpg만 가능합니다.")
-                                			$('#'+inputId).val("")
-
-
-                                			return;
-                                		}
-                                		const imgFile = new FileReader();
-                                		imgFile.readAsDataURL(img.files[0])
-                                		imgFile.onload = function(e) {
-                                			const previewMainImage = document.getElementById("pre"+inputId);
-                                			previewMainImage.src = e.target.result
-                                			if(inputId=='coverPhoto'){
-                                				$('#pre'+inputId).css({"width":"200px","height":"300px"})
-                                			}			
-                                		}		   
-                                	}
-                                }
-
-                            </script>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    
+    <script>
+   		/* onchange="selectCapacity(this)"
+    	function selectCapacity(e){
+    		console.log(d)	
+    	} 
+    	--> 포커스가 바뀌기 전까지 바뀐 거로 보지 않아서 capacity에 쓸 수 없다!
+    	*/
+    	
+    	$(function(){
+        	//요소가 있는지 확인하고 val()값 뽑아야 한다.
+        	if(document.getElementById("old_changeName")){
+        		var old = document.getElementById("old_changeName").value;
+        		
+        		if(old != ""){
+        			$("#coverPhoto").attr('class','notMust');
+        		}
+        	}
+    		
+    	});
+    	
+    	//정규식으로 숫자만 입력하게 하기
+   		$(document).on("keyup", "input[name='capacity']", function() {
+   			$(this).val( $(this).val().replace(/[^0-9]/gi,"") );
+   		})
+    	
+    	$("#capacity").keyup(function(e){
+	        var num = $(this).val();
+	         	
+	        if(num < 3 || num > 15){
+	        	alert("3이상 15이하 숫자만 입력 가능합니다.");
+	        	$(this).val('');
+	        }
+	    })
+	    
+	   $("#clubTitle").keyup(function(e){
+	        var content = $(this).val();
+	         	
+	        if(content.length>26){
+	        	alert("최대 25자까지 입력 가능합니다.");
+	        	$(this).val(content.substring(0,25));
+	        }
+	    })
+    	
+    	//2. 저장하기
+	    function saveStep2(){
+	    	if($('#club2Form').find('input[name="clubTitle"]').val()){
+	    		
+	    		if(confirm("임시저장하시겠습니까? ")){
+	    			$('#club2Form').attr('action','updateClub2.cl').submit();
+	    		}else{
+	    			$('#club2Form').attr('action','javascript://')
+	    		}
+	        }else{
+	        	alert("독서모임 제목은 입력해주세요~")
+	        }
+	    }
+	                            
+	    //저장후 3단계로 넘어가기
+	    function goStep3(){
+	    	var is_empty = false;
+	
+	        //console.log($('select[name="category"]').val());
+	        $('#club2Form').find('.must').each(function(){
+	        	if(!$(this).val()){  //값이 없는 경우 false -> 아래 if문 돌면서 is_empty를 true로 바꿈
+	            	console.log($(this))
+	                is_empty = true;
+	            }
+	        })
+
+	        //javascript에서는 빈값 그리고 null값을 NOT 연산자로 처리한다.
+	        if(is_empty){
+	        	alert("모든 필수 입력창을 입력해주세요");
+	            $('#club2Form').attr('action','javascript://')  //submit 막기
+	        }else{
+	            $('#club2Form').attr('action','updateClubNext2.cl').submit();
+	        }
+	    }
+	    
+
+	    
+	     //이미지 체크, 미리보기
+		function imgCheck(img,inputId) {
+                                	
+        	if(img.files&&img.files[0]){
+            	var name= img.files[0].name
+                var ext = name.substring(name.length-3,name.length)
+                
+                if(!(ext.toUpperCase()=='PNG'||ext.toUpperCase()=='JPG')){
+                	alert("이미지파일을 확인해주세요. png와 jpg만 가능합니다.")
+                	$('#'+inputId).val("")
+
+					return;
+                }
+                
+            	const imgFile = new FileReader();
+                imgFile.readAsDataURL(img.files[0])
+                imgFile.onload = function(e) {
+                	const previewMainImage = document.getElementById("pre"+inputId);
+               		previewMainImage.src = e.target.result
+                	if(inputId=='coverPhoto'){
+                		$('#pre'+inputId).css({"width":"200px","height":"300px"})
+                    }			
+                }		   
+            }
+       }
+	</script>
     <!--================End step2 독서모임 정보 입력창 =================-->
 
-
-
-    <!--================ Start footer Area  =================-->
-    <footer>
-        <div class="footer-area footer-only ">
-            <div class="container ">
-                <div class="row section_gap ">
-                    <div class="col-lg-3 col-md-6 col-sm-6 ">
-                        <div class="single-footer-widget tp_widgets ">
-                            <h4 class="footer_title large_title ">Our Mission</h4>
-                            <p>
-                                So seed seed green that winged cattle in. Gathering thing made fly you're no divided deep moved us lan Gathering thing us land years living.
-                            </p>
-                            <p>
-                                So seed seed green that winged cattle in. Gathering thing made fly you're no divided deep moved
-                            </p>
-                        </div>
-                    </div>
-                    <div class="offset-lg-1 col-lg-2 col-md-6 col-sm-6 ">
-                        <div class="single-footer-widget tp_widgets ">
-                            <h4 class="footer_title ">Quick Links</h4>
-                            <ul class="list ">
-                                <li><a href="# ">Home</a></li>
-                                <li><a href="# ">Shop</a></li>
-                                <li><a href="# ">Blog</a></li>
-                                <li><a href="# ">Product</a></li>
-                                <li><a href="# ">Brand</a></li>
-                                <li><a href="# ">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-6 col-sm-6 ">
-                        <div class="single-footer-widget instafeed ">
-                            <h4 class="footer_title ">Gallery</h4>
-                            <ul class="list instafeed d-flex flex-wrap ">
-                                <li><img src="img/gallery/r1.jpg " alt=" "></li>
-                                <li><img src="img/gallery/r2.jpg " alt=" "></li>
-                                <li><img src="img/gallery/r3.jpg " alt=" "></li>
-                                <li><img src="img/gallery/r5.jpg " alt=" "></li>
-                                <li><img src="img/gallery/r7.jpg " alt=" "></li>
-                                <li><img src="img/gallery/r8.jpg " alt=" "></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="offset-lg-1 col-lg-3 col-md-6 col-sm-6 ">
-                        <div class="single-footer-widget tp_widgets ">
-                            <h4 class="footer_title ">Contact Us</h4>
-                            <div class="ml-40 ">
-                                <p class="sm-head ">
-                                    <span class="fa fa-location-arrow "></span> Head Office
-                                </p>
-                                <p>123, Main Street, Your City</p>
-
-                                <p class="sm-head ">
-                                    <span class="fa fa-phone "></span> Phone Number
-                                </p>
-                                <p>
-                                    +123 456 7890 <br> +123 456 7890
-                                </p>
-
-                                <p class="sm-head ">
-                                    <span class="fa fa-envelope "></span> Email
-                                </p>
-                                <p>
-                                    free@infoexample.com <br> www.infoexample.com
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer-bottom ">
-            <div class="container ">
-                <div class="row d-flex ">
-                    <p class="col-lg-12 footer-text text-center ">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Copyright &copy;
-                        <script>
-                            document.write(new Date().getFullYear());
-                        </script> All rights reserved | This template is made with <i class="fa fa-heart " aria-hidden="true "></i> by <a href="https://colorlib.com " target="_blank ">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </p>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!--================ End footer Area  =================-->
-
-
+	<jsp:include page="../common/footer.jsp" />
 
     <script src="resources/vendors/jquery/jquery-3.2.1.min.js "></script>
     <script src="resources/vendors/bootstrap/bootstrap.bundle.min.js "></script>

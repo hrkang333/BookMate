@@ -140,13 +140,13 @@
                                     <ul class="history_total">
                                         <!-- 그냥 <div>로 하면 추가했을 때 이전꺼랑 정렬이 안 맞아서 ul,li로 고쳐줬다. -->
                                         <li class="s">
-                                            <input type="date" class="form-control answer_contents dates" id="hstartDate" name="hstartDate">
+                                            <input type="date" class="form-control answer_contents dates" name="hstartDate">
                                         </li>
                                         <li class="s">
-                                            <input type="date" class="form-control answer_contents dates" id="hendDate" name="hendDate">
+                                            <input type="date" class="form-control answer_contents dates" name="hendDate">
                                         </li>
                                         <li class="w">
-                                            <input type="text" class="form-control answer_contents" id="phwhatTodo" name="phwhatTodo">
+                                            <input type="text" class="form-control answer_contents" name="phwhatTodo">
                                         </li>
                                         <li class="d">
                                             <img src="resources/img/delete.png " class="history answer_contents" onclick="delHistory(this)">
@@ -186,7 +186,7 @@
 		//호스트 이력 갯수 정하기 위해서 전역변수 cnt, maxField 선언
         var cnt = 1;
         var maxField = 10;
-        var add = '<div><ul class="history_total"><li class="s"><input type="date" class="form-control my-input history answer_contents" id="hstartDate" name="hstartDate"></li><li class="s"><input type="date" class="form-control my-input history answer_contents" id="hendDate " name="hendDate"></li><li class="w"><input type="text " class="form-control my-input1 history answer_contents" id="phwhatTodo " name="phwhatTodo" maxlength="41"></li><li class="d"><img src="resources/img/delete.png " class="history my-input2 " onclick="delHistory(this)"></li></ul> </div>'
+        var add = '<div><ul class="history_total"><li class="s"><input type="date" class="form-control my-input history answer_contents" name="hstartDate"></li><li class="s"><input type="date" class="form-control my-input history answer_contents" name="hendDate"></li><li class="w"><input type="text " class="form-control my-input1 history answer_contents" name="phwhatTodo" maxlength="41"></li><li class="d"><img src="resources/img/delete.png " class="history my-input2 " onclick="delHistory(this)"></li></ul> </div>'
 		var chkDuplicate = false;
         
         $("#hostName").keyup(function(e){
@@ -219,7 +219,7 @@
 
             $.ajax({
             	url: "hostCheck.cl",
-                type: "post",
+                type: "get",
                 data: {
                 	hostName: hostName.val()
                 },
@@ -250,7 +250,7 @@
                 $("#history").append(add)
                 console.log(cnt + "개")
             } else {
-            	alert("호스트 이력은 최대 15개까지 입력가능합니다.")
+            	alert("호스트 이력은 최대 10개까지 입력가능합니다.")
             }
         }
 
@@ -300,6 +300,8 @@
          		if(confirm("임시저장하시겠습니까?")){
          			$('#hostEnrollForm').attr('action','saveStep1.cl');
              		$('#hostEnrollForm').submit();
+         		}else{
+         			$('#hostEnrollForm').attr('action','javascript://');
          		}
             }else{
                 alert("호스트명은 입력해주세요~");

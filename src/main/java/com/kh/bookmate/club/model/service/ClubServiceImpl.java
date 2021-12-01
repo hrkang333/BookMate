@@ -63,7 +63,7 @@ public class ClubServiceImpl implements ClubService {
 		}
 
 		if(result1 <= 0 || result2 <= 0) {  //11/29 update 에러 -> 결과값:0이어서 이렇게 처리
-			throw new RuntimeException("독서모임 개설 2단계 중 저장 중 오류");
+			//throw new RuntimeException("독서모임 개설 2단계 중 저장 중 오류");
 		}
 	}
 
@@ -179,7 +179,6 @@ public class ClubServiceImpl implements ClubService {
 		if(result <= 0) {
 			throw new RuntimeException("독서모임 2단계 수정 오류");
 		}
-		
 	}
 
 	@Override
@@ -194,14 +193,52 @@ public class ClubServiceImpl implements ClubService {
 
 	@Override
 	public void updateStep3_1(Club c, ClubAttachment ca, Map<String, Object> map) {
-		// TODO Auto-generated method stub
+		//c:update, ca:update	map:insert
+		//1)c:update -> saveStep3_1;
+		//2)ca:update -> updateStep_attach
+		//3)map:delete -> deleteClubTimes
+		//4)map:insert -> saveStep3_2
+		int clubNo = c.getClubNo();
+		int result1 = clubDao.saveStep3(sqlSession, c);
+		int result2 = clubDao.updateStep1_2(sqlSession, ca);
+		int result3 = clubDao.deleteClubTimes(sqlSession, clubNo); 
+		int result4 = clubDao.saveStep3(sqlSession, map);
 		
+		if(result1 <= 0 || result2 < 0 || result3 < 0 || result4 < 0) {
+			throw new RuntimeException("독서모임 3단계 수정 오류");
+		}
 	}
 
 	@Override
 	public void updateStep3_2(Club c, ClubAttachment ca, Map<String, Object> map) {
-		// TODO Auto-generated method stub
+		//c:update, ca:insert map:insert
+		//1)c:update -> saveStep3_1;
+		//2)ca:insert -> saveStep2_2
+		//3)map:delete -> deleteClubTimes
+		//4)map:insert -> saveStep3_2
+		int clubNo = c.getClubNo();
+		int result2 = 0;
 		
+		int result1 = clubDao.saveStep3(sqlSession, c);
+		if(ca != null) {
+			result2 = clubDao.updateStep1_2(sqlSession, ca);
+		}
+		
+		int result3 = clubDao.deleteClubTimes(sqlSession, clubNo);
+		int result4 = clubDao.saveStep3(sqlSession, map);
+		
+		if(result1 <= 0) {
+			throw new RuntimeException("독서모임 3단계 수정 오류11_처");
+		}
+		if(result2 < 0 ) {
+			throw new RuntimeException("독서모임 3단계 수정 오류22_둘");
+		}
+		if(result3 < 0) {
+			throw new RuntimeException("독서모임 3단계 수정 오류33_셋");
+		}
+		if(result4 < 0) {
+			throw new RuntimeException("독서모임 3단계 수정 오류44_넷");
+		}
 	}
 
 	@Override

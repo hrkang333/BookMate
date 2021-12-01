@@ -107,5 +107,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		WHERE QNANO = #{qnaNo}
 	</update>
 	
+	<select id="selectReviewList_all" resultType="ClubReview">
+		select REVIEWNO, REFCLUBNO, REVIEWWRITER, REVIEWRATE, REVIEWCONTENT, REVIEWPHOTO, CREATEDATE 
+		from CLUBREVIEW
+		where status='Y'
+		order by CREATEDATE desc
+	</select>
+	
 	
 </mapper>

@@ -152,7 +152,12 @@
 	                                    <td>
 		                                    <c:forEach items="${c.clubTimes}" var="ct">
 		                                    	<c:if test="${ !empty ct.clubDate}">
-		                                    		${ct.clubDate} | ${ct.startTime} ~ ${ct.endTime}<br>
+		                                    		<c:if test="${fn:length(ct.startTime) > 3}">
+			                                    		${fn:substring(ct.clubDate,0,11)} | ${ct.startTime} ~ ${ct.endTime}<br>
+			                                    	</c:if>
+			                                    	<c:if test="${fn:length(ct.startTime) <= 2}">
+			                                    		${fn:substring(ct.clubDate,0,11)} | ${ct.startTime}:00 ~ ${ct.endTime}:00<br>
+			                                    	</c:if>
 		                                    	</c:if>
 			                                </c:forEach>
 		                                </td>

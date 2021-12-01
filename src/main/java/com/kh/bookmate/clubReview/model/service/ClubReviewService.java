@@ -30,4 +30,7 @@ public interface ClubReviewService {
 
 	void deleteQna(int qnaNo, int type);
 
+	//메인페이지용
+	List<ClubReview> selectReviewList();
+
 }

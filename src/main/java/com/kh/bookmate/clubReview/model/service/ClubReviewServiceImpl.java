@@ -122,4 +122,10 @@ public class ClubReviewServiceImpl implements ClubReviewService {
 		}
 	}
 
+	@Override
+	public List<ClubReview> selectReviewList() {
+		// TODO Auto-generated method stub
+		return clubReviewDao.selectReviewList(sqlSession);
+	}
+
 }

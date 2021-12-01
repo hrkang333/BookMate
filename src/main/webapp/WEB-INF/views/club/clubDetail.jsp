@@ -142,6 +142,7 @@
 		    border-radius: 5px !important;
 		    padding: 12px 30px !important;
 		    width: 100%;
+		    color:white;
 		}
 		
 		.navbarMenu{
@@ -262,10 +263,10 @@
 	                    <div style="text-align: center; margin: 15px 0px 0px;">
 	                        <c:choose>
 	                        	<c:when test="${club.condition eq 4 }">
-	                        		<button id="applyClub" class="button primary-btn">신청하기</button>
+	                        		<button id="applyClub" class="">신청하기</button>
 	                        	</c:when>
 	                        	<c:otherwise>
-	                        		<button id="applyClub" class="button primary-btn" disabled>신청불가</button>
+	                        		<button id="applyClub" class="" disabled>신청불가</button>
 	                        	</c:otherwise>
 	                        </c:choose>
 	                    </div>
@@ -364,9 +365,7 @@
 											<c:set var="hstartD" value="${fn:split(club.hstartDate, ',')}"/>
 											<c:set var="hendD" value="${fn:split(club.hendDate, ',')}"/>
 											<c:set var="hwhatTodo" value="${fn:split(club.hwhatTodo, '|')}"/>
-											
-											<c:out value="${fn:length(hstartD)}"></c:out>
-		
+
 											<c:forEach var="i" begin="0" end="${fn:length(hstartD)-1}" varStatus="status">
 												${hstartD[i]} ~ ${hendD[i]} ${hwhatTodo[i]} <br>
 											</c:forEach>

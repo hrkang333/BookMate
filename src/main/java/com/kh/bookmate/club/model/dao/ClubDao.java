@@ -271,6 +271,11 @@ public class ClubDao {
 		return (ArrayList)sqlSession.selectList("clubMapper.selectMypageList",clubNoList);
 	}
 
+	public int deleteClubTimes(SqlSessionTemplate sqlSession, int clubNo) {
+		// TODO Auto-generated method stub
+		return sqlSession.delete("clubMapper.deleteClubTimes",clubNo);
+	}
+
 	
 
 }

@@ -368,7 +368,7 @@
 		<!-- ================ trending product section start ================= -->
 		<section class="section-margin calc-60px">
 			<div class="container">
-				<div class="section-intro pb-60px">
+				<div class="section-intro">
 					<p>최신 리뷰가 등록된 따끈따끈한 오늘의 책!</p>
 					<div style="display: flex">
 						<h2>
@@ -442,11 +442,8 @@
 								<c:set var="length" value="${length+1}" />
 							</c:forEach>
 						</div>
-						<i onclick="goToday(1,  ${length})"
-							class="fas fa-chevron-left todayArrow_left"></i>
-						<i style="font-size: 50px; color: gray;"
-							onclick="goToday(2, ${length})"
-							class="fas fa-chevron-right todayArrow_right"></i>
+						<i onclick="goToday(1,  ${length})" class="fas fa-chevron-left todayArrow_left"></i>
+						<i style="font-size: 50px; color: gray;" onclick="goToday(2, ${length})" class="fas fa-chevron-right todayArrow_right"></i>
 					</c:if>
 				</div>
 			</div>
@@ -537,7 +534,12 @@
 						</div>
 						<div id="bestDiv_2" style="cursor: pointer">
 							<c:forEach var="pg" begin="1" end="${length}">
-								<a onclick="goBest(${pg}, ${length})"><i id="click${pg }" class="fas fa-circle"></i></a>
+								<c:if test="${pg eq 1}">
+									<a onclick="goBest(${pg}, ${length})"><i id="click${pg }" class="far fa-circle"></i></a>
+								</c:if>
+								<c:if test="${pg ne 1}">
+									<a onclick="goBest(${pg}, ${length})"><i id="click${pg }" class="fas fa-circle"></i></a>
+								</c:if>
 							</c:forEach>
 						</div>
 					</c:if>
