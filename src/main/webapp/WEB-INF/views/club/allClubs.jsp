@@ -330,8 +330,9 @@
 			            
 			     <div id="categoryList3_2" style="display:none;">   
                  	    <div style="display: flex; width:100%;">
-							<c:forEach begin="0" end="4" varStatus="status">
-								<div id="closeClubTotal${status.index}" onclick='goDetail(${cateList_third[status.index].clubNo})' <c:if test="${status.index >= fn:length(cateList_third)}"><c:out value="style=display:none;"/></c:if> >
+							<c:forEach begin="0" end="4" varStatus="status">  <!-- onclick='goDetail(${cateList_third[status.index].clubNo})' -->
+								<div id="closeClubTotal${status.index}" onclick='goDetail(${status.index})' <c:if test="${status.index >= fn:length(cateList_third)}"><c:out value="style=display:none;"/></c:if> >
+									<input id="closeClubNo${status.index}" type="hidden" value="${cateList_third[status.index].clubNo}">
 									<div class="closeClubImgDiv" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${cateList_third[status.index].clubAttachments[0].changeName}')" id="close_ClubImg${status.index}"></div>
 									<ul class="card-blog__info" style="margin-top: 10px;">
 		                                <li><span id="close_category${status.index}">${cateList_third[status.index].category}</span> &nbsp;</li>
@@ -354,7 +355,8 @@
         var nowPage2 = 1;
         var listIndex = 0;  //모집종료 용
         
-        function goDetail(clubNo){
+        function goDetail(index){
+        	var clubNo = $('#closeClubNo'+index).val();
         	location.href="detail.cl?clubNo=" + clubNo;
         }
                     
@@ -713,6 +715,7 @@
      				$('#close_category'+i).text(cateList1[i].category);
      				$('#close_likes'+i).text(cateList1[i].heartCount);	
      				$('#close_title'+i).text(cateList1[i].clubTitle);
+     				$('#closeClubNo'+i).val(cateList1[i].clubNo);
      			})
 			
 				listView1.style.display = 'none';

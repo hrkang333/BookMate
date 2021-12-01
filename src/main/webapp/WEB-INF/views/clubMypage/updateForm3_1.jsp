@@ -106,16 +106,16 @@
                     </div>
                     <div class="col-lg-12">
 
-                        <form id="hostEnrollForm" class="row contact_form" action="saveStep1.cl" method="post" enctype="multipart/form-data">
+                        <form id="hostEnrollForm" class="row contact_form" action="updateClub1.cl" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="clubNo" value="${club.clubNo}">
                             <div class="col-md-3 applicate_guide club_contents">
                                 호스트명*
                             </div>
                             <div class="col-md-5 form-group p_star">
-                                <input type="text" class="form-control answer_contents must" id="hostName" name="hostName" value="${club.hostName}" required>
+                                <input readonly type="text" class="form-control answer_contents must" id="hostName" name="hostName" value="${club.hostName}" required>
                             </div>
                             <div class="col-md-4 form-group p_star">
-                                <button type="button" class="check_button" onclick="checkHostName()">중복 확인</button>
+                               <!--  <button type="button" class="check_button" onclick="checkHostName()">중복 확인</button> -->
                             </div>
 
                             <div class="col-md-3 applicate_guide club_contents">
@@ -168,25 +168,36 @@
                             			<li> [ 독특한 라이프스타일 경험 ] 2019-01-01 2021-01-01 비거니즘 웹진 에디터</li>
                             		</ul>
                             	</div>
-                            
-                                <div>
-                                    <ul class="history_total">
-                                        <!-- 그냥 <div>로 하면 추가했을 때 이전꺼랑 정렬이 안 맞아서 ul,li로 고쳐줬다. -->
-                                        <li class="s">
-                                            <input type="date" class="form-control answer_contents dates" id="hstartDate" name="hstartDate">
-                                        </li>
-                                        <li class="s">
-                                            <input type="date" class="form-control answer_contents dates" id="hendDate" name="hendDate">
-                                        </li>
-                                        <li class="w">
-                                            <input type="text" class="form-control answer_contents" id="phwhatTodo" name="phwhatTodo">
-                                        </li>
-                                        <li class="d">
-                                            <img src="resources/img/delete.png " class="history answer_contents" onclick="delHistory(this)">
-                                        </li>
-                                    </ul>
-                                </div>
+                            	
+                            	
+                            	<!-- 3개 동시에 돌면서 값 넣어주기 위해서 string -> 배열로 만들었다. -->
+                            	<c:set var="hstartD" value="${fn:split(club.hstartDate,',')}" />
+                            	<c:set var="hendD" value="${fn:split(club.hendDate,',')}" />
+                            	<c:set var="hwhatT" value="${fn:split(club.hwhatTodo,'|')}" />
 
+                            	<c:set var="hlength" value="${fn:length(hendD)}"/>
+                            	
+                            	<c:if test="${test ne 0}">
+                            		<c:forEach begin="0" end="${hlength-1}" varStatus="s">
+                            			<div>
+		                                    <ul class="history_total">
+		                                        <!-- 그냥 <div>로 하면 추가했을 때 이전꺼랑 정렬이 안 맞아서 ul,li로 고쳐줬다. -->
+		                                        <li class="s">
+		                                            <input type="date" class="form-control dates answer_contents" name="hstartDate" value="${hstartD[s.index]}">
+		                                        </li>
+		                                        <li class="s">
+		                                            <input type="date" class="form-control dates  answer_contents" name="hendDate" value="${hendD[s.index]}">
+		                                        </li>
+		                                        <li class="w">
+		                                            <input type="text" class="form-control answer_contents" name="phwhatTodo" value="${hwhatT[s.index]}">
+		                                        </li>
+		                                        <li class="d">
+		                                            <img src="resources/img/delete.png " class="history" onclick="delHistory(this)">
+		                                        </li>
+		                                    </ul>
+		                                </div>
+                            		</c:forEach>
+                            	</c:if>
                             </div>
                             <div class="col-md-3 form-group p_star "></div>
                             <div class="col-md-9 form-group p_star ">
@@ -201,7 +212,7 @@
                                 호스트 Comment*
                             </div>
                             <div class="col-md-9 form-group">
-                                <textarea class="form-control answer_contents must" name="hostComment" id="message " rows="1 " maxlength="1000" placeholder="독서모임에 참여할 멤버들에게 comment를 남겨주세요! " style="margin-top: 0px; resize: none;"></textarea>
+                                <textarea class="form-control answer_contents must" name="hostComment" id="message " rows="1 " maxlength="1000" placeholder="독서모임에 참여할 멤버들에게 comment를 남겨주세요! " style="margin-top: 0px; resize: none;">${club.hostComment}</textarea>
                             </div>
 
                             <div class="col-md-12 " style="text-align: center; margin-top: 40px;">
@@ -217,10 +228,22 @@
     
     <script>
 		//호스트 이력 갯수 정하기 위해서 전역변수 cnt, maxField 선언
-        var cnt = 1;
+        var cnt = '${fn:length(hendD)}';
         var maxField = 10;
-        var add = '<div><ul class="history_total"><li class="s"><input type="date" class="form-control my-input history answer_contents" id="hstartDate" name="hstartDate"></li><li class="s"><input type="date" class="form-control my-input history answer_contents" id="hendDate " name="hendDate"></li><li class="w"><input type="text " class="form-control my-input1 history answer_contents" id="phwhatTodo " name="phwhatTodo" maxlength="41"></li><li class="d"><img src="resources/img/delete.png " class="history my-input2 " onclick="delHistory(this)"></li></ul> </div>'
-		var chkDuplicate = false;
+        var add = '<div><ul class="history_total"><li class="s"><input type="date" class="form-control my-input history answer_contents" name="hstartDate"></li><li class="s"><input type="date" class="form-control my-input history answer_contents" name="hendDate"></li><li class="w"><input type="text " class="form-control my-input1 history answer_contents" name="phwhatTodo" maxlength="41"></li><li class="d"><img src="resources/img/delete.png " class="history my-input2 " onclick="delHistory(this)"></li></ul> </div>'
+		var chkDuplicate = true;  //중복확인 체크
+		
+		//이전에 저장한 사진이 있는 경우 -> class에 must있으면 넘어가지지 않음
+		$(function(){
+    		if(document.getElementById("old_changeName")){
+    			var old = document.getElementById("old_changeName").value;
+        		
+        		if(old != ""){
+        			$("#hostPhoto").attr('class','notMust');
+        		}
+    		}
+    	});
+		
         
         $("#hostName").keyup(function(e){
 	        var content = $(this).val();
@@ -243,7 +266,6 @@
         //호스트명 중복 확인
         function checkHostName() {
         	var hostName = $("#hostEnrollForm input[name=hostName]");
-            console.log(hostName.val());
 
             if (hostName.val() == "") {
             	alert("이름을 입력해주세요!");
@@ -252,14 +274,16 @@
 
             $.ajax({
             	url: "hostCheck.cl",
-                type: "post",
+                type: "get",
                 data: {
                 	hostName: hostName.val()
                 },
                 success: function(result) {
                 	if (result == "duplicate") {
-                    	confirm("이미 존재하는 이름입니다.사용하실 수 없습니다.");
-                        hostName.focus();
+                    	if(confirm("기존에 저장된 이름입니다. 사용하시겠습니까?")){
+                    		hostName.attr("readonly", "true");
+                            chkDuplicate = true;
+                    	};
                     } else {
                         if (confirm("사용가능한 이름입니다. 사용하시겠습니까?")) {
                            hostName.attr("readonly", "true");
@@ -283,7 +307,7 @@
                 $("#history").append(add)
                 console.log(cnt + "개")
             } else {
-            	alert("호스트 이력은 최대 15개까지 입력가능합니다.")
+            	alert("호스트 이력은 최대 10개까지 입력가능합니다.")
             }
         }
 
@@ -297,6 +321,7 @@
                 //전체 input 창 값 비게해주기
             }
         }
+
                                 
         //저장후 2단계로 넘어가기
         function goStep2(){
@@ -323,20 +348,46 @@
                $('#hostEnrollForm').attr('action','javascript://')
                //$('#hostEnrollForm').attr("onsubmit", "event.preventDefault();")
             }else{
-               $('#hostEnrollForm').attr('action','insertClub1.cl').submit();
+               $('#hostEnrollForm').attr('action','updateClubNext1.cl').submit();
             }
          }
+        
                                 
          //$('#hostEnrollForm').attr('action','javascript://') 막은 후 작동안함,,
          function saveStep1(){
          	if($('#hostEnrollForm').find('input[name="hostName"]').val()){ 
          		if(confirm("임시저장하시겠습니까?")){
-         			$('#hostEnrollForm').attr('action','saveStep1.cl');
-             		$('#hostEnrollForm').submit();
+         			$('#hostEnrollForm').attr('action','updateClub1.cl').submit();
+         		}else{
+         			$('#hostEnrollForm').attr('action','javascript://');
          		}
             }else{
                 alert("호스트명은 입력해주세요~");
             }
+         }
+         
+         function imgCheck(img,inputId) {
+         	
+         	if(img.files&&img.files[0]){
+         		var name= img.files[0].name
+         		var ext = name.substring(name.length-3,name.length)
+         		if(!(ext.toUpperCase()=='PNG'||ext.toUpperCase()=='JPG')){
+         			alert("이미지파일을 확인해주세요. png와 jpg만 가능합니다.")
+         			$('#'+inputId).val("")
+
+
+         			return;
+         		}
+         		const imgFile = new FileReader();
+         		imgFile.readAsDataURL(img.files[0])
+         		imgFile.onload = function(e) {
+         			const previewMainImage = document.getElementById("pre"+inputId);
+         			previewMainImage.src = e.target.result
+         			if(inputId=='hostPhoto'){
+         				$('#pre'+inputId).css({"width":"200px","height":"300px"})
+         			}			
+         		}		   
+         	}
          }
 	</script>
     <!--================End 호스트정보 입력창 =================-->

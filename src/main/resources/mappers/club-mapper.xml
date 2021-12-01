@@ -216,6 +216,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND TO_CHAR(CEND_DATE, 'YYYY-MM-DD') > TO_CHAR(SYSDATE, 'YYYY-MM-DD') 
 		AND CATEGORY=#{category}
 		AND B.FILE_TYPE=2
+		ORDER BY A.CLUB_NO
 		]]>
 	</select>
 	
@@ -358,21 +359,37 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	
-	<select id="selectCateList_1" resultMap="clubResultSet">
-		<![CDATA[
-		SELECT A.* , B.CHANGE_NAME 
+	<!-- SELECT A.* , B.CHANGE_NAME 
 		FROM CLUB A
 		LEFT JOIN CLUB_ATTACHMENT B
 		ON A.CLUB_NO = B.REF_CLUB_NO
 		WHERE A.CONDITION=4 AND A.STATUS='Y'
 		AND TO_CHAR(CSTART_DATE, 'YYYY-MM-DD') <= TO_CHAR(SYSDATE, 'YYYY-MM-DD')
-		AND TO_CHAR(CEND_DATE, 'YYYY-MM-DD') > TO_CHAR(SYSDATE, 'YYYY-MM-DD') ]]>
+		AND TO_CHAR(CEND_DATE, 'YYYY-MM-DD') >= TO_CHAR(SYSDATE, 'YYYY-MM-DD') ]]>
 		<if test='!"".equals(category)'>
 			AND CATEGORY=#{category}
 		</if>
 		AND B.FILE_TYPE=2
-		ORDER BY CSTART_DATE
-		
+		ORDER BY CSTART_DATE DESC -->
+	
+	<select id="selectCateList_1" resultMap="clubResultSet">
+		<![CDATA[
+		SELECT B.CLUB_NO, B.CLUB_TITLE, B.CATEGORY, B.ONOFF_LINE, B.HEART_COUNT, C.CHANGE_NAME
+		FROM (SELECT REF_CLUB_NO, SUM(APPLY_COUNT) SUM_APPLY
+			  FROM CLUB_TIME
+			  GROUP BY REF_CLUB_NO) A
+		JOIN CLUB B
+		ON A.REF_CLUB_NO = B.CLUB_NO
+		JOIN CLUB_ATTACHMENT C
+		ON C.REF_CLUB_NO = B.CLUB_NO
+		WHERE CONDITION=4
+		AND C.FILE_TYPE=2 ]]>
+		<if test='!"".equals(category)'>
+			AND CATEGORY=#{category}
+		</if>
+		<![CDATA[
+		ORDER BY A.SUM_APPLY DESC
+		]]>
 	</select>
 	
 	<select id="selectCateList_2" resultMap="clubResultSet">
@@ -386,7 +403,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		AND TO_CHAR(CEND_DATE, 'YYYY-MM-DD') < TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 		AND CATEGORY=#{category}
 		AND B.FILE_TYPE=2
-		ORDER BY CSTART_DATE
+		ORDER BY CEND_DATE DESC
 		]]>
 	</select>
 	
@@ -499,6 +516,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		</if>
 		ORDER BY CLUB_NO
 	</select>
+	
+	<delete id="deleteClubTimes" parameterType="_int">
+		DELETE CLUB_TIME
+		WHERE REF_CLUB_NO = #{clubNo}		
+	</delete>
 	
 	
 </mapper>

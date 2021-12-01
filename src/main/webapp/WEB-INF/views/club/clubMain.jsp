@@ -38,6 +38,7 @@
             display: table-cell;
             width: 22%;
             padding-right: 15px;
+            height: 200px;
         }
         
         .reviewTable .tableTitle {
@@ -102,6 +103,25 @@
 		    margin-top: 15px;
     		text-align: center;
 		}
+		
+		.ctitle{
+			font-weight: 550;
+		}
+		
+		.reviewImg{
+		 	height:100%;
+		 	background-size: cover;
+		 	background-position: center;
+		 	width : 100%;
+		 	background-color: beige;
+		} 
+		
+		#bestDiv_2 {
+			position: absolute;
+			left: 50%;
+			transform: translate(-50%);
+		}
+		
     </style>
 </head>
 
@@ -125,49 +145,64 @@
 					<c:if test="${fn:length(popList) > 0}">
 					
 						<div class="popTotal_1" style="background-color: white; padding: 20px; min-height: 910px;">
+							
+							<c:set var="length" value="0" />
 							<c:forEach var="i" begin="0" end="${fn:length(popList)-1}" step="6">
 							
 								<div id="popTotal_2${i}" class="popTotal_2" <c:if test="${i != 0}">style="display: none;"</c:if> > 
 									<c:forEach var="list" items="${popList}" begin="${i}" end="${i+5}">
 									
-									<div class="popOne" onclick="goDetail(${list.clubNo})" >
-										<input type="hidden" value="${list.clubNo}">
-										<div class="image" style="height:280px;">
-											<c:forEach items="${list.clubAttachments}" var="ca">
-												<div class="titleBackImg" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${ca.changeName}')"></div>
-											</c:forEach>
+										<div class="popOne" onclick="goDetail(${list.clubNo})" >
+											<input type="hidden" value="${list.clubNo}">
+											<div class="image" style="height:280px;">
+												<c:forEach items="${list.clubAttachments}" var="ca">
+													<div class="titleBackImg" style="background-image: url('${pageContext.servletContext.contextPath }/resources/upload_files/club_img/${ca.changeName}')"></div>
+												</c:forEach>
+											</div>
+											<div class="contents">  
+												<ul class="card-blog__info"> 
+													<li>${list.category}&nbsp; [ ${list.onoffLine} ]</li>
+													<li><i class="ti-comments-smiley"></i> ${list.heartCount} Likes</li>
+												</ul>
+												<h4 class="ctitle">${list.clubTitle}</h4> 
+												<p>
+													<c:forEach items="${list.clubTimes}" var="at" varStatus="s_at">
+		                                 		
+			                                 		<c:choose>
+			                                 			<c:when test="${s_at.index eq 0}">
+			                                 				<c:set var="firstStart" value="${at.clubDate}"/>
+			                                 			</c:when>
+			                                 			<c:otherwise>
+			                                 				<c:if test="${firstStart > at.clubDate }">
+			                                 					<c:set var="firstStart" value="${at.clubDate}"/>
+			                                 				</c:if>
+			                                 			</c:otherwise>
+			                                 		</c:choose>
+			            
+			                                 	</c:forEach>	
+			                                   	     시작 : ${firstStart} &nbsp; | <span>${fn:length(list.clubTimes)}</span>번
+												</p>
+											</div>
 										</div>
-										<div class="contents">  
-											<ul class="card-blog__info"> 
-												<li>${list.category}&nbsp; [ ${list.onoffLine} ]</li>
-												<li><i class="ti-comments-smiley"></i> ${list.heartCount} Likes</li>
-											</ul>
-											<h4 class="">${list.clubTitle}</h4> 
-											<p>
-												<c:forEach items="${list.clubTimes}" var="at" varStatus="s_at">
-	                                 		
-		                                 		<c:choose>
-		                                 			<c:when test="${s_at.index eq 0}">
-		                                 				<c:set var="firstStart" value="${at.clubDate}"/>
-		                                 			</c:when>
-		                                 			<c:otherwise>
-		                                 				<c:if test="${firstStart > at.clubDate }">
-		                                 					<c:set var="firstStart" value="${at.clubDate}"/>
-		                                 				</c:if>
-		                                 			</c:otherwise>
-		                                 		</c:choose>
-		            
-		                                 	</c:forEach>	
-		                                   	     시작 : ${firstStart} &nbsp; | <span>${fn:length(list.clubTimes)}</span>번
-											</p>
-										</div>
-									</div>
-									
 									</c:forEach>
-									
 								</div>
+								
+								<c:set var="length" value="${length+1}" />
+								
 							</c:forEach>
 						</div>
+						
+						<div id="bestDiv_2" style="cursor: pointer">
+							<c:forEach var="pg" begin="1" end="${length}">
+								<c:if test="${pg eq 1}">
+									<a onclick="goBest(${pg}, ${length})"><i id="click${pg}" class="far fa-circle"></i></a>
+								</c:if>
+								<c:if test="${pg ne 1}">
+									<a onclick="goBest(${pg}, ${length})"><i id="click${pg}" class="fas fa-circle"></i></a>
+								</c:if>
+							</c:forEach>
+						</div>
+						
 					</c:if>
 				</div>
 			</div>
@@ -220,9 +255,9 @@
 							<div class="contents">
 								<ul class="card-blog__info">
 									<li><span id="c_category${s.index}">22</span> &nbsp; <span id="c_onoffLine${s.index}">[22]</span></li>
-									<li><i class="ti-comments-smiley"></i> 2 Comments</li>
+									<li><i class="ti-comments-smiley"></i> <span id="c_heartCount${s.index}"> Likes</span></li>
 								</ul>
-								<h4 id="c_title${s.index}" class="card-blog__title">독서모임 제목</h4>
+								<h4 id="c_title${s.index}" class="card-blog__title ctitle">독서모임 제목</h4>
 								<p>
 		                                                           시작 : <span id="c_startDate${s.index}"></span>&nbsp; | <span id="c_manyTimes${s.index}"></span>번
 								</p>
@@ -262,7 +297,7 @@
 											<li>${list.category}&nbsp; [ ${list.onoffLine} ]</li>
 											<li><i class="ti-comments-smiley"></i> ${list.heartCount} Likes</li>
 										</ul>
-										<h4 class="">${list.clubTitle}</h4> 
+										<h4 class="ctitle">${list.clubTitle}</h4> 
 										<p>
 											<c:forEach items="${list.clubTimes}" var="at" varStatus="s_at">
 		                                		<c:choose>
@@ -345,6 +380,7 @@
 								$('#c_category'+ i).text(list[i].category);
 								$('#c_onoffLine'+ i).text(list[i].onoffLine);
 								$('#c_title'+ i).text(list[i].clubTitle);
+								$('#c_heartCount'+ i).text(list[i].heartCount + ' Likes');
 
 								if (list[i].intro.length > 61) {
 									intro = (list[i].intro).substring(0,60)+ '...';
@@ -411,6 +447,24 @@
 					}
 				}
 			}
+			
+			//베스트 독서모임 움직이기
+			function goBest(pg, length){
+				for(var i=1; i<=length; i++){
+					var index = (i-1)*6;
+					if(i == pg){
+						console.log("pg : " + pg)
+						console.log("index : " + index)
+						$('#popTotal_2'+index).css('display','flex');
+						$("#click"+i).attr("class","far fa-circle");
+					}else{
+						console.log("pg : " + pg)
+						console.log("index : " + index)
+						$('#popTotal_2'+index).css('display','none');
+						$("#click"+i).attr("class","fas fa-circle");
+					}
+				}
+			}
 
 		</script>
 
@@ -418,29 +472,38 @@
 
 
                 <!-- ================ trending product section 삭제 ================= -->
-                <section class="section-margin calc-60px">
-                    <div class="">
-                        <div class="section-intro pb-60px">
-                            <p>책구메이트 회원들이 남긴 베스트 독서후기를 확인해보세요</p>
-                            <h2><span class="section-intro__style">베스트</span> 독서모임 후기</h2>
+                <section class="calc-60px">
+                    <div class="container">
+                        <div class="section-intro mainTitle">
+                            <p>책구메이트 회원들이 남긴 최신 독서후기를 확인해보세요</p>
+                            <h2><span class="section-intro__style">최신</span> 독서모임 후기</h2>
                         </div>
 
-
-                        <div class="row reviewTable">
-                            <div class="tableThumb">	
-                                <img class="card-img" src="img/product/product1.png" alt="">
-                            </div>
-                            <div class="tableTitle">
-                                <a>
-                                    <div>나는 독서모임 베스트 리뷰 제목!</div>
-                                    <div>나는 독서모임 베스트 리뷰 내용!!나는 독서모임 베스트 리뷰 내용!!나는 독서모임 베스트 리뷰 내용!!나는 독서모임 베스트 리뷰 내용!!</div>
-                                </a>
-                                <div>
-                                    <span>작성자***</span>
-                                    <span>2021-10-21</span>
-                                </div>
-                            </div>
-                        </div>
+						<c:forEach items="${reviewList}" var="cr">
+							<div class="row reviewTable">
+	                            <div class="tableThumb">	
+	                            	<c:if test="${cr.reviewPhoto ne ''}">
+	                            		<div class="card-img reviewImg" style="background-image: url('resources/upload_files/club_img/${cr.reviewPhoto}'); cursor:pointer;" onclick="goDetail(${cr.refClubNo})"></div>
+	                            	</c:if>
+	                            	<c:if test="${cr.reviewPhoto eq ''}">
+	                            		<div class="card-img reviewImg" style="background-image: url('resources/upload_files/club_img/${cr.reviewPhoto}'); cursor:pointer;" onclick="goDetail(${cr.refClubNo})"></div>
+	                            	</c:if>
+	                            </div>
+	                            <div class="tableTitle">
+	                                <div>
+	                                	<c:forEach begin="0" end="${cr.reviewRate/2 -1}">
+	                                		<img src="${pageContext.servletContext.contextPath }/resources/img/rateFull.png" style="width:20px; margin:10px 1px;">
+	                                	</c:forEach>
+									</div>
+	                                <div style="font-size: 17px;">${cr.reviewContent}</div>
+	                                <div style="margin-top: 15px;">
+	                                    <span>${cr.reviewWriter}</span>&nbsp; | &nbsp;
+	                                    <span>${cr.createDate}</span>
+	                                </div>
+	                            </div>
+	                        </div>
+						</c:forEach>
+                        
 
                     </div>
                 </section>

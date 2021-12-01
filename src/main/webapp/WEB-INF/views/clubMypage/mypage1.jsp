@@ -189,13 +189,23 @@
 		                                    <c:forEach items="${c.clubTimes}" var="ct" varStatus="i">
 		                                    	<c:if test="${c.times eq '한 번 만나요'}">
 		                                    		<c:if test="${ct.timeNo eq ap.timeNo}">
-		                                    			${fn:substring(ct.clubDate,0,11)} | ${ct.startTime} ~ ${ct.endTime}<br>
+		                                    			<c:if test="${fn:length(ct.startTime) > 3}">
+			                                    			${fn:substring(ct.clubDate,0,11)} | ${ct.startTime} ~ ${ct.endTime}<br>
+			                                    		</c:if>
+			                                    		<c:if test="${fn:length(ct.startTime) <= 2}">
+			                                    			${fn:substring(ct.clubDate,0,11)} | ${ct.startTime}:00 ~ ${ct.endTime}:00<br>
+			                                    		</c:if>
 		                                    			<c:set var="cd" value="${ct.clubDate}"></c:set>
 		                                    			<c:set var="cd2" value="${ct.clubDate}"></c:set>
 		                                    		</c:if>
 		                                    	</c:if>
 		                                    	<c:if test="${c.times eq '여러 번 만나요'}">
-		                                    		${fn:substring(ct.clubDate,0,11)} | ${ct.startTime} ~ ${ct.endTime}<br>
+		                                    		<c:if test="${fn:length(ct.startTime) > 3}">
+			                                    			${fn:substring(ct.clubDate,0,11)} | ${ct.startTime} ~ ${ct.endTime}<br>
+			                                    		</c:if>
+			                                    		<c:if test="${fn:length(ct.startTime) <= 2}">
+			                                    			${fn:substring(ct.clubDate,0,11)} | ${ct.startTime}:00 ~ ${ct.endTime}:00<br>
+			                                    		</c:if>
 		                                    		<c:if test="${i.first}">
 		                                    			<c:set var="cd" value="${ct.clubDate}"></c:set>
 		                                    		</c:if>

@@ -278,7 +278,7 @@
 	                        </li>
 	                    </ul>
 	                    <div style="text-align: right;">
-	                        <input type="search" id="keyword" name="keyword" <c:if test="${!empty sc.keyword}"><c:out value="value=${sc.keyword}"/></c:if>> 
+	                        <input type="search" id="keyword" name="keyword" placeholder="독서모임 제목과 책제목으로 검색해보세요" <c:if test="${!empty sc.keyword}"><c:out value="value=${sc.keyword}"/></c:if>> 
 	                        <button onclick="goSearch()">검색</button>
 	                    </div>
 	                </form>
