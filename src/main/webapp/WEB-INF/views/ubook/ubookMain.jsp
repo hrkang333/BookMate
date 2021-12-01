@@ -384,7 +384,7 @@ function goHot(type, length){
 											</div>
 										</section>
 									</c:if>
-									<!-- ================ 판매자 휴면한 상태일 때 ================= 
+									<!-- ================ 판매자 휴면한 상태일 때 ================= -->
 									<c:if test="${ s.status eq 'N' }">
 										<section class="goseller">
 											<div class="container">
@@ -398,7 +398,7 @@ function goHot(type, length){
 												</button>
 											</div>
 										</section>
-									</c:if>-->
+									</c:if>
 								</div>
 							</div>
 						</div>

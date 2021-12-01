@@ -178,7 +178,7 @@ function deleteCart(index,cartNo) {
 											<div class="media-body">
 												<%-- <input name="sellerNo" value="${list.BSellerNo}"/> --%>
 												<p>${list.ubookName}</p>
-												<p>${list.BSellerNo}</p>
+												<%-- <p>${list.BSellerNo}</p> --%>
 											</div>
 										</div>
 									</td>
