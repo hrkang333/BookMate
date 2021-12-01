@@ -94,16 +94,6 @@
         <div class="innerOuter">
             <h2>내 정보 수정하기 </h2>
             <br>
-<a data-toggle="modal" data-target="#updatePwd">비밀번호변경하기 </a> 
-<div class="modal fade" id="updatePwd" style="margin-left: 815px; margin-top: 518px; width: 300px; height: 400px;">
-					<div class="modal-dialog modal-sm">
-						<div class="modal-content">
-						
-							<div class="modal-header">
-								<h4 class="modal-title">Login</h4>
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-							</div>
-
 
             <form action="update.me" method="post" id="modi">
                 <div class="form-group">

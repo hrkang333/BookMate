@@ -70,6 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectUbookMyOrderList" resultType ="UbookPayment">
 		 SELECT * FROM UBOOK_PAYMENT
 		 WHERE USERIDUB =#{userIdUb}
+		 ORDER BY PAYDATEUB DESC
 	</select>
 	
 	
@@ -77,7 +78,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectUbookMyOrderDetailList" resultType="UbookPaymentDetail" parameterType="_int">
 		SELECT * FROM UBOOK_PAYMENTDETAIL
 		WHERE PAYMENTNOUB=#{paymentNoUb}
-		ORDER BY DELIVERYDATEUB DESC 
+		ORDER BY DELIVERYDATEUB DESC
 	</select>
 	
 	
