@@ -78,6 +78,11 @@ public class UserDao {
 		sqlSession.update("userMapper.updatePwd",user);
 	}
 
+	public String selectCheckPwd(SqlSessionTemplate sqlSession, String userId) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("userMapper.selectCheckPwd",userId);
+	}
+
 	
 
 
