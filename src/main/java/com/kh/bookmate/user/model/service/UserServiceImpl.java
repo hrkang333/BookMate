@@ -17,7 +17,7 @@ public class UserServiceImpl implements UserService {
 	private UserDao userDao;
 
 	@Override
-	public User loginUser(BCryptPasswordEncoder bCryptPasswordEncoder, User u) {
+	public User loginUser(User u) {
 		User loginUser = userDao.loginUser(sqlSession, u);
 		
 		
@@ -78,5 +78,11 @@ public class UserServiceImpl implements UserService {
 				throw new RuntimeException("회원수정 실패");
 
 			}
+	}
+
+	@Override
+	public String selectCheckPwd(String userId) {
+		// TODO Auto-generated method stub
+		return userDao.selectCheckPwd(sqlSession,userId);
 	}
 }

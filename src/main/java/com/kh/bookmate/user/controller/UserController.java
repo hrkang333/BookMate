@@ -11,8 +11,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.bookmate.book.model.service.BookService;
 import com.kh.bookmate.book.model.vo.Book;
@@ -74,30 +76,32 @@ public class UserController {
 														 			HttpSession session	){
 		u.setAddress(post+"/"+address1+"/"+address2); 
 		
-		System.out.println("암호화전 : " +u.getUserPwd());
 		String encPwd = bCryptPasswordEncoder.encode(u.getUserPwd());
-		System.out.println("암호화후 : " +encPwd);
 
 		u.setUserPwd(encPwd);
 		userService.insertUser(u);
 		
 		session.setAttribute("msg", "회원가입성공");
-		System.out.println(u);
 		return "redirect:/";
 	
 		
 	}
 	
 	@RequestMapping(value="login.us") 
-	public String loginMember(User u, Model model) {
-
+	@ResponseBody
+	public String loginMember(User u, Model model,RedirectAttributes ra) {
+		String checkPwd  = userService.selectCheckPwd(u.getUserId());
+		User loginUser = null;
+		if(bCryptPasswordEncoder.matches(u.getUserPwd(), checkPwd)) {
+			
+			loginUser = userService.loginUser(u);
+		}else {
+			return "fail";
+		}
+	
 		
-	User loginUser;
-
-		loginUser = userService.loginUser(bCryptPasswordEncoder, u);
-		System.out.println(loginUser);
 		model.addAttribute("loginUser", loginUser);
-		return "redirect:/";
+		return "pass";
 
 
 	}

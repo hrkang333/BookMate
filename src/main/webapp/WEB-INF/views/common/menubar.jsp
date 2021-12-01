@@ -61,9 +61,46 @@
 }
 </style>
 <script type="text/javascript">
+
 	function moveCategory(category) {
 		$('#moveCategoryInput').val(category);
 		$('#moveCategoryForm').submit()
+	}
+	
+	function login() {
+		var userId = $('#userId').val();
+		var userPwd = $('#userPwd').val();
+
+		if(!userId||!userPwd){
+			alert('ID와 비밀번호를 모두 입력해주세요')
+			return false;
+		}
+		
+		$.ajax({
+			
+			url : "login.us",
+			type : "post",
+			data : {
+				userId : userId,
+				userPwd : userPwd
+			},
+			success : function(str) {
+				if(str=='fail'){
+					alert('비밀번호가 틀렸습니다\n다시 확인해주세요.')
+				}else{
+					$('#loginModal').modal('hide');
+					location.reload()
+				}
+				
+				
+			},
+			error : function (e) {
+				alert("로그인중 ajax 통신 에러")
+			}
+			
+		})
+		
+		
 	}
 </script>
 </head>
@@ -89,7 +126,7 @@
 					<label>${ sessionScope.loginUser.userName }님 환영합니다</label> &nbsp;&nbsp;|
 					                <a href="selectMyOrderList.me">마이페이지</a> |
 									<a href="logout.us">로그아웃</a> |
-									<a href="shoppingCart.sc">장바구니</a> |
+									<a href="shoppingCart.sc?user_Id=${ sessionScope.loginUser.userId }">장바구니</a> |
 									<a href="noticeList.no?isUser=1">공지사항</a>
 				</c:if>
 
@@ -205,7 +242,7 @@
 
 								<!-- Modal footer -->
 								<div class="modal-footer">
-									<button type="submit" class="btn btn-primary">로그인</button>
+									<button type="button" class="btn btn-primary" onclick="login()">로그인</button>
 									<button type="button" class="btn btn-danger"
 										data-dismiss="modal">취소</button>
 								</div>

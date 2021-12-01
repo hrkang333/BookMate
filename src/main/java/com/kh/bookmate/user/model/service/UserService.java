@@ -11,7 +11,7 @@ public interface UserService {
 
 	void insertUser(User u);
 
-	User loginUser(BCryptPasswordEncoder bCryptPasswordEncoder, User u);
+	User loginUser(User u);
 
 	String findId(User u);
 
@@ -31,6 +31,8 @@ public interface UserService {
 	void updatePwd(User user);
 
 	User updateUser(User user);
+
+	String selectCheckPwd(String userId);
 
 
 }
