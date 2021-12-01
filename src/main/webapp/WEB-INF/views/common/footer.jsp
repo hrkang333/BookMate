@@ -64,7 +64,7 @@ table {
 </head>
 <body style="width: 1200px;">
 	<!--================ Start footer Area  =================-->
-	<footer class="footer">
+	<footer class="footer" style="width: 1200px;" >
 		<hr>
 		<table class="tbfooter">
 			<tr>
