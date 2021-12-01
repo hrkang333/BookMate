@@ -75,6 +75,23 @@ margin-left: 100px;
    padding-left: 10px;
    padding-right: 10px;
 }
+
+.modal {
+        text-align: center;
+} 
+@media screen and (min-width: 768px) { 
+        .modal:before {
+                display: inline-block;
+                vertical-align: middle;
+                content: " ";
+                height: 100%;
+        }
+} 
+.modal-dialog {
+        display: inline-block;
+        text-align: left;
+        vertical-align: middle;
+}
 </style>    
 <script>
 var listIndex = 0;
@@ -1036,7 +1053,7 @@ $(function() {
 				</span><br>
 				<br> <span>배송비 : <c:if test="${price<10000}"><fmt:formatNumber value="2500"/> 원</c:if>
 				<c:if test="${price>=10000}">0 원</c:if></span>&nbsp;&nbsp;&nbsp;
-				<button id="">배송비 안내</button>
+				<button type="button" data-toggle="modal" data-target="#deliveryPay">배송비안내</button>
 				<br>
 				<br> <span>혜택 : [기본혜택] <fmt:formatNumber type="number"
 						value="${price*0.05}" />pt (5% 기본적립)<br>
@@ -1123,13 +1140,13 @@ $(function() {
 					height="50px" style="margin-left: 15px; cursor: pointer;"
 					onclick="bestListMove(1,${requestScope.book.bookSubCategory})">
 			</div>
-		</div>
+		</div><a id="bookInfoPosition" href="#bookInfoPosition"></a>
 		<br>
-		<br>
+		<br><br>
 <div><hr></div>
 		
-		<br><br>
-		<a id="bookInfoPosition" href="#bookInfoPosition"></a>
+		<br><br><br><br>
+		
 		<div class="moving">
 		<button type="button" onclick="pagePositionMove('bookInfoPosition')" style="border-bottom: none;">도서정보
         </button><button type="button" onclick="pagePositionMove('reviewPosition')">도서리뷰
@@ -1193,14 +1210,15 @@ $(function() {
 
 				</div>
 			</div>
-		</div>
+		</div><a id="reviewPosition" href="#reviewPosition"></a>
 		<br>
+		<br><br>
 		<br>
 		<br>
 		<div style="width: 800px"><hr></div>
 		
 		<br><br>
-		<a id="reviewPosition" href="#reviewPosition"></a>
+		
 		<div class="moving">
         <button type="button" onclick="pagePositionMove('bookInfoPosition')">도서정보
         </button><button type="button" onclick="pagePositionMove('reviewPosition')"  style="border-bottom: none;">도서리뷰
@@ -1301,14 +1319,14 @@ $(function() {
 		
 		</div>
 		
+<a id="qnaPosition" href="#qnaPosition"></a>
 
 
-
-    <br><br>
+    <br><br><br><br><br>
 <div style="width: 800px"><hr></div>
     
     <br><br>
-		<a id="qnaPosition" href="#qnaPosition"></a>
+		
 		<div class="moving">
 		<button type="button" onclick="pagePositionMove('bookInfoPosition')">도서정보
         </button><button type="button" onclick="pagePositionMove('reviewPosition')">도서리뷰
@@ -1428,12 +1446,12 @@ $(function() {
 					       	<div style="font-size: 30px;display: flex;width: 800px "><p style="margin: auto;">등록된 글이 없습니다.</p></div>
 					        </c:if>
     
-    
-    <br><br><br><br><br><br>
+    <a id="noticePosition" href="#noticePosition"></a>
+    <br><br><br><br><br>
 <div style="width: 800px"><hr></div>
     
     <br><br>
-		<a id="noticePosition" href="#noticePosition"></a>
+		
 		<div class="moving">
 		<button type="button" onclick="pagePositionMove('bookInfoPosition')">도서정보
         </button><button type="button" onclick="pagePositionMove('reviewPosition')">도서리뷰
@@ -1756,7 +1774,36 @@ $(function() {
                                     </div>
                                 </div>
                             </div>
-	
+			<div class="modal fade" id="deliveryPay">
+		        <div class="modal-dialog modal-sm">
+		            <div class="modal-content">
+		            <!-- Modal Header -->
+		            <div class="modal-header">
+		                <h5 class="modal-title" style="font-weight: bold;">배송비 무료 안내</h5>
+		                <button type="button" class="close" data-dismiss="modal">&times;</button> 
+		            </div>
+		                <!-- Modal Body -->
+		                <div class="modal-body" >
+		                    <table>
+		                        <tbody>
+		                            <tr>
+		                                <td>                                   
+		                                    -1만원 이상 도서 구매 시 무료배송<br>
+		                                    -eBook 구매시<br>
+		                                    -장바구니 결제 총액 1만원 이상 도서 구매시 무료배송<br>
+									                                    ※그 외 무료배송 기준<br>
+									                 이벤트 기간<br>
+		                                </td>                               
+		                            </tr>   
+		                         </tbody>
+		                    </table>
+		                </div>
+		                <!-- Modal footer -->
+		                <div class="modal-footer" >
+		                </div>
+		            </div>
+		        </div>
+		    </div>
 	
 	</div>
 	</main>

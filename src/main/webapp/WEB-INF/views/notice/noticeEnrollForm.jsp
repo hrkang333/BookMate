@@ -52,6 +52,14 @@ font-weight: bold;
 }
 </style>
 <script>
+$(function() {
+	var loginUserId = "${sessionScope.loginUser.userId}"
+	if(loginUserId!='admin'){
+		alert("잘못된 접근입니다.")
+		location.href = '${pageContext.servletContext.contextPath }/';
+	}
+})
+
     function insertNoticeCheck() {
     	if(!$('input[name=noticeCategory]:checked').val()){
             alert('공지사항 구분을 선택하셔야 합니다.')

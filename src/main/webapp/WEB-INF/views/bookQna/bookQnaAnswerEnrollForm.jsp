@@ -54,6 +54,13 @@ font-weight: bold;
 }
 </style>
 <script type="text/javascript">
+$(function() {
+	var loginUserId = "${sessionScope.loginUser.userId}"
+	if(loginUserId!='admin'){
+		alert("잘못된 접근입니다.")
+		location.href = '${pageContext.servletContext.contextPath }/';
+	}
+})
 
 function goBack() {
 	history.back();
@@ -76,7 +83,7 @@ function insertAnswerCheck() {
 	<br><br><br>
 	<span style="font-size: 30px; font-weight: bold;">도서 QnA</span>
 <hr>
-
+<c:set var="array">상품, 배송, 교환, 반품/환불, 기타</c:set>
 	<table class="detail">
             <tbody>
             <tr>
@@ -89,7 +96,11 @@ function insertAnswerCheck() {
             </tr>
             <tr>
                 <th>구분</th>
-                <td><c:if test="${requestScope.qnaDetail.qnaCategory==0}">일반공지</c:if> <c:if test="${requestScope.qnaDetail.qnaCategory==1}">이벤트</c:if></td>
+                 <td>
+                <c:forEach items="${array}" var="item" varStatus="status">
+                <c:if test="${requestScope.qnaDetail.qnaCategory==status.index}">${item}</c:if>
+                </c:forEach>
+                </td>
                 <th>작성자</th>
                 <td>관리자</td>
             </tr>

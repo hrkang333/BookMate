@@ -298,7 +298,6 @@ public class BookController {
 		list.add(bookISBN);
 		
 		int status = bookReviewService.insertIdCheck(list);
-		System.out.println(status);
 		return status+"";		
 	}
 	

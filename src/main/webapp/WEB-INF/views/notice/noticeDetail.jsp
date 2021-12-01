@@ -54,6 +54,14 @@ font-weight: bold;
 }
 </style>
 <script type="text/javascript">
+$(function() {
+	var loginUserId = "${sessionScope.loginUser.userId}"
+	if(loginUserId!='admin'){
+		alert("잘못된 접근입니다.")
+		location.href = '${pageContext.servletContext.contextPath }/';
+	}
+})
+
 function deleteNotice(noticeNo) {
 	if(confirm("정말로 공지사항을 삭제 하시겠습니까?")){
 	location.href='deleteNotice.no?noticeNo='+noticeNo

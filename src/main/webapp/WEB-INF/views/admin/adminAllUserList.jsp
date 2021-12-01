@@ -48,6 +48,13 @@ font-weight: bold;
 </style> 
 
 <script type="text/javascript">
+$(function() {
+	var loginUserId = "${sessionScope.loginUser.userId}"
+	if(loginUserId!='admin'){
+		alert("잘못된 접근입니다.")
+		location.href = '${pageContext.servletContext.contextPath }/';
+	}
+})
 
 var lastPage = parseInt("${requestScope.A_UserListPaging.lastPage}")
 
