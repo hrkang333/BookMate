@@ -118,7 +118,7 @@ background-color: yellow;
 	  				<input type="hidden" value="${payNo.paymentMethod }"name ="returnPaymentMethod"> 
 	  				<input type="hidden" value="${payNo.usePoint +payNo.totalGetPoint }"name ="returnPoint">
 	  				<input type="hidden" value="${payNo.deliveryCost }"name ="returnDeliveryPrice"> 
-	  				<input type="hidden" value="${returnDetail.bookPrice }"name ="returnTotalPrice" id="returnTotal"> 
+	  				<input type="hidden" value="${returnDetail.salePrice }"name ="returnTotalPrice" id="returnTotal"> 
 	  				
 	  	<br>
 		  <button type="submit" onclick="returnSubmit()" style="margin-left: 200px;"> 반품 신청 </button>
@@ -128,7 +128,7 @@ background-color: yellow;
 	  
 	    <script>
 	    
-	  		var originTotalCast ='<c:out value="${returnDetail.bookPrice }"/>'; //가격 등락이 있을수있으니 전역변수로 잡아둔다 
+	  		var originTotalCast ='<c:out value="${returnDetail.salePrice }"/>'; //가격 등락이 있을수있으니 전역변수로 잡아둔다 
 	  		
 	    	function returnSubmit(){
 	  		
@@ -145,8 +145,8 @@ background-color: yellow;
 	    		if(value == 1 || value == 2){
 	    			
 	    		
-	    			$('#totalCost').text(parseInt(originTotalCast) + 5000);
-	    			$('#returnTotal').val(parseInt(originTotalCast) + 5000);
+	    			$('#totalCost').text(parseInt(originTotalCast) - 5000);
+	    			$('#returnTotal').val(parseInt(originTotalCast) - 5000);
 	    			
 	    		}else{ 
 
