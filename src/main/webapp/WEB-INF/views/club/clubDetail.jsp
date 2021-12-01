@@ -230,7 +230,14 @@
 		                                    	(<fmt:formatDate value="${clubD}" pattern="E"/>)
 		                                    	</span>
 		                                    <span>&nbsp;|&nbsp;</span>
-		                                    <span>${ct.startTime} ~ ${ct.endTime}</span>
+		                                    <span>
+		                                    <c:if test="${fn:length(ct.startTime) > 3}">
+				                           		${ct.startTime} ~ ${ct.endTime}<br>
+				                            </c:if>
+				                            <c:if test="${fn:length(ct.startTime) <= 2}">
+				                                ${ct.startTime}:00 ~ ${ct.endTime}:00<br>
+				                            </c:if>
+		                                    </span>
 		                                </p>
 		                                <p class="apply" style="display:flex">
 		                                    <span style="margin-left: auto;">신청 <span id="applyCount${status.index}">${ct.apply_count}</span> / 정원 <span id="clubCapacity${status.index}">${club.clubCapacity}</span></span>
@@ -316,8 +323,14 @@
 										pattern="yyyy-MM-dd" /> <!-- string -> Date로 --> <fmt:parseDate
 										value="${ct.clubDate}" var="dateK" pattern="yyyy-MM-dd" /> <fmt:formatDate
 										value="${dateK}" pattern="yyyy년 MM월 dd일" /> (<fmt:formatDate
-										value="${clubD}" pattern="E" />) | ${ct.startTime} ~
-										${ct.endTime}
+										value="${clubD}" pattern="E" />) | 
+										
+										<c:if test="${fn:length(ct.startTime) > 3}">
+			                           		${ct.startTime} ~ ${ct.endTime}<br>
+			                            </c:if>
+			                            <c:if test="${fn:length(ct.startTime) <= 2}">
+			                                ${ct.startTime}:00 ~ ${ct.endTime}:00<br>
+			                            </c:if>
 								</li>
 							</c:forEach>
 						</ul>
@@ -759,7 +772,7 @@
 	            success: function (result) {
 	                
 	                $('#myModal').modal("hide"); //모달창 닫기
-	                alert("리뷰가 등록되었습니다. 포인트 1000점 증정되었습니다!");
+	                alert("감사합니다! 리뷰가 등록되었습니다.");
 	                
 	                selectReviewList();
 	            },

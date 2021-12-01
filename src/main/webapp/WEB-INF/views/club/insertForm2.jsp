@@ -250,9 +250,9 @@
 	    $("#clubTitle").keyup(function(e){
 	        var content = $(this).val();
 	         	
-	        if(content.length>21){
-	        	alert("최대 20자까지 입력 가능합니다.");
-	        	$(this).val(content.substring(0,20));
+	        if(content.length>31){
+	        	alert("최대 30자까지 입력 가능합니다.");
+	        	$(this).val(content.substring(0,30));
 	        }
 	    })
 	</script>
